@@ -47,7 +47,7 @@ namespace Cookie
             {
                 Client = new DofusClient(AccountName, AccountPassword)
                 {
-                    Debug = false
+                    Debug = true
                 };
 
                 Client.Logger.OnLog += Logger_OnLog;

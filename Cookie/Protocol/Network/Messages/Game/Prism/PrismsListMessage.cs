@@ -69,7 +69,9 @@ namespace Cookie.Protocol.Network.Messages.Game.Prism
             m_prisms = new System.Collections.Generic.List<PrismGeolocalizedInformation>();
             for (prismsIndex = 0; (prismsIndex < prismsCount); prismsIndex = (prismsIndex + 1))
             {
-                PrismGeolocalizedInformation objectToAdd = ProtocolTypeManager.GetInstance<PrismGeolocalizedInformation>((short)reader.ReadUShort());
+                var protocol = (short)reader.ReadUShort();
+                System.Console.WriteLine("*************** " + protocol + " ***************");
+                PrismGeolocalizedInformation objectToAdd = ProtocolTypeManager.GetInstance<PrismGeolocalizedInformation>(protocol);
                 objectToAdd.Deserialize(reader);
                 m_prisms.Add(objectToAdd);
             }

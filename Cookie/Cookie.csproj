@@ -1927,5 +1927,6 @@
   <ItemGroup>
     <Content Include="cookie-icon.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

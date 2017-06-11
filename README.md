@@ -3,7 +3,6 @@
 <center>
 	<h1>Cookie</h1>
 </center>
-___
 
 ###### Bot Dofus OpenSource en C#.
 

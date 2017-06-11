@@ -18,6 +18,12 @@ namespace Cookie.Handlers.Game.Context.Roleplay
             //
         }
 
+        [MessageHandler(MapFightCountMessage.ProtocolId)]
+        private void MapFightCountMessageHandler(DofusClient Client, MapFightCountMessage Message)
+        {
+            Client.Logger.Log($"Il y a {Message.FightCount} combat(s) sur la map.");
+        }
+
         [MessageHandler(MapComplementaryInformationsDataMessage.ProtocolId)]
         private void MapComplementaryInformationsDataMessageHandler(DofusClient Client, MapComplementaryInformationsDataMessage Message)
         {

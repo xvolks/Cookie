@@ -12,42 +12,48 @@ namespace Cookie.Handlers.Game.Chat
             switch ((ChatChannelsMultiEnum)Message.Channel)
             {
                 case ChatChannelsMultiEnum.CHANNEL_ADMIN:
-                    Client.Logger.Log("[Admin] " + Message.SenderName + " : " + Message.Content, LogMessageType.Admin);
+                    Client.Logger.Log("(Admin) " + Message.SenderName + " : " + Message.Content, LogMessageType.Admin);
                     break;
                 case ChatChannelsMultiEnum.CHANNEL_ALLIANCE:
-                    Client.Logger.Log("[Alliance] " + Message.SenderName + " : " + Message.Content, LogMessageType.Alliance);
+                    Client.Logger.Log("(Alliance) " + Message.SenderName + " : " + Message.Content, LogMessageType.Alliance);
                     break;
                 case ChatChannelsMultiEnum.CHANNEL_ARENA:
-                    Client.Logger.Log("[Kolizéum] " + Message.SenderName + " : " + Message.Content, LogMessageType.Arena);
+                    Client.Logger.Log("(Kolizéum) " + Message.SenderName + " : " + Message.Content, LogMessageType.Arena);
                     break;
                 case ChatChannelsMultiEnum.CHANNEL_COMMUNITY:
-                    Client.Logger.Log("[Communauté] " + Message.SenderName + " : " + Message.Content, LogMessageType.Community);
+                    Client.Logger.Log("(Communauté) " + Message.SenderName + " : " + Message.Content, LogMessageType.Community);
                     break;
                 case ChatChannelsMultiEnum.CHANNEL_GLOBAL:
-                    Client.Logger.Log("[Général] " + Message.SenderName + " : " + Message.Content, LogMessageType.Global);
+                    Client.Logger.Log("(Général) " + Message.SenderName + " : " + Message.Content, LogMessageType.Global);
                     break;
                 case ChatChannelsMultiEnum.CHANNEL_GUILD:
-                    Client.Logger.Log("[Guilde] " + Message.SenderName + " : " + Message.Content, LogMessageType.Guild);
+                    Client.Logger.Log("(Guilde) " + Message.SenderName + " : " + Message.Content, LogMessageType.Guild);
                     break;
                 case ChatChannelsMultiEnum.CHANNEL_NOOB:
-                    Client.Logger.Log("[Débutant] " + Message.SenderName + " : " + Message.Content, LogMessageType.Noob);
+                    Client.Logger.Log("(Débutant) " + Message.SenderName + " : " + Message.Content, LogMessageType.Noob);
                     break;
                 case ChatChannelsMultiEnum.CHANNEL_PARTY:
-                    Client.Logger.Log("[Groupe] " + Message.SenderName + " : " + Message.Content, LogMessageType.Party);
+                    Client.Logger.Log("(Groupe) " + Message.SenderName + " : " + Message.Content, LogMessageType.Party);
                     break;
                 case ChatChannelsMultiEnum.CHANNEL_SALES:
-                    Client.Logger.Log("[Commerce] " + Message.SenderName + " : " + Message.Content, LogMessageType.Sales);
+                    Client.Logger.Log("(Commerce) " + Message.SenderName + " : " + Message.Content, LogMessageType.Sales);
                     break;
                 case ChatChannelsMultiEnum.CHANNEL_SEEK:
-                    Client.Logger.Log("[Recrutement] " + Message.SenderName + " : " + Message.Content, LogMessageType.Seek);
+                    Client.Logger.Log("(Recrutement) " + Message.SenderName + " : " + Message.Content, LogMessageType.Seek);
                     break;
                 case ChatChannelsMultiEnum.CHANNEL_TEAM:
-                    Client.Logger.Log("[Equipe] " + Message.SenderName + " : " + Message.Content);
+                    Client.Logger.Log("(Equipe) " + Message.SenderName + " : " + Message.Content);
                     break;
                 default:
                     Client.Logger.Log(Message.SenderName + " : " + Message.Content, LogMessageType.Sender);
                     break;
             }
+        }
+
+        [MessageHandler(ChatServerWithObjectMessage.ProtocolId)]
+        private void ChatServerWithObjectMessageHandler(DofusClient Client, ChatServerWithObjectMessage Message)
+        {
+            //
         }
 
         [MessageHandler(ChatErrorMessage.ProtocolId)]

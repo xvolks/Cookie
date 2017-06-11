@@ -3,8 +3,21 @@
 - Améliorer la gestion du "Disconnect" dans le client.
 - Ajouter les méthodes Start et Stop dans le client dans le but de pouvoir déconnecté/connecté le client plus librement. Du coup ajouter le message de connexion au serveur d'authentification.
 - Créer le projet "Cookie.ProtocolBuilder" dans la solution (Net Core (Au pire remettre au gout du jour celui de BiM)).
+- Voir pourquoi parfois PrismsListMessage ne fonctinne pas.
 
 - Trouver ce qu'est ces messages :
+
   [9:28:26 PM] TEXT_INFORMATION_MESSAGE | ID = 91
   [9:28:26 PM] TEXT_INFORMATION_MESSAGE | ID = 92
   [9:28:26 PM] Parameter[0] 2600
+
+  [17:34:12] TEXT_INFORMATION_MESSAGE | ID = 152
+  [17:34:12] Parameter[0] 2017
+  [17:34:12] Parameter[1] 06
+  [17:34:12] Parameter[2] 10
+  [17:34:12] Parameter[3] 17
+  [17:34:12] Parameter[4] 11
+  [17:34:12] Parameter[5] 78.242.102.121
+
+  [17:34:12] TEXT_INFORMATION_MESSAGE | ID = 153
+  [17:34:12] Parameter[0] 109.221.33.26
