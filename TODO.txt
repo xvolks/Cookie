@@ -3,7 +3,6 @@
 - Améliorer la gestion du "Disconnect" dans le client.
 - Ajouter les méthodes Start et Stop dans le client dans le but de pouvoir déconnecté/connecté le client plus librement. Du coup ajouter le message de connexion au serveur d'authentification.
 - Créer le projet "Cookie.ProtocolBuilder" dans la solution (Net Core (Au pire remettre au gout du jour celui de BiM)).
-- Voir pourquoi parfois PrismsListMessage ne fonctinne pas.
 
 - Trouver ce qu'est ces messages :
 
@@ -17,7 +16,20 @@
   [17:34:12] Parameter[2] 10
   [17:34:12] Parameter[3] 17
   [17:34:12] Parameter[4] 11
-  [17:34:12] Parameter[5] 78.242.102.121
+  [17:34:12] Parameter[5] IP ADDRESS
 
   [17:34:12] TEXT_INFORMATION_MESSAGE | ID = 153
-  [17:34:12] Parameter[0] 109.221.33.26
+  [17:34:12] Parameter[0] IP ADDRESS
+
+  
+PACKETS A CORRIGER:
+  
+- GameRolePlayRemoveChallengeMessage
+- ExchangeBidHouseUnsoldItemsMessage
+- ExchangeOfflineSoldItemsMessage
+- PaddockPropertiesMessage
+- GameDataPaddockObjectListAddMessage
+- PrismsListMessage
+- MapFightCountMessage
+- GameFightOptionStateUpdateMessage
+- GameFightUpdateTeamMessage

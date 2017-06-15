@@ -13,7 +13,7 @@ namespace Cookie
 {
     public partial class MainForm : Form
     {
-        private DofusClient Client;
+        private DofusClient _client;
 
         public MainForm()
         {
@@ -24,16 +24,16 @@ namespace Cookie
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            var DofusPath = @"C:\Users\NOM D'UTILISATEUR\AppData\Local\Ankama\Dofus";
-            var AccountName = "NomDeCompte";
-            var AccountPassword = "MotDePasse";
+            const string dofusPath = @"C:\Users\NOM D'UTILISATEUR\AppData\Local\Ankama\Dofus";
+            const string accountName = "NomDeCompte";
+            const string accountPassword = "MotDePasse";
 
             Task.Factory.StartNew(() =>
             {
                 MessageReceiver.Initialize();
                 ProtocolTypeManager.Initialize();
 
-                Properties.Settings.Default.DofusPath = DofusPath;
+                Properties.Settings.Default.DofusPath = dofusPath;
                 Properties.Settings.Default.Save();
 
                 MapsManager.Init(Properties.Settings.Default.DofusPath + @"\app\content\maps");
@@ -45,19 +45,20 @@ namespace Cookie
 
             }).ContinueWith(p =>
             {
-                Client = new DofusClient(AccountName, AccountPassword)
+                _client = new DofusClient(accountName, accountPassword)
                 {
                     Debug = true
                 };
 
-                Client.Logger.OnLog += Logger_OnLog;
+                _client.Logger.OnLog += Logger_OnLog;
             });      
         }
 
         private void Logger_OnLog(string log, LogMessageType logType)
         {
             Console.WriteLine(log);
-            Action log_callback = delegate
+
+            void LogCallback()
             {
                 LogTextBox.SelectionStart = LogTextBox.Text.Length;
                 LogTextBox.SelectionLength = 0;
@@ -122,13 +123,41 @@ namespace Cookie
                         LogTextBox.SelectionColor = ColorTranslator.FromHtml("#E8890D");
                         break;
                 }
-                string text = $"[{DateTime.Now.ToLongTimeString()}] {log}";
-                LogTextBox.SelectedText = text + "\r\n";
-                LogTextBox.SelectionColor = LogTextBox.ForeColor;
-                LogTextBox.ScrollToCaret();
-            };
-            LogTextBox.Invoke(log_callback);
+                var valueOrig = string.Empty;
 
-    }
+                if (log.Contains("Received:") || log.Contains("Send"))
+                {
+                    switch (log.Split(':')[0])
+                    {
+                        case "Received":
+                            valueOrig = "Serveur";
+                            break;
+                        case "Send":
+                            valueOrig = "Client";
+                            break;
+                    }
+                    string[] row1 = {DateTime.Now.ToLongTimeString(), valueOrig, log.Split('(')[1].Split(')')[0], log.Split('-')[1].Replace(" ", "")};
+                    var listViewItem = new ListViewItem(row1);
+                    PacketsListView.Items.Add(listViewItem);
+
+                    if (log.Contains("Send")) PacketsListView.Items[PacketsListView.Items.Count - 1].ForeColor = ColorTranslator.FromHtml("#F16392");
+                    if (log.Contains("Received")) PacketsListView.Items[PacketsListView.Items.Count - 1].ForeColor = ColorTranslator.FromHtml("#9EC79D");
+                }
+                else if (log.Contains("NO HANDLER"))
+                {
+                    NoHandlersListBox.Items.Add(log.Split(':')[1].Replace(" ", ""));
+                }
+                else
+                {
+                    var text = $"[{DateTime.Now.ToLongTimeString()}] {log}";
+                    LogTextBox.SelectedText = text + "\r\n";
+                    LogTextBox.SelectionColor = LogTextBox.ForeColor;
+                    LogTextBox.ScrollToCaret();
+                }
+            }
+
+            LogTextBox.Invoke((Action) LogCallback);
+
+        }
     }
 }
