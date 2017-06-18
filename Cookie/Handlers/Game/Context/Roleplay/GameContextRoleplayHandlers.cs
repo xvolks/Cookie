@@ -31,11 +31,9 @@ namespace Cookie.Handlers.Game.Context.Roleplay
 
             foreach (var Actor in Message.Actors)
             {
-                if (Actor.ContextualId == Client.Account.Character.Id)
-                {
-                    Client.Account.Character.CellId = Actor.Disposition.CellId;
-                    break;
-                }
+                if (Actor.ContextualId != Client.Account.Character.Id) continue;
+                Client.Account.Character.CellId = Actor.Disposition.CellId;
+                break;
             } 
         }
     }

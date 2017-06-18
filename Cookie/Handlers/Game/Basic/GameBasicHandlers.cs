@@ -1,4 +1,7 @@
 ﻿using Cookie.Core;
+using Cookie.Datacenter;
+using Cookie.Gamedata.D2o;
+using Cookie.Gamedata.I18n;
 using Cookie.Protocol.Enums;
 using Cookie.Protocol.Network.Messages.Game.Basic;
 
@@ -45,43 +48,44 @@ namespace Cookie.Handlers.Game.Basic
         [MessageHandler(TextInformationMessage.ProtocolId)]
         private void TextInformationMessageHandler(DofusClient Client, TextInformationMessage Message)
         {
-            if ((TextInformationTypeEnum)Message.MsgType == TextInformationTypeEnum.TEXT_INFORMATION_ERROR)
+            var data = ObjectDataManager.Instance.Get<InfoMessage>(Message.MsgType * 10000 + Message.MsgId);
+            var text = I18nDataManager.Instance.ReadText(data.TextId);
+            var parameters = Message.Parameters.ToArray();
+            for (var i = 0; i < parameters.Length; i++)
             {
-                if (Message.MsgId == 89)
-                {
-                    Client.Logger.Log("Bienvenue sur DOFUS, dans le Monde des Douze ! Il est interdit de transmettre votre identifiant ou votre mot de passe.", LogMessageType.Default);
-                    Client.Account.Character.Status = Utils.Enums.CharacterStatus.None;
-                }
-
+                var parameter = parameters[i];
+                text = text.Replace("%" + (i + 1), parameter);
             }
-            else if ((TextInformationTypeEnum)Message.MsgType == TextInformationTypeEnum.TEXT_INFORMATION_MESSAGE)
+
+            switch ((TextInformationTypeEnum)Message.MsgType)
             {
-                if (Message.MsgId == 193)
-                    Client.Logger.Log("Précédente connexion sur ce compte: " + Message.Parameters[2] + "/" + Message.Parameters[1] + "/" + Message.Parameters[0] + " à " + Message.Parameters[3] + ":" + Message.Parameters[4], LogMessageType.Info);
-                else if (Message.MsgId == 197)
-                    Client.Logger.Log("Vous avez " + Message.Parameters[0] + " ami(s) en ligne.", LogMessageType.Info);
-                else if (Message.MsgId == 25)
-                    Client.Logger.Log("Votre familier vous fait la fête !", LogMessageType.Info);
-                else if (Message.MsgId == 143)
-                    Client.Logger.Log(Message.Parameters[0] + " (" + Message.Parameters[1] + ") est en ligne.", LogMessageType.Info);
-                else
-                {
-                    Client.Logger.Log(((TextInformationTypeEnum)Message.MsgType).ToString() + " | ID = " + Message.MsgId, LogMessageType.Arena);
-                    for (int i = 0; i < Message.Parameters.Count; i++)
+                case TextInformationTypeEnum.TEXT_INFORMATION_ERROR:
+                    Client.Logger.Log(text, LogMessageType.Default);
+                    Client.Account.Character.Status = Utils.Enums.CharacterStatus.None;
+                    break;
+                case TextInformationTypeEnum.TEXT_INFORMATION_MESSAGE:
+                    Client.Logger.Log(text, LogMessageType.Info);
+                    break;
+                case TextInformationTypeEnum.TEXT_INFORMATION_PVP:
+                case TextInformationTypeEnum.TEXT_INFORMATION_FIGHT_LOG:
+                    Client.Logger.Log(text, LogMessageType.FightLog);
+                    break;
+                case TextInformationTypeEnum.TEXT_INFORMATION_POPUP:
+                case TextInformationTypeEnum.TEXT_LIVING_OBJECT:
+                case TextInformationTypeEnum.TEXT_ENTITY_TALK:
+                    Client.Logger.Log(text, LogMessageType.Default);
+                    break;
+                case TextInformationTypeEnum.TEXT_INFORMATION_FIGHT:
+                    Client.Logger.Log(text, LogMessageType.FightLog);
+                    break;
+                default:
+                    Client.Logger.Log((TextInformationTypeEnum)Message.MsgType + " | ID = " + Message.MsgId, LogMessageType.Arena);
+                    for (var i = 0; i < Message.Parameters.Count; i++)
                     {
-                        string t = Message.Parameters[i];
+                        var t = Message.Parameters[i];
                         Client.Logger.Log("Parameter[" + i + "] " + t, LogMessageType.Arena);
                     }
-                }
-            }
-            else
-            {
-                Client.Logger.Log(((TextInformationTypeEnum)Message.MsgType).ToString() + " | ID = " + Message.MsgId, LogMessageType.Arena);
-                for (int i = 0; i < Message.Parameters.Count; i++)
-                {
-                    string t = Message.Parameters[i];
-                    Client.Logger.Log("Parameter[" + i + "] " + t, LogMessageType.Arena);
-                }
+                    break;
             }
         }
     }

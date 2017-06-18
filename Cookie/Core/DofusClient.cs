@@ -120,12 +120,10 @@ namespace Cookie.Core
         protected override void DisconnectedEvent()
         {
             base.DisconnectedEvent();
-            if (Account != null)
-            {
-                Account.Character.Status = Utils.Enums.CharacterStatus.Disconnected;
-                Logger.Log("Vous avez été déconnecté.", LogMessageType.Public);
-                Account = null;
-            }       
+            if (Account == null) return;
+            Account.Character.Status = Utils.Enums.CharacterStatus.Disconnected;
+            Logger.Log("Vous avez été déconnecté.", LogMessageType.Public);
+            Account = null;
         }
 
         protected override void SocketAsyncEventArgs_Completed(object sender, SocketAsyncEventArgs e)
@@ -148,7 +146,7 @@ namespace Cookie.Core
                     NetworkMessage message = MessageReceiver.BuildMessage((uint)currentMessage.MessageId, messageDataReader);
                     if (message == null)
                         return;
-                     dispatcher.Dispatch(message);
+                    dispatcher.Dispatch(message);
                     currentMessage = null;
                 }
                 else

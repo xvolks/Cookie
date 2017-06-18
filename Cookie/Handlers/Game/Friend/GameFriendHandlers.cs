@@ -1,4 +1,5 @@
 ﻿using Cookie.Core;
+using Cookie.Protocol.Enums;
 using Cookie.Protocol.Network.Messages.Game.Friend;
 
 namespace Cookie.Handlers.Game.Friend
@@ -26,7 +27,14 @@ namespace Cookie.Handlers.Game.Friend
         [MessageHandler(FriendsListMessage.ProtocolId)]
         private void FriendsListMessageHandler(DofusClient Client, FriendsListMessage Message)
         {
-            //
+            foreach (var friend in Message.FriendsList)
+            {
+                if (friend.PlayerState == (byte)PlayerStateEnum.NOT_CONNECTED)
+                    continue;
+                if (friend.PlayerState == (byte)PlayerStateEnum.UNKNOWN_STATE)
+                    continue;
+                Client.Logger.Log($"{friend.AccountName} connecté");
+            }
         }
 
         [MessageHandler(IgnoredListMessage.ProtocolId)]

@@ -97,14 +97,12 @@ namespace Cookie.Handlers.Connection
         {
             foreach (var Server in Message.Servers)
             {
-                if (Server.CharactersCount > 0 && Server.IsSelectable)
-                {
-                    if ((ServerStatusEnum)Server.Status == ServerStatusEnum.ONLINE)
-                        Client.Send(new ServerSelectionMessage(Server.ObjectID));
-                    else
-                        Client.Logger.Log((ServerNameEnum)Server.ObjectID + ": " + (ServerStatusEnum)Server.Status);
-                    break;
-                }
+                if (Server.CharactersCount <= 0 || !Server.IsSelectable) continue;
+                if ((ServerStatusEnum)Server.Status == ServerStatusEnum.ONLINE)
+                    Client.Send(new ServerSelectionMessage(Server.ObjectID));
+                else
+                    Client.Logger.Log((ServerNameEnum)Server.ObjectID + ": " + (ServerStatusEnum)Server.Status);
+                break;
             }
         }
 

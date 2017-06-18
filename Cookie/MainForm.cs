@@ -142,6 +142,8 @@ namespace Cookie
 
                     if (log.Contains("Send")) PacketsListView.Items[PacketsListView.Items.Count - 1].ForeColor = ColorTranslator.FromHtml("#F16392");
                     if (log.Contains("Received")) PacketsListView.Items[PacketsListView.Items.Count - 1].ForeColor = ColorTranslator.FromHtml("#9EC79D");
+
+                    PacketsListView.EnsureVisible(PacketsListView.Items.Count - 1);
                 }
                 else if (log.Contains("NO HANDLER"))
                 {
