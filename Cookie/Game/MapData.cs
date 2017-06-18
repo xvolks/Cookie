@@ -4,26 +4,31 @@ using Cookie.Gamedata.I18n;
 using Cookie.Protocol.Network.Types.Game.Context.Roleplay;
 using System;
 using System.Collections.Generic;
+using Cookie.Gamedata.D2p;
 
 namespace Cookie.Game.Map
 {
     public class MapData
     {
-        public Dictionary<double, GameRolePlayCharacterInformations> Players { get; set; }
+        public List<GameRolePlayCharacterInformations> Players { get; set; }
 
-        public Dictionary<double, GameRolePlayGroupMonsterInformations> Monsters { get; set; }
+        public List<GameRolePlayGroupMonsterInformations> Monsters { get; set; }
 
-        public Dictionary<double, GameRolePlayNpcInformations> Npcs { get; set; }
+        public List<GameRolePlayNpcInformations> Npcs { get; set; }
 
-        public Dictionary<double, GameRolePlayActorInformations> Others { get; set; }
+        public List<GameRolePlayActorInformations> Others { get; set; }
+
+        public Gamedata.D2p.Map Data;
 
         public MapData()
         {
-            Players = new Dictionary<double, GameRolePlayCharacterInformations>();
-            Monsters = new Dictionary<double, GameRolePlayGroupMonsterInformations>();
-            Npcs = new Dictionary<double, GameRolePlayNpcInformations>();
-            Others = new Dictionary<double, GameRolePlayActorInformations>();
+            Players = new List<GameRolePlayCharacterInformations>();
+            Monsters = new List<GameRolePlayGroupMonsterInformations>();
+            Npcs = new List<GameRolePlayNpcInformations>();
+            Others = new List<GameRolePlayActorInformations>();
         }
+
+        public void ParseLocation(int mapId) => Data = MapsManager.FromId(mapId);
 
         public void ParseActors(GameRolePlayActorInformations[] actors)
         {
@@ -31,13 +36,13 @@ namespace Cookie.Game.Map
             {
                 if (actor is GameRolePlayCharacterInformations character)
                 {
-                    Players.Add(character.ContextualId, character);
+                    Players.Add(character);
                     Console.WriteLine($@"(Player) {character.Name} en cellid ->  {character.Disposition.CellId}");
                     continue;
                 }
                 if (actor is GameRolePlayGroupMonsterInformations monster)
                 {
-                    Monsters.Add(monster.ContextualId, monster);
+                    Monsters.Add(monster);
                     var monsterName = I18nDataManager.Instance.ReadText(ObjectDataManager.Instance
                         .Get<Monster>(monster.StaticInfos.MainCreatureLightInfos.CreatureGenericId).NameId);
                     Console.WriteLine($@"(Monster) {monsterName} en cellid ->  {monster.Disposition.CellId}");
@@ -45,85 +50,91 @@ namespace Cookie.Game.Map
                 }
                 if (actor is GameRolePlayNpcInformations npc)
                 {
-                    Npcs.Add(npc.ContextualId, npc);
+                    Npcs.Add(npc);
                     var npcName =
                         I18nDataManager.Instance.ReadText(ObjectDataManager.Instance.Get<Npc>((int)npc.NpcId).NameId);
                     Console.WriteLine($@"(Npc) {npcName} en cellid ->  {npc.Disposition.CellId}");
                     continue;
                 }
-                Others.Add(actor.ContextualId, actor);
+                Others.Add(actor);
                 Console.WriteLine($@"(Other) Aucune Idée en cellid -> {actor.Disposition.CellId}");
             }
         }
 
         public void AddActor(GameRolePlayActorInformations actor)
         {
-            if (actor is GameRolePlayCharacterInformations character && !Players.ContainsKey(actor.ContextualId))
+            if (actor is GameRolePlayCharacterInformations character)
             {
-                Players.Add(character.ContextualId, character);
+                Players.Add(character);
                 Console.WriteLine($@"(Player) {character.Name} en cellid ->  {character.Disposition.CellId}");
-                return;
             }
-            if (actor is GameRolePlayGroupMonsterInformations monster && !Monsters.ContainsKey(actor.ContextualId))
+            if (actor is GameRolePlayGroupMonsterInformations monster)
             {
-                Monsters.Add(monster.ContextualId, monster);
+                Monsters.Add(monster);
                 var monsterName = I18nDataManager.Instance.ReadText(ObjectDataManager.Instance
                     .Get<Monster>(monster.StaticInfos.MainCreatureLightInfos.CreatureGenericId).NameId);
                 Console.WriteLine($@"(Monster) {monsterName} en cellid ->  {monster.Disposition.CellId}");
-                return;
             }
-            if (actor is GameRolePlayNpcInformations npc && !Npcs.ContainsKey(actor.ContextualId))
+            if (actor is GameRolePlayNpcInformations npc)
             {
-                Npcs.Add(npc.ContextualId, npc);
+                Npcs.Add(npc);
                 var npcName =
                     I18nDataManager.Instance.ReadText(ObjectDataManager.Instance.Get<Npc>((int)npc.NpcId).NameId);
                 Console.WriteLine($@"(Npc) {npcName} en cellid ->  {npc.Disposition.CellId}");
-                return;
             }
-            if (!Others.ContainsKey(actor.ContextualId))
-                Others.Add(actor.ContextualId, actor);
+            Others.Add(actor);
+            Console.WriteLine($@"(Other) Aucune Idée en cellid -> {actor.Disposition.CellId}");
         }
 
         public void RemoveActor(double contextualId)
         {
-            if (Players.ContainsKey(contextualId))
-                Players.Remove(contextualId);
-            else if (Monsters.ContainsKey(contextualId))
-                Monsters.Remove(contextualId);
-            else if (Npcs.ContainsKey(contextualId))
-                Npcs.Remove(contextualId);
-            else if (Others.ContainsKey(contextualId))
-                Others.Remove(contextualId);
+            Players.RemoveAll(p => p.ContextualId == contextualId);
+            Monsters.RemoveAll(p => p.ContextualId == contextualId);
+            Npcs.RemoveAll(p => p.ContextualId == contextualId);
+            Others.RemoveAll(p => p.ContextualId == contextualId);
         }
 
         public void RefreshActor(double contextualId, short cellEnd)
         {
-            if (Players.ContainsKey(contextualId))
+            if (Players.Find(p => p.ContextualId == contextualId) != null)
             {
-                Players[contextualId].Disposition.CellId = cellEnd;
-                Console.WriteLine($@"(Players) {Players[contextualId].Name} se déplace sur la cellid -> {cellEnd}");
+                Players.Find(p => p.ContextualId == contextualId).Disposition.CellId = cellEnd;
+                Console.WriteLine($@"(Players) {Players.Find(p => p.ContextualId == contextualId).Name} se déplace sur la cellid -> {cellEnd}");
             }
-            else if (Monsters.ContainsKey(contextualId))
+            else if (Monsters.Find(p => p.ContextualId == contextualId) != null)
             {
-                Monsters[contextualId].Disposition.CellId = cellEnd;
+                Monsters.Find(p => p.ContextualId == contextualId).Disposition.CellId = cellEnd;
                 Console.WriteLine($@"(Monsters) se déplace sur la cellid -> {cellEnd}");
             }
-            else if (Others.ContainsKey(contextualId))
+            else if (Others.Find(p => p.ContextualId == contextualId) != null)
             {
-                Others[contextualId].Disposition.CellId = cellEnd;
+                Others.Find(p => p.ContextualId == contextualId).Disposition.CellId = cellEnd;
                 Console.WriteLine($@"(Others) se déplace sur la cellid -> {cellEnd}");
             }
-            else if (Npcs.ContainsKey(contextualId))
+            else if (Npcs.Find(p => p.ContextualId == contextualId) != null)
             {
-                Npcs[contextualId].Disposition.CellId = cellEnd;
+                Npcs.Find(p => p.ContextualId == contextualId).Disposition.CellId = cellEnd;
                 Console.WriteLine($@"(Npcs) se déplace sur la cellid -> {cellEnd}");
             }
             else
                 Console.WriteLine($@"Quelque chose se déplace sur la cellid -> {cellEnd}");
         }
 
+        public bool NoEntitiesOnCell(int cellId)
+        {
+            var players = Players.Find(p => p.Disposition.CellId == cellId) == null;
+            var monsters = Monsters.Find(p => p.Disposition.CellId == cellId) == null;
+            var others = Others.Find(p => p.Disposition.CellId == cellId) == null;
+
+            return players && monsters && others;
+        }
+
+        public bool NothingOnCell(int cellId) => Data.IsWalkable(cellId) && NoEntitiesOnCell(cellId);
+
         public void Clear()
         {
+            if (Data != null)
+                Data = null;
             Players.Clear();
             Monsters.Clear();
             Npcs.Clear();
