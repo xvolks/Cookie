@@ -24,7 +24,7 @@ namespace Cookie
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            const string dofusPath = @"D:\Dofus";
+            const string dofusPath = @"C:\Users\NOM D'UTILISATEUR\AppData\Local\Ankama\Dofus";
             const string accountName = "NomDeCompte";
             const string accountPassword = "MotDePasse";
 
