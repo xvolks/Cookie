@@ -5,6 +5,7 @@ using Cookie.Protocol.Network.Types.Game.Data.Items;
 using Cookie.Protocol.Network.Types.Game.Look;
 using Cookie.Utils.Enums;
 using System.Collections.Generic;
+using Cookie.Game.Map;
 
 namespace Cookie
 {
@@ -18,6 +19,7 @@ namespace Cookie
             Inventory = new List<ObjectItem>();
             Spells = new List<SpellItem>();
             Status = CharacterStatus.Disconnected;
+            MapData = new MapData();
         }
 
         public CharacterStatus Status { get; set; }
@@ -29,6 +31,7 @@ namespace Cookie
         public CharacterCharacteristicsInformations Stats { get; set; }
         public EntityLook Look { get; set; }
         public sbyte Breed { get; set; }
+        public MapData MapData { get; set; }
 
         public int LifePercentage => (int)(((double)Stats.LifePoints / (double)Stats.MaxLifePoints) * 100);
         public int WeightPercentage => (int)(((double)Weight / (double)MaxWeight) * 100);

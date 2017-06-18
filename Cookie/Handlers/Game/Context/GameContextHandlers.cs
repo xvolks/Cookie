@@ -28,7 +28,7 @@ namespace Cookie.Handlers.Game.Context
         [MessageHandler(GameContextRemoveElementMessage.ProtocolId)]
         private void GameContextRemoveElementMessageHandler(DofusClient Client, GameContextRemoveElementMessage Message)
         {
-            //
+            Client.Account.Character.MapData.RemoveActor(Message.ObjectId);
         }
 
         [MessageHandler(GameMapChangeOrientationMessage.ProtocolId)]
@@ -36,7 +36,7 @@ namespace Cookie.Handlers.Game.Context
         {
             //
         }
-        
+
         [MessageHandler(GameMapMovementMessage.ProtocolId)]
         private void GameMapMovementMessageHandler(DofusClient Client, GameMapMovementMessage Message)
         {
@@ -45,6 +45,7 @@ namespace Cookie.Handlers.Game.Context
                 Client.Account.Character.Status = Utils.Enums.CharacterStatus.Moving;
                 Client.Account.Character.CellId = Message.KeyMovements.Last();
             }
+            Client.Account.Character.MapData.RefreshActor(Message.ActorId, Message.KeyMovements.Last());
         }
     }
 }
