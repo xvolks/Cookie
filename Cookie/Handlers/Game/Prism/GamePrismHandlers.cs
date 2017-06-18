@@ -8,16 +8,13 @@ namespace Cookie.Handlers.Game.Prism
     public class GamePrismHandlers
     {
         [MessageHandler(PrismsListMessage.ProtocolId)]
-        private void PrismsListMessageHandler(DofusClient Client, PrismsListMessage Message)
+        private void PrismsListMessageHandler(DofusClient client, PrismsListMessage message)
         {
-            //Message.Prisms.ForEach(p =>
-            //{
-            //    Client.Logger.Log($"Prism en [{p.WorldX};{p.WorldY}] | Etat: {(PrismStateEnum)p.Prism.State} | Placé le: {DateExtensions.UnixTimestampToDateTime(p.Prism.PlacementDate).ToShortDateString()}");
-            //});
+            //message.Prisms.ForEach(p => Client.Logger.Log($"Prism: Alliance({p.AllianceId}) SubArea({p.SubAreaId})"));
         }
 
         [MessageHandler(PrismsListUpdateMessage.ProtocolId)]
-        private void PrismsListUpdateMessageHandler(DofusClient Client, PrismsListUpdateMessage Message)
+        private void PrismsListUpdateMessageHandler(DofusClient client, PrismsListUpdateMessage message)
         {
             //
         }
