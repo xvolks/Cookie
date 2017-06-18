@@ -31,6 +31,7 @@ namespace Cookie.Handlers.Game.Context.Roleplay
         {
             Client.Account.Character.MapId = Message.MapId;
             Client.Account.Character.MapData.Clear();
+            Client.Account.Character.MapData.ParseLocation(Message.MapId);
             Client.Account.Character.MapData.ParseActors(Message.Actors.ToArray());
 
             foreach (var Actor in Message.Actors)
