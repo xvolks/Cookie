@@ -5,6 +5,7 @@ using Cookie.Gamedata.I18n;
 using Cookie.Gamedata.Icons;
 using System;
 using System.Drawing;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -24,34 +25,44 @@ namespace Cookie
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            const string dofusPath = @"C:\Users\NOM D'UTILISATEUR\AppData\Local\Ankama\Dofus";
-            const string accountName = "NomDeCompte";
-            const string accountPassword = "MotDePasse";
-
-            Task.Factory.StartNew(() =>
+            try
             {
-                MessageReceiver.Initialize();
-                ProtocolTypeManager.Initialize();
+                var accountFile = File.ReadAllText(Directory.GetCurrentDirectory() + "/config/account.txt");
+                var dofusPath = File.ReadAllText(Directory.GetCurrentDirectory() + "/config/dofuspath.txt");
 
-                Properties.Settings.Default.DofusPath = dofusPath;
-                Properties.Settings.Default.Save();
+                var accountName = accountFile.Split(':')[0];
+                var accountPassword = accountFile.Split(':')[1];
 
-                MapsManager.Init(Properties.Settings.Default.DofusPath + @"\app\content\maps");
-                IconsManager.Instance.Initialize(Properties.Settings.Default.DofusPath + @"\app\content\gfx\items");
-                ObjectDataManager.Instance.AddReaders(Properties.Settings.Default.DofusPath + @"\app\data\common");
-                I18nDataManager.Instance.AddReaders(Properties.Settings.Default.DofusPath + @"\app\data\i18n");
-                I18nDataManager.Instance.DefaultLanguage = Languages.French;
-                ImageManager.Init(Properties.Settings.Default.DofusPath);
-
-            }).ContinueWith(p =>
-            {
-                _client = new DofusClient(accountName, accountPassword)
+                Task.Factory.StartNew(() =>
                 {
-                    Debug = true
-                };
+                    MessageReceiver.Initialize();
+                    ProtocolTypeManager.Initialize();
 
-                _client.Logger.OnLog += Logger_OnLog;
-            });      
+                    Properties.Settings.Default.DofusPath = dofusPath;
+                    Properties.Settings.Default.Save();
+
+                    MapsManager.Init(Properties.Settings.Default.DofusPath + @"\app\content\maps");
+                    IconsManager.Instance.Initialize(Properties.Settings.Default.DofusPath + @"\app\content\gfx\items");
+                    ObjectDataManager.Instance.AddReaders(Properties.Settings.Default.DofusPath + @"\app\data\common");
+                    I18nDataManager.Instance.AddReaders(Properties.Settings.Default.DofusPath + @"\app\data\i18n");
+                    I18nDataManager.Instance.DefaultLanguage = Languages.French;
+                    ImageManager.Init(Properties.Settings.Default.DofusPath);
+
+                }).ContinueWith(p =>
+                {
+                    _client = new DofusClient(accountName, accountPassword)
+                    {
+                        Debug = true
+                    };
+
+                    _client.Logger.OnLog += Logger_OnLog;
+                });
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message);
+                Environment.Exit(-1);
+            }
         }
 
         private void Logger_OnLog(string log, LogMessageType logType)

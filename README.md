@@ -10,12 +10,8 @@ Rejoignez tout d'abord le [Discord](https://discord.gg/swU74Fm) : (https://disco
 
 ___
 
-Une fois le projet téléchargé il faut modifier le fichier "MainForm.cs" avec vos identifiants et chemin Dofus pour pouvoir vous servir du bot.
-
-```cs
-const string dofusPath = @"C:\Users\NOM D'UTILISATEUR\AppData\Local\Ankama\Dofus";
-const string accountName = "NomDeCompte";
-const string accountPassword = "MotDePasse";
-```
+Une fois le projet téléchargé il faut créer un dossier config à côté de l'éxécutable 'Cookie.exe'. Que ça soit dans le dossier /bin ou ailleurs sur votre ordinateur, vous devez toujours avoir un dossier config à côté du bot.
+Dans ce dossier config vous devez avoir un fichier <b>dofuspath.txt</b> contenant votre chemin dofus du genre: C:\Users\NOM D'UTILISATEUR\AppData\Local\Ankama\Dofus
+Et ensuite un fichier account.txt contenant SEULEMENT votre Nom de compte et Mot de passe de la forme: NomDeCompte:MotDePasse.
 
 Toutes contributions au projet à l'aide des outils GitHub (Pull Request, etc) ou sur le Discord sera apprécié. Vous pouvez voir une petite liste de choses à faire en premier dans le TODO.txt
