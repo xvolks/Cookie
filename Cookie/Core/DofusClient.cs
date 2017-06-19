@@ -71,7 +71,7 @@ namespace Cookie.Core
         {
             _dispatcher = new Dispatcher(this);
 
-            Account = new Account(Login, Password);
+            Account = new Account(Login, Password, this);
 
             // Register Handlers
             Register(typeof(HandshakeHandlers));

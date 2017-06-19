@@ -4,13 +4,16 @@
     {
         public string Login { get; set; }
         public string Password { get; set; }
+        public DofusClient Client { get; set; }
 
-        public Account(string login, string password)
+        public Account(string login, string password, DofusClient client)
         {
             Login = login;
             Password = password;
 
-            Character = new Character();
+            Client = client;
+
+            Character = new Character(Client);
         }
 
         public int Id { get; set; }

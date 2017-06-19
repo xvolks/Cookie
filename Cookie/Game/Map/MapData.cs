@@ -123,14 +123,7 @@ namespace Cookie.Game.Map
                 Console.WriteLine($@"Quelque chose se déplace sur la cellid -> {cellEnd}");
         }
 
-        public bool NoEntitiesOnCell(int cellId)
-        {
-            var players = Players.Find(p => p.Disposition.CellId == cellId) == null;
-            var monsters = Monsters.Find(p => p.Disposition.CellId == cellId) == null;
-            var others = Others.Find(p => p.Disposition.CellId == cellId) == null;
-
-            return players && monsters && others;
-        }
+        public bool NoEntitiesOnCell(int cellId) => Monsters.Find(p => p.Disposition.CellId == cellId) == null;
 
         public bool NothingOnCell(int cellId) => Data.IsWalkable(cellId) && NoEntitiesOnCell(cellId);
 

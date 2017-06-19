@@ -54,13 +54,16 @@
     <Compile Include="Core\Account.cs" />
     <Compile Include="Core\DofusClient.cs" />
     <Compile Include="Gamedata\D2OParsing.cs" />
+    <Compile Include="Game\Map\Map.cs" />
     <Compile Include="Game\Map\MapData.cs" />
     <Compile Include="Game\World\Pathfinding\Cell.cs" />
     <Compile Include="Game\World\Pathfinding\CellList.cs" />
     <Compile Include="Game\World\Pathfinding\CellMatrix.cs" />
     <Compile Include="Game\World\Pathfinding\CellWithOrientation.cs" />
+    <Compile Include="Game\World\Pathfinding\MovementTypeEnum.cs" />
     <Compile Include="Game\World\Pathfinding\Pathfinder.cs" />
     <Compile Include="Game\World\Pathfinding\PathingUtils.cs" />
+    <Compile Include="Game\World\Pathfinding\VelocityHelper.cs" />
     <Compile Include="Handlers\Game\Achievement\GameAchievementHandlers.cs" />
     <Compile Include="Handlers\Game\Alliance\GameAllianceHandlers.cs" />
     <Compile Include="Handlers\Game\Almanach\GameAlmanachHandlers.cs" />

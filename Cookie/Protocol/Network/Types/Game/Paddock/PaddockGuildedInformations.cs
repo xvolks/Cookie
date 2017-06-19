@@ -71,16 +71,16 @@ namespace Cookie.Protocol.Network.Types.Game.Paddock
         public override void Serialize(ICustomDataOutput writer)
         {
             base.Serialize(writer);
-            m_guildInfo.Serialize(writer);
             writer.WriteBoolean(m_deserted);
+            m_guildInfo.Serialize(writer);     
         }
         
         public override void Deserialize(ICustomDataInput reader)
         {
             base.Deserialize(reader);
+            m_deserted = reader.ReadBoolean();
             m_guildInfo = new GuildInformations();
             m_guildInfo.Deserialize(reader);
-            m_deserted = reader.ReadBoolean();
         }
     }
 }

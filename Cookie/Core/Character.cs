@@ -11,8 +11,9 @@ namespace Cookie.Core
 {
     public class Character
     {
-        public Character()
+        public Character(DofusClient client)
         {
+            Client = client;
             Stats = new CharacterCharacteristicsInformations();
             Look = new EntityLook();
             Restrictions = new ActorRestrictionsInformations();
@@ -20,11 +21,13 @@ namespace Cookie.Core
             Spells = new List<SpellItem>();
             Status = CharacterStatus.Disconnected;
             MapData = new MapData();
+            Map = new Map(Client);
             Pathfinder = new Pathfinder();
         }
+        public DofusClient Client { get; set; }
         public Pathfinder Pathfinder { get; set; }
 
-        public CharacterStatus Status { get; set; }
+    public CharacterStatus Status { get; set; }
 
         public ulong Id { get; set; }
         public string Name { get; set; }
@@ -34,6 +37,7 @@ namespace Cookie.Core
         public EntityLook Look { get; set; }
         public sbyte Breed { get; set; }
         public MapData MapData { get; set; }
+        public Map Map { get; set; }
 
         public int LifePercentage => (int)(((double)Stats.LifePoints / (double)Stats.MaxLifePoints) * 100);
         public int WeightPercentage => (int)(((double)Weight / (double)MaxWeight) * 100);

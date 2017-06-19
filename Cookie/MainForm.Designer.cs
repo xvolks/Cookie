@@ -44,10 +44,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.LogTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
-            this.LogTextBox.Location = new System.Drawing.Point(491, 0);
+            this.LogTextBox.Location = new System.Drawing.Point(513, 0);
             this.LogTextBox.Name = "LogTextBox";
             this.LogTextBox.ReadOnly = true;
-            this.LogTextBox.Size = new System.Drawing.Size(597, 446);
+            this.LogTextBox.Size = new System.Drawing.Size(575, 471);
             this.LogTextBox.TabIndex = 0;
             this.LogTextBox.Text = "";
             // 
@@ -62,7 +62,7 @@
             this.PacketsListView.Dock = System.Windows.Forms.DockStyle.Left;
             this.PacketsListView.Location = new System.Drawing.Point(0, 0);
             this.PacketsListView.Name = "PacketsListView";
-            this.PacketsListView.Size = new System.Drawing.Size(491, 614);
+            this.PacketsListView.Size = new System.Drawing.Size(513, 614);
             this.PacketsListView.TabIndex = 1;
             this.PacketsListView.UseCompatibleStateImageBehavior = false;
             this.PacketsListView.View = System.Windows.Forms.View.Details;
@@ -93,9 +93,9 @@
             this.NoHandlersListBox.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.NoHandlersListBox.ForeColor = System.Drawing.Color.Red;
             this.NoHandlersListBox.FormattingEnabled = true;
-            this.NoHandlersListBox.Location = new System.Drawing.Point(491, 441);
+            this.NoHandlersListBox.Location = new System.Drawing.Point(513, 467);
             this.NoHandlersListBox.Name = "NoHandlersListBox";
-            this.NoHandlersListBox.Size = new System.Drawing.Size(597, 173);
+            this.NoHandlersListBox.Size = new System.Drawing.Size(575, 147);
             this.NoHandlersListBox.TabIndex = 2;
             // 
             // MainForm
