@@ -1,7 +1,5 @@
 ﻿using Cookie.Core;
-using Cookie.Protocol.Network.Messages.Game.Context;
 using Cookie.Protocol.Network.Messages.Game.Context.Roleplay;
-using Cookie.Protocol.Network.Types.Game.Context.Roleplay;
 
 namespace Cookie.Handlers.Game.Context.Roleplay
 {
@@ -33,6 +31,7 @@ namespace Cookie.Handlers.Game.Context.Roleplay
             Client.Account.Character.MapData.Clear();
             Client.Account.Character.MapData.ParseLocation(Message.MapId);
             Client.Account.Character.MapData.ParseActors(Message.Actors.ToArray());
+            Client.Account.Character.Pathfinder.SetMap(Client.Account.Character.MapData, true);
 
             foreach (var Actor in Message.Actors)
             {

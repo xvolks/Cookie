@@ -67,6 +67,7 @@ namespace Cookie.Game.Map
             {
                 Players.Add(character);
                 Console.WriteLine($@"(Player) {character.Name} en cellid ->  {character.Disposition.CellId}");
+                return;
             }
             if (actor is GameRolePlayGroupMonsterInformations monster)
             {
@@ -74,6 +75,7 @@ namespace Cookie.Game.Map
                 var monsterName = I18nDataManager.Instance.ReadText(ObjectDataManager.Instance
                     .Get<Monster>(monster.StaticInfos.MainCreatureLightInfos.CreatureGenericId).NameId);
                 Console.WriteLine($@"(Monster) {monsterName} en cellid ->  {monster.Disposition.CellId}");
+                return;
             }
             if (actor is GameRolePlayNpcInformations npc)
             {
@@ -81,6 +83,7 @@ namespace Cookie.Game.Map
                 var npcName =
                     I18nDataManager.Instance.ReadText(ObjectDataManager.Instance.Get<Npc>((int)npc.NpcId).NameId);
                 Console.WriteLine($@"(Npc) {npcName} en cellid ->  {npc.Disposition.CellId}");
+                return;
             }
             Others.Add(actor);
             Console.WriteLine($@"(Other) Aucune Idée en cellid -> {actor.Disposition.CellId}");
@@ -133,8 +136,7 @@ namespace Cookie.Game.Map
 
         public void Clear()
         {
-            if (Data != null)
-                Data = null;
+            Data = null;
             Players.Clear();
             Monsters.Clear();
             Npcs.Clear();
