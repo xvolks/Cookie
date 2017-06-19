@@ -5,7 +5,10 @@ using Cookie.Protocol.Network.Types.Game.Data.Items;
 using Cookie.Protocol.Network.Types.Game.Look;
 using Cookie.Utils.Enums;
 using System.Collections.Generic;
+using System.Linq;
 using Cookie.Game.Map;
+using Cookie.Game.World.Pathfinding;
+using Cookie.Protocol.Network.Messages.Game.Context;
 
 namespace Cookie
 {
@@ -20,7 +23,9 @@ namespace Cookie
             Spells = new List<SpellItem>();
             Status = CharacterStatus.Disconnected;
             MapData = new MapData();
+            Pathfinder = new Pathfinder();
         }
+        public Pathfinder Pathfinder { get; set; }
 
         public CharacterStatus Status { get; set; }
 

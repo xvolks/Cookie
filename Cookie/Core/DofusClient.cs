@@ -194,7 +194,7 @@ namespace Cookie.Core
         {
             dispatcher.UnRegisterFrame(type);
         }
-
+        
         #endregion
     }
 }
