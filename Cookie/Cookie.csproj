@@ -79,10 +79,12 @@
     <Compile Include="Handlers\Game\Context\Notification\GameContextNotificationHandlers.cs" />
     <Compile Include="Handlers\Game\Context\Roleplay\Emote\GameContextRoleplayEmoteHandlers.cs" />
     <Compile Include="Handlers\Game\Context\Roleplay\Fight\Arena\GameContextRoleplayFightArenaHandlers.cs" />
+    <Compile Include="Handlers\Game\Context\Roleplay\Fight\GameContextRoleplayFightHandlers.cs" />
     <Compile Include="Handlers\Game\Context\Roleplay\GameContextRoleplayHandlers.cs" />
     <Compile Include="Handlers\Game\Context\Roleplay\Havenbag\GameContextRoleplayHavenbagHandlers.cs" />
     <Compile Include="Handlers\Game\Context\Roleplay\Houses\GameContextRoleplayHousesHandlers.cs" />
     <Compile Include="Handlers\Game\Context\Roleplay\Job\GameContextRoleplayJobHandlers.cs" />
+    <Compile Include="Handlers\Game\Context\Roleplay\Paddock\GameContextRoleplayPaddockHandlers.cs" />
     <Compile Include="Handlers\Game\Context\Roleplay\Quest\GameContextRoleplayQuestHandlers.cs" />
     <Compile Include="Handlers\Game\Dare\GameDareHandlers.cs" />
     <Compile Include="Handlers\Game\Friend\GameFriendHandlers.cs" />
@@ -90,6 +92,7 @@
     <Compile Include="Handlers\Game\Idol\GameIdolHandlers.cs" />
     <Compile Include="Handlers\Game\Initialization\GameInitializationHandlers.cs" />
     <Compile Include="Handlers\Game\Interactive\GameInteractiveHandlers.cs" />
+    <Compile Include="Handlers\Game\Inventory\Exchanges\GameInventoryExchangesHandlers.cs" />
     <Compile Include="Handlers\Game\Inventory\Items\GameInventoryItemsHandlers.cs" />
     <Compile Include="Handlers\Game\Inventory\Spells\GameInventorySpellsHandlers.cs" />
     <Compile Include="Handlers\Game\Prism\GamePrismHandlers.cs" />

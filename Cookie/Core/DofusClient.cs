@@ -42,6 +42,9 @@ using Cookie.Utils.Extensions;
 using System;
 using System.Linq;
 using System.Net.Sockets;
+using Cookie.Handlers.Game.Context.Roleplay.Fight;
+using Cookie.Handlers.Game.Context.Roleplay.Paddock;
+using Cookie.Handlers.Game.Inventory.Exchanges;
 
 namespace Cookie.Core
 {
@@ -113,6 +116,9 @@ namespace Cookie.Core
             Register(typeof(GameContextHandlers));
             Register(typeof(ServerBasicHandlers));
             Register(typeof(GameInteractiveHandlers));
+            Register(typeof(GameContextRoleplayFightHandlers));
+            Register(typeof(GameInventoryExchangesHandlers));
+            Register(typeof(GameContextRoleplayPaddockHandlers));
         }
         #endregion
 
