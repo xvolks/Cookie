@@ -10,20 +10,20 @@ namespace Cookie.Handlers.Connection
     public class ConnectionHandlers
     {
         [MessageHandler(CredentialsAcknowledgementMessage.ProtocolId)]
-        private void CredentialsAcknowledgementMessageHandler(DofusClient Client, CredentialsAcknowledgementMessage Message)
+        private void CredentialsAcknowledgementMessageHandler(DofusClient client, CredentialsAcknowledgementMessage message)
         {
             //
         } 
 
         [MessageHandler(HelloConnectMessage.ProtocolId)]
-        private void HelloConnectMessageHandler(DofusClient Client, HelloConnectMessage Message)
+        private void HelloConnectMessageHandler(DofusClient client, HelloConnectMessage message)
         {
-            Client.Logger.Log("Connecté au serveur d'authentification.");
-            sbyte[] Credentials = RSA.Encrypt(Message.Key, Client.Account.Login, Client.Account.Password, Message.Salt);
-            VersionExtended Version = new VersionExtended(2, 41, 1, 120980, 0, (sbyte)BuildTypeEnum.RELEASE, 1, 1);
-            IdentificationMessage IdentificationMessage = new IdentificationMessage(true, false, false, Version, "fr", Credentials, 0, 0, new ushort[0]);
-            Client.Logger.Log("Envois des informations d'identification...");
-            Client.Send(IdentificationMessage);
+            client.Logger.Log("Connecté au serveur d'authentification.");
+            var credentials = RSA.Encrypt(message.Key, client.Account.Login, client.Account.Password, message.Salt);
+            var version = new VersionExtended(2, 41, 1, 120980, 0, (sbyte)BuildTypeEnum.RELEASE, 1, 1);
+            var identificationMessage = new IdentificationMessage(true, false, false, version, "fr", credentials, 0, 0, new ushort[0]);
+            client.Logger.Log("Envois des informations d'identification...");
+            client.Send(identificationMessage);
         }
 
         [MessageHandler(IdentificationAccountForceMessage.ProtocolId)]
