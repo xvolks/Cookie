@@ -1,14 +1,14 @@
-﻿namespace Cookie
+﻿namespace Cookie.Core
 {
     public class Account
     {
         public string Login { get; set; }
         public string Password { get; set; }
 
-        public Account(string Login, string Password)
+        public Account(string login, string password)
         {
-            this.Login = Login;
-            this.Password = Password;
+            Login = login;
+            Password = password;
 
             Character = new Character();
         }

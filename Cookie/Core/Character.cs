@@ -1,16 +1,13 @@
-﻿using Cookie.Gamedata.D2p;
+﻿using Cookie.Game.Map;
+using Cookie.Game.World.Pathfinding;
 using Cookie.Protocol.Network.Types.Game.Character.Characteristic;
 using Cookie.Protocol.Network.Types.Game.Character.Restriction;
 using Cookie.Protocol.Network.Types.Game.Data.Items;
 using Cookie.Protocol.Network.Types.Game.Look;
 using Cookie.Utils.Enums;
 using System.Collections.Generic;
-using System.Linq;
-using Cookie.Game.Map;
-using Cookie.Game.World.Pathfinding;
-using Cookie.Protocol.Network.Messages.Game.Context;
 
-namespace Cookie
+namespace Cookie.Core
 {
     public class Character
     {
@@ -56,44 +53,38 @@ namespace Cookie
 
         public string GetSkinUrl(string mode, int orientation, int width, int height, int zoom)
         {
-            EntityLook look = Look;
-            string text = "http://staticns.ankama.com/dofus/renderer/look/7";
+            var look = Look;
+            var text = "http://staticns.ankama.com/dofus/renderer/look/7";
             text += "b3";
-            int num = 0;
-            char[] array = look.BonesId.ToString().ToCharArray();
-            char[] array2 = array;
-            for (int i = 0; i < array2.Length; i++)
+            var num = 0;
+            var array = look.BonesId.ToString().ToCharArray();
+            var array2 = array;
+            foreach (var c in array2)
             {
-                char c = array2[i];
-                int num2 = num;
+                var num2 = num;
                 num = num2 + 1;
                 text += c.ToString();
-                bool flag = num >= array.Length;
+                var flag = num >= array.Length;
                 if (flag)
-                {
                     text += "7";
-                }
                 else
-                {
                     text += "3";
-                }
             }
-            int num3 = 0;
-            int num4 = 0;
-            foreach (ushort current in look.Skins)
+            var num3 = 0;
+            var num4 = 0;
+            foreach (var current in look.Skins)
             {
-                int num2 = num3;
+                var num2 = num3;
                 num3 = num2 + 1;
                 text += "c3";
-                char[] array3 = current.ToString().ToCharArray();
-                char[] array4 = array3;
-                for (int j = 0; j < array4.Length; j++)
+                var array3 = current.ToString().ToCharArray();
+                var array4 = array3;
+                foreach (var c2 in array4)
                 {
-                    char c2 = array4[j];
                     num2 = num4;
                     num4 = num2 + 1;
                     text += c2.ToString();
-                    bool flag2 = num4 >= array3.Length && num3 < look.Skins.Count;
+                    var flag2 = num4 >= array3.Length && num3 < look.Skins.Count;
                     if (flag2)
                     {
                         text += "2";
@@ -101,23 +92,19 @@ namespace Cookie
                     }
                     else
                     {
-                        bool flag3 = num4 < array3.Length && num3 <= look.Skins.Count;
+                        var flag3 = num4 < array3.Length && num3 <= look.Skins.Count;
                         if (flag3)
-                        {
                             text += "3";
-                        }
                     }
                 }
-                bool flag4 = num3 >= look.Skins.Count;
+                var flag4 = num3 >= look.Skins.Count;
                 if (flag4)
-                {
                     text += "7";
-                }
             }
-            int num5 = 0;
-            foreach (int current2 in look.IndexedColors)
+            var num5 = 0;
+            foreach (var current2 in look.IndexedColors)
             {
-                int num2 = num5;
+                var num2 = num5;
                 num5 = num2 + 1;
                 text = string.Concat(new object[]
                 {
@@ -127,15 +114,14 @@ namespace Cookie
                         "3d3"
                 });
                 num4 = 0;
-                char[] array5 = current2.ToString().ToCharArray();
-                char[] array6 = array5;
-                for (int k = 0; k < array6.Length; k++)
+                var array5 = current2.ToString().ToCharArray();
+                var array6 = array5;
+                foreach (var c3 in array6)
                 {
-                    char c3 = array6[k];
                     num2 = num4;
                     num4 = num2 + 1;
                     text += c3.ToString();
-                    bool flag5 = num4 >= array5.Length && num5 < look.IndexedColors.Count;
+                    var flag5 = num4 >= array5.Length && num5 < look.IndexedColors.Count;
                     if (flag5)
                     {
                         text += "2";
@@ -143,35 +129,30 @@ namespace Cookie
                     }
                     else
                     {
-                        bool flag6 = num4 < array5.Length && num5 <= look.IndexedColors.Count;
+                        var flag6 = num4 < array5.Length && num5 <= look.IndexedColors.Count;
                         if (flag6)
-                        {
                             text += "3";
-                        }
                     }
                 }
-                bool flag7 = num5 >= look.IndexedColors.Count;
+                var flag7 = num5 >= look.IndexedColors.Count;
                 if (flag7)
-                {
                     text += "7";
-                }
             }
-            int num6 = 0;
-            foreach (short current3 in look.Scales)
+            var num6 = 0;
+            foreach (var current3 in look.Scales)
             {
-                int num2 = num6;
+                var num2 = num6;
                 num6 = num2 + 1;
                 text += "c3";
                 num4 = 0;
-                char[] array7 = current3.ToString().ToCharArray();
-                char[] array8 = array7;
-                for (int l = 0; l < array8.Length; l++)
+                var array7 = current3.ToString().ToCharArray();
+                var array8 = array7;
+                foreach (var c4 in array8)
                 {
-                    char c4 = array8[l];
                     num2 = num4;
                     num4 = num2 + 1;
                     text += c4.ToString();
-                    bool flag8 = num4 >= array7.Length && num6 < look.Scales.Count;
+                    var flag8 = num4 >= array7.Length && num6 < look.Scales.Count;
                     if (flag8)
                     {
                         text += "2";
@@ -179,34 +160,16 @@ namespace Cookie
                     }
                     else
                     {
-                        bool flag9 = num4 < array7.Length && num6 <= look.Scales.Count;
+                        var flag9 = num4 < array7.Length && num6 <= look.Scales.Count;
                         if (flag9)
-                        {
                             text += "3";
-                        }
                     }
                 }
-                bool flag10 = num6 >= look.Scales.Count;
+                var flag10 = num6 >= look.Scales.Count;
                 if (flag10)
-                {
                     text += "7";
-                }
             }
-            text = string.Concat(new object[]
-            {
-                    text,
-                    "d/",
-                    mode,
-                    "/",
-                    orientation,
-                    "/",
-                    width,
-                    "_",
-                    height,
-                    "-",
-                    zoom,
-                    ".png"
-            });
+            text = string.Concat(text, "d/", mode, "/", orientation, "/", width, "_", height, "-", zoom, ".png");
             return text;
         }
     }

@@ -1,10 +1,10 @@
 ﻿using Cookie.Datacenter;
 using Cookie.Gamedata.D2o;
+using Cookie.Gamedata.D2p;
 using Cookie.Gamedata.I18n;
 using Cookie.Protocol.Network.Types.Game.Context.Roleplay;
 using System;
 using System.Collections.Generic;
-using Cookie.Gamedata.D2p;
 
 namespace Cookie.Game.Map
 {
@@ -52,7 +52,7 @@ namespace Cookie.Game.Map
                 {
                     Npcs.Add(npc);
                     var npcName =
-                        I18nDataManager.Instance.ReadText(ObjectDataManager.Instance.Get<Npc>((int)npc.NpcId).NameId);
+                        I18nDataManager.Instance.ReadText(ObjectDataManager.Instance.Get<Npc>(npc.NpcId).NameId);
                     Console.WriteLine($@"(Npc) {npcName} en cellid ->  {npc.Disposition.CellId}");
                     continue;
                 }
@@ -81,7 +81,7 @@ namespace Cookie.Game.Map
             {
                 Npcs.Add(npc);
                 var npcName =
-                    I18nDataManager.Instance.ReadText(ObjectDataManager.Instance.Get<Npc>((int)npc.NpcId).NameId);
+                    I18nDataManager.Instance.ReadText(ObjectDataManager.Instance.Get<Npc>(npc.NpcId).NameId);
                 Console.WriteLine($@"(Npc) {npcName} en cellid ->  {npc.Disposition.CellId}");
                 return;
             }

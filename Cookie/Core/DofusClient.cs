@@ -56,9 +56,9 @@ namespace Cookie.Core
         #endregion
 
         #region Private Properties
-        MessagePart currentMessage;
-        Dispatcher dispatcher;
-        BigEndianReader reader = new BigEndianReader();
+        MessagePart _currentMessage;
+        readonly Dispatcher _dispatcher;
+        readonly BigEndianReader _reader = new BigEndianReader();
         #endregion
 
         #region Public Properties
@@ -69,7 +69,7 @@ namespace Cookie.Core
         #region Constructor
         public DofusClient(string Login, string Password) : base(RandomIP, RandomPort)
         {
-            dispatcher = new Dispatcher(this);
+            _dispatcher = new Dispatcher(this);
 
             Account = new Account(Login, Password);
 
@@ -116,7 +116,7 @@ namespace Cookie.Core
         }
         #endregion
 
-        #region Event
+        #region Events
         protected override void DisconnectedEvent()
         {
             base.DisconnectedEvent();
@@ -135,19 +135,19 @@ namespace Cookie.Core
         {
             if (!IsConnected())
                 return;
-            reader.Add(e.Buffer, e.Offset, e.BytesTransferred);
-            while (reader.BytesAvailable > 0)
+            _reader.Add(e.Buffer, e.Offset, e.BytesTransferred);
+            while (_reader.BytesAvailable > 0)
             {
-                if (currentMessage == null)
-                    currentMessage = new MessagePart();
-                if (currentMessage.Build(reader))
+                if (_currentMessage == null)
+                    _currentMessage = new MessagePart();
+                if (_currentMessage.Build(_reader))
                 {
-                    var messageDataReader = new CustomDataReader(currentMessage.Data);
-                    NetworkMessage message = MessageReceiver.BuildMessage((uint)currentMessage.MessageId, messageDataReader);
+                    var messageDataReader = new CustomDataReader(_currentMessage.Data);
+                    NetworkMessage message = MessageReceiver.BuildMessage((uint)_currentMessage.MessageId, messageDataReader);
                     if (message == null)
                         return;
-                    dispatcher.Dispatch(message);
-                    currentMessage = null;
+                    _dispatcher.Dispatch(message);
+                    _currentMessage = null;
                 }
                 else
                 {
@@ -159,9 +159,9 @@ namespace Cookie.Core
 
         public static byte[] StringToByteArray(string hex)
         {
-            int NumberChars = hex.Length;
-            byte[] bytes = new byte[NumberChars / 2];
-            for (int i = 0; i < NumberChars; i += 2)
+            var numberChars = hex.Length;
+            var bytes = new byte[numberChars / 2];
+            for (var i = 0; i < numberChars; i += 2)
                 bytes[i / 2] = Convert.ToByte(hex.Substring(i, 2), 16);
             return bytes;
         }
@@ -178,7 +178,7 @@ namespace Cookie.Core
             MessagePacking pack = new MessagePacking();
             pack.Pack(msg, writer);
             
-            lock (_sender)
+            lock (Sender)
             {
                 if (Debug)
                     Logger.Log($"Send: ({msg.MessageID}) - " + msg.ToString().Split('.').Last(), LogMessageType.Arena);
@@ -188,11 +188,11 @@ namespace Cookie.Core
 
         public void Register(Type type)
         {
-            dispatcher.RegisterFrame(type);
+            _dispatcher.RegisterFrame(type);
         }
         public void UnRegister(Type type)
         {
-            dispatcher.UnRegisterFrame(type);
+            _dispatcher.UnRegisterFrame(type);
         }
         
         #endregion

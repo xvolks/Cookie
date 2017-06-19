@@ -40,12 +40,14 @@
             // 
             // LogTextBox
             // 
+            this.LogTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.LogTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
-            this.LogTextBox.Dock = System.Windows.Forms.DockStyle.Right;
-            this.LogTextBox.Location = new System.Drawing.Point(527, 0);
+            this.LogTextBox.Location = new System.Drawing.Point(491, 0);
             this.LogTextBox.Name = "LogTextBox";
             this.LogTextBox.ReadOnly = true;
-            this.LogTextBox.Size = new System.Drawing.Size(757, 591);
+            this.LogTextBox.Size = new System.Drawing.Size(597, 446);
             this.LogTextBox.TabIndex = 0;
             this.LogTextBox.Text = "";
             // 
@@ -57,10 +59,10 @@
             this.OriginColumnHeader,
             this.IdColumnHeader,
             this.NameColumnHeader});
-            this.PacketsListView.Dock = System.Windows.Forms.DockStyle.Top;
+            this.PacketsListView.Dock = System.Windows.Forms.DockStyle.Left;
             this.PacketsListView.Location = new System.Drawing.Point(0, 0);
             this.PacketsListView.Name = "PacketsListView";
-            this.PacketsListView.Size = new System.Drawing.Size(527, 541);
+            this.PacketsListView.Size = new System.Drawing.Size(491, 614);
             this.PacketsListView.TabIndex = 1;
             this.PacketsListView.UseCompatibleStateImageBehavior = false;
             this.PacketsListView.View = System.Windows.Forms.View.Details;
@@ -88,19 +90,19 @@
             // NoHandlersListBox
             // 
             this.NoHandlersListBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
-            this.NoHandlersListBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.NoHandlersListBox.ForeColor = System.Drawing.Color.White;
+            this.NoHandlersListBox.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.NoHandlersListBox.ForeColor = System.Drawing.Color.Red;
             this.NoHandlersListBox.FormattingEnabled = true;
-            this.NoHandlersListBox.Location = new System.Drawing.Point(0, 541);
+            this.NoHandlersListBox.Location = new System.Drawing.Point(491, 441);
             this.NoHandlersListBox.Name = "NoHandlersListBox";
-            this.NoHandlersListBox.Size = new System.Drawing.Size(527, 50);
+            this.NoHandlersListBox.Size = new System.Drawing.Size(597, 173);
             this.NoHandlersListBox.TabIndex = 2;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1284, 591);
+            this.ClientSize = new System.Drawing.Size(1088, 614);
             this.Controls.Add(this.NoHandlersListBox);
             this.Controls.Add(this.PacketsListView);
             this.Controls.Add(this.LogTextBox);
