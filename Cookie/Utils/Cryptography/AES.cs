@@ -5,7 +5,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace DofusBot.Utils.Cryptography
+namespace Cookie.Utils.Cryptography
 {
     public static class AES
     {

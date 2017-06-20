@@ -9,42 +9,40 @@ namespace Cookie.Gamedata.D2p
 {
     public class ImageManager
     {
-        private static FileStream mystream { get; set; }
-        private static object mDofusPath { get; set; }
+        private static FileStream Mystream { get; set; }
+        private static object MDofusPath { get; set; }
 
-        public static Dictionary<string, int[]> DictionnaryItemGFX = new Dictionary<string, int[]>();
-        public static void Init(string DofusPath)
+        public static Dictionary<string, int[]> DictionnaryItemGfx = new Dictionary<string, int[]>();
+        public static void Init(string dofusPath)
         {
-            mDofusPath = DofusPath;
-            foreach (string File in Directory.GetFiles(mDofusPath + "\\app\\content\\gfx\\items\\"))
+            MDofusPath = dofusPath;
+            foreach (var file in Directory.GetFiles(MDofusPath + "\\app\\content\\gfx\\items\\"))
             {
-                if (File.Contains("bitmap"))
+                if (!file.Contains("bitmap")) continue;
+                Mystream = new FileStream(file, FileMode.Open, FileAccess.Read);
+                byte num = Convert.ToByte(Mystream.ReadByte() + Mystream.ReadByte());
+                if (num == 3)
                 {
-                    mystream = new FileStream(File, FileMode.Open, FileAccess.Read);
-                    byte num = Convert.ToByte(mystream.ReadByte() + mystream.ReadByte());
-                    if (num == 3)
+                    Mystream.Position = Mystream.Length - 0x18L;
+                    int num2 = Convert.ToInt32(readUInt());
+                    readUInt();
+                    int num3 = Convert.ToInt32(readUInt());
+                    int num4 = Convert.ToInt32(readUInt());
+                    int num1 = Convert.ToInt32(readUInt());
+                    int num10 = Convert.ToInt32(readUInt());
+                    Mystream.Position = num3;
+                    int num5 = num4;
+                    for (int i = 1; i <= num5; i++)
                     {
-                        mystream.Position = mystream.Length - 0x18L;
-                        int num2 = Convert.ToInt32(readUInt());
-                        readUInt();
-                        int num3 = Convert.ToInt32(readUInt());
-                        int num4 = Convert.ToInt32(readUInt());
-                        int num1 = Convert.ToInt32(readUInt());
-                        int num10 = Convert.ToInt32(readUInt());
-                        mystream.Position = num3;
-                        int num5 = num4;
-                        for (int i = 1; i <= num5; i++)
-                        {
-                            string key = readString();
-                            int num7 = (int)(readUInt() + num2);
-                            int num8 = (int)(readUInt());
-                            DictionnaryItemGFX.Add(key, new int[] {
-								num7,
-								num8
-							});
-                        }
-                        mystream.Close();
+                        string key = readString();
+                        int num7 = (int)(readUInt() + num2);
+                        int num8 = (int)(readUInt());
+                        DictionnaryItemGfx.Add(key, new int[] {
+                            num7,
+                            num8
+                        });
                     }
+                    Mystream.Close();
                 }
             }
         }
@@ -66,7 +64,7 @@ namespace Cookie.Gamedata.D2p
             byte[] destinationArray = new byte[lenght];
             for (int i = 0; i <= lenght - 1; i++)
             {
-                destinationArray[i] = (byte)mystream.ReadByte();
+                destinationArray[i] = (byte)Mystream.ReadByte();
             }
             return destinationArray;
         }
@@ -94,12 +92,12 @@ namespace Cookie.Gamedata.D2p
                 try
                 {
                     Image GFXItem = null;
-                    mystream = new FileStream(mDofusPath + "\\app\\content\\gfx\\items\\bitmap" + i + ".d2p", FileMode.Open, FileAccess.Read);
-                    int[] numArray = DictionnaryItemGFX[IconId.ToString() + ".png"];
-                    mystream.Position = numArray[0];
+                    Mystream = new FileStream(MDofusPath + "\\app\\content\\gfx\\items\\bitmap" + i + ".d2p", FileMode.Open, FileAccess.Read);
+                    int[] numArray = DictionnaryItemGfx[IconId.ToString() + ".png"];
+                    Mystream.Position = numArray[0];
                     byte[] buffer = readBytes(numArray[1]);
                     MemoryStream stream = new MemoryStream(buffer, 0, buffer.Length);
-                    mystream.Close();
+                    Mystream.Close();
                     GFXItem = Image.FromStream(stream);
                     return GFXItem;
                 }

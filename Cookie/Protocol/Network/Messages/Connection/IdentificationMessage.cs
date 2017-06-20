@@ -14,14 +14,14 @@ namespace Cookie.Protocol.Network.Messages.Connection
         public bool UseLoginToken { get; set; }
         public VersionExtended Version { get; set; }
         public string Lang { get; set; }
-        public byte[] Credentials { get; set; }
+        public sbyte[] Credentials { get; set; }
         public short ServerId { get; set; }
         public long SessionOptionalSalt { get; set; }
         public ushort[] FailedAttempts { get; set; }
 
         public IdentificationMessage() { }
 
-        public IdentificationMessage(bool autoconnect, bool useCertificate, bool useLoginToken, VersionExtended version, string lang, byte[] credentials, short serverId, long sessionOptionalSalt, ushort[] failedAttempts)
+        public IdentificationMessage(bool autoconnect, bool useCertificate, bool useLoginToken, VersionExtended version, string lang, sbyte[] credentials, short serverId, long sessionOptionalSalt, ushort[] failedAttempts)
         {
             Autoconnect = autoconnect;
             UseCertificate = useCertificate;
@@ -46,7 +46,7 @@ namespace Cookie.Protocol.Network.Messages.Connection
             writer.WriteVarInt(Credentials.Length);
             foreach (var entry in Credentials)
             {
-                writer.WriteByte(entry);
+                writer.WriteSByte(entry);
             }
             writer.WriteShort(ServerId);
             writer.WriteVarLong(SessionOptionalSalt);
@@ -67,10 +67,10 @@ namespace Cookie.Protocol.Network.Messages.Connection
             Version.Deserialize(reader);
             Lang = reader.ReadUTF();
             var limit = reader.ReadVarInt();
-            Credentials = new byte[limit];
+            Credentials = new sbyte[limit];
             for (var i = 0; i < limit; i++)
             {
-                Credentials[i] = reader.ReadByte();
+                Credentials[i] = reader.ReadSByte();
             }
             ServerId = reader.ReadShort();
             SessionOptionalSalt = reader.ReadVarLong();

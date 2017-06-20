@@ -8,31 +8,31 @@ namespace Cookie.Protocol.Network.Messages.Connection
         public override uint MessageID => ProtocolId;
 
         public string Salt;
-        public byte[] Key;
+        public sbyte[] Key;
 
         public HelloConnectMessage() { }
 
-        public HelloConnectMessage(string salt, byte[] key)
+        public HelloConnectMessage(string salt, sbyte[] key)
         {
-            this.Salt = salt;
-            this.Key = key;
+            Salt = salt;
+            Key = key;
         }
 
         public override void Serialize(ICustomDataOutput writer)
         {
-            writer.WriteUTF(this.Salt);
-            writer.WriteVarInt((int)(ushort)this.Key.Length);
-            foreach (var @byte in this.Key)
-                writer.WriteByte(@byte);
+            writer.WriteUTF(Salt);
+            writer.WriteVarInt((ushort)Key.Length);
+            foreach (var @byte in Key)
+                writer.WriteSByte(@byte);
         }
 
         public override void Deserialize(ICustomDataInput reader)
         {
-            this.Salt = reader.ReadUTF();
+            Salt = reader.ReadUTF();
             var num = (ushort)reader.ReadVarInt();
-            this.Key = new byte[(int)num];
-            for (var index = 0; index < (int)num; ++index)
-                this.Key[index] = reader.ReadByte();
+            Key = new sbyte[num];
+            for (var index = 0; index < num; ++index)
+                Key[index] = reader.ReadSByte();
         }
     }
 }
