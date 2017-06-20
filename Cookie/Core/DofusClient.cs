@@ -49,6 +49,7 @@ using Cookie.Handlers.Game.Finishmoves;
 using Cookie.Handlers.Game.Context.Dungeon;
 using Cookie.Handlers.Game.Inventory;
 using Cookie.Handlers.Game.Chat.Smiley;
+using Cookie.Handlers.Game.Context.Fight;
 
 namespace Cookie.Core
 {
@@ -127,6 +128,7 @@ namespace Cookie.Core
             Register(typeof(GameContextDungeonHandlers));
             Register(typeof(GameInventoryHandlers));
             Register(typeof(GameChatSmileyHandlers));
+            Register(typeof(GameContextFightHandlers));
         }
         #endregion
 
