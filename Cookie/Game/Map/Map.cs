@@ -7,6 +7,7 @@ using Cookie.Core;
 using Cookie.Game.World.Pathfinding;
 using Cookie.Protocol.Network.Messages.Game.Context;
 using Cookie.Protocol.Network.Messages.Game.Context.Roleplay;
+using Cookie.Protocol.Network.Messages.Game.Interactive;
 using Cookie.Utils.Enums;
 
 namespace Cookie.Game.Map
@@ -74,7 +75,6 @@ namespace Cookie.Game.Map
 
         public bool MoveToCell(int cellid)
         {
-
             var timePath =
                 _client.Account.Character.Pathfinder.GetPath((short)_client.Account.Character.CellId, (short)cellid);
             var path = _client.Account.Character.Pathfinder.GetCompressedPath(timePath);
@@ -113,8 +113,18 @@ namespace Cookie.Game.Map
             Thread.Sleep(_time);
             _client.Send(new GameMapMovementConfirmMessage());
             _moving = false;
+            if (_client.Account.Character.IsGathering)
+                return;
             if (_mapId != -1)
                 LaunchChangeMap(_mapId);
+        }
+
+        public void UseElement(int id, int skillId)
+        {
+            Thread.Sleep(1000);
+            var msg = new InteractiveUseRequestMessage((uint)id, (uint)skillId);
+            _client.Send(msg);
+            _client.Logger.Log($"Récole ressource id {id}", LogMessageType.Info);
         }
 
         private void CheckMapChange()

@@ -1,38 +1,46 @@
 ﻿using Cookie.Core;
 using Cookie.Protocol.Network.Messages.Game.Interactive;
+using Cookie.Utils.Enums;
 
 namespace Cookie.Handlers.Game.Interactive
 {
     public class GameInteractiveHandlers
     {
         [MessageHandler(InteractiveUseRequestMessage.ProtocolId)]
-        private void InteractiveUseRequestMessageHandler(DofusClient Client, InteractiveUseRequestMessage Message)
+        private void InteractiveUseRequestMessageHandler(DofusClient client, InteractiveUseRequestMessage message)
         {
             //
         }
 
         [MessageHandler(InteractiveUsedMessage.ProtocolId)]
-        private void InteractiveUsedMessageHandler(DofusClient Client, InteractiveUsedMessage Message)
+        private void InteractiveUsedMessageHandler(DofusClient client, InteractiveUsedMessage message)
         {
             //
         }
 
         [MessageHandler(InteractiveUseEndedMessage.ProtocolId)]
-        private void InteractiveUseEndedMessageHandler(DofusClient Client, InteractiveUseEndedMessage Message)
+        private void InteractiveUseEndedMessageHandler(DofusClient client, InteractiveUseEndedMessage message)
         {
-            //
+            client.Account.Character.Status = CharacterStatus.None;
+            client.Account.Character.IsGathering = false;
         }
 
         [MessageHandler(StatedElementUpdatedMessage.ProtocolId)]
-        private void StatedElementUpdatedMessageHandler(DofusClient Client, StatedElementUpdatedMessage Message)
+        private void StatedElementUpdatedMessageHandler(DofusClient client, StatedElementUpdatedMessage message)
         {
-            //
+            client.Account.Character.MapData.UpdateStatedElement(message);
         }
 
         [MessageHandler(InteractiveElementUpdatedMessage.ProtocolId)]
-        private void InteractiveElementUpdatedMessageHandler(DofusClient Client, InteractiveElementUpdatedMessage Message)
+        private void InteractiveElementUpdatedMessageHandler(DofusClient client, InteractiveElementUpdatedMessage message)
         {
-            //
+            client.Account.Character.MapData.UpdateInteractiveElement(message);
+        }
+
+        [MessageHandler(InteractiveUseErrorMessage.ProtocolId)]
+        private void InteractiveUseErrorMessageHandler(DofusClient client, InteractiveUseErrorMessage message)
+        {
+            client.Logger.Log($"Erreur sur {message.ElemId} skill {message.SkillInstanceUid}");
         }
     }
 }

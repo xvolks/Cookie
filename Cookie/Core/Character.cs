@@ -6,6 +6,7 @@ using Cookie.Protocol.Network.Types.Game.Data.Items;
 using Cookie.Protocol.Network.Types.Game.Look;
 using Cookie.Utils.Enums;
 using System.Collections.Generic;
+using Cookie.Game.Job;
 
 namespace Cookie.Core
 {
@@ -23,9 +24,12 @@ namespace Cookie.Core
             MapData = new MapData();
             Map = new Map(Client);
             Pathfinder = new Pathfinder();
+            GatherManager = new GatherManager(Client);
         }
         public DofusClient Client { get; set; }
         public Pathfinder Pathfinder { get; set; }
+        public GatherManager GatherManager { get; set; }
+        public bool IsGathering { get; set; }
 
     public CharacterStatus Status { get; set; }
 
