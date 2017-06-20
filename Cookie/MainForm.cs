@@ -20,7 +20,7 @@ namespace Cookie
         {
             InitializeComponent();
 
-            LogTextBox.Font = new Font("Tahoma", 9, FontStyle.Regular);
+            LogTextBox.Font = new Font("Tahoma", 8, FontStyle.Regular);
         }
 
         private void MainForm_Load(object sender, EventArgs e)
