@@ -7,30 +7,35 @@ namespace Cookie.Handlers.Game.Character.Choice
     public class GameCharacterChoiceHandlers
     {
         [MessageHandler(BasicCharactersListMessage.ProtocolId)]
-        private void BasicCharactersListMessageHandler(DofusClient Client, BasicCharactersListMessage Message)
+        private void BasicCharactersListMessageHandler(DofusClient client, BasicCharactersListMessage message)
         {
-            CharacterBaseInformations c = Message.Characters[0];
-            Client.Logger.Log("Connexion sur le personnage " + c.Name);
-            Client.Send(new CharacterSelectionMessage(c.ObjectID));
+            CharacterBaseInformations c = message.Characters[0];
+            client.Logger.Log("Connexion sur le personnage " + c.Name);
+            client.Send(new CharacterSelectionMessage(c.ObjectID));
         }
 
         [MessageHandler(CharactersListMessage.ProtocolId)]
-        private void CharactersListMessageHandler(DofusClient Client, CharactersListMessage Message)
+        private void CharactersListMessageHandler(DofusClient client, CharactersListMessage message)
         {
-            CharacterBaseInformations c = Message.Characters[0];
-            Client.Logger.Log("Connexion sur le personnage " + c.Name);
-            Client.Send(new CharacterSelectionMessage(c.ObjectID));
+            CharacterBaseInformations c = message.Characters[0];
+            client.Logger.Log("Connexion sur le personnage " + c.Name);
+            client.Send(new CharacterSelectionMessage(c.ObjectID));
         }
 
         [MessageHandler(CharacterSelectedSuccessMessage.ProtocolId)]
-        private void CharacterSelectedSuccessMessageHandler(DofusClient Client, CharacterSelectedSuccessMessage Message)
+        private void CharacterSelectedSuccessMessageHandler(DofusClient client, CharacterSelectedSuccessMessage message)
         {
-            Client.Account.Character.Level = Message.Infos.Level;
-            Client.Account.Character.Id = Message.Infos.ObjectID;
-            Client.Account.Character.Name = Message.Infos.Name;
-            Client.Account.Character.Sex = Message.Infos.Sex;
-            Client.Account.Character.Look = Message.Infos.EntityLook;
-            Client.Account.Character.Breed = Message.Infos.Breed;
+            client.Account.Character.Level = message.Infos.Level;
+            client.Account.Character.Id = message.Infos.ObjectID;
+            client.Account.Character.Name = message.Infos.Name;
+            client.Account.Character.Sex = message.Infos.Sex;
+            client.Account.Character.Look = message.Infos.EntityLook;
+            client.Account.Character.Breed = message.Infos.Breed;
+        }
+        [MessageHandler(CharacterSelectedForceMessage.ProtocolId)]
+        private void CharacterSelectedForceMessageHandler(DofusClient client, CharacterSelectedForceMessage message)
+        {
+           //
         }
     }
 }

@@ -10,5 +10,10 @@ namespace Cookie.Handlers.Game.Context.Roleplay.Paddock
         {
             //
         }
+        [MessageHandler(GameDataPlayFarmObjectAnimationMessage.ProtocolId)]
+        private void GameDataPlayFarmObjectAnimationMessageHandler(DofusClient client, GameDataPlayFarmObjectAnimationMessage message)
+        {
+            //
+        }
     }
 }

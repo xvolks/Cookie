@@ -87,6 +87,7 @@
     <Compile Include="Handlers\Game\Context\Roleplay\Havenbag\GameContextRoleplayHavenbagHandlers.cs" />
     <Compile Include="Handlers\Game\Context\Roleplay\Houses\GameContextRoleplayHousesHandlers.cs" />
     <Compile Include="Handlers\Game\Context\Roleplay\Job\GameContextRoleplayJobHandlers.cs" />
+    <Compile Include="Handlers\Game\Context\Roleplay\Objects\GameContextRoleplayObjectsHandlers.cs" />
     <Compile Include="Handlers\Game\Context\Roleplay\Paddock\GameContextRoleplayPaddockHandlers.cs" />
     <Compile Include="Handlers\Game\Context\Roleplay\Quest\GameContextRoleplayQuestHandlers.cs" />
     <Compile Include="Handlers\Game\Dare\GameDareHandlers.cs" />
