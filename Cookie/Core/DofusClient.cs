@@ -50,6 +50,7 @@ using Cookie.Handlers.Game.Context.Dungeon;
 using Cookie.Handlers.Game.Inventory;
 using Cookie.Handlers.Game.Chat.Smiley;
 using Cookie.Handlers.Game.Context.Fight;
+using Cookie.Handlers.Game.Context.Roleplay.Objects;
 
 namespace Cookie.Core
 {
@@ -129,6 +130,7 @@ namespace Cookie.Core
             Register(typeof(GameInventoryHandlers));
             Register(typeof(GameChatSmileyHandlers));
             Register(typeof(GameContextFightHandlers));
+            Register(typeof(GameContextRoleplayObjectsHandlers));
         }
         #endregion
 

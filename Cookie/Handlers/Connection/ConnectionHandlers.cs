@@ -25,14 +25,7 @@ namespace Cookie.Handlers.Connection
             var identificationMessage = new IdentificationMessage(true, false, false, version, "fr", credentials, 0, 0, new ushort[0]);
             client.Logger.Log("Envois des informations d'identification...");
             client.Send(identificationMessage);
-        }
-
-        [MessageHandler(IdentificationAccountForceMessage.ProtocolId)]
-        private void IdentificationAccountForceMessageHandler(DofusClient client, IdentificationAccountForceMessage message)
-        {
-            //
-        }
-
+        }       
         [MessageHandler(IdentificationFailedBannedMessage.ProtocolId)]
         private void IdentificationFailedBannedMessageHandler(DofusClient client, IdentificationFailedBannedMessage message)
         {
@@ -55,11 +48,6 @@ namespace Cookie.Handlers.Connection
             client.Logger.Log("Identification échouée !", LogMessageType.Public);
             client.Logger.Log(((IdentificationFailureReasonEnum)message.Reason).ToString(), LogMessageType.Public);
             client.Dispose();
-        }
-        [MessageHandler(IdentificationMessage.ProtocolId)]
-        private void IdentificationMessageHandler(DofusClient client, IdentificationMessage message)
-        {
-            //
         }
         [MessageHandler(IdentificationSuccessMessage.ProtocolId)]
         private void IdentificationSuccessMessageHandler(DofusClient client, IdentificationSuccessMessage message)
@@ -118,11 +106,6 @@ namespace Cookie.Handlers.Connection
                     client.Logger.Log(D2OParsing.GetServerName(server.ObjectID) + ": " + (ServerStatusEnum)server.Status);
                 break;
             }
-        }
-        [MessageHandler(ServerSelectionMessage.ProtocolId)]
-        private void ServerSelectionMessageHandler(DofusClient client, ServerSelectionMessage message)
-        {
-            //
         }
         [MessageHandler(ServerStatusUpdateMessage.ProtocolId)]
         private void ServerStatusUpdateMessageHandler(DofusClient client, ServerStatusUpdateMessage message)

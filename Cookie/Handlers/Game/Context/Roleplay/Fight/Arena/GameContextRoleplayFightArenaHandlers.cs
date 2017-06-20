@@ -10,5 +10,10 @@ namespace Cookie.Handlers.Game.Context.Roleplay.Fight.Arena
         {
             //
         }
+        [MessageHandler(GameRolePlayArenaSwitchToFightServerMessage.ProtocolId)]
+        private void GameRolePlayArenaSwitchToFightServerMessageHandler(DofusClient Client, GameRolePlayArenaSwitchToFightServerMessage Message)
+        {
+            //
+        }
     }
 }
