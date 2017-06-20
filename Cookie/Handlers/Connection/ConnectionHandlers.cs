@@ -20,113 +20,113 @@ namespace Cookie.Handlers.Connection
         {
             client.Logger.Log("Connecté au serveur d'authentification.");
             var credentials = RSA.Encrypt(message.Key, client.Account.Login, client.Account.Password, message.Salt);
-            var version = new VersionExtended(2, 41, 1, 120980, 0, (sbyte)BuildTypeEnum.RELEASE, 1, 1);
+            var version = new VersionExtended(2, 42, 0, 121441, 0, (sbyte)BuildTypeEnum.RELEASE, 1, 1);
             var identificationMessage = new IdentificationMessage(true, false, false, version, "fr", credentials, 0, 0, new ushort[0]);
             client.Logger.Log("Envois des informations d'identification...");
             client.Send(identificationMessage);
         }
 
         [MessageHandler(IdentificationAccountForceMessage.ProtocolId)]
-        private void IdentificationAccountForceMessageHandler(DofusClient Client, IdentificationAccountForceMessage Message)
+        private void IdentificationAccountForceMessageHandler(DofusClient client, IdentificationAccountForceMessage message)
         {
             //
         }
 
         [MessageHandler(IdentificationFailedBannedMessage.ProtocolId)]
-        private void IdentificationFailedBannedMessageHandler(DofusClient Client, IdentificationFailedBannedMessage Message)
+        private void IdentificationFailedBannedMessageHandler(DofusClient client, IdentificationFailedBannedMessage message)
         {
-            if (Message.BanEndDate != 0)
-                Client.Logger.Log($"Votre compte est banni jusqu'au : {Message.BanEndDate.UnixTimestampToDateTime()}.", LogMessageType.Public);
+            if (message.BanEndDate != 0)
+                client.Logger.Log($"Votre compte est banni jusqu'au : {message.BanEndDate.UnixTimestampToDateTime()}.", LogMessageType.Public);
             else
-                Client.Logger.Log("Votre compte est banni pour : " + Message.Reason, LogMessageType.Public);
-            Client.Dispose();
+                client.Logger.Log("Votre compte est banni pour : " + message.Reason, LogMessageType.Public);
+            client.Dispose();
         }
 
         [MessageHandler(IdentificationFailedForBadVersionMessage.ProtocolId)]
-        private void IdentificationFailedForBadVersionMessageHandler(DofusClient Client, IdentificationFailedForBadVersionMessage Message)
+        private void IdentificationFailedForBadVersionMessageHandler(DofusClient client, IdentificationFailedForBadVersionMessage message)
         {
             //
         }
 
         [MessageHandler(IdentificationFailedMessage.ProtocolId)]
-        private void IdentificationFailedMessageHandler(DofusClient Client, IdentificationFailedMessage Message)
+        private void IdentificationFailedMessageHandler(DofusClient client, IdentificationFailedMessage message)
         {
-            Client.Logger.Log("Identification échouée !", LogMessageType.Public);
-            Client.Logger.Log(((IdentificationFailureReasonEnum)Message.Reason).ToString(), LogMessageType.Public);
-            Client.Dispose();
+            client.Logger.Log("Identification échouée !", LogMessageType.Public);
+            client.Logger.Log(((IdentificationFailureReasonEnum)message.Reason).ToString(), LogMessageType.Public);
+            client.Dispose();
         }
         [MessageHandler(IdentificationMessage.ProtocolId)]
-        private void IdentificationMessageHandler(DofusClient Client, IdentificationMessage Message)
+        private void IdentificationMessageHandler(DofusClient client, IdentificationMessage message)
         {
             //
         }
         [MessageHandler(IdentificationSuccessMessage.ProtocolId)]
-        private void IdentificationSuccessMessageHandler(DofusClient Client, IdentificationSuccessMessage Message)
+        private void IdentificationSuccessMessageHandler(DofusClient client, IdentificationSuccessMessage message)
         {
-            Client.Account.Nickname = Message.Nickname;
-            Client.Account.Id = Message.AccountId;
-            Client.Account.SecretQuestion = Message.SecretQuestion;
-            Client.Account.AccountCreation = Message.AccountCreation;
-            Client.Account.CommunityId = Message.CommunityId;
-            Client.Account.SubscriptionElapsedDuration = Message.SubscriptionElapsedDuration;
-            Client.Account.SubscriptionEndDate = Message.SubscriptionEndDate;
+            client.Account.Nickname = message.Nickname;
+            client.Account.Id = message.AccountId;
+            client.Account.SecretQuestion = message.SecretQuestion;
+            client.Account.AccountCreation = message.AccountCreation;
+            client.Account.CommunityId = message.CommunityId;
+            client.Account.SubscriptionElapsedDuration = message.SubscriptionElapsedDuration;
+            client.Account.SubscriptionEndDate = message.SubscriptionEndDate;
         }
         [MessageHandler(IdentificationSuccessWithLoginTokenMessage.ProtocolId)]
-        private void IdentificationSuccessWithLoginTokenMessageHandler(DofusClient Client, IdentificationMessage Message)
+        private void IdentificationSuccessWithLoginTokenMessageHandler(DofusClient client, IdentificationMessage message)
         {
             //
         }
         [MessageHandler(MigratedServerListMessage.ProtocolId)]
-        private void MigratedServerListMessageHandler(DofusClient Client, MigratedServerListMessage Message)
+        private void MigratedServerListMessageHandler(DofusClient client, MigratedServerListMessage message)
         {
             //
         }
         [MessageHandler(SelectedServerDataExtendedMessage.ProtocolId)]
-        private void SelectedServerDataExtendedMessageHandler(DofusClient Client, SelectedServerDataExtendedMessage Message)
+        private void SelectedServerDataExtendedMessageHandler(DofusClient client, SelectedServerDataExtendedMessage message)
         {
-            Client.Logger.Log("Sélection du serveur " + (ServerNameEnum)Message.ServerId);
-            Client.Account.Ticket = AES.DecodeWithAES(Message.Ticket);
-            Client.Logger.Log("Connexion en cours <" + Message.Address + ":" + Message.Port + ">");
-            Client.ChangeRemote(Message.Address, Message.Port);
+            client.Logger.Log("Sélection du serveur " + (ServerNameEnum)message.ServerId);
+            client.Account.Ticket = AES.DecodeWithAES(message.Ticket);
+            client.Logger.Log("Connexion en cours <" + message.Address + ":" + message.Port + ">");
+            client.ChangeRemote(message.Address, message.Port);
         }
 
         [MessageHandler(SelectedServerDataMessage.ProtocolId)]
-        private void SelectedServerDataMessageMessageHandler(DofusClient Client, SelectedServerDataMessage Message)
+        private void SelectedServerDataMessageMessageHandler(DofusClient client, SelectedServerDataMessage message)
         {
-            Client.Logger.Log("Sélection du serveur " + (ServerNameEnum)Message.ServerId);
-            Client.Account.Ticket = AES.DecodeWithAES(Message.Ticket);
-            Client.Logger.Log("Connexion en cours <" + Message.Address + ":" + Message.Port + ">");
-            Client.ChangeRemote(Message.Address, Message.Port);
+            client.Logger.Log("Sélection du serveur " + (ServerNameEnum)message.ServerId);
+            client.Account.Ticket = AES.DecodeWithAES(message.Ticket);
+            client.Logger.Log("Connexion en cours <" + message.Address + ":" + message.Port + ">");
+            client.ChangeRemote(message.Address, message.Port);
         }
 
         [MessageHandler(SelectedServerRefusedMessage.ProtocolId)]
-        private void SelectedServerRefusedMessageHandler(DofusClient Client, SelectedServerRefusedMessage Message)
+        private void SelectedServerRefusedMessageHandler(DofusClient client, SelectedServerRefusedMessage message)
         {
             //
         }
 
         [MessageHandler(ServerListMessage.ProtocolId)]
-        private void ServerListMessageHandler(DofusClient Client, ServerListMessage Message)
+        private void ServerListMessageHandler(DofusClient client, ServerListMessage message)
         {
-            foreach (var Server in Message.Servers)
+            foreach (var server in message.Servers)
             {
-                if (Server.CharactersCount <= 0 || !Server.IsSelectable) continue;
-                if ((ServerStatusEnum)Server.Status == ServerStatusEnum.ONLINE)
-                    Client.Send(new ServerSelectionMessage(Server.ObjectID));
+                if (server.CharactersCount <= 0 || !server.IsSelectable) continue;
+                if ((ServerStatusEnum)server.Status == ServerStatusEnum.ONLINE)
+                    client.Send(new ServerSelectionMessage(server.ObjectID));
                 else
-                    Client.Logger.Log((ServerNameEnum)Server.ObjectID + ": " + (ServerStatusEnum)Server.Status);
+                    client.Logger.Log((ServerNameEnum)server.ObjectID + ": " + (ServerStatusEnum)server.Status);
                 break;
             }
         }
         [MessageHandler(ServerSelectionMessage.ProtocolId)]
-        private void ServerSelectionMessageHandler(DofusClient Client, ServerSelectionMessage Message)
+        private void ServerSelectionMessageHandler(DofusClient client, ServerSelectionMessage message)
         {
             //
         }
         [MessageHandler(ServerStatusUpdateMessage.ProtocolId)]
-        private void ServerStatusUpdateMessageHandler(DofusClient Client, ServerStatusUpdateMessage Message)
+        private void ServerStatusUpdateMessageHandler(DofusClient client, ServerStatusUpdateMessage message)
         {
-            Client.Logger.Log(((ServerNameEnum)Message.Server.ObjectID).ToString() + ": " + (ServerStatusEnum)Message.Server.Status, LogMessageType.Default);
+            client.Logger.Log(((ServerNameEnum)message.Server.ObjectID).ToString() + ": " + (ServerStatusEnum)message.Server.Status, LogMessageType.Default);
         }
     }
 }

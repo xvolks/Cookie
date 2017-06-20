@@ -13,5 +13,8 @@ namespace Cookie.Datacenter
         public const String MODULE = "ServerGameTypes";
         public int Id;
         public uint NameId;
+        public bool SelectableByPlayer;
+        public string RulesId;
+        public string DescriptionId;
     }
 }

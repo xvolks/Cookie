@@ -14,14 +14,14 @@ namespace Cookie.Protocol.Network.Messages.Connection
         public bool UseLoginToken { get; set; }
         public VersionExtended Version { get; set; }
         public string Lang { get; set; }
-        public sbyte[] Credentials { get; set; }
+        public byte[] Credentials { get; set; }
         public short ServerId { get; set; }
         public long SessionOptionalSalt { get; set; }
         public ushort[] FailedAttempts { get; set; }
 
         public IdentificationMessage() { }
 
-        public IdentificationMessage(bool autoconnect, bool useCertificate, bool useLoginToken, VersionExtended version, string lang, sbyte[] credentials, short serverId, long sessionOptionalSalt, ushort[] failedAttempts)
+        public IdentificationMessage(bool autoconnect, bool useCertificate, bool useLoginToken, VersionExtended version, string lang, byte[] credentials, short serverId, long sessionOptionalSalt, ushort[] failedAttempts)
         {
             Autoconnect = autoconnect;
             UseCertificate = useCertificate;
@@ -46,7 +46,7 @@ namespace Cookie.Protocol.Network.Messages.Connection
             writer.WriteVarInt(Credentials.Length);
             foreach (var entry in Credentials)
             {
-                writer.WriteSByte(entry);
+                writer.WriteByte(entry);
             }
             writer.WriteShort(ServerId);
             writer.WriteVarLong(SessionOptionalSalt);
@@ -59,7 +59,7 @@ namespace Cookie.Protocol.Network.Messages.Connection
 
         public override void Deserialize(ICustomDataInput reader)
         {
-            byte flag1 = reader.ReadByte();
+            var flag1 = reader.ReadByte();
             Autoconnect = BooleanByteWrapper.GetFlag(flag1, 0);
             UseCertificate = BooleanByteWrapper.GetFlag(flag1, 1);
             UseLoginToken = BooleanByteWrapper.GetFlag(flag1, 2);
@@ -67,10 +67,10 @@ namespace Cookie.Protocol.Network.Messages.Connection
             Version.Deserialize(reader);
             Lang = reader.ReadUTF();
             var limit = reader.ReadVarInt();
-            Credentials = new sbyte[limit];
-            for (int i = 0; i < limit; i++)
+            Credentials = new byte[limit];
+            for (var i = 0; i < limit; i++)
             {
-                Credentials[i] = reader.ReadSByte();
+                Credentials[i] = reader.ReadByte();
             }
             ServerId = reader.ReadShort();
             SessionOptionalSalt = reader.ReadVarLong();
@@ -78,7 +78,7 @@ namespace Cookie.Protocol.Network.Messages.Connection
                 throw new Exception("Forbidden value on SessionOptionalSalt = " + SessionOptionalSalt + ", it doesn't respect the following condition : sessionOptionalSalt < -9007199254740990 || sessionOptionalSalt > 9007199254740990");
             limit = reader.ReadUShort();
             FailedAttempts = new ushort[limit];
-            for (int i = 0; i < limit; i++)
+            for (var i = 0; i < limit; i++)
             {
                 FailedAttempts[i] = reader.ReadVarUhShort();
             }

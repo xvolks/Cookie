@@ -23,5 +23,6 @@ namespace Cookie.Datacenter
         public uint Cooldown = 1000;
         public uint Duration = 0;
         public uint Weight;
+        public uint SpellLevelId;
     }
 }

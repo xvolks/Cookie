@@ -6,7 +6,7 @@ namespace Cookie.Protocol.Network.Types.Version
     public class VersionExtended : Version
     {
         public new const short ProtocolId = 393;
-        public override short TypeID { get { return ProtocolId; } }
+        public override short TypeID => ProtocolId;
 
         public sbyte Install { get; set; }
         public sbyte Technology { get; set; }

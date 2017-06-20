@@ -6,7 +6,7 @@ namespace Cookie.Protocol.Network.Types.Version
     public class Version : NetworkType
     {
         public const short ProtocolId = 11;
-        public override short TypeID { get { return ProtocolId; } }
+        public override short TypeID => ProtocolId;
 
         public sbyte Major { get; set; }
         public sbyte Minor { get; set; }

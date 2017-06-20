@@ -6,6 +6,7 @@ namespace Cookie
     {
         private const byte BIT_RIGHT_SHIFT_LEN_PACKET_ID = 2;
         private const byte BIT_MASK = 3;
+        private uint _instanceId = 0;
 
         public void Pack(NetworkMessage message, ICustomDataOutput writer)
         {
@@ -19,15 +20,17 @@ namespace Cookie
         }
         private void WritePacket(ICustomDataOutput writer, NetworkMessage message)
         {
-            byte[] packet = writer.Data;
+            var packet = writer.Data;
 
             writer.Clear();
 
-            byte typeLen = ComputeTypeLen(packet.Length);
+            var typeLen = ComputeTypeLen(packet.Length);
             var id = message.GetType().GetProperty("MessageID").GetValue(message);
 
             var header = (short)SubComputeStaticHeader((uint)id, typeLen);
             writer.WriteShort(header);
+
+            writer.WriteUInt(_instanceId++);
 
             switch (typeLen)
             {

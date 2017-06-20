@@ -6,7 +6,7 @@ namespace Cookie.Handlers.Handshake
     public class HandshakeHandlers
     {
         [MessageHandler(ProtocolRequired.ProtocolId)]
-        private void ProtocolRequiredHandler(DofusClient Client, ProtocolRequired Message)
+        private void ProtocolRequiredHandler(DofusClient client, ProtocolRequired message)
         {
             //
         }
