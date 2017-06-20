@@ -75,6 +75,7 @@
     <Compile Include="Handlers\Game\Chat\Community\GameChatCommunityHandlers.cs" />
     <Compile Include="Handlers\Game\Chat\GameChatHandlers.cs" />
     <Compile Include="Handlers\Game\Chat\Smiley\GameChatSmileyHandlers.cs" />
+    <Compile Include="Handlers\Game\Context\Display\GameContextDisplayHandlers.cs" />
     <Compile Include="Handlers\Game\Context\Dungeon\GameContextDungeonHandlers.cs" />
     <Compile Include="Handlers\Game\Context\Fight\GameContextFightHandlers.cs" />
     <Compile Include="Handlers\Game\Context\GameContextHandlers.cs" />
