@@ -201,7 +201,8 @@ namespace Cookie
                     switch (txt)
                     {
                         case "/g":
-                            _client.Send(new ChatClientMultiMessage((byte)ChatChannelsMultiEnum.CHANNEL_GUILD, chattxt));
+                            if (string.IsNullOrWhiteSpace(chattxt))
+                                _client.Send(new ChatClientMultiMessage((byte)ChatChannelsMultiEnum.CHANNEL_GUILD, chattxt));
                             break;
                         default:
                             _client.Send(new ChatClientMultiMessage((byte)ChatChannelsMultiEnum.CHANNEL_GLOBAL, ChatTextBox.Text));

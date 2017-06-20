@@ -57,15 +57,33 @@ namespace Cookie.Handlers.Game.Chat
         }
 
         [MessageHandler(ChatErrorMessage.ProtocolId)]
-        private void ChatErrorMessageHandler(DofusClient Client, ChatErrorMessage Message)
+        private void ChatErrorMessageHandler(DofusClient client, ChatErrorMessage message)
         {
-            switch ((ChatErrorEnum)Message.Reason)
+            switch ((ChatErrorEnum)message.Reason)
             {
                 case ChatErrorEnum.CHAT_ERROR_NO_GUILD:
-                    Client.Logger.Log("Vous ne possedez pas de guilde.", LogMessageType.Public);
+                    client.Logger.Log("Vous ne possedez pas de guilde.", LogMessageType.Public);
+                    break;
+                case ChatErrorEnum.CHAT_ERROR_UNKNOWN:
+                    break;
+                case ChatErrorEnum.CHAT_ERROR_RECEIVER_NOT_FOUND:
+                    break;
+                case ChatErrorEnum.CHAT_ERROR_INTERIOR_MONOLOGUE:
+                    break;
+                case ChatErrorEnum.CHAT_ERROR_NO_PARTY:
+                    break;
+                case ChatErrorEnum.CHAT_ERROR_ALLIANCE:
+                    break;
+                case ChatErrorEnum.CHAT_ERROR_INVALID_MAP:
+                    break;
+                case ChatErrorEnum.CHAT_ERROR_NO_PARTY_ARENA:
+                    break;
+                case ChatErrorEnum.CHAT_ERROR_NO_TEAM:
+                    break;
+                case ChatErrorEnum.CHAT_ERROR_MALFORMED_CONTENT:
                     break;
                 default:
-                    Client.Logger.Log("Erreur : " + (ChatErrorEnum)Message.Reason, LogMessageType.Public);
+                    client.Logger.Log("Erreur : " + (ChatErrorEnum)message.Reason, LogMessageType.Public);
                     break;
             }
         }
