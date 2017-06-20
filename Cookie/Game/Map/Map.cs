@@ -111,7 +111,7 @@ namespace Cookie.Game.Map
         public void ConfirmMove()
         {
             Thread.Sleep(_time);
-            _client.Send(new GameMapMovementConfirmMessage(_client.Account.Character.MapId, _client.Account.Character.Id));
+            _client.Send(new GameMapMovementConfirmMessage());
             _moving = false;
             if (_mapId != -1)
                 LaunchChangeMap(_mapId);
