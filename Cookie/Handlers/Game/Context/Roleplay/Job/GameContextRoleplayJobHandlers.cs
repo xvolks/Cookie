@@ -1,5 +1,6 @@
 ﻿using Cookie.Core;
-using Cookie.Gamedata;
+using Cookie.Gamedata.D2o;
+using Cookie.Gamedata.I18n;
 using Cookie.Protocol.Network.Messages.Game.Context.Roleplay.Job;
 
 namespace Cookie.Handlers.Game.Context.Roleplay.Job
@@ -24,9 +25,17 @@ namespace Cookie.Handlers.Game.Context.Roleplay.Job
         }
 
         [MessageHandler(JobCrafterDirectorySettingsMessage.ProtocolId)]
-        private void JobCrafterDirectorySettingsMessageHandler(DofusClient Client, JobCrafterDirectorySettingsMessage Message)
+        private void JobCrafterDirectorySettingsMessageHandler(DofusClient Client,
+            JobCrafterDirectorySettingsMessage Message)
         {
             //
+        }
+
+        [MessageHandler(JobExperienceUpdateMessage.ProtocolId)]
+        private void JobExperienceUpdateMessageHandler(DofusClient client, JobExperienceUpdateMessage message)
+        {
+            client.Logger.Log(
+                $"{I18nDataManager.Instance.ReadText(ObjectDataManager.Instance.Get<Datacenter.Job>(message.ExperiencesUpdate.JobId).NameId)} a gagné de l'xp");
         }
     }
 }

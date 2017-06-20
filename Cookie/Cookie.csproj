@@ -54,6 +54,7 @@
     <Compile Include="Core\Account.cs" />
     <Compile Include="Core\DofusClient.cs" />
     <Compile Include="Gamedata\D2OParsing.cs" />
+    <Compile Include="Game\Job\GatherManager.cs" />
     <Compile Include="Game\Map\Map.cs" />
     <Compile Include="Game\Map\MapData.cs" />
     <Compile Include="Game\World\Pathfinding\Cell.cs" />

@@ -5,6 +5,8 @@ using Cookie.Gamedata.I18n;
 using Cookie.Protocol.Network.Types.Game.Context.Roleplay;
 using System;
 using System.Collections.Generic;
+using Cookie.Protocol.Network.Messages.Game.Interactive;
+using Cookie.Protocol.Network.Types.Game.Interactive;
 
 namespace Cookie.Game.Map
 {
@@ -18,6 +20,10 @@ namespace Cookie.Game.Map
 
         public List<GameRolePlayActorInformations> Others { get; set; }
 
+        public List<InteractiveElement> InteractiveElements { get; set; }
+
+        public List<StatedElement> StatedElements { get; set; }
+
         public Gamedata.D2p.Map Data;
 
         public MapData()
@@ -26,6 +32,8 @@ namespace Cookie.Game.Map
             Monsters = new List<GameRolePlayGroupMonsterInformations>();
             Npcs = new List<GameRolePlayNpcInformations>();
             Others = new List<GameRolePlayActorInformations>();
+            InteractiveElements = new List<InteractiveElement>();
+            StatedElements = new List<StatedElement>();
         }
 
         public void ParseLocation(int mapId) => Data = MapsManager.FromId(mapId);
@@ -121,6 +129,32 @@ namespace Cookie.Game.Map
             }
             else
                 Console.WriteLine($@"Quelque chose se déplace sur la cellid -> {cellEnd}");
+        }
+
+        public void ParseInteractiveElement(InteractiveElement[] elements)
+        {
+            foreach (var element in elements)
+                InteractiveElements.Add(element);
+        }
+
+        public void ParseStatedElement(StatedElement[] elements)
+        {
+            foreach (var element in elements)
+                StatedElements.Add(element);
+        }
+
+        public void UpdateInteractiveElement(InteractiveElementUpdatedMessage update)
+        {
+            InteractiveElements.Remove(
+                InteractiveElements.Find(x => x.ElementId == update.InteractiveElement.ElementId));
+            InteractiveElements.Add(update.InteractiveElement);
+        }
+
+        public void UpdateStatedElement(StatedElementUpdatedMessage update)
+        {
+            StatedElements.Remove(
+                StatedElements.Find(x => x.ElementId == update.StatedElement.ElementId));
+            StatedElements.Add(update.StatedElement);
         }
 
         public bool NoEntitiesOnCell(int cellId) => Monsters.Find(p => p.Disposition.CellId == cellId) == null;

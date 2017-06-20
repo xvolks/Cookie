@@ -2,82 +2,90 @@
 using Cookie.Protocol.Network.Messages.Game.Inventory.Items;
 using Cookie.Utils.Extensions;
 using System.Linq;
+using Cookie.Datacenter;
+using Cookie.Gamedata.D2o;
+using Cookie.Gamedata.I18n;
 
 namespace Cookie.Handlers.Game.Inventory.Items
 {
     public class GameInventoryItemsHandlers
     {
         [MessageHandler(InventoryContentAndPresetMessage.ProtocolId)]
-        private void InventoryContentAndPresetMessageHandler(DofusClient Client, InventoryContentAndPresetMessage Message)
+        private void InventoryContentAndPresetMessageHandler(DofusClient client, InventoryContentAndPresetMessage message)
         {
-            Client.Account.Character.Stats.Kamas = Message.Kamas;
-            Client.Account.Character.Inventory = Message.Objects;
+            client.Account.Character.Stats.Kamas = message.Kamas;
+            client.Account.Character.Inventory = message.Objects;
         }
 
         [MessageHandler(InventoryContentMessage.ProtocolId)]
-        private void InventoryContentMessageHandler(DofusClient Client, InventoryContentMessage Message)
+        private void InventoryContentMessageHandler(DofusClient client, InventoryContentMessage message)
         {
-            Client.Account.Character.Stats.Kamas = Message.Kamas;
-            Client.Account.Character.Inventory = Message.Objects;
+            client.Account.Character.Stats.Kamas = message.Kamas;
+            client.Account.Character.Inventory = message.Objects;
         }
 
         [MessageHandler(InventoryWeightMessage.ProtocolId)]
-        private void InventoryWeightMessageHandler(DofusClient Client, InventoryWeightMessage Message)
+        private void InventoryWeightMessageHandler(DofusClient client, InventoryWeightMessage message)
         {
-            Client.Account.Character.Weight = Message.Weight;
-            Client.Account.Character.MaxWeight = Message.WeightMax;
+            client.Account.Character.Weight = message.Weight;
+            client.Account.Character.MaxWeight = message.WeightMax;
         }
         
         [MessageHandler(SetUpdateMessage.ProtocolId)]
-        private void SetUpdateMessageHandler(DofusClient Client, SetUpdateMessage Message)
+        private void SetUpdateMessageHandler(DofusClient client, SetUpdateMessage message)
         {
             //
         }
 
         [MessageHandler(ObjectModifiedMessage.ProtocolId)]
-        private void ObjectModifiedMessageHandler(DofusClient Client, ObjectModifiedMessage Message)
+        private void ObjectModifiedMessageHandler(DofusClient client, ObjectModifiedMessage message)
         {
-            Client.Account.Character.Inventory.ForEach(Object =>
+            client.Account.Character.Inventory.ForEach(Object =>
             {
-                if (Object.ObjectUID == Message.Object.ObjectUID)
-                {
-                    Object = Message.Object;
-                    return;
-                }
+                if (Object.ObjectUID != message.Object.ObjectUID) return;
+                Object = message.Object;
+                return;
             });
         }
 
         [MessageHandler(ObjectAddedMessage.ProtocolId)]
-        private void ObjectAddedMessageHandler(DofusClient Client, ObjectAddedMessage Message)
+        private void ObjectAddedMessageHandler(DofusClient client, ObjectAddedMessage message)
         {
-            Client.Account.Character.Inventory.Add(Message.Object);
+            client.Account.Character.Inventory.Add(message.Object);
         }
 
         [MessageHandler(ObjectsAddedMessage.ProtocolId)]
-        private void ObjectsAddedMessageHandler(DofusClient Client, ObjectsAddedMessage Message)
+        private void ObjectsAddedMessageHandler(DofusClient client, ObjectsAddedMessage message)
         {
-            Client.Account.Character.Inventory.AddRange(Message.Object);
+            client.Account.Character.Inventory.AddRange(message.Object);
         }
 
         [MessageHandler(ObjectDeletedMessage.ProtocolId)]
-        private void ObjectDeletedMessageHandler(DofusClient Client, ObjectDeletedMessage Message)
+        private void ObjectDeletedMessageHandler(DofusClient client, ObjectDeletedMessage message)
         {
-            Client.Account.Character.Inventory.Remove(Client.Account.Character.Inventory.Where(o => o.ObjectUID == Message.ObjectUID).First());
+            client.Account.Character.Inventory.Remove(client.Account.Character.Inventory.First(o => o.ObjectUID == message.ObjectUID));
         }
 
         [MessageHandler(ObjectsDeletedMessage.ProtocolId)]
-        private void ObjectsDeletedMessageHandler(DofusClient Client, ObjectsDeletedMessage Message)
+        private void ObjectsDeletedMessageHandler(DofusClient client, ObjectsDeletedMessage message)
         {
-            Message.ObjectUID.ForEach((o) =>
+            message.ObjectUID.ForEach((o) =>
             {
-                Client.Account.Character.Inventory.Remove(Client.Account.Character.Inventory.Where(item => item.ObjectUID == o).First());
+                client.Account.Character.Inventory.Remove(client.Account.Character.Inventory.First(item => item.ObjectUID == o));
             });
         }
 
         [MessageHandler(ObjectQuantityMessage.ProtocolId)]
-        private void ObjectQuantityMessageHandler(DofusClient Client, ObjectQuantityMessage Message)
+        private void ObjectQuantityMessageHandler(DofusClient client, ObjectQuantityMessage message)
         {
             //
+        }
+
+        [MessageHandler(ObtainedItemMessage.ProtocolId)]
+        private void ObtainedItemMessageHandler(DofusClient client, ObtainedItemMessage message)
+        {
+            client.Logger.Log(
+                $"Tu as reçu : {I18nDataManager.Instance.ReadText(ObjectDataManager.Instance.Get<Item>(message.GenericId).NameId)} x {message.BaseQuantity}");
         }
     }
 }
