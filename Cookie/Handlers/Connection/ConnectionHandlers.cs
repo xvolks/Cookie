@@ -12,8 +12,8 @@ namespace Cookie.Handlers.Connection
         [MessageHandler(CredentialsAcknowledgementMessage.ProtocolId)]
         private void CredentialsAcknowledgementMessageHandler(DofusClient client, CredentialsAcknowledgementMessage message)
         {
-            //
-        } 
+            //  
+        }
 
         [MessageHandler(HelloConnectMessage.ProtocolId)]
         private void HelloConnectMessageHandler(DofusClient client, HelloConnectMessage message)
@@ -55,7 +55,11 @@ namespace Cookie.Handlers.Connection
             Client.Logger.Log(((IdentificationFailureReasonEnum)Message.Reason).ToString(), LogMessageType.Public);
             Client.Dispose();
         }
-
+        [MessageHandler(IdentificationMessage.ProtocolId)]
+        private void IdentificationMessageHandler(DofusClient Client, IdentificationMessage Message)
+        {
+            //
+        }
         [MessageHandler(IdentificationSuccessMessage.ProtocolId)]
         private void IdentificationSuccessMessageHandler(DofusClient Client, IdentificationSuccessMessage Message)
         {
@@ -67,7 +71,16 @@ namespace Cookie.Handlers.Connection
             Client.Account.SubscriptionElapsedDuration = Message.SubscriptionElapsedDuration;
             Client.Account.SubscriptionEndDate = Message.SubscriptionEndDate;
         }
-
+        [MessageHandler(IdentificationSuccessWithLoginTokenMessage.ProtocolId)]
+        private void IdentificationSuccessWithLoginTokenMessageHandler(DofusClient Client, IdentificationMessage Message)
+        {
+            //
+        }
+        [MessageHandler(MigratedServerListMessage.ProtocolId)]
+        private void MigratedServerListMessageHandler(DofusClient Client, MigratedServerListMessage Message)
+        {
+            //
+        }
         [MessageHandler(SelectedServerDataExtendedMessage.ProtocolId)]
         private void SelectedServerDataExtendedMessageHandler(DofusClient Client, SelectedServerDataExtendedMessage Message)
         {
@@ -105,7 +118,11 @@ namespace Cookie.Handlers.Connection
                 break;
             }
         }
-
+        [MessageHandler(ServerSelectionMessage.ProtocolId)]
+        private void ServerSelectionMessageHandler(DofusClient Client, ServerSelectionMessage Message)
+        {
+            //
+        }
         [MessageHandler(ServerStatusUpdateMessage.ProtocolId)]
         private void ServerStatusUpdateMessageHandler(DofusClient Client, ServerStatusUpdateMessage Message)
         {
