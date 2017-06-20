@@ -45,7 +45,7 @@ namespace Cookie.Handlers.Connection
         [MessageHandler(IdentificationFailedForBadVersionMessage.ProtocolId)]
         private void IdentificationFailedForBadVersionMessageHandler(DofusClient client, IdentificationFailedForBadVersionMessage message)
         {
-            client.Logger.Log("La version n'est pas bon. Version requise : " + message.RequiredVersion, LogMessageType.Public);
+            client.Logger.Log("La version n'est pas bonne. Version requise : " + message.RequiredVersion, LogMessageType.Public);
         }
 
         [MessageHandler(IdentificationFailedMessage.ProtocolId)]
