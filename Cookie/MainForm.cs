@@ -204,6 +204,34 @@ namespace Cookie
                             if (string.IsNullOrWhiteSpace(chattxt))
                                 _client.Send(new ChatClientMultiMessage((byte)ChatChannelsMultiEnum.CHANNEL_GUILD, chattxt));
                             break;
+                        case "/s":
+                            if (string.IsNullOrWhiteSpace(chattxt))
+                                _client.Send(new ChatClientMultiMessage((byte)ChatChannelsMultiEnum.CHANNEL_GLOBAL, chattxt));
+                            break;
+                        case "/t":
+                            if (string.IsNullOrWhiteSpace(chattxt))
+                                _client.Send(new ChatClientMultiMessage((byte)ChatChannelsMultiEnum.CHANNEL_TEAM, chattxt));
+                            break;
+                        case "/a":
+                            if (string.IsNullOrWhiteSpace(chattxt))
+                                _client.Send(new ChatClientMultiMessage((byte)ChatChannelsMultiEnum.CHANNEL_ALLIANCE, chattxt));
+                            break;
+                        case "/p":
+                            if (string.IsNullOrWhiteSpace(chattxt))
+                                _client.Send(new ChatClientMultiMessage((byte)ChatChannelsMultiEnum.CHANNEL_PARTY, chattxt));
+                            break;
+                        case "/k":
+                            if (string.IsNullOrWhiteSpace(chattxt))
+                                _client.Send(new ChatClientMultiMessage((byte)ChatChannelsMultiEnum.CHANNEL_ARENA, chattxt));
+                            break;
+                        case "/b":
+                            if (string.IsNullOrWhiteSpace(chattxt))
+                                _client.Send(new ChatClientMultiMessage((byte)ChatChannelsMultiEnum.CHANNEL_SALES, chattxt));
+                            break;
+                        case "/r":
+                            if (string.IsNullOrWhiteSpace(chattxt))
+                                _client.Send(new ChatClientMultiMessage((byte)ChatChannelsMultiEnum.CHANNEL_SEEK, chattxt));
+                            break;
                         default:
                             _client.Send(new ChatClientMultiMessage((byte)ChatChannelsMultiEnum.CHANNEL_GLOBAL, ChatTextBox.Text));
                             break;
