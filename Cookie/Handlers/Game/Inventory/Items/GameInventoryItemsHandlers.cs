@@ -87,5 +87,11 @@ namespace Cookie.Handlers.Game.Inventory.Items
             client.Logger.Log(
                 $"Tu as reçu : {I18nDataManager.Instance.ReadText(ObjectDataManager.Instance.Get<Item>(message.GenericId).NameId)} x {message.BaseQuantity}");
         }
+        [MessageHandler(GoldAddedMessage.ProtocolId)]
+        private void GoldAddedMessageHandler(DofusClient client, GoldAddedMessage message)
+        {
+            client.Logger.Log(
+                 $"Tu as reçu : {message.Gold}");
+        }
     }
 }
