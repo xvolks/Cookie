@@ -38,5 +38,10 @@ namespace Cookie.Handlers.Game.Initialization
         {
             Client.Account.Character.Restrictions = Message.Restrictions;
         }
+        [MessageHandler(ServerExperienceModificatorMessage.ProtocolId)]
+        private void ServerExperienceModificatorMessageHandler(DofusClient Client, ServerExperienceModificatorMessage Message)
+        {
+            //
+        }
     }
 }

@@ -74,6 +74,8 @@
     <Compile Include="Handlers\Game\Chat\Channel\GameChatChannelHandlers.cs" />
     <Compile Include="Handlers\Game\Chat\Community\GameChatCommunityHandlers.cs" />
     <Compile Include="Handlers\Game\Chat\GameChatHandlers.cs" />
+    <Compile Include="Handlers\Game\Chat\Smiley\GameChatSmileyHandlers.cs" />
+    <Compile Include="Handlers\Game\Context\Dungeon\GameContextDungeonHandlers.cs" />
     <Compile Include="Handlers\Game\Context\GameContextHandlers.cs" />
     <Compile Include="Handlers\Game\Context\Mount\GameContextMountHandlers.cs" />
     <Compile Include="Handlers\Game\Context\Notification\GameContextNotificationHandlers.cs" />
@@ -87,12 +89,14 @@
     <Compile Include="Handlers\Game\Context\Roleplay\Paddock\GameContextRoleplayPaddockHandlers.cs" />
     <Compile Include="Handlers\Game\Context\Roleplay\Quest\GameContextRoleplayQuestHandlers.cs" />
     <Compile Include="Handlers\Game\Dare\GameDareHandlers.cs" />
+    <Compile Include="Handlers\Game\Finishmoves\GameFinishmovesHandlers.cs" />
     <Compile Include="Handlers\Game\Friend\GameFriendHandlers.cs" />
     <Compile Include="Handlers\Game\Guild\GameGuildHandlers.cs" />
     <Compile Include="Handlers\Game\Idol\GameIdolHandlers.cs" />
     <Compile Include="Handlers\Game\Initialization\GameInitializationHandlers.cs" />
     <Compile Include="Handlers\Game\Interactive\GameInteractiveHandlers.cs" />
     <Compile Include="Handlers\Game\Inventory\Exchanges\GameInventoryExchangesHandlers.cs" />
+    <Compile Include="Handlers\Game\Inventory\GameInventoryHandlers.cs" />
     <Compile Include="Handlers\Game\Inventory\Items\GameInventoryItemsHandlers.cs" />
     <Compile Include="Handlers\Game\Inventory\Spells\GameInventorySpellsHandlers.cs" />
     <Compile Include="Handlers\Game\Prism\GamePrismHandlers.cs" />
