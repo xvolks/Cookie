@@ -8,6 +8,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using Cookie.Network;
+
 namespace Cookie.Protocol.Network.Types.Game.Context
 {
     using Cookie.Protocol.Network.Types.Game.Look;

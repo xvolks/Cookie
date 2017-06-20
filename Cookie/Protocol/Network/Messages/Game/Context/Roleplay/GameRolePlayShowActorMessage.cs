@@ -8,10 +8,12 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using Cookie.Network;
+
 namespace Cookie.Protocol.Network.Messages.Game.Context.Roleplay
 {
-    using Cookie.Protocol.Network.Types.Game.Context.Roleplay;
     using Cookie.IO;
+    using Cookie.Protocol.Network.Types.Game.Context.Roleplay;
 
 
     public class GameRolePlayShowActorMessage : NetworkMessage

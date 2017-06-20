@@ -1,4 +1,5 @@
 ﻿using Cookie.IO;
+using Cookie.Network;
 using Cookie.Protocol.Network.Types.Game.Character.Choice;
 using System.Collections.Generic;
 
@@ -34,7 +35,7 @@ namespace Cookie.Protocol.Network.Messages.Game.Character.Choice
         {
             int charactersCount = reader.ReadUShort();
             Characters = new List<CharacterBaseInformations>();
-            for (int i = 0; i < charactersCount; i++)
+            for (var i = 0; i < charactersCount; i++)
             {
                 CharacterBaseInformations objectToAdd = ProtocolTypeManager.GetInstance<CharacterBaseInformations>((short)reader.ReadUShort());
                 objectToAdd.Deserialize(reader);

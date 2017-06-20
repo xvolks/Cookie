@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Text;
 
 namespace Cookie.Gamedata.D2p
@@ -24,19 +23,19 @@ namespace Cookie.Gamedata.D2p
                 if (num == 3)
                 {
                     Mystream.Position = Mystream.Length - 0x18L;
-                    int num2 = Convert.ToInt32(readUInt());
-                    readUInt();
-                    int num3 = Convert.ToInt32(readUInt());
-                    int num4 = Convert.ToInt32(readUInt());
-                    int num1 = Convert.ToInt32(readUInt());
-                    int num10 = Convert.ToInt32(readUInt());
+                    int num2 = Convert.ToInt32(ReadUInt());
+                    ReadUInt();
+                    int num3 = Convert.ToInt32(ReadUInt());
+                    int num4 = Convert.ToInt32(ReadUInt());
+                    int num1 = Convert.ToInt32(ReadUInt());
+                    int num10 = Convert.ToInt32(ReadUInt());
                     Mystream.Position = num3;
                     int num5 = num4;
                     for (int i = 1; i <= num5; i++)
                     {
-                        string key = readString();
-                        int num7 = (int)(readUInt() + num2);
-                        int num8 = (int)(readUInt());
+                        string key = ReadString();
+                        int num7 = (int)(ReadUInt() + num2);
+                        int num8 = (int)(ReadUInt());
                         DictionnaryItemGfx.Add(key, new int[] {
                             num7,
                             num8
@@ -47,19 +46,19 @@ namespace Cookie.Gamedata.D2p
             }
         }
 
-        private static short readShort()
+        private static short ReadShort()
         {
-            return BitConverter.ToInt16(ImageManager._InverseArray(ImageManager.readBytes(2)), 0);
+            return BitConverter.ToInt16(_InverseArray(ReadBytes(2)), 0);
         }
 
-        private static string readString()
+        private static string ReadString()
         {
-            int lenght = ImageManager.readShort();
-            byte[] bytes = ImageManager.readBytes(lenght);
+            int lenght = ImageManager.ReadShort();
+            byte[] bytes = ImageManager.ReadBytes(lenght);
             return Encoding.UTF8.GetString(bytes);
         }
 
-        private static byte[] readBytes(int lenght)
+        private static byte[] ReadBytes(int lenght)
         {
             byte[] destinationArray = new byte[lenght];
             for (int i = 0; i <= lenght - 1; i++)
@@ -69,9 +68,9 @@ namespace Cookie.Gamedata.D2p
             return destinationArray;
         }
 
-        private static UInt32 readUInt()
+        private static UInt32 ReadUInt()
         {
-            return BitConverter.ToUInt32(ImageManager._InverseArray(ImageManager.readBytes(4)), 0);
+            return BitConverter.ToUInt32(ImageManager._InverseArray(ImageManager.ReadBytes(4)), 0);
         }
 
         private static byte[] _InverseArray(byte[] source)
@@ -95,7 +94,7 @@ namespace Cookie.Gamedata.D2p
                     Mystream = new FileStream(MDofusPath + "\\app\\content\\gfx\\items\\bitmap" + i + ".d2p", FileMode.Open, FileAccess.Read);
                     int[] numArray = DictionnaryItemGfx[IconId.ToString() + ".png"];
                     Mystream.Position = numArray[0];
-                    byte[] buffer = readBytes(numArray[1]);
+                    byte[] buffer = ReadBytes(numArray[1]);
                     MemoryStream stream = new MemoryStream(buffer, 0, buffer.Length);
                     Mystream.Close();
                     GFXItem = Image.FromStream(stream);

@@ -8,11 +8,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using Cookie.Network;
+
 namespace Cookie.Protocol.Network.Messages.Game.Context.Fight
 {
+    using Cookie.IO;
     using Cookie.Protocol.Network.Types.Game.Context.Fight;
     using Cookie.Protocol.Network.Types.Game.Context.Roleplay.Party;
-    using Cookie.IO;
     using System.Collections.Generic;
 
 

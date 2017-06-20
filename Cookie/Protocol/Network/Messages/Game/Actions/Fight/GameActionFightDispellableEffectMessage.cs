@@ -8,11 +8,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using Cookie.Network;
+
 namespace Cookie.Protocol.Network.Messages.Game.Actions.Fight
 {
+    using Cookie.IO;
     using Cookie.Protocol.Network.Messages.Game.Actions;
     using Cookie.Protocol.Network.Types.Game.Actions.Fight;
-    using Cookie.IO;
 
 
     public class GameActionFightDispellableEffectMessage : AbstractGameActionMessage

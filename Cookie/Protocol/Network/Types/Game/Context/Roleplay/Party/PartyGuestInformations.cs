@@ -8,18 +8,17 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using Cookie.Network;
+
 namespace Cookie.Protocol.Network.Types.Game.Context.Roleplay.Party
 {
-    using Cookie.Protocol.Network.Types.Game.Look;
+    using Cookie.IO;
     using Cookie.Protocol.Network.Types.Game.Character.Status;
     using Cookie.Protocol.Network.Types.Game.Context.Roleplay.Party.Companion;
-    using Cookie.Protocol.Network;
+    using Cookie.Protocol.Network.Types.Game.Look;
     using System.Collections.Generic;
-    using Cookie.Protocol.Network.Messages;
-    using Cookie.Protocol.Network.Types;
-    using Cookie.IO;
-    
-    
+
+
     public class PartyGuestInformations : NetworkType
     {
         

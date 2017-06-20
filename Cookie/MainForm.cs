@@ -3,6 +3,7 @@ using Cookie.Gamedata.D2o;
 using Cookie.Gamedata.D2p;
 using Cookie.Gamedata.I18n;
 using Cookie.Gamedata.Icons;
+using Cookie.Network;
 using System;
 using System.Drawing;
 using System.IO;

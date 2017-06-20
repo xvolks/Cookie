@@ -8,16 +8,15 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using Cookie.Network;
+
 namespace Cookie.Protocol.Network.Types.Game.Data.Items
 {
-    using Cookie.Protocol.Network.Types.Game.Data.Items.Effects;
-    using Cookie.Protocol.Network;
-    using System.Collections.Generic;
-    using Cookie.Protocol.Network.Messages;
-    using Cookie.Protocol.Network.Types;
     using Cookie.IO;
-    
-    
+    using Cookie.Protocol.Network.Types.Game.Data.Items.Effects;
+    using System.Collections.Generic;
+
+
     public class BidExchangerObjectInfo : NetworkType
     {
         

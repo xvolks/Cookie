@@ -8,14 +8,15 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using Cookie.Network;
+
 namespace Cookie.Protocol.Network.Messages.Game.Context.Roleplay
 {
+    using Cookie.IO;
     using Cookie.Protocol.Network.Types.Game.Context.Fight;
     using Cookie.Protocol.Network.Types.Game.Context.Roleplay;
     using Cookie.Protocol.Network.Types.Game.House;
     using Cookie.Protocol.Network.Types.Game.Interactive;
-    using Cookie.IO;
-    using System;
     using System.Collections.Generic;
 
     public class MapComplementaryInformationsDataMessage : NetworkMessage

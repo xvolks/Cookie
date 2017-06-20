@@ -11,7 +11,7 @@
 namespace Cookie.Protocol.Network.Types.Game.House
 {
     using Cookie.IO;
-
+    using Cookie.Network;
 
     public class AccountHouseInformations : HouseInformations
     {

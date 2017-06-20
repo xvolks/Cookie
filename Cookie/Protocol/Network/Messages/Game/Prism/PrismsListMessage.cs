@@ -1,7 +1,9 @@
+using Cookie.Network;
+
 namespace Cookie.Protocol.Network.Messages.Game.Prism
 {
-    using Cookie.Protocol.Network.Types.Game.Prism;
     using Cookie.IO;
+    using Cookie.Protocol.Network.Types.Game.Prism;
     using System.Collections.Generic;
 
     public class PrismsListMessage : NetworkMessage

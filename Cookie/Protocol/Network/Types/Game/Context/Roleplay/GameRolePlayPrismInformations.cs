@@ -8,18 +8,14 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using Cookie.Network;
+
 namespace Cookie.Protocol.Network.Types.Game.Context.Roleplay
 {
-    using Cookie.Protocol.Network.Types.Game.Prism;
-    using Cookie.Protocol.Network.Types.Game.Look;
-    using Cookie.Protocol.Network.Types.Game.Context;
-    using Cookie.Protocol.Network;
-    using System.Collections.Generic;
-    using Cookie.Protocol.Network.Messages;
-    using Cookie.Protocol.Network.Types;
     using Cookie.IO;
-    
-    
+    using Cookie.Protocol.Network.Types.Game.Prism;
+
+
     public class GameRolePlayPrismInformations : GameRolePlayActorInformations
     {
         

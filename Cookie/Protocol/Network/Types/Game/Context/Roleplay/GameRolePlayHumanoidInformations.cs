@@ -1,3 +1,5 @@
+using Cookie.Network;
+
 namespace Cookie.Protocol.Network.Types.Game.Context.Roleplay
 {
     using Cookie.IO;

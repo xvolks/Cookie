@@ -10,15 +10,12 @@
 
 namespace Cookie.Protocol.Network.Types.Game.Prism
 {
-    using Cookie.Protocol.Network.Types.Game.Fight;
-    using Cookie.Protocol.Network.Types.Game.Character;
-    using Cookie.Protocol.Network;
-    using System.Collections.Generic;
-    using Cookie.Protocol.Network.Messages;
-    using Cookie.Protocol.Network.Types;
     using Cookie.IO;
-    
-    
+    using Cookie.Network;
+    using Cookie.Protocol.Network.Types.Game.Character;
+    using Cookie.Protocol.Network.Types.Game.Fight;
+    using System.Collections.Generic;
+
     public class PrismFightersInformation : NetworkType
     {
         

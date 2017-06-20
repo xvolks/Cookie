@@ -8,16 +8,14 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using Cookie.Network;
+
 namespace Cookie.Protocol.Network.Messages.Game.Character.Status
 {
-    using Cookie.Protocol.Network.Types.Game.Character.Status;
-    using Cookie.Protocol.Network;
-    using System.Collections.Generic;
-    using Cookie.Protocol.Network.Messages;
-    using Cookie.Protocol.Network.Types;
     using Cookie.IO;
-    
-    
+    using Cookie.Protocol.Network.Types.Game.Character.Status;
+
+
     public class PlayerStatusUpdateRequestMessage : NetworkMessage
     {
         

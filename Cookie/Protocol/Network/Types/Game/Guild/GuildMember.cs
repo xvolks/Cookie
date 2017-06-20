@@ -8,11 +8,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using Cookie.Network;
+
 namespace Cookie.Protocol.Network.Types.Game.Guild
 {
+    using Cookie.IO;
     using Cookie.Protocol.Network.Types.Game.Character;
     using Cookie.Protocol.Network.Types.Game.Character.Status;
-    using Cookie.IO;
 
 
     public class GuildMember : CharacterMinimalInformations

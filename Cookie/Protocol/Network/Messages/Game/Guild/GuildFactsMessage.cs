@@ -8,17 +8,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using Cookie.Network;
+
 namespace Cookie.Protocol.Network.Messages.Game.Guild
 {
-    using Cookie.Protocol.Network.Types.Game.Social;
-    using Cookie.Protocol.Network.Types.Game.Character;
-    using Cookie.Protocol.Network;
-    using System.Collections.Generic;
-    using Cookie.Protocol.Network.Messages;
-    using Cookie.Protocol.Network.Types;
     using Cookie.IO;
-    
-    
+    using Cookie.Protocol.Network.Types.Game.Character;
+    using Cookie.Protocol.Network.Types.Game.Social;
+    using System.Collections.Generic;
+
+
     public class GuildFactsMessage : NetworkMessage
     {
         

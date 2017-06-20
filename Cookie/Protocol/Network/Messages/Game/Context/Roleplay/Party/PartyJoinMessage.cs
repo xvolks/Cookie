@@ -8,6 +8,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using Cookie.Network;
+
 namespace Cookie.Protocol.Network.Messages.Game.Context.Roleplay.Party
 {
     using Cookie.Protocol.Network.Types.Game.Context.Roleplay.Party;

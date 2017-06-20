@@ -8,10 +8,12 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using Cookie.Network;
+
 namespace Cookie.Protocol.Network.Messages.Game.Friend
 {
-    using Cookie.Protocol.Network.Types.Game.Friend;
     using Cookie.IO;
+    using Cookie.Protocol.Network.Types.Game.Friend;
 
 
     public class FriendUpdateMessage : NetworkMessage

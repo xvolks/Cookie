@@ -10,14 +10,11 @@
 
 namespace Cookie.Protocol.Network.Messages.Common.Basic
 {
-    using Cookie.Protocol.Network.Types.Common.Basic;
-    using Cookie.Protocol.Network;
-    using System.Collections.Generic;
-    using Cookie.Protocol.Network.Messages;
-    using Cookie.Protocol.Network.Types;
     using Cookie.IO;
-    
-    
+    using Cookie.Network;
+    using Cookie.Protocol.Network.Types.Common.Basic;
+    using System.Collections.Generic;
+
     public class AggregateStatWithDataMessage : AggregateStatMessage
     {
         
@@ -25,10 +22,7 @@ namespace Cookie.Protocol.Network.Messages.Common.Basic
         
         public override uint MessageID
         {
-            get
-            {
-                return ProtocolId;
-            }
+            get => ProtocolId;
         }
         
         private List<StatisticData> m_datas;

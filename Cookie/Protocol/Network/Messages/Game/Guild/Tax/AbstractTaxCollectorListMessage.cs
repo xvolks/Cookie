@@ -8,11 +8,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using Cookie.Network;
+
 namespace Cookie.Protocol.Network.Messages.Game.Guild.Tax
 {
-    using Cookie.Protocol.Network.Types.Game.Guild.Tax;
     using Cookie;
     using Cookie.IO;
+    using Cookie.Protocol.Network.Types.Game.Guild.Tax;
     using System.Collections.Generic;
 
     public class AbstractTaxCollectorListMessage : NetworkMessage

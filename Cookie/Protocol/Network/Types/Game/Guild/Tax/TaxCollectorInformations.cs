@@ -10,14 +10,11 @@
 
 namespace Cookie.Protocol.Network.Types.Game.Guild.Tax
 {
-    using Cookie.Protocol.Network.Types.Game.Look;
-    using Cookie.Protocol.Network;
-    using System.Collections.Generic;
-    using Cookie.Protocol.Network.Messages;
-    using Cookie.Protocol.Network.Types;
     using Cookie.IO;
-    
-    
+    using Cookie.Network;
+    using Cookie.Protocol.Network.Types.Game.Look;
+    using System.Collections.Generic;
+
     public class TaxCollectorInformations : NetworkType
     {
         

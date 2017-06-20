@@ -8,6 +8,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using Cookie.Network;
+
 namespace Cookie.Protocol.Network.Types.Game.Action.Fight
 {
     using Cookie.Protocol.Network.Types.Game.Actions.Fight;

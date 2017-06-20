@@ -16,6 +16,12 @@ namespace Cookie.Gamedata
             return I18nDataManager.Instance.ReadText(Convert.ToInt32(objectValue));
         }
 
+        public static string GetServerName(ushort id)
+        {
+            var objectValue = RuntimeHelpers.GetObjectValue(ObjectDataManager.Instance.Get<Server>(id).NameId);
+            return I18nDataManager.Instance.ReadText(Convert.ToInt32(objectValue));
+        }
+
         public static string GetJobName(int jobId)
         {
             object objectValue = RuntimeHelpers.GetObjectValue(ObjectDataManager.Instance.Get<Job>(jobId).NameId);

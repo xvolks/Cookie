@@ -10,13 +10,10 @@
 
 namespace Cookie.Protocol.Network.Types.Game.Interactive
 {
-    using Cookie.Protocol.Network;
-    using System.Collections.Generic;
-    using Cookie.Protocol.Network.Messages;
-    using Cookie.Protocol.Network.Types;
     using Cookie.IO;
-    
-    
+    using Cookie.Network;
+    using System.Collections.Generic;
+
     public class InteractiveElement : NetworkType
     {
         
