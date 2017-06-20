@@ -6,37 +6,37 @@ namespace Cookie.Handlers.Game.Context.Roleplay
     public class GameContextRoleplayHandlers
     {
         [MessageHandler(CurrentMapMessage.ProtocolId)]
-        private void CurrentMapMessageHandler(DofusClient Client, CurrentMapMessage Message)
+        private void CurrentMapMessageHandler(DofusClient client, CurrentMapMessage message)
         {
-            Client.Account.Character.MapId = Message.MapId;
-            Client.Send(new MapInformationsRequestMessage(Message.MapId));
+            client.Account.Character.MapId = message.MapId;
+            client.Send(new MapInformationsRequestMessage(message.MapId));
         }
 
         [MessageHandler(GameRolePlayShowActorMessage.ProtocolId)]
-        private void GameRolePlayShowActorMessageHandler(DofusClient Client, GameRolePlayShowActorMessage Message)
+        private void GameRolePlayShowActorMessageHandler(DofusClient client, GameRolePlayShowActorMessage message)
         {
-            Client.Account.Character.MapData.AddActor(Message.Informations);
+            client.Account.Character.MapData.AddActor(message.Informations);
         }
 
         [MessageHandler(MapFightCountMessage.ProtocolId)]
-        private void MapFightCountMessageHandler(DofusClient Client, MapFightCountMessage Message)
+        private void MapFightCountMessageHandler(DofusClient client, MapFightCountMessage message)
         {
-            Client.Logger.Log($"Il y a {Message.FightCount} combat(s) sur la map.");
+            client.Logger.Log($"Il y a {message.FightCount} combat(s) sur la map.");
         }
 
         [MessageHandler(MapComplementaryInformationsDataMessage.ProtocolId)]
-        private void MapComplementaryInformationsDataMessageHandler(DofusClient Client, MapComplementaryInformationsDataMessage Message)
+        private void MapComplementaryInformationsDataMessageHandler(DofusClient client, MapComplementaryInformationsDataMessage Message)
         {
-            Client.Account.Character.MapId = Message.MapId;
-            Client.Account.Character.MapData.Clear();
-            Client.Account.Character.MapData.ParseLocation(Message.MapId);
-            Client.Account.Character.MapData.ParseActors(Message.Actors.ToArray());
-            Client.Account.Character.Pathfinder.SetMap(Client.Account.Character.MapData, true);
+            client.Account.Character.MapId = Message.MapId;
+            client.Account.Character.MapData.Clear();
+            client.Account.Character.MapData.ParseLocation(Message.MapId);
+            client.Account.Character.MapData.ParseActors(Message.Actors.ToArray());
+            client.Account.Character.Pathfinder.SetMap(client.Account.Character.MapData, true);
 
             foreach (var Actor in Message.Actors)
             {
-                if (Actor.ContextualId != Client.Account.Character.Id) continue;
-                Client.Account.Character.CellId = Actor.Disposition.CellId;
+                if (Actor.ContextualId != client.Account.Character.Id) continue;
+                client.Account.Character.CellId = Actor.Disposition.CellId;
                 break;
             }
         }
