@@ -41,11 +41,14 @@
             // 
             // LogTextBox
             // 
+            this.LogTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.LogTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
             this.LogTextBox.Location = new System.Drawing.Point(513, 0);
             this.LogTextBox.Name = "LogTextBox";
             this.LogTextBox.ReadOnly = true;
-            this.LogTextBox.Size = new System.Drawing.Size(575, 448);
+            this.LogTextBox.Size = new System.Drawing.Size(575, 447);
             this.LogTextBox.TabIndex = 0;
             this.LogTextBox.Text = "";
             // 
