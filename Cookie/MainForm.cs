@@ -9,6 +9,9 @@ using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Cookie.Protocol.Enums;
+using Cookie.Protocol.Network.Messages.Game.Chat;
+using Cookie.Utils.Enums;
 
 
 namespace Cookie
@@ -172,6 +175,41 @@ namespace Cookie
 
             LogTextBox.Invoke((Action) LogCallback);
 
+        }
+
+        private void ChatTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                HandleSendChatMessage();
+        }
+
+        private void HandleSendChatMessage()
+        {
+            if (_client.Account.Character.Status == CharacterStatus.Disconnected) return;
+            if (string.IsNullOrWhiteSpace(ChatTextBox.Text))
+                _client.Logger.Log("Vous ne pouvez pas envoyer un texte vide.", LogMessageType.Public);
+            else
+            {
+                if (ChatTextBox.Text.Length < 2)
+                {
+                    _client.Send(new ChatClientMultiMessage((byte)ChatChannelsMultiEnum.CHANNEL_GLOBAL, ChatTextBox.Text));
+                }
+                else
+                {
+                    var txt = ChatTextBox.Text.Substring(0, 2);
+                    var chattxt = ChatTextBox.Text.Replace(txt, "");
+                    switch (txt)
+                    {
+                        case "/g":
+                            _client.Send(new ChatClientMultiMessage((byte)ChatChannelsMultiEnum.CHANNEL_GUILD, chattxt));
+                            break;
+                        default:
+                            _client.Send(new ChatClientMultiMessage((byte)ChatChannelsMultiEnum.CHANNEL_GLOBAL, ChatTextBox.Text));
+                            break;
+                    }
+                    ChatTextBox.BeginInvoke(new Action(() => ChatTextBox.Text = ""));
+                }
+            }
         }
     }
 }

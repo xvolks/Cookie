@@ -36,18 +36,16 @@
             this.IdColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.NameColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.NoHandlersListBox = new System.Windows.Forms.ListBox();
+            this.ChatTextBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // LogTextBox
             // 
-            this.LogTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.LogTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
             this.LogTextBox.Location = new System.Drawing.Point(513, 0);
             this.LogTextBox.Name = "LogTextBox";
             this.LogTextBox.ReadOnly = true;
-            this.LogTextBox.Size = new System.Drawing.Size(575, 471);
+            this.LogTextBox.Size = new System.Drawing.Size(575, 448);
             this.LogTextBox.TabIndex = 0;
             this.LogTextBox.Text = "";
             // 
@@ -98,11 +96,24 @@
             this.NoHandlersListBox.Size = new System.Drawing.Size(575, 147);
             this.NoHandlersListBox.TabIndex = 2;
             // 
+            // ChatTextBox
+            // 
+            this.ChatTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.ChatTextBox.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.ChatTextBox.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ChatTextBox.ForeColor = System.Drawing.Color.White;
+            this.ChatTextBox.Location = new System.Drawing.Point(513, 445);
+            this.ChatTextBox.Name = "ChatTextBox";
+            this.ChatTextBox.Size = new System.Drawing.Size(575, 22);
+            this.ChatTextBox.TabIndex = 3;
+            this.ChatTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ChatTextBox_KeyDown);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1088, 614);
+            this.Controls.Add(this.ChatTextBox);
             this.Controls.Add(this.NoHandlersListBox);
             this.Controls.Add(this.PacketsListView);
             this.Controls.Add(this.LogTextBox);
@@ -113,6 +124,7 @@
             this.Text = "Cookie";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -125,6 +137,7 @@
         private System.Windows.Forms.ColumnHeader OriginColumnHeader;
         private System.Windows.Forms.ColumnHeader IdColumnHeader;
         private System.Windows.Forms.ColumnHeader NameColumnHeader;
+        private System.Windows.Forms.TextBox ChatTextBox;
     }
 }
 
