@@ -45,6 +45,10 @@ using System.Net.Sockets;
 using Cookie.Handlers.Game.Context.Roleplay.Fight;
 using Cookie.Handlers.Game.Context.Roleplay.Paddock;
 using Cookie.Handlers.Game.Inventory.Exchanges;
+using Cookie.Handlers.Game.Finishmoves;
+using Cookie.Handlers.Game.Context.Dungeon;
+using Cookie.Handlers.Game.Inventory;
+using Cookie.Handlers.Game.Chat.Smiley;
 
 namespace Cookie.Core
 {
@@ -119,6 +123,10 @@ namespace Cookie.Core
             Register(typeof(GameContextRoleplayFightHandlers));
             Register(typeof(GameInventoryExchangesHandlers));
             Register(typeof(GameContextRoleplayPaddockHandlers));
+            Register(typeof(GameFinishmovesHandlers));
+            Register(typeof(GameContextDungeonHandlers));
+            Register(typeof(GameInventoryHandlers));
+            Register(typeof(GameChatSmileyHandlers));
         }
         #endregion
 

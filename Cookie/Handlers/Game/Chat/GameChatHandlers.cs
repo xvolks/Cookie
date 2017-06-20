@@ -69,5 +69,50 @@ namespace Cookie.Handlers.Game.Chat
                     break;
             }
         }
+        [MessageHandler(ChatAbstractClientMessage.ProtocolId)]
+        private void ChatAbstractClientMessageHandler(DofusClient Client, ChatAbstractClientMessage Message)
+        {
+            //
+        }
+        [MessageHandler(ChatAbstractServerMessage.ProtocolId)]
+        private void ChatAbstractServerMessageHandler(DofusClient Client, ChatAbstractServerMessage Message)
+        {
+            //
+        }
+        [MessageHandler(ChatAdminServerMessage.ProtocolId)]
+        private void ChatAdminServerMessageHandler(DofusClient Client, ChatAdminServerMessage Message)
+        {
+            //
+        }
+        [MessageHandler(ChatClientMultiMessage.ProtocolId)]
+        private void ChatClientMultiMessageHandler(DofusClient Client, ChatClientMultiMessage Message)
+        {
+            //
+        }
+        [MessageHandler(ChatClientMultiWithObjectMessage.ProtocolId)]
+        private void ChatClientMultiWithObjectMessageHandler(DofusClient Client, ChatClientMultiWithObjectMessage Message)
+        {
+            //
+        }
+        [MessageHandler(ChatClientPrivateMessage.ProtocolId)]
+        private void ChatClientPrivateMessageHandler(DofusClient Client, ChatClientPrivateMessage Message)
+        {
+            //
+        }
+        [MessageHandler(ChatClientPrivateWithObjectMessage.ProtocolId)]
+        private void ChatClientPrivateWithObjectMessageHandler(DofusClient Client, ChatClientPrivateWithObjectMessage Message)
+        {
+            //
+        }
+        [MessageHandler(ChatServerCopyMessage.ProtocolId)]
+        private void ChatServerCopyMessageHandler(DofusClient Client, ChatServerCopyMessage Message)
+        {
+            //
+        }
+        [MessageHandler(ChatServerCopyWithObjectMessage.ProtocolId)]
+        private void ChatServerCopyWithObjectMessageHandler(DofusClient Client, ChatServerCopyWithObjectMessage Message)
+        {
+            //
+        }
     }
 }
