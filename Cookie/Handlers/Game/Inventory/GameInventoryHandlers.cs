@@ -6,25 +6,25 @@ namespace Cookie.Handlers.Game.Inventory
     public class GameInventoryHandlers
     {
         [MessageHandler(KamasUpdateMessage.ProtocolId)]
-        private void KamasUpdateMessageHandler(DofusClient Client, KamasUpdateMessage Message)
+        private void KamasUpdateMessageHandler(DofusClient client, KamasUpdateMessage message)
         {
-            //
+            client.Account.Character.Stats.Kamas = message.KamasTotal;
         }
 
         [MessageHandler(ObjectAveragePricesErrorMessage.ProtocolId)]
-        private void ObjectAveragePricesErrorMessageHandler(DofusClient Client, ObjectAveragePricesErrorMessage Message)
+        private void ObjectAveragePricesErrorMessageHandler(DofusClient client, ObjectAveragePricesErrorMessage message)
         {
             //
         }
 
         [MessageHandler(ObjectAveragePricesGetMessage.ProtocolId)]
-        private void ObjectAveragePricesGetMessageHandler(DofusClient Client, ObjectAveragePricesGetMessage Message)
+        private void ObjectAveragePricesGetMessageHandler(DofusClient client, ObjectAveragePricesGetMessage message)
         {
             //
         }
 
         [MessageHandler(ObjectAveragePricesMessage.ProtocolId)]
-        private void ObjectAveragePricesMessageHandler(DofusClient Client, ObjectAveragePricesMessage Message)
+        private void ObjectAveragePricesMessageHandler(DofusClient client, ObjectAveragePricesMessage message)
         {
             //
         }

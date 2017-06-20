@@ -8,8 +8,6 @@ PACKETS A CORRIGER OU AJOUTER LE HANDLER:
 - MapFightCountMessage
 - GameFightOptionStateUpdateMessage
 - GameFightUpdateTeamMessage
-- ChatSmileyExtraPackListMessage
-- ServerExperienceModificatorMessage
 - CharacterSelectedForceMessage
 - GameRolePlayArenaSwitchToFightServerMessage
 - ObjectGroundListAddedMessage
