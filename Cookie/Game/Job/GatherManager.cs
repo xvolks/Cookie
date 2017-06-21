@@ -31,7 +31,7 @@ namespace Cookie.Game.Job
                 _client.Account.Character.MapData.StatedElements.Find(e => e.ElementId == _tempElement.ElementId && e.ElementState == 0);
             if (statedElement == null)
                 return false;
-            if (!_client.Account.Character.Map.MoveToCell(statedElement.ElementCellId - 1, true)) return false;
+            if (!_client.Account.Character.Map.MoveToCell(statedElement.ElementCellId - 1)) return false;
             _client.Account.Character.Status = CharacterStatus.Gathering;
             _client.Account.Character.Map.UseElement(_tempElement.ElementId, _tempElement.EnabledSkills[0].SkillInstanceUid);
 
