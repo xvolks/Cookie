@@ -19,6 +19,8 @@ namespace Cookie.Core.Frame
         {
             _latencyBuffer = new List<uint>();
             _account = account;
+
+            Sequence = 0;
         }
 
         public void LowSend()
