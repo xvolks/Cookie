@@ -24,7 +24,7 @@ namespace Cookie.Game.Job
         {
             _tempElement =
                 _client.Account.Character.MapData.InteractiveElements.Find(
-                    e => e.ElementTypeId == elemTypeId && e.EnabledSkills.Count > 0 && e.OnCurrentMap && !BannedElementId.Contains(elemTypeId));
+                    e => e.ElementTypeId == elemTypeId && e.EnabledSkills.Count > 0 && !BannedElementId.Contains(elemTypeId));
             if (_tempElement == null)
                 return false;
             var statedElement =

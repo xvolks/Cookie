@@ -134,17 +134,24 @@ namespace Cookie.Game.Map
         public void ParseInteractiveElement(InteractiveElement[] elements)
         {
             foreach (var element in elements)
-                InteractiveElements.Add(element);
+            {
+                if(element.OnCurrentMap)
+                    InteractiveElements.Add(element);
+            }
         }
 
         public void ParseStatedElement(StatedElement[] elements)
         {
             foreach (var element in elements)
-                StatedElements.Add(element);
+            {
+                if(element.OnCurrentMap)
+                    StatedElements.Add(element);
+            }
         }
 
         public void UpdateInteractiveElement(InteractiveElementUpdatedMessage update)
         {
+            if (!update.InteractiveElement.OnCurrentMap) return;
             InteractiveElements.Remove(
                 InteractiveElements.Find(x => x.ElementId == update.InteractiveElement.ElementId));
             InteractiveElements.Add(update.InteractiveElement);
@@ -152,6 +159,7 @@ namespace Cookie.Game.Map
 
         public void UpdateStatedElement(StatedElementUpdatedMessage update)
         {
+            if (!update.StatedElement.OnCurrentMap) return;
             StatedElements.Remove(
                 StatedElements.Find(x => x.ElementId == update.StatedElement.ElementId));
             StatedElements.Add(update.StatedElement);

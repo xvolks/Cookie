@@ -130,7 +130,7 @@ namespace Cookie.Game.Map
         public void UseElement(int id, int skillId)
         {
             Thread.Sleep(200);
-            var msg = new InteractiveUseRequestMessage((uint)id, (uint)skillId);
+            var msg = new InteractiveUseRequestMessage((uint) id, (uint) skillId);
             _client.Send(msg);
             _client.Logger.Log($"Récole ressource id {id}", LogMessageType.Info);
         }
