@@ -40,9 +40,9 @@ namespace Cookie.Gamedata
             return I18nDataManager.Instance.ReadText(Convert.ToInt32(objectValue));
         }
 
-        public static string GUIDToName(uint guid)
+        public static string GetItemName(uint guid)
         {
-            object id = RuntimeHelpers.GetObjectValue(ObjectDataManager.Instance.Get<Item>(guid).NameId);
+            var id = RuntimeHelpers.GetObjectValue(ObjectDataManager.Instance.Get<Item>(guid).NameId);
             return I18nDataManager.Instance.ReadText(Convert.ToInt32(id));
         }
 
