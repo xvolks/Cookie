@@ -100,12 +100,18 @@ namespace Cookie.Handlers.Connection
             foreach (var server in message.Servers)
             {
                 if (server.CharactersCount <= 0 || !server.IsSelectable) continue;
-                if ((ServerStatusEnum)server.Status == ServerStatusEnum.ONLINE)
-                    client.Send(new ServerSelectionMessage(server.ObjectID));
-                else if(((ServerStatusEnum)server.Status == ServerStatusEnum.SAVING))
-                    client.Logger.Log(D2OParsing.GetServerName(server.ObjectID) + ": " + (ServerStatusEnum)server.Status);
-                else
-                    client.Logger.Log(D2OParsing.GetServerName(server.ObjectID) + ": " + (ServerStatusEnum)server.Status);
+                switch ((ServerStatusEnum)server.Status)
+                {
+                    case ServerStatusEnum.ONLINE:
+                        client.Send(new ServerSelectionMessage(server.ObjectID));
+                        break;
+                    case ServerStatusEnum.SAVING:
+                        client.Logger.Log($"Le serveur {D2OParsing.GetServerName(server.ObjectID)} est en sauvegarde.");
+                        break;
+                    default:
+                        client.Logger.Log(D2OParsing.GetServerName(server.ObjectID) + ": " + (ServerStatusEnum)server.Status);
+                        break;
+                }
                 break;
             }
         }
