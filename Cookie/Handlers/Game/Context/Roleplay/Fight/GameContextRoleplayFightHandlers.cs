@@ -34,7 +34,7 @@ namespace Cookie.Handlers.Game.Context.Roleplay.Fight
         {
             client.Logger.Log($"Le joueur id: {message.SourceId} vous défi.", LogMessageType.Info);
             Thread.Sleep(1500);
-            client.Send(new GameRolePlayPlayerFightFriendlyAnswerMessage(message.FightId, false));
+            client.Send(new GameRolePlayPlayerFightFriendlyAnswerMessage(message.FightId, true));
         }
         [MessageHandler(GameRolePlayPlayerFightRequestMessage.ProtocolId)]
         private void GameRolePlayPlayerFightRequestMessageHandler(DofusClient client, GameRolePlayPlayerFightRequestMessage message)
