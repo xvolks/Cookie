@@ -12,8 +12,8 @@ namespace Cookie.Gamedata
     {
         public static Point GetMapCoordinates(int mapId)
         {
-            var test = ObjectDataManager.Instance.Get<MapPosition>(mapId);
-            return new Point(test.PosX, test.PosY);
+            var value = ObjectDataManager.Instance.Get<MapPosition>(mapId);
+            return new Point(value.PosX, value.PosY);
         }
 
         public static string GetChallengeName(int Id)
