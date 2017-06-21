@@ -67,18 +67,20 @@ namespace Cookie.Game.Map
             {
                 var randomCellId = list[Randomize.GetRandomNumber(0, list.Count)];
                 _mapId = neighbourId;
-                if (MoveToCell(randomCellId))
+                if (MoveToCell(randomCellId, true))
                     return true;
                 list.Remove(randomCellId);
             }
             return false;
         }
 
-        public bool MoveToCell(int cellid, bool gathering = false)
+        public bool MoveToCell(int cellid, bool changemap = false)
         {
+            var pathFinder = new Pathfinder();
+            pathFinder.SetMap(_client.Account.Character.MapData, true);
             var timePath =
-                _client.Account.Character.Pathfinder.GetPath((short)_client.Account.Character.CellId, (short)cellid);
-            var path = _client.Account.Character.Pathfinder.GetCompressedPath(timePath);
+                pathFinder.GetPath((short)_client.Account.Character.CellId, (short)cellid);
+            var path = pathFinder.GetCompressedPath(timePath);
             if (path == null || timePath == null)
                 return false;
 
@@ -88,15 +90,17 @@ namespace Cookie.Game.Map
             {
                 _moving = false;
                 _client.Account.Character.Status = CharacterStatus.None;
-                ConfirmMove(gathering);
+                ConfirmMove(changemap);
+                pathFinder = null;
                 return true;
             }
 
             var msg = new GameMapMovementRequestMessage(path.ToList(), _client.Account.Character.MapId);
             _client.Send(msg);
-            ConfirmMove(gathering);
+            ConfirmMove(changemap);
             _client.Account.Character.Status = CharacterStatus.Moving;
             _moving = true;
+            pathFinder = null;
             return true;
         }
 
@@ -109,20 +113,23 @@ namespace Cookie.Game.Map
             Task.Factory.StartNew(CheckMapChange);
         }
 
-        public void ConfirmMove(bool gathering = false)
+        public void ConfirmMove(bool changemap = false)
         {
             Thread.Sleep(_time);
             _client.Send(new GameMapMovementConfirmMessage());
             _moving = false;
-            if (gathering)
+            if (!changemap)
+            {
+                _client.Account.Character.Status = CharacterStatus.None;
                 return;
+            }
             if (_mapId != -1)
                 LaunchChangeMap(_mapId);
         }
 
         public void UseElement(int id, int skillId)
         {
-            Thread.Sleep(500);
+            Thread.Sleep(200);
             var msg = new InteractiveUseRequestMessage((uint)id, (uint)skillId);
             _client.Send(msg);
             _client.Logger.Log($"Récole ressource id {id}", LogMessageType.Info);
@@ -132,7 +139,7 @@ namespace Cookie.Game.Map
         {
             var old = _client.Account.Character.MapId;
             _client.Logger.Log($"[Map] Old {old}");
-            Thread.Sleep(1000);
+            Thread.Sleep(500);
             _client.Logger.Log($"[Map] New {_client.Account.Character.MapId}");
             if (old == _client.Account.Character.MapId)
                 LaunchChangeMap(old);

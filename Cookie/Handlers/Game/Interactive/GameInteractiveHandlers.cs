@@ -40,6 +40,7 @@ namespace Cookie.Handlers.Game.Interactive
         private void InteractiveUseErrorMessageHandler(DofusClient client, InteractiveUseErrorMessage message)
         {
             client.Logger.Log($"Erreur sur {message.ElemId} skill {message.SkillInstanceUid}");
+            client.Account.Character.Status = CharacterStatus.None;
         }
     }
 }

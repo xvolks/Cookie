@@ -1,6 +1,7 @@
 ﻿using Cookie.Core;
 using Cookie.Protocol.Network.Messages.Game.Context;
 using System.Linq;
+using Cookie.Utils.Enums;
 
 namespace Cookie.Handlers.Game.Context
 {
@@ -51,6 +52,7 @@ namespace Cookie.Handlers.Game.Context
         private void GameMapNoMovementMessageHandler(DofusClient client, GameMapNoMovementMessage message)
         {
             client.Logger.Log("Erreur lors du déplacement sur cellX : "+message.CellX + "cellY : "+ message.CellY);
+            client.Account.Character.Status = CharacterStatus.None;
         }
         [MessageHandler(GameEntitiesDispositionMessage.ProtocolId)]
         private void GameEntitiesDispositionMessageHandler(DofusClient client, GameEntitiesDispositionMessage message)
