@@ -136,6 +136,8 @@ namespace Cookie.Game.Map
             _client.Logger.Log($"[Map] New {_client.Account.Character.MapId}");
             if (old == _client.Account.Character.MapId)
                 LaunchChangeMap(old);
+            else
+                _client.Account.Character.Status = CharacterStatus.None;
         }
     }
 }
