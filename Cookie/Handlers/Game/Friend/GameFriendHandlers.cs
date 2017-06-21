@@ -56,9 +56,14 @@ namespace Cookie.Handlers.Game.Friend
         }
 
         [MessageHandler(SpouseStatusMessage.ProtocolId)]
-        private void SpouseStatusMessageMessageHandler(DofusClient Client, SpouseStatusMessage Message)
+        private void SpouseStatusMessageHandler(DofusClient Client, SpouseStatusMessage Message)
         {
             //
+        }
+        [MessageHandler(FriendDeleteResultMessage.ProtocolId)]
+        private void FriendDeleteResultMessageHandler(DofusClient client, FriendDeleteResultMessage message)
+        {
+            client.Logger.Log($"Vous venez de supprimer {message.Name} de votre liste d'ami ", LogMessageType.Info);
         }
     }
 }
