@@ -76,9 +76,11 @@ namespace Cookie.Game.Map
 
         public bool MoveToCell(int cellid, bool gathering = false)
         {
+            var pathFinder = new Pathfinder();
+            pathFinder.SetMap(_client.Account.Character.MapData, true);
             var timePath =
-                _client.Account.Character.Pathfinder.GetPath((short)_client.Account.Character.CellId, (short)cellid);
-            var path = _client.Account.Character.Pathfinder.GetCompressedPath(timePath);
+                pathFinder.GetPath((short)_client.Account.Character.CellId, (short)cellid);
+            var path = pathFinder.GetCompressedPath(timePath);
             if (path == null || timePath == null)
                 return false;
 
@@ -89,6 +91,7 @@ namespace Cookie.Game.Map
                 _moving = false;
                 _client.Account.Character.Status = CharacterStatus.None;
                 ConfirmMove(gathering);
+                pathFinder = null;
                 return true;
             }
 
@@ -97,6 +100,7 @@ namespace Cookie.Game.Map
             ConfirmMove(gathering);
             _client.Account.Character.Status = CharacterStatus.Moving;
             _moving = true;
+            pathFinder = null;
             return true;
         }
 
@@ -122,7 +126,7 @@ namespace Cookie.Game.Map
 
         public void UseElement(int id, int skillId)
         {
-            Thread.Sleep(500);
+            Thread.Sleep(200);
             var msg = new InteractiveUseRequestMessage((uint)id, (uint)skillId);
             _client.Send(msg);
             _client.Logger.Log($"Récole ressource id {id}", LogMessageType.Info);

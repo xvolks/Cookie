@@ -36,11 +36,11 @@ namespace Cookie.Handlers.Game.Context.Roleplay
 
             client.Account.Character.MapId = message.MapId;
             client.Account.Character.MapData.Clear();
+            client.Account.Character.GatherManager.BannedElementId.Clear();
             client.Account.Character.MapData.ParseLocation(message.MapId);
             client.Account.Character.MapData.ParseActors(message.Actors.ToArray());
             client.Account.Character.MapData.ParseInteractiveElement(message.InteractiveElements.ToArray());
             client.Account.Character.MapData.ParseStatedElement(message.StatedElements.ToArray());
-            client.Account.Character.Pathfinder.SetMap(client.Account.Character.MapData, true);
 
             
         }

@@ -23,11 +23,9 @@ namespace Cookie.Core
             Status = CharacterStatus.Disconnected;
             MapData = new MapData();
             Map = new Map(Client);
-            Pathfinder = new Pathfinder();
             GatherManager = new GatherManager(Client);
         }
         public DofusClient Client { get; set; }
-        public Pathfinder Pathfinder { get; set; }
         public GatherManager GatherManager { get; set; }
 
     public CharacterStatus Status { get; set; }
