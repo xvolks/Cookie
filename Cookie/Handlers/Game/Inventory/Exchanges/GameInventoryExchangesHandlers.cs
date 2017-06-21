@@ -62,6 +62,11 @@ namespace Cookie.Handlers.Game.Inventory.Exchanges
                     : $"Vous avez ajouté {D2OParsing.GetItemName(message.Object.ObjectGID)} x{message.Object.Quantity} à l'échange",
                 LogMessageType.Info);
         }
-        
+        [MessageHandler(ExchangeIsReadyMessage.ProtocolId)]
+        private void ExchangeIsReadyMessageHandler(DofusClient client, ExchangeIsReadyMessage message)
+        {          
+            if (message.Ready)
+                client.Logger.Log("Le joueur a accepté son échange",LogMessageType.Info);
+        }
     }
 }
