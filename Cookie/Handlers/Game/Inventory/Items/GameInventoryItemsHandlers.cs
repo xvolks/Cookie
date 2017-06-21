@@ -11,6 +11,113 @@ namespace Cookie.Handlers.Game.Inventory.Items
 {
     public class GameInventoryItemsHandlers
     {
+        [MessageHandler(ExchangeMultiCraftCrafterCanUseHisRessourcesMessage.ProtocolId)]
+        private void ExchangeMultiCraftCrafterCanUseHisRessourcesMessageHandler(DofusClient client, ExchangeMultiCraftCrafterCanUseHisRessourcesMessage message)
+        {
+            //
+        }
+        [MessageHandler(ExchangeObjectModifiedInBagMessage.ProtocolId)]
+        private void ExchangeObjectModifiedInBagMessageHandler(DofusClient client, ExchangeObjectModifiedInBagMessage message)
+        {
+            //
+        }
+        [MessageHandler(ExchangeObjectPutInBagMessage.ProtocolId)]
+        private void ExchangeObjectPutInBagMessageHandler(DofusClient client, ExchangeObjectPutInBagMessage message)
+        {
+            //
+        }
+        [MessageHandler(ExchangeObjectRemovedFromBagMessage.ProtocolId)]
+        private void ExchangeObjectRemovedFromBagMessageHandler(DofusClient client, ExchangeObjectRemovedFromBagMessage message)
+        {
+            //
+        }
+        [MessageHandler(ExchangeObjectsModifiedMessage.ProtocolId)]
+        private void ExchangeObjectsModifiedMessageHandler(DofusClient client, ExchangeObjectsModifiedMessage message)
+        {
+            //
+        }
+        [MessageHandler(ExchangeObjectsRemovedMessage.ProtocolId)]
+        private void ExchangeObjectsRemovedMessageHandler(DofusClient client, ExchangeObjectsRemovedMessage message)
+        {
+            //
+        }
+        [MessageHandler(ExchangePodsModifiedMessage.ProtocolId)]
+        private void ExchangePodsModifiedMessageHandler(DofusClient client, ExchangePodsModifiedMessage message)
+        {
+            client.Account.Character.MaxWeight = message.MaxWeight;
+            client.Account.Character.Weight = message.CurrentWeight;
+        }
+        [MessageHandler(LivingObjectMessageMessage.ProtocolId)]
+        private void LivingObjectMessageMessageHandler(DofusClient client, LivingObjectMessageMessage message)
+        {
+            //
+        }
+        [MessageHandler(MimicryObjectAssociatedMessage.ProtocolId)]
+        private void MimicryObjectAssociatedMessageHandler(DofusClient client, MimicryObjectAssociatedMessage message)
+        {
+            //
+        }
+        [MessageHandler(MimicryObjectErrorMessage.ProtocolId)]
+        private void MimicryObjectErrorMessageHandler(DofusClient client, MimicryObjectErrorMessage message)
+        {
+            //
+        }
+        [MessageHandler(MimicryObjectPreviewMessage.ProtocolId)]
+        private void MimicryObjectPreviewMessageHandler(DofusClient client, MimicryObjectPreviewMessage message)
+        {
+            //
+        }
+        [MessageHandler(ObjectErrorMessage.ProtocolId)]
+        private void ObjectErrorMessageHandler(DofusClient client, ObjectErrorMessage message)
+        {
+            //
+        }
+        [MessageHandler(ObjectJobAddedMessage.ProtocolId)]
+        private void ObjectJobAddedMessageHandler(DofusClient client, ObjectJobAddedMessage message)
+        {
+            //
+        }
+        [MessageHandler(ObjectMovementMessage.ProtocolId)]
+        private void ObjectMovementMessageHandler(DofusClient client, ObjectMovementMessage message)
+        {
+            //
+        }
+        [MessageHandler(ObjectsQuantityMessage.ProtocolId)]
+        private void ObjectsQuantityMessageHandler(DofusClient client, ObjectsQuantityMessage message)
+        {
+            //
+        }
+        [MessageHandler(ObjectUseMessage.ProtocolId)]
+        private void ObjectUseMessageHandler(DofusClient client, ObjectUseMessage message)
+        {
+            client.Logger.Log(
+                $"Tu as utilisé : {I18nDataManager.Instance.ReadText(ObjectDataManager.Instance.Get<Item>(message.ObjectUID).NameId)}");
+        }
+        [MessageHandler(ObtainedItemWithBonusMessage.ProtocolId)]
+        private void ObtainedItemWithBonusMessageHandler(DofusClient client, ObtainedItemWithBonusMessage message)
+        {
+            //
+        }
+        [MessageHandler(SymbioticObjectAssociatedMessage.ProtocolId)]
+        private void SymbioticObjectAssociatedMessageHandler(DofusClient client, SymbioticObjectAssociatedMessage message)
+        {
+            //
+        }
+        [MessageHandler(SymbioticObjectErrorMessage.ProtocolId)]
+        private void SymbioticObjectErrorMessageHandler(DofusClient client, SymbioticObjectErrorMessage message)
+        {
+            //
+        }
+        [MessageHandler(WrapperObjectAssociatedMessage.ProtocolId)]
+        private void WrapperObjectAssociatedMessageHandler(DofusClient client, WrapperObjectAssociatedMessage message)
+        {
+            //
+        }
+        [MessageHandler(WrapperObjectErrorMessage.ProtocolId)]
+        private void WrapperObjectErrorMessageHandler(DofusClient client, WrapperObjectErrorMessage message)
+        {
+            //
+        }
         [MessageHandler(InventoryContentAndPresetMessage.ProtocolId)]
         private void InventoryContentAndPresetMessageHandler(DofusClient client, InventoryContentAndPresetMessage message)
         {
