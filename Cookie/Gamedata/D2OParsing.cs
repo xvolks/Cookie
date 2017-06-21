@@ -10,6 +10,12 @@ namespace Cookie.Gamedata
 {
     public class D2OParsing
     {
+        public static Point GetMapCoordinates(int mapId)
+        {
+            var test = ObjectDataManager.Instance.Get<MapPosition>(mapId);
+            return new Point(test.PosX, test.PosY);
+        }
+
         public static string GetChallengeName(int Id)
         {
             var objectValue = RuntimeHelpers.GetObjectValue(ObjectDataManager.Instance.Get<Challenge>(Id).NameId);
