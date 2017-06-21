@@ -8,6 +8,7 @@ using Cookie.Game.World.Pathfinding;
 using Cookie.Protocol.Network.Messages.Game.Context;
 using Cookie.Protocol.Network.Messages.Game.Context.Roleplay;
 using Cookie.Protocol.Network.Messages.Game.Interactive;
+using Cookie.Utils;
 using Cookie.Utils.Enums;
 
 namespace Cookie.Game.Map
@@ -64,7 +65,7 @@ namespace Cookie.Game.Map
             }
             while (list.Count > 0)
             {
-                var randomCellId = list[RandomCell(0, list.Count)];
+                var randomCellId = list[Randomize.GetRandomNumber(0, list.Count)];
                 _mapId = neighbourId;
                 if (MoveToCell(randomCellId))
                     return true;
@@ -136,9 +137,5 @@ namespace Cookie.Game.Map
             if (old == _client.Account.Character.MapId)
                 LaunchChangeMap(old);
         }
-
-        private static int RandomCell(int min, int max) => min <= max
-            ? new Random().Next(min, max)
-            : new Random().Next(max, min);
     }
 }

@@ -2,6 +2,7 @@
 using Cookie.Core;
 using Cookie.Protocol.Network.Messages.Game.Context;
 using Cookie.Protocol.Network.Messages.Game.Context.Roleplay.Fight;
+using Cookie.Utils;
 
 namespace Cookie.Handlers.Game.Context.Roleplay.Fight
 {
@@ -26,15 +27,14 @@ namespace Cookie.Handlers.Game.Context.Roleplay.Fight
         private void GameRolePlayPlayerFightFriendlyAnsweredMessageHandler(DofusClient client, GameRolePlayPlayerFightFriendlyAnsweredMessage message)
         {
             if (!message.Accept)
-                client.Logger.Log($"Le joueur a annulé le défi.", LogMessageType.Info);
+                client.Logger.Log("Le joueur a annulé le défi.", LogMessageType.Info);
         }
        
         [MessageHandler(GameRolePlayPlayerFightFriendlyRequestedMessage.ProtocolId)]
         private void GameRolePlayPlayerFightFriendlyRequestedMessageHandler(DofusClient client, GameRolePlayPlayerFightFriendlyRequestedMessage message)
         {
             client.Logger.Log($"Le joueur id: {message.SourceId} vous défi.", LogMessageType.Info);
-            Thread.Sleep(1500);
-            client.Send(new GameRolePlayPlayerFightFriendlyAnswerMessage(message.FightId, false));
+            Randomize.RunBetween(() => client.Send(new GameRolePlayPlayerFightFriendlyAnswerMessage(message.FightId, false)), 1000, 2000);
         }
         [MessageHandler(GameRolePlayPlayerFightRequestMessage.ProtocolId)]
         private void GameRolePlayPlayerFightRequestMessageHandler(DofusClient client, GameRolePlayPlayerFightRequestMessage message)

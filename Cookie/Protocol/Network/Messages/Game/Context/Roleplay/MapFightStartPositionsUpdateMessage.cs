@@ -22,14 +22,8 @@ namespace Cookie.Protocol.Network.Messages.Game.Context.Roleplay
         
         public const uint ProtocolId = 6716;
         
-        public override uint MessageID
-        {
-            get
-            {
-                return ProtocolId;
-            }
-        }
-        
+        public override uint MessageID => ProtocolId;
+
         private FightStartingPositions m_fightStartPositions;
         
         public virtual FightStartingPositions FightStartPositions
@@ -70,8 +64,8 @@ namespace Cookie.Protocol.Network.Messages.Game.Context.Roleplay
         
         public override void Serialize(ICustomDataOutput writer)
         {
-            m_fightStartPositions.Serialize(writer);
             writer.WriteInt(m_mapId);
+            m_fightStartPositions.Serialize(writer);
         }
         
         public override void Deserialize(ICustomDataInput reader)

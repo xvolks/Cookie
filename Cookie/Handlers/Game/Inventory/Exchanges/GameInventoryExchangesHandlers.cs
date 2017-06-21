@@ -1,7 +1,6 @@
 ﻿using Cookie.Core;
 using Cookie.Gamedata;
 using Cookie.Protocol.Network.Messages.Game.Inventory.Exchanges;
-using Cookie.Protocol.Network.Messages.Game.Inventory.Items;
 
 namespace Cookie.Handlers.Game.Inventory.Exchanges
 {
@@ -57,10 +56,11 @@ namespace Cookie.Handlers.Game.Inventory.Exchanges
         [MessageHandler(ExchangeObjectAddedMessage.ProtocolId)]
         private void ExchangeObjectAddedMessageHandler(DofusClient client, ExchangeObjectAddedMessage message)
         {
-            if(message.Remote)
-                client.Logger.Log($"L'échangeur a ajouté {D2OParsing.GetItemName(message.Object.ObjectGID)} x{message.Object.Quantity} à l'échange", LogMessageType.Info);
-            else
-                client.Logger.Log($"Vous avez ajouté {D2OParsing.GetItemName(message.Object.ObjectGID)} x{message.Object.Quantity} à l'échange", LogMessageType.Info);
+            client.Logger.Log(
+                message.Remote
+                    ? $"L'échangeur a ajouté {D2OParsing.GetItemName(message.Object.ObjectGID)} x{message.Object.Quantity} à l'échange"
+                    : $"Vous avez ajouté {D2OParsing.GetItemName(message.Object.ObjectGID)} x{message.Object.Quantity} à l'échange",
+                LogMessageType.Info);
         }
         
     }
