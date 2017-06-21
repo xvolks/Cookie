@@ -70,15 +70,15 @@ namespace Cookie.Protocol.Network.Messages.Game.Context.Roleplay.Job
         
         public override void Serialize(ICustomDataOutput writer)
         {
-            m_jobsDescription.Serialize(writer);
             writer.WriteSByte(m_newLevel);
+            m_jobsDescription.Serialize(writer);
         }
         
         public override void Deserialize(ICustomDataInput reader)
         {
+            m_newLevel = reader.ReadSByte();
             m_jobsDescription = new JobDescription();
             m_jobsDescription.Deserialize(reader);
-            m_newLevel = reader.ReadSByte();
         }
     }
 }
