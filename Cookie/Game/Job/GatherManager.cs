@@ -18,7 +18,6 @@ namespace Cookie.Game.Job
 
         public bool GoGather(int elemId)
         {
-            _client.Account.Character.IsGathering = true;
             _tempElement =
                 _client.Account.Character.MapData.InteractiveElements.Find(
                     e => e.ElementTypeId == elemId && e.EnabledSkills.Count > 0);
@@ -28,9 +27,9 @@ namespace Cookie.Game.Job
                 _client.Account.Character.MapData.StatedElements.Find(e => e.ElementId == _tempElement.ElementId && e.ElementState == 0);
             if (statedElement == null)
                 return false;
-            if (!_client.Account.Character.Map.MoveToCell(statedElement.ElementCellId - 1)) return false;
+            if (!_client.Account.Character.Map.MoveToCell(statedElement.ElementCellId - 1, true)) return false;
             _client.Account.Character.Status = CharacterStatus.Gathering;
-            Thread.Sleep(500);
+            Thread.Sleep(100);
             _client.Account.Character.Map.UseElement(_tempElement.ElementId, _tempElement.EnabledSkills[0].SkillInstanceUid);
             _tempElement = null;
             return true;

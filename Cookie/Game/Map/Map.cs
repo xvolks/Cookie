@@ -73,7 +73,7 @@ namespace Cookie.Game.Map
             return false;
         }
 
-        public bool MoveToCell(int cellid)
+        public bool MoveToCell(int cellid, bool gathering = false)
         {
             var timePath =
                 _client.Account.Character.Pathfinder.GetPath((short)_client.Account.Character.CellId, (short)cellid);
@@ -87,13 +87,13 @@ namespace Cookie.Game.Map
             {
                 _moving = false;
                 _client.Account.Character.Status = CharacterStatus.None;
-                ConfirmMove();
+                ConfirmMove(gathering);
                 return true;
             }
 
             var msg = new GameMapMovementRequestMessage(path.ToList(), _client.Account.Character.MapId);
             _client.Send(msg);
-            ConfirmMove();
+            ConfirmMove(gathering);
             _client.Account.Character.Status = CharacterStatus.Moving;
             _moving = true;
             return true;
@@ -108,12 +108,12 @@ namespace Cookie.Game.Map
             Task.Factory.StartNew(CheckMapChange);
         }
 
-        public void ConfirmMove()
+        public void ConfirmMove(bool gathering = false)
         {
             Thread.Sleep(_time);
             _client.Send(new GameMapMovementConfirmMessage());
             _moving = false;
-            if (_client.Account.Character.IsGathering)
+            if (gathering)
                 return;
             if (_mapId != -1)
                 LaunchChangeMap(_mapId);
@@ -121,7 +121,7 @@ namespace Cookie.Game.Map
 
         public void UseElement(int id, int skillId)
         {
-            Thread.Sleep(1000);
+            Thread.Sleep(500);
             var msg = new InteractiveUseRequestMessage((uint)id, (uint)skillId);
             _client.Send(msg);
             _client.Logger.Log($"Récole ressource id {id}", LogMessageType.Info);

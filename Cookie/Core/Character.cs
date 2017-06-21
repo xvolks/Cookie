@@ -29,7 +29,6 @@ namespace Cookie.Core
         public DofusClient Client { get; set; }
         public Pathfinder Pathfinder { get; set; }
         public GatherManager GatherManager { get; set; }
-        public bool IsGathering { get; set; }
 
     public CharacterStatus Status { get; set; }
 
