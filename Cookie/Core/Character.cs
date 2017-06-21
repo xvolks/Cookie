@@ -3,6 +3,7 @@ using Cookie.Game.Job;
 using Cookie.Game.Map;
 using Cookie.Protocol.Network.Types.Game.Character.Characteristic;
 using Cookie.Protocol.Network.Types.Game.Character.Restriction;
+using Cookie.Protocol.Network.Types.Game.Context.Roleplay.Job;
 using Cookie.Protocol.Network.Types.Game.Data.Items;
 using Cookie.Protocol.Network.Types.Game.Look;
 using Cookie.Utils.Enums;
@@ -55,7 +56,7 @@ namespace Cookie.Core
 
         public List<ObjectItem> Inventory { get; set; }
         public List<SpellItem> Spells { get; set; }
-
+        public List<JobExperience> Jobs { get; set; }
         public string GetSkinUrl(string mode, int orientation, int width, int height, int zoom)
         {
             var look = Look;
