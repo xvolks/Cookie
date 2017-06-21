@@ -82,6 +82,7 @@
     <Compile Include="Handlers\Game\Chat\Smiley\GameChatSmileyHandlers.cs" />
     <Compile Include="Handlers\Game\Context\Display\GameContextDisplayHandlers.cs" />
     <Compile Include="Handlers\Game\Context\Dungeon\GameContextDungeonHandlers.cs" />
+    <Compile Include="Handlers\Game\Context\Fight\Character\GameContextFightCharacterHandlers.cs" />
     <Compile Include="Handlers\Game\Context\Fight\GameContextFightHandlers.cs" />
     <Compile Include="Handlers\Game\Context\GameContextHandlers.cs" />
     <Compile Include="Handlers\Game\Context\Mount\GameContextMountHandlers.cs" />

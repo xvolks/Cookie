@@ -102,6 +102,8 @@ namespace Cookie.Handlers.Connection
                 if (server.CharactersCount <= 0 || !server.IsSelectable) continue;
                 if ((ServerStatusEnum)server.Status == ServerStatusEnum.ONLINE)
                     client.Send(new ServerSelectionMessage(server.ObjectID));
+                else if(((ServerStatusEnum)server.Status == ServerStatusEnum.SAVING))
+                    client.Logger.Log(D2OParsing.GetServerName(server.ObjectID) + ": " + (ServerStatusEnum)server.Status);
                 else
                     client.Logger.Log(D2OParsing.GetServerName(server.ObjectID) + ": " + (ServerStatusEnum)server.Status);
                 break;

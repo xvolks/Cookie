@@ -56,6 +56,7 @@ using Cookie.Handlers.Game.Character.Creation;
 using Cookie.Handlers.Game.Character.Deletion;
 using Cookie.Handlers.Game.Character.Status;
 using Cookie.Handlers.Game.Context.Roleplay.Party;
+using Cookie.Handlers.Game.Context.Fight.Character;
 
 namespace Cookie.Core
 {
@@ -141,6 +142,7 @@ namespace Cookie.Core
             Register(typeof(GameCharacterDeletionHandlers));
             Register(typeof(GameCharacterStatusHandlers));
             Register(typeof(GameContextRoleplayPartyHandlers));
+            Register(typeof(GameContextFightCharacterHandlers));
         }
         #endregion
 
