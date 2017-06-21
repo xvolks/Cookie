@@ -4,8 +4,6 @@ namespace Cookie
 {
     public class MessageHandlerAttribute : Attribute
     {
-        public Type MessageType { get; private set; }
-        public uint MessageId { get; private set; }
         public MessageHandlerAttribute(Type type)
         {
             MessageType = type;
@@ -15,5 +13,8 @@ namespace Cookie
         {
             MessageId = id;
         }
+
+        public Type MessageType { get; }
+        public uint MessageId { get; }
     }
 }

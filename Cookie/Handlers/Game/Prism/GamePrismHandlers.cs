@@ -1,7 +1,5 @@
 ﻿using Cookie.Core;
-using Cookie.Protocol.Enums;
 using Cookie.Protocol.Network.Messages.Game.Prism;
-using Cookie.Utils.Extensions;
 
 namespace Cookie.Handlers.Game.Prism
 {

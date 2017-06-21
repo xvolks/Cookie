@@ -2,12 +2,11 @@
 
 namespace Cookie.Protocol.Network.Messages.Game.Approach
 {
-    class AuthenticationTicketRefusedMessage : NetworkMessage
+    internal class AuthenticationTicketRefusedMessage : NetworkMessage
     {
         public const uint ProtocolId = 112;
-        public override uint MessageID { get { return ProtocolId; } }
 
-        public AuthenticationTicketRefusedMessage() { }
+        public override uint MessageID => ProtocolId;
 
         public override void Serialize(ICustomDataOutput writer)
         {

@@ -4,30 +4,27 @@ namespace Cookie.Utils
 {
     public static class FlashKeyGenerator
     {
-
         public static string GetRandomFlashKey(string accountName)
         {
-            string str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            int seed = 0x2A;
-            int num3 = 0;
-            int length = accountName.Length;
+            var str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            var seed = 0x2A;
+            var num3 = 0;
+            var length = accountName.Length;
             while (num3 < length)
             {
-                char ch = accountName[num3];
-                seed = (seed + (Convert.ToInt32(ch) - 3));
+                var ch = accountName[num3];
+                seed = seed + (Convert.ToInt32(ch) - 3);
                 num3 += 1;
             }
-            System.Random random = new System.Random(seed);
-            string str3 = "";
-            int num2 = 1;
+            var random = new Random(seed);
+            var str3 = "";
+            var num2 = 1;
             do
             {
-                str3 = (str3 + Convert.ToString(str[random.Next(0, str.Length)]));
+                str3 = str3 + Convert.ToString(str[random.Next(0, str.Length)]);
                 num2 += 1;
-            }
-            while (num2 <= 0x15);
+            } while (num2 <= 0x15);
             return str3;
         }
-
     }
 }

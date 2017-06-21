@@ -10,7 +10,9 @@ namespace Cookie.Handlers.Server.Basic
         {
             if (message.MsgId == 13)
             {
-                client.Logger.Log("Le serveur est actuellement en maintenance. Vous pouvez consulter la rubrique Etats des serveurs du forum officiel, ou sur le site du Support pour plus d'informations. Merci de votre compréhension.", LogMessageType.Public);
+                client.Logger.Log(
+                    "Le serveur est actuellement en maintenance. Vous pouvez consulter la rubrique Etats des serveurs du forum officiel, ou sur le site du Support pour plus d'informations. Merci de votre compréhension.",
+                    LogMessageType.Public);
                 client.Socket.Close();
             }
         }

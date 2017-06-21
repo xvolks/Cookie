@@ -1,29 +1,17 @@
-﻿using Cookie.Datacenter;
+﻿using System;
+using System.Collections.Generic;
+using Cookie.Datacenter;
 using Cookie.Gamedata.D2o;
 using Cookie.Gamedata.D2p;
 using Cookie.Gamedata.I18n;
-using Cookie.Protocol.Network.Types.Game.Context.Roleplay;
-using System;
-using System.Collections.Generic;
 using Cookie.Protocol.Network.Messages.Game.Interactive;
+using Cookie.Protocol.Network.Types.Game.Context.Roleplay;
 using Cookie.Protocol.Network.Types.Game.Interactive;
 
 namespace Cookie.Game.Map
 {
     public class MapData
     {
-        public List<GameRolePlayCharacterInformations> Players { get; set; }
-
-        public List<GameRolePlayGroupMonsterInformations> Monsters { get; set; }
-
-        public List<GameRolePlayNpcInformations> Npcs { get; set; }
-
-        public List<GameRolePlayActorInformations> Others { get; set; }
-
-        public List<InteractiveElement> InteractiveElements { get; set; }
-
-        public List<StatedElement> StatedElements { get; set; }
-
         public Gamedata.D2p.Map Data;
 
         public MapData()
@@ -36,7 +24,22 @@ namespace Cookie.Game.Map
             StatedElements = new List<StatedElement>();
         }
 
-        public void ParseLocation(int mapId) => Data = MapsManager.FromId(mapId);
+        public List<GameRolePlayCharacterInformations> Players { get; set; }
+
+        public List<GameRolePlayGroupMonsterInformations> Monsters { get; set; }
+
+        public List<GameRolePlayNpcInformations> Npcs { get; set; }
+
+        public List<GameRolePlayActorInformations> Others { get; set; }
+
+        public List<InteractiveElement> InteractiveElements { get; set; }
+
+        public List<StatedElement> StatedElements { get; set; }
+
+        public void ParseLocation(int mapId)
+        {
+            Data = MapsManager.FromId(mapId);
+        }
 
         public void ParseActors(GameRolePlayActorInformations[] actors)
         {
@@ -110,7 +113,10 @@ namespace Cookie.Game.Map
             if (Players.Find(p => p.ContextualId == contextualId) != null)
             {
                 Players.Find(p => p.ContextualId == contextualId).Disposition.CellId = cellEnd;
-                Console.WriteLine($@"(Players) {Players.Find(p => p.ContextualId == contextualId).Name} se déplace sur la cellid -> {cellEnd}");
+                Console.WriteLine(
+                    $@"(Players) {
+                            Players.Find(p => p.ContextualId == contextualId).Name
+                        } se déplace sur la cellid -> {cellEnd}");
             }
             else if (Monsters.Find(p => p.ContextualId == contextualId) != null)
             {
@@ -128,25 +134,23 @@ namespace Cookie.Game.Map
                 Console.WriteLine($@"(Npcs) se déplace sur la cellid -> {cellEnd}");
             }
             else
+            {
                 Console.WriteLine($@"Quelque chose se déplace sur la cellid -> {cellEnd}");
+            }
         }
 
         public void ParseInteractiveElement(InteractiveElement[] elements)
         {
             foreach (var element in elements)
-            {
-                if(element.OnCurrentMap)
+                if (element.OnCurrentMap)
                     InteractiveElements.Add(element);
-            }
         }
 
         public void ParseStatedElement(StatedElement[] elements)
         {
             foreach (var element in elements)
-            {
-                if(element.OnCurrentMap)
+                if (element.OnCurrentMap)
                     StatedElements.Add(element);
-            }
         }
 
         public void UpdateInteractiveElement(InteractiveElementUpdatedMessage update)
@@ -165,9 +169,15 @@ namespace Cookie.Game.Map
             StatedElements.Add(update.StatedElement);
         }
 
-        public bool NoEntitiesOnCell(int cellId) => Monsters.Find(p => p.Disposition.CellId == cellId) == null;
+        public bool NoEntitiesOnCell(int cellId)
+        {
+            return Monsters.Find(p => p.Disposition.CellId == cellId) == null;
+        }
 
-        public bool NothingOnCell(int cellId) => Data.IsWalkable(cellId) && NoEntitiesOnCell(cellId);
+        public bool NothingOnCell(int cellId)
+        {
+            return Data.IsWalkable(cellId) && NoEntitiesOnCell(cellId);
+        }
 
         public void Clear()
         {

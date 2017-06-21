@@ -1,17 +1,17 @@
 ﻿using Cookie.IO;
 
-
 namespace Cookie.Protocol.Network.Messages.Secure
 {
-    class TrustStatusMessage : NetworkMessage
+    internal class TrustStatusMessage : NetworkMessage
     {
         public const uint ProtocolId = 6267;
-        public override uint MessageID { get { return ProtocolId; } }
-
-        public bool Trusted;
         public bool Certified;
 
-        public TrustStatusMessage() { }
+        public bool Trusted;
+
+        public TrustStatusMessage()
+        {
+        }
 
         public TrustStatusMessage(bool trusted, bool certified)
         {
@@ -19,9 +19,11 @@ namespace Cookie.Protocol.Network.Messages.Secure
             Certified = certified;
         }
 
+        public override uint MessageID => ProtocolId;
+
         public override void Serialize(ICustomDataOutput writer)
         {
-            byte flag = new byte();
+            var flag = new byte();
             BooleanByteWrapper.SetFlag(0, flag, Trusted);
             BooleanByteWrapper.SetFlag(1, flag, Certified);
             writer.WriteByte(flag);
@@ -29,7 +31,7 @@ namespace Cookie.Protocol.Network.Messages.Secure
 
         public override void Deserialize(ICustomDataInput reader)
         {
-            byte flag = reader.ReadByte();
+            var flag = reader.ReadByte();
             Trusted = BooleanByteWrapper.GetFlag(flag, 0);
             Certified = BooleanByteWrapper.GetFlag(flag, 1);
         }

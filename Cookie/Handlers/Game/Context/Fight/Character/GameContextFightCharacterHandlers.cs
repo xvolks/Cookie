@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Cookie.Core;
+﻿using Cookie.Core;
 using Cookie.Protocol.Network.Messages.Game.Context.Fight.Character;
 
 namespace Cookie.Handlers.Game.Context.Fight.Character

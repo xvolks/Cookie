@@ -1,15 +1,13 @@
+using Cookie.Gamedata.D2o;
+
 namespace Cookie.Datacenter
 {
-    using Cookie.Gamedata.D2o;
-    using System;
-
-
     [D2oClass("MountFamily")]
     public class MountFamily : IDataObject
     {
-        public const String MODULE = "MountFamily";
+        public const string MODULE = "MountFamily";
+        public string HeadUri;
         public uint Id;
         public uint NameId;
-        public string HeadUri;
     }
 }

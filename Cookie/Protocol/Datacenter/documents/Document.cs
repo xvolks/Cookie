@@ -1,8 +1,5 @@
-
-
 // Generated on 12/06/2016 11:35:50
-using System;
-using System.Collections.Generic;
+
 using Cookie.Gamedata.D2o;
 
 namespace Cookie.Datacenter
@@ -10,16 +7,16 @@ namespace Cookie.Datacenter
     [D2oClass("Documents")]
     public class Document : IDataObject
     {
-        private const String MODULE = "Documents";
-        public int Id;
-        public uint TypeId;
-        public Boolean ShowTitle;
-        public Boolean ShowBackgroundImage;
-        public uint TitleId;
+        private const string MODULE = "Documents";
         public uint AuthorId;
-        public uint SubTitleId;
+        public string ClientProperties;
+        public string ContentCSS;
         public uint ContentId;
-        public String ContentCSS;
-        public String ClientProperties;
+        public int Id;
+        public bool ShowBackgroundImage;
+        public bool ShowTitle;
+        public uint SubTitleId;
+        public uint TitleId;
+        public uint TypeId;
     }
 }

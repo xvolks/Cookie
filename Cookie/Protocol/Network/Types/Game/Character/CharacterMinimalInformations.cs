@@ -1,21 +1,23 @@
 ﻿using Cookie.IO;
-using System;
 
 namespace Cookie.Protocol.Network.Types.Game.Character
 {
     public class CharacterMinimalInformations : CharacterBasicMinimalInformations
     {
         public new const short ProtocolId = 110;
-        public override short TypeID { get { return ProtocolId; } }
 
-        public byte Level { get; set; }
-
-        public CharacterMinimalInformations() { }
+        public CharacterMinimalInformations()
+        {
+        }
 
         public CharacterMinimalInformations(byte level)
         {
             Level = level;
         }
+
+        public override short TypeID => ProtocolId;
+
+        public byte Level { get; set; }
 
         public override void Serialize(ICustomDataOutput writer)
         {

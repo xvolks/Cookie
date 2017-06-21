@@ -1,124 +1,149 @@
-﻿using Cookie.Core;
-using Cookie.Protocol.Network.Messages.Game.Inventory.Items;
-using Cookie.Utils.Extensions;
-using System.Linq;
+﻿using System.Linq;
+using Cookie.Core;
 using Cookie.Datacenter;
+using Cookie.Gamedata;
 using Cookie.Gamedata.D2o;
 using Cookie.Gamedata.I18n;
-using Cookie.Gamedata;
+using Cookie.Protocol.Network.Messages.Game.Inventory.Items;
 
 namespace Cookie.Handlers.Game.Inventory.Items
 {
     public class GameInventoryItemsHandlers
     {
         [MessageHandler(ExchangeMultiCraftCrafterCanUseHisRessourcesMessage.ProtocolId)]
-        private void ExchangeMultiCraftCrafterCanUseHisRessourcesMessageHandler(DofusClient client, ExchangeMultiCraftCrafterCanUseHisRessourcesMessage message)
+        private void ExchangeMultiCraftCrafterCanUseHisRessourcesMessageHandler(DofusClient client,
+            ExchangeMultiCraftCrafterCanUseHisRessourcesMessage message)
         {
             //
         }
+
         [MessageHandler(ExchangeObjectModifiedInBagMessage.ProtocolId)]
-        private void ExchangeObjectModifiedInBagMessageHandler(DofusClient client, ExchangeObjectModifiedInBagMessage message)
+        private void ExchangeObjectModifiedInBagMessageHandler(DofusClient client,
+            ExchangeObjectModifiedInBagMessage message)
         {
             //
         }
+
         [MessageHandler(ExchangeObjectPutInBagMessage.ProtocolId)]
         private void ExchangeObjectPutInBagMessageHandler(DofusClient client, ExchangeObjectPutInBagMessage message)
         {
             //
         }
+
         [MessageHandler(ExchangeObjectRemovedFromBagMessage.ProtocolId)]
-        private void ExchangeObjectRemovedFromBagMessageHandler(DofusClient client, ExchangeObjectRemovedFromBagMessage message)
+        private void ExchangeObjectRemovedFromBagMessageHandler(DofusClient client,
+            ExchangeObjectRemovedFromBagMessage message)
         {
             //
         }
+
         [MessageHandler(ExchangeObjectsModifiedMessage.ProtocolId)]
         private void ExchangeObjectsModifiedMessageHandler(DofusClient client, ExchangeObjectsModifiedMessage message)
         {
             //
         }
+
         [MessageHandler(ExchangeObjectsRemovedMessage.ProtocolId)]
         private void ExchangeObjectsRemovedMessageHandler(DofusClient client, ExchangeObjectsRemovedMessage message)
         {
             //
         }
+
         [MessageHandler(ExchangePodsModifiedMessage.ProtocolId)]
         private void ExchangePodsModifiedMessageHandler(DofusClient client, ExchangePodsModifiedMessage message)
         {
             client.Account.Character.MaxWeight = message.MaxWeight;
             client.Account.Character.Weight = message.CurrentWeight;
         }
+
         [MessageHandler(LivingObjectMessageMessage.ProtocolId)]
         private void LivingObjectMessageMessageHandler(DofusClient client, LivingObjectMessageMessage message)
         {
             //
         }
+
         [MessageHandler(MimicryObjectAssociatedMessage.ProtocolId)]
         private void MimicryObjectAssociatedMessageHandler(DofusClient client, MimicryObjectAssociatedMessage message)
         {
             //
         }
+
         [MessageHandler(MimicryObjectErrorMessage.ProtocolId)]
         private void MimicryObjectErrorMessageHandler(DofusClient client, MimicryObjectErrorMessage message)
         {
             //
         }
+
         [MessageHandler(MimicryObjectPreviewMessage.ProtocolId)]
         private void MimicryObjectPreviewMessageHandler(DofusClient client, MimicryObjectPreviewMessage message)
         {
             //
         }
+
         [MessageHandler(ObjectErrorMessage.ProtocolId)]
         private void ObjectErrorMessageHandler(DofusClient client, ObjectErrorMessage message)
         {
             //
         }
+
         [MessageHandler(ObjectJobAddedMessage.ProtocolId)]
         private void ObjectJobAddedMessageHandler(DofusClient client, ObjectJobAddedMessage message)
         {
             //
         }
+
         [MessageHandler(ObjectMovementMessage.ProtocolId)]
         private void ObjectMovementMessageHandler(DofusClient client, ObjectMovementMessage message)
         {
             //
         }
+
         [MessageHandler(ObjectsQuantityMessage.ProtocolId)]
         private void ObjectsQuantityMessageHandler(DofusClient client, ObjectsQuantityMessage message)
         {
             //
         }
+
         [MessageHandler(ObjectUseMessage.ProtocolId)]
         private void ObjectUseMessageHandler(DofusClient client, ObjectUseMessage message)
         {
             //
         }
+
         [MessageHandler(ObtainedItemWithBonusMessage.ProtocolId)]
         private void ObtainedItemWithBonusMessageHandler(DofusClient client, ObtainedItemWithBonusMessage message)
         {
             //
         }
+
         [MessageHandler(SymbioticObjectAssociatedMessage.ProtocolId)]
-        private void SymbioticObjectAssociatedMessageHandler(DofusClient client, SymbioticObjectAssociatedMessage message)
+        private void SymbioticObjectAssociatedMessageHandler(DofusClient client,
+            SymbioticObjectAssociatedMessage message)
         {
             //
         }
+
         [MessageHandler(SymbioticObjectErrorMessage.ProtocolId)]
         private void SymbioticObjectErrorMessageHandler(DofusClient client, SymbioticObjectErrorMessage message)
         {
             //
         }
+
         [MessageHandler(WrapperObjectAssociatedMessage.ProtocolId)]
         private void WrapperObjectAssociatedMessageHandler(DofusClient client, WrapperObjectAssociatedMessage message)
         {
             //
         }
+
         [MessageHandler(WrapperObjectErrorMessage.ProtocolId)]
         private void WrapperObjectErrorMessageHandler(DofusClient client, WrapperObjectErrorMessage message)
         {
             //
         }
+
         [MessageHandler(InventoryContentAndPresetMessage.ProtocolId)]
-        private void InventoryContentAndPresetMessageHandler(DofusClient client, InventoryContentAndPresetMessage message)
+        private void InventoryContentAndPresetMessageHandler(DofusClient client,
+            InventoryContentAndPresetMessage message)
         {
             client.Account.Character.Stats.Kamas = message.Kamas;
             client.Account.Character.Inventory = message.Objects;
@@ -137,7 +162,7 @@ namespace Cookie.Handlers.Game.Inventory.Items
             client.Account.Character.Weight = message.Weight;
             client.Account.Character.MaxWeight = message.WeightMax;
         }
-        
+
         [MessageHandler(SetUpdateMessage.ProtocolId)]
         private void SetUpdateMessageHandler(DofusClient client, SetUpdateMessage message)
         {
@@ -151,7 +176,6 @@ namespace Cookie.Handlers.Game.Inventory.Items
             {
                 if (Object.ObjectUID != message.Object.ObjectUID) return;
                 Object = message.Object;
-                return;
             });
         }
 
@@ -170,15 +194,17 @@ namespace Cookie.Handlers.Game.Inventory.Items
         [MessageHandler(ObjectDeletedMessage.ProtocolId)]
         private void ObjectDeletedMessageHandler(DofusClient client, ObjectDeletedMessage message)
         {
-            client.Account.Character.Inventory.Remove(client.Account.Character.Inventory.First(o => o.ObjectUID == message.ObjectUID));
+            client.Account.Character.Inventory.Remove(
+                client.Account.Character.Inventory.First(o => o.ObjectUID == message.ObjectUID));
         }
 
         [MessageHandler(ObjectsDeletedMessage.ProtocolId)]
         private void ObjectsDeletedMessageHandler(DofusClient client, ObjectsDeletedMessage message)
         {
-            message.ObjectUID.ForEach((o) =>
+            message.ObjectUID.ForEach(o =>
             {
-                client.Account.Character.Inventory.Remove(client.Account.Character.Inventory.First(item => item.ObjectUID == o));
+                client.Account.Character.Inventory.Remove(
+                    client.Account.Character.Inventory.First(item => item.ObjectUID == o));
             });
         }
 
@@ -194,35 +220,43 @@ namespace Cookie.Handlers.Game.Inventory.Items
             client.Logger.Log(
                 $"Tu as reçu : {I18nDataManager.Instance.ReadText(ObjectDataManager.Instance.Get<Item>(message.GenericId).NameId)} x {message.BaseQuantity}");
         }
+
         [MessageHandler(GoldAddedMessage.ProtocolId)]
         private void GoldAddedMessageHandler(DofusClient client, GoldAddedMessage message)
         {
             client.Logger.Log(
-                 $"Tu as reçu : {message.Gold}");
+                $"Tu as reçu : {message.Gold}");
         }
+
         [MessageHandler(ExchangeObjectRemovedMessage.ProtocolId)]
         private void ExchangeObjectRemovedMessageHandler(DofusClient client, ExchangeObjectRemovedMessage message)
         {
-            if(message.Remote)
+            if (message.Remote)
                 client.Logger.Log($"L'échangeur a retiré un item de l'échange", LogMessageType.Info);
             else
                 client.Logger.Log($"Vous avez retiré un item de l'échange", LogMessageType.Info);
         }
+
         [MessageHandler(ExchangeKamaModifiedMessage.ProtocolId)]
         private void ExchangeKamaModifiedMessageHandler(DofusClient client, ExchangeKamaModifiedMessage message)
         {
-            if(message.Remote)
+            if (message.Remote)
                 client.Logger.Log($"L'échangeur a ajouté {message.Quantity} kamas à l'échange", LogMessageType.Info);
             else
                 client.Logger.Log($"Vous avez ajouté {message.Quantity} kamas à l'échange", LogMessageType.Info);
         }
+
         [MessageHandler(ExchangeObjectModifiedMessage.ProtocolId)]
         private void ExchangeObjectModifiedMessageHandler(DofusClient client, ExchangeObjectModifiedMessage message)
         {
             if (message.Remote)
-                client.Logger.Log($"L'échangeur a modifié le nombre de {D2OParsing.GetItemName(message.Object.ObjectGID)} en x{message.Object.Quantity}", LogMessageType.Info);
+                client.Logger.Log(
+                    $"L'échangeur a modifié le nombre de {D2OParsing.GetItemName(message.Object.ObjectGID)} en x{message.Object.Quantity}",
+                    LogMessageType.Info);
             else
-                client.Logger.Log($"Vous avez modifié le nombre de {D2OParsing.GetItemName(message.Object.ObjectGID)} en x{message.Object.Quantity}", LogMessageType.Info);
+                client.Logger.Log(
+                    $"Vous avez modifié le nombre de {D2OParsing.GetItemName(message.Object.ObjectGID)} en x{message.Object.Quantity}",
+                    LogMessageType.Info);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿#region License GNU GPL
+
 // D2oWriter.cs
 // 
 // Copyright (C) 2012 - BehaviorIsManaged
@@ -12,65 +13,34 @@
 // See the GNU General Public License for more details. 
 // You should have received a copy of the GNU General Public License along with this program; 
 // if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+
 #endregion
-using Cookie.IO;
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Cookie.IO;
 
 namespace Cookie.Gamedata.D2o
 {
     public class D2oWriter : IDisposable
     {
-        public string BakFilename
-        {
-            get;
-            set;
-        }
-
-        public string Filename
-        {
-            get;
-            set;
-        }
-
-        private const int NullIdentifier = unchecked((int)0xAAAAAAAA);
+        private const int NullIdentifier = unchecked((int) 0xAAAAAAAA);
+        private Dictionary<Type, int> allocatedClassId = new Dictionary<Type, int>();
 
         private Dictionary<int, D2oClassDefinition> classes;
         private Dictionary<int, int> indexTable;
-        private Dictionary<Type, int> allocatedClassId = new Dictionary<Type, int>();
-        private Dictionary<int, object> objects = new Dictionary<int, object>();
-
-        private object writingSync = new object();
-        private bool writing;
         private bool needToBeSync;
+        private Dictionary<int, object> objects = new Dictionary<int, object>();
         private BigEndianWriter writer;
+        private bool writing;
+
+        private readonly object writingSync = new object();
 
         /// <summary>
-        /// Create and flush and empty D2o file
-        /// </summary>
-        /// <param name="path"></param>
-        public static void CreateEmptyFile(string path)
-        {
-            if (File.Exists(path))
-                throw new Exception("File already exists, delete before overwrite");
-
-            var writer = new BinaryWriter(File.OpenWrite(path));
-
-            writer.Write("D2o");
-            writer.Write((int)writer.BaseStream.Position + 4); // index table offset
-
-            writer.Write(0); // index table len
-            writer.Write(0); // class count
-
-            writer.Flush();
-            writer.Close();
-        }
-
-        /// <summary>
-        /// Create a new instance of D2oWriter
+        ///     Create a new instance of D2oWriter
         /// </summary>
         /// <param name="filename"></param>
         public D2oWriter(string filename)
@@ -81,6 +51,37 @@ namespace Cookie.Gamedata.D2o
                 CreateWrite(filename);
             else
                 OpenWrite();
+        }
+
+        public string BakFilename { get; set; }
+
+        public string Filename { get; set; }
+
+        public void Dispose()
+        {
+            if (writing)
+                EndWriting();
+        }
+
+        /// <summary>
+        ///     Create and flush and empty D2o file
+        /// </summary>
+        /// <param name="path"></param>
+        public static void CreateEmptyFile(string path)
+        {
+            if (File.Exists(path))
+                throw new Exception("File already exists, delete before overwrite");
+
+            var writer = new BinaryWriter(File.OpenWrite(path));
+
+            writer.Write("D2o");
+            writer.Write((int) writer.BaseStream.Position + 4); // index table offset
+
+            writer.Write(0); // index table len
+            writer.Write(0); // class count
+
+            writer.Flush();
+            writer.Close();
         }
 
         private void CreateWrite(string filename)
@@ -113,7 +114,7 @@ namespace Cookie.Gamedata.D2o
         }
 
         /// <summary>
-        /// Start editing of the D2o file
+        ///     Start editing of the D2o file
         /// </summary>
         /// <param name="backupFile"></param>
         public void StartWriting(bool backupFile = true)
@@ -131,14 +132,12 @@ namespace Cookie.Gamedata.D2o
             lock (writingSync)
             {
                 if (needToBeSync)
-                {
                     ResetMembersByReading();
-                }
             }
         }
 
         /// <summary>
-        /// Stop editing the D2o file, flush the file and dispose ressources
+        ///     Stop editing the D2o file, flush the file and dispose ressources
         /// </summary>
         public void EndWriting()
         {
@@ -154,11 +153,9 @@ namespace Cookie.Gamedata.D2o
                 foreach (var obj in objects)
                 {
                     if (!indexTable.ContainsKey(obj.Key))
-                        indexTable.Add(obj.Key, (int)writer.BaseStream.Position);
+                        indexTable.Add(obj.Key, (int) writer.BaseStream.Position);
                     else
-                    {
-                        indexTable[obj.Key] = (int)writer.BaseStream.Position;
-                    }
+                        indexTable[obj.Key] = (int) writer.BaseStream.Position;
 
                     WriteObject(obj.Value, obj.Value.GetType());
                 }
@@ -170,12 +167,6 @@ namespace Cookie.Gamedata.D2o
             }
         }
 
-        public void Dispose()
-        {
-            if (writing)
-                EndWriting();
-        }
-
 
         private void WriteHeader()
         {
@@ -185,7 +176,7 @@ namespace Cookie.Gamedata.D2o
 
         private void WriteIndexTable()
         {
-            int offset = (int)writer.BaseStream.Position;
+            var offset = (int) writer.BaseStream.Position;
 
             writer.Seek(3, SeekOrigin.Begin);
             writer.WriteInt(offset);
@@ -206,7 +197,7 @@ namespace Cookie.Gamedata.D2o
 
             foreach (var classDefinition in classes.Values)
             {
-                classDefinition.Offset = (int)writer.BaseStream.Position;
+                classDefinition.Offset = (int) writer.BaseStream.Position;
                 writer.WriteInt(classDefinition.Id);
 
                 writer.WriteUTF(classDefinition.Name);
@@ -216,14 +207,14 @@ namespace Cookie.Gamedata.D2o
 
                 foreach (var field in classDefinition.Fields.Values)
                 {
-                    field.Offset = (int)writer.BaseStream.Position;
+                    field.Offset = (int) writer.BaseStream.Position;
                     writer.WriteUTF(field.Name);
-                    writer.WriteInt((int)field.TypeId);
+                    writer.WriteInt((int) field.TypeId);
 
                     foreach (var vectorType in field.VectorTypes)
                     {
                         writer.WriteUTF(vectorType.Item2);
-                        writer.WriteInt((int)vectorType.Item1);
+                        writer.WriteInt((int) vectorType.Item1);
                     }
                 }
             }
@@ -270,7 +261,7 @@ namespace Cookie.Gamedata.D2o
 
         private int AllocateClassId(Type classType)
         {
-            int id = allocatedClassId.Count > 0 ? allocatedClassId.Values.Max() + 1 : 0;
+            var id = allocatedClassId.Count > 0 ? allocatedClassId.Values.Max() + 1 : 0;
             AllocateClassId(classType, id);
 
             return id;
@@ -283,38 +274,40 @@ namespace Cookie.Gamedata.D2o
 
         private void DefineClassDefinition(Type classType)
         {
-            if (classes.Count(entry => entry.Value.ClassType == ( classType )) > 0) // already define
+            if (classes.Count(entry => entry.Value.ClassType == classType) > 0) // already define
                 return;
 
             AllocateClassId(classType);
 
-            object[] attributes = classType.GetCustomAttributes(typeof(D2oClassAttribute), false);
+            var attributes = classType.GetCustomAttributes(typeof(D2oClassAttribute), false);
 
             if (attributes.Length != 1)
                 throw new Exception("The given class has no D2oClassAttribute attribute and cannot be wrote");
 
-            string package = ( (D2oClassAttribute)attributes[0] ).PackageName;
-            string name = !string.IsNullOrEmpty(((D2oClassAttribute) attributes[0]).Name)
-                              ? ((D2oClassAttribute) attributes[0]).Name
-                              : classType.Name;
+            var package = ((D2oClassAttribute) attributes[0]).PackageName;
+            var name = !string.IsNullOrEmpty(((D2oClassAttribute) attributes[0]).Name)
+                ? ((D2oClassAttribute) attributes[0]).Name
+                : classType.Name;
 
             // add fields
-            var fields = ( from field in classType.GetFields()
-                           let attribute = (D2oFieldAttribute)field.GetCustomAttributes(typeof(D2oFieldAttribute), false).SingleOrDefault()
-                           let fieldTypeId = GetIdByType(field.FieldType)
-                           let vectorTypes = GetVectorTypes(field.FieldType)
-                           let fieldName = attribute != null ? attribute.FieldName : field.Name
-                           where field.GetCustomAttributes(typeof(D2oIgnore), false).Count() <= 0
-                           select new D2oFieldDefinition(fieldName, fieldTypeId, field, -1, vectorTypes) );
+            var fields = from field in classType.GetFields()
+                let attribute = (D2oFieldAttribute) field.GetCustomAttributes(typeof(D2oFieldAttribute), false)
+                    .SingleOrDefault()
+                let fieldTypeId = GetIdByType(field.FieldType)
+                let vectorTypes = GetVectorTypes(field.FieldType)
+                let fieldName = attribute != null ? attribute.FieldName : field.Name
+                where field.GetCustomAttributes(typeof(D2oIgnore), false).Count() <= 0
+                select new D2oFieldDefinition(fieldName, fieldTypeId, field, -1, vectorTypes);
 
             // add properties
             fields.Concat(from property in classType.GetProperties()
-                          let attribute = (D2oFieldAttribute)property.GetCustomAttributes(typeof(D2oFieldAttribute), false).SingleOrDefault()
-                          let fieldTypeId = GetIdByType(property.PropertyType)
-                          let vectorTypes = GetVectorTypes(property.PropertyType)
-                          let fieldName = attribute != null ? attribute.FieldName : property.Name
-                          where property.GetCustomAttributes(typeof(D2oIgnore), false).Count() <= 0
-                          select new D2oFieldDefinition(fieldName, fieldTypeId, property, -1, vectorTypes));
+                let attribute = (D2oFieldAttribute) property.GetCustomAttributes(typeof(D2oFieldAttribute), false)
+                    .SingleOrDefault()
+                let fieldTypeId = GetIdByType(property.PropertyType)
+                let vectorTypes = GetVectorTypes(property.PropertyType)
+                let fieldName = attribute != null ? attribute.FieldName : property.Name
+                where property.GetCustomAttributes(typeof(D2oIgnore), false).Count() <= 0
+                select new D2oFieldDefinition(fieldName, fieldTypeId, property, -1, vectorTypes));
 
             classes.Add(allocatedClassId[classType],
                 new D2oClassDefinition(allocatedClassId[classType], name, package, classType, fields, -1));
@@ -325,9 +318,7 @@ namespace Cookie.Gamedata.D2o
         private void DefineAllocatedTypes()
         {
             foreach (var allocatedClass in allocatedClassId.Where(entry => !classes.ContainsKey(entry.Value)))
-            {
                 DefineClassDefinition(allocatedClass.Key);
-            }
         }
 
         private D2oFieldType GetIdByType(Type fieldType)
@@ -357,7 +348,7 @@ namespace Cookie.Gamedata.D2o
 
             classId = allocatedClassId[fieldType];
 
-            return (D2oFieldType)classId;
+            return (D2oFieldType) classId;
         }
 
         private Tuple<D2oFieldType, string>[] GetVectorTypes(Type vectorType)
@@ -366,8 +357,8 @@ namespace Cookie.Gamedata.D2o
 
             if (vectorType.IsGenericType)
             {
-                Type currentGenericType = vectorType;
-                Type[] genericArguments = currentGenericType.GetGenericArguments();
+                var currentGenericType = vectorType;
+                var genericArguments = currentGenericType.GetGenericArguments();
 
                 while (genericArguments.Length > 0)
                 {
@@ -392,7 +383,7 @@ namespace Cookie.Gamedata.D2o
 
             foreach (var field in @class.Fields)
             {
-                object fieldValue = field.Value.GetValue(obj);
+                var fieldValue = field.Value.GetValue(obj);
 
                 WriteField(writer, field.Value, fieldValue);
             }
@@ -403,7 +394,7 @@ namespace Cookie.Gamedata.D2o
             switch (field.TypeId)
             {
                 case D2oFieldType.Int:
-                    WriteFieldInt(writer, (int)obj);
+                    WriteFieldInt(writer, (int) obj);
                     break;
                 case D2oFieldType.Bool:
                     WriteFieldBool(writer, obj);
@@ -418,7 +409,7 @@ namespace Cookie.Gamedata.D2o
                     WriteFieldI18n(writer, obj);
                     break;
                 case D2oFieldType.UInt:
-                    WriteFieldUInt(writer, (uint)obj);
+                    WriteFieldUInt(writer, (uint) obj);
                     break;
                 case D2oFieldType.List:
                     WriteFieldVector(writer, field, obj, vectorDimension);
@@ -434,22 +425,23 @@ namespace Cookie.Gamedata.D2o
         {
             writer.WriteInt(list.Count);
 
-            for (int i = 0; i < list.Count; i++)
-            {
+            for (var i = 0; i < list.Count; i++)
                 WriteField(writer, field, field.VectorTypes[vectorDimension], ++vectorDimension);
-            }
         }
 
         private void WriteFieldObject(BigEndianWriter writer, object obj)
         {
             if (obj == null)
+            {
                 writer.WriteInt(NullIdentifier);
+            }
             else
             {
                 if (!allocatedClassId.ContainsKey(obj.GetType()))
-                    throw new Exception(string.Format("Unexpected object of type {0} (was not registered)", obj.GetType()));
+                    throw new Exception(string.Format("Unexpected object of type {0} (was not registered)",
+                        obj.GetType()));
 
-                int classid = allocatedClassId[obj.GetType()];
+                var classid = allocatedClassId[obj.GetType()];
                 writer.WriteInt(classid);
 
                 WriteObject(obj, obj.GetType());

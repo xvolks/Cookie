@@ -1,12 +1,11 @@
-﻿using Cookie.Game.Map;
-using Cookie.Game.World.Pathfinding;
+﻿using System.Collections.Generic;
+using Cookie.Game.Job;
+using Cookie.Game.Map;
 using Cookie.Protocol.Network.Types.Game.Character.Characteristic;
 using Cookie.Protocol.Network.Types.Game.Character.Restriction;
 using Cookie.Protocol.Network.Types.Game.Data.Items;
 using Cookie.Protocol.Network.Types.Game.Look;
 using Cookie.Utils.Enums;
-using System.Collections.Generic;
-using Cookie.Game.Job;
 
 namespace Cookie.Core
 {
@@ -25,10 +24,11 @@ namespace Cookie.Core
             Map = new Map(Client);
             GatherManager = new GatherManager(Client);
         }
+
         public DofusClient Client { get; set; }
         public GatherManager GatherManager { get; set; }
 
-    public CharacterStatus Status { get; set; }
+        public CharacterStatus Status { get; set; }
 
         public ulong Id { get; set; }
         public string Name { get; set; }
@@ -40,10 +40,10 @@ namespace Cookie.Core
         public MapData MapData { get; set; }
         public Map Map { get; set; }
 
-        public int LifePercentage => (int)(((double)Stats.LifePoints / (double)Stats.MaxLifePoints) * 100);
-        public int WeightPercentage => (int)(((double)Weight / (double)MaxWeight) * 100);
-        public int EnergyPercentage => (int)(((double)Stats.EnergyPoints / (double)Stats.MaxEnergyPoints) * 100);
-        public int XPPercentage => (int)(((double)Stats.Experience / (double)Stats.ExperienceNextLevelFloor) * 100);
+        public int LifePercentage => (int) (Stats.LifePoints / (double) Stats.MaxLifePoints * 100);
+        public int WeightPercentage => (int) (Weight / (double) MaxWeight * 100);
+        public int EnergyPercentage => (int) (Stats.EnergyPoints / (double) Stats.MaxEnergyPoints * 100);
+        public int XPPercentage => (int) (Stats.Experience / (double) Stats.ExperienceNextLevelFloor * 100);
 
         public int CellId { get; set; }
         public int MapId { get; set; }
@@ -111,13 +111,7 @@ namespace Cookie.Core
             {
                 var num2 = num5;
                 num5 = num2 + 1;
-                text = string.Concat(new object[]
-                {
-                        text,
-                        "c3",
-                        num5,
-                        "3d3"
-                });
+                text = string.Concat(text, "c3", num5, "3d3");
                 num4 = 0;
                 var array5 = current2.ToString().ToCharArray();
                 var array6 = array5;

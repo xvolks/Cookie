@@ -1,51 +1,51 @@
-﻿using Cookie.IO;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using Cookie.IO;
 
 namespace Cookie.Utils.Cryptography
 {
     public static class AES
     {
-        private static int _iterations;
-        private static int _keySize;
-        private static string _hash;
-        private static string _salt;
-        private static string _vector;
+        private static readonly int _iterations;
+        private static readonly int _keySize;
+        private static readonly string _hash;
+        private static readonly string _salt;
+        private static readonly string _vector;
         private static string gameTicket;
 
         static AES()
         {
-            AES._iterations = 2;
-            AES._keySize = 256;
-            AES._hash = "SHA1";
-            AES._salt = "astr7ias38490a98";
-            AES._vector = "8947az34zyl34kjq";
+            _iterations = 2;
+            _keySize = 256;
+            _hash = "SHA1";
+            _salt = "astr7ias38490a98";
+            _vector = "8947az34zyl34kjq";
         }
 
         public static string Encrypt(string value, string password)
         {
-            return AES.Encrypt<AesManaged>(value, password);
+            return Encrypt<AesManaged>(value, password);
         }
 
         public static string Encrypt<T>(string value, string password) where T : SymmetricAlgorithm, new()
         {
-            byte[] bytes1 = Encoding.ASCII.GetBytes(AES._vector);
-            byte[] bytes2 = Encoding.ASCII.GetBytes(AES._salt);
-            byte[] bytes3 = Encoding.UTF8.GetBytes(value);
-            T instance = Activator.CreateInstance<T>();
+            var bytes1 = Encoding.ASCII.GetBytes(_vector);
+            var bytes2 = Encoding.ASCII.GetBytes(_salt);
+            var bytes3 = Encoding.UTF8.GetBytes(value);
+            var instance = Activator.CreateInstance<T>();
             byte[] array;
             try
             {
-                byte[] bytes4 = new PasswordDeriveBytes(password, bytes2, AES._hash, AES._iterations).GetBytes(AES._keySize / 8);
+                var bytes4 = new PasswordDeriveBytes(password, bytes2, _hash, _iterations).GetBytes(_keySize / 8);
                 instance.Mode = CipherMode.CBC;
-                using (ICryptoTransform encryptor = instance.CreateEncryptor(bytes4, bytes1))
+                using (var encryptor = instance.CreateEncryptor(bytes4, bytes1))
                 {
-                    using (MemoryStream memoryStream = new MemoryStream())
+                    using (var memoryStream = new MemoryStream())
                     {
-                        using (CryptoStream cryptoStream = new CryptoStream((Stream)memoryStream, encryptor, CryptoStreamMode.Write))
+                        using (var cryptoStream = new CryptoStream(memoryStream, encryptor, CryptoStreamMode.Write))
                         {
                             cryptoStream.Write(bytes3, 0, bytes3.Length);
                             cryptoStream.FlushFinalBlock();
@@ -57,7 +57,7 @@ namespace Cookie.Utils.Cryptography
             }
             finally
             {
-                if ((object)instance != null)
+                if (instance != null)
                     instance.Dispose();
             }
             return Convert.ToBase64String(array);
@@ -65,30 +65,28 @@ namespace Cookie.Utils.Cryptography
 
         public static string Decrypt(string value, string password)
         {
-            return AES.Decrypt<AesManaged>(value, password);
+            return Decrypt<AesManaged>(value, password);
         }
 
         public static string DecodeWithAES(List<int> ticket)
         {
-            BigEndianReader dr = new BigEndianReader(new byte[32]);
-            AesManaged aesAlg = new AesManaged();
+            var dr = new BigEndianReader(new byte[32]);
+            var aesAlg = new AesManaged();
 
-            byte[] ticketbyte = new byte[ticket.Count];
-            for (int i = 0; i <= ticket.Count - 1; i++)
-            {
-                ticketbyte[i] = (byte)ticket[i];
-            }
+            var ticketbyte = new byte[ticket.Count];
+            for (var i = 0; i <= ticket.Count - 1; i++)
+                ticketbyte[i] = (byte) ticket[i];
 
             aesAlg.IV = dr.ReadBytes(16);
             aesAlg.Key = new byte[32];
             aesAlg.Padding = PaddingMode.None;
             aesAlg.Mode = CipherMode.CBC;
 
-            ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
+            var decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
 
-            MemoryStream msDecrypt = new MemoryStream(ticketbyte);
-            CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read);
-            StreamReader srDecrypt = new StreamReader(csDecrypt);
+            var msDecrypt = new MemoryStream(ticketbyte);
+            var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read);
+            var srDecrypt = new StreamReader(csDecrypt);
             return srDecrypt.ReadToEnd();
         }
 
@@ -96,21 +94,21 @@ namespace Cookie.Utils.Cryptography
         {
             try
             {
-                byte[] bytes1 = Encoding.ASCII.GetBytes(AES._vector);
-                byte[] bytes2 = Encoding.ASCII.GetBytes(AES._salt);
-                byte[] buffer = Convert.FromBase64String(value);
-                int count = 0;
-                T instance = Activator.CreateInstance<T>();
+                var bytes1 = Encoding.ASCII.GetBytes(_vector);
+                var bytes2 = Encoding.ASCII.GetBytes(_salt);
+                var buffer = Convert.FromBase64String(value);
+                var count = 0;
+                var instance = Activator.CreateInstance<T>();
                 byte[] numArray;
                 try
                 {
-                    byte[] bytes3 = new PasswordDeriveBytes(password, bytes2, AES._hash, AES._iterations).GetBytes(AES._keySize / 8);
+                    var bytes3 = new PasswordDeriveBytes(password, bytes2, _hash, _iterations).GetBytes(_keySize / 8);
                     instance.Mode = CipherMode.CBC;
-                    using (ICryptoTransform decryptor = instance.CreateDecryptor(bytes3, bytes1))
+                    using (var decryptor = instance.CreateDecryptor(bytes3, bytes1))
                     {
-                        using (MemoryStream memoryStream = new MemoryStream(buffer))
+                        using (var memoryStream = new MemoryStream(buffer))
                         {
-                            using (CryptoStream cryptoStream = new CryptoStream((Stream)memoryStream, decryptor, CryptoStreamMode.Read))
+                            using (var cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read))
                             {
                                 numArray = new byte[buffer.Length];
                                 count = cryptoStream.Read(numArray, 0, numArray.Length);
@@ -121,7 +119,7 @@ namespace Cookie.Utils.Cryptography
                 }
                 finally
                 {
-                    if ((object)instance != null)
+                    if (instance != null)
                         instance.Dispose();
                 }
                 return Encoding.UTF8.GetString(numArray, 0, count);
@@ -135,7 +133,7 @@ namespace Cookie.Utils.Cryptography
 
         public static string DecryptStringFromBytes(byte[] cipherText, byte[] Key, byte[] IV)
         {
-            using (Aes decryptor = Aes.Create())
+            using (var decryptor = Aes.Create())
             {
                 decryptor.Mode = CipherMode.CBC;
                 decryptor.Padding = PaddingMode.None;
@@ -143,15 +141,15 @@ namespace Cookie.Utils.Cryptography
                 decryptor.IV = IV;
 
 
-                using (MemoryStream ms = new MemoryStream())
+                using (var ms = new MemoryStream())
                 {
-                    using (CryptoStream cs = new CryptoStream(ms, decryptor.CreateDecryptor(), CryptoStreamMode.Write))
+                    using (var cs = new CryptoStream(ms, decryptor.CreateDecryptor(), CryptoStreamMode.Write))
                     {
                         cs.Write(cipherText, 0, cipherText.Length);
                         cs.Close();
                     }
 
-                    gameTicket = System.Text.Encoding.UTF8.GetString(ms.ToArray());
+                    gameTicket = Encoding.UTF8.GetString(ms.ToArray());
                     ms.Close();
                 }
             }

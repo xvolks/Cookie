@@ -25,7 +25,8 @@ namespace Cookie.Handlers.Game.Context.Roleplay
         }
 
         [MessageHandler(MapComplementaryInformationsDataMessage.ProtocolId)]
-        private void MapComplementaryInformationsDataMessageHandler(DofusClient client, MapComplementaryInformationsDataMessage message)
+        private void MapComplementaryInformationsDataMessageHandler(DofusClient client,
+            MapComplementaryInformationsDataMessage message)
         {
             foreach (var actor in message.Actors)
             {
@@ -41,13 +42,12 @@ namespace Cookie.Handlers.Game.Context.Roleplay
             client.Account.Character.MapData.ParseActors(message.Actors.ToArray());
             client.Account.Character.MapData.ParseInteractiveElement(message.InteractiveElements.ToArray());
             client.Account.Character.MapData.ParseStatedElement(message.StatedElements.ToArray());
-
-            
         }
+
         [MessageHandler(TeleportOnSameMapMessage.ProtocolId)]
         private void TeleportOnSameMapMessageHandler(DofusClient client, TeleportOnSameMapMessage message)
         {
-            client.Logger.Log($"Un joueur s'est téléporté sur la cellId : {message.CellId}.",LogMessageType.Info);
+            client.Logger.Log($"Un joueur s'est téléporté sur la cellId : {message.CellId}.", LogMessageType.Info);
         }
     }
 }

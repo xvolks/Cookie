@@ -1,14 +1,10 @@
-﻿using Cookie.Core;
-using System.Reflection;
+﻿using System.Reflection;
+using Cookie.Core;
 
 namespace Cookie
 {
     public class MethodHandler
     {
-        public MethodInfo Method { get; private set; }
-        public object Instance { get; private set; }
-        public MessageHandlerAttribute[] Attributes { get; private set; }
-
         public MethodHandler(MethodInfo method, object instance, MessageHandlerAttribute[] attributes)
         {
             Method = method;
@@ -16,9 +12,13 @@ namespace Cookie
             Attributes = attributes;
         }
 
+        public MethodInfo Method { get; }
+        public object Instance { get; }
+        public MessageHandlerAttribute[] Attributes { get; }
+
         public void Invoke(NetworkMessage message, DofusClient client)
         {
-            Method.Invoke(Instance, new object[] { client, message });
+            Method.Invoke(Instance, new object[] {client, message});
         }
     }
 }

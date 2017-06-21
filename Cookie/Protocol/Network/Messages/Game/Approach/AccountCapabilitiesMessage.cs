@@ -1,23 +1,24 @@
 ﻿using Cookie.IO;
 
-
 namespace Cookie.Protocol.Network.Messages.Game.Approach
 {
-    class AccountCapabilitiesMessage : NetworkMessage
+    internal class AccountCapabilitiesMessage : NetworkMessage
     {
         public const uint ProtocolId = 6216;
-        public override uint MessageID { get { return ProtocolId; } }
 
         public int AccountId;
-        public bool TutorialAvailable;
-        public uint BreedsVisible;
         public uint BreedsAvailable;
-        public byte Status;
+        public uint BreedsVisible;
         public bool CanCreateNewCharacter;
+        public byte Status;
+        public bool TutorialAvailable;
 
-        public AccountCapabilitiesMessage() { }
+        public AccountCapabilitiesMessage()
+        {
+        }
 
-        public AccountCapabilitiesMessage(int accountId, bool tutorialAvailable, uint breedsVisible, uint breedsAvailable, byte status, bool canCreateNewCharacter)
+        public AccountCapabilitiesMessage(int accountId, bool tutorialAvailable, uint breedsVisible,
+            uint breedsAvailable, byte status, bool canCreateNewCharacter)
         {
             AccountId = accountId;
             TutorialAvailable = tutorialAvailable;
@@ -27,9 +28,11 @@ namespace Cookie.Protocol.Network.Messages.Game.Approach
             CanCreateNewCharacter = canCreateNewCharacter;
         }
 
+        public override uint MessageID => ProtocolId;
+
         public override void Serialize(ICustomDataOutput writer)
         {
-            byte flag = new byte();
+            var flag = new byte();
             BooleanByteWrapper.SetFlag(0, flag, TutorialAvailable);
             BooleanByteWrapper.SetFlag(1, flag, CanCreateNewCharacter);
             writer.WriteByte(flag);
@@ -41,7 +44,7 @@ namespace Cookie.Protocol.Network.Messages.Game.Approach
 
         public override void Deserialize(ICustomDataInput reader)
         {
-            byte flag = reader.ReadByte();
+            var flag = reader.ReadByte();
             TutorialAvailable = BooleanByteWrapper.GetFlag(flag, 0);
             CanCreateNewCharacter = BooleanByteWrapper.GetFlag(flag, 1);
             AccountId = reader.ReadInt();

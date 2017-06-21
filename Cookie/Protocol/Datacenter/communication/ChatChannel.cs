@@ -1,18 +1,17 @@
 using Cookie.Gamedata.D2o;
-using System;
 
 namespace Cookie.Datacenter
 {
     [D2oClass("ChatChannels")]
     public class ChatChannel : IDataObject
     {
-        public const String MODULE = "ChatChannels";
-        public uint Id;
-        public uint NameId;
+        public const string MODULE = "ChatChannels";
+        public bool AllowObjects;
         public uint DescriptionId;
-        public String Shortcut;
-        public String ShortcutKey;
-        public Boolean IsPrivate;
-        public Boolean AllowObjects;
+        public uint Id;
+        public bool IsPrivate;
+        public uint NameId;
+        public string Shortcut;
+        public string ShortcutKey;
     }
 }

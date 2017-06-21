@@ -5,16 +5,19 @@ namespace Cookie.Protocol.Network.Messages.Game.Context.Roleplay
     public class MapInformationsRequestMessage : NetworkMessage
     {
         public const uint ProtocolId = 225;
-        public override uint MessageID { get { return ProtocolId; } }
 
-        public int MapId { get; set; }
-
-        public MapInformationsRequestMessage() { }
+        public MapInformationsRequestMessage()
+        {
+        }
 
         public MapInformationsRequestMessage(int mapId)
         {
             MapId = mapId;
         }
+
+        public override uint MessageID => ProtocolId;
+
+        public int MapId { get; set; }
 
         public override void Serialize(ICustomDataOutput writer)
         {

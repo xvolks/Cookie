@@ -1,7 +1,5 @@
-
-
 // Generated on 12/06/2016 11:35:51
-using System;
+
 using System.Collections.Generic;
 using Cookie.Gamedata.D2o;
 
@@ -14,11 +12,11 @@ namespace Cookie.Datacenter
         public const int AMBIENTTYPEAMBIENT = 2;
         public const int AMBIENTTYPEFIGHT = 3;
         public const int AMBIENTTYPEBOSS = 4;
-        public const String MODULE = "Playlists";
+        public const string MODULE = "Playlists";
         public int Id;
-        public int SilenceDuration;
         public int Iteration;
-        public int Type;
+        public int SilenceDuration;
         public List<PlaylistSound> Sounds;
+        public int Type;
     }
 }

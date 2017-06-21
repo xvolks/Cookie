@@ -12,7 +12,8 @@ namespace Cookie.Handlers.Game.Pvp
         }
 
         [MessageHandler(UpdateMapPlayersAgressableStatusMessage.ProtocolId)]
-        private void UpdateMapPlayersAgressableStatusMessageHandler(DofusClient client, UpdateMapPlayersAgressableStatusMessage message)
+        private void UpdateMapPlayersAgressableStatusMessageHandler(DofusClient client,
+            UpdateMapPlayersAgressableStatusMessage message)
         {
             //
         }

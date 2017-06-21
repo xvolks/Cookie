@@ -6,7 +6,8 @@ namespace Cookie.Handlers.Game.Chat.Community
     public class GameChatCommunityHandlers
     {
         [MessageHandler(ChatCommunityChannelCommunityMessage.ProtocolId)]
-        private void ChatCommunityChannelCommunityMessageHandler(DofusClient client, ChatCommunityChannelCommunityMessage message)
+        private void ChatCommunityChannelCommunityMessageHandler(DofusClient client,
+            ChatCommunityChannelCommunityMessage message)
         {
             //
         }

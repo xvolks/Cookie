@@ -11,11 +11,12 @@ namespace Cookie.Extensions
             {
                 if (socket.Connected)
                     return !(socket.Poll(1, SelectMode.SelectRead) && socket.Available == 0);
-                else
-                    return false;
+                return false;
             }
             catch (Exception)
-            { return false; }
+            {
+                return false;
+            }
         }
     }
 }

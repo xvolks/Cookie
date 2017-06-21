@@ -1,38 +1,48 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
+using System.Text;
 
 namespace Cookie.IO
 {
     public class LittleEndianWriter
     {
+        #region Private Methods
+
+        /// <summary>
+        ///     Reverse bytes and write them into the buffer
+        /// </summary>
+        private void WriteLittleEndianBytes(byte[] endianBytes)
+        {
+            m_writer.Write(endianBytes);
+        }
+
+        #endregion
+
+        #region Dispose
+
+        public void Dispose()
+        {
+            m_writer.Dispose();
+            m_writer = null;
+        }
+
+        #endregion
+
         #region Properties
 
         private BinaryWriter m_writer;
 
-        public Stream BaseStream
-        {
-            get { return m_writer.BaseStream; }
-        }
+        public Stream BaseStream => m_writer.BaseStream;
 
         /// <summary>
-        ///   Gets available bytes number in the buffer
+        ///     Gets available bytes number in the buffer
         /// </summary>
-        public long BytesAvailable
-        {
-            get { return m_writer.BaseStream.Length - m_writer.BaseStream.Position; }
-        }
+        public long BytesAvailable => m_writer.BaseStream.Length - m_writer.BaseStream.Position;
 
         public long Position
         {
-            get { return m_writer.BaseStream.Position; }
-            set
-            {
-                m_writer.BaseStream.Position = value;
-            }
+            get => m_writer.BaseStream.Position;
+            set => m_writer.BaseStream.Position = value;
         }
 
         public byte[] Data
@@ -43,7 +53,7 @@ namespace Cookie.IO
 
                 var data = new byte[m_writer.BaseStream.Length];
                 m_writer.BaseStream.Position = 0;
-                m_writer.BaseStream.Read(data, 0, (int)m_writer.BaseStream.Length);
+                m_writer.BaseStream.Read(data, 0, (int) m_writer.BaseStream.Length);
 
                 m_writer.BaseStream.Position = pos;
 
@@ -56,7 +66,7 @@ namespace Cookie.IO
         #region Initialisation
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LittleEndianWriter"/> class.
+        ///     Initializes a new instance of the <see cref="LittleEndianWriter" /> class.
         /// </summary>
         public LittleEndianWriter()
         {
@@ -64,7 +74,7 @@ namespace Cookie.IO
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LittleEndianWriter"/> class.
+        ///     Initializes a new instance of the <see cref="LittleEndianWriter" /> class.
         /// </summary>
         /// <param name="stream">The stream.</param>
         public LittleEndianWriter(Stream stream)
@@ -79,22 +89,10 @@ namespace Cookie.IO
 
         #endregion
 
-        #region Private Methods
-
-        /// <summary>
-        ///   Reverse bytes and write them into the buffer
-        /// </summary>
-        private void WriteLittleEndianBytes(byte[] endianBytes)
-        {
-            m_writer.Write(endianBytes);
-        }
-
-        #endregion
-
         #region Public Methods
 
         /// <summary>
-        ///   Write a Short into the buffer
+        ///     Write a Short into the buffer
         /// </summary>
         /// <returns></returns>
         public void WriteShort(short @short)
@@ -103,7 +101,7 @@ namespace Cookie.IO
         }
 
         /// <summary>
-        ///   Write a int into the buffer
+        ///     Write a int into the buffer
         /// </summary>
         /// <returns></returns>
         public void WriteInt(int @int)
@@ -112,16 +110,16 @@ namespace Cookie.IO
         }
 
         /// <summary>
-        ///   Write a long into the buffer
+        ///     Write a long into the buffer
         /// </summary>
         /// <returns></returns>
-        public void WriteLong(Int64 @long)
+        public void WriteLong(long @long)
         {
             WriteLittleEndianBytes(BitConverter.GetBytes(@long));
         }
 
         /// <summary>
-        ///   Write a UShort into the buffer
+        ///     Write a UShort into the buffer
         /// </summary>
         /// <returns></returns>
         public void WriteUShort(ushort @ushort)
@@ -130,25 +128,25 @@ namespace Cookie.IO
         }
 
         /// <summary>
-        ///   Write a int into the buffer
+        ///     Write a int into the buffer
         /// </summary>
         /// <returns></returns>
-        public void WriteUInt(UInt32 @uint)
+        public void WriteUInt(uint @uint)
         {
             WriteLittleEndianBytes(BitConverter.GetBytes(@uint));
         }
 
         /// <summary>
-        ///   Write a long into the buffer
+        ///     Write a long into the buffer
         /// </summary>
         /// <returns></returns>
-        public void WriteULong(UInt64 @ulong)
+        public void WriteULong(ulong @ulong)
         {
             WriteLittleEndianBytes(BitConverter.GetBytes(@ulong));
         }
 
         /// <summary>
-        ///   Write a byte into the buffer
+        ///     Write a byte into the buffer
         /// </summary>
         /// <returns></returns>
         public void WriteByte(byte @byte)
@@ -160,8 +158,9 @@ namespace Cookie.IO
         {
             m_writer.Write(@byte);
         }
+
         /// <summary>
-        ///   Write a Float into the buffer
+        ///     Write a Float into the buffer
         /// </summary>
         /// <returns></returns>
         public void WriteFloat(float @float)
@@ -170,55 +169,51 @@ namespace Cookie.IO
         }
 
         /// <summary>
-        ///   Write a Boolean into the buffer
+        ///     Write a Boolean into the buffer
         /// </summary>
         /// <returns></returns>
-        public void WriteBoolean(Boolean @bool)
+        public void WriteBoolean(bool @bool)
         {
             if (@bool)
-            {
-                m_writer.Write((byte)1);
-            }
+                m_writer.Write((byte) 1);
             else
-            {
-                m_writer.Write((byte)0);
-            }
+                m_writer.Write((byte) 0);
         }
 
         /// <summary>
-        ///   Write a Char into the buffer
+        ///     Write a Char into the buffer
         /// </summary>
         /// <returns></returns>
-        public void WriteChar(Char @char)
+        public void WriteChar(char @char)
         {
             WriteLittleEndianBytes(BitConverter.GetBytes(@char));
         }
 
         /// <summary>
-        ///   Write a Double into the buffer
+        ///     Write a Double into the buffer
         /// </summary>
-        public void WriteDouble(Double @double)
+        public void WriteDouble(double @double)
         {
             WriteLittleEndianBytes(BitConverter.GetBytes(@double));
         }
 
         /// <summary>
-        ///   Write a Single into the buffer
+        ///     Write a Single into the buffer
         /// </summary>
         /// <returns></returns>
-        public void WriteSingle(Single @single)
+        public void WriteSingle(float single)
         {
-            WriteLittleEndianBytes(BitConverter.GetBytes(@single));
+            WriteLittleEndianBytes(BitConverter.GetBytes(single));
         }
 
         /// <summary>
-        ///   Write a string into the buffer
+        ///     Write a string into the buffer
         /// </summary>
         /// <returns></returns>
         public void WriteUTF(string str)
         {
             var bytes = Encoding.UTF8.GetBytes(str);
-            var len = (ushort)bytes.Length;
+            var len = (ushort) bytes.Length;
             WriteUShort(len);
 
             int i;
@@ -227,7 +222,7 @@ namespace Cookie.IO
         }
 
         /// <summary>
-        ///   Write a string into the buffer
+        ///     Write a string into the buffer
         /// </summary>
         /// <returns></returns>
         public void WriteUTFBytes(string str)
@@ -240,7 +235,7 @@ namespace Cookie.IO
         }
 
         /// <summary>
-        ///   Write a bytes array into the buffer
+        ///     Write a bytes array into the buffer
         /// </summary>
         /// <returns></returns>
         public void WriteBytes(byte[] data)
@@ -249,7 +244,7 @@ namespace Cookie.IO
         }
 
         /// <summary>
-        ///   Write a bytes array into the buffer
+        ///     Write a bytes array into the buffer
         /// </summary>
         /// <returns></returns>
         public void WriteBytes(byte[] data, int offset, int length)
@@ -269,16 +264,6 @@ namespace Cookie.IO
         public void Clear()
         {
             m_writer = new BinaryWriter(new MemoryStream(), Encoding.UTF8);
-        }
-
-        #endregion
-
-        #region Dispose
-
-        public void Dispose()
-        {
-            m_writer.Dispose();
-            m_writer = null;
         }
 
         #endregion

@@ -1,20 +1,18 @@
-
-
 // Generated on 12/06/2016 11:35:49
+
+using System.Collections.Generic;
 using Cookie.Gamedata.D2o;
 using Cookie.GameData.D2O;
-using System;
-using System.Collections.Generic;
 
 namespace Cookie.Datacenter
 {
     [D2oClass("SkinPositions")]
     public class SkinPosition : IDataObject
     {
-        private const String MODULE = "SkinPositions";
+        private const string MODULE = "SkinPositions";
+        public List<string> Clip;
         public uint Id;
-        public List<TransformData> Transformation;
-        public List<String> Clip;
         public List<uint> Skin;
+        public List<TransformData> Transformation;
     }
 }

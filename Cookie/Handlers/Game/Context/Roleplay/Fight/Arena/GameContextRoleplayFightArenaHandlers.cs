@@ -6,12 +6,15 @@ namespace Cookie.Handlers.Game.Context.Roleplay.Fight.Arena
     public class GameContextRoleplayFightArenaHandlers
     {
         [MessageHandler(GameRolePlayArenaUpdatePlayerInfosAllQueuesMessage.ProtocolId)]
-        private void GameRolePlayArenaUpdatePlayerInfosAllQueuesMessageHandler(DofusClient client, GameRolePlayArenaUpdatePlayerInfosAllQueuesMessage message)
+        private void GameRolePlayArenaUpdatePlayerInfosAllQueuesMessageHandler(DofusClient client,
+            GameRolePlayArenaUpdatePlayerInfosAllQueuesMessage message)
         {
             //
         }
+
         [MessageHandler(GameRolePlayArenaSwitchToFightServerMessage.ProtocolId)]
-        private void GameRolePlayArenaSwitchToFightServerMessageHandler(DofusClient client, GameRolePlayArenaSwitchToFightServerMessage message)
+        private void GameRolePlayArenaSwitchToFightServerMessageHandler(DofusClient client,
+            GameRolePlayArenaSwitchToFightServerMessage message)
         {
             //
         }

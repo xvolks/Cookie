@@ -1,4 +1,5 @@
 ﻿#region License GNU GPL
+
 // I18NString.cs
 // 
 // Copyright (C) 2012 - BehaviorIsManaged
@@ -12,17 +13,21 @@
 // See the GNU General Public License for more details. 
 // You should have received a copy of the GNU General Public License along with this program; 
 // if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+
 #endregion
 
 using System.ComponentModel;
-using Cookie.Gamedata.I18n;
 
 namespace Cookie.Gamedata.I18n
 {
     internal class I18nString : INotifyPropertyChanged
     {
         private readonly I18nDataManager manager;
+
+        private Languages language;
         private bool shouldRefresh = true;
+
+        private string text;
 
         public I18nString(int id, I18nDataManager manager)
         {
@@ -37,52 +42,44 @@ namespace Cookie.Gamedata.I18n
         }
 
         /// <summary>
-        /// Used if IdString == null
+        ///     Used if IdString == null
         /// </summary>
-        public int Id
-        {
-            get;
-            set;
-        }
+        public int Id { get; set; }
 
         /// <summary>
-        /// If null, Id is used
+        ///     If null, Id is used
         /// </summary>
-        public string IdString
-        {
-            get;
-            set;
-        }
-
-        private string text;
+        public string IdString { get; set; }
 
         public string Text
         {
-            get {
+            get
+            {
                 if (shouldRefresh)
                     Refresh();
 
-                return text; }
-        }
-
-        private Languages language;
-
-        /// <summary>
-        /// Default if null
-        /// </summary>
-        public Languages Language
-        {
-            get { return language; }
-            set
-            {
-                if (language != value)
-                    Refresh();
-                language = value; 
+                return text;
             }
         }
 
         /// <summary>
-        /// Update the Text property
+        ///     Default if null
+        /// </summary>
+        public Languages Language
+        {
+            get => language;
+            set
+            {
+                if (language != value)
+                    Refresh();
+                language = value;
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        ///     Update the Text property
         /// </summary>
         public void Refresh()
         {
@@ -99,12 +96,10 @@ namespace Cookie.Gamedata.I18n
             return instance.Text;
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string propertyName)
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
-
     }
 }

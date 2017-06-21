@@ -1,4 +1,5 @@
 ﻿#region License GNU GPL
+
 // I18NDataManager.cs
 // 
 // Copyright (C) 2012 - BehaviorIsManaged
@@ -12,14 +13,15 @@
 // See the GNU General Public License for more details. 
 // You should have received a copy of the GNU General Public License along with this program; 
 // if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+
 #endregion
 
-using Cookie.Gamedata.D2i;
-using Cookie.Utils.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Cookie.Gamedata.D2i;
+using Cookie.Utils.Extensions;
 
 namespace Cookie.Gamedata.I18n
 {
@@ -27,9 +29,7 @@ namespace Cookie.Gamedata.I18n
     {
         public static readonly bool DelayLoading = true;
 
-        private WeakCollection<I18nString> links = new WeakCollection<I18nString>();
-        private Dictionary<Languages, D2iFile> readers = new Dictionary<Languages, D2iFile>();
-        private static Dictionary<string, Languages> langsShortcuts = new Dictionary<string, Languages>()
+        private static readonly Dictionary<string, Languages> langsShortcuts = new Dictionary<string, Languages>
         {
             {"fr", Languages.French},
             {"de", Languages.German},
@@ -39,16 +39,19 @@ namespace Cookie.Gamedata.I18n
             {"ja", Languages.Japanese},
             {"nl", Languages.Dutch},
             {"pt", Languages.Portugese},
-            {"ru", Languages.Russian},
+            {"ru", Languages.Russian}
         };
 
-        Languages defaultLanguage;
+        private string d2IPath;
+
+        private Languages defaultLanguage;
+
+        private readonly WeakCollection<I18nString> links = new WeakCollection<I18nString>();
+        private readonly Dictionary<Languages, D2iFile> readers = new Dictionary<Languages, D2iFile>();
+
         public Languages DefaultLanguage
         {
-            get
-            {
-                return defaultLanguage;
-            }
+            get => defaultLanguage;
             set
             {
                 defaultLanguage = value;
@@ -61,23 +64,26 @@ namespace Cookie.Gamedata.I18n
         {
             if (readers.ContainsKey(language)) return;
 
-            if (string.IsNullOrEmpty(d2IPath)) 
+            if (string.IsNullOrEmpty(d2IPath))
                 return; // AddReaders not called yet
-            foreach (var d2iFile in Directory.EnumerateFiles(d2IPath).Where(entry => entry.EndsWith(".d2i")).Where(path => GetLanguageOfFile(path) == language))
+            foreach (var d2iFile in Directory.EnumerateFiles(d2IPath).Where(entry => entry.EndsWith(".d2i"))
+                .Where(path => GetLanguageOfFile(path) == language))
             {
                 var reader = new D2iFile(d2iFile);
                 AddReader(reader, language);
             }
 
-            if (!readers.ContainsKey(language)) { }
-                //throw new Exception(string.Format("Language {0} not found in the d2i files, check the path of these files and that the file exist ({1})", language, d2IPath));
+            if (!readers.ContainsKey(language))
+            {
+            }
+            //throw new Exception(string.Format("Language {0} not found in the d2i files, check the path of these files and that the file exist ({1})", language, d2IPath));
         }
-        private string d2IPath;
+
         public void AddReaders(string directory, bool forceLoading = false)
         {
             d2IPath = directory;
             if (!DelayLoading || forceLoading)
-                foreach (string d2iFile in Directory.EnumerateFiles(directory).Where(entry => entry.EndsWith(".d2i")))
+                foreach (var d2iFile in Directory.EnumerateFiles(directory).Where(entry => entry.EndsWith(".d2i")))
                 {
                     var reader = new D2iFile(d2iFile);
 
@@ -87,12 +93,13 @@ namespace Cookie.Gamedata.I18n
 
         private Languages GetLanguageOfFile(string filePath)
         {
-            string file = Path.GetFileNameWithoutExtension(filePath);
+            var file = Path.GetFileNameWithoutExtension(filePath);
 
             if (!file.Contains("_"))
-                throw new Exception(string.Format("Cannot found character '_' in file name {0}, cannot deduce the file lang", file));
+                throw new Exception(string.Format(
+                    "Cannot found character '_' in file name {0}, cannot deduce the file lang", file));
 
-            string lang = file.Split('_')[1];
+            var lang = file.Split('_')[1];
 
             if (!langsShortcuts.ContainsKey(lang.ToLower()))
                 throw new Exception(string.Format("Unknown lang symbol {0} in file {1}", lang, file));
@@ -101,7 +108,7 @@ namespace Cookie.Gamedata.I18n
 
         private void AddReader(D2iFile d2iFile)
         {
-            Languages language = GetLanguageOfFile(d2iFile.FilePath);
+            var language = GetLanguageOfFile(d2iFile.FilePath);
 
             AddReader(d2iFile, language);
         }
@@ -113,7 +120,7 @@ namespace Cookie.Gamedata.I18n
 
         public string ReadText(uint id, Languages? lang = null)
         {
-            return ReadText((int)id, lang);
+            return ReadText((int) id, lang);
         }
 
         public string ReadText(int id, Languages? lang = null)
@@ -142,15 +149,13 @@ namespace Cookie.Gamedata.I18n
 
         private I18nString GetTextLink(uint id, Languages? lang = null)
         {
-            return GetTextLink((int)id);
+            return GetTextLink((int) id);
         }
 
         private I18nString GetTextLink(int id, Languages? lang = null)
         {
             if (lang != null)
-            {
                 EnsureLanguageIsLoaded(lang.Value);
-            }
 
             return new I18nString(id, this);
         }
@@ -158,9 +163,7 @@ namespace Cookie.Gamedata.I18n
         private I18nString GetTextLink(string id, Languages? lang = null)
         {
             if (lang != null)
-            {
                 EnsureLanguageIsLoaded(lang.Value);
-            }
 
             return new I18nString(id, this);
         }
@@ -168,18 +171,14 @@ namespace Cookie.Gamedata.I18n
         private void ChangeLinksLanguage(Languages old, Languages @new)
         {
             foreach (var link in links.Where(x => x.Language == old))
-            {
                 // text refreshed when the language is changed
                 link.Language = @new;
-            }
         }
 
         private void RefreshLinks()
         {
             foreach (var link in links)
-            {
                 link.Refresh();
-            }
         }
     }
 }

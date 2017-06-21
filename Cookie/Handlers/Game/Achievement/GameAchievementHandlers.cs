@@ -14,7 +14,8 @@ namespace Cookie.Handlers.Game.Achievement
         }
 
         [MessageHandler(FriendGuildWarnOnAchievementCompleteStateMessage.ProtocolId)]
-        private void FriendGuildWarnOnAchievementCompleteStateMessageHandler(DofusClient client, FriendGuildWarnOnAchievementCompleteStateMessage message)
+        private void FriendGuildWarnOnAchievementCompleteStateMessageHandler(DofusClient client,
+            FriendGuildWarnOnAchievementCompleteStateMessage message)
         {
             //
         }
@@ -22,9 +23,9 @@ namespace Cookie.Handlers.Game.Achievement
         [MessageHandler(AchievementFinishedMessage.ProtocolId)]
         private void AchievementFinishedMessageHandler(Client client, AchievementFinishedMessage message)
         {
-            var text = I18nDataManager.Instance.ReadText(ObjectDataManager.Instance.Get<Datacenter.Achievement>(message.ObjectId).NameId);
+            var text = I18nDataManager.Instance.ReadText(ObjectDataManager.Instance
+                .Get<Datacenter.Achievement>(message.ObjectId).NameId);
             client.Logger.Log($"Succés {text} obtenu");
-
         }
     }
 }

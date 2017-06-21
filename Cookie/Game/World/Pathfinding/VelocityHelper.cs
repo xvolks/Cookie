@@ -10,7 +10,6 @@ namespace Cookie.Game.World.Pathfinding
             if (cell.Orientation % 2 == 0)
             {
                 if (cell.Orientation % 4 == 0)
-                {
                     switch (moveType)
                     {
                         case MovementTypeEnum.Mounted:
@@ -24,7 +23,6 @@ namespace Cookie.Game.World.Pathfinding
                         case MovementTypeEnum.Walking:
                             return 510;
                     }
-                }
 
                 switch (moveType)
                 {
@@ -57,7 +55,10 @@ namespace Cookie.Game.World.Pathfinding
             return 0;
         }
 
-        public static int GetPathVelocity(List<CellWithOrientation> cells, MovementTypeEnum moveType) => cells
-            .Aggregate(0, (current, cell) => current + GetVelocity(cell, moveType));
+        public static int GetPathVelocity(List<CellWithOrientation> cells, MovementTypeEnum moveType)
+        {
+            return cells
+                .Aggregate(0, (current, cell) => current + GetVelocity(cell, moveType));
+        }
     }
 }

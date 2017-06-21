@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Cookie.Core;
+﻿using Cookie.Core;
 using Cookie.Protocol.Network.Messages.Game.Character.Status;
 
 namespace Cookie.Handlers.Game.Character.Status
@@ -15,6 +10,7 @@ namespace Cookie.Handlers.Game.Character.Status
         {
             //  
         }
+
         [MessageHandler(PlayerStatusUpdateMessage.ProtocolId)]
         private void PlayerStatusUpdateMessageHandler(DofusClient client, PlayerStatusUpdateMessage message)
         {

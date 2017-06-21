@@ -1,10 +1,24 @@
-﻿
-using Cookie.IO;
+﻿using Cookie.IO;
 
 namespace Cookie.Gamedata.D2p
 {
     public class Fixture
     {
+        // Fields
+        public int Alpha;
+
+        public int BlueMultiplier;
+        public int FixtureId;
+        public int GreenMultiplier;
+        public int Hue;
+        public int OffsetX;
+        public int OffsetY;
+        public int RedMultiplier;
+        public int Rotation;
+        public int xScale;
+
+        public int yScale;
+
         // Methods
         internal void Init(IDataReader Reader)
         {
@@ -17,22 +31,8 @@ namespace Cookie.Gamedata.D2p
             RedMultiplier = Reader.ReadSByte();
             GreenMultiplier = Reader.ReadSByte();
             BlueMultiplier = Reader.ReadSByte();
-            Hue = ((RedMultiplier | GreenMultiplier) | BlueMultiplier);
+            Hue = RedMultiplier | GreenMultiplier | BlueMultiplier;
             Alpha = Reader.ReadByte();
         }
-
-
-        // Fields
-        public int Alpha;
-        public int BlueMultiplier;
-        public int FixtureId;
-        public int GreenMultiplier;
-        public int Hue;
-        public int OffsetX;
-        public int OffsetY;
-        public int RedMultiplier;
-        public int Rotation;
-        public int xScale;
-        public int yScale;
     }
 }

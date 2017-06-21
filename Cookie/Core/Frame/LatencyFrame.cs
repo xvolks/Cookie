@@ -9,11 +9,9 @@ namespace Cookie.Core.Frame
     public class LatencyFrame
     {
         private const uint LatencyAvgBufferSize = 50;
+        private readonly Account _account;
         private readonly List<uint> _latencyBuffer;
         private uint _latestSent;
-        private readonly Account _account;
-
-        public int Sequence { get; set; }
 
         public LatencyFrame(Account account)
         {
@@ -22,6 +20,8 @@ namespace Cookie.Core.Frame
 
             Sequence = 0;
         }
+
+        public int Sequence { get; set; }
 
         public void LowSend()
         {

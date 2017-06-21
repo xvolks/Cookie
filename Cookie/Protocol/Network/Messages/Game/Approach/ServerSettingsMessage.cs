@@ -2,17 +2,18 @@
 
 namespace Cookie.Protocol.Network.Messages.Game.Approach
 {
-    class ServerSettingsMessage : NetworkMessage
+    internal class ServerSettingsMessage : NetworkMessage
     {
         public const uint ProtocolId = 6340;
-        public override uint MessageID { get { return ProtocolId; } }
-
-        public string Lang;
+        public ushort ArenaLeaveBanTime;
         public byte Community;
         public byte GameType;
-        public ushort ArenaLeaveBanTime;
 
-        public ServerSettingsMessage() { }
+        public string Lang;
+
+        public ServerSettingsMessage()
+        {
+        }
 
         public ServerSettingsMessage(string lang, byte community, byte gameType, ushort arenaLeaveBanTime)
         {
@@ -21,6 +22,8 @@ namespace Cookie.Protocol.Network.Messages.Game.Approach
             GameType = gameType;
             ArenaLeaveBanTime = arenaLeaveBanTime;
         }
+
+        public override uint MessageID => ProtocolId;
 
         public override void Serialize(ICustomDataOutput writer)
         {

@@ -1,30 +1,33 @@
-﻿using Cookie.IO;
+﻿using System.Collections.Generic;
+using Cookie.IO;
 using Cookie.Protocol.Network.Types.Game.Approach;
-using System.Collections.Generic;
 
 namespace Cookie.Protocol.Network.Messages.Game.Approach
 {
-    class ServerSessionConstantsMessage : NetworkMessage
+    internal class ServerSessionConstantsMessage : NetworkMessage
     {
         public const uint ProtocolId = 6434;
-        public override uint MessageID { get { return ProtocolId; } }
 
         public List<ServerSessionConstant> Variables;
 
-        public ServerSessionConstantsMessage() { }
+        public ServerSessionConstantsMessage()
+        {
+        }
 
         public ServerSessionConstantsMessage(List<ServerSessionConstant> variables)
         {
             Variables = variables;
         }
 
+        public override uint MessageID => ProtocolId;
+
         public override void Serialize(ICustomDataOutput writer)
         {
-            writer.WriteShort((short)(Variables.Count));
-            for (int i = 0; i < Variables.Count; i++)
+            writer.WriteShort((short) Variables.Count);
+            for (var i = 0; i < Variables.Count; i++)
             {
-                ServerSessionConstant objectToSend = Variables[i];
-                writer.WriteShort((short)objectToSend.TypeID);
+                var objectToSend = Variables[i];
+                writer.WriteShort(objectToSend.TypeID);
                 objectToSend.Serialize(writer);
             }
         }
@@ -33,9 +36,9 @@ namespace Cookie.Protocol.Network.Messages.Game.Approach
         {
             int length = reader.ReadUShort();
             Variables = new List<ServerSessionConstant>();
-            for (int i = 0; i < length; i++)
+            for (var i = 0; i < length; i++)
             {
-                ServerSessionConstant objectToAdd = new ServerSessionConstant(reader.ReadUShort());
+                var objectToAdd = new ServerSessionConstant(reader.ReadUShort());
                 objectToAdd.Deserialize(reader);
                 Variables.Add(objectToAdd);
             }

@@ -5,12 +5,13 @@ namespace Cookie.Protocol.Network.Messages.Queues
     public class LoginQueueStatusMessage : NetworkMessage
     {
         public const uint ProtocolId = 10;
-        public override uint MessageID { get { return ProtocolId; } }
 
         public ushort Position;
         public ushort Total;
 
-        public LoginQueueStatusMessage() { }
+        public LoginQueueStatusMessage()
+        {
+        }
 
         public LoginQueueStatusMessage(ushort position, ushort total)
         {
@@ -18,10 +19,12 @@ namespace Cookie.Protocol.Network.Messages.Queues
             Total = total;
         }
 
+        public override uint MessageID => ProtocolId;
+
         public override void Serialize(ICustomDataOutput writer)
         {
-            writer.WriteShort((short)Position);
-            writer.WriteShort((short)Total);
+            writer.WriteShort((short) Position);
+            writer.WriteShort((short) Total);
         }
 
         public override void Deserialize(ICustomDataInput reader)

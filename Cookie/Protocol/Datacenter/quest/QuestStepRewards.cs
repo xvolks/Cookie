@@ -1,7 +1,5 @@
-
-
 // Generated on 12/06/2016 11:35:52
-using System;
+
 using System.Collections.Generic;
 using Cookie.Gamedata.D2o;
 
@@ -10,14 +8,14 @@ namespace Cookie.Datacenter
     [D2oClass("QuestStepRewards")]
     public class QuestStepRewards : IDataObject
     {
-        public const String MODULE = "QuestStepRewards";
-        public uint Id;
-        public uint StepId;
-        public int LevelMin;
-        public int LevelMax;
-        public List<List<uint>> ItemsReward;
+        public const string MODULE = "QuestStepRewards";
         public List<uint> EmotesReward;
+        public uint Id;
+        public List<List<uint>> ItemsReward;
         public List<uint> JobsReward;
+        public int LevelMax;
+        public int LevelMin;
         public List<uint> SpellsReward;
+        public uint StepId;
     }
 }

@@ -1,7 +1,7 @@
-﻿using Cookie.IO;
-using System;
+﻿using System;
 using System.IO;
 using System.Text;
+using Cookie.IO;
 
 /// <summary>
 ///     Much faster reader that only reads memory buffer
@@ -13,15 +13,9 @@ public unsafe class FastBigEndianReader : IDataReader, IDisposable
         Buffer = buffer;
     }
 
-    public byte[] Data
-    {
-        get
-        {
-            return Buffer;
-        }
-    }
-
     public byte[] Buffer { get; set; }
+
+    public byte[] Data => Buffer;
 
     public byte ReadByte()
     {
@@ -35,16 +29,13 @@ public unsafe class FastBigEndianReader : IDataReader, IDisposable
     {
         fixed (byte* pbyte = &Buffer[Position++])
         {
-            return (sbyte)*pbyte;
+            return (sbyte) *pbyte;
         }
     }
 
     public long Position { get; private set; }
 
-    public long BytesAvailable
-    {
-        get { return Buffer.Length - Position; }
-    }
+    public long BytesAvailable => Buffer.Length - Position;
 
     public short ReadShort()
     {
@@ -52,7 +43,7 @@ public unsafe class FastBigEndianReader : IDataReader, IDisposable
         Position += 2;
         fixed (byte* pbyte = &Buffer[position])
         {
-            return (short)((*pbyte << 8) | *(pbyte + 1));
+            return (short) ((*pbyte << 8) | *(pbyte + 1));
         }
     }
 
@@ -74,23 +65,23 @@ public unsafe class FastBigEndianReader : IDataReader, IDisposable
         {
             var i1 = (*pbyte << 24) | (*(pbyte + 1) << 16) | (*(pbyte + 2) << 8) | *(pbyte + 3);
             var i2 = (*(pbyte + 4) << 24) | (*(pbyte + 5) << 16) | (*(pbyte + 6) << 8) | *(pbyte + 7);
-            return (uint)i2 | ((long)i1 << 32);
+            return (uint) i2 | ((long) i1 << 32);
         }
     }
 
     public ushort ReadUShort()
     {
-        return (ushort)ReadShort();
+        return (ushort) ReadShort();
     }
 
     public uint ReadUInt()
     {
-        return (uint)ReadInt();
+        return (uint) ReadInt();
     }
 
     public ulong ReadULong()
     {
-        return (ulong)ReadLong();
+        return (ulong) ReadLong();
     }
 
     public byte[] ReadBytes(int n)
@@ -104,7 +95,7 @@ public unsafe class FastBigEndianReader : IDataReader, IDisposable
             // Loop over the count in blocks of 4 bytes, copying an integer (4 bytes) at a time:
             for (var i = 0; i < n / 4; i++)
             {
-                *(int*)pd = *(int*)ps;
+                *(int*) pd = *(int*) ps;
                 pd += 4;
                 ps += 4;
             }
@@ -130,19 +121,19 @@ public unsafe class FastBigEndianReader : IDataReader, IDisposable
 
     public char ReadChar()
     {
-        return (char)ReadShort();
+        return (char) ReadShort();
     }
 
     public float ReadFloat()
     {
         var val = ReadInt();
-        return *(float*)&val;
+        return *(float*) &val;
     }
 
     public double ReadDouble()
     {
         var val = ReadLong();
-        return *(double*)&val;
+        return *(double*) &val;
     }
 
     public string ReadUTF()

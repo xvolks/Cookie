@@ -1,4 +1,5 @@
 ﻿#region License GNU GPL
+
 // D2iFile.cs
 // 
 // Copyright (C) 2012 - BehaviorIsManaged
@@ -12,66 +13,64 @@
 // See the GNU General Public License for more details. 
 // You should have received a copy of the GNU General Public License along with this program; 
 // if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+
 #endregion
-using Cookie.IO;
+
 using System.Collections.Generic;
 using System.IO;
+using Cookie.IO;
 
 namespace Cookie.Gamedata.D2i
 {
     public class D2iFile
     {
-        private readonly string uri;
-        private readonly Dictionary<string, string> textIndexes = new Dictionary<string, string>();
         private readonly Dictionary<int, string> indexes = new Dictionary<int, string>();
+        private readonly Dictionary<string, string> textIndexes = new Dictionary<string, string>();
 
         public D2iFile(string uri)
         {
-            this.uri = uri;
+            FilePath = uri;
             Initialize();
         }
 
-        public string FilePath
-        {
-            get { return uri; }
-        }
+        public string FilePath { get; }
 
         private void Initialize()
         {
-            using (var reader = new FastBigEndianReader(File.ReadAllBytes(uri)))
+            using (var reader = new FastBigEndianReader(File.ReadAllBytes(FilePath)))
             {
                 var indexPos = reader.ReadInt();
                 reader.Seek(indexPos, SeekOrigin.Begin);
                 var indexLen = reader.ReadInt();
-                int addOffset = 0;
-                for (int i = 0; i < indexLen; i += 9)
+                var addOffset = 0;
+                for (var i = 0; i < indexLen; i += 9)
                 {
                     var key = reader.ReadInt();
-                    byte nbAdditionnalStrings = reader.ReadByte();                    
+                    var nbAdditionnalStrings = reader.ReadByte();
                     var dataPos = reader.ReadInt();
-                    var pos = (int)reader.Position;
+                    var pos = (int) reader.Position;
                     reader.Seek(dataPos + addOffset, SeekOrigin.Begin);
                     indexes.Add(key, reader.ReadUTF());
                     reader.Seek(pos, SeekOrigin.Begin);
                     while (nbAdditionnalStrings-- > 0)
                     {
                         dataPos = reader.ReadInt();
-                        pos = (int)reader.Position;
+                        pos = (int) reader.Position;
                         reader.Seek(dataPos + addOffset, SeekOrigin.Begin);
-                        string unusedString = reader.ReadUTF(); // Well, no real use to read that, as we don't use 'em
+                        var unusedString = reader.ReadUTF(); // Well, no real use to read that, as we don't use 'em
                         reader.Seek(pos, SeekOrigin.Begin);
                         i += 4;
                     }
                 }
-                int lastOffset = reader.ReadInt() + (int)reader.Position;
-                
-                int locpos = (int)reader.Position;
+                var lastOffset = reader.ReadInt() + (int) reader.Position;
+
+                var locpos = (int) reader.Position;
 
                 while (locpos < lastOffset)
                 {
                     var key = reader.ReadUTF();
                     var dataPos = reader.ReadInt();
-                    locpos = (int)reader.Position;
+                    locpos = (int) reader.Position;
                     reader.Seek(dataPos, SeekOrigin.Begin);
                     textIndexes.Add(key, reader.ReadUTF());
                     reader.Seek(locpos, SeekOrigin.Begin);
@@ -82,18 +81,14 @@ namespace Cookie.Gamedata.D2i
         public string GetText(int id)
         {
             if (indexes.ContainsKey(id))
-            {
                 return indexes[id];
-            }
             return "{null}";
         }
 
         public string GetText(string id)
         {
             if (textIndexes.ContainsKey(id))
-            {
                 return textIndexes[id];
-            }
             return "{null}";
         }
 
@@ -125,7 +120,7 @@ namespace Cookie.Gamedata.D2i
 
         public void Save()
         {
-            Save(uri);
+            Save(FilePath);
         }
 
         public void Save(string uri)
@@ -138,20 +133,20 @@ namespace Cookie.Gamedata.D2i
                 foreach (var index in indexes)
                 {
                     indexTable.WriteInt(index.Key);
-                    indexTable.WriteInt((int)writer.Position);
+                    indexTable.WriteInt(writer.Position);
                     writer.WriteUTF(index.Value);
                 }
 
-                var indexLen = (int)indexTable.Position;
+                var indexLen = indexTable.Position;
 
                 foreach (var index in textIndexes)
                 {
                     indexTable.WriteUTF(index.Key);
-                    indexTable.WriteInt((int)writer.Position);
+                    indexTable.WriteInt(writer.Position);
                     writer.WriteUTF(index.Value);
                 }
 
-                var indexPos = (int)writer.Position;
+                var indexPos = writer.Position;
 
                 /* write index at end */
                 var indexData = indexTable.Data;

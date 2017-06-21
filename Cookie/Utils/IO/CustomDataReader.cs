@@ -1,29 +1,28 @@
-﻿using Cookie.IO.Types;
-using System;
+﻿using System;
 using System.IO;
-using System.Text;
+using Cookie.IO.Types;
 
 namespace Cookie.IO
 {
     public class CustomDataReader : ICustomDataInput, IDisposable
     {
-        private static int INT_SIZE = 32;
+        private static readonly int INT_SIZE = 32;
 
-        private static int SHORT_SIZE = 16;
+        private static readonly int SHORT_SIZE = 16;
 
-        private static int SHORT_MAX_VALUE = 32767;
+        private static readonly int SHORT_MAX_VALUE = 32767;
 
-        private static int UNSIGNED_SHORT_MAX_VALUE = 65536;
+        private static readonly int UNSIGNED_SHORT_MAX_VALUE = 65536;
 
-        private static int CHUNCK_BIT_SIZE = 7;
+        private static readonly int CHUNCK_BIT_SIZE = 7;
 
-        private static int MAX_ENCODING_LENGTH = (int)Math.Ceiling((double)INT_SIZE / CHUNCK_BIT_SIZE);
+        private static int MAX_ENCODING_LENGTH = (int) Math.Ceiling((double) INT_SIZE / CHUNCK_BIT_SIZE);
 
-        private static int MASK_10000000 = 128;
+        private static readonly int MASK_10000000 = 128;
 
-        private static int MASK_01111111 = 127;
+        private static readonly int MASK_01111111 = 127;
 
-        private IDataReader _data;
+        private readonly IDataReader _data;
 
         public CustomDataReader()
         {
@@ -45,93 +44,69 @@ namespace Cookie.IO
             _data = new BigEndianReader(stream);
         }
 
-        public byte[] Data
-        {
-            get
-            {
-                return _data.Data;
-            }
-        }
+        public byte[] Data => _data.Data;
 
         public int ReadVarInt()
         {
-            int b = 0;
-            int value = 0;
-            int offset = 0;
-            bool hasNext = false;
+            var b = 0;
+            var value = 0;
+            var offset = 0;
+            var hasNext = false;
             while (offset < INT_SIZE)
             {
                 b = _data.ReadByte();
                 hasNext = (b & MASK_10000000) == MASK_10000000;
                 if (offset > 0)
-                {
                     value = value + ((b & MASK_01111111) << offset);
-                }
                 else
-                {
                     value = value + (b & MASK_01111111);
-                }
                 offset = offset + CHUNCK_BIT_SIZE;
                 if (!hasNext)
-                {
                     return value;
-                }
             }
             throw new Exception("Too much data");
         }
 
         public uint ReadVarUhInt()
         {
-            int b = 0;
+            var b = 0;
             uint value = 0;
-            int offset = 0;
-            bool hasNext = false;
+            var offset = 0;
+            var hasNext = false;
             while (offset < INT_SIZE)
             {
                 b = _data.ReadByte();
                 hasNext = (b & MASK_10000000) == MASK_10000000;
                 if (offset > 0)
-                {
-                    value = (uint)(value + ((b & MASK_01111111) << offset));
-                }
+                    value = (uint) (value + ((b & MASK_01111111) << offset));
                 else
-                {
-                    value = (uint)(value + (b & MASK_01111111));
-                }
+                    value = (uint) (value + (b & MASK_01111111));
                 offset = offset + CHUNCK_BIT_SIZE;
                 if (!hasNext)
-                {
                     return value;
-                }
             }
             throw new Exception("Too much data");
         }
 
         public short ReadVarShort()
         {
-            int b = 0;
+            var b = 0;
             short value = 0;
-            int offset = 0;
-            bool hasNext = false;
+            var offset = 0;
+            var hasNext = false;
             while (offset < SHORT_SIZE)
             {
                 b = _data.ReadByte();
                 hasNext = (b & MASK_10000000) == MASK_10000000;
                 if (offset > 0)
-                {
-                    value = (short)(value + ((b & MASK_01111111) << offset));
-                }
+                    value = (short) (value + ((b & MASK_01111111) << offset));
                 else
-                {
-                    value = (short)(value + (b & MASK_01111111));
-                }
+                    value = (short) (value + (b & MASK_01111111));
                 offset = offset + CHUNCK_BIT_SIZE;
                 if (!hasNext)
                 {
                     if (value > SHORT_MAX_VALUE)
-                    {
-                        value = (short)(value - UNSIGNED_SHORT_MAX_VALUE);
-                    }
+                        value = (short) (value - UNSIGNED_SHORT_MAX_VALUE);
                     return value;
                 }
             }
@@ -140,29 +115,23 @@ namespace Cookie.IO
 
         public ushort ReadVarUhShort()
         {
-            int b = 0;
+            var b = 0;
             ushort value = 0;
-            int offset = 0;
-            bool hasNext = false;
+            var offset = 0;
+            var hasNext = false;
             while (offset < SHORT_SIZE)
             {
                 b = _data.ReadByte();
                 hasNext = (b & MASK_10000000) == MASK_10000000;
                 if (offset > 0)
-                {
-                    value = (ushort)(value + ((b & MASK_01111111) << offset));
-                }
+                    value = (ushort) (value + ((b & MASK_01111111) << offset));
                 else
-                {
-                    value = (ushort)(value + (b & MASK_01111111));
-                }
+                    value = (ushort) (value + (b & MASK_01111111));
                 offset = offset + CHUNCK_BIT_SIZE;
                 if (!hasNext)
                 {
                     if (value > SHORT_MAX_VALUE)
-                    {
-                        value = (ushort)(value - UNSIGNED_SHORT_MAX_VALUE);
-                    }
+                        value = (ushort) (value - UNSIGNED_SHORT_MAX_VALUE);
                     return value;
                 }
             }
@@ -179,15 +148,9 @@ namespace Cookie.IO
             return readUInt64(_data).toNumber();
         }
 
-        public long Position
-        {
-            get { return _data.Position; }
-        }
+        public long Position => _data.Position;
 
-        public long BytesAvailable
-        {
-            get { return _data.BytesAvailable; }
-        }
+        public long BytesAvailable => _data.BytesAvailable;
 
         public short ReadShort()
         {
@@ -264,7 +227,7 @@ namespace Cookie.IO
             return _data.ReadUTFBytes(len);
         }
 
-        public void Seek(int offset, System.IO.SeekOrigin seekOrigin)
+        public void Seek(int offset, SeekOrigin seekOrigin)
         {
             _data.Seek(offset, seekOrigin);
         }
@@ -282,52 +245,44 @@ namespace Cookie.IO
         private static CustomInt64 readInt64(IDataReader input)
         {
             uint b = 0;
-            CustomInt64 result = new CustomInt64();
-            int i = 0;
+            var result = new CustomInt64();
+            var i = 0;
             while (true)
             {
                 b = input.ReadByte();
                 if (i == 28)
-                {
                     break;
-                }
                 if (b >= 128)
                 {
-                    result.low = result.low | (b & 127) << i;
+                    result.low = result.low | ((b & 127) << i);
                     i = i + 7;
                     continue;
                 }
-                result.low = result.low | b << i;
+                result.low = result.low | (b << i);
                 return result;
             }
 
             if (b >= 128)
             {
                 b = b & 127;
-                result.low = result.low | b << i;
+                result.low = result.low | (b << i);
                 result.high = b >> 4;
                 i = 3;
                 while (true)
                 {
                     b = input.ReadByte();
                     if (i < 32)
-                    {
                         if (b >= 128)
-                        {
-                            result.high = (uint)(result.high | (b & 127) << i);
-                        }
+                            result.high = result.high | ((b & 127) << i);
                         else
-                        {
                             break;
-                        }
-                    }
                     i = i + 7;
                 }
 
-                result.high = (uint)(result.high | (b << i));
+                result.high = result.high | (b << i);
                 return result;
             }
-            result.low = result.low | b << i;
+            result.low = result.low | (b << i);
             result.high = b >> 4;
             return result;
         }
@@ -336,51 +291,43 @@ namespace Cookie.IO
         {
             uint b = 0;
             var result = new CustomUInt64();
-            int i = 0;
+            var i = 0;
             while (true)
             {
                 b = input.ReadByte();
                 if (i == 28)
-                {
                     break;
-                }
                 if (b >= 128)
                 {
-                    result.low = result.low | (b & 127) << i;
+                    result.low = result.low | ((b & 127) << i);
                     i = i + 7;
                     continue;
                 }
-                result.low = result.low | b << i;
+                result.low = result.low | (b << i);
                 return result;
             }
 
             if (b >= 128)
             {
                 b = b & 127;
-                result.low = result.low | b << i;
+                result.low = result.low | (b << i);
                 result.high = b >> 4;
                 i = 3;
                 while (true)
                 {
                     b = input.ReadByte();
                     if (i < 32)
-                    {
                         if (b >= 128)
-                        {
-                            result.high = result.high | (b & 127) << i;
-                        }
+                            result.high = result.high | ((b & 127) << i);
                         else
-                        {
                             break;
-                        }
-                    }
                     i = i + 7;
                 }
 
-                result.high = result.high | b << i;
+                result.high = result.high | (b << i);
                 return result;
             }
-            result.low = result.low | b << i;
+            result.low = result.low | (b << i);
             result.high = b >> 4;
             return result;
         }

@@ -1,4 +1,5 @@
 ﻿#region License GNU GPL
+
 // IconsManager.cs
 // 
 // Copyright (C) 2012 - BehaviorIsManaged
@@ -12,13 +13,14 @@
 // See the GNU General Public License for more details. 
 // You should have received a copy of the GNU General Public License along with this program; 
 // if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+
 #endregion
 
-using Cookie.Gamedata.D2p;
-using Cookie.Utils.Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Cookie.Gamedata.D2p;
+using Cookie.Utils.Extensions;
 
 namespace Cookie.Gamedata.Icons
 {
@@ -30,14 +32,14 @@ namespace Cookie.Gamedata.Icons
         {
             files = new List<D2PFileDlm>();
 
-            foreach (string file in Directory.GetFiles(path))
+            foreach (var file in Directory.GetFiles(path))
                 if (file.Contains("bitmap"))
                     files.Add(new D2PFileDlm(file));
         }
 
         public Icon GetIcon(int id)
         {
-            foreach (D2PFileDlm d2PFile in files)
+            foreach (var d2PFile in files)
                 if (!d2PFile.ExistsDlm(id + ".png"))
                     throw new ArgumentException(string.Format("Item icon {0} not found", id));
                 else

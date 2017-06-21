@@ -1,14 +1,10 @@
 ﻿using Cookie.IO;
 
-
 namespace Cookie.Gamedata.D2p.Elements
 {
     public abstract class BasicElement
     {
         // Methods
-        protected BasicElement()
-        {
-        }
 
         public static BasicElement GetElementFromType(int typeId)
         {

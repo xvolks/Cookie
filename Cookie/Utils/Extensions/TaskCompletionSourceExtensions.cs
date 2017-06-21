@@ -10,7 +10,7 @@ namespace Cookie.Utils.Thread
             switch (task.Status)
             {
                 case TaskStatus.RanToCompletion:
-                    resultSetter.SetResult((task is Task<TResult>) ? ((Task<TResult>)task).Result : default(TResult));
+                    resultSetter.SetResult(task is Task<TResult> ? ((Task<TResult>) task).Result : default(TResult));
                     break;
 
                 case TaskStatus.Canceled:
@@ -37,7 +37,9 @@ namespace Cookie.Utils.Thread
             switch (task.Status)
             {
                 case TaskStatus.RanToCompletion:
-                    result = resultSetter.TrySetResult((task is Task<TResult>) ? ((Task<TResult>)task).Result : default(TResult));
+                    result = resultSetter.TrySetResult(task is Task<TResult>
+                        ? ((Task<TResult>) task).Result
+                        : default(TResult));
                     break;
 
                 case TaskStatus.Canceled:

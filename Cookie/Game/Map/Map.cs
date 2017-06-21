@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -58,11 +57,9 @@ namespace Cookie.Game.Map
             var list = new List<int>();
             var num4 = _client.Account.Character.MapData.Data.Cells.Count - 1;
             for (var i = 0; i <= num4; i++)
-            {
                 if ((_client.Account.Character.MapData.Data.Cells[i].MapChangeData & num2) > 0 &&
                     _client.Account.Character.MapData.NothingOnCell(i))
                     list.Add(i);
-            }
             while (list.Count > 0)
             {
                 var randomCellId = list[Randomize.GetRandomNumber(0, list.Count)];
@@ -79,12 +76,13 @@ namespace Cookie.Game.Map
             var pathFinder = new Pathfinder();
             pathFinder.SetMap(_client.Account.Character.MapData, true);
             var timePath =
-                pathFinder.GetPath((short)_client.Account.Character.CellId, (short)cellid);
+                pathFinder.GetPath((short) _client.Account.Character.CellId, (short) cellid);
             var path = pathFinder.GetCompressedPath(timePath);
             if (path == null || timePath == null)
                 return false;
 
-            _time = VelocityHelper.GetPathVelocity(timePath, path.Length < 4 ? MovementTypeEnum.Walking : MovementTypeEnum.Running);
+            _time = VelocityHelper.GetPathVelocity(timePath,
+                path.Length < 4 ? MovementTypeEnum.Walking : MovementTypeEnum.Running);
 
             if (path[path.Length - 1] == _client.Account.Character.CellId)
             {

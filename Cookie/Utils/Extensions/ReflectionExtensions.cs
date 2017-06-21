@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -13,17 +12,17 @@ namespace Cookie.Extensions
             return Expression.GetActionType(method.GetParameters().Select(entry => entry.ParameterType).ToArray());
         }
 
-        private static bool FilterByName(Type typeObj, Object criteriaObj)
+        private static bool FilterByName(Type typeObj, object criteriaObj)
         {
             return typeObj.ToString() == criteriaObj.ToString();
         }
 
         public static Delegate CreateDelegate(this ConstructorInfo ctor)
         {
-            List<ParameterExpression> list = (
+            var list = (
                 from param in ctor.GetParameters()
-                select Expression.Parameter(param.ParameterType)).ToList<ParameterExpression>();
-            LambdaExpression lambdaExpression = Expression.Lambda(Expression.New(ctor, list), list);
+                select Expression.Parameter(param.ParameterType)).ToList();
+            var lambdaExpression = Expression.Lambda(Expression.New(ctor, list), list);
             return lambdaExpression.Compile();
         }
 
@@ -48,19 +47,13 @@ namespace Cookie.Extensions
         public static bool IsDerivedFromGenericType(this Type type, Type genericType)
         {
             if (type == typeof(object))
-            {
                 return false;
-            }
 
             if (type == null)
-            {
                 return false;
-            }
 
             if (type.IsConstructedGenericType && type.GetGenericTypeDefinition() == genericType)
-            {
                 return true;
-            }
 
             return IsDerivedFromGenericType(type.DeclaringType, genericType);
         }

@@ -6,16 +6,19 @@ namespace Cookie.Protocol.Network.Types.Game.Character
     public class CharacterMinimalAllianceInformations : CharacterMinimalPlusLookInformations
     {
         public new const short ProtocolId = 444;
-        public override short TypeID { get { return ProtocolId; } }
 
-        public BasicAllianceInformations Alliance { get; set; }
-
-        public CharacterMinimalAllianceInformations() { }
+        public CharacterMinimalAllianceInformations()
+        {
+        }
 
         public CharacterMinimalAllianceInformations(BasicAllianceInformations alliance)
         {
             Alliance = alliance;
         }
+
+        public override short TypeID => ProtocolId;
+
+        public BasicAllianceInformations Alliance { get; set; }
 
         public override void Serialize(ICustomDataOutput writer)
         {

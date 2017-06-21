@@ -7,13 +7,15 @@ namespace Cookie.Handlers.Game.Friend
     public class GameFriendHandlers
     {
         [MessageHandler(FriendWarnOnConnectionStateMessage.ProtocolId)]
-        private void FriendWarnOnConnectionStateMessageHandler(DofusClient client, FriendWarnOnConnectionStateMessage message)
+        private void FriendWarnOnConnectionStateMessageHandler(DofusClient client,
+            FriendWarnOnConnectionStateMessage message)
         {
             //
         }
 
         [MessageHandler(FriendWarnOnLevelGainStateMessage.ProtocolId)]
-        private void FriendWarnOnLevelGainStateMessageHandler(DofusClient client, FriendWarnOnLevelGainStateMessage message)
+        private void FriendWarnOnLevelGainStateMessageHandler(DofusClient client,
+            FriendWarnOnLevelGainStateMessage message)
         {
             //
         }
@@ -28,19 +30,16 @@ namespace Cookie.Handlers.Game.Friend
         private void FriendsListMessageHandler(DofusClient client, FriendsListMessage message)
         {
             foreach (var friend in message.FriendsList)
-            {
                 switch (friend.PlayerState)
                 {
-                    case (byte)PlayerStateEnum.NOT_CONNECTED:
+                    case (byte) PlayerStateEnum.NOT_CONNECTED:
                         continue;
-                    case (byte)PlayerStateEnum.UNKNOWN_STATE:
+                    case (byte) PlayerStateEnum.UNKNOWN_STATE:
                         continue;
                     default:
                         client.Logger.Log($"{friend.AccountName} connecté");
                         break;
                 }
-                
-            }
         }
 
         [MessageHandler(IgnoredListMessage.ProtocolId)]
@@ -56,7 +55,8 @@ namespace Cookie.Handlers.Game.Friend
         }
 
         [MessageHandler(GuildMemberWarnOnConnectionStateMessage.ProtocolId)]
-        private void GuildMemberWarnOnConnectionStateMessageHandler(DofusClient client, GuildMemberWarnOnConnectionStateMessage message)
+        private void GuildMemberWarnOnConnectionStateMessageHandler(DofusClient client,
+            GuildMemberWarnOnConnectionStateMessage message)
         {
             //
         }
@@ -66,6 +66,7 @@ namespace Cookie.Handlers.Game.Friend
         {
             //
         }
+
         [MessageHandler(FriendDeleteResultMessage.ProtocolId)]
         private void FriendDeleteResultMessageHandler(DofusClient client, FriendDeleteResultMessage message)
         {

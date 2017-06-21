@@ -1,36 +1,40 @@
-﻿using Cookie.IO;
+﻿using System.Collections.Generic;
+using Cookie.IO;
 using Cookie.Protocol.Network.Types.Connection;
-using System.Collections.Generic;
 
 namespace Cookie.Protocol.Network.Messages.Connection
 {
     public class ServerListMessage : NetworkMessage
     {
         public const uint ProtocolId = 30;
-        public override uint MessageID { get { return ProtocolId; } }
-
-        public List<GameServerInformations> Servers;
         public ushort AlreadyConnectedToServerId;
         public bool CanCreateNewCharacter;
 
-        public ServerListMessage() { }
+        public List<GameServerInformations> Servers;
 
-        public ServerListMessage(List<GameServerInformations> servers, ushort alreadyConnectedToServerId, bool canCreateNewCharacter)
+        public ServerListMessage()
+        {
+        }
+
+        public ServerListMessage(List<GameServerInformations> servers, ushort alreadyConnectedToServerId,
+            bool canCreateNewCharacter)
         {
             Servers = servers;
             AlreadyConnectedToServerId = alreadyConnectedToServerId;
             CanCreateNewCharacter = canCreateNewCharacter;
         }
 
+        public override uint MessageID => ProtocolId;
+
         public override void Serialize(ICustomDataOutput writer)
         {
-            writer.WriteShort(((short)(Servers.Count)));
-            for (int serversIndex = 0; (serversIndex < Servers.Count); serversIndex = (serversIndex + 1))
+            writer.WriteShort((short) Servers.Count);
+            for (var serversIndex = 0; serversIndex < Servers.Count; serversIndex = serversIndex + 1)
             {
-                GameServerInformations objectToSend = Servers[serversIndex];
+                var objectToSend = Servers[serversIndex];
                 objectToSend.Serialize(writer);
             }
-            writer.WriteVarShort((short)AlreadyConnectedToServerId);
+            writer.WriteVarShort((short) AlreadyConnectedToServerId);
             writer.WriteBoolean(CanCreateNewCharacter);
         }
 
@@ -39,9 +43,9 @@ namespace Cookie.Protocol.Network.Messages.Connection
             int serversCount = reader.ReadUShort();
             int serversIndex;
             Servers = new List<GameServerInformations>();
-            for (serversIndex = 0; (serversIndex < serversCount); serversIndex = (serversIndex + 1))
+            for (serversIndex = 0; serversIndex < serversCount; serversIndex = serversIndex + 1)
             {
-                GameServerInformations objectToAdd = new GameServerInformations();
+                var objectToAdd = new GameServerInformations();
                 objectToAdd.Deserialize(reader);
                 Servers.Add(objectToAdd);
             }

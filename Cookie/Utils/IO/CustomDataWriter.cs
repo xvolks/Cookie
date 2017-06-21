@@ -1,28 +1,28 @@
-﻿using Cookie.IO.Types;
-using System;
+﻿using System;
 using System.IO;
+using Cookie.IO.Types;
 
 namespace Cookie.IO
 {
     public class CustomDataWriter : ICustomDataOutput, IDisposable
     {
-        private static int INT_SIZE = 32;
+        private static readonly int INT_SIZE = 32;
 
-        private static int SHORT_MIN_VALUE = -32768;
+        private static readonly int SHORT_MIN_VALUE = -32768;
 
-        private static int SHORT_MAX_VALUE = 32767;
+        private static readonly int SHORT_MAX_VALUE = 32767;
 
-        private static int UNSIGNED_SHORT_MAX_VALUE = 65536;
+        private static readonly int UNSIGNED_SHORT_MAX_VALUE = 65536;
 
-        private static int CHUNCK_BIT_SIZE = 7;
+        private static readonly int CHUNCK_BIT_SIZE = 7;
 
-        private static int MAX_ENCODING_LENGTH = (int)Math.Ceiling((double)INT_SIZE / CHUNCK_BIT_SIZE);
+        private static int MAX_ENCODING_LENGTH = (int) Math.Ceiling((double) INT_SIZE / CHUNCK_BIT_SIZE);
 
-        private static int MASK_10000000 = 128;
+        private static readonly int MASK_10000000 = 128;
 
-        private static int MASK_01111111 = 127;
+        private static readonly int MASK_01111111 = 127;
 
-        private IDataWriter _data;
+        private readonly IDataWriter _data;
 
         public CustomDataWriter()
         {
@@ -38,20 +38,18 @@ namespace Cookie.IO
         {
             if (value >= 0 && value <= MASK_01111111)
             {
-                _data.WriteByte((byte)value);
+                _data.WriteByte((byte) value);
                 return;
             }
-            int b = 0;
-            int c = value;
+            var b = 0;
+            var c = value;
             while (c != 0 && c != -1)
             {
                 b = c & MASK_01111111;
                 c = c >> CHUNCK_BIT_SIZE;
                 if (c > 0)
-                {
                     b = b | MASK_10000000;
-                }
-                _data.WriteByte((byte)b);
+                _data.WriteByte((byte) b);
             }
         }
 
@@ -59,76 +57,60 @@ namespace Cookie.IO
         {
             if (value <= MASK_01111111)
             {
-                _data.WriteByte((byte)value);
+                _data.WriteByte((byte) value);
                 return;
             }
             uint b = 0;
-            uint c = value;
+            var c = value;
             while (c != 0)
             {
-                b = (uint)(c & MASK_01111111);
+                b = (uint) (c & MASK_01111111);
                 c = c >> CHUNCK_BIT_SIZE;
                 if (c > 0)
-                {
-                    b = b | (uint)MASK_10000000;
-                }
-                _data.WriteByte((byte)b);
+                    b = b | (uint) MASK_10000000;
+                _data.WriteByte((byte) b);
             }
         }
 
         public void WriteVarShort(short value)
         {
             if (value > SHORT_MAX_VALUE || value < SHORT_MIN_VALUE)
-            {
                 throw new Exception("Forbidden value");
-            }
-            else
+            var b = 0;
+            if (value >= 0 && value <= MASK_01111111)
             {
-                var b = 0;
-                if ((value >= 0) && (value <= MASK_01111111))
-                {
-                    _data.WriteByte((byte)value);
-                    return;
-                }
-                var c = value & 65535;
-                while (c != 0 && c != -1)
-                {
-                    b = (c & MASK_01111111);
-                    c = c >> CHUNCK_BIT_SIZE;
-                    if (c > 0)
-                    {
-                        b = b | MASK_10000000;
-                    }
-                    _data.WriteByte((byte)b);
-                }
+                _data.WriteByte((byte) value);
+                return;
+            }
+            var c = value & 65535;
+            while (c != 0 && c != -1)
+            {
+                b = c & MASK_01111111;
+                c = c >> CHUNCK_BIT_SIZE;
+                if (c > 0)
+                    b = b | MASK_10000000;
+                _data.WriteByte((byte) b);
             }
         }
 
         public void WriteVarUhShort(ushort value)
         {
             if (value > UNSIGNED_SHORT_MAX_VALUE || value < SHORT_MIN_VALUE)
-            {
                 throw new Exception("Forbidden value");
-            }
-            else
+            var b = 0;
+            if (value >= 0 && value <= MASK_01111111)
             {
-                var b = 0;
-                if ((value >= 0) && (value <= MASK_01111111))
-                {
-                    _data.WriteByte((byte)value);
-                    return;
-                }
-                var c = value & 65535;
-                while (c != 0)
-                {
-                    b = (c & MASK_01111111);
-                    c = c >> CHUNCK_BIT_SIZE;
-                    if (c > 0)
-                    {
-                        b = b | MASK_10000000;
-                    }
-                    _data.WriteByte((byte)b);
-                }
+                _data.WriteByte((byte) value);
+                return;
+            }
+            var c = value & 65535;
+            while (c != 0)
+            {
+                b = c & MASK_01111111;
+                c = c >> CHUNCK_BIT_SIZE;
+                if (c > 0)
+                    b = b | MASK_10000000;
+                _data.WriteByte((byte) b);
             }
         }
 
@@ -145,36 +127,30 @@ namespace Cookie.IO
                 i = 0;
                 while (i < 4)
                 {
-                    this._data.WriteByte((byte)(val.low & 127 | 128));
+                    _data.WriteByte((byte) ((val.low & 127) | 128));
                     val.low = val.low >> 7;
                     i++;
                 }
-                if ((val.high & 268435455 << 3) == 0)
+                if ((val.high & (268435455 << 3)) == 0)
                 {
-                    this._data.WriteByte((byte)(val.high << 4 | val.low));
+                    _data.WriteByte((byte) ((val.high << 4) | val.low));
                 }
                 else
                 {
-                    this._data.WriteByte((byte)(((val.high << 4) | val.low) & 127 | 128));
-                    WriteInt32(this._data, val.high >> 3);
+                    _data.WriteByte((byte) ((((val.high << 4) | val.low) & 127) | 128));
+                    WriteInt32(_data, val.high >> 3);
                 }
             }
         }
 
         public void WriteVarUhLong(ulong value)
         {
-            WriteVarLong((long)value);
+            WriteVarLong((long) value);
         }
 
-        public byte[] Data
-        {
-            get { return _data.Data; }
-        }
+        public byte[] Data => _data.Data;
 
-        public int Position
-        {
-            get { return _data.Position; }
-        }
+        public int Position => _data.Position;
 
         public void WriteShort(short @short)
         {
@@ -269,19 +245,17 @@ namespace Cookie.IO
         public void Dispose()
         {
             if (_data is BigEndianWriter)
-            {
                 (_data as BigEndianWriter).Dispose();
-            }
         }
 
         private static void WriteInt32(IDataWriter output, uint value)
         {
             while (value >= 128)
             {
-                output.WriteByte((byte)(value & 127 | 128));
+                output.WriteByte((byte) ((value & 127) | 128));
                 value = value >> 7;
             }
-            output.WriteByte((byte)value);
+            output.WriteByte((byte) value);
         }
     }
 }

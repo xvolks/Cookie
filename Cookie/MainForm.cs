@@ -1,20 +1,19 @@
-﻿using Cookie.Core;
+﻿using System;
+using System.Drawing;
+using System.IO;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using Cookie.Commands.Managers;
+using Cookie.Core;
 using Cookie.Gamedata.D2o;
 using Cookie.Gamedata.D2p;
 using Cookie.Gamedata.I18n;
 using Cookie.Gamedata.Icons;
 using Cookie.Network;
-using System;
-using System.Drawing;
-using System.IO;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Cookie.Commands.Exceptions;
-using Cookie.Commands.Managers;
+using Cookie.Properties;
 using Cookie.Protocol.Enums;
 using Cookie.Protocol.Network.Messages.Game.Chat;
 using Cookie.Utils.Enums;
-
 
 namespace Cookie
 {
@@ -45,16 +44,15 @@ namespace Cookie
                     MessageReceiver.Initialize();
                     ProtocolTypeManager.Initialize();
 
-                    Properties.Settings.Default.DofusPath = dofusPath;
-                    Properties.Settings.Default.Save();
+                    Settings.Default.DofusPath = dofusPath;
+                    Settings.Default.Save();
 
-                    MapsManager.Init(Properties.Settings.Default.DofusPath + @"\app\content\maps");
-                    IconsManager.Instance.Initialize(Properties.Settings.Default.DofusPath + @"\app\content\gfx\items");
-                    ObjectDataManager.Instance.AddReaders(Properties.Settings.Default.DofusPath + @"\app\data\common");
-                    I18nDataManager.Instance.AddReaders(Properties.Settings.Default.DofusPath + @"\app\data\i18n");
+                    MapsManager.Init(Settings.Default.DofusPath + @"\app\content\maps");
+                    IconsManager.Instance.Initialize(Settings.Default.DofusPath + @"\app\content\gfx\items");
+                    ObjectDataManager.Instance.AddReaders(Settings.Default.DofusPath + @"\app\data\common");
+                    I18nDataManager.Instance.AddReaders(Settings.Default.DofusPath + @"\app\data\i18n");
                     I18nDataManager.Instance.DefaultLanguage = Languages.French;
-                    ImageManager.Init(Properties.Settings.Default.DofusPath);
-
+                    ImageManager.Init(Settings.Default.DofusPath);
                 }).ContinueWith(p =>
                 {
                     _client = new DofusClient(accountName, accountPassword)
@@ -154,12 +152,20 @@ namespace Cookie
                             valueOrig = "Client";
                             break;
                     }
-                    string[] row1 = {DateTime.Now.ToLongTimeString(), valueOrig, log.Split('(')[1].Split(')')[0], log.Split('-')[1].Replace(" ", "")};
+                    string[] row1 =
+                    {
+                        DateTime.Now.ToLongTimeString(), valueOrig, log.Split('(')[1].Split(')')[0],
+                        log.Split('-')[1].Replace(" ", "")
+                    };
                     var listViewItem = new ListViewItem(row1);
                     PacketsListView.Items.Add(listViewItem);
 
-                    if (log.Contains("Send")) PacketsListView.Items[PacketsListView.Items.Count - 1].ForeColor = ColorTranslator.FromHtml("#F16392");
-                    if (log.Contains("Received")) PacketsListView.Items[PacketsListView.Items.Count - 1].ForeColor = ColorTranslator.FromHtml("#9EC79D");
+                    if (log.Contains("Send"))
+                        PacketsListView.Items[PacketsListView.Items.Count - 1].ForeColor =
+                            ColorTranslator.FromHtml("#F16392");
+                    if (log.Contains("Received"))
+                        PacketsListView.Items[PacketsListView.Items.Count - 1].ForeColor =
+                            ColorTranslator.FromHtml("#9EC79D");
 
                     PacketsListView.EnsureVisible(PacketsListView.Items.Count - 1);
                 }
@@ -177,7 +183,6 @@ namespace Cookie
             }
 
             LogTextBox.Invoke((Action) LogCallback);
-
         }
 
         private void ChatTextBox_KeyDown(object sender, KeyEventArgs e)
@@ -190,11 +195,11 @@ namespace Cookie
         {
             if (_client.Account.Character.Status == CharacterStatus.Disconnected) return;
             if (string.IsNullOrWhiteSpace(ChatTextBox.Text))
+            {
                 _client.Logger.Log("Vous ne pouvez pas envoyer un texte vide.", LogMessageType.Public);
+            }
             else
             {
-
-
                 if (ChatTextBox.Text.Length > 2 && ChatTextBox.Text[0] == '.')
                 {
                     var txt = ChatTextBox.Text.Substring(1);
@@ -202,8 +207,11 @@ namespace Cookie
                     {
                         CommandManager.ParseAndCall(_client, txt);
                     }
-                    catch { _client.Logger.Log("Commande Incorrecte!", LogMessageType.Public); }
-                    
+                    catch
+                    {
+                        _client.Logger.Log("Commande Incorrecte!", LogMessageType.Public);
+                    }
+
                     ChatTextBox.BeginInvoke(new Action(() => ChatTextBox.Text = ""));
                     return;
                 }
@@ -211,7 +219,8 @@ namespace Cookie
 
                 if (ChatTextBox.Text.Length < 2)
                 {
-                    _client.Send(new ChatClientMultiMessage((byte)ChatChannelsMultiEnum.CHANNEL_GLOBAL, ChatTextBox.Text));
+                    _client.Send(new ChatClientMultiMessage((byte) ChatChannelsMultiEnum.CHANNEL_GLOBAL,
+                        ChatTextBox.Text));
                 }
                 else
                 {
@@ -221,38 +230,47 @@ namespace Cookie
                     {
                         case "/g":
                             if (string.IsNullOrWhiteSpace(chattxt))
-                                _client.Send(new ChatClientMultiMessage((byte)ChatChannelsMultiEnum.CHANNEL_GUILD, chattxt));
+                                _client.Send(new ChatClientMultiMessage((byte) ChatChannelsMultiEnum.CHANNEL_GUILD,
+                                    chattxt));
                             break;
                         case "/s":
                             if (string.IsNullOrWhiteSpace(chattxt))
-                                _client.Send(new ChatClientMultiMessage((byte)ChatChannelsMultiEnum.CHANNEL_GLOBAL, chattxt));
+                                _client.Send(new ChatClientMultiMessage((byte) ChatChannelsMultiEnum.CHANNEL_GLOBAL,
+                                    chattxt));
                             break;
                         case "/t":
                             if (string.IsNullOrWhiteSpace(chattxt))
-                                _client.Send(new ChatClientMultiMessage((byte)ChatChannelsMultiEnum.CHANNEL_TEAM, chattxt));
+                                _client.Send(new ChatClientMultiMessage((byte) ChatChannelsMultiEnum.CHANNEL_TEAM,
+                                    chattxt));
                             break;
                         case "/a":
                             if (string.IsNullOrWhiteSpace(chattxt))
-                                _client.Send(new ChatClientMultiMessage((byte)ChatChannelsMultiEnum.CHANNEL_ALLIANCE, chattxt));
+                                _client.Send(new ChatClientMultiMessage((byte) ChatChannelsMultiEnum.CHANNEL_ALLIANCE,
+                                    chattxt));
                             break;
                         case "/p":
                             if (string.IsNullOrWhiteSpace(chattxt))
-                                _client.Send(new ChatClientMultiMessage((byte)ChatChannelsMultiEnum.CHANNEL_PARTY, chattxt));
+                                _client.Send(new ChatClientMultiMessage((byte) ChatChannelsMultiEnum.CHANNEL_PARTY,
+                                    chattxt));
                             break;
                         case "/k":
                             if (string.IsNullOrWhiteSpace(chattxt))
-                                _client.Send(new ChatClientMultiMessage((byte)ChatChannelsMultiEnum.CHANNEL_ARENA, chattxt));
+                                _client.Send(new ChatClientMultiMessage((byte) ChatChannelsMultiEnum.CHANNEL_ARENA,
+                                    chattxt));
                             break;
                         case "/b":
                             if (string.IsNullOrWhiteSpace(chattxt))
-                                _client.Send(new ChatClientMultiMessage((byte)ChatChannelsMultiEnum.CHANNEL_SALES, chattxt));
+                                _client.Send(new ChatClientMultiMessage((byte) ChatChannelsMultiEnum.CHANNEL_SALES,
+                                    chattxt));
                             break;
                         case "/r":
                             if (string.IsNullOrWhiteSpace(chattxt))
-                                _client.Send(new ChatClientMultiMessage((byte)ChatChannelsMultiEnum.CHANNEL_SEEK, chattxt));
+                                _client.Send(new ChatClientMultiMessage((byte) ChatChannelsMultiEnum.CHANNEL_SEEK,
+                                    chattxt));
                             break;
                         default:
-                            _client.Send(new ChatClientMultiMessage((byte)ChatChannelsMultiEnum.CHANNEL_GLOBAL, ChatTextBox.Text));
+                            _client.Send(new ChatClientMultiMessage((byte) ChatChannelsMultiEnum.CHANNEL_GLOBAL,
+                                ChatTextBox.Text));
                             break;
                     }
                     ChatTextBox.BeginInvoke(new Action(() => ChatTextBox.Text = ""));

@@ -4,6 +4,7 @@ using Cookie.Gamedata.D2o;
 using Cookie.Gamedata.I18n;
 using Cookie.Protocol.Enums;
 using Cookie.Protocol.Network.Messages.Game.Basic;
+using Cookie.Utils.Enums;
 
 namespace Cookie.Handlers.Game.Basic
 {
@@ -12,8 +13,10 @@ namespace Cookie.Handlers.Game.Basic
         [MessageHandler(BasicLatencyStatsRequestMessage.ProtocolId)]
         private void BasicLatencyStatsRequestMessageHandler(DofusClient client, BasicLatencyStatsRequestMessage message)
         {
-            var basicLatencyStatsMessage = new BasicLatencyStatsMessage((ushort) client.Account.LatencyFrame.GetLatencyAvg(),
-                (ushort) client.Account.LatencyFrame.GetSamplesCount(), (ushort) client.Account.LatencyFrame.GetSamplesMax());
+            var basicLatencyStatsMessage = new BasicLatencyStatsMessage(
+                (ushort) client.Account.LatencyFrame.GetLatencyAvg(),
+                (ushort) client.Account.LatencyFrame.GetSamplesCount(),
+                (ushort) client.Account.LatencyFrame.GetSamplesMax());
             client.Send(basicLatencyStatsMessage);
         }
 
@@ -33,7 +36,7 @@ namespace Cookie.Handlers.Game.Basic
         private void SequenceNumberRequestMessageHandler(DofusClient client, SequenceNumberRequestMessage message)
         {
             client.Account.LatencyFrame.Sequence++;
-            var sequenceNumberMessage = new SequenceNumberMessage((ushort)client.Account.LatencyFrame.Sequence);
+            var sequenceNumberMessage = new SequenceNumberMessage((ushort) client.Account.LatencyFrame.Sequence);
             client.Send(sequenceNumberMessage);
         }
 
@@ -44,9 +47,10 @@ namespace Cookie.Handlers.Game.Basic
         }
 
         [MessageHandler(CurrentServerStatusUpdateMessage.ProtocolId)]
-        private void CurrentServerStatusUpdateMessageHandler(DofusClient client, CurrentServerStatusUpdateMessage message)
+        private void CurrentServerStatusUpdateMessageHandler(DofusClient client,
+            CurrentServerStatusUpdateMessage message)
         {
-            client.Logger.Log("Server Status: " + (ServerStatusEnum)message.Status);
+            client.Logger.Log("Server Status: " + (ServerStatusEnum) message.Status);
         }
 
         [MessageHandler(TextInformationMessage.ProtocolId)]
@@ -61,11 +65,11 @@ namespace Cookie.Handlers.Game.Basic
                 text = text.Replace("%" + (i + 1), parameter);
             }
 
-            switch ((TextInformationTypeEnum)message.MsgType)
+            switch ((TextInformationTypeEnum) message.MsgType)
             {
                 case TextInformationTypeEnum.TEXT_INFORMATION_ERROR:
                     client.Logger.Log(text, LogMessageType.Default);
-                    client.Account.Character.Status = Utils.Enums.CharacterStatus.None;
+                    client.Account.Character.Status = CharacterStatus.None;
                     break;
                 case TextInformationTypeEnum.TEXT_INFORMATION_MESSAGE:
                     client.Logger.Log(text, LogMessageType.Info);
@@ -83,7 +87,8 @@ namespace Cookie.Handlers.Game.Basic
                     client.Logger.Log(text, LogMessageType.FightLog);
                     break;
                 default:
-                    client.Logger.Log((TextInformationTypeEnum)message.MsgType + " | ID = " + message.MsgId, LogMessageType.Arena);
+                    client.Logger.Log((TextInformationTypeEnum) message.MsgType + " | ID = " + message.MsgId,
+                        LogMessageType.Arena);
                     for (var i = 0; i < message.Parameters.Count; i++)
                     {
                         var t = message.Parameters[i];

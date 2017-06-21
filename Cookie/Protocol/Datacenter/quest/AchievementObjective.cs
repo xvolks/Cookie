@@ -1,8 +1,5 @@
-
-
 // Generated on 12/06/2016 11:35:51
-using System;
-using System.Collections.Generic;
+
 using Cookie.Gamedata.D2o;
 
 namespace Cookie.Datacenter
@@ -10,11 +7,11 @@ namespace Cookie.Datacenter
     [D2oClass("AchievementObjectives")]
     public class AchievementObjective : IDataObject
     {
-        public const String MODULE = "AchievementObjectives";
-        public uint Id;
+        public const string MODULE = "AchievementObjectives";
         public uint AchievementId;
-        public uint Order;
+        public string Criterion;
+        public uint Id;
         public uint NameId;
-        public String Criterion;
+        public uint Order;
     }
 }

@@ -1,7 +1,5 @@
-
-
 // Generated on 12/06/2016 11:35:52
-using System;
+
 using System.Collections.Generic;
 using Cookie.Gamedata.D2o;
 
@@ -10,19 +8,19 @@ namespace Cookie.Datacenter
     [D2oClass("MapPositions")]
     public class MapPosition : IDataObject
     {
-        public const String MODULE = "MapPositions";
+        public const string MODULE = "MapPositions";
+        public int Capabilities;
+        public bool HasPriorityOnWorldmap;
         public int Id;
+        public bool IsUnderWater;
+        public int NameId;
+        public bool Outdoor;
+        public List<List<int>> Playlists;
         public int PosX;
         public int PosY;
-        public Boolean Outdoor;
-        public int Capabilities;
-        public int NameId;
-        public Boolean ShowNameOnFingerpost;
+        public bool ShowNameOnFingerpost;
         public List<AmbientSound> Sounds;
-        public List<List<int>> Playlists;
         public int SubAreaId;
         public int WorldMap;
-        public Boolean HasPriorityOnWorldmap;
-        public Boolean IsUnderWater;
     }
 }

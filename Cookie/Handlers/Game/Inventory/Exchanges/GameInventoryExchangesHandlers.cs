@@ -7,7 +7,8 @@ namespace Cookie.Handlers.Game.Inventory.Exchanges
     public class GameInventoryExchangesHandlers
     {
         [MessageHandler(ExchangeBidHouseUnsoldItemsMessage.ProtocolId)]
-        private void ExchangeBidHouseUnsoldItemsMessageHandler(DofusClient client, ExchangeBidHouseUnsoldItemsMessage message)
+        private void ExchangeBidHouseUnsoldItemsMessageHandler(DofusClient client,
+            ExchangeBidHouseUnsoldItemsMessage message)
         {
             //
         }
@@ -17,23 +18,27 @@ namespace Cookie.Handlers.Game.Inventory.Exchanges
         {
             //
         }
+
         [MessageHandler(ExchangeRequestedTradeMessage.ProtocolId)]
         private void ExchangeRequestedTradeMessageHandler(DofusClient client, ExchangeRequestedTradeMessage message)
         {
             client.Logger.Log($"Le joueur id: {message.Source} vous demande en échange.", LogMessageType.Info);
             client.Send(new ExchangeAcceptMessage());
-        }        
+        }
+
         [MessageHandler(ExchangeLeaveMessage.ProtocolId)]
         private void ExchangeLeaveMessageHandler(DofusClient client, ExchangeLeaveMessage message)
         {
             if (!message.Success)
-            client.Logger.Log("Echange annulé.", LogMessageType.Info);
+                client.Logger.Log("Echange annulé.", LogMessageType.Info);
         }
+
         [MessageHandler(ExchangeErrorMessage.ProtocolId)]
         private void ExchangeErrorMessageHandler(DofusClient client, ExchangeErrorMessage message)
-        {         
+        {
             client.Logger.Log("Un erreur est survenue lors de l'échange.", LogMessageType.Info);
         }
+
         [MessageHandler(ExchangeStartedWithPodsMessage.ProtocolId)]
         private void ExchangeStartedWithPodsMessageHandler(DofusClient client, ExchangeStartedWithPodsMessage message)
         {
@@ -42,17 +47,26 @@ namespace Cookie.Handlers.Game.Inventory.Exchanges
             {
                 client.Account.Character.Weight = message.FirstCharacterCurrentWeight;
                 client.Account.Character.MaxWeight = message.FirstCharacterMaxWeight;
-                client.Logger.Log($"Vous avez {message.FirstCharacterCurrentWeight} / {message.FirstCharacterMaxWeight} pods", LogMessageType.Info);
-                client.Logger.Log($"L'échangeur a {message.SecondCharacterCurrentWeight} / {message.SecondCharacterMaxWeight} pods", LogMessageType.Info);
+                client.Logger.Log(
+                    $"Vous avez {message.FirstCharacterCurrentWeight} / {message.FirstCharacterMaxWeight} pods",
+                    LogMessageType.Info);
+                client.Logger.Log(
+                    $"L'échangeur a {message.SecondCharacterCurrentWeight} / {message.SecondCharacterMaxWeight} pods",
+                    LogMessageType.Info);
             }
-            else if(message.SecondCharacterId == client.Account.Character.Id)
+            else if (message.SecondCharacterId == client.Account.Character.Id)
             {
-                client.Logger.Log($"Vous avez {message.SecondCharacterCurrentWeight} / {message.SecondCharacterMaxWeight} pods", LogMessageType.Info);
-                client.Logger.Log($"L'échangeur a {message.FirstCharacterCurrentWeight} / {message.FirstCharacterMaxWeight} pods", LogMessageType.Info);
+                client.Logger.Log(
+                    $"Vous avez {message.SecondCharacterCurrentWeight} / {message.SecondCharacterMaxWeight} pods",
+                    LogMessageType.Info);
+                client.Logger.Log(
+                    $"L'échangeur a {message.FirstCharacterCurrentWeight} / {message.FirstCharacterMaxWeight} pods",
+                    LogMessageType.Info);
                 client.Account.Character.Weight = message.SecondCharacterCurrentWeight;
                 client.Account.Character.MaxWeight = message.SecondCharacterMaxWeight;
-            }         
+            }
         }
+
         [MessageHandler(ExchangeObjectAddedMessage.ProtocolId)]
         private void ExchangeObjectAddedMessageHandler(DofusClient client, ExchangeObjectAddedMessage message)
         {
@@ -62,11 +76,12 @@ namespace Cookie.Handlers.Game.Inventory.Exchanges
                     : $"Vous avez ajouté {D2OParsing.GetItemName(message.Object.ObjectGID)} x{message.Object.Quantity} à l'échange",
                 LogMessageType.Info);
         }
+
         [MessageHandler(ExchangeIsReadyMessage.ProtocolId)]
         private void ExchangeIsReadyMessageHandler(DofusClient client, ExchangeIsReadyMessage message)
-        {          
+        {
             if (message.Ready)
-                client.Logger.Log("Le joueur a accepté son échange",LogMessageType.Info);
+                client.Logger.Log("Le joueur a accepté son échange", LogMessageType.Info);
         }
     }
 }

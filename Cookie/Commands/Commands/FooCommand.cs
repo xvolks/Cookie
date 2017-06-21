@@ -1,5 +1,4 @@
-﻿using System;
-using Cookie.Commands.Interfaces;
+﻿using Cookie.Commands.Interfaces;
 using Cookie.Core;
 
 namespace Cookie.Commands.Commands

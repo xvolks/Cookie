@@ -1,8 +1,5 @@
-
-
 // Generated on 12/06/2016 11:35:50
-using System;
-using System.Collections.Generic;
+
 using Cookie.Gamedata.D2o;
 
 namespace Cookie.Datacenter
@@ -10,14 +7,14 @@ namespace Cookie.Datacenter
     [D2oClass("Characteristics")]
     public class Characteristic : IDataObject
     {
-        public const String MODULE = "Characteristics";
-        public int Id;
-        public String Keyword;
-        public uint NameId;
-        public String Asset;
+        public const string MODULE = "Characteristics";
+        public string Asset;
         public int CategoryId;
-        public Boolean Visible;
+        public int Id;
+        public string Keyword;
+        public uint NameId;
         public int Order;
-        public Boolean Upgradable;
+        public bool Upgradable;
+        public bool Visible;
     }
 }

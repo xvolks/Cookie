@@ -79,7 +79,10 @@ namespace Cookie.Game.World.Pathfinding
             return PathingUtils.GetCompressedPath(Find(startCellId, destinationCellId)).ToArray();
         }
 
-        public short[] GetCompressedPath(List<CellWithOrientation> cells) => PathingUtils.GetCompressedPath(cells);
+        public short[] GetCompressedPath(List<CellWithOrientation> cells)
+        {
+            return PathingUtils.GetCompressedPath(cells);
+        }
 
         public List<CellWithOrientation> GetPath(short startCellId, short destinationCellId)
         {

@@ -5,13 +5,14 @@ namespace Cookie.Protocol.Network.Types.Game.Look
     public class SubEntity : NetworkType
     {
         public const short ProtocolId = 54;
-        public override short TypeID { get { return ProtocolId; } }
 
         public byte BindingPointCategory;
         public byte BindingPointIndex;
         public EntityLook SubEntityLook;
 
-        public SubEntity() { }
+        public SubEntity()
+        {
+        }
 
         public SubEntity(byte bindingPointCategory, byte bindingPointIndex, EntityLook subEntityLook)
         {
@@ -19,6 +20,8 @@ namespace Cookie.Protocol.Network.Types.Game.Look
             BindingPointIndex = bindingPointIndex;
             SubEntityLook = subEntityLook;
         }
+
+        public override short TypeID => ProtocolId;
 
         public override void Serialize(ICustomDataOutput writer)
         {

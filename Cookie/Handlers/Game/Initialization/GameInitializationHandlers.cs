@@ -30,7 +30,8 @@ namespace Cookie.Handlers.Game.Initialization
         [MessageHandler(OnConnectionEventMessage.ProtocolId)]
         private void OnConnectionEventMessageHandler(DofusClient client, OnConnectionEventMessage message)
         {
-            client.Logger.Log("Connection Event Type: " + message.EventType + " | MessageID: " + message.MessageID, LogMessageType.Arena);
+            client.Logger.Log("Connection Event Type: " + message.EventType + " | MessageID: " + message.MessageID,
+                LogMessageType.Arena);
         }
 
         [MessageHandler(SetCharacterRestrictionsMessage.ProtocolId)]
@@ -38,8 +39,10 @@ namespace Cookie.Handlers.Game.Initialization
         {
             client.Account.Character.Restrictions = message.Restrictions;
         }
+
         [MessageHandler(ServerExperienceModificatorMessage.ProtocolId)]
-        private void ServerExperienceModificatorMessageHandler(DofusClient client, ServerExperienceModificatorMessage message)
+        private void ServerExperienceModificatorMessageHandler(DofusClient client,
+            ServerExperienceModificatorMessage message)
         {
             //
         }

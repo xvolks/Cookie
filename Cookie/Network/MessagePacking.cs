@@ -1,4 +1,5 @@
-﻿using Cookie.IO;
+﻿using System;
+using Cookie.IO;
 
 namespace Cookie
 {
@@ -6,18 +7,20 @@ namespace Cookie
     {
         private const byte BIT_RIGHT_SHIFT_LEN_PACKET_ID = 2;
         private const byte BIT_MASK = 3;
-        private uint _instanceId = 0;
+        private uint _instanceId;
 
         public void Pack(NetworkMessage message, ICustomDataOutput writer)
         {
             var methode = message.GetType().GetMethod("Serialize");
-            methode.Invoke(message, new object[1] { writer });
+            methode.Invoke(message, new object[1] {writer});
             WritePacket(writer, message);
         }
+
         public void Pack(int id, ICustomDataOutput writer)
         {
             WritePacket(writer, id);
         }
+
         private void WritePacket(ICustomDataOutput writer, NetworkMessage message)
         {
             var packet = writer.Data;
@@ -27,7 +30,7 @@ namespace Cookie
             var typeLen = ComputeTypeLen(packet.Length);
             var id = message.GetType().GetProperty("MessageID").GetValue(message);
 
-            var header = (short)SubComputeStaticHeader((uint)id, typeLen);
+            var header = (short) SubComputeStaticHeader((uint) id, typeLen);
             writer.WriteShort(header);
 
             writer.WriteUInt(_instanceId++);
@@ -37,30 +40,30 @@ namespace Cookie
                 case 0:
                     break;
                 case 1:
-                    writer.WriteByte((byte)packet.Length);
+                    writer.WriteByte((byte) packet.Length);
                     break;
                 case 2:
-                    writer.WriteShort((short)packet.Length);
+                    writer.WriteShort((short) packet.Length);
                     break;
                 case 3:
-                    writer.WriteByte((byte)(packet.Length >> 16 & 255));
-                    writer.WriteShort((short)(packet.Length & 65535));
+                    writer.WriteByte((byte) ((packet.Length >> 16) & 255));
+                    writer.WriteShort((short) (packet.Length & 65535));
                     break;
                 default:
-                    throw new System.Exception("Packet's length can't be encoded on 4 or more bytes");
+                    throw new Exception("Packet's length can't be encoded on 4 or more bytes");
             }
             writer.WriteBytes(packet);
         }
 
         private void WritePacket(ICustomDataOutput writer, int id)
         {
-            byte[] packet = writer.Data;
+            var packet = writer.Data;
 
             writer.Clear();
 
-            byte typeLen = ComputeTypeLen(packet.Length);
+            var typeLen = ComputeTypeLen(packet.Length);
 
-            var header = (short)SubComputeStaticHeader((uint)id, typeLen);
+            var header = (short) SubComputeStaticHeader((uint) id, typeLen);
             writer.WriteShort(header);
 
             switch (typeLen)
@@ -68,20 +71,21 @@ namespace Cookie
                 case 0:
                     break;
                 case 1:
-                    writer.WriteByte((byte)packet.Length);
+                    writer.WriteByte((byte) packet.Length);
                     break;
                 case 2:
-                    writer.WriteShort((short)packet.Length);
+                    writer.WriteShort((short) packet.Length);
                     break;
                 case 3:
-                    writer.WriteByte((byte)(packet.Length >> 16 & 255));
-                    writer.WriteShort((short)(packet.Length & 65535));
+                    writer.WriteByte((byte) ((packet.Length >> 16) & 255));
+                    writer.WriteShort((short) (packet.Length & 65535));
                     break;
                 default:
-                    throw new System.Exception("Packet's length can't be encoded on 4 or more bytes");
+                    throw new Exception("Packet's length can't be encoded on 4 or more bytes");
             }
             writer.WriteBytes(packet);
         }
+
         private static byte ComputeTypeLen(int param1)
         {
             if (param1 > 65535)
@@ -98,7 +102,7 @@ namespace Cookie
 
         private static uint SubComputeStaticHeader(uint id, byte typeLen)
         {
-            return id << BIT_RIGHT_SHIFT_LEN_PACKET_ID | typeLen;
+            return (id << BIT_RIGHT_SHIFT_LEN_PACKET_ID) | typeLen;
         }
 
         public override string ToString()

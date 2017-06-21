@@ -1,7 +1,7 @@
-﻿using Cookie.Extensions;
-using System;
+﻿using System;
 using System.Net;
 using System.Net.Sockets;
+using Cookie.Extensions;
 
 namespace Cookie.Core
 {
@@ -20,9 +20,11 @@ namespace Cookie.Core
 
         private TimerCore _timer;
         protected readonly object Sender;
+
         #endregion
 
         #region Constructor
+
         public Client(Socket socket)
         {
             Sender = new object();
@@ -36,9 +38,7 @@ namespace Cookie.Core
             _timer = new TimerCore(CheckDisonnect, 50, 1000);
 
             if (!Socket.ReceiveAsync(_receiveEvent))
-            {
                 ReceiveEvent_Completed(Socket, _receiveEvent);
-            }
         }
 
         public Client(string ip, short port)
@@ -51,7 +51,7 @@ namespace Cookie.Core
         public void Connect(string ip, short port)
         {
             Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            var socketAsyncEventArgs = new SocketAsyncEventArgs()
+            var socketAsyncEventArgs = new SocketAsyncEventArgs
             {
                 RemoteEndPoint = new IPEndPoint(IPAddress.Parse(ip), port),
                 UserToken = Socket
@@ -78,9 +78,7 @@ namespace Cookie.Core
             _timer = new TimerCore(CheckDisonnect, 50, 1000);
 
             if (!Socket.ReceiveAsync(_receiveEvent))
-            {
                 ReceiveEvent_Completed(Socket, _receiveEvent);
-            }
         }
 
         #endregion
@@ -102,6 +100,7 @@ namespace Cookie.Core
             _timer.Dispose();
             Dispose();
         }
+
         #endregion
 
         #region Funcs
@@ -125,7 +124,6 @@ namespace Cookie.Core
                 Socket.Close();
                 Socket.Dispose();
                 Socket = null;
-
             }
             Buffer = null;
             _timer.Dispose();
@@ -138,7 +136,10 @@ namespace Cookie.Core
                 DisconnectedEvent();
         }
 
-        public bool IsConnected() => Socket != null && Socket.IsConnected();
+        public bool IsConnected()
+        {
+            return Socket != null && Socket.IsConnected();
+        }
 
         #endregion
     }

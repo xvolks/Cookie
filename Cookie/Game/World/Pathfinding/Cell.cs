@@ -5,6 +5,31 @@ namespace Cookie.Game.World.Pathfinding
 {
     public class Cell
     {
+        #region Private method
+
+        private void GetBorder(int column, int line)
+        {
+            Position = new byte[8];
+            if (line == 0)
+                Position[0] = 1;
+            if (line == 1)
+                Position[1] = 1;
+            if (line == 39)
+                Position[2] = 1;
+            if (line == 38)
+                Position[3] = 1;
+            if (column == 0 && Pair)
+                Position[4] = 1;
+            if (column == 0 && !Pair)
+                Position[5] = 1;
+            if (column == 13 && !Pair)
+                Position[6] = 1;
+            if (column == 13 && Pair)
+                Position[7] = 1;
+        }
+
+        #endregion
+
         #region Declarations
 
         public bool Pair { get; }
@@ -47,31 +72,6 @@ namespace Cookie.Game.World.Pathfinding
         public override string ToString()
         {
             return $"Id : {Id} Location : ({Location.X} ; {Location.Y})";
-        }
-
-        #endregion
-
-        #region Private method
-
-        private void GetBorder(int column, int line)
-        {
-            Position = new byte[8];
-            if (line == 0)
-                Position[0] = 1;
-            if (line == 1)
-                Position[1] = 1;
-            if (line == 39)
-                Position[2] = 1;
-            if (line == 38)
-                Position[3] = 1;
-            if (column == 0 && Pair)
-                Position[4] = 1;
-            if (column == 0 && !Pair)
-                Position[5] = 1;
-            if (column == 13 && !Pair)
-                Position[6] = 1;
-            if (column == 13 && Pair)
-                Position[7] = 1;
         }
 
         #endregion

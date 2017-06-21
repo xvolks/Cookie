@@ -8,7 +8,7 @@ namespace Cookie.Utils.Extensions
     {
         public static T[] RemoveAt<T>(this T[] source, int index)
         {
-            T[] dest = new T[source.Length - 1];
+            var dest = new T[source.Length - 1];
             if (index > 0)
                 Array.Copy(source, 0, dest, 0, index);
 
@@ -17,9 +17,10 @@ namespace Cookie.Utils.Extensions
 
             return dest;
         }
+
         public static IList<T> Clone<T>(this IList<T> listToClone) where T : ICloneable
         {
-            return listToClone.Select(item => (T)item.Clone()).ToList();
+            return listToClone.Select(item => (T) item.Clone()).ToList();
         }
     }
 }

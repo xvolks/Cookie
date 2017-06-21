@@ -1,14 +1,17 @@
-﻿using Cookie.IO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿using System.Collections.Generic;
+using Cookie.IO;
 
 namespace Cookie.Gamedata.D2p
 {
     public class Layer
     {
+        // Fields
+        public List<Cell> Cells = new List<Cell>();
+
+        public int CellsCount;
+
+        public int LayerId;
+
         // Methods
         internal void Init(IDataReader Reader, int MapVersion)
         {
@@ -18,17 +21,12 @@ namespace Cookie.Gamedata.D2p
                 LayerId = Reader.ReadInt();
 
             CellsCount = Reader.ReadShort();
-            for (int i = 0; i < CellsCount; i++)
+            for (var i = 0; i < CellsCount; i++)
             {
-                Cell item = new Cell();
+                var item = new Cell();
                 item.Init(Reader, MapVersion);
                 Cells.Add(item);
             }
         }
-
-        // Fields
-        public List<Cell> Cells = new List<Cell>();
-        public int CellsCount;
-        public int LayerId;
     }
 }

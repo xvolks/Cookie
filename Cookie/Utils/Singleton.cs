@@ -5,9 +5,10 @@ namespace Cookie.Utils.Extensions
 {
     public abstract class Singleton<T> where T : class
     {
-        private static object syncRoot = new Object();
+        private static readonly object syncRoot = new object();
+
         /// <summary>
-        ///   Returns the singleton instance.
+        ///     Returns the singleton instance.
         /// </summary>
         public static T Instance
         {
@@ -18,7 +19,7 @@ namespace Cookie.Utils.Extensions
                     return SingletonAllocator.instance;
                 }
             }
-            protected set { SingletonAllocator.instance = value; }
+            protected set => SingletonAllocator.instance = value;
         }
 
         #region Nested type: SingletonAllocator
@@ -34,30 +35,29 @@ namespace Cookie.Utils.Extensions
 
             public static T CreateInstance(Type type)
             {
-                ConstructorInfo[] ctorsPublic = type.GetConstructors(
+                var ctorsPublic = type.GetConstructors(
                     BindingFlags.Instance | BindingFlags.Public);
 
                 if (ctorsPublic.Length > 0)
-                    return instance = (T)Activator.CreateInstance(type);
+                    return instance = (T) Activator.CreateInstance(type);
 
-                ConstructorInfo ctorNonPublic = type.GetConstructor(
+                var ctorNonPublic = type.GetConstructor(
                     BindingFlags.Instance | BindingFlags.NonPublic, null, Type.EmptyTypes, new ParameterModifier[0]);
 
                 if (ctorNonPublic == null)
-                {
-                    throw new System.Exception(
+                    throw new Exception(
                         type.FullName +
                         " doesn't have a private/protected constructor so the property cannot be enforced.");
-                }
 
                 try
                 {
-                    return instance = (T)ctorNonPublic.Invoke(new object[0]);
+                    return instance = (T) ctorNonPublic.Invoke(new object[0]);
                 }
-                catch (System.Exception e)
+                catch (Exception e)
                 {
-                    throw new System.Exception(
-                        "The Singleton couldnt be constructed, check if " + type.FullName + " has a default constructor",
+                    throw new Exception(
+                        "The Singleton couldnt be constructed, check if " + type.FullName +
+                        " has a default constructor",
                         e);
                 }
             }

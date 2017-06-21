@@ -1,14 +1,22 @@
-﻿using Cookie.IO;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
-
+using Cookie.IO;
 
 namespace Cookie.Gamedata.D2p
 {
     internal sealed class D2PFileDlm
     {
+        private readonly object CheckLock;
+        private readonly FileStream D2pFileStream;
+
+
+        // Fields
+        private readonly Dictionary<string, int[]> FilenameDataDictionnary;
+
+        private readonly BigEndianReader Reader;
+
         // Methods
         internal D2PFileDlm(string D2pFilePath)
         {
@@ -16,28 +24,29 @@ namespace Cookie.Gamedata.D2p
             Reader = new BigEndianReader(D2pFileStream);
             FilenameDataDictionnary = new Dictionary<string, int[]>();
             CheckLock = RuntimeHelpers.GetObjectValue(new object());
-            byte num = Convert.ToByte((Reader.ReadByte() + Reader.ReadByte()));
-            if ((num == 3))
+            var num = Convert.ToByte(Reader.ReadByte() + Reader.ReadByte());
+            if (num == 3)
             {
-                D2pFileStream.Position = (D2pFileStream.Length - 24);
-                int num2 = Convert.ToInt32(Reader.ReadUInt());
+                D2pFileStream.Position = D2pFileStream.Length - 24;
+                var num2 = Convert.ToInt32(Reader.ReadUInt());
                 Reader.ReadUInt();
-                int num3 = Convert.ToInt32(Reader.ReadUInt());
-                int num4 = Convert.ToInt32(Reader.ReadUInt());
-                int num1 = Convert.ToInt32(Reader.ReadUInt());
-                int num9 = Convert.ToInt32(Reader.ReadUInt());
+                var num3 = Convert.ToInt32(Reader.ReadUInt());
+                var num4 = Convert.ToInt32(Reader.ReadUInt());
+                var num1 = Convert.ToInt32(Reader.ReadUInt());
+                var num9 = Convert.ToInt32(Reader.ReadUInt());
                 D2pFileStream.Position = num3;
-                int num5 = num4;
-                int i = 1;
-                while ((i <= num5))
+                var num5 = num4;
+                var i = 1;
+                while (i <= num5)
                 {
-                    string key = Reader.ReadUTF();
-                    int num7 = (Reader.ReadInt() + num2);
-                    int num8 = Reader.ReadInt();
-                    FilenameDataDictionnary.Add(key, new int[] {
-                    num7,
-                    num8
-                });
+                    var key = Reader.ReadUTF();
+                    var num7 = Reader.ReadInt() + num2;
+                    var num8 = Reader.ReadInt();
+                    FilenameDataDictionnary.Add(key, new[]
+                    {
+                        num7,
+                        num8
+                    });
                     i += 1;
                 }
             }
@@ -52,17 +61,10 @@ namespace Cookie.Gamedata.D2p
         {
             lock (CheckLock)
             {
-                int[] numArray = FilenameDataDictionnary[fileName];
+                var numArray = FilenameDataDictionnary[fileName];
                 D2pFileStream.Position = numArray[0];
                 return Reader.ReadBytes(numArray[1]);
             }
         }
-
-
-        // Fields
-        private Dictionary<string, int[]> FilenameDataDictionnary;
-        private BigEndianReader Reader;
-        private FileStream D2pFileStream;
-        private object CheckLock;
     }
 }

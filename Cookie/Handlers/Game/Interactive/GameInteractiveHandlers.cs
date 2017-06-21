@@ -31,7 +31,8 @@ namespace Cookie.Handlers.Game.Interactive
         }
 
         [MessageHandler(InteractiveElementUpdatedMessage.ProtocolId)]
-        private void InteractiveElementUpdatedMessageHandler(DofusClient client, InteractiveElementUpdatedMessage message)
+        private void InteractiveElementUpdatedMessageHandler(DofusClient client,
+            InteractiveElementUpdatedMessage message)
         {
             client.Account.Character.MapData.UpdateInteractiveElement(message);
         }
@@ -40,7 +41,7 @@ namespace Cookie.Handlers.Game.Interactive
         private void InteractiveUseErrorMessageHandler(DofusClient client, InteractiveUseErrorMessage message)
         {
             client.Logger.Log($"Erreur sur {message.ElemId} skill {message.SkillInstanceUid}");
-            client.Account.Character.GatherManager.BannedElementId.Add((int)message.ElemId);
+            client.Account.Character.GatherManager.BannedElementId.Add((int) message.ElemId);
             client.Account.Character.Status = CharacterStatus.None;
         }
     }

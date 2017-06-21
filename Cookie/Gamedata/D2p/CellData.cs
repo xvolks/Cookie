@@ -1,16 +1,33 @@
-﻿
+﻿using System;
 using Cookie.IO;
-using System;
 
 namespace Cookie.Gamedata.D2p
 {
     public class CellData
     {
+        public int Arrow;
+        public bool Blue;
+        public bool FarmCell;
+        public int Floor;
+        public bool HavenbagCell;
+        public bool Los;
+        public int Losmov = 3;
+        public int MapChangeData;
+        public bool Mov;
+        public uint MoveZone;
+        public bool NonWalkableDuringFight;
+        public bool NonWalkableDuringRP;
+        public bool Red;
+
+        public int Speed;
+
+        public bool Visible;
+
         // Methods
         internal void Init(IDataReader Reader, int MapVersion)
         {
-            Floor = (Reader.ReadSByte() * 10);
-            if ((Floor != -1280))
+            Floor = Reader.ReadSByte() * 10;
+            if (Floor != -1280)
             {
                 bool topArrow, bottomArrow, rightArrow, leftArrow;
 
@@ -63,25 +80,7 @@ namespace Cookie.Gamedata.D2p
 
                 if (MapVersion > 7 && MapVersion < 9)
                     Arrow = 15 & Reader.ReadSByte();
-
             }
         }
-
-        public int Speed;
-        public int MapChangeData;
-        public uint MoveZone;
-        public int Losmov = 3;
-        public int Floor;
-        public int Arrow = 0;
-        public Boolean Mov;
-        public Boolean Los;
-        public Boolean NonWalkableDuringFight;
-        public Boolean Red;
-        public Boolean Blue;
-        public Boolean FarmCell;
-        public Boolean HavenbagCell;
-        public Boolean Visible;
-        public Boolean NonWalkableDuringRP;
-
     }
 }

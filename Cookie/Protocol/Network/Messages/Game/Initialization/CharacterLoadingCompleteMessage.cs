@@ -5,9 +5,8 @@ namespace Cookie.Protocol.Network.Messages.Game.Initialization
     public class CharacterLoadingCompleteMessage : NetworkMessage
     {
         public const uint ProtocolId = 6471;
-        public override uint MessageID { get { return ProtocolId; } }
 
-        public CharacterLoadingCompleteMessage() { }
+        public override uint MessageID => ProtocolId;
 
         public override void Serialize(ICustomDataOutput writer)
         {

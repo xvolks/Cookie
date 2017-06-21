@@ -1,21 +1,21 @@
-﻿using Cookie.Utils.Thread;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Cookie.Utils.Thread;
 
 namespace Cookie.Utils.Extensions
 {
     /// <summary>
-    ///   Extensions for TaskFactory.
+    ///     Extensions for TaskFactory.
     /// </summary>
     public static class TaskFactoryExtensions
     {
         /// <summary>
-        ///   Creates a generic TaskFactory from a non-generic one.
+        ///     Creates a generic TaskFactory from a non-generic one.
         /// </summary>
-        /// <typeparam name = "TResult">Specifies the type of Task results for the Tasks created by the new TaskFactory.</typeparam>
-        /// <param name = "factory">The TaskFactory to serve as a template.</param>
+        /// <typeparam name="TResult">Specifies the type of Task results for the Tasks created by the new TaskFactory.</typeparam>
+        /// <param name="factory">The TaskFactory to serve as a template.</param>
         /// <returns>The created TaskFactory.</returns>
         public static TaskFactory<TResult> ToGeneric<TResult>(this TaskFactory factory)
         {
@@ -24,10 +24,10 @@ namespace Cookie.Utils.Extensions
         }
 
         /// <summary>
-        ///   Creates a generic TaskFactory from a non-generic one.
+        ///     Creates a generic TaskFactory from a non-generic one.
         /// </summary>
-        /// <typeparam name = "TResult">Specifies the type of Task results for the Tasks created by the new TaskFactory.</typeparam>
-        /// <param name = "factory">The TaskFactory to serve as a template.</param>
+        /// <typeparam name="TResult">Specifies the type of Task results for the Tasks created by the new TaskFactory.</typeparam>
+        /// <param name="factory">The TaskFactory to serve as a template.</param>
         /// <returns>The created TaskFactory.</returns>
         public static TaskFactory ToNonGeneric<TResult>(this TaskFactory<TResult> factory)
         {
@@ -36,7 +36,7 @@ namespace Cookie.Utils.Extensions
         }
 
         /// <summary>
-        ///   Gets the TaskScheduler instance that should be used to schedule tasks.
+        ///     Gets the TaskScheduler instance that should be used to schedule tasks.
         /// </summary>
         public static TaskScheduler GetTargetScheduler(this TaskFactory factory)
         {
@@ -45,7 +45,7 @@ namespace Cookie.Utils.Extensions
         }
 
         /// <summary>
-        ///   Gets the TaskScheduler instance that should be used to schedule tasks.
+        ///     Gets the TaskScheduler instance that should be used to schedule tasks.
         /// </summary>
         public static TaskScheduler GetTargetScheduler<TResult>(this TaskFactory<TResult> factory)
         {
@@ -54,26 +54,26 @@ namespace Cookie.Utils.Extensions
         }
 
         /// <summary>
-        ///   Converts TaskCreationOptions into TaskContinuationOptions.
+        ///     Converts TaskCreationOptions into TaskContinuationOptions.
         /// </summary>
-        /// <param name = "creationOptions"></param>
+        /// <param name="creationOptions"></param>
         /// <returns></returns>
         private static TaskContinuationOptions ContinuationOptionsFromCreationOptions(
             TaskCreationOptions creationOptions)
         {
             return (TaskContinuationOptions)
-                   ((creationOptions & TaskCreationOptions.AttachedToParent) |
-                    (creationOptions & TaskCreationOptions.PreferFairness) |
-                    (creationOptions & TaskCreationOptions.LongRunning));
+            ((creationOptions & TaskCreationOptions.AttachedToParent) |
+             (creationOptions & TaskCreationOptions.PreferFairness) |
+             (creationOptions & TaskCreationOptions.LongRunning));
         }
 
         /// <summary>
-        ///   Asynchronously executes a sequence of tasks, maintaining a list of all tasks processed.
+        ///     Asynchronously executes a sequence of tasks, maintaining a list of all tasks processed.
         /// </summary>
-        /// <param name = "factory">The TaskFactory to use to create the task.</param>
-        /// <param name = "functions">
-        ///   The functions that generate the tasks through which to iterate sequentially.
-        ///   Iteration will cease if a task faults.
+        /// <param name="factory">The TaskFactory to use to create the task.</param>
+        /// <param name="functions">
+        ///     The functions that generate the tasks through which to iterate sequentially.
+        ///     Iteration will cease if a task faults.
         /// </param>
         /// <returns>A Task that will return the list of tracked tasks iterated.</returns>
         public static Task<IList<Task>> TrackedSequence(this TaskFactory factory, params Func<Task>[] functions)
@@ -84,13 +84,13 @@ namespace Cookie.Utils.Extensions
         }
 
         /// <summary>
-        ///   Creates the enumerable to iterate through with Iterate.
+        ///     Creates the enumerable to iterate through with Iterate.
         /// </summary>
-        /// <param name = "functions">
-        ///   The functions that generate the tasks through which to iterate sequentially.
-        ///   Iteration will cease if a task faults.
+        /// <param name="functions">
+        ///     The functions that generate the tasks through which to iterate sequentially.
+        ///     Iteration will cease if a task faults.
         /// </param>
-        /// <param name = "tcs">The TaskCompletionSource to resolve with the asynchronous results.</param>
+        /// <param name="tcs">The TaskCompletionSource to resolve with the asynchronous results.</param>
         /// <returns>The enumerable through which to iterate.</returns>
         private static IEnumerable<Task> TrackedSequenceInternal(
             IEnumerable<Func<Task>> functions, TaskCompletionSource<IList<Task>> tcs)
@@ -127,11 +127,11 @@ namespace Cookie.Utils.Extensions
         }
 
         /// <summary>
-        ///   Asynchronously iterates through an enumerable of tasks.
+        ///     Asynchronously iterates through an enumerable of tasks.
         /// </summary>
-        /// <param name = "factory">The target factory.</param>
-        /// <param name = "source">The enumerable containing the tasks to be iterated through.</param>
-        /// <param name = "state">The asynchronous state for the returned Task.</param>
+        /// <param name="factory">The target factory.</param>
+        /// <param name="source">The enumerable containing the tasks to be iterated through.</param>
+        /// <param name="state">The asynchronous state for the returned Task.</param>
         /// <returns>A Task that represents the complete asynchronous operation.</returns>
         public static Task Iterate(
             this TaskFactory factory,
@@ -139,16 +139,16 @@ namespace Cookie.Utils.Extensions
         {
             if (factory == null) throw new ArgumentNullException("factory");
             return Iterate(factory, source, state, factory.CancellationToken, factory.CreationOptions,
-                           factory.GetTargetScheduler());
+                factory.GetTargetScheduler());
         }
 
         /// <summary>
-        ///   Asynchronously iterates through an enumerable of tasks.
+        ///     Asynchronously iterates through an enumerable of tasks.
         /// </summary>
-        /// <param name = "factory">The target factory.</param>
-        /// <param name = "source">The enumerable containing the tasks to be iterated through.</param>
-        /// <param name = "state">The asynchronous state for the returned Task.</param>
-        /// <param name = "cancellationToken">The cancellation token used to cancel the iteration.</param>
+        /// <param name="factory">The target factory.</param>
+        /// <param name="source">The enumerable containing the tasks to be iterated through.</param>
+        /// <param name="state">The asynchronous state for the returned Task.</param>
+        /// <param name="cancellationToken">The cancellation token used to cancel the iteration.</param>
         /// <returns>A Task that represents the complete asynchronous operation.</returns>
         public static Task Iterate(
             this TaskFactory factory,
@@ -157,16 +157,16 @@ namespace Cookie.Utils.Extensions
         {
             if (factory == null) throw new ArgumentNullException("factory");
             return Iterate(factory, source, state, cancellationToken, factory.CreationOptions,
-                           factory.GetTargetScheduler());
+                factory.GetTargetScheduler());
         }
 
         /// <summary>
-        ///   Asynchronously iterates through an enumerable of tasks.
+        ///     Asynchronously iterates through an enumerable of tasks.
         /// </summary>
-        /// <param name = "factory">The target factory.</param>
-        /// <param name = "source">The enumerable containing the tasks to be iterated through.</param>
-        /// <param name = "state">The asynchronous state for the returned Task.</param>
-        /// <param name = "creationOptions">Options that control the task's behavior.</param>
+        /// <param name="factory">The target factory.</param>
+        /// <param name="source">The enumerable containing the tasks to be iterated through.</param>
+        /// <param name="state">The asynchronous state for the returned Task.</param>
+        /// <param name="creationOptions">Options that control the task's behavior.</param>
         /// <returns>A Task that represents the complete asynchronous operation.</returns>
         public static Task Iterate(
             this TaskFactory factory,
@@ -175,16 +175,16 @@ namespace Cookie.Utils.Extensions
         {
             if (factory == null) throw new ArgumentNullException("factory");
             return Iterate(factory, source, state, factory.CancellationToken, creationOptions,
-                           factory.GetTargetScheduler());
+                factory.GetTargetScheduler());
         }
 
         /// <summary>
-        ///   Asynchronously iterates through an enumerable of tasks.
+        ///     Asynchronously iterates through an enumerable of tasks.
         /// </summary>
-        /// <param name = "factory">The target factory.</param>
-        /// <param name = "source">The enumerable containing the tasks to be iterated through.</param>
-        /// <param name = "state">The asynchronous state for the returned Task.</param>
-        /// <param name = "scheduler">The scheduler to which tasks will be scheduled.</param>
+        /// <param name="factory">The target factory.</param>
+        /// <param name="source">The enumerable containing the tasks to be iterated through.</param>
+        /// <param name="state">The asynchronous state for the returned Task.</param>
+        /// <param name="scheduler">The scheduler to which tasks will be scheduled.</param>
         /// <returns>A Task that represents the complete asynchronous operation.</returns>
         public static Task Iterate(
             this TaskFactory factory,
@@ -196,14 +196,14 @@ namespace Cookie.Utils.Extensions
         }
 
         /// <summary>
-        ///   Asynchronously iterates through an enumerable of tasks.
+        ///     Asynchronously iterates through an enumerable of tasks.
         /// </summary>
-        /// <param name = "factory">The target factory.</param>
-        /// <param name = "source">The enumerable containing the tasks to be iterated through.</param>
-        /// <param name = "state">The asynchronous state for the returned Task.</param>
-        /// <param name = "cancellationToken">The cancellation token used to cancel the iteration.</param>
-        /// <param name = "creationOptions">Options that control the task's behavior.</param>
-        /// <param name = "scheduler">The scheduler to which tasks will be scheduled.</param>
+        /// <param name="factory">The target factory.</param>
+        /// <param name="source">The enumerable containing the tasks to be iterated through.</param>
+        /// <param name="state">The asynchronous state for the returned Task.</param>
+        /// <param name="cancellationToken">The cancellation token used to cancel the iteration.</param>
+        /// <param name="creationOptions">Options that control the task's behavior.</param>
+        /// <param name="scheduler">The scheduler to which tasks will be scheduled.</param>
         /// <returns>A Task that represents the complete asynchronous operation.</returns>
         public static Task Iterate(
             this TaskFactory factory,
@@ -216,7 +216,7 @@ namespace Cookie.Utils.Extensions
             if (scheduler == null) throw new ArgumentNullException("scheduler");
 
             // Get an enumerator from the enumerable
-            IEnumerator<object> enumerator = source.GetEnumerator();
+            var enumerator = source.GetEnumerator();
             if (enumerator == null)
                 throw new InvalidOperationException("Invalid enumerable - GetEnumerator returned null");
 
@@ -224,11 +224,11 @@ namespace Cookie.Utils.Extensions
             // that when everything is done, the enumerator is cleaned up.
             var trs = new TaskCompletionSource<object>(state, creationOptions);
             trs.Task.ContinueWith(_ => enumerator.Dispose(), CancellationToken.None,
-                                  TaskContinuationOptions.ExecuteSynchronously, TaskScheduler.Default);
+                TaskContinuationOptions.ExecuteSynchronously, TaskScheduler.Default);
 
             // This will be called every time more work can be done.
             Action<Task> recursiveBody = null;
-            Action<Task> body = recursiveBody;
+            var body = recursiveBody;
             recursiveBody = antecedent =>
             {
                 try
@@ -239,7 +239,7 @@ namespace Cookie.Utils.Extensions
                     // from the enumerator) is complete.
                     if (enumerator.MoveNext())
                     {
-                        object nextItem = enumerator.Current;
+                        var nextItem = enumerator.Current;
 
                         // If we got a Task, continue from it to continue iterating
                         if (nextItem is Task nextTask)
@@ -253,43 +253,47 @@ namespace Cookie.Utils.Extensions
                         else if (nextItem is TaskScheduler)
                         {
                             if (body != null)
-                                Task.Factory.StartNew(() => body(null), CancellationToken.None, TaskCreationOptions.None,
-                                                      (TaskScheduler)nextItem).IgnoreExceptions();
+                                Task.Factory.StartNew(() => body(null), CancellationToken.None,
+                                    TaskCreationOptions.None,
+                                    (TaskScheduler) nextItem).IgnoreExceptions();
                         }
                         // Anything else is invalid
                         else
+                        {
                             trs.TrySetException(
                                 new InvalidOperationException("Task or TaskScheduler object expected in Iterate"));
+                        }
                     }
 
                     // Otherwise, we're done!
-                    else trs.TrySetResult(null);
+                    else
+                    {
+                        trs.TrySetResult(null);
+                    }
                 }
                 // If MoveNext throws an exception, propagate that to the user,
                 // either as cancellation or as a fault
                 catch (Exception exc)
                 {
                     if (exc is OperationCanceledException oce && oce.CancellationToken == cancellationToken)
-                    {
                         trs.TrySetCanceled();
-                    }
                     else trs.TrySetException(exc);
                 }
             };
 
             // Get things started by launching the first task
-            factory.StartNew(() => recursiveBody(null), CancellationToken.None, TaskCreationOptions.None, scheduler).
-                IgnoreExceptions();
+            factory.StartNew(() => recursiveBody(null), CancellationToken.None, TaskCreationOptions.None, scheduler)
+                .IgnoreExceptions();
 
             // Return the representative task to the user
             return trs.Task;
         }
 
         /// <summary>
-        ///   Asynchronously iterates through an enumerable of tasks.
+        ///     Asynchronously iterates through an enumerable of tasks.
         /// </summary>
-        /// <param name = "factory">The target factory.</param>
-        /// <param name = "source">The enumerable containing the tasks to be iterated through.</param>
+        /// <param name="factory">The target factory.</param>
+        /// <param name="source">The enumerable containing the tasks to be iterated through.</param>
         /// <returns>A Task that represents the complete asynchronous operation.</returns>
         public static Task Iterate(
             this TaskFactory factory,
@@ -297,15 +301,15 @@ namespace Cookie.Utils.Extensions
         {
             if (factory == null) throw new ArgumentNullException("factory");
             return Iterate(factory, source, null, factory.CancellationToken, factory.CreationOptions,
-                           factory.GetTargetScheduler());
+                factory.GetTargetScheduler());
         }
 
         /// <summary>
-        ///   Asynchronously iterates through an enumerable of tasks.
+        ///     Asynchronously iterates through an enumerable of tasks.
         /// </summary>
-        /// <param name = "factory">The target factory.</param>
-        /// <param name = "source">The enumerable containing the tasks to be iterated through.</param>
-        /// <param name = "cancellationToken">The cancellation token used to cancel the iteration.</param>
+        /// <param name="factory">The target factory.</param>
+        /// <param name="source">The enumerable containing the tasks to be iterated through.</param>
+        /// <param name="cancellationToken">The cancellation token used to cancel the iteration.</param>
         /// <returns>A Task that represents the complete asynchronous operation.</returns>
         public static Task Iterate(
             this TaskFactory factory,
@@ -314,15 +318,15 @@ namespace Cookie.Utils.Extensions
         {
             if (factory == null) throw new ArgumentNullException("factory");
             return Iterate(factory, source, null, cancellationToken, factory.CreationOptions,
-                           factory.GetTargetScheduler());
+                factory.GetTargetScheduler());
         }
 
         /// <summary>
-        ///   Asynchronously iterates through an enumerable of tasks.
+        ///     Asynchronously iterates through an enumerable of tasks.
         /// </summary>
-        /// <param name = "factory">The target factory.</param>
-        /// <param name = "source">The enumerable containing the tasks to be iterated through.</param>
-        /// <param name = "creationOptions">Options that control the task's behavior.</param>
+        /// <param name="factory">The target factory.</param>
+        /// <param name="source">The enumerable containing the tasks to be iterated through.</param>
+        /// <param name="creationOptions">Options that control the task's behavior.</param>
         /// <returns>A Task that represents the complete asynchronous operation.</returns>
         public static Task Iterate(
             this TaskFactory factory,
@@ -331,15 +335,15 @@ namespace Cookie.Utils.Extensions
         {
             if (factory == null) throw new ArgumentNullException("factory");
             return Iterate(factory, source, null, factory.CancellationToken, creationOptions,
-                           factory.GetTargetScheduler());
+                factory.GetTargetScheduler());
         }
 
         /// <summary>
-        ///   Asynchronously iterates through an enumerable of tasks.
+        ///     Asynchronously iterates through an enumerable of tasks.
         /// </summary>
-        /// <param name = "factory">The target factory.</param>
-        /// <param name = "source">The enumerable containing the tasks to be iterated through.</param>
-        /// <param name = "scheduler">The scheduler to which tasks will be scheduled.</param>
+        /// <param name="factory">The target factory.</param>
+        /// <param name="source">The enumerable containing the tasks to be iterated through.</param>
+        /// <param name="scheduler">The scheduler to which tasks will be scheduled.</param>
         /// <returns>A Task that represents the complete asynchronous operation.</returns>
         public static Task Iterate(
             this TaskFactory factory,
@@ -351,13 +355,13 @@ namespace Cookie.Utils.Extensions
         }
 
         /// <summary>
-        ///   Asynchronously iterates through an enumerable of tasks.
+        ///     Asynchronously iterates through an enumerable of tasks.
         /// </summary>
-        /// <param name = "factory">The target factory.</param>
-        /// <param name = "source">The enumerable containing the tasks to be iterated through.</param>
-        /// <param name = "cancellationToken">The cancellation token used to cancel the iteration.</param>
-        /// <param name = "creationOptions">Options that control the task's behavior.</param>
-        /// <param name = "scheduler">The scheduler to which tasks will be scheduled.</param>
+        /// <param name="factory">The target factory.</param>
+        /// <param name="source">The enumerable containing the tasks to be iterated through.</param>
+        /// <param name="cancellationToken">The cancellation token used to cancel the iteration.</param>
+        /// <param name="creationOptions">Options that control the task's behavior.</param>
+        /// <param name="scheduler">The scheduler to which tasks will be scheduled.</param>
         /// <returns>A Task that represents the complete asynchronous operation.</returns>
         public static Task Iterate(
             this TaskFactory factory,
@@ -368,26 +372,26 @@ namespace Cookie.Utils.Extensions
         }
 
         /// <summary>
-        ///   Creates a Task that will be completed when the specified WaitHandle is signaled.
+        ///     Creates a Task that will be completed when the specified WaitHandle is signaled.
         /// </summary>
-        /// <param name = "waitHandle">The WaitHandle.</param>
+        /// <param name="waitHandle">The WaitHandle.</param>
         /// <returns>The created Task.</returns>
         public static Task FromAsync(WaitHandle waitHandle)
         {
             var tcs = new TaskCompletionSource<object>();
-            RegisteredWaitHandle rwh = ThreadPool.RegisterWaitForSingleObject(waitHandle,
-                                                                              delegate { tcs.TrySetResult(null); }, null,
-                                                                              -1, true);
-            Task<object> t = tcs.Task;
+            var rwh = ThreadPool.RegisterWaitForSingleObject(waitHandle,
+                delegate { tcs.TrySetResult(null); }, null,
+                -1, true);
+            var t = tcs.Task;
             t.ContinueWith(_ => rwh.Unregister(null), TaskContinuationOptions.ExecuteSynchronously);
             return t;
         }
 
         /// <summary>
-        ///   Creates a Task that has completed in the Faulted state with the specified exception.
+        ///     Creates a Task that has completed in the Faulted state with the specified exception.
         /// </summary>
-        /// <param name = "factory">The target TaskFactory.</param>
-        /// <param name = "exception">The exception with which the Task should fault.</param>
+        /// <param name="factory">The target TaskFactory.</param>
+        /// <param name="exception">The exception with which the Task should fault.</param>
         /// <returns>The completed Task.</returns>
         public static Task FromException(this TaskFactory factory, Exception exception)
         {
@@ -397,11 +401,11 @@ namespace Cookie.Utils.Extensions
         }
 
         /// <summary>
-        ///   Creates a Task that has completed in the Faulted state with the specified exception.
+        ///     Creates a Task that has completed in the Faulted state with the specified exception.
         /// </summary>
-        /// <typeparam name = "TResult">Specifies the type of payload for the new Task.</typeparam>
-        /// <param name = "factory">The target TaskFactory.</param>
-        /// <param name = "exception">The exception with which the Task should fault.</param>
+        /// <typeparam name="TResult">Specifies the type of payload for the new Task.</typeparam>
+        /// <param name="factory">The target TaskFactory.</param>
+        /// <param name="exception">The exception with which the Task should fault.</param>
         /// <returns>The completed Task.</returns>
         public static Task<TResult> FromException<TResult>(this TaskFactory factory, Exception exception)
         {
@@ -411,11 +415,11 @@ namespace Cookie.Utils.Extensions
         }
 
         /// <summary>
-        ///   Creates a Task that has completed in the RanToCompletion state with the specified result.
+        ///     Creates a Task that has completed in the RanToCompletion state with the specified result.
         /// </summary>
-        /// <typeparam name = "TResult">Specifies the type of payload for the new Task.</typeparam>
-        /// <param name = "factory">The target TaskFactory.</param>
-        /// <param name = "result">The result with which the Task should complete.</param>
+        /// <typeparam name="TResult">Specifies the type of payload for the new Task.</typeparam>
+        /// <param name="factory">The target TaskFactory.</param>
+        /// <param name="result">The result with which the Task should complete.</param>
         /// <returns>The completed Task.</returns>
         public static Task<TResult> FromResult<TResult>(this TaskFactory factory, TResult result)
         {
@@ -425,10 +429,10 @@ namespace Cookie.Utils.Extensions
         }
 
         /// <summary>
-        ///   Creates a Task that has completed in the Faulted state with the specified exception.
+        ///     Creates a Task that has completed in the Faulted state with the specified exception.
         /// </summary>
-        /// <param name = "factory">The target TaskFactory.</param>
-        /// <param name = "exception">The exception with which the Task should fault.</param>
+        /// <param name="factory">The target TaskFactory.</param>
+        /// <param name="exception">The exception with which the Task should fault.</param>
         /// <returns>The completed Task.</returns>
         public static Task<TResult> FromException<TResult>(this TaskFactory<TResult> factory, Exception exception)
         {
@@ -438,11 +442,11 @@ namespace Cookie.Utils.Extensions
         }
 
         /// <summary>
-        ///   Creates a Task that has completed in the RanToCompletion state with the specified result.
+        ///     Creates a Task that has completed in the RanToCompletion state with the specified result.
         /// </summary>
-        /// <typeparam name = "TResult">Specifies the type of payload for the new Task.</typeparam>
-        /// <param name = "factory">The target TaskFactory.</param>
-        /// <param name = "result">The result with which the Task should complete.</param>
+        /// <typeparam name="TResult">Specifies the type of payload for the new Task.</typeparam>
+        /// <param name="factory">The target TaskFactory.</param>
+        /// <param name="result">The result with which the Task should complete.</param>
         /// <returns>The completed Task.</returns>
         public static Task<TResult> FromResult<TResult>(this TaskFactory<TResult> factory, TResult result)
         {
@@ -452,10 +456,10 @@ namespace Cookie.Utils.Extensions
         }
 
         /// <summary>
-        ///   Creates a Task that will complete after the specified delay.
+        ///     Creates a Task that will complete after the specified delay.
         /// </summary>
-        /// <param name = "factory">The TaskFactory.</param>
-        /// <param name = "millisecondsDelay">The delay after which the Task should transition to RanToCompletion.</param>
+        /// <param name="factory">The TaskFactory.</param>
+        /// <param name="millisecondsDelay">The delay after which the Task should transition to RanToCompletion.</param>
         /// <returns>A Task that will be completed after the specified duration.</returns>
         public static Task StartNewDelayed(
             this TaskFactory factory, int millisecondsDelay)
@@ -464,14 +468,14 @@ namespace Cookie.Utils.Extensions
         }
 
         /// <summary>
-        ///   Creates a Task that will complete after the specified delay.
+        ///     Creates a Task that will complete after the specified delay.
         /// </summary>
-        /// <param name = "factory">The TaskFactory.</param>
-        /// <param name = "millisecondsDelay">The delay after which the Task should transition to RanToCompletion.</param>
-        /// <param name = "cancellationToken">The cancellation token that can be used to cancel the timed task.</param>
+        /// <param name="factory">The TaskFactory.</param>
+        /// <param name="millisecondsDelay">The delay after which the Task should transition to RanToCompletion.</param>
+        /// <param name="cancellationToken">The cancellation token that can be used to cancel the timed task.</param>
         /// <returns>A Task that will be completed after the specified duration and that's cancelable with the specified token.</returns>
         public static Task StartNewDelayed(this TaskFactory factory, int millisecondsDelay,
-                                           CancellationToken cancellationToken)
+            CancellationToken cancellationToken)
         {
             // Validate arguments
             if (factory == null) throw new ArgumentNullException("factory");
@@ -479,7 +483,7 @@ namespace Cookie.Utils.Extensions
 
             // Create the timed task
             var tcs = new TaskCompletionSource<object>(factory.CreationOptions);
-            CancellationTokenRegistration[] ctr = { default(CancellationTokenRegistration) };
+            CancellationTokenRegistration[] ctr = {default(CancellationTokenRegistration)};
 
             // Create the timer but don't start it yet.  If we start it now,
             // it might fire before ctr has been set to the right registration.
@@ -487,21 +491,17 @@ namespace Cookie.Utils.Extensions
             {
                 // Clean up both the cancellation token and the timer, and try to transition to completed
                 ctr[0].Dispose();
-                ((Timer)self).Dispose();
+                ((Timer) self).Dispose();
                 tcs.TrySetResult(null);
             });
 
             // Register with the cancellation token.
             if (cancellationToken.CanBeCanceled)
-            {
-                // When cancellation occurs, cancel the timer and try to transition to canceled.
-                // There could be a race, but it's benign.
                 ctr[0] = cancellationToken.Register(() =>
                 {
                     timer.Dispose();
                     tcs.TrySetCanceled();
                 });
-            }
 
             // Start the timer and hand back the task...
             timer.Change(millisecondsDelay, Timeout.Infinite);
@@ -509,11 +509,11 @@ namespace Cookie.Utils.Extensions
         }
 
         /// <summary>
-        ///   Creates and schedules a task for execution after the specified time delay.
+        ///     Creates and schedules a task for execution after the specified time delay.
         /// </summary>
-        /// <param name = "factory">The factory to use to create the task.</param>
-        /// <param name = "millisecondsDelay">The delay after which the task will be scheduled.</param>
-        /// <param name = "action">The delegate executed by the task.</param>
+        /// <param name="factory">The factory to use to create the task.</param>
+        /// <param name="millisecondsDelay">The delay after which the task will be scheduled.</param>
+        /// <param name="action">The delegate executed by the task.</param>
         /// <returns>The created Task.</returns>
         public static Task StartNewDelayed(
             this TaskFactory factory,
@@ -521,16 +521,16 @@ namespace Cookie.Utils.Extensions
         {
             if (factory == null) throw new ArgumentNullException("factory");
             return StartNewDelayed(factory, millisecondsDelay, action, factory.CancellationToken,
-                                   factory.CreationOptions, factory.GetTargetScheduler());
+                factory.CreationOptions, factory.GetTargetScheduler());
         }
 
         /// <summary>
-        ///   Creates and schedules a task for execution after the specified time delay.
+        ///     Creates and schedules a task for execution after the specified time delay.
         /// </summary>
-        /// <param name = "factory">The factory to use to create the task.</param>
-        /// <param name = "millisecondsDelay">The delay after which the task will be scheduled.</param>
-        /// <param name = "action">The delegate executed by the task.</param>
-        /// <param name = "creationOptions">Options that control the task's behavior.</param>
+        /// <param name="factory">The factory to use to create the task.</param>
+        /// <param name="millisecondsDelay">The delay after which the task will be scheduled.</param>
+        /// <param name="action">The delegate executed by the task.</param>
+        /// <param name="creationOptions">Options that control the task's behavior.</param>
         /// <returns>The created Task.</returns>
         public static Task StartNewDelayed(
             this TaskFactory factory,
@@ -539,16 +539,16 @@ namespace Cookie.Utils.Extensions
         {
             if (factory == null) throw new ArgumentNullException("factory");
             return StartNewDelayed(factory, millisecondsDelay, action, factory.CancellationToken, creationOptions,
-                                   factory.GetTargetScheduler());
+                factory.GetTargetScheduler());
         }
 
         /// <summary>
-        ///   Creates and schedules a task for execution after the specified time delay.
+        ///     Creates and schedules a task for execution after the specified time delay.
         /// </summary>
-        /// <param name = "factory">The factory to use to create the task.</param>
-        /// <param name = "millisecondsDelay">The delay after which the task will be scheduled.</param>
-        /// <param name = "action">The delegate executed by the task.</param>
-        /// <param name = "cancellationToken">The cancellation token to assign to the created Task.</param>
+        /// <param name="factory">The factory to use to create the task.</param>
+        /// <param name="millisecondsDelay">The delay after which the task will be scheduled.</param>
+        /// <param name="action">The delegate executed by the task.</param>
+        /// <param name="cancellationToken">The cancellation token to assign to the created Task.</param>
         /// <returns>The created Task.</returns>
         public static Task StartNewDelayed(
             this TaskFactory factory,
@@ -557,18 +557,18 @@ namespace Cookie.Utils.Extensions
         {
             if (factory == null) throw new ArgumentNullException("factory");
             return StartNewDelayed(factory, millisecondsDelay, action, cancellationToken, factory.CreationOptions,
-                                   factory.GetTargetScheduler());
+                factory.GetTargetScheduler());
         }
 
         /// <summary>
-        ///   Creates and schedules a task for execution after the specified time delay.
+        ///     Creates and schedules a task for execution after the specified time delay.
         /// </summary>
-        /// <param name = "factory">The factory to use to create the task.</param>
-        /// <param name = "millisecondsDelay">The delay after which the task will be scheduled.</param>
-        /// <param name = "action">The delegate executed by the task.</param>
-        /// <param name = "cancellationToken">The cancellation token to assign to the created Task.</param>
-        /// <param name = "creationOptions">Options that control the task's behavior.</param>
-        /// <param name = "scheduler">The scheduler to which the Task will be scheduled.</param>
+        /// <param name="factory">The factory to use to create the task.</param>
+        /// <param name="millisecondsDelay">The delay after which the task will be scheduled.</param>
+        /// <param name="action">The delegate executed by the task.</param>
+        /// <param name="cancellationToken">The cancellation token to assign to the created Task.</param>
+        /// <param name="creationOptions">Options that control the task's behavior.</param>
+        /// <param name="scheduler">The scheduler to which the Task will be scheduled.</param>
         /// <returns>The created Task.</returns>
         public static Task StartNewDelayed(
             this TaskFactory factory,
@@ -582,16 +582,17 @@ namespace Cookie.Utils.Extensions
 
             return factory
                 .StartNewDelayed(millisecondsDelay, cancellationToken)
-                .ContinueWith(_ => action(), cancellationToken, TaskContinuationOptions.OnlyOnRanToCompletion, scheduler);
+                .ContinueWith(_ => action(), cancellationToken, TaskContinuationOptions.OnlyOnRanToCompletion,
+                    scheduler);
         }
 
         /// <summary>
-        ///   Creates and schedules a task for execution after the specified time delay.
+        ///     Creates and schedules a task for execution after the specified time delay.
         /// </summary>
-        /// <param name = "factory">The factory to use to create the task.</param>
-        /// <param name = "millisecondsDelay">The delay after which the task will be scheduled.</param>
-        /// <param name = "action">The delegate executed by the task.</param>
-        /// <param name = "state">An object provided to the delegate.</param>
+        /// <param name="factory">The factory to use to create the task.</param>
+        /// <param name="millisecondsDelay">The delay after which the task will be scheduled.</param>
+        /// <param name="action">The delegate executed by the task.</param>
+        /// <param name="state">An object provided to the delegate.</param>
         /// <returns>The created Task.</returns>
         public static Task StartNewDelayed(
             this TaskFactory factory,
@@ -599,17 +600,17 @@ namespace Cookie.Utils.Extensions
         {
             if (factory == null) throw new ArgumentNullException("factory");
             return StartNewDelayed(factory, millisecondsDelay, action, state, factory.CancellationToken,
-                                   factory.CreationOptions, factory.GetTargetScheduler());
+                factory.CreationOptions, factory.GetTargetScheduler());
         }
 
         /// <summary>
-        ///   Creates and schedules a task for execution after the specified time delay.
+        ///     Creates and schedules a task for execution after the specified time delay.
         /// </summary>
-        /// <param name = "factory">The factory to use to create the task.</param>
-        /// <param name = "millisecondsDelay">The delay after which the task will be scheduled.</param>
-        /// <param name = "action">The delegate executed by the task.</param>
-        /// <param name = "state">An object provided to the delegate.</param>
-        /// <param name = "creationOptions">Options that control the task's behavior.</param>
+        /// <param name="factory">The factory to use to create the task.</param>
+        /// <param name="millisecondsDelay">The delay after which the task will be scheduled.</param>
+        /// <param name="action">The delegate executed by the task.</param>
+        /// <param name="state">An object provided to the delegate.</param>
+        /// <param name="creationOptions">Options that control the task's behavior.</param>
         /// <returns>The created Task.</returns>
         public static Task StartNewDelayed(
             this TaskFactory factory,
@@ -617,18 +618,19 @@ namespace Cookie.Utils.Extensions
             TaskCreationOptions creationOptions)
         {
             if (factory == null) throw new ArgumentNullException("factory");
-            return StartNewDelayed(factory, millisecondsDelay, action, state, factory.CancellationToken, creationOptions,
-                                   factory.GetTargetScheduler());
+            return StartNewDelayed(factory, millisecondsDelay, action, state, factory.CancellationToken,
+                creationOptions,
+                factory.GetTargetScheduler());
         }
 
         /// <summary>
-        ///   Creates and schedules a task for execution after the specified time delay.
+        ///     Creates and schedules a task for execution after the specified time delay.
         /// </summary>
-        /// <param name = "factory">The factory to use to create the task.</param>
-        /// <param name = "millisecondsDelay">The delay after which the task will be scheduled.</param>
-        /// <param name = "action">The delegate executed by the task.</param>
-        /// <param name = "state">An object provided to the delegate.</param>
-        /// <param name = "cancellationToken">The cancellation token to assign to the created Task.</param>
+        /// <param name="factory">The factory to use to create the task.</param>
+        /// <param name="millisecondsDelay">The delay after which the task will be scheduled.</param>
+        /// <param name="action">The delegate executed by the task.</param>
+        /// <param name="state">An object provided to the delegate.</param>
+        /// <param name="cancellationToken">The cancellation token to assign to the created Task.</param>
         /// <returns>The created Task.</returns>
         public static Task StartNewDelayed(
             this TaskFactory factory,
@@ -636,20 +638,21 @@ namespace Cookie.Utils.Extensions
             CancellationToken cancellationToken)
         {
             if (factory == null) throw new ArgumentNullException("factory");
-            return StartNewDelayed(factory, millisecondsDelay, action, state, cancellationToken, factory.CreationOptions,
-                                   factory.GetTargetScheduler());
+            return StartNewDelayed(factory, millisecondsDelay, action, state, cancellationToken,
+                factory.CreationOptions,
+                factory.GetTargetScheduler());
         }
 
         /// <summary>
-        ///   Creates and schedules a task for execution after the specified time delay.
+        ///     Creates and schedules a task for execution after the specified time delay.
         /// </summary>
-        /// <param name = "factory">The factory to use to create the task.</param>
-        /// <param name = "millisecondsDelay">The delay after which the task will be scheduled.</param>
-        /// <param name = "action">The delegate executed by the task.</param>
-        /// <param name = "state">An object provided to the delegate.</param>
-        /// <param name = "cancellationToken">The cancellation token to assign to the created Task.</param>
-        /// <param name = "creationOptions">Options that control the task's behavior.</param>
-        /// <param name = "scheduler">The scheduler to which the Task will be scheduled.</param>
+        /// <param name="factory">The factory to use to create the task.</param>
+        /// <param name="millisecondsDelay">The delay after which the task will be scheduled.</param>
+        /// <param name="action">The delegate executed by the task.</param>
+        /// <param name="state">An object provided to the delegate.</param>
+        /// <param name="cancellationToken">The cancellation token to assign to the created Task.</param>
+        /// <param name="creationOptions">Options that control the task's behavior.</param>
+        /// <param name="scheduler">The scheduler to which the Task will be scheduled.</param>
         /// <returns>The created Task.</returns>
         public static Task StartNewDelayed(
             this TaskFactory factory,
@@ -671,7 +674,6 @@ namespace Cookie.Utils.Extensions
                 {
                     if (t.IsCanceled) result.TrySetCanceled();
                     else
-                    {
                         try
                         {
                             action(state);
@@ -681,7 +683,6 @@ namespace Cookie.Utils.Extensions
                         {
                             result.TrySetException(exc);
                         }
-                    }
                 }, scheduler);
 
             // Return the task
@@ -689,11 +690,11 @@ namespace Cookie.Utils.Extensions
         }
 
         /// <summary>
-        ///   Creates and schedules a task for execution after the specified time delay.
+        ///     Creates and schedules a task for execution after the specified time delay.
         /// </summary>
-        /// <param name = "factory">The factory to use to create the task.</param>
-        /// <param name = "millisecondsDelay">The delay after which the task will be scheduled.</param>
-        /// <param name = "function">The delegate executed by the task.</param>
+        /// <param name="factory">The factory to use to create the task.</param>
+        /// <param name="millisecondsDelay">The delay after which the task will be scheduled.</param>
+        /// <param name="function">The delegate executed by the task.</param>
         /// <returns>The created Task.</returns>
         public static Task<TResult> StartNewDelayed<TResult>(
             this TaskFactory<TResult> factory,
@@ -701,16 +702,16 @@ namespace Cookie.Utils.Extensions
         {
             if (factory == null) throw new ArgumentNullException("factory");
             return StartNewDelayed(factory, millisecondsDelay, function, factory.CancellationToken,
-                                   factory.CreationOptions, factory.GetTargetScheduler());
+                factory.CreationOptions, factory.GetTargetScheduler());
         }
 
         /// <summary>
-        ///   Creates and schedules a task for execution after the specified time delay.
+        ///     Creates and schedules a task for execution after the specified time delay.
         /// </summary>
-        /// <param name = "factory">The factory to use to create the task.</param>
-        /// <param name = "millisecondsDelay">The delay after which the task will be scheduled.</param>
-        /// <param name = "function">The delegate executed by the task.</param>
-        /// <param name = "creationOptions">Options that control the task's behavior.</param>
+        /// <param name="factory">The factory to use to create the task.</param>
+        /// <param name="millisecondsDelay">The delay after which the task will be scheduled.</param>
+        /// <param name="function">The delegate executed by the task.</param>
+        /// <param name="creationOptions">Options that control the task's behavior.</param>
         /// <returns>The created Task.</returns>
         public static Task<TResult> StartNewDelayed<TResult>(
             this TaskFactory<TResult> factory,
@@ -719,16 +720,16 @@ namespace Cookie.Utils.Extensions
         {
             if (factory == null) throw new ArgumentNullException("factory");
             return StartNewDelayed(factory, millisecondsDelay, function, factory.CancellationToken, creationOptions,
-                                   factory.GetTargetScheduler());
+                factory.GetTargetScheduler());
         }
 
         /// <summary>
-        ///   Creates and schedules a task for execution after the specified time delay.
+        ///     Creates and schedules a task for execution after the specified time delay.
         /// </summary>
-        /// <param name = "factory">The factory to use to create the task.</param>
-        /// <param name = "millisecondsDelay">The delay after which the task will be scheduled.</param>
-        /// <param name = "function">The delegate executed by the task.</param>
-        /// <param name = "cancellationToken">The CancellationToken to assign to the Task.</param>
+        /// <param name="factory">The factory to use to create the task.</param>
+        /// <param name="millisecondsDelay">The delay after which the task will be scheduled.</param>
+        /// <param name="function">The delegate executed by the task.</param>
+        /// <param name="cancellationToken">The CancellationToken to assign to the Task.</param>
         /// <returns>The created Task.</returns>
         public static Task<TResult> StartNewDelayed<TResult>(
             this TaskFactory<TResult> factory,
@@ -737,18 +738,18 @@ namespace Cookie.Utils.Extensions
         {
             if (factory == null) throw new ArgumentNullException("factory");
             return StartNewDelayed(factory, millisecondsDelay, function, cancellationToken, factory.CreationOptions,
-                                   factory.GetTargetScheduler());
+                factory.GetTargetScheduler());
         }
 
         /// <summary>
-        ///   Creates and schedules a task for execution after the specified time delay.
+        ///     Creates and schedules a task for execution after the specified time delay.
         /// </summary>
-        /// <param name = "factory">The factory to use to create the task.</param>
-        /// <param name = "millisecondsDelay">The delay after which the task will be scheduled.</param>
-        /// <param name = "function">The delegate executed by the task.</param>
-        /// <param name = "cancellationToken">The CancellationToken to assign to the Task.</param>
-        /// <param name = "creationOptions">Options that control the task's behavior.</param>
-        /// <param name = "scheduler">The scheduler to which the Task will be scheduled.</param>
+        /// <param name="factory">The factory to use to create the task.</param>
+        /// <param name="millisecondsDelay">The delay after which the task will be scheduled.</param>
+        /// <param name="function">The delegate executed by the task.</param>
+        /// <param name="cancellationToken">The CancellationToken to assign to the Task.</param>
+        /// <param name="creationOptions">Options that control the task's behavior.</param>
+        /// <param name="scheduler">The scheduler to which the Task will be scheduled.</param>
         /// <returns>The created Task.</returns>
         public static Task<TResult> StartNewDelayed<TResult>(
             this TaskFactory<TResult> factory,
@@ -762,8 +763,8 @@ namespace Cookie.Utils.Extensions
 
             // Create the trigger and the timer to start it
             var tcs = new TaskCompletionSource<object>();
-            var timer = new Timer(obj => ((TaskCompletionSource<object>)obj).SetResult(null),
-                                  tcs, millisecondsDelay, Timeout.Infinite);
+            var timer = new Timer(obj => ((TaskCompletionSource<object>) obj).SetResult(null),
+                tcs, millisecondsDelay, Timeout.Infinite);
 
             // Return a task that executes the function when the trigger fires
             return tcs.Task.ContinueWith(_ =>
@@ -774,12 +775,12 @@ namespace Cookie.Utils.Extensions
         }
 
         /// <summary>
-        ///   Creates and schedules a task for execution after the specified time delay.
+        ///     Creates and schedules a task for execution after the specified time delay.
         /// </summary>
-        /// <param name = "factory">The factory to use to create the task.</param>
-        /// <param name = "millisecondsDelay">The delay after which the task will be scheduled.</param>
-        /// <param name = "function">The delegate executed by the task.</param>
-        /// <param name = "state">An object provided to the delegate.</param>
+        /// <param name="factory">The factory to use to create the task.</param>
+        /// <param name="millisecondsDelay">The delay after which the task will be scheduled.</param>
+        /// <param name="function">The delegate executed by the task.</param>
+        /// <param name="state">An object provided to the delegate.</param>
         /// <returns>The created Task.</returns>
         public static Task<TResult> StartNewDelayed<TResult>(
             this TaskFactory<TResult> factory,
@@ -787,17 +788,17 @@ namespace Cookie.Utils.Extensions
         {
             if (factory == null) throw new ArgumentNullException("factory");
             return StartNewDelayed(factory, millisecondsDelay, function, state, factory.CancellationToken,
-                                   factory.CreationOptions, factory.GetTargetScheduler());
+                factory.CreationOptions, factory.GetTargetScheduler());
         }
 
         /// <summary>
-        ///   Creates and schedules a task for execution after the specified time delay.
+        ///     Creates and schedules a task for execution after the specified time delay.
         /// </summary>
-        /// <param name = "factory">The factory to use to create the task.</param>
-        /// <param name = "millisecondsDelay">The delay after which the task will be scheduled.</param>
-        /// <param name = "function">The delegate executed by the task.</param>
-        /// <param name = "state">An object provided to the delegate.</param>
-        /// <param name = "cancellationToken">The CancellationToken to assign to the Task.</param>
+        /// <param name="factory">The factory to use to create the task.</param>
+        /// <param name="millisecondsDelay">The delay after which the task will be scheduled.</param>
+        /// <param name="function">The delegate executed by the task.</param>
+        /// <param name="state">An object provided to the delegate.</param>
+        /// <param name="cancellationToken">The CancellationToken to assign to the Task.</param>
         /// <returns>The created Task.</returns>
         public static Task<TResult> StartNewDelayed<TResult>(
             this TaskFactory<TResult> factory,
@@ -806,17 +807,17 @@ namespace Cookie.Utils.Extensions
         {
             if (factory == null) throw new ArgumentNullException("factory");
             return StartNewDelayed(factory, millisecondsDelay, function, state, cancellationToken,
-                                   factory.CreationOptions, factory.GetTargetScheduler());
+                factory.CreationOptions, factory.GetTargetScheduler());
         }
 
         /// <summary>
-        ///   Creates and schedules a task for execution after the specified time delay.
+        ///     Creates and schedules a task for execution after the specified time delay.
         /// </summary>
-        /// <param name = "factory">The factory to use to create the task.</param>
-        /// <param name = "millisecondsDelay">The delay after which the task will be scheduled.</param>
-        /// <param name = "function">The delegate executed by the task.</param>
-        /// <param name = "state">An object provided to the delegate.</param>
-        /// <param name = "creationOptions">Options that control the task's behavior.</param>
+        /// <param name="factory">The factory to use to create the task.</param>
+        /// <param name="millisecondsDelay">The delay after which the task will be scheduled.</param>
+        /// <param name="function">The delegate executed by the task.</param>
+        /// <param name="state">An object provided to the delegate.</param>
+        /// <param name="creationOptions">Options that control the task's behavior.</param>
         /// <returns>The created Task.</returns>
         public static Task<TResult> StartNewDelayed<TResult>(
             this TaskFactory<TResult> factory,
@@ -825,19 +826,19 @@ namespace Cookie.Utils.Extensions
         {
             if (factory == null) throw new ArgumentNullException("factory");
             return StartNewDelayed(factory, millisecondsDelay, function, state, factory.CancellationToken,
-                                   creationOptions, factory.GetTargetScheduler());
+                creationOptions, factory.GetTargetScheduler());
         }
 
         /// <summary>
-        ///   Creates and schedules a task for execution after the specified time delay.
+        ///     Creates and schedules a task for execution after the specified time delay.
         /// </summary>
-        /// <param name = "factory">The factory to use to create the task.</param>
-        /// <param name = "millisecondsDelay">The delay after which the task will be scheduled.</param>
-        /// <param name = "function">The delegate executed by the task.</param>
-        /// <param name = "state">An object provided to the delegate.</param>
-        /// <param name = "cancellationToken">The CancellationToken to assign to the Task.</param>
-        /// <param name = "creationOptions">Options that control the task's behavior.</param>
-        /// <param name = "scheduler">The scheduler to which the Task will be scheduled.</param>
+        /// <param name="factory">The factory to use to create the task.</param>
+        /// <param name="millisecondsDelay">The delay after which the task will be scheduled.</param>
+        /// <param name="function">The delegate executed by the task.</param>
+        /// <param name="state">An object provided to the delegate.</param>
+        /// <param name="cancellationToken">The CancellationToken to assign to the Task.</param>
+        /// <param name="creationOptions">Options that control the task's behavior.</param>
+        /// <param name="scheduler">The scheduler to which the Task will be scheduled.</param>
         /// <returns>The created Task.</returns>
         public static Task<TResult> StartNewDelayed<TResult>(
             this TaskFactory<TResult> factory,
@@ -851,32 +852,32 @@ namespace Cookie.Utils.Extensions
 
             // Create the task that will be returned
             var result = new TaskCompletionSource<TResult>(state);
-            Timer[] timer = { null };
+            Timer[] timer = {null};
 
             // Create the task that will run the user's function
             var functionTask = new Task<TResult>(function, state, creationOptions);
 
             // When the function task completes, transfer the results to the returned task
             functionTask.ContinueWith(t =>
-            {
-                result.SetFromTask(t);
-                if (timer[0] != null) timer[0].Dispose();
-            }, cancellationToken,
-                                      ContinuationOptionsFromCreationOptions(creationOptions) |
-                                      TaskContinuationOptions.ExecuteSynchronously, scheduler);
+                {
+                    result.SetFromTask(t);
+                    if (timer[0] != null) timer[0].Dispose();
+                }, cancellationToken,
+                ContinuationOptionsFromCreationOptions(creationOptions) |
+                TaskContinuationOptions.ExecuteSynchronously, scheduler);
 
             // Start the timer for the trigger
-            timer[0] = new Timer(obj => ((Task)obj).Start(scheduler),
-                                 functionTask, millisecondsDelay, Timeout.Infinite);
+            timer[0] = new Timer(obj => ((Task) obj).Start(scheduler),
+                functionTask, millisecondsDelay, Timeout.Infinite);
 
             return result.Task;
         }
 
         /// <summary>
-        ///   Creates a Task using the TaskFactory.
+        ///     Creates a Task using the TaskFactory.
         /// </summary>
-        /// <param name = "factory">The factory to use.</param>
-        /// <param name = "action">The delegate for the task.</param>
+        /// <param name="factory">The factory to use.</param>
+        /// <param name="action">The delegate for the task.</param>
         /// <returns>The created task.  The task has not been scheduled.</returns>
         public static Task Create(
             this TaskFactory factory, Action action)
@@ -886,11 +887,11 @@ namespace Cookie.Utils.Extensions
         }
 
         /// <summary>
-        ///   Creates a Task using the TaskFactory.
+        ///     Creates a Task using the TaskFactory.
         /// </summary>
-        /// <param name = "factory">The factory to use.</param>
-        /// <param name = "action">The delegate for the task.</param>
-        /// <param name = "creationOptions">Options that control the task's behavior.</param>
+        /// <param name="factory">The factory to use.</param>
+        /// <param name="action">The delegate for the task.</param>
+        /// <param name="creationOptions">Options that control the task's behavior.</param>
         /// <returns>The created task.  The task has not been scheduled.</returns>
         public static Task Create(
             this TaskFactory factory, Action action, TaskCreationOptions creationOptions)
@@ -899,38 +900,38 @@ namespace Cookie.Utils.Extensions
         }
 
         /// <summary>
-        ///   Creates a Task using the TaskFactory.
+        ///     Creates a Task using the TaskFactory.
         /// </summary>
-        /// <param name = "factory">The factory to use.</param>
-        /// <param name = "action">The delegate for the task.</param>
-        /// <param name = "state">An object provided to the delegate.</param>
+        /// <param name="factory">The factory to use.</param>
+        /// <param name="action">The delegate for the task.</param>
+        /// <param name="state">An object provided to the delegate.</param>
         /// <returns>The created task.  The task has not been scheduled.</returns>
         public static Task Create(
-            this TaskFactory factory, Action<Object> action, object state)
+            this TaskFactory factory, Action<object> action, object state)
         {
             if (factory == null) throw new ArgumentNullException("factory");
             return new Task(action, state, factory.CancellationToken, factory.CreationOptions);
         }
 
         /// <summary>
-        ///   Creates a Task using the TaskFactory.
+        ///     Creates a Task using the TaskFactory.
         /// </summary>
-        /// <param name = "factory">The factory to use.</param>
-        /// <param name = "action">The delegate for the task.</param>
-        /// <param name = "state">An object provided to the delegate.</param>
-        /// <param name = "creationOptions">Options that control the task's behavior.</param>
+        /// <param name="factory">The factory to use.</param>
+        /// <param name="action">The delegate for the task.</param>
+        /// <param name="state">An object provided to the delegate.</param>
+        /// <param name="creationOptions">Options that control the task's behavior.</param>
         /// <returns>The created task.  The task has not been scheduled.</returns>
         public static Task Create(
-            this TaskFactory factory, Action<Object> action, object state, TaskCreationOptions creationOptions)
+            this TaskFactory factory, Action<object> action, object state, TaskCreationOptions creationOptions)
         {
             return new Task(action, state, factory.CancellationToken, creationOptions);
         }
 
         /// <summary>
-        ///   Creates a Task using the TaskFactory.
+        ///     Creates a Task using the TaskFactory.
         /// </summary>
-        /// <param name = "factory">The factory to use.</param>
-        /// <param name = "function">The delegate for the task.</param>
+        /// <param name="factory">The factory to use.</param>
+        /// <param name="function">The delegate for the task.</param>
         /// <returns>The created task.  The task has not been scheduled.</returns>
         public static Task<TResult> Create<TResult>(
             this TaskFactory factory, Func<TResult> function)
@@ -940,11 +941,11 @@ namespace Cookie.Utils.Extensions
         }
 
         /// <summary>
-        ///   Creates a Task using the TaskFactory.
+        ///     Creates a Task using the TaskFactory.
         /// </summary>
-        /// <param name = "factory">The factory to use.</param>
-        /// <param name = "function">The delegate for the task.</param>
-        /// <param name = "creationOptions">Options that control the task's behavior.</param>
+        /// <param name="factory">The factory to use.</param>
+        /// <param name="function">The delegate for the task.</param>
+        /// <param name="creationOptions">Options that control the task's behavior.</param>
         /// <returns>The created task.  The task has not been scheduled.</returns>
         public static Task<TResult> Create<TResult>(
             this TaskFactory factory, Func<TResult> function, TaskCreationOptions creationOptions)
@@ -953,38 +954,38 @@ namespace Cookie.Utils.Extensions
         }
 
         /// <summary>
-        ///   Creates a Task using the TaskFactory.
+        ///     Creates a Task using the TaskFactory.
         /// </summary>
-        /// <param name = "factory">The factory to use.</param>
-        /// <param name = "function">The delegate for the task.</param>
-        /// <param name = "state">An object provided to the delegate.</param>
+        /// <param name="factory">The factory to use.</param>
+        /// <param name="function">The delegate for the task.</param>
+        /// <param name="state">An object provided to the delegate.</param>
         /// <returns>The created task.  The task has not been scheduled.</returns>
         public static Task<TResult> Create<TResult>(
-            this TaskFactory factory, Func<Object, TResult> function, object state)
+            this TaskFactory factory, Func<object, TResult> function, object state)
         {
             if (factory == null) throw new ArgumentNullException("factory");
             return new Task<TResult>(function, state, factory.CancellationToken, factory.CreationOptions);
         }
 
         /// <summary>
-        ///   Creates a Task using the TaskFactory.
+        ///     Creates a Task using the TaskFactory.
         /// </summary>
-        /// <param name = "factory">The factory to use.</param>
-        /// <param name = "function">The delegate for the task.</param>
-        /// <param name = "state">An object provided to the delegate.</param>
-        /// <param name = "creationOptions">Options that control the task's behavior.</param>
+        /// <param name="factory">The factory to use.</param>
+        /// <param name="function">The delegate for the task.</param>
+        /// <param name="state">An object provided to the delegate.</param>
+        /// <param name="creationOptions">Options that control the task's behavior.</param>
         /// <returns>The created task.  The task has not been scheduled.</returns>
         public static Task<TResult> Create<TResult>(
-            this TaskFactory factory, Func<Object, TResult> function, object state, TaskCreationOptions creationOptions)
+            this TaskFactory factory, Func<object, TResult> function, object state, TaskCreationOptions creationOptions)
         {
             return new Task<TResult>(function, state, factory.CancellationToken, creationOptions);
         }
 
         /// <summary>
-        ///   Creates a Task using the TaskFactory.
+        ///     Creates a Task using the TaskFactory.
         /// </summary>
-        /// <param name = "factory">The factory to use.</param>
-        /// <param name = "function">The delegate for the task.</param>
+        /// <param name="factory">The factory to use.</param>
+        /// <param name="function">The delegate for the task.</param>
         /// <returns>The created task.  The task has not been scheduled.</returns>
         public static Task<TResult> Create<TResult>(
             this TaskFactory<TResult> factory, Func<TResult> function)
@@ -994,11 +995,11 @@ namespace Cookie.Utils.Extensions
         }
 
         /// <summary>
-        ///   Creates a Task using the TaskFactory.
+        ///     Creates a Task using the TaskFactory.
         /// </summary>
-        /// <param name = "factory">The factory to use.</param>
-        /// <param name = "function">The delegate for the task.</param>
-        /// <param name = "creationOptions">Options that control the task's behavior.</param>
+        /// <param name="factory">The factory to use.</param>
+        /// <param name="function">The delegate for the task.</param>
+        /// <param name="creationOptions">Options that control the task's behavior.</param>
         /// <returns>The created task.  The task has not been scheduled.</returns>
         public static Task<TResult> Create<TResult>(
             this TaskFactory<TResult> factory, Func<TResult> function, TaskCreationOptions creationOptions)
@@ -1007,40 +1008,40 @@ namespace Cookie.Utils.Extensions
         }
 
         /// <summary>
-        ///   Creates a Task using the TaskFactory.
+        ///     Creates a Task using the TaskFactory.
         /// </summary>
-        /// <param name = "factory">The factory to use.</param>
-        /// <param name = "function">The delegate for the task.</param>
-        /// <param name = "state">An object provided to the delegate.</param>
+        /// <param name="factory">The factory to use.</param>
+        /// <param name="function">The delegate for the task.</param>
+        /// <param name="state">An object provided to the delegate.</param>
         /// <returns>The created task.  The task has not been scheduled.</returns>
         public static Task<TResult> Create<TResult>(
-            this TaskFactory<TResult> factory, Func<Object, TResult> function, object state)
+            this TaskFactory<TResult> factory, Func<object, TResult> function, object state)
         {
             if (factory == null) throw new ArgumentNullException("factory");
             return new Task<TResult>(function, state, factory.CancellationToken, factory.CreationOptions);
         }
 
         /// <summary>
-        ///   Creates a Task using the TaskFactory.
+        ///     Creates a Task using the TaskFactory.
         /// </summary>
-        /// <param name = "factory">The factory to use.</param>
-        /// <param name = "function">The delegate for the task.</param>
-        /// <param name = "state">An object provided to the delegate.</param>
-        /// <param name = "creationOptions">Options that control the task's behavior.</param>
+        /// <param name="factory">The factory to use.</param>
+        /// <param name="function">The delegate for the task.</param>
+        /// <param name="state">An object provided to the delegate.</param>
+        /// <param name="creationOptions">Options that control the task's behavior.</param>
         /// <returns>The created task.  The task has not been scheduled.</returns>
         public static Task<TResult> Create<TResult>(
-            this TaskFactory<TResult> factory, Func<Object, TResult> function, object state,
+            this TaskFactory<TResult> factory, Func<object, TResult> function, object state,
             TaskCreationOptions creationOptions)
         {
             return new Task<TResult>(function, state, factory.CancellationToken, creationOptions);
         }
 
         /// <summary>
-        ///   Creates a continuation Task that will compplete upon
-        ///   the completion of a set of provided Tasks.
+        ///     Creates a continuation Task that will compplete upon
+        ///     the completion of a set of provided Tasks.
         /// </summary>
-        /// <param name = "factory">The TaskFactory to use to create the continuation task.</param>
-        /// <param name = "tasks">The array of tasks from which to continue.</param>
+        /// <param name="factory">The TaskFactory to use to create the continuation task.</param>
+        /// <param name="tasks">The array of tasks from which to continue.</param>
         /// <returns>A task that, when completed, will return the array of completed tasks.</returns>
         public static Task<Task[]> WhenAll(
             this TaskFactory factory, params Task[] tasks)
@@ -1049,11 +1050,11 @@ namespace Cookie.Utils.Extensions
         }
 
         /// <summary>
-        ///   Creates a continuation Task that will compplete upon
-        ///   the completion of a set of provided Tasks.
+        ///     Creates a continuation Task that will compplete upon
+        ///     the completion of a set of provided Tasks.
         /// </summary>
-        /// <param name = "factory">The TaskFactory to use to create the continuation task.</param>
-        /// <param name = "tasks">The array of tasks from which to continue.</param>
+        /// <param name="factory">The TaskFactory to use to create the continuation task.</param>
+        /// <param name="tasks">The array of tasks from which to continue.</param>
         /// <returns>A task that, when completed, will return the array of completed tasks.</returns>
         public static Task<Task<TAntecedentResult>[]> WhenAll<TAntecedentResult>(
             this TaskFactory factory, params Task<TAntecedentResult>[] tasks)
@@ -1062,11 +1063,11 @@ namespace Cookie.Utils.Extensions
         }
 
         /// <summary>
-        ///   Creates a continuation Task that will complete upon
-        ///   the completion of any one of a set of provided Tasks.
+        ///     Creates a continuation Task that will complete upon
+        ///     the completion of any one of a set of provided Tasks.
         /// </summary>
-        /// <param name = "factory">The TaskFactory to use to create the continuation task.</param>
-        /// <param name = "tasks">The array of tasks from which to continue.</param>
+        /// <param name="factory">The TaskFactory to use to create the continuation task.</param>
+        /// <param name="tasks">The array of tasks from which to continue.</param>
         /// <returns>A task that, when completed, will return the completed task.</returns>
         public static Task<Task> WhenAny(
             this TaskFactory factory, params Task[] tasks)
@@ -1075,11 +1076,11 @@ namespace Cookie.Utils.Extensions
         }
 
         /// <summary>
-        ///   Creates a continuation Task that will complete upon
-        ///   the completion of any one of a set of provided Tasks.
+        ///     Creates a continuation Task that will complete upon
+        ///     the completion of any one of a set of provided Tasks.
         /// </summary>
-        /// <param name = "factory">The TaskFactory to use to create the continuation task.</param>
-        /// <param name = "tasks">The array of tasks from which to continue.</param>
+        /// <param name="factory">The TaskFactory to use to create the continuation task.</param>
+        /// <param name="tasks">The array of tasks from which to continue.</param>
         /// <returns>A task that, when completed, will return the completed task.</returns>
         public static Task<Task<TAntecedentResult>> WhenAny<TAntecedentResult>(
             this TaskFactory factory, params Task<TAntecedentResult>[] tasks)

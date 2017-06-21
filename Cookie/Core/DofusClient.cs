@@ -1,30 +1,48 @@
-﻿using Cookie.Handlers.Connection;
+﻿using System;
+using System.Linq;
+using System.Net.Sockets;
+using Cookie.Handlers.Connection;
 using Cookie.Handlers.Game.Achievement;
 using Cookie.Handlers.Game.Alliance;
 using Cookie.Handlers.Game.Almanach;
 using Cookie.Handlers.Game.Approach;
 using Cookie.Handlers.Game.Basic;
 using Cookie.Handlers.Game.Character.Choice;
+using Cookie.Handlers.Game.Character.Creation;
+using Cookie.Handlers.Game.Character.Deletion;
 using Cookie.Handlers.Game.Character.Stats;
+using Cookie.Handlers.Game.Character.Status;
 using Cookie.Handlers.Game.Chat;
 using Cookie.Handlers.Game.Chat.Channel;
 using Cookie.Handlers.Game.Chat.Community;
+using Cookie.Handlers.Game.Chat.Smiley;
 using Cookie.Handlers.Game.Context;
+using Cookie.Handlers.Game.Context.Display;
+using Cookie.Handlers.Game.Context.Dungeon;
+using Cookie.Handlers.Game.Context.Fight;
+using Cookie.Handlers.Game.Context.Fight.Character;
 using Cookie.Handlers.Game.Context.Mount;
 using Cookie.Handlers.Game.Context.Notification;
 using Cookie.Handlers.Game.Context.Roleplay;
 using Cookie.Handlers.Game.Context.Roleplay.Emote;
+using Cookie.Handlers.Game.Context.Roleplay.Fight;
 using Cookie.Handlers.Game.Context.Roleplay.Fight.Arena;
 using Cookie.Handlers.Game.Context.Roleplay.Havenbag;
 using Cookie.Handlers.Game.Context.Roleplay.Houses;
 using Cookie.Handlers.Game.Context.Roleplay.Job;
+using Cookie.Handlers.Game.Context.Roleplay.Objects;
+using Cookie.Handlers.Game.Context.Roleplay.Paddock;
+using Cookie.Handlers.Game.Context.Roleplay.Party;
 using Cookie.Handlers.Game.Context.Roleplay.Quest;
 using Cookie.Handlers.Game.Dare;
+using Cookie.Handlers.Game.Finishmoves;
 using Cookie.Handlers.Game.Friend;
 using Cookie.Handlers.Game.Guild;
 using Cookie.Handlers.Game.Idol;
 using Cookie.Handlers.Game.Initialization;
 using Cookie.Handlers.Game.Interactive;
+using Cookie.Handlers.Game.Inventory;
+using Cookie.Handlers.Game.Inventory.Exchanges;
 using Cookie.Handlers.Game.Inventory.Items;
 using Cookie.Handlers.Game.Inventory.Spells;
 using Cookie.Handlers.Game.Prism;
@@ -38,50 +56,15 @@ using Cookie.Handlers.Security;
 using Cookie.Handlers.Server.Basic;
 using Cookie.Handlers.Web.Ankabox;
 using Cookie.IO;
+using Cookie.Utils.Enums;
 using Cookie.Utils.Extensions;
-using System;
-using System.Linq;
-using System.Net.Sockets;
-using Cookie.Handlers.Game.Context.Roleplay.Fight;
-using Cookie.Handlers.Game.Context.Roleplay.Paddock;
-using Cookie.Handlers.Game.Inventory.Exchanges;
-using Cookie.Handlers.Game.Finishmoves;
-using Cookie.Handlers.Game.Context.Dungeon;
-using Cookie.Handlers.Game.Inventory;
-using Cookie.Handlers.Game.Chat.Smiley;
-using Cookie.Handlers.Game.Context.Fight;
-using Cookie.Handlers.Game.Context.Roleplay.Objects;
-using Cookie.Handlers.Game.Context.Display;
-using Cookie.Handlers.Game.Character.Creation;
-using Cookie.Handlers.Game.Character.Deletion;
-using Cookie.Handlers.Game.Character.Status;
-using Cookie.Handlers.Game.Context.Roleplay.Party;
-using Cookie.Handlers.Game.Context.Fight.Character;
 
 namespace Cookie.Core
 {
     public class DofusClient : Client
     {
-        #region IPs / Ports
-        public static readonly string[] DofusIPs = { "213.248.126.39", "213.248.126.40" };
-        public static readonly short[] DofusPorts = { 5555, 443 };
-
-        public static string RandomIP = DofusIPs.RandomElementOrDefault();
-        public static short RandomPort = DofusPorts.RandomElementOrDefault();
-        #endregion
-
-        #region Private Properties
-        MessagePart _currentMessage;
-        readonly Dispatcher _dispatcher;
-        readonly BigEndianReader _reader = new BigEndianReader();
-        #endregion
-
-        #region Public Properties
-        public Account Account { get; set; }
-        public bool Debug = false;
-        #endregion
-
         #region Constructor
+
         public DofusClient(string Login, string Password) : base(RandomIP, RandomPort)
         {
             _dispatcher = new Dispatcher(this);
@@ -144,14 +127,41 @@ namespace Cookie.Core
             Register(typeof(GameContextRoleplayPartyHandlers));
             Register(typeof(GameContextFightCharacterHandlers));
         }
+
+        #endregion
+
+        #region IPs / Ports
+
+        public static readonly string[] DofusIPs = {"213.248.126.39", "213.248.126.40"};
+        public static readonly short[] DofusPorts = {5555, 443};
+
+        public static string RandomIP = DofusIPs.RandomElementOrDefault();
+        public static short RandomPort = DofusPorts.RandomElementOrDefault();
+
+        #endregion
+
+        #region Private Properties
+
+        private MessagePart _currentMessage;
+        private readonly Dispatcher _dispatcher;
+        private readonly BigEndianReader _reader = new BigEndianReader();
+
+        #endregion
+
+        #region Public Properties
+
+        public Account Account { get; set; }
+        public bool Debug = false;
+
         #endregion
 
         #region Events
+
         protected override void DisconnectedEvent()
         {
             base.DisconnectedEvent();
             if (Account == null) return;
-            Account.Character.Status = Utils.Enums.CharacterStatus.Disconnected;
+            Account.Character.Status = CharacterStatus.Disconnected;
             Logger.Log("Vous avez été déconnecté.", LogMessageType.Public);
             Account = null;
         }
@@ -173,7 +183,7 @@ namespace Cookie.Core
                 if (_currentMessage.Build(_reader))
                 {
                     var messageDataReader = new CustomDataReader(_currentMessage.Data);
-                    NetworkMessage message = MessageReceiver.BuildMessage((uint)_currentMessage.MessageId, messageDataReader);
+                    var message = MessageReceiver.BuildMessage((uint) _currentMessage.MessageId, messageDataReader);
                     if (message == null)
                         return;
                     _dispatcher.Dispatch(message);
@@ -195,6 +205,7 @@ namespace Cookie.Core
                 bytes[i / 2] = Convert.ToByte(hex.Substring(i, 2), 16);
             return bytes;
         }
+
         #endregion
 
         #region Methods
@@ -205,9 +216,9 @@ namespace Cookie.Core
                 return;
 
             var writer = new CustomDataWriter();
-            MessagePacking pack = new MessagePacking();
+            var pack = new MessagePacking();
             pack.Pack(msg, writer);
-            
+
             lock (Sender)
             {
                 if (Debug)
@@ -220,11 +231,12 @@ namespace Cookie.Core
         {
             _dispatcher.RegisterFrame(type);
         }
+
         public void UnRegister(Type type)
         {
             _dispatcher.UnRegisterFrame(type);
         }
-        
+
         #endregion
     }
 }

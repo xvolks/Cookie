@@ -1,4 +1,5 @@
 ﻿#region License GNU GPL
+
 // WeakCollection.cs
 // 
 // Copyright (C) 2012 - BehaviorIsManaged
@@ -12,186 +13,99 @@
 // See the GNU General Public License for more details. 
 // You should have received a copy of the GNU General Public License along with this program; 
 // if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+
 #endregion
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Cookie.Gamedata.I18n
 {
     /// <summary>
-    /// A collection of weak references to objects of type <typeparamref name="T"/>.
+    ///     A collection of weak references to objects of type <typeparamref name="T" />.
     /// </summary>
     /// <typeparam name="T">The type of objects to hold weak references to.</typeparam>
     internal interface IWeakCollection<T> : ICollection<T>, IDisposable where T : class
     {
         /// <summary>
-        /// Gets a sequence of live objects from the collection, causing a purge.
+        ///     Gets a sequence of live objects from the collection, causing a purge.
         /// </summary>
         IEnumerable<T> LiveList { get; }
 
         /// <summary>
-        /// Gets a complete sequence of objects from the collection. Does not cause a purge. Null entries represent dead objects.
+        ///     Gets a complete sequence of objects from the collection. Does not cause a purge. Null entries represent dead
+        ///     objects.
         /// </summary>
         IEnumerable<T> CompleteList { get; }
 
         /// <summary>
-        /// Gets a sequence of live objects from the collection without causing a purge.
+        ///     Gets a sequence of live objects from the collection without causing a purge.
         /// </summary>
         IEnumerable<T> LiveListWithoutPurge { get; }
 
         /// <summary>
-        /// Gets the number of live and dead entries in the collection. Does not cause a purge. O(1).
+        ///     Gets the number of live and dead entries in the collection. Does not cause a purge. O(1).
         /// </summary>
         int CompleteCount { get; }
 
         /// <summary>
-        /// Gets the number of dead entries in the collection. Does not cause a purge. O(n).
+        ///     Gets the number of dead entries in the collection. Does not cause a purge. O(n).
         /// </summary>
         int DeadCount { get; }
 
         /// <summary>
-        /// Gets the number of live entries in the collection, causing a purge. O(n).
+        ///     Gets the number of live entries in the collection, causing a purge. O(n).
         /// </summary>
         int LiveCount { get; }
 
         /// <summary>
-        /// Gets the number of live entries in the collection without causing a purge. O(n).
+        ///     Gets the number of live entries in the collection without causing a purge. O(n).
         /// </summary>
         int LiveCountWithoutPurge { get; }
 
         /// <summary>
-        /// Removes all dead objects from the collection.
+        ///     Removes all dead objects from the collection.
         /// </summary>
         void Purge();
     }
 
     /// <summary>
-    /// A collection of weak references to objects. Weak references are purged by iteration/count operations, not by add/remove operations.
+    ///     A collection of weak references to objects. Weak references are purged by iteration/count operations, not by
+    ///     add/remove operations.
     /// </summary>
     /// <typeparam name="T">The type of object to hold weak references to.</typeparam>
     /// <remarks>
-    /// <para>Since the collection holds weak references to the actual objects, the collection is comprised of both living and dead references. Living references refer to objects that have not been garbage collected, and may be used as normal references. Dead references refer to objects that have been garbage collected.</para>
-    /// <para>Dead references do consume resources; each dead reference is a garbage collection handle.</para>
-    /// <para>Dead references may be cleaned up by a <see cref="Purge"/> operation. Some properties and methods cause a purge as a side effect; the member documentation specifies whether a purge takes place.</para>
+    ///     <para>
+    ///         Since the collection holds weak references to the actual objects, the collection is comprised of both living
+    ///         and dead references. Living references refer to objects that have not been garbage collected, and may be used
+    ///         as normal references. Dead references refer to objects that have been garbage collected.
+    ///     </para>
+    ///     <para>Dead references do consume resources; each dead reference is a garbage collection handle.</para>
+    ///     <para>
+    ///         Dead references may be cleaned up by a <see cref="Purge" /> operation. Some properties and methods cause a
+    ///         purge as a side effect; the member documentation specifies whether a purge takes place.
+    ///     </para>
     /// </remarks>
     public sealed class WeakCollection<T> : IWeakCollection<T> where T : class
     {
         /// <summary>
-        /// The actual collection of strongly-typed weak references.
+        ///     The actual collection of strongly-typed weak references.
         /// </summary>
-        private List<WeakReference<T>> list;
+        private readonly List<WeakReference<T>> list;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WeakCollection{T}"/> class that is empty.
+        ///     Initializes a new instance of the <see cref="WeakCollection{T}" /> class that is empty.
         /// </summary>
         public WeakCollection()
         {
-            this.list = new List<WeakReference<T>>();
+            list = new List<WeakReference<T>>();
         }
 
         /// <summary>
-        /// Gets a sequence of live objects from the collection, causing a purge.
-        /// </summary>
-        public IEnumerable<T> LiveList
-        {
-            get
-            {
-                List<T> ret = new List<T>(this.list.Count);
-                ret.AddRange(this.UnsafeLiveList);
-                return ret;
-            }
-        }
-
-        /// <summary>
-        /// Gets a complete sequence of objects from the collection. Does not cause a purge. Null entries represent dead objects.
-        /// </summary>
-        public IEnumerable<T> CompleteList
-        {
-            get
-            {
-                return this.list.Select(x => x.Target);
-            }
-        }
-
-        /// <summary>
-        /// Gets a sequence of live objects from the collection without causing a purge.
-        /// </summary>
-        public IEnumerable<T> LiveListWithoutPurge
-        {
-            get
-            {
-                return this.CompleteList.Where(x => x != null);
-            }
-        }
-
-        /// <summary>
-        /// Gets the number of live and dead entries in the collection. Does not cause a purge. O(1).
-        /// </summary>
-        public int CompleteCount
-        {
-            get
-            {
-                return this.list.Count;
-            }
-        }
-
-        /// <summary>
-        /// Gets the number of dead entries in the collection. Does not cause a purge. O(n).
-        /// </summary>
-        public int DeadCount
-        {
-            get
-            {
-                return this.CompleteList.Count(x => x == null);
-            }
-        }
-
-        /// <summary>
-        /// Gets the number of live entries in the collection, causing a purge. O(n).
-        /// </summary>
-        public int LiveCount
-        {
-            get
-            {
-                return this.UnsafeLiveList.Count();
-            }
-        }
-
-        /// <summary>
-        /// Gets the number of live entries in the collection without causing a purge. O(n).
-        /// </summary>
-        public int LiveCountWithoutPurge
-        {
-            get
-            {
-                return this.CompleteList.Count(x => x != null);
-            }
-        }
-
-        #region ICollection<T> Properties
-
-        /// <summary>
-        /// Gets the number of live entries in the collection, causing a purge. O(n).
-        /// </summary>
-        int ICollection<T>.Count
-        {
-            get { return this.LiveCount; }
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether the collection is read only. Always returns false.
-        /// </summary>
-        bool ICollection<T>.IsReadOnly
-        {
-            get { return false; }
-        }
-
-        #endregion
-
-        /// <summary>
-        /// Gets a sequence of live objects from the collection, causing a purge. The entire sequence MUST always be enumerated!
+        ///     Gets a sequence of live objects from the collection, causing a purge. The entire sequence MUST always be
+        ///     enumerated!
         /// </summary>
         private IEnumerable<T> UnsafeLiveList
         {
@@ -200,19 +114,17 @@ namespace Cookie.Gamedata.I18n
                 // This implementation uses logic similar to List<T>.RemoveAll, which always has O(n) time.
                 //  Some other implementations seen in the wild have O(n*m) time, where m is the number of dead entries.
                 //  As m approaches n (e.g., mass object extinctions), their running time approaches O(n^2).
-                int writeIndex = 0;
-                for (int readIndex = 0; readIndex != this.list.Count; ++readIndex)
+                var writeIndex = 0;
+                for (var readIndex = 0; readIndex != list.Count; ++readIndex)
                 {
-                    WeakReference<T> weakReference = this.list[readIndex];
-                    T weakDelegate = weakReference.Target;
+                    var weakReference = list[readIndex];
+                    var weakDelegate = weakReference.Target;
                     if (weakDelegate != null)
                     {
                         yield return weakDelegate;
 
                         if (readIndex != writeIndex)
-                        {
-                            this.list[writeIndex] = this.list[readIndex];
-                        }
+                            list[writeIndex] = list[readIndex];
 
                         ++writeIndex;
                     }
@@ -222,33 +134,89 @@ namespace Cookie.Gamedata.I18n
                     }
                 }
 
-                this.list.RemoveRange(writeIndex, this.list.Count - writeIndex);
+                list.RemoveRange(writeIndex, list.Count - writeIndex);
             }
         }
 
         /// <summary>
-        /// Adds a weak reference to an object to the collection. Does not cause a purge.
+        ///     Gets a sequence of live objects from the collection, causing a purge.
+        /// </summary>
+        public IEnumerable<T> LiveList
+        {
+            get
+            {
+                var ret = new List<T>(list.Count);
+                ret.AddRange(UnsafeLiveList);
+                return ret;
+            }
+        }
+
+        /// <summary>
+        ///     Gets a complete sequence of objects from the collection. Does not cause a purge. Null entries represent dead
+        ///     objects.
+        /// </summary>
+        public IEnumerable<T> CompleteList
+        {
+            get { return list.Select(x => x.Target); }
+        }
+
+        /// <summary>
+        ///     Gets a sequence of live objects from the collection without causing a purge.
+        /// </summary>
+        public IEnumerable<T> LiveListWithoutPurge
+        {
+            get { return CompleteList.Where(x => x != null); }
+        }
+
+        /// <summary>
+        ///     Gets the number of live and dead entries in the collection. Does not cause a purge. O(1).
+        /// </summary>
+        public int CompleteCount => list.Count;
+
+        /// <summary>
+        ///     Gets the number of dead entries in the collection. Does not cause a purge. O(n).
+        /// </summary>
+        public int DeadCount
+        {
+            get { return CompleteList.Count(x => x == null); }
+        }
+
+        /// <summary>
+        ///     Gets the number of live entries in the collection, causing a purge. O(n).
+        /// </summary>
+        public int LiveCount => UnsafeLiveList.Count();
+
+        /// <summary>
+        ///     Gets the number of live entries in the collection without causing a purge. O(n).
+        /// </summary>
+        public int LiveCountWithoutPurge
+        {
+            get { return CompleteList.Count(x => x != null); }
+        }
+
+        /// <summary>
+        ///     Adds a weak reference to an object to the collection. Does not cause a purge.
         /// </summary>
         /// <param name="item">The object to add a weak reference to.</param>
         public void Add(T item)
         {
-            this.list.Add(new WeakReference<T>(item));
+            list.Add(new WeakReference<T>(item));
         }
 
         /// <summary>
-        /// Removes a weak reference to an object from the collection. Does not cause a purge.
+        ///     Removes a weak reference to an object from the collection. Does not cause a purge.
         /// </summary>
         /// <param name="item">The object to remove a weak reference to.</param>
         /// <returns>True if the object was found and removed; false if the object was not found.</returns>
         public bool Remove(T item)
         {
-            for (int i = 0; i != this.list.Count; ++i)
+            for (var i = 0; i != list.Count; ++i)
             {
-                WeakReference<T> weakReference = this.list[i];
-                T weakDelegate = weakReference.Target;
+                var weakReference = list[i];
+                var weakDelegate = weakReference.Target;
                 if (weakDelegate == item)
                 {
-                    this.list.RemoveAt(i);
+                    list.RemoveAt(i);
                     weakReference.Dispose();
                     return true;
                 }
@@ -258,73 +226,45 @@ namespace Cookie.Gamedata.I18n
         }
 
         /// <summary>
-        /// Removes all dead objects from the collection.
+        ///     Removes all dead objects from the collection.
         /// </summary>
         public void Purge()
         {
             // We cannot simply use List<T>.RemoveAll, because the predicate "x => !x.IsAlive" is not stable.
-            IEnumerator<T> enumerator = this.UnsafeLiveList.GetEnumerator();
+            var enumerator = UnsafeLiveList.GetEnumerator();
             while (enumerator.MoveNext())
             {
             }
         }
 
         /// <summary>
-        /// Frees all resources held by the collection.
+        ///     Frees all resources held by the collection.
         /// </summary>
         public void Dispose()
         {
-            this.Clear();
+            Clear();
         }
 
         /// <summary>
-        /// Empties the collection.
+        ///     Empties the collection.
         /// </summary>
         public void Clear()
         {
-            foreach (WeakReference<T> weakReference in this.list)
-            {
+            foreach (var weakReference in list)
                 weakReference.Dispose();
-            }
 
-            this.list.Clear();
+            list.Clear();
         }
-
-        #region ICollection<T> Methods
-
-        /// <summary>
-        /// Determines whether the collection contains a specific value.
-        /// </summary>
-        /// <param name="item">The object to locate.</param>
-        /// <returns>True if the collection contains a specific value; false if it does not.</returns>
-        bool ICollection<T>.Contains(T item)
-        {
-            return this.LiveListWithoutPurge.Contains(item);
-        }
-
-        /// <summary>
-        /// Copies all live objects to an array.
-        /// </summary>
-        /// <param name="array">The destination array.</param>
-        /// <param name="arrayIndex">The index to begin writing into the array.</param>
-        void ICollection<T>.CopyTo(T[] array, int arrayIndex)
-        {
-            List<T> ret = new List<T>(this.list.Count);
-            ret.AddRange(this.UnsafeLiveList);
-            ret.CopyTo(array, arrayIndex);
-        }
-
-        #endregion
 
         #region IEnumerable<T> Members
 
         /// <summary>
-        /// Gets a sequence of live objects from the collection, causing a purge.
+        ///     Gets a sequence of live objects from the collection, causing a purge.
         /// </summary>
         /// <returns>The sequence of live objects.</returns>
         IEnumerator<T> IEnumerable<T>.GetEnumerator()
         {
-            return this.LiveList.GetEnumerator();
+            return LiveList.GetEnumerator();
         }
 
         #endregion
@@ -332,15 +272,54 @@ namespace Cookie.Gamedata.I18n
         #region IEnumerable Members
 
         /// <summary>
-        /// Gets a sequence of live objects from the collection, causing a purge.
+        ///     Gets a sequence of live objects from the collection, causing a purge.
         /// </summary>
         /// <returns>The sequence of live objects.</returns>
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        IEnumerator IEnumerable.GetEnumerator()
         {
-            return ((IEnumerable<T>)this).GetEnumerator();
+            return ((IEnumerable<T>) this).GetEnumerator();
+        }
+
+        #endregion
+
+        #region ICollection<T> Properties
+
+        /// <summary>
+        ///     Gets the number of live entries in the collection, causing a purge. O(n).
+        /// </summary>
+        int ICollection<T>.Count => LiveCount;
+
+        /// <summary>
+        ///     Gets a value indicating whether the collection is read only. Always returns false.
+        /// </summary>
+        bool ICollection<T>.IsReadOnly => false;
+
+        #endregion
+
+        #region ICollection<T> Methods
+
+        /// <summary>
+        ///     Determines whether the collection contains a specific value.
+        /// </summary>
+        /// <param name="item">The object to locate.</param>
+        /// <returns>True if the collection contains a specific value; false if it does not.</returns>
+        bool ICollection<T>.Contains(T item)
+        {
+            return LiveListWithoutPurge.Contains(item);
+        }
+
+        /// <summary>
+        ///     Copies all live objects to an array.
+        /// </summary>
+        /// <param name="array">The destination array.</param>
+        /// <param name="arrayIndex">The index to begin writing into the array.</param>
+        void ICollection<T>.CopyTo(T[] array, int arrayIndex)
+        {
+            var ret = new List<T>(list.Count);
+            ret.AddRange(UnsafeLiveList);
+            ret.CopyTo(array, arrayIndex);
         }
 
         #endregion
     }
-
 }

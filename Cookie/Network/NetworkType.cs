@@ -1,5 +1,5 @@
-﻿using Cookie.IO;
-using System;
+﻿using System;
+using Cookie.IO;
 
 namespace Cookie
 {

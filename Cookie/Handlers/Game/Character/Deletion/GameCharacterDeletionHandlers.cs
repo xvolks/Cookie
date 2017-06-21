@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Cookie.Core;
+﻿using Cookie.Core;
 using Cookie.Protocol.Network.Messages.Game.Character.Deletion;
 
 namespace Cookie.Handlers.Game.Character.Deletion
@@ -13,7 +8,7 @@ namespace Cookie.Handlers.Game.Character.Deletion
         [MessageHandler(CharacterDeletionErrorMessage.ProtocolId)]
         private void CharacterDeletionErrorMessageHandler(DofusClient client, CharacterDeletionErrorMessage message)
         {
-            client.Logger.Log("Une erreur est survenue lors de la suppression du personnage.",LogMessageType.Info);
+            client.Logger.Log("Une erreur est survenue lors de la suppression du personnage.", LogMessageType.Info);
         }
     }
 }

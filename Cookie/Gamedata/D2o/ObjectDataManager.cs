@@ -1,15 +1,15 @@
-﻿using Cookie.Utils.Extensions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Cookie.Utils.Extensions;
 
 namespace Cookie.Gamedata.D2o
 {
     public class ObjectDataManager : Singleton<ObjectDataManager>
     {
-        private readonly Dictionary<Type, D2oReader> readers = new Dictionary<Type, D2oReader>();
         private readonly List<Type> ignoredTypes = new List<Type>();
+        private readonly Dictionary<Type, D2oReader> readers = new Dictionary<Type, D2oReader>();
 
         public void AddReaders(string directory)
         {
@@ -46,7 +46,7 @@ namespace Cookie.Gamedata.D2o
         public T Get<T>(uint key)
             where T : class
         {
-            return Get<T>((int)key);
+            return Get<T>((int) key);
         }
 
         public T Get<T>(int key, bool noExceptionThrown = false)
@@ -63,7 +63,7 @@ namespace Cookie.Gamedata.D2o
         public T GetOrDefault<T>(uint key)
             where T : class
         {
-            return GetOrDefault<T>((int)key);
+            return GetOrDefault<T>((int) key);
         }
 
         public T GetOrDefault<T>(int key)
@@ -91,7 +91,8 @@ namespace Cookie.Gamedata.D2o
 
             var reader = readers[type];
 
-            return reader.Indexes.Select(index => reader.ReadObject(index.Key, true)).Where(obj => obj.GetType().Name == type.Name);
+            return reader.Indexes.Select(index => reader.ReadObject(index.Key, true))
+                .Where(obj => obj.GetType().Name == type.Name);
         }
 
         public IEnumerable<T> EnumerateObjects<T>() where T : class

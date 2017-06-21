@@ -5,12 +5,10 @@ namespace Cookie.Protocol.Network.Messages.Game.Chat.Channel
     public class ChannelEnablingMessage : NetworkMessage
     {
         public const uint ProtocolId = 890;
-        public override uint MessageID { get { return ProtocolId; } }
 
-        public uint Channel { get; set; }
-        public bool Enable { get; set; }
-
-        public ChannelEnablingMessage() { }
+        public ChannelEnablingMessage()
+        {
+        }
 
         public ChannelEnablingMessage(uint channel, bool enable)
         {
@@ -18,9 +16,14 @@ namespace Cookie.Protocol.Network.Messages.Game.Chat.Channel
             Enable = enable;
         }
 
+        public override uint MessageID => ProtocolId;
+
+        public uint Channel { get; set; }
+        public bool Enable { get; set; }
+
         public override void Serialize(ICustomDataOutput writer)
         {
-            writer.WriteByte((byte)Channel);
+            writer.WriteByte((byte) Channel);
             writer.WriteBoolean(Enable);
         }
 

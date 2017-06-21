@@ -1,7 +1,5 @@
-﻿using System;
-using Cookie.Commands.Interfaces;
+﻿using Cookie.Commands.Interfaces;
 using Cookie.Core;
-using Cookie.Utils.Enums;
 
 namespace Cookie.Commands.Commands
 {
@@ -11,8 +9,8 @@ namespace Cookie.Commands.Commands
 
         public void OnCommand(DofusClient client, string[] args)
         {
-                client.Logger.Log("MapID : " + client.Account.Character.MapId,
-                    LogMessageType.Admin);           
+            client.Logger.Log("MapID : " + client.Account.Character.MapId,
+                LogMessageType.Admin);
         }
     }
 }

@@ -1,4 +1,5 @@
 #region License GNU GPL
+
 // D2oFieldAttribute.cs
 // 
 // Copyright (C) 2012 - BehaviorIsManaged
@@ -12,19 +13,15 @@
 // See the GNU General Public License for more details. 
 // You should have received a copy of the GNU General Public License along with this program; 
 // if not, write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+
 #endregion
+
 using System;
 
 namespace Cookie.Gamedata.D2o
 {
     public class D2oFieldAttribute : Attribute
     {
-        public string FieldName
-        {
-            get;
-            set;
-        }
-
         public D2oFieldAttribute()
         {
         }
@@ -33,5 +30,7 @@ namespace Cookie.Gamedata.D2o
         {
             FieldName = fieldName;
         }
+
+        public string FieldName { get; set; }
     }
 }

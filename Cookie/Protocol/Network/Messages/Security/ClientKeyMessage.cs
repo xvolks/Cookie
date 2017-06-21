@@ -5,16 +5,19 @@ namespace Cookie.Protocol.Network.Messages.Security
     public class ClientKeyMessage : NetworkMessage
     {
         public const uint ProtocolId = 5607;
-        public override uint MessageID { get { return ProtocolId; } }
 
-        public string Key { get; set; }
-
-        public ClientKeyMessage() { }
+        public ClientKeyMessage()
+        {
+        }
 
         public ClientKeyMessage(string key)
         {
             Key = key;
         }
+
+        public override uint MessageID => ProtocolId;
+
+        public string Key { get; set; }
 
         public override void Serialize(ICustomDataOutput writer)
         {

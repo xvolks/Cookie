@@ -12,7 +12,7 @@ namespace Cookie.Utils.Extensions
 
         public static int DateTimeToUnixTimestampSeconds(this DateTime dateTime)
         {
-            var time = (int)(dateTime - new DateTime(1970, 1, 1).ToLocalTime()).TotalSeconds;
+            var time = (int) (dateTime - new DateTime(1970, 1, 1).ToLocalTime()).TotalSeconds;
             return time;
         }
 

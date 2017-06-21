@@ -1,14 +1,15 @@
-﻿using Cookie.Core;
+﻿using System.Threading;
+using Cookie.Core;
 using Cookie.Protocol.Network.Messages.Game.Approach;
 using Cookie.Protocol.Network.Messages.Game.Character.Choice;
-using System.Threading;
 
 namespace Cookie.Handlers.Game.Approach
 {
     public class GameApproachHandlers
     {
         [MessageHandler(AuthenticationTicketAcceptedMessage.ProtocolId)]
-        private void AuthenticationTicketAcceptedMessageHandler(DofusClient client, AuthenticationTicketAcceptedMessage message)
+        private void AuthenticationTicketAcceptedMessageHandler(DofusClient client,
+            AuthenticationTicketAcceptedMessage message)
         {
             Thread.Sleep(300);
             client.Send(new CharactersListRequestMessage());
@@ -17,7 +18,9 @@ namespace Cookie.Handlers.Game.Approach
         [MessageHandler(AccountLoggingKickedMessage.ProtocolId)]
         private void AccountLoggingKickedMessageHandler(DofusClient client, AccountLoggingKickedMessage message)
         {
-            client.Logger.Log($"Compte kick pour {message.Days} jours, {message.Hours} heures, {message.Minutes} minutes :'( ", LogMessageType.Public);
+            client.Logger.Log(
+                $"Compte kick pour {message.Days} jours, {message.Hours} heures, {message.Minutes} minutes :'( ",
+                LogMessageType.Public);
             client.Dispose();
         }
 

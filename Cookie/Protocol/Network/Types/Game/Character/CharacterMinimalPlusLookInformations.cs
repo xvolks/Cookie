@@ -6,16 +6,19 @@ namespace Cookie.Protocol.Network.Types.Game.Character
     public class CharacterMinimalPlusLookInformations : CharacterMinimalInformations
     {
         public new const short ProtocolId = 163;
-        public override short TypeID { get { return ProtocolId; } }
 
-        public EntityLook EntityLook { get; set; }
-
-        public CharacterMinimalPlusLookInformations() { }
+        public CharacterMinimalPlusLookInformations()
+        {
+        }
 
         public CharacterMinimalPlusLookInformations(EntityLook entityLook)
         {
             EntityLook = entityLook;
         }
+
+        public override short TypeID => ProtocolId;
+
+        public EntityLook EntityLook { get; set; }
 
         public override void Serialize(ICustomDataOutput writer)
         {

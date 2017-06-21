@@ -22,31 +22,37 @@ namespace Cookie.Handlers.Game.Context.Mount
         {
             //
         }
+
         [MessageHandler(MountDataMessage.ProtocolId)]
         private void MountDataMessageHandler(DofusClient client, MountDataMessage message)
         {
             //
         }
+
         [MessageHandler(GameDataPaddockObjectAddMessage.ProtocolId)]
         private void GameDataPaddockObjectAddMessageHandler(DofusClient client, GameDataPaddockObjectAddMessage message)
         {
             //
         }
+
         [MessageHandler(GameDataPaddockObjectRemoveMessage.ProtocolId)]
-        private void GameDataPaddockObjectRemoveMessageHandler(DofusClient client, GameDataPaddockObjectRemoveMessage message)
+        private void GameDataPaddockObjectRemoveMessageHandler(DofusClient client,
+            GameDataPaddockObjectRemoveMessage message)
         {
             //
         }
+
         [MessageHandler(GameDataPaddockObjectListAddMessage.ProtocolId)]
-        private void GameDataPaddockObjectListAddMessageHandler(DofusClient client, GameDataPaddockObjectListAddMessage message)
+        private void GameDataPaddockObjectListAddMessageHandler(DofusClient client,
+            GameDataPaddockObjectListAddMessage message)
         {
             //
         }
+
         [MessageHandler(MountDataErrorMessage.ProtocolId)]
         private void MountDataErrorMessageHandler(DofusClient client, MountDataErrorMessage message)
         {
             //
         }
-       
     }
 }

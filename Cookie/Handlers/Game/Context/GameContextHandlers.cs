@@ -1,6 +1,6 @@
-﻿using Cookie.Core;
+﻿using System.Linq;
+using Cookie.Core;
 using Cookie.Protocol.Network.Messages.Game.Context;
-using System.Linq;
 using Cookie.Utils.Enums;
 
 namespace Cookie.Handlers.Game.Context
@@ -20,7 +20,8 @@ namespace Cookie.Handlers.Game.Context
         }
 
         [MessageHandler(GameContextRefreshEntityLookMessage.ProtocolId)]
-        private void GameContextRefreshEntityLookMessageHandler(DofusClient client, GameContextRefreshEntityLookMessage message)
+        private void GameContextRefreshEntityLookMessageHandler(DofusClient client,
+            GameContextRefreshEntityLookMessage message)
         {
             if (message.ObjectId == client.Account.Character.Id)
                 client.Account.Character.Look = message.Look;
@@ -43,28 +44,26 @@ namespace Cookie.Handlers.Game.Context
         {
             if (message.ActorId == client.Account.Character.Id)
             {
-                client.Account.Character.Status = Utils.Enums.CharacterStatus.Moving;
+                client.Account.Character.Status = CharacterStatus.Moving;
                 client.Account.Character.CellId = message.KeyMovements.Last();
             }
             client.Account.Character.MapData.RefreshActor(message.ActorId, message.KeyMovements.Last());
         }
+
         [MessageHandler(GameMapNoMovementMessage.ProtocolId)]
         private void GameMapNoMovementMessageHandler(DofusClient client, GameMapNoMovementMessage message)
         {
-            client.Logger.Log("Erreur lors du déplacement sur cellX : "+message.CellX + "cellY : "+ message.CellY);
+            client.Logger.Log("Erreur lors du déplacement sur cellX : " + message.CellX + "cellY : " + message.CellY);
             client.Account.Character.Status = CharacterStatus.None;
         }
+
         [MessageHandler(GameEntitiesDispositionMessage.ProtocolId)]
         private void GameEntitiesDispositionMessageHandler(DofusClient client, GameEntitiesDispositionMessage message)
         {
             var _ListDispositions = message.Dispositions;
-            foreach(var player in _ListDispositions)
-            {
-                if(player.ObjectId == client.Account.Character.Id)
-                {
+            foreach (var player in _ListDispositions)
+                if (player.ObjectId == client.Account.Character.Id)
                     client.Logger.Log("Actualisation des joueurs: Vous êtes sur la cellID: " + player.CellId);
-                }
-            }
         }
     }
 }

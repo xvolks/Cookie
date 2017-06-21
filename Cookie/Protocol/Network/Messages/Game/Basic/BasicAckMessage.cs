@@ -1,21 +1,25 @@
 ﻿using Cookie.IO;
+
 namespace Cookie.Protocol.Network.Messages.Game.Basic
 {
-    class BasicAckMessage : NetworkMessage
+    internal class BasicAckMessage : NetworkMessage
     {
         public const uint ProtocolId = 6362;
-        public override uint MessageID { get { return ProtocolId; } }
-
-        public uint Seq;
         public ushort LastProtocolId;
 
-        public BasicAckMessage() { }
+        public uint Seq;
+
+        public BasicAckMessage()
+        {
+        }
 
         public BasicAckMessage(uint seq, ushort lastProtocolId)
         {
             Seq = seq;
             LastProtocolId = lastProtocolId;
         }
+
+        public override uint MessageID => ProtocolId;
 
         public override void Serialize(ICustomDataOutput writer)
         {

@@ -17,16 +17,20 @@ namespace Cookie.Handlers.Game.Character.Stats
             if (message.ExperienceCharacter != 0)
             {
                 client.Account.Character.Stats.Experience += message.ExperienceCharacter;
-                client.Logger.Log($"Vous avez gagné {message.ExperienceCharacter} points d'expérience.", LogMessageType.Info);
+                client.Logger.Log($"Vous avez gagné {message.ExperienceCharacter} points d'expérience.",
+                    LogMessageType.Info);
             }
             if (message.ExperienceGuild != 0)
-                client.Logger.Log($"Votre guilde a gagné {message.ExperienceGuild} points d'expérience.", LogMessageType.Info);
+                client.Logger.Log($"Votre guilde a gagné {message.ExperienceGuild} points d'expérience.",
+                    LogMessageType.Info);
             if (message.ExperienceMount != 0)
-                client.Logger.Log($"Vous monture a gagné {message.ExperienceMount} points d'expérience.", LogMessageType.Info);
+                client.Logger.Log($"Vous monture a gagné {message.ExperienceMount} points d'expérience.",
+                    LogMessageType.Info);
         }
 
         [MessageHandler(CharacterLevelUpInformationMessage.ProtocolId)]
-        private void CharacterLevelUpInformationMessageHandler(DofusClient client, CharacterLevelUpInformationMessage message)
+        private void CharacterLevelUpInformationMessageHandler(DofusClient client,
+            CharacterLevelUpInformationMessage message)
         {
             client.Logger.Log($"{message.Name} viens de passer niveau {message.NewLevel}.", LogMessageType.Info);
         }

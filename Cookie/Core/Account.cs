@@ -4,10 +4,6 @@ namespace Cookie.Core
 {
     public class Account
     {
-        public string Login { get; set; }
-        public string Password { get; set; }
-        public DofusClient Client { get; set; }
-
         public Account(string login, string password, DofusClient client)
         {
             Login = login;
@@ -19,6 +15,10 @@ namespace Cookie.Core
 
             LatencyFrame = new LatencyFrame(this);
         }
+
+        public string Login { get; set; }
+        public string Password { get; set; }
+        public DofusClient Client { get; set; }
 
         public int Id { get; set; }
         public string Ticket { get; set; }

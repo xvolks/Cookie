@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Cookie.Game.World.Pathfinding
+﻿namespace Cookie.Game.World.Pathfinding
 {
     public class CellWithOrientation
     {
@@ -63,7 +57,7 @@ namespace Cookie.Game.World.Pathfinding
 
         public void GetCompressedValue()
         {
-            CompressedValue = (short)(((int)Orientation & 7) << 12 | Id & 4095);
+            CompressedValue = (short) (((Orientation & 7) << 12) | (Id & 4095));
         }
 
         #endregion

@@ -11,8 +11,10 @@ namespace Cookie.Commands.Commands
         public void OnCommand(DofusClient client, string[] args)
         {
             if (args.Length < 1)
+            {
                 client.Logger.Log("Vous devez spécifier la direction pour changer de map (left, right, top, bottom).",
                     LogMessageType.Public);
+            }
             else
             {
                 if (client.Account.Character.Status == CharacterStatus.None)
