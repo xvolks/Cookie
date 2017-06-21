@@ -76,9 +76,9 @@ namespace Cookie.Protocol.Network.Messages.Game.Context.Roleplay.Job
         
         public override void Deserialize(ICustomDataInput reader)
         {
+            m_newLevel = reader.ReadSByte();
             m_jobsDescription = new JobDescription();
             m_jobsDescription.Deserialize(reader);
-            m_newLevel = reader.ReadSByte();
         }
     }
 }
