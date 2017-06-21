@@ -6,17 +6,17 @@ namespace Cookie.Handlers.Queues
     public class QueuesHandlers
     {
         [MessageHandler(LoginQueueStatusMessage.ProtocolId)]
-        private void LoginQueueStatusMessageHandler(DofusClient Client, LoginQueueStatusMessage Message)
+        private void LoginQueueStatusMessageHandler(DofusClient client, LoginQueueStatusMessage message)
         {
-            if (Message.Position != 0 && Message.Total != 0)
-                Client.Logger.Log("Vous êtes en position " + Message.Position + " sur " + Message.Total + " dans la file d'attente.");
+            if (message.Position != 0 && message.Total != 0)
+                client.Logger.Log("Vous êtes en position " + message.Position + " sur " + message.Total + " dans la file d'attente.");
         }
 
         [MessageHandler(QueueStatusMessage.ProtocolId)]
-        private void QueueStatusMessageHandler(DofusClient Client, QueueStatusMessage Message)
+        private void QueueStatusMessageHandler(DofusClient client, QueueStatusMessage message)
         {
-            if (Message.Position != 0 && Message.Total != 0)
-                Client.Logger.Log("Vous êtes en position " + Message.Position + " sur " + Message.Total + " dans la file d'attente.");
+            if (message.Position != 0 && message.Total != 0)
+                client.Logger.Log("Vous êtes en position " + message.Position + " sur " + message.Total + " dans la file d'attente.");
         }
     }
 }

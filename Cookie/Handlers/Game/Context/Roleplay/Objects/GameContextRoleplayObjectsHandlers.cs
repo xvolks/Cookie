@@ -12,7 +12,7 @@ namespace Cookie.Handlers.Game.Context.Roleplay.Objects
     public class GameContextRoleplayObjectsHandlers
     {
         [MessageHandler(ObjectGroundListAddedMessage.ProtocolId)]
-        private void ObjectGroundListAddedMessageHandler(DofusClient Client, ObjectGroundListAddedMessage Message)
+        private void ObjectGroundListAddedMessageHandler(DofusClient client, ObjectGroundListAddedMessage message)
         {
             //
         }

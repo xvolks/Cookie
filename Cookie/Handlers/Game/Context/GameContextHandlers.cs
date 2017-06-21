@@ -7,45 +7,45 @@ namespace Cookie.Handlers.Game.Context
     public class GameContextHandlers
     {
         [MessageHandler(GameContextDestroyMessage.ProtocolId)]
-        private void GameContextDestroyMessageHandler(DofusClient Client, GameContextDestroyMessage Message)
+        private void GameContextDestroyMessageHandler(DofusClient client, GameContextDestroyMessage message)
         {
             //
         }
 
         [MessageHandler(GameContextCreateMessage.ProtocolId)]
-        private void GameContextCreateMessageHandler(DofusClient Client, GameContextCreateMessage Message)
+        private void GameContextCreateMessageHandler(DofusClient client, GameContextCreateMessage message)
         {
             //
         }
 
         [MessageHandler(GameContextRefreshEntityLookMessage.ProtocolId)]
-        private void GameContextRefreshEntityLookMessageHandler(DofusClient Client, GameContextRefreshEntityLookMessage Message)
+        private void GameContextRefreshEntityLookMessageHandler(DofusClient client, GameContextRefreshEntityLookMessage message)
         {
-            if (Message.ObjectId == Client.Account.Character.Id)
-                Client.Account.Character.Look = Message.Look;
+            if (message.ObjectId == client.Account.Character.Id)
+                client.Account.Character.Look = message.Look;
         }
 
         [MessageHandler(GameContextRemoveElementMessage.ProtocolId)]
-        private void GameContextRemoveElementMessageHandler(DofusClient Client, GameContextRemoveElementMessage Message)
+        private void GameContextRemoveElementMessageHandler(DofusClient client, GameContextRemoveElementMessage message)
         {
-            Client.Account.Character.MapData.RemoveActor(Message.ObjectId);
+            client.Account.Character.MapData.RemoveActor(message.ObjectId);
         }
 
         [MessageHandler(GameMapChangeOrientationMessage.ProtocolId)]
-        private void GameMapChangeOrientationMessageHandler(DofusClient Client, GameMapChangeOrientationMessage Message)
+        private void GameMapChangeOrientationMessageHandler(DofusClient client, GameMapChangeOrientationMessage message)
         {
             //
         }
 
         [MessageHandler(GameMapMovementMessage.ProtocolId)]
-        private void GameMapMovementMessageHandler(DofusClient Client, GameMapMovementMessage Message)
+        private void GameMapMovementMessageHandler(DofusClient client, GameMapMovementMessage message)
         {
-            if (Message.ActorId == Client.Account.Character.Id)
+            if (message.ActorId == client.Account.Character.Id)
             {
-                Client.Account.Character.Status = Utils.Enums.CharacterStatus.Moving;
-                Client.Account.Character.CellId = Message.KeyMovements.Last();
+                client.Account.Character.Status = Utils.Enums.CharacterStatus.Moving;
+                client.Account.Character.CellId = message.KeyMovements.Last();
             }
-            Client.Account.Character.MapData.RefreshActor(Message.ActorId, Message.KeyMovements.Last());
+            client.Account.Character.MapData.RefreshActor(message.ActorId, message.KeyMovements.Last());
         }
     }
 }

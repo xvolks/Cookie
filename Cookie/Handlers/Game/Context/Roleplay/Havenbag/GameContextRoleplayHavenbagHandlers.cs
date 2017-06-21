@@ -6,13 +6,13 @@ namespace Cookie.Handlers.Game.Context.Roleplay.Havenbag
     public class GameContextRoleplayHavenbagHandlers
     {
         [MessageHandler(RoomAvailableUpdateMessage.ProtocolId)]
-        private void RoomAvailableUpdateMessageHandler(DofusClient Client, RoomAvailableUpdateMessage Message)
+        private void RoomAvailableUpdateMessageHandler(DofusClient client, RoomAvailableUpdateMessage message)
         {
             //
         }
 
         [MessageHandler(HavenBagPackListMessage.ProtocolId)]
-        private void HavenBagPackListMessageHandler(DofusClient Client, HavenBagPackListMessage Message)
+        private void HavenBagPackListMessageHandler(DofusClient client, HavenBagPackListMessage message)
         {
             //
         }

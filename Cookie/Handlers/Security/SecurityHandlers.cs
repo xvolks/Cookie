@@ -9,7 +9,7 @@ namespace Cookie.Handlers.Security
     {
 
         [MessageHandler(RawDataMessage.ProtocolId)]
-        private void RawDataMessageHandler(DofusClient Client, RawDataMessage Message)
+        private void RawDataMessageHandler(DofusClient client, RawDataMessage message)
         {
             List<int> tt = new List<int>();
             for (int i = 0; i <= 255; i++)
@@ -18,7 +18,7 @@ namespace Cookie.Handlers.Security
                 int test = random.Next(-127, 127);
             }
             CheckIntegrityMessage rawData = new CheckIntegrityMessage(tt);
-            Client.Send(rawData);
+            client.Send(rawData);
         }
     }
 }

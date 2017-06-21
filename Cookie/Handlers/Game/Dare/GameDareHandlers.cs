@@ -6,25 +6,25 @@ namespace Cookie.Handlers.Game.Dare
     public class GameDareHandlers
     {
         [MessageHandler(DareCreatedListMessage.ProtocolId)]
-        private void DareCreatedListMessageHandler(DofusClient Client, DareCreatedListMessage Message)
+        private void DareCreatedListMessageHandler(DofusClient client, DareCreatedListMessage message)
         {
             //
         }
 
         [MessageHandler(DareSubscribedListMessage.ProtocolId)]
-        private void DareSubscribedListMessageHandler(DofusClient Client, DareSubscribedListMessage Message)
+        private void DareSubscribedListMessageHandler(DofusClient client, DareSubscribedListMessage message)
         {
             //
         }
 
         [MessageHandler(DareWonListMessage.ProtocolId)]
-        private void DareWonListMessageHandler(DofusClient Client, DareWonListMessage Message)
+        private void DareWonListMessageHandler(DofusClient client, DareWonListMessage message)
         {
             //
         }
 
         [MessageHandler(DareRewardsListMessage.ProtocolId)]
-        private void DareRewardsListMessageHandler(DofusClient Client, DareRewardsListMessage Message)
+        private void DareRewardsListMessageHandler(DofusClient client, DareRewardsListMessage message)
         {
             //
         }

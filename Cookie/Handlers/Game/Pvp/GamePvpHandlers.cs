@@ -6,13 +6,13 @@ namespace Cookie.Handlers.Game.Pvp
     public class GamePvpHandlers
     {
         [MessageHandler(AlignmentRankUpdateMessage.ProtocolId)]
-        private void AlignmentRankUpdateMessageHandler(DofusClient Client, AlignmentRankUpdateMessage Message)
+        private void AlignmentRankUpdateMessageHandler(DofusClient client, AlignmentRankUpdateMessage message)
         {
             //
         }
 
         [MessageHandler(UpdateMapPlayersAgressableStatusMessage.ProtocolId)]
-        private void UpdateMapPlayersAgressableStatusMessageHandler(DofusClient Client, UpdateMapPlayersAgressableStatusMessage Message)
+        private void UpdateMapPlayersAgressableStatusMessageHandler(DofusClient client, UpdateMapPlayersAgressableStatusMessage message)
         {
             //
         }

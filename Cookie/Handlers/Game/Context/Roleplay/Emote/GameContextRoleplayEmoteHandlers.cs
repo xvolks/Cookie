@@ -6,7 +6,7 @@ namespace Cookie.Handlers.Game.Context.Roleplay.Emote
     public class GameContextRoleplayEmoteHandlers
     {
         [MessageHandler(EmoteListMessage.ProtocolId)]
-        private void EmoteListMessageHandler(DofusClient Client, EmoteListMessage Message)
+        private void EmoteListMessageHandler(DofusClient client, EmoteListMessage message)
         {
             //
         }
