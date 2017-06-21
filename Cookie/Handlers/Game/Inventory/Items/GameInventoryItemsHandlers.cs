@@ -5,6 +5,7 @@ using System.Linq;
 using Cookie.Datacenter;
 using Cookie.Gamedata.D2o;
 using Cookie.Gamedata.I18n;
+using Cookie.Gamedata;
 
 namespace Cookie.Handlers.Game.Inventory.Items
 {
@@ -108,6 +109,14 @@ namespace Cookie.Handlers.Game.Inventory.Items
                 client.Logger.Log($"L'échangeur a ajouté {message.Quantity} kamas à l'échange", LogMessageType.Info);
             else
                 client.Logger.Log($"Vous avez ajouté {message.Quantity} kamas à l'échange", LogMessageType.Info);
+        }
+        [MessageHandler(ExchangeObjectModifiedMessage.ProtocolId)]
+        private void ExchangeObjectModifiedMessageHandler(DofusClient client, ExchangeObjectModifiedMessage message)
+        {
+            if (message.Remote)
+                client.Logger.Log($"L'échangeur a modifié le nombre de {D2OParsing.GetItemName(message.Object.ObjectGID)} en x{message.Object.Quantity}", LogMessageType.Info);
+            else
+                client.Logger.Log($"Vous avez modifié le nombre de {D2OParsing.GetItemName(message.Object.ObjectGID)} en x{message.Object.Quantity}", LogMessageType.Info);
         }
     }
 }
