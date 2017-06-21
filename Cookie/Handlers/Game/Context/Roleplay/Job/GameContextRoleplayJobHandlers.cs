@@ -8,13 +8,13 @@ namespace Cookie.Handlers.Game.Context.Roleplay.Job
     public class GameContextRoleplayJobHandlers
     {
         [MessageHandler(JobDescriptionMessage.ProtocolId)]
-        private void JobDescriptionMessageHandler(DofusClient Client, JobDescriptionMessage Message)
+        private void JobDescriptionMessageHandler(DofusClient client, JobDescriptionMessage message)
         {
             //
         }
 
         [MessageHandler(JobExperienceMultiUpdateMessage.ProtocolId)]
-        private void JobExperienceMultiUpdateMessageHandler(DofusClient Client, JobExperienceMultiUpdateMessage Message)
+        private void JobExperienceMultiUpdateMessageHandler(DofusClient client, JobExperienceMultiUpdateMessage message)
         {
             // See how jobLevel is not good...
 
@@ -25,8 +25,8 @@ namespace Cookie.Handlers.Game.Context.Roleplay.Job
         }
 
         [MessageHandler(JobCrafterDirectorySettingsMessage.ProtocolId)]
-        private void JobCrafterDirectorySettingsMessageHandler(DofusClient Client,
-            JobCrafterDirectorySettingsMessage Message)
+        private void JobCrafterDirectorySettingsMessageHandler(DofusClient client,
+            JobCrafterDirectorySettingsMessage message)
         {
             //
         }
@@ -35,7 +35,7 @@ namespace Cookie.Handlers.Game.Context.Roleplay.Job
         private void JobExperienceUpdateMessageHandler(DofusClient client, JobExperienceUpdateMessage message)
         {
             client.Logger.Log(
-                $"{I18nDataManager.Instance.ReadText(ObjectDataManager.Instance.Get<Datacenter.Job>(message.ExperiencesUpdate.JobId).NameId)} a gagné de l'xp");
+                $"{I18nDataManager.Instance.ReadText(ObjectDataManager.Instance.Get<Datacenter.Job>(message.ExperiencesUpdate.JobId).NameId)} | Level: {message.ExperiencesUpdate.JobLevel} | Exp: {message.ExperiencesUpdate.JobXP}");
         }
     }
 }

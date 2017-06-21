@@ -6,13 +6,13 @@ namespace Cookie.Handlers.Game.Context.Roleplay.Houses
     public class GameContextRoleplayHousesHandlers
     {
         [MessageHandler(AccountHouseMessage.ProtocolId)]
-        private void AccountHouseMessageHandler(DofusClient Client, AccountHouseMessage Message)
+        private void AccountHouseMessageHandler(DofusClient client, AccountHouseMessage message)
         {
             //
         }
 
         [MessageHandler(HousePropertiesMessage.ProtocolId)]
-        private void HousePropertiesMessageHandlers(DofusClient Client, HousePropertiesMessage Message)
+        private void HousePropertiesMessageHandlers(DofusClient client, HousePropertiesMessage message)
         {
             //
         }

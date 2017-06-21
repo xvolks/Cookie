@@ -6,7 +6,7 @@ namespace Cookie.Handlers.Game.Startup
     public class GameStartupHandlers
     {
         [MessageHandler(StartupActionsListMessage.ProtocolId)]
-        private void StartupActionsListMessageHandler(DofusClient Client, StartupActionsListMessage Message)
+        private void StartupActionsListMessageHandler(DofusClient client, StartupActionsListMessage message)
         {
             //
         }

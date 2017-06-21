@@ -7,51 +7,51 @@ namespace Cookie.Handlers.Game.Chat
     public class GameChatHandlers
     {
         [MessageHandler(ChatServerMessage.ProtocolId)]
-        private void ChatServerMessageHandler(DofusClient Client, ChatServerMessage Message)
+        private void ChatServerMessageHandler(DofusClient client, ChatServerMessage message)
         {
-            switch ((ChatChannelsMultiEnum)Message.Channel)
+            switch ((ChatChannelsMultiEnum)message.Channel)
             {
                 case ChatChannelsMultiEnum.CHANNEL_ADMIN:
-                    Client.Logger.Log("(Admin) " + Message.SenderName + " : " + Message.Content, LogMessageType.Admin);
+                    client.Logger.Log("(Admin) " + message.SenderName + " : " + message.Content, LogMessageType.Admin);
                     break;
                 case ChatChannelsMultiEnum.CHANNEL_ALLIANCE:
-                    Client.Logger.Log("(Alliance) " + Message.SenderName + " : " + Message.Content, LogMessageType.Alliance);
+                    client.Logger.Log("(Alliance) " + message.SenderName + " : " + message.Content, LogMessageType.Alliance);
                     break;
                 case ChatChannelsMultiEnum.CHANNEL_ARENA:
-                    Client.Logger.Log("(Kolizéum) " + Message.SenderName + " : " + Message.Content, LogMessageType.Arena);
+                    client.Logger.Log("(Kolizéum) " + message.SenderName + " : " + message.Content, LogMessageType.Arena);
                     break;
                 case ChatChannelsMultiEnum.CHANNEL_COMMUNITY:
-                    Client.Logger.Log("(Communauté) " + Message.SenderName + " : " + Message.Content, LogMessageType.Community);
+                    client.Logger.Log("(Communauté) " + message.SenderName + " : " + message.Content, LogMessageType.Community);
                     break;
                 case ChatChannelsMultiEnum.CHANNEL_GLOBAL:
-                    Client.Logger.Log("(Général) " + Message.SenderName + " : " + Message.Content, LogMessageType.Global);
+                    client.Logger.Log("(Général) " + message.SenderName + " : " + message.Content, LogMessageType.Global);
                     break;
                 case ChatChannelsMultiEnum.CHANNEL_GUILD:
-                    Client.Logger.Log("(Guilde) " + Message.SenderName + " : " + Message.Content, LogMessageType.Guild);
+                    client.Logger.Log("(Guilde) " + message.SenderName + " : " + message.Content, LogMessageType.Guild);
                     break;
                 case ChatChannelsMultiEnum.CHANNEL_NOOB:
-                    Client.Logger.Log("(Débutant) " + Message.SenderName + " : " + Message.Content, LogMessageType.Noob);
+                    client.Logger.Log("(Débutant) " + message.SenderName + " : " + message.Content, LogMessageType.Noob);
                     break;
                 case ChatChannelsMultiEnum.CHANNEL_PARTY:
-                    Client.Logger.Log("(Groupe) " + Message.SenderName + " : " + Message.Content, LogMessageType.Party);
+                    client.Logger.Log("(Groupe) " + message.SenderName + " : " + message.Content, LogMessageType.Party);
                     break;
                 case ChatChannelsMultiEnum.CHANNEL_SALES:
-                    Client.Logger.Log("(Commerce) " + Message.SenderName + " : " + Message.Content, LogMessageType.Sales);
+                    client.Logger.Log("(Commerce) " + message.SenderName + " : " + message.Content, LogMessageType.Sales);
                     break;
                 case ChatChannelsMultiEnum.CHANNEL_SEEK:
-                    Client.Logger.Log("(Recrutement) " + Message.SenderName + " : " + Message.Content, LogMessageType.Seek);
+                    client.Logger.Log("(Recrutement) " + message.SenderName + " : " + message.Content, LogMessageType.Seek);
                     break;
                 case ChatChannelsMultiEnum.CHANNEL_TEAM:
-                    Client.Logger.Log("(Equipe) " + Message.SenderName + " : " + Message.Content);
+                    client.Logger.Log("(Equipe) " + message.SenderName + " : " + message.Content);
                     break;
                 default:
-                    Client.Logger.Log(Message.SenderName + " : " + Message.Content, LogMessageType.Sender);
+                    client.Logger.Log(message.SenderName + " : " + message.Content, LogMessageType.Sender);
                     break;
             }
         }
 
         [MessageHandler(ChatServerWithObjectMessage.ProtocolId)]
-        private void ChatServerWithObjectMessageHandler(DofusClient Client, ChatServerWithObjectMessage Message)
+        private void ChatServerWithObjectMessageHandler(DofusClient client, ChatServerWithObjectMessage message)
         {
             //
         }
@@ -79,47 +79,47 @@ namespace Cookie.Handlers.Game.Chat
             }
         }
         [MessageHandler(ChatAbstractClientMessage.ProtocolId)]
-        private void ChatAbstractClientMessageHandler(DofusClient Client, ChatAbstractClientMessage Message)
+        private void ChatAbstractClientMessageHandler(DofusClient client, ChatAbstractClientMessage message)
         {
             //
         }
         [MessageHandler(ChatAbstractServerMessage.ProtocolId)]
-        private void ChatAbstractServerMessageHandler(DofusClient Client, ChatAbstractServerMessage Message)
+        private void ChatAbstractServerMessageHandler(DofusClient client, ChatAbstractServerMessage message)
         {
             //
         }
         [MessageHandler(ChatAdminServerMessage.ProtocolId)]
-        private void ChatAdminServerMessageHandler(DofusClient Client, ChatAdminServerMessage Message)
+        private void ChatAdminServerMessageHandler(DofusClient client, ChatAdminServerMessage message)
         {
             //
         }
         [MessageHandler(ChatClientMultiMessage.ProtocolId)]
-        private void ChatClientMultiMessageHandler(DofusClient Client, ChatClientMultiMessage Message)
+        private void ChatClientMultiMessageHandler(DofusClient client, ChatClientMultiMessage message)
         {
             //
         }
         [MessageHandler(ChatClientMultiWithObjectMessage.ProtocolId)]
-        private void ChatClientMultiWithObjectMessageHandler(DofusClient Client, ChatClientMultiWithObjectMessage Message)
+        private void ChatClientMultiWithObjectMessageHandler(DofusClient client, ChatClientMultiWithObjectMessage message)
         {
             //
         }
         [MessageHandler(ChatClientPrivateMessage.ProtocolId)]
-        private void ChatClientPrivateMessageHandler(DofusClient Client, ChatClientPrivateMessage Message)
+        private void ChatClientPrivateMessageHandler(DofusClient client, ChatClientPrivateMessage message)
         {
             //
         }
         [MessageHandler(ChatClientPrivateWithObjectMessage.ProtocolId)]
-        private void ChatClientPrivateWithObjectMessageHandler(DofusClient Client, ChatClientPrivateWithObjectMessage Message)
+        private void ChatClientPrivateWithObjectMessageHandler(DofusClient client, ChatClientPrivateWithObjectMessage message)
         {
             //
         }
         [MessageHandler(ChatServerCopyMessage.ProtocolId)]
-        private void ChatServerCopyMessageHandler(DofusClient Client, ChatServerCopyMessage Message)
+        private void ChatServerCopyMessageHandler(DofusClient client, ChatServerCopyMessage message)
         {
             //
         }
         [MessageHandler(ChatServerCopyWithObjectMessage.ProtocolId)]
-        private void ChatServerCopyWithObjectMessageHandler(DofusClient Client, ChatServerCopyWithObjectMessage Message)
+        private void ChatServerCopyWithObjectMessageHandler(DofusClient client, ChatServerCopyWithObjectMessage message)
         {
             //
         }

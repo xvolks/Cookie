@@ -8,22 +8,22 @@ namespace Cookie.Handlers.Game.Context.Dungeon
     public class GameContextDungeonHandlers
     {
         [MessageHandler(DungeonEnteredMessage.ProtocolId)]
-        private void DungeonEnteredMessageHandler(DofusClient Client, DungeonEnteredMessage Message)
+        private void DungeonEnteredMessageHandler(DofusClient client, DungeonEnteredMessage message)
         {
             //
         }
         [MessageHandler(DungeonKeyRingMessage.ProtocolId)]
-        private void DungeonKeyRingMessageHandler(DofusClient Client, DungeonKeyRingMessage Message)
+        private void DungeonKeyRingMessageHandler(DofusClient client, DungeonKeyRingMessage message)
         {
             //
         }
         [MessageHandler(DungeonKeyRingUpdateMessage.ProtocolId)]
-        private void DungeonKeyRingUpdateMessageHandler(DofusClient Client, DungeonKeyRingUpdateMessage Message)
+        private void DungeonKeyRingUpdateMessageHandler(DofusClient client, DungeonKeyRingUpdateMessage message)
         {
             //
         }
         [MessageHandler(DungeonLeftMessage.ProtocolId)]
-        private void DungeonLeftMessageHandler(DofusClient Client, DungeonLeftMessage Message)
+        private void DungeonLeftMessageHandler(DofusClient client, DungeonLeftMessage message)
         {
             //
         }

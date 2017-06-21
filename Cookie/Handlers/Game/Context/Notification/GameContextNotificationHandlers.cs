@@ -6,7 +6,7 @@ namespace Cookie.Handlers.Game.Context.Notification
     public class GameContextNotificationHandlers
     {
         [MessageHandler(NotificationListMessage.ProtocolId)]
-        private void NotificationListMessageHandler(DofusClient Client, NotificationListMessage Message)
+        private void NotificationListMessageHandler(DofusClient client, NotificationListMessage message)
         {
             //
         }

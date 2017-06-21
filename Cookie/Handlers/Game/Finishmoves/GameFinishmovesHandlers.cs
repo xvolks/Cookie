@@ -6,19 +6,19 @@ namespace Cookie.Handlers.Game.Finishmoves
     public class GameFinishmovesHandlers
     {
         [MessageHandler(FinishMoveListMessage.ProtocolId)]
-        private void FinishMoveListMessageHandler(DofusClient Client, FinishMoveListMessage Message)
+        private void FinishMoveListMessageHandler(DofusClient client, FinishMoveListMessage message)
         {
             //
         }
 
         [MessageHandler(FinishMoveListRequestMessage.ProtocolId)]
-        private void FinishMoveListRequestMessageHandler(DofusClient Client, FinishMoveListRequestMessage Message)
+        private void FinishMoveListRequestMessageHandler(DofusClient client, FinishMoveListRequestMessage message)
         {
             //
         }
 
         [MessageHandler(FinishMoveSetRequestMessage.ProtocolId)]
-        private void FinishMoveSetRequestMessageHandler(DofusClient Client, FinishMoveSetRequestMessage Message)
+        private void FinishMoveSetRequestMessageHandler(DofusClient client, FinishMoveSetRequestMessage message)
         {
             //
         }

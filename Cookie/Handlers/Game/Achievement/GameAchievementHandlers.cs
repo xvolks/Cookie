@@ -8,13 +8,13 @@ namespace Cookie.Handlers.Game.Achievement
     public class GameAchievementHandlers
     {
         [MessageHandler(AchievementListMessage.ProtocolId)]
-        private void AchievementListMessageHandler(DofusClient Client, AchievementListMessage Message)
+        private void AchievementListMessageHandler(DofusClient client, AchievementListMessage message)
         {
             //
         }
 
         [MessageHandler(FriendGuildWarnOnAchievementCompleteStateMessage.ProtocolId)]
-        private void FriendGuildWarnOnAchievementCompleteStateMessageHandler(DofusClient Client, FriendGuildWarnOnAchievementCompleteStateMessage Message)
+        private void FriendGuildWarnOnAchievementCompleteStateMessageHandler(DofusClient client, FriendGuildWarnOnAchievementCompleteStateMessage message)
         {
             //
         }

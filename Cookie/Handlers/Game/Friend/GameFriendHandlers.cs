@@ -7,56 +7,62 @@ namespace Cookie.Handlers.Game.Friend
     public class GameFriendHandlers
     {
         [MessageHandler(FriendWarnOnConnectionStateMessage.ProtocolId)]
-        private void FriendWarnOnConnectionStateMessageHandler(DofusClient Client, FriendWarnOnConnectionStateMessage Message)
+        private void FriendWarnOnConnectionStateMessageHandler(DofusClient client, FriendWarnOnConnectionStateMessage message)
         {
             //
         }
 
         [MessageHandler(FriendWarnOnLevelGainStateMessage.ProtocolId)]
-        private void FriendWarnOnLevelGainStateMessageHandler(DofusClient Client, FriendWarnOnLevelGainStateMessage Message)
+        private void FriendWarnOnLevelGainStateMessageHandler(DofusClient client, FriendWarnOnLevelGainStateMessage message)
         {
             //
         }
 
         [MessageHandler(WarnOnPermaDeathStateMessage.ProtocolId)]
-        private void WarnOnPermaDeathStateMessageHandler(DofusClient Client, WarnOnPermaDeathStateMessage Message)
+        private void WarnOnPermaDeathStateMessageHandler(DofusClient client, WarnOnPermaDeathStateMessage message)
         {
             //
         }
 
         [MessageHandler(FriendsListMessage.ProtocolId)]
-        private void FriendsListMessageHandler(DofusClient Client, FriendsListMessage Message)
+        private void FriendsListMessageHandler(DofusClient client, FriendsListMessage message)
         {
-            foreach (var friend in Message.FriendsList)
+            foreach (var friend in message.FriendsList)
             {
-                if (friend.PlayerState == (byte)PlayerStateEnum.NOT_CONNECTED)
-                    continue;
-                if (friend.PlayerState == (byte)PlayerStateEnum.UNKNOWN_STATE)
-                    continue;
-                Client.Logger.Log($"{friend.AccountName} connecté");
+                switch (friend.PlayerState)
+                {
+                    case (byte)PlayerStateEnum.NOT_CONNECTED:
+                        continue;
+                    case (byte)PlayerStateEnum.UNKNOWN_STATE:
+                        continue;
+                    default:
+                        client.Logger.Log($"{friend.AccountName} connecté");
+                        break;
+                }
+                
             }
         }
 
         [MessageHandler(IgnoredListMessage.ProtocolId)]
-        private void IgnoredListMessageHandler(DofusClient Client, IgnoredListMessage Message)
+        private void IgnoredListMessageHandler(DofusClient client, IgnoredListMessage message)
         {
             //
         }
 
         [MessageHandler(FriendUpdateMessage.ProtocolId)]
-        private void FriendUpdateMessageHandler(DofusClient Client, FriendUpdateMessage Message)
+        private void FriendUpdateMessageHandler(DofusClient client, FriendUpdateMessage message)
         {
             //
         }
 
         [MessageHandler(GuildMemberWarnOnConnectionStateMessage.ProtocolId)]
-        private void GuildMemberWarnOnConnectionStateMessageHandler(DofusClient Client, GuildMemberWarnOnConnectionStateMessage Message)
+        private void GuildMemberWarnOnConnectionStateMessageHandler(DofusClient client, GuildMemberWarnOnConnectionStateMessage message)
         {
             //
         }
 
         [MessageHandler(SpouseStatusMessage.ProtocolId)]
-        private void SpouseStatusMessageHandler(DofusClient Client, SpouseStatusMessage Message)
+        private void SpouseStatusMessageHandler(DofusClient client, SpouseStatusMessage message)
         {
             //
         }

@@ -11,35 +11,35 @@ namespace Cookie.Handlers.Game.Initialization
     public class GameInitializationHandlers
     {
         [MessageHandler(CharacterLoadingCompleteMessage.ProtocolId)]
-        private void CharacterLoadingCompleteMessageHandler(DofusClient Client, CharacterLoadingCompleteMessage Message)
+        private void CharacterLoadingCompleteMessageHandler(DofusClient client, CharacterLoadingCompleteMessage message)
         {
-            Client.Send(new FriendsGetListMessage());
-            Client.Send(new IgnoredGetListMessage());
-            Client.Send(new SpouseGetInformationsMessage());
-            Client.Send(new ClientKeyMessage(FlashKeyGenerator.GetRandomFlashKey(Client.Account.Nickname)));
-            Client.Send(new GameContextCreateRequestMessage());
-            Client.Send(new ChannelEnablingMessage(7, false));
+            client.Send(new FriendsGetListMessage());
+            client.Send(new IgnoredGetListMessage());
+            client.Send(new SpouseGetInformationsMessage());
+            client.Send(new ClientKeyMessage(FlashKeyGenerator.GetRandomFlashKey(client.Account.Nickname)));
+            client.Send(new GameContextCreateRequestMessage());
+            client.Send(new ChannelEnablingMessage(7, false));
         }
 
         [MessageHandler(CharacterCapabilitiesMessage.ProtocolId)]
-        private void CharacterCapabilitiesMessageHandler(DofusClient Client, CharacterCapabilitiesMessage Message)
+        private void CharacterCapabilitiesMessageHandler(DofusClient client, CharacterCapabilitiesMessage message)
         {
             //
         }
 
         [MessageHandler(OnConnectionEventMessage.ProtocolId)]
-        private void OnConnectionEventMessageHandler(DofusClient Client, OnConnectionEventMessage Message)
+        private void OnConnectionEventMessageHandler(DofusClient client, OnConnectionEventMessage message)
         {
-            Client.Logger.Log("Connection Event Type: " + Message.EventType + " | MessageID: " + Message.MessageID, LogMessageType.Arena);
+            client.Logger.Log("Connection Event Type: " + message.EventType + " | MessageID: " + message.MessageID, LogMessageType.Arena);
         }
 
         [MessageHandler(SetCharacterRestrictionsMessage.ProtocolId)]
-        private void SetCharacterRestrictionsMessageHandler(DofusClient Client, SetCharacterRestrictionsMessage Message)
+        private void SetCharacterRestrictionsMessageHandler(DofusClient client, SetCharacterRestrictionsMessage message)
         {
-            Client.Account.Character.Restrictions = Message.Restrictions;
+            client.Account.Character.Restrictions = message.Restrictions;
         }
         [MessageHandler(ServerExperienceModificatorMessage.ProtocolId)]
-        private void ServerExperienceModificatorMessageHandler(DofusClient Client, ServerExperienceModificatorMessage Message)
+        private void ServerExperienceModificatorMessageHandler(DofusClient client, ServerExperienceModificatorMessage message)
         {
             //
         }

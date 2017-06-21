@@ -6,33 +6,33 @@ namespace Cookie.Handlers.Game.Guild
     public class GameGuildHandlers
     {
         [MessageHandler(GuildMembershipMessage.ProtocolId)]
-        private void GuildMembershipMessageHandler(DofusClient Client, GuildMembershipMessage Message)
+        private void GuildMembershipMessageHandler(DofusClient client, GuildMembershipMessage message)
         {
             //
         }
 
         [MessageHandler(GuildInformationsGeneralMessage.ProtocolId)]
-        private void GuildInformationsGeneralMessageHandler(DofusClient Client, GuildInformationsGeneralMessage Message)
+        private void GuildInformationsGeneralMessageHandler(DofusClient client, GuildInformationsGeneralMessage message)
         {
             //
         }
 
         [MessageHandler(GuildInformationsMembersMessage.ProtocolId)]
-        private void GuildInformationsMembersMessageHandler(DofusClient Client, GuildInformationsMembersMessage Message)
+        private void GuildInformationsMembersMessageHandler(DofusClient client, GuildInformationsMembersMessage message)
         {
             //
         }
 
         [MessageHandler(GuildMemberOnlineStatusMessage.ProtocolId)]
-        private void GuildMemberOnlineStatusMessageHandler(DofusClient Client, GuildMemberOnlineStatusMessage Message)
+        private void GuildMemberOnlineStatusMessageHandler(DofusClient client, GuildMemberOnlineStatusMessage message)
         {
             //
         }
 
         [MessageHandler(GuildMotdMessage.ProtocolId)]
-        private void GuildMotdMessageHandler(DofusClient Client, GuildMotdMessage Message)
+        private void GuildMotdMessageHandler(DofusClient client, GuildMotdMessage message)
         {
-            Client.Logger.Log("Annonce de guilde : " + Message.Content, LogMessageType.Guild);
+            client.Logger.Log("Annonce de guilde : " + message.Content, LogMessageType.Guild);
         }
     }
 }

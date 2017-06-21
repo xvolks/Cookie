@@ -6,9 +6,9 @@ namespace Cookie.Handlers.Game.Inventory.Spells
     public class GameInventorySpellsHandlers
     {
         [MessageHandler(SpellListMessage.ProtocolId)]
-        private void SpellListMessageHandler(DofusClient Client, SpellListMessage Message)
+        private void SpellListMessageHandler(DofusClient client, SpellListMessage message)
         {
-            Client.Account.Character.Spells = Message.Spells;
+            client.Account.Character.Spells = message.Spells;
         }
     }
 }

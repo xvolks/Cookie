@@ -6,7 +6,7 @@ namespace Cookie.Handlers.Game.Idol
     public class GameIdolHandlers
     {
         [MessageHandler(IdolListMessage.ProtocolId)]
-        private void IdolListMessageHandler(DofusClient Client, IdolListMessage Message)
+        private void IdolListMessageHandler(DofusClient client, IdolListMessage message)
         {
             //
         }

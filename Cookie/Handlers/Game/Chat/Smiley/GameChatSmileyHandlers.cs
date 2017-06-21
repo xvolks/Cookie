@@ -12,31 +12,31 @@ namespace Cookie.Handlers.Game.Chat.Smiley
     {
 
         [MessageHandler(ChatSmileyExtraPackListMessage.ProtocolId)]
-        private void ChatSmileyExtraPackListMessageHandler(DofusClient Client, ChatSmileyExtraPackListMessage Message)
+        private void ChatSmileyExtraPackListMessageHandler(DofusClient client, ChatSmileyExtraPackListMessage message)
         {
         }
         [MessageHandler(ChatSmileyMessage.ProtocolId)]
-        private void ChatSmileyMessageHandler(DofusClient Client, ChatSmileyMessage Message)
+        private void ChatSmileyMessageHandler(DofusClient client, ChatSmileyMessage message)
         {
         }
         [MessageHandler(ChatSmileyRequestMessage.ProtocolId)]
-        private void ChatSmileyRequestMessageHandler(DofusClient Client, ChatSmileyRequestMessage Message)
+        private void ChatSmileyRequestMessageHandler(DofusClient client, ChatSmileyRequestMessage message)
         {
         }
         [MessageHandler(LocalizedChatSmileyMessage.ProtocolId)]
-        private void LocalizedChatSmileyMessageHandler(DofusClient Client, LocalizedChatSmileyMessage Message)
+        private void LocalizedChatSmileyMessageHandler(DofusClient client, LocalizedChatSmileyMessage message)
         {
         }
         [MessageHandler(MoodSmileyRequestMessage.ProtocolId)]
-        private void MoodSmileyRequestMessageHandler(DofusClient Client, MoodSmileyRequestMessage Message)
+        private void MoodSmileyRequestMessageHandler(DofusClient client, MoodSmileyRequestMessage message)
         {
         }
         [MessageHandler(MoodSmileyResultMessage.ProtocolId)]
-        private void MoodSmileyResultMessageHandler(DofusClient Client, MoodSmileyResultMessage Message)
+        private void MoodSmileyResultMessageHandler(DofusClient client, MoodSmileyResultMessage message)
         {
         }
         [MessageHandler(MoodSmileyUpdateMessage.ProtocolId)]
-        private void MoodSmileyUpdateMessageHandler(DofusClient Client, MoodSmileyUpdateMessage Message)
+        private void MoodSmileyUpdateMessageHandler(DofusClient client, MoodSmileyUpdateMessage message)
         {
         }
     }
