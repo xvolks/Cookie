@@ -9,6 +9,7 @@ using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Cookie.Commands.Exceptions;
 using Cookie.Commands.Managers;
 using Cookie.Protocol.Enums;
 using Cookie.Protocol.Network.Messages.Game.Chat;
@@ -197,7 +198,12 @@ namespace Cookie
                 if (ChatTextBox.Text.Length > 2 && ChatTextBox.Text[0] == '.')
                 {
                     var txt = ChatTextBox.Text.Substring(1);
-                    CommandManager.ParseAndCall(_client, txt);
+                    try
+                    {
+                        CommandManager.ParseAndCall(_client, txt);
+                    }
+                    catch { _client.Logger.Log("Commande Incorrecte!", LogMessageType.Public); }
+                    
                     ChatTextBox.BeginInvoke(new Action(() => ChatTextBox.Text = ""));
                     return;
                 }
