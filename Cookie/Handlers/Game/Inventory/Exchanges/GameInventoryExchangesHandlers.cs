@@ -38,11 +38,21 @@ namespace Cookie.Handlers.Game.Inventory.Exchanges
         [MessageHandler(ExchangeStartedWithPodsMessage.ProtocolId)]
         private void ExchangeStartedWithPodsMessageHandler(DofusClient client, ExchangeStartedWithPodsMessage message)
         {
-            client.Account.Character.Weight = message.FirstCharacterCurrentWeight;
-            client.Account.Character.MaxWeight = message.FirstCharacterMaxWeight;
             client.Logger.Log("Vous avez accepté l'échange.", LogMessageType.Info);
-            client.Logger.Log($"Vous avez {message.FirstCharacterCurrentWeight} / {message.FirstCharacterMaxWeight} pods", LogMessageType.Info);
-            client.Logger.Log($"L'échangeur a {message.SecondCharacterCurrentWeight} / {message.SecondCharacterMaxWeight} pods", LogMessageType.Info);
+            if (message.FirstCharacterId == client.Account.Character.Id)
+            {
+                client.Account.Character.Weight = message.FirstCharacterCurrentWeight;
+                client.Account.Character.MaxWeight = message.FirstCharacterMaxWeight;
+                client.Logger.Log($"Vous avez {message.FirstCharacterCurrentWeight} / {message.FirstCharacterMaxWeight} pods", LogMessageType.Info);
+                client.Logger.Log($"L'échangeur a {message.SecondCharacterCurrentWeight} / {message.SecondCharacterMaxWeight} pods", LogMessageType.Info);
+            }
+            else if(message.SecondCharacterId == client.Account.Character.Id)
+            {
+                client.Logger.Log($"Vous avez {message.SecondCharacterCurrentWeight} / {message.SecondCharacterMaxWeight} pods", LogMessageType.Info);
+                client.Logger.Log($"L'échangeur a {message.FirstCharacterCurrentWeight} / {message.FirstCharacterMaxWeight} pods", LogMessageType.Info);
+                client.Account.Character.Weight = message.SecondCharacterCurrentWeight;
+                client.Account.Character.MaxWeight = message.SecondCharacterMaxWeight;
+            }         
         }
         [MessageHandler(ExchangeObjectAddedMessage.ProtocolId)]
         private void ExchangeObjectAddedMessageHandler(DofusClient client, ExchangeObjectAddedMessage message)
