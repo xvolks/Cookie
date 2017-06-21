@@ -112,7 +112,7 @@ namespace Cookie.Handlers.Connection
         {
             foreach (var server in message.Servers)
             {
-                if (server.CharactersCount <= 0 || !server.IsSelectable) continue;
+                if (server.CharactersCount <= 0) continue;
                 switch ((ServerStatusEnum) server.Status)
                 {
                     case ServerStatusEnum.ONLINE:
