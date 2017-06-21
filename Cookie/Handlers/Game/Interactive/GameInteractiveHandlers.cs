@@ -22,7 +22,6 @@ namespace Cookie.Handlers.Game.Interactive
         private void InteractiveUseEndedMessageHandler(DofusClient client, InteractiveUseEndedMessage message)
         {
             client.Account.Character.Status = CharacterStatus.None;
-            client.Account.Character.IsGathering = false;
         }
 
         [MessageHandler(StatedElementUpdatedMessage.ProtocolId)]
