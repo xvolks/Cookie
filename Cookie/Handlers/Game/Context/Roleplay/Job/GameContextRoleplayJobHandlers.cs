@@ -17,10 +17,7 @@ namespace Cookie.Handlers.Game.Context.Roleplay.Job
         [MessageHandler(JobExperienceMultiUpdateMessage.ProtocolId)]
         private void JobExperienceMultiUpdateMessageHandler(DofusClient client, JobExperienceMultiUpdateMessage message)
         {
-            message.ExperiencesUpdate.ForEach(Job =>
-            {
-                client.Logger.Log(D2OParsing.GetJobName(Job.JobId) + " | Level: " + Job.JobLevel + " | Exp: " + Job.JobXP);
-            });
+            client.Account.Character.Jobs = message.ExperiencesUpdate;
         }
         [MessageHandler(JobLevelUpMessage.ProtocolId)]
         private void JobLevelUpMessageHandler(DofusClient client, JobLevelUpMessage message)
@@ -37,7 +34,19 @@ namespace Cookie.Handlers.Game.Context.Roleplay.Job
 
         [MessageHandler(JobExperienceUpdateMessage.ProtocolId)]
         private void JobExperienceUpdateMessageHandler(DofusClient client, JobExperienceUpdateMessage message)
-        {
+        {           
+            foreach(var job in client.Account.Character.Jobs)
+            {
+                if (job.JobId == message.ExperiencesUpdate.JobId)
+                {
+                    job.JobLevel = message.ExperiencesUpdate.JobLevel;
+                    job.JobXP = message.ExperiencesUpdate.JobXP;
+                    job.JobXpLevelFloor = message.ExperiencesUpdate.JobXpLevelFloor;
+                    job.JobXpNextLevelFloor = message.ExperiencesUpdate.JobXpNextLevelFloor;
+                    break;
+                }
+                
+            }
             client.Logger.Log(
                 $"{I18nDataManager.Instance.ReadText(ObjectDataManager.Instance.Get<Datacenter.Job>(message.ExperiencesUpdate.JobId).NameId)} | Level: {message.ExperiencesUpdate.JobLevel} | Exp: {message.ExperiencesUpdate.JobXP}");
         }
