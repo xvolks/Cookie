@@ -17,12 +17,6 @@ namespace Cookie.Handlers.Game.Inventory
             //
         }
 
-        [MessageHandler(ObjectAveragePricesGetMessage.ProtocolId)]
-        private void ObjectAveragePricesGetMessageHandler(DofusClient client, ObjectAveragePricesGetMessage message)
-        {
-            //
-        }
-
         [MessageHandler(ObjectAveragePricesMessage.ProtocolId)]
         private void ObjectAveragePricesMessageHandler(DofusClient client, ObjectAveragePricesMessage message)
         {

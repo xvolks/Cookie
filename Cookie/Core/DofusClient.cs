@@ -51,6 +51,10 @@ using Cookie.Handlers.Game.Inventory;
 using Cookie.Handlers.Game.Chat.Smiley;
 using Cookie.Handlers.Game.Context.Fight;
 using Cookie.Handlers.Game.Context.Roleplay.Objects;
+using Cookie.Handlers.Game.Context.Display;
+using Cookie.Handlers.Game.Character.Creation;
+using Cookie.Handlers.Game.Character.Deletion;
+using Cookie.Handlers.Game.Character.Status;
 
 namespace Cookie.Core
 {
@@ -131,6 +135,10 @@ namespace Cookie.Core
             Register(typeof(GameChatSmileyHandlers));
             Register(typeof(GameContextFightHandlers));
             Register(typeof(GameContextRoleplayObjectsHandlers));
+            Register(typeof(GameContextDisplayHandlers));
+            Register(typeof(GameCharacterCreationHandlers));
+            Register(typeof(GameCharacterDeletionHandlers));
+            Register(typeof(GameCharacterStatusHandlers));
         }
         #endregion
 

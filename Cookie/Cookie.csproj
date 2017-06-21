@@ -71,7 +71,10 @@
     <Compile Include="Handlers\Game\Approach\GameApproachHandlers.cs" />
     <Compile Include="Handlers\Game\Basic\GameBasicHandlers.cs" />
     <Compile Include="Handlers\Game\Character\Choice\GameCharacterChoiceHandlers.cs" />
+    <Compile Include="Handlers\Game\Character\Creation\GameCharacterCreationHandlers.cs" />
+    <Compile Include="Handlers\Game\Character\Deletion\GameCharacterDeletionHandlers.cs" />
     <Compile Include="Handlers\Game\Character\Stats\GameCharacterStatsHandlers.cs" />
+    <Compile Include="Handlers\Game\Character\Status\GameCharacterStatusHandlers.cs" />
     <Compile Include="Handlers\Game\Chat\Channel\GameChatChannelHandlers.cs" />
     <Compile Include="Handlers\Game\Chat\Community\GameChatCommunityHandlers.cs" />
     <Compile Include="Handlers\Game\Chat\GameChatHandlers.cs" />
