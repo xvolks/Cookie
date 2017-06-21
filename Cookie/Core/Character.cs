@@ -24,6 +24,7 @@ namespace Cookie.Core
             MapData = new MapData();
             Map = new Map(Client);
             GatherManager = new GatherManager(Client);
+            Jobs = new List<JobExperience>();
         }
 
         public DofusClient Client { get; set; }
