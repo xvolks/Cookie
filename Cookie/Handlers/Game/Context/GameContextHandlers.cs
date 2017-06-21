@@ -47,5 +47,10 @@ namespace Cookie.Handlers.Game.Context
             }
             client.Account.Character.MapData.RefreshActor(message.ActorId, message.KeyMovements.Last());
         }
+        [MessageHandler(GameMapNoMovementMessage.ProtocolId)]
+        private void GameMapNoMovementMessageHandler(DofusClient client, GameMapNoMovementMessage message)
+        {
+            client.Logger.Log("Erreur lors du déplacement sur cellX : "+message.CellX + "cellY : "+ message.CellY);
+        }
     }
 }
