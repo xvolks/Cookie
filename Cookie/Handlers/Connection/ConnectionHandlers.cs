@@ -1,8 +1,10 @@
 ﻿using Cookie.Core;
 using Cookie.Gamedata;
+using Cookie.Gamedata.I18n;
 using Cookie.Protocol.Enums;
 using Cookie.Protocol.Network.Messages.Connection;
 using Cookie.Protocol.Network.Types.Version;
+using Cookie.Utils;
 using Cookie.Utils.Cryptography;
 using Cookie.Utils.Extensions;
 
