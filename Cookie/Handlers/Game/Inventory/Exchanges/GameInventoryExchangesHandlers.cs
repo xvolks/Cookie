@@ -16,5 +16,16 @@ namespace Cookie.Handlers.Game.Inventory.Exchanges
         {
             //
         }
+        [MessageHandler(ExchangeRequestedTradeMessage.ProtocolId)]
+        private void ExchangeRequestedTradeMessageHandler(DofusClient client, ExchangeRequestedTradeMessage message)
+        {
+            client.Logger.Log($"Le joueur id: {message.Source} vous demande en échange.", LogMessageType.Info);
+        }
+        [MessageHandler(ExchangeLeaveMessage.ProtocolId)]
+        private void ExchangeLeaveMessageHandler(DofusClient client, ExchangeLeaveMessage message)
+        {
+            if (!message.Success)
+            client.Logger.Log($"Le joueur a refusé l'échange.", LogMessageType.Info);
+        }
     }
 }

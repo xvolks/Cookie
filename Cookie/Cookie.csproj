@@ -94,6 +94,7 @@
     <Compile Include="Handlers\Game\Context\Roleplay\Job\GameContextRoleplayJobHandlers.cs" />
     <Compile Include="Handlers\Game\Context\Roleplay\Objects\GameContextRoleplayObjectsHandlers.cs" />
     <Compile Include="Handlers\Game\Context\Roleplay\Paddock\GameContextRoleplayPaddockHandlers.cs" />
+    <Compile Include="Handlers\Game\Context\Roleplay\Party\GameContextRoleplayPartyHandlers.cs" />
     <Compile Include="Handlers\Game\Context\Roleplay\Quest\GameContextRoleplayQuestHandlers.cs" />
     <Compile Include="Handlers\Game\Dare\GameDareHandlers.cs" />
     <Compile Include="Handlers\Game\Finishmoves\GameFinishmovesHandlers.cs" />
