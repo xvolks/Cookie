@@ -2,10 +2,10 @@
 
 namespace Cookie.Protocol.Network.Messages.Game.Basic
 {
-    class BasicTimeMessage : NetworkMessage
+    public class BasicTimeMessage : NetworkMessage
     {
         public const uint ProtocolId = 175;
-        public override uint MessageID { get { return ProtocolId; } }
+        public override uint MessageID => ProtocolId;
 
         public double Timestamp;
         public short TimezoneOffset;

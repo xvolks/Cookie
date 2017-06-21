@@ -41,9 +41,7 @@ namespace Cookie.Network
         public static T GetInstance<T>(short id) where T : class
         {
             if (!Types.ContainsKey(id))
-            {
                 Console.WriteLine($@"Type <id:{id}> doesn't exist");
-            }
 
             return TypesConstructors[id]() as T;
         }
