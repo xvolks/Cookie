@@ -51,6 +51,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\Commands\ChangeMapCommand.cs" />
+    <Compile Include="Commands\Commands\FooCommand.cs" />
+    <Compile Include="Commands\Commands\GatherCommand.cs" />
+    <Compile Include="Commands\Exceptions\CommandNotFoundException.cs" />
+    <Compile Include="Commands\Exceptions\NoCommandException.cs" />
+    <Compile Include="Commands\Interfaces\ICommand.cs" />
+    <Compile Include="Commands\Managers\CommandManager.cs" />
     <Compile Include="Core\Account.cs" />
     <Compile Include="Core\DofusClient.cs" />
     <Compile Include="Core\Frame\LatencyFrame.cs" />

@@ -90,8 +90,7 @@ namespace Cookie.Handlers.Game.Inventory.Items
         [MessageHandler(ObjectUseMessage.ProtocolId)]
         private void ObjectUseMessageHandler(DofusClient client, ObjectUseMessage message)
         {
-            client.Logger.Log(
-                $"Tu as utilisé : {I18nDataManager.Instance.ReadText(ObjectDataManager.Instance.Get<Item>(message.ObjectUID).NameId)}");
+            //
         }
         [MessageHandler(ObtainedItemWithBonusMessage.ProtocolId)]
         private void ObtainedItemWithBonusMessageHandler(DofusClient client, ObtainedItemWithBonusMessage message)

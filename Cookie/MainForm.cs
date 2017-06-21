@@ -9,6 +9,7 @@ using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Cookie.Commands.Managers;
 using Cookie.Protocol.Enums;
 using Cookie.Protocol.Network.Messages.Game.Chat;
 using Cookie.Utils.Enums;
@@ -39,6 +40,7 @@ namespace Cookie
 
                 Task.Factory.StartNew(() =>
                 {
+                    CommandManager.Build();
                     MessageReceiver.Initialize();
                     ProtocolTypeManager.Initialize();
 
@@ -190,6 +192,17 @@ namespace Cookie
                 _client.Logger.Log("Vous ne pouvez pas envoyer un texte vide.", LogMessageType.Public);
             else
             {
+
+
+                if (ChatTextBox.Text.Length > 2 && ChatTextBox.Text[0] == '.')
+                {
+                    var txt = ChatTextBox.Text.Substring(1);
+                    CommandManager.ParseAndCall(_client, txt);
+                    ChatTextBox.BeginInvoke(new Action(() => ChatTextBox.Text = ""));
+                    return;
+                }
+
+
                 if (ChatTextBox.Text.Length < 2)
                 {
                     _client.Send(new ChatClientMultiMessage((byte)ChatChannelsMultiEnum.CHANNEL_GLOBAL, ChatTextBox.Text));

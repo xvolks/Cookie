@@ -31,7 +31,7 @@ namespace Cookie.Game.Map
             var num2 = -1;
             switch (direction)
             {
-                case "up":
+                case "top":
                     neighbourId = _client.Account.Character.MapData.Data.TopNeighbourId;
                     num2 = 64;
                     break;
