@@ -76,9 +76,9 @@ namespace Cookie.Protocol.Network.Messages.Game.Context.Roleplay
         
         public override void Deserialize(ICustomDataInput reader)
         {
+            m_mapId = reader.ReadInt();
             m_fightStartPositions = new FightStartingPositions();
             m_fightStartPositions.Deserialize(reader);
-            m_mapId = reader.ReadInt();
         }
     }
 }

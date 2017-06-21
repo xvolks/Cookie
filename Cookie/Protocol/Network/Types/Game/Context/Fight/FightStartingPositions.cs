@@ -29,9 +29,9 @@ namespace Cookie.Protocol.Network.Types.Game.Context.Fight
             }
         }
         
-        private List<System.UInt16> m_positionsForChallengers;
+        private List<ushort> m_positionsForChallengers;
         
-        public virtual List<System.UInt16> PositionsForChallengers
+        public virtual List<ushort> PositionsForChallengers
         {
             get
             {
@@ -43,9 +43,9 @@ namespace Cookie.Protocol.Network.Types.Game.Context.Fight
             }
         }
         
-        private List<System.UInt16> m_positionsForDefenders;
+        private List<ushort> m_positionsForDefenders;
         
-        public virtual List<System.UInt16> PositionsForDefenders
+        public virtual List<ushort> PositionsForDefenders
         {
             get
             {
@@ -57,7 +57,7 @@ namespace Cookie.Protocol.Network.Types.Game.Context.Fight
             }
         }
         
-        public FightStartingPositions(List<System.UInt16> positionsForChallengers, List<System.UInt16> positionsForDefenders)
+        public FightStartingPositions(List<ushort> positionsForChallengers, List<ushort> positionsForDefenders)
         {
             m_positionsForChallengers = positionsForChallengers;
             m_positionsForDefenders = positionsForDefenders;
