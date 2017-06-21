@@ -6,5 +6,3 @@
 PACKETS A CORRIGER OU AJOUTER LE HANDLER:
   
 - MapFightCountMessage
-- ExchangeErrorMessage
-- ExchangeStartedWithPodsMessage
