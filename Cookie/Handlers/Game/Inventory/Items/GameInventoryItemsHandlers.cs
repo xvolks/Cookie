@@ -93,5 +93,21 @@ namespace Cookie.Handlers.Game.Inventory.Items
             client.Logger.Log(
                  $"Tu as reçu : {message.Gold}");
         }
+        [MessageHandler(ExchangeObjectRemovedMessage.ProtocolId)]
+        private void ExchangeObjectRemovedMessageHandler(DofusClient client, ExchangeObjectRemovedMessage message)
+        {
+            if(message.Remote)
+                client.Logger.Log($"L'échangeur a retiré un item de l'échange", LogMessageType.Info);
+            else
+                client.Logger.Log($"Vous avez retiré un item de l'échange", LogMessageType.Info);
+        }
+        [MessageHandler(ExchangeKamaModifiedMessage.ProtocolId)]
+        private void ExchangeKamaModifiedMessageHandler(DofusClient client, ExchangeKamaModifiedMessage message)
+        {
+            if(message.Remote)
+                client.Logger.Log($"L'échangeur a ajouté {message.Quantity} kamas à l'échange", LogMessageType.Info);
+            else
+                client.Logger.Log($"Vous avez ajouté {message.Quantity} kamas à l'échange", LogMessageType.Info);
+        }
     }
 }
