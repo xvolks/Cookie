@@ -52,5 +52,17 @@ namespace Cookie.Handlers.Game.Context
         {
             client.Logger.Log("Erreur lors du déplacement sur cellX : "+message.CellX + "cellY : "+ message.CellY);
         }
+        [MessageHandler(GameEntitiesDispositionMessage.ProtocolId)]
+        private void GameEntitiesDispositionMessageHandler(DofusClient client, GameEntitiesDispositionMessage message)
+        {
+            var _ListDispositions = message.Dispositions;
+            foreach(var player in _ListDispositions)
+            {
+                if(player.ObjectId == client.Account.Character.Id)
+                {
+                    client.Logger.Log("Actualisation des joueurs: Vous êtes sur la cellID: " + player.CellId);
+                }
+            }
+        }
     }
 }
