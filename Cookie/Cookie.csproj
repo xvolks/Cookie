@@ -54,6 +54,7 @@
     <Compile Include="Commands\Commands\ChangeMapCommand.cs" />
     <Compile Include="Commands\Commands\FooCommand.cs" />
     <Compile Include="Commands\Commands\GatherCommand.cs" />
+    <Compile Include="Commands\Commands\MapIdCommand.cs" />
     <Compile Include="Commands\Exceptions\CommandNotFoundException.cs" />
     <Compile Include="Commands\Exceptions\NoCommandException.cs" />
     <Compile Include="Commands\Interfaces\ICommand.cs" />
