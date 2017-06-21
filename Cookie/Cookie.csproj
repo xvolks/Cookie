@@ -120,6 +120,7 @@
     <Compile Include="Handlers\Server\Basic\ServerBasicHandlers.cs" />
     <Compile Include="Handlers\Web\Ankabox\WebAnkaboxHandlers.cs" />
     <Compile Include="Utils\Enums\CharacterStatus.cs" />
+    <Compile Include="Utils\Extensions\ActionExtensions.cs" />
     <Compile Include="Utils\Extensions\ArrayExtension.cs" />
     <Compile Include="Utils\Extensions\CollectionExtensions.cs" />
     <Compile Include="Utils\Extensions\DateExtensions.cs" />
@@ -155,6 +156,7 @@
     <Compile Include="Utils\IO\Types\CustomUInt64.cs" />
     <Compile Include="Network\Dispatcher.cs" />
     <Compile Include="Utils\Extensions\ReflectionExtensions.cs" />
+    <Compile Include="Utils\Randomize.cs" />
     <Compile Include="Utils\Singleton.cs" />
     <Compile Include="Gamedata\D2i\D2iFile.cs" />
     <Compile Include="Gamedata\D2o\D2OClassAttribute.cs" />
