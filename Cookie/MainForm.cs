@@ -209,7 +209,7 @@ namespace Cookie
                     }
                     catch
                     {
-                        _client.Logger.Log("Commande Incorrecte!", LogMessageType.Public);
+                        _client.Logger.Log("Commande Incorrecte ou qui a échouée.", LogMessageType.Public);
                     }
 
                     ChatTextBox.BeginInvoke(new Action(() => ChatTextBox.Text = ""));

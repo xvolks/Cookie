@@ -29,9 +29,9 @@ namespace Cookie.Protocol.Network.Types.Game.House
             }
         }
         
-        private List<System.Int32> m_doorsOnMap;
+        private List<int> m_doorsOnMap;
         
-        public virtual List<System.Int32> DoorsOnMap
+        public virtual List<int> DoorsOnMap
         {
             get
             {

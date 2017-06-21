@@ -29,20 +29,6 @@ namespace Cookie.Protocol.Network.Types.Game.House
             }
         }
         
-        private List<System.Int32> m_skillListIds;
-        
-        public virtual List<System.Int32> SkillListIds
-        {
-            get
-            {
-                return m_skillListIds;
-            }
-            set
-            {
-                m_skillListIds = value;
-            }
-        }
-        
         private int m_instanceId;
         
         public virtual int InstanceId
@@ -140,7 +126,21 @@ namespace Cookie.Protocol.Network.Types.Game.House
                 m_subAreaId = value;
             }
         }
-        
+
+        private List<int> m_skillListIds;
+
+        public virtual List<int> SkillListIds
+        {
+            get
+            {
+                return m_skillListIds;
+            }
+            set
+            {
+                m_skillListIds = value;
+            }
+        }
+
         private uint m_guildshareParams;
         
         public virtual uint GuildshareParams
@@ -175,12 +175,6 @@ namespace Cookie.Protocol.Network.Types.Game.House
         public override void Serialize(ICustomDataOutput writer)
         {
             base.Serialize(writer);
-            writer.WriteShort(((short)(m_skillListIds.Count)));
-            int skillListIdsIndex;
-            for (skillListIdsIndex = 0; (skillListIdsIndex < m_skillListIds.Count); skillListIdsIndex = (skillListIdsIndex + 1))
-            {
-                writer.WriteInt(m_skillListIds[skillListIdsIndex]);
-            }
             writer.WriteInt(m_instanceId);
             writer.WriteBoolean(m_secondHand);
             writer.WriteUTF(m_ownerName);
@@ -188,19 +182,18 @@ namespace Cookie.Protocol.Network.Types.Game.House
             writer.WriteShort(m_worldY);
             writer.WriteInt(m_mapId);
             writer.WriteVarUhShort(m_subAreaId);
+            writer.WriteShort(((short)(m_skillListIds.Count)));
+            int skillListIdsIndex;
+            for (skillListIdsIndex = 0; (skillListIdsIndex < m_skillListIds.Count); skillListIdsIndex = (skillListIdsIndex + 1))
+            {
+                writer.WriteInt(m_skillListIds[skillListIdsIndex]);
+            }
             writer.WriteVarUhInt(m_guildshareParams);
         }
         
         public override void Deserialize(ICustomDataInput reader)
         {
             base.Deserialize(reader);
-            int skillListIdsCount = reader.ReadUShort();
-            int skillListIdsIndex;
-            m_skillListIds = new System.Collections.Generic.List<int>();
-            for (skillListIdsIndex = 0; (skillListIdsIndex < skillListIdsCount); skillListIdsIndex = (skillListIdsIndex + 1))
-            {
-                m_skillListIds.Add(reader.ReadInt());
-            }
             m_instanceId = reader.ReadInt();
             m_secondHand = reader.ReadBoolean();
             m_ownerName = reader.ReadUTF();
@@ -208,6 +201,13 @@ namespace Cookie.Protocol.Network.Types.Game.House
             m_worldY = reader.ReadShort();
             m_mapId = reader.ReadInt();
             m_subAreaId = reader.ReadVarUhShort();
+            int skillListIdsCount = reader.ReadUShort();
+            int skillListIdsIndex;
+            m_skillListIds = new System.Collections.Generic.List<int>();
+            for (skillListIdsIndex = 0; (skillListIdsIndex < skillListIdsCount); skillListIdsIndex = (skillListIdsIndex + 1))
+            {
+                m_skillListIds.Add(reader.ReadInt());
+            }   
             m_guildshareParams = reader.ReadVarUhInt();
         }
     }

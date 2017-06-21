@@ -43,20 +43,6 @@ namespace Cookie.Protocol.Network.Types.Game.House
             }
         }
         
-        private bool m_isOnSale;
-        
-        public virtual bool IsOnSale
-        {
-            get
-            {
-                return m_isOnSale;
-            }
-            set
-            {
-                m_isOnSale = value;
-            }
-        }
-        
         private bool m_isSaleLocked;
         
         public virtual bool IsSaleLocked
@@ -98,14 +84,43 @@ namespace Cookie.Protocol.Network.Types.Game.House
                 m_ownerName = value;
             }
         }
-        
-        public HouseInstanceInformations(bool secondHand, bool isOnSale, bool isSaleLocked, int instanceId, string ownerName)
+
+        private long m_price;
+
+        public virtual long Price
+        {
+            get
+            {
+                return m_price;
+            }
+            set
+            {
+                m_price = value;
+            }
+        }
+
+        private bool m_isLocked;
+
+        public virtual bool IsLocked
+        {
+            get
+            {
+                return m_isLocked;
+            }
+            set
+            {
+                m_isLocked = value;
+            }
+        }
+
+        public HouseInstanceInformations(bool secondHand, bool isLocked, bool isSaleLocked, int instanceId, string ownerName, long price)
         {
             m_secondHand = secondHand;
-            m_isOnSale = isOnSale;
+            m_isLocked = isLocked;
             m_isSaleLocked = isSaleLocked;
             m_instanceId = instanceId;
             m_ownerName = ownerName;
+            m_price = price;
         }
         
         public HouseInstanceInformations()
@@ -116,21 +131,23 @@ namespace Cookie.Protocol.Network.Types.Game.House
         {
             byte flag = new byte();
             BooleanByteWrapper.SetFlag(0, flag, m_secondHand);
-            BooleanByteWrapper.SetFlag(1, flag, m_isOnSale);
+            BooleanByteWrapper.SetFlag(1, flag, m_isLocked);
             BooleanByteWrapper.SetFlag(2, flag, m_isSaleLocked);
             writer.WriteByte(flag);
             writer.WriteInt(m_instanceId);
             writer.WriteUTF(m_ownerName);
+            writer.WriteVarLong(m_price);
         }
         
         public override void Deserialize(ICustomDataInput reader)
         {
             byte flag = reader.ReadByte();
             m_secondHand = BooleanByteWrapper.GetFlag(flag, 0);
-            m_isOnSale = BooleanByteWrapper.GetFlag(flag, 1);
+            m_isLocked = BooleanByteWrapper.GetFlag(flag, 1);
             m_isSaleLocked = BooleanByteWrapper.GetFlag(flag, 2);
             m_instanceId = reader.ReadInt();
             m_ownerName = reader.ReadUTF();
+            m_price = reader.ReadVarLong();
         }
     }
 }

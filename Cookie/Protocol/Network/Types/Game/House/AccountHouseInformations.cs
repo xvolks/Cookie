@@ -40,34 +40,6 @@ namespace Cookie.Protocol.Network.Types.Game.House
             }
         }
         
-        private ulong m_realPrice;
-        
-        public virtual ulong RealPrice
-        {
-            get
-            {
-                return m_realPrice;
-            }
-            set
-            {
-                m_realPrice = value;
-            }
-        }
-        
-        private bool m_isLocked;
-        
-        public virtual bool IsLocked
-        {
-            get
-            {
-                return m_isLocked;
-            }
-            set
-            {
-                m_isLocked = value;
-            }
-        }
-        
         private short m_worldX;
         
         public virtual short WorldX
@@ -124,11 +96,9 @@ namespace Cookie.Protocol.Network.Types.Game.House
             }
         }
         
-        public AccountHouseInformations(HouseInstanceInformations houseInfos, ulong realPrice, bool isLocked, short worldX, short worldY, int mapId, ushort subAreaId)
+        public AccountHouseInformations(HouseInstanceInformations houseInfos, short worldX, short worldY, int mapId, ushort subAreaId)
         {
             m_houseInfos = houseInfos;
-            m_realPrice = realPrice;
-            m_isLocked = isLocked;
             m_worldX = worldX;
             m_worldY = worldY;
             m_mapId = mapId;
@@ -144,8 +114,6 @@ namespace Cookie.Protocol.Network.Types.Game.House
             base.Serialize(writer);
             writer.WriteUShort(((ushort)(m_houseInfos.TypeID)));
             m_houseInfos.Serialize(writer);
-            writer.WriteVarUhLong(m_realPrice);
-            writer.WriteBoolean(m_isLocked);
             writer.WriteShort(m_worldX);
             writer.WriteShort(m_worldY);
             writer.WriteInt(m_mapId);
@@ -157,8 +125,6 @@ namespace Cookie.Protocol.Network.Types.Game.House
             base.Deserialize(reader);
             m_houseInfos = ProtocolTypeManager.GetInstance<HouseInstanceInformations>((short)reader.ReadUShort());
             m_houseInfos.Deserialize(reader);
-            m_realPrice = reader.ReadVarUhLong();
-            m_isLocked = reader.ReadBoolean();
             m_worldX = reader.ReadShort();
             m_worldY = reader.ReadShort();
             m_mapId = reader.ReadInt();

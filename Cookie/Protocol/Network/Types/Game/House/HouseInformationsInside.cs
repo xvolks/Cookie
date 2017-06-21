@@ -8,6 +8,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using Cookie.Network;
+
 namespace Cookie.Protocol.Network.Types.Game.House
 {
     using Cookie.IO;
@@ -24,91 +26,21 @@ namespace Cookie.Protocol.Network.Types.Game.House
                 return ProtocolId;
             }
         }
-        
-        private int m_instanceId;
-        
-        public virtual int InstanceId
+
+        private HouseInstanceInformations m_houseInfos;
+
+        public virtual HouseInstanceInformations HouseInfos
         {
             get
             {
-                return m_instanceId;
+                return m_houseInfos;
             }
             set
             {
-                m_instanceId = value;
+                m_houseInfos = value;
             }
         }
-        
-        private bool m_secondHand;
-        
-        public virtual bool SecondHand
-        {
-            get
-            {
-                return m_secondHand;
-            }
-            set
-            {
-                m_secondHand = value;
-            }
-        }
-        
-        private int m_ownerId;
-        
-        public virtual int OwnerId
-        {
-            get
-            {
-                return m_ownerId;
-            }
-            set
-            {
-                m_ownerId = value;
-            }
-        }
-        
-        private string m_ownerName;
-        
-        public virtual string OwnerName
-        {
-            get
-            {
-                return m_ownerName;
-            }
-            set
-            {
-                m_ownerName = value;
-            }
-        }
-        
-        private ulong m_price;
-        
-        public virtual ulong Price
-        {
-            get
-            {
-                return m_price;
-            }
-            set
-            {
-                m_price = value;
-            }
-        }
-        
-        private bool m_isLocked;
-        
-        public virtual bool IsLocked
-        {
-            get
-            {
-                return m_isLocked;
-            }
-            set
-            {
-                m_isLocked = value;
-            }
-        }
-        
+
         private short m_worldX;
         
         public virtual short WorldX
@@ -137,16 +69,11 @@ namespace Cookie.Protocol.Network.Types.Game.House
             }
         }
         
-        public HouseInformationsInside(int instanceId, bool secondHand, int ownerId, string ownerName, ulong price, bool isLocked, short worldX, short worldY)
+        public HouseInformationsInside(HouseInstanceInformations houseInfos, short worldX, short worldY)
         {
-            m_instanceId = instanceId;
-            m_secondHand = secondHand;
-            m_ownerId = ownerId;
-            m_ownerName = ownerName;
-            m_price = price;
-            m_isLocked = isLocked;
             m_worldX = worldX;
             m_worldY = worldY;
+            m_houseInfos = houseInfos;
         }
         
         public HouseInformationsInside()
@@ -156,12 +83,8 @@ namespace Cookie.Protocol.Network.Types.Game.House
         public override void Serialize(ICustomDataOutput writer)
         {
             base.Serialize(writer);
-            writer.WriteInt(m_instanceId);
-            writer.WriteBoolean(m_secondHand);
-            writer.WriteInt(m_ownerId);
-            writer.WriteUTF(m_ownerName);
-            writer.WriteVarUhLong(m_price);
-            writer.WriteBoolean(m_isLocked);
+            writer.WriteUShort(((ushort)(m_houseInfos.TypeID)));
+            m_houseInfos.Serialize(writer);
             writer.WriteShort(m_worldX);
             writer.WriteShort(m_worldY);
         }
@@ -169,12 +92,8 @@ namespace Cookie.Protocol.Network.Types.Game.House
         public override void Deserialize(ICustomDataInput reader)
         {
             base.Deserialize(reader);
-            m_instanceId = reader.ReadInt();
-            m_secondHand = reader.ReadBoolean();
-            m_ownerId = reader.ReadInt();
-            m_ownerName = reader.ReadUTF();
-            m_price = reader.ReadVarUhLong();
-            m_isLocked = reader.ReadBoolean();
+            m_houseInfos = ProtocolTypeManager.GetInstance<HouseInstanceInformations>((short)reader.ReadUShort());
+            m_houseInfos.Deserialize(reader);
             m_worldX = reader.ReadShort();
             m_worldY = reader.ReadShort();
         }

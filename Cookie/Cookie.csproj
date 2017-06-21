@@ -1866,7 +1866,6 @@
     <Compile Include="Protocol\Network\Types\Game\House\AccountHouseInformations.cs" />
     <Compile Include="Protocol\Network\Types\Game\House\HouseGuildedInformations.cs" />
     <Compile Include="Protocol\Network\Types\Game\House\HouseInformations.cs" />
-    <Compile Include="Protocol\Network\Types\Game\House\HouseInformationsExtended.cs" />
     <Compile Include="Protocol\Network\Types\Game\House\HouseInformationsForGuild.cs" />
     <Compile Include="Protocol\Network\Types\Game\House\HouseInformationsForSell.cs" />
     <Compile Include="Protocol\Network\Types\Game\House\HouseInformationsInside.cs" />
