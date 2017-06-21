@@ -1,4 +1,6 @@
-﻿namespace Cookie.Core
+﻿using Cookie.Core.Frame;
+
+namespace Cookie.Core
 {
     public class Account
     {
@@ -14,6 +16,8 @@
             Client = client;
 
             Character = new Character(Client);
+
+            LatencyFrame = new LatencyFrame(this);
         }
 
         public int Id { get; set; }
@@ -26,5 +30,7 @@
         public double SubscriptionEndDate { get; set; }
 
         public Character Character { get; set; }
+
+        public LatencyFrame LatencyFrame { get; set; }
     }
 }

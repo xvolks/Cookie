@@ -12,7 +12,9 @@ namespace Cookie.Handlers.Game.Basic
         [MessageHandler(BasicLatencyStatsRequestMessage.ProtocolId)]
         private void BasicLatencyStatsRequestMessageHandler(DofusClient client, BasicLatencyStatsRequestMessage message)
         {
-            //
+            var basicLatencyStatsMessage = new BasicLatencyStatsMessage((ushort) client.Account.LatencyFrame.GetLatencyAvg(),
+                (ushort) client.Account.LatencyFrame.GetSamplesCount(), (ushort) client.Account.LatencyFrame.GetSamplesMax());
+            client.Send(basicLatencyStatsMessage);
         }
 
         [MessageHandler(BasicAckMessage.ProtocolId)]
@@ -30,7 +32,9 @@ namespace Cookie.Handlers.Game.Basic
         [MessageHandler(SequenceNumberRequestMessage.ProtocolId)]
         private void SequenceNumberRequestMessageHandler(DofusClient client, SequenceNumberRequestMessage message)
         {
-            //
+            client.Account.LatencyFrame.Sequence++;
+            var sequenceNumberMessage = new SequenceNumberMessage((ushort)client.Account.LatencyFrame.Sequence);
+            client.Send(sequenceNumberMessage);
         }
 
         [MessageHandler(BasicNoOperationMessage.ProtocolId)]
