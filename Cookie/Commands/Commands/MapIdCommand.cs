@@ -1,5 +1,6 @@
 ﻿using Cookie.Commands.Interfaces;
 using Cookie.Core;
+using Cookie.Gamedata;
 
 namespace Cookie.Commands.Commands
 {
@@ -9,7 +10,7 @@ namespace Cookie.Commands.Commands
 
         public void OnCommand(DofusClient client, string[] args)
         {
-            client.Logger.Log("MapID : " + client.Account.Character.MapId,
+            client.Logger.Log($"MapID : {client.Account.Character.MapId} | [{D2OParsing.GetMapCoordinates(client.Account.Character.MapId).X};{D2OParsing.GetMapCoordinates(client.Account.Character.MapId).Y}]",
                 LogMessageType.Admin);
         }
     }

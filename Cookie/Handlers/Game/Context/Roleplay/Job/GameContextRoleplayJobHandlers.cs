@@ -1,4 +1,5 @@
 ﻿using Cookie.Core;
+using Cookie.Gamedata;
 using Cookie.Gamedata.D2o;
 using Cookie.Gamedata.I18n;
 using Cookie.Protocol.Network.Messages.Game.Context.Roleplay.Job;
@@ -16,14 +17,17 @@ namespace Cookie.Handlers.Game.Context.Roleplay.Job
         [MessageHandler(JobExperienceMultiUpdateMessage.ProtocolId)]
         private void JobExperienceMultiUpdateMessageHandler(DofusClient client, JobExperienceMultiUpdateMessage message)
         {
-            // See how jobLevel is not good...
-
-            //Message.ExperiencesUpdate.ForEach(Job =>
-            //{
-            //    Client.Logger.Log(D2OParsing.GetJobName(Job.JobId) + " | Level: " + Job.JobLevel + " | Exp: " + Job.JobXP);
-            //});
+            message.ExperiencesUpdate.ForEach(Job =>
+            {
+                client.Logger.Log(D2OParsing.GetJobName(Job.JobId) + " | Level: " + Job.JobLevel + " | Exp: " + Job.JobXP);
+            });
         }
-
+        [MessageHandler(JobLevelUpMessage.ProtocolId)]
+        private void JobLevelUpMessageHandler(DofusClient client, JobLevelUpMessage message)
+        {
+            var jobName = D2OParsing.GetJobName(message.JobsDescription.JobId);
+            client.Logger.Log("Votre métier de " + jobName + " vient de passer niveau " + message.NewLevel );
+        }
         [MessageHandler(JobCrafterDirectorySettingsMessage.ProtocolId)]
         private void JobCrafterDirectorySettingsMessageHandler(DofusClient client,
             JobCrafterDirectorySettingsMessage message)

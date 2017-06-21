@@ -40,9 +40,9 @@ namespace Cookie.Protocol.Network.Types.Game.Context.Roleplay.Job
             }
         }
         
-        private sbyte m_jobLevel;
+        private byte m_jobLevel;
         
-        public virtual sbyte JobLevel
+        public virtual byte JobLevel
         {
             get
             {
@@ -96,7 +96,7 @@ namespace Cookie.Protocol.Network.Types.Game.Context.Roleplay.Job
             }
         }
         
-        public JobExperience(byte jobId, sbyte jobLevel, ulong jobXP, ulong jobXpLevelFloor, ulong jobXpNextLevelFloor)
+        public JobExperience(byte jobId, byte jobLevel, ulong jobXP, ulong jobXpLevelFloor, ulong jobXpNextLevelFloor)
         {
             m_jobId = jobId;
             m_jobLevel = jobLevel;
@@ -112,7 +112,7 @@ namespace Cookie.Protocol.Network.Types.Game.Context.Roleplay.Job
         public override void Serialize(ICustomDataOutput writer)
         {
             writer.WriteByte(m_jobId);
-            writer.WriteSByte(m_jobLevel);
+            writer.WriteByte(m_jobLevel);
             writer.WriteVarUhLong(m_jobXP);
             writer.WriteVarUhLong(m_jobXpLevelFloor);
             writer.WriteVarUhLong(m_jobXpNextLevelFloor);
@@ -121,7 +121,7 @@ namespace Cookie.Protocol.Network.Types.Game.Context.Roleplay.Job
         public override void Deserialize(ICustomDataInput reader)
         {
             m_jobId = reader.ReadByte();
-            m_jobLevel = reader.ReadSByte();
+            m_jobLevel = reader.ReadByte();
             m_jobXP = reader.ReadVarUhLong();
             m_jobXpLevelFloor = reader.ReadVarUhLong();
             m_jobXpNextLevelFloor = reader.ReadVarUhLong();
