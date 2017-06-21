@@ -12,7 +12,7 @@ namespace Cookie.Handlers.Game.Basic
         [MessageHandler(BasicLatencyStatsRequestMessage.ProtocolId)]
         private void BasicLatencyStatsRequestMessageHandler(DofusClient client, BasicLatencyStatsRequestMessage message)
         {
-           //           
+            //
         }
 
         [MessageHandler(BasicAckMessage.ProtocolId)]
