@@ -55,6 +55,7 @@
     <Compile Include="Commands\Commands\FooCommand.cs" />
     <Compile Include="Commands\Commands\GatherCommand.cs" />
     <Compile Include="Commands\Commands\JobsCommand.cs" />
+    <Compile Include="Commands\Commands\LevelCommand.cs" />
     <Compile Include="Commands\Commands\MapIdCommand.cs" />
     <Compile Include="Commands\Exceptions\CommandNotFoundException.cs" />
     <Compile Include="Commands\Exceptions\NoCommandException.cs" />
