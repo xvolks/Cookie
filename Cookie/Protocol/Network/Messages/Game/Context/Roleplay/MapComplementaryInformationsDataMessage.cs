@@ -19,70 +19,40 @@ namespace Cookie.Protocol.Network.Messages.Game.Context.Roleplay
 
         public virtual ushort SubAreaId
         {
-            get
-            {
-                return m_subAreaId;
-            }
-            set
-            {
-                m_subAreaId = value;
-            }
+            get => m_subAreaId;
+            set => m_subAreaId = value;
         }
 
         private int m_mapId;
 
         public virtual int MapId
         {
-            get
-            {
-                return m_mapId;
-            }
-            set
-            {
-                m_mapId = value;
-            }
+            get => m_mapId;
+            set => m_mapId = value;
         }
 
         private List<HouseInformations> m_houses;
 
         public virtual List<HouseInformations> Houses
         {
-            get
-            {
-                return m_houses;
-            }
-            set
-            {
-                m_houses = value;
-            }
+            get => m_houses;
+            set => m_houses = value;
         }
 
         private List<GameRolePlayActorInformations> m_actors;
 
         public virtual List<GameRolePlayActorInformations> Actors
         {
-            get
-            {
-                return m_actors;
-            }
-            set
-            {
-                m_actors = value;
-            }
+            get => m_actors;
+            set => m_actors = value;
         }
 
         private List<InteractiveElement> m_interactiveElements;
 
         public virtual List<InteractiveElement> InteractiveElements
         {
-            get
-            {
-                return m_interactiveElements;
-            }
-            set
-            {
-                m_interactiveElements = value;
-            }
+            get => m_interactiveElements;
+            set => m_interactiveElements = value;
         }
 
         private List<StatedElement> m_statedElements;
@@ -103,56 +73,32 @@ namespace Cookie.Protocol.Network.Messages.Game.Context.Roleplay
 
         public virtual List<MapObstacle> Obstacles
         {
-            get
-            {
-                return m_obstacles;
-            }
-            set
-            {
-                m_obstacles = value;
-            }
+            get => m_obstacles;
+            set => m_obstacles = value;
         }
 
         private List<FightCommonInformations> m_fights;
 
         public virtual List<FightCommonInformations> Fights
         {
-            get
-            {
-                return m_fights;
-            }
-            set
-            {
-                m_fights = value;
-            }
+            get => m_fights;
+            set => m_fights = value;
         }
 
         private FightStartingPositions m_fightStartPositions;
 
         public virtual FightStartingPositions FightStartPositions
         {
-            get
-            {
-                return m_fightStartPositions;
-            }
-            set
-            {
-                m_fightStartPositions = value;
-            }
+            get => m_fightStartPositions;
+            set => m_fightStartPositions = value;
         }
 
         private bool m_hasAggressiveMonsters;
 
         public virtual bool HasAggressiveMonsters
         {
-            get
-            {
-                return m_hasAggressiveMonsters;
-            }
-            set
-            {
-                m_hasAggressiveMonsters = value;
-            }
+            get => m_hasAggressiveMonsters;
+            set => m_hasAggressiveMonsters = value;
         }
 
         public MapComplementaryInformationsDataMessage(List<HouseInformations> houses, List<GameRolePlayActorInformations> actors, List<InteractiveElement> interactiveElements, List<StatedElement> statedElements, List<MapObstacle> obstacles, List<FightCommonInformations> fights, FightStartingPositions fightStartPositions, ushort subAreaId, int mapId, bool hasAggressiveMonsters)
