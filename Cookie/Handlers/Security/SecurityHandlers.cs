@@ -15,6 +15,7 @@ namespace Cookie.Handlers.Security
             {
                 var random = new Random();
                 var test = random.Next(-127, 127);
+                tt.Add(test);
             }
             var rawData = new CheckIntegrityMessage(tt);
             client.Send(rawData);
