@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Cookie.Core;
 using Cookie.Game.World.Pathfinding;
+using Cookie.Gamedata;
 using Cookie.Protocol.Network.Messages.Game.Context;
 using Cookie.Protocol.Network.Messages.Game.Context.Roleplay;
 using Cookie.Protocol.Network.Messages.Game.Interactive;
@@ -135,10 +136,12 @@ namespace Cookie.Game.Map
 
         private void CheckMapChange()
         {
+            var posOld = D2OParsing.GetMapCoordinates(_client.Account.Character.MapId);
             var old = _client.Account.Character.MapId;
-            _client.Logger.Log($"[Map] Old {old}");
-            Thread.Sleep(500);
-            _client.Logger.Log($"[Map] New {_client.Account.Character.MapId}");
+            _client.Logger.Log($"[Map] Old {old} | [{posOld.X};{posOld.Y}]");
+            Thread.Sleep(500); 
+            var posNew = D2OParsing.GetMapCoordinates(_client.Account.Character.MapId);
+            _client.Logger.Log($"[Map] New {_client.Account.Character.MapId}| [{posNew.X};{posNew.Y}]");
             if (old == _client.Account.Character.MapId)
                 LaunchChangeMap(old);
             else
