@@ -1,7 +1,7 @@
-﻿using System;
-using Cookie.Commands.Interfaces;
+﻿using Cookie.Commands.Interfaces;
 using Cookie.Core;
 using Cookie.Utils.Enums;
+using System;
 
 namespace Cookie.Commands.Commands
 {

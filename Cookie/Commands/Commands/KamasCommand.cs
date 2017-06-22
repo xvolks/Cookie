@@ -3,13 +3,13 @@ using Cookie.Core;
 
 namespace Cookie.Commands.Commands
 {
-    public class LevelCommand : ICommand
+    public class KamasCommand : ICommand
     {
-        public string CommandName => "level";
+        public string CommandName => "kamas";
 
         public void OnCommand(DofusClient client, string[] args)
         {
-            client.Logger.Log($"Vous êtes niveau : {client.Account.Character.Level} ",
+            client.Logger.Log($"Vous avez : {client.Account.Character.Stats.Kamas} kamas.",
                 LogMessageType.Admin);
         }
     }
