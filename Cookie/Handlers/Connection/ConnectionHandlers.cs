@@ -2,7 +2,6 @@
 using Cookie.Gamedata;
 using Cookie.Protocol.Enums;
 using Cookie.Protocol.Network.Messages.Connection;
-using Cookie.Protocol.Network.Messages.Connection.Register;
 using Cookie.Protocol.Network.Types.Version;
 using Cookie.Utils;
 using Cookie.Utils.Cryptography;
@@ -32,6 +31,7 @@ namespace Cookie.Handlers.Connection
             client.Logger.Log("Envois des informations d'identification...");
             client.Send(identificationMessage);
         }
+
         [MessageHandler(IdentificationFailedBannedMessage.ProtocolId)]
         private void IdentificationFailedBannedMessageHandler(DofusClient client,
             IdentificationFailedBannedMessage message)
