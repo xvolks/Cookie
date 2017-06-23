@@ -1,5 +1,6 @@
 ﻿using Cookie.Core;
 using Cookie.Gamedata;
+using Cookie.Gamedata.D2o;
 using Cookie.Protocol.Enums;
 using Cookie.Protocol.Network.Messages.Connection;
 using Cookie.Protocol.Network.Types.Version;
@@ -113,24 +114,25 @@ namespace Cookie.Handlers.Connection
         [MessageHandler(ServerListMessage.ProtocolId)]
         private void ServerListMessageHandler(DofusClient client, ServerListMessage message)
         {
-            foreach (var server in message.Servers)
+            if (message.AlreadyConnectedToServerId != 0)
             {
-                if (server.CharactersCount <= 0) continue;
-                switch ((ServerStatusEnum) server.Status)
-                {
-                    case ServerStatusEnum.ONLINE:
-                        client.Send(new ServerSelectionMessage(server.ObjectID));
-                        break;
-                    case ServerStatusEnum.SAVING:
-                        client.Logger.Log($"Le serveur {D2OParsing.GetServerName(server.ObjectID)} est en sauvegarde.");
-                        break;
-                    default:
-                        client.Logger.Log(D2OParsing.GetServerName(server.ObjectID) + ": " +
-                                          (ServerStatusEnum) server.Status);
-                        break;
-                }
-                break;
+                client.Send(new ServerSelectionMessage(message.AlreadyConnectedToServerId));
+                return;
             }
+                
+            var server = message.Servers.Find(s => (ServerStatusEnum)s.Status == ServerStatusEnum.ONLINE
+                && s.IsSelectable && s.CharactersCount > 0);
+
+
+            if (server == null)
+            {
+                // TODO: Check if server 11 is online and selectable              
+                client.Send(new ServerSelectionMessage(11));
+                client.Logger.Log("Selection du serveur automatique : Brumaire");
+                return;
+            }
+            else
+                client.Send(new ServerSelectionMessage(server.ObjectID));
         }
 
         [MessageHandler(ServerStatusUpdateMessage.ProtocolId)]
