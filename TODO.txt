@@ -6,4 +6,3 @@
 PACKETS A CORRIGER OU AJOUTER LE HANDLER:
   
 - MapFightCountMessage
-- MapFightStartPositionsUpdateMessage
