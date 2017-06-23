@@ -25,20 +25,27 @@ namespace Cookie.Game.Job
                 _client.Account.Character.MapData.InteractiveElements.Find(
                     e => e.ElementTypeId == elemTypeId && e.EnabledSkills.Count > 0 &&
                          !BannedElementId.Contains(elemTypeId));
+
             if (_tempElement == null)
                 return false;
+
             var statedElement =
                 _client.Account.Character.MapData.StatedElements.Find(
                     e => e.ElementId == _tempElement.ElementId && e.ElementState == 0);
+
             if (statedElement == null)
                 return false;
-            if (!_client.Account.Character.Map.MoveToCell(statedElement.ElementCellId - 1)) return false;
+
+            if (!_client.Account.Character.Map.MoveToElement(statedElement.ElementCellId - 1)) return false;
+
             _client.Account.Character.Status = CharacterStatus.Gathering;
+
             _client.Account.Character.Map.UseElement(_tempElement.ElementId,
                 _tempElement.EnabledSkills[0].SkillInstanceUid);
 
             _client.Account.Character.MapData.InteractiveElements.Remove(
                 _client.Account.Character.MapData.InteractiveElements.Find(x => x.ElementId == _tempElement.ElementId));
+
             _client.Account.Character.MapData.StatedElements.Remove(
                 _client.Account.Character.MapData.StatedElements.Find(
                     x => x.ElementCellId == statedElement.ElementCellId));

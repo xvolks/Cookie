@@ -20,6 +20,8 @@ namespace Cookie.Game.Map
         private bool _moving;
         private int _time;
 
+        private int _mapIdForChanging;
+
         public Map(DofusClient client)
         {
             _client = client;
@@ -65,6 +67,7 @@ namespace Cookie.Game.Map
             {
                 var randomCellId = list[Randomize.GetRandomNumber(0, list.Count)];
                 _mapId = neighbourId;
+                _mapIdForChanging = neighbourId;
                 if (MoveToCell(randomCellId, true))
                     return true;
                 list.Remove(randomCellId);
@@ -90,7 +93,6 @@ namespace Cookie.Game.Map
                 _moving = false;
                 _client.Account.Character.Status = CharacterStatus.None;
                 ConfirmMove(changemap);
-                pathFinder = null;
                 return true;
             }
 
@@ -99,16 +101,44 @@ namespace Cookie.Game.Map
             ConfirmMove(changemap);
             _client.Account.Character.Status = CharacterStatus.Moving;
             _moving = true;
-            pathFinder = null;
+            return true;
+        }
+
+        public bool MoveToElement(int cellid)
+        {
+            _client.Account.Character.Status = CharacterStatus.Moving;
+            var pathFinder = new Pathfinder();
+            pathFinder.SetMap(_client.Account.Character.MapData, true);
+            var timePath =
+                pathFinder.GetPath((short)_client.Account.Character.CellId, (short)cellid);
+            var path = pathFinder.GetCompressedPath(timePath);
+            if (path == null || timePath == null)
+                return false;
+
+            _time = VelocityHelper.GetPathVelocity(timePath,
+                path.Length < 4 ? MovementTypeEnum.Walking : MovementTypeEnum.Running);
+
+            if (path[path.Length - 1] == _client.Account.Character.CellId)
+            {
+                _moving = false;
+                _client.Account.Character.Status = CharacterStatus.None;
+                _client.Send(new GameMapMovementConfirmMessage());
+                return true;
+            }
+            
+            var msg = new GameMapMovementRequestMessage(path.ToList(), _client.Account.Character.MapId);
+            _client.Send(msg);
+            ConfirmMove();
+            _moving = true;
             return true;
         }
 
         public void LaunchChangeMap(int mapId)
         {
-            _time = 0;
-            _mapId = -1;
             var msg = new ChangeMapMessage(mapId);
             _client.Send(msg);
+            _time = 0;
+            _mapId = -1;
             Task.Factory.StartNew(CheckMapChange);
         }
 
@@ -143,7 +173,7 @@ namespace Cookie.Game.Map
             var posNew = D2OParsing.GetMapCoordinates(_client.Account.Character.MapId);
             _client.Logger.Log($"[Map] New {_client.Account.Character.MapId}| [{posNew.X};{posNew.Y}]");
             if (old == _client.Account.Character.MapId)
-                LaunchChangeMap(old);
+                LaunchChangeMap(_mapIdForChanging);
             else
                 _client.Account.Character.Status = CharacterStatus.None;
         }
