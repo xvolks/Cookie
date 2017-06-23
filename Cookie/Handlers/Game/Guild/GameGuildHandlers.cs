@@ -1,6 +1,5 @@
 ﻿using Cookie.Core;
 using Cookie.Gamedata;
-using Cookie.Gamedata.I18n;
 using Cookie.Protocol.Enums;
 using Cookie.Protocol.Network.Messages.Game.Guild;
 
