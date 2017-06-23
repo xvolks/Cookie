@@ -3,6 +3,7 @@ using Cookie.Gamedata;
 using Cookie.Protocol.Enums;
 using Cookie.Protocol.Network.Messages.Connection;
 using Cookie.Protocol.Network.Types.Version;
+using Cookie.Utils;
 using Cookie.Utils.Cryptography;
 using Cookie.Utils.Extensions;
 
@@ -22,7 +23,9 @@ namespace Cookie.Handlers.Connection
         {
             client.Logger.Log("Connecté au serveur d'authentification.");
             var credentials = Rsa.Encrypt(message.Key, client.Account.Login, client.Account.Password, message.Salt);
-            var version = new VersionExtended(2, 42, 0, 121441, 0, (sbyte) BuildTypeEnum.RELEASE, 1, 1);
+            //var version = new VersionExtended(2, 42, 0, 121441, 0, (sbyte) BuildTypeEnum.RELEASE, 1, 1);
+            var version = new VersionExtended(GameConstant.Major, GameConstant.Minor, GameConstant.Release,
+                GameConstant.Revision, GameConstant.Patch, GameConstant.BuildType, GameConstant.Install, 1);
             var identificationMessage =
                 new IdentificationMessage(true, false, false, version, "fr", credentials, 0, 0, new ushort[0]);
             client.Logger.Log("Envois des informations d'identification...");

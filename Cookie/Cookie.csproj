@@ -142,6 +142,7 @@
     <Compile Include="Utils\Extensions\TaskFactoryExtensions.cs" />
     <Compile Include="Utils\Extensions\TimeExtensions.cs" />
     <Compile Include="Utils\FlashKeyGenerator.cs" />
+    <Compile Include="Utils\GameConstant.cs" />
     <Compile Include="Utils\Logger.cs" />
     <Compile Include="Utils\Enums\LogMessageType.cs" />
     <Compile Include="Utils\BooleanByteWrapper.cs" />

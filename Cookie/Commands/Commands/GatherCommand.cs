@@ -17,7 +17,7 @@ namespace Cookie.Commands.Commands
             }
             else
             {
-                if (client.Account.Character.Status == CharacterStatus.None)
+                //if (client.Account.Character.Status == CharacterStatus.None)
                     client.Account.Character.GatherManager.GoGather(Convert.ToInt32(args[0]));
             }
         }
