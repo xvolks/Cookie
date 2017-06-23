@@ -1,6 +1,5 @@
 ﻿using Cookie.Core;
 using Cookie.Gamedata.D2o;
-using Cookie.Gamedata.I18n;
 using Cookie.Protocol.Network.Messages.Game.Achievement;
 
 namespace Cookie.Handlers.Game.Achievement
@@ -23,7 +22,7 @@ namespace Cookie.Handlers.Game.Achievement
         [MessageHandler(AchievementFinishedMessage.ProtocolId)]
         private void AchievementFinishedMessageHandler(Client client, AchievementFinishedMessage message)
         {
-            var text = I18nDataManager.Instance.ReadText(ObjectDataManager.Instance
+            var text = FastD2IReader.Instance.GetText(ObjectDataManager.Instance
                 .Get<Datacenter.Achievement>(message.ObjectId).NameId);
             client.Logger.Log($"Succés {text} obtenu");
         }

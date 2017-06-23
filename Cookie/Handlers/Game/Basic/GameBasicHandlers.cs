@@ -1,7 +1,6 @@
 ﻿using Cookie.Core;
 using Cookie.Datacenter;
 using Cookie.Gamedata.D2o;
-using Cookie.Gamedata.I18n;
 using Cookie.Protocol.Enums;
 using Cookie.Protocol.Network.Messages.Game.Basic;
 using Cookie.Utils.Enums;
@@ -57,7 +56,7 @@ namespace Cookie.Handlers.Game.Basic
         private void TextInformationMessageHandler(DofusClient client, TextInformationMessage message)
         {
             var data = ObjectDataManager.Instance.Get<InfoMessage>(message.MsgType * 10000 + message.MsgId);
-            var text = I18nDataManager.Instance.ReadText(data.TextId);
+            var text = FastD2IReader.Instance.GetText(data.TextId);
             var parameters = message.Parameters.ToArray();
             for (var i = 0; i < parameters.Length; i++)
             {

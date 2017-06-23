@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using Cookie.Datacenter;
+﻿using Cookie.Datacenter;
 using Cookie.Gamedata.D2o;
 using Cookie.Gamedata.D2p;
-using Cookie.Gamedata.I18n;
 using Cookie.Protocol.Network.Messages.Game.Interactive;
 using Cookie.Protocol.Network.Types.Game.Context.Roleplay;
 using Cookie.Protocol.Network.Types.Game.Interactive;
+using System;
+using System.Collections.Generic;
 
 namespace Cookie.Game.Map
 {
@@ -54,7 +53,7 @@ namespace Cookie.Game.Map
                 if (actor is GameRolePlayGroupMonsterInformations monster)
                 {
                     Monsters.Add(monster);
-                    var monsterName = I18nDataManager.Instance.ReadText(ObjectDataManager.Instance
+                    var monsterName = FastD2IReader.Instance.GetText(ObjectDataManager.Instance
                         .Get<Monster>(monster.StaticInfos.MainCreatureLightInfos.CreatureGenericId).NameId);
                     Console.WriteLine($@"(Monster) {monsterName} en cellid ->  {monster.Disposition.CellId}");
                     continue;
@@ -63,7 +62,7 @@ namespace Cookie.Game.Map
                 {
                     Npcs.Add(npc);
                     var npcName =
-                        I18nDataManager.Instance.ReadText(ObjectDataManager.Instance.Get<Npc>(npc.NpcId).NameId);
+                        FastD2IReader.Instance.GetText(ObjectDataManager.Instance.Get<Npc>(npc.NpcId).NameId);
                     Console.WriteLine($@"(Npc) {npcName} en cellid ->  {npc.Disposition.CellId}");
                     continue;
                 }
@@ -83,7 +82,7 @@ namespace Cookie.Game.Map
             if (actor is GameRolePlayGroupMonsterInformations monster)
             {
                 Monsters.Add(monster);
-                var monsterName = I18nDataManager.Instance.ReadText(ObjectDataManager.Instance
+                var monsterName = FastD2IReader.Instance.GetText(ObjectDataManager.Instance
                     .Get<Monster>(monster.StaticInfos.MainCreatureLightInfos.CreatureGenericId).NameId);
                 Console.WriteLine($@"(Monster) {monsterName} en cellid ->  {monster.Disposition.CellId}");
                 return;
@@ -92,7 +91,7 @@ namespace Cookie.Game.Map
             {
                 Npcs.Add(npc);
                 var npcName =
-                    I18nDataManager.Instance.ReadText(ObjectDataManager.Instance.Get<Npc>(npc.NpcId).NameId);
+                    FastD2IReader.Instance.GetText(ObjectDataManager.Instance.Get<Npc>(npc.NpcId).NameId);
                 Console.WriteLine($@"(Npc) {npcName} en cellid ->  {npc.Disposition.CellId}");
                 return;
             }

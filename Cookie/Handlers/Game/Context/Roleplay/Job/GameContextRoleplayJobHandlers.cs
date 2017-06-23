@@ -1,7 +1,6 @@
 ﻿using Cookie.Core;
 using Cookie.Gamedata;
 using Cookie.Gamedata.D2o;
-using Cookie.Gamedata.I18n;
 using Cookie.Protocol.Network.Messages.Game.Context.Roleplay.Job;
 
 namespace Cookie.Handlers.Game.Context.Roleplay.Job
@@ -48,7 +47,7 @@ namespace Cookie.Handlers.Game.Context.Roleplay.Job
                 
             }
             client.Logger.Log(
-                $"{I18nDataManager.Instance.ReadText(ObjectDataManager.Instance.Get<Datacenter.Job>(message.ExperiencesUpdate.JobId).NameId)} | Level: {message.ExperiencesUpdate.JobLevel} | Exp: {message.ExperiencesUpdate.JobXP}");
+                $"{FastD2IReader.Instance.GetText(ObjectDataManager.Instance.Get<Datacenter.Job>(message.ExperiencesUpdate.JobId).NameId)} | Level: {message.ExperiencesUpdate.JobLevel} | Exp: {message.ExperiencesUpdate.JobXP}");
         }
     }
 }

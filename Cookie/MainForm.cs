@@ -7,7 +7,6 @@ using Cookie.Commands.Managers;
 using Cookie.Core;
 using Cookie.Gamedata.D2o;
 using Cookie.Gamedata.D2p;
-using Cookie.Gamedata.I18n;
 using Cookie.Gamedata.Icons;
 using Cookie.Network;
 using Cookie.Properties;
@@ -50,8 +49,10 @@ namespace Cookie
                     MapsManager.Init(Settings.Default.DofusPath + @"\app\content\maps");
                     IconsManager.Instance.Initialize(Settings.Default.DofusPath + @"\app\content\gfx\items");
                     ObjectDataManager.Instance.AddReaders(Settings.Default.DofusPath + @"\app\data\common");
-                    I18nDataManager.Instance.AddReaders(Settings.Default.DofusPath + @"\app\data\i18n");
-                    I18nDataManager.Instance.DefaultLanguage = Languages.French;
+
+                    FastD2IReader.Instance.Init(Settings.Default.DofusPath + @"\app\data\i18n" +
+                                                "\\i18n_fr.d2i");
+
                     ImageManager.Init(Settings.Default.DofusPath);
                 }).ContinueWith(p =>
                 {

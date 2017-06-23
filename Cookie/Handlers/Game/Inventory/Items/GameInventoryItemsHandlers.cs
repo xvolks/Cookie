@@ -1,10 +1,9 @@
-﻿using System.Linq;
-using Cookie.Core;
+﻿using Cookie.Core;
 using Cookie.Datacenter;
 using Cookie.Gamedata;
 using Cookie.Gamedata.D2o;
-using Cookie.Gamedata.I18n;
 using Cookie.Protocol.Network.Messages.Game.Inventory.Items;
+using System.Linq;
 
 namespace Cookie.Handlers.Game.Inventory.Items
 {
@@ -218,7 +217,7 @@ namespace Cookie.Handlers.Game.Inventory.Items
         private void ObtainedItemMessageHandler(DofusClient client, ObtainedItemMessage message)
         {
             client.Logger.Log(
-                $"Tu as reçu : {I18nDataManager.Instance.ReadText(ObjectDataManager.Instance.Get<Item>(message.GenericId).NameId)} x {message.BaseQuantity}");
+                $"Tu as reçu : {FastD2IReader.Instance.GetText(ObjectDataManager.Instance.Get<Item>(message.GenericId).NameId)} x {message.BaseQuantity}");
         }
 
         [MessageHandler(GoldAddedMessage.ProtocolId)]

@@ -64,6 +64,8 @@
     <Compile Include="Core\Account.cs" />
     <Compile Include="Core\DofusClient.cs" />
     <Compile Include="Core\Frame\LatencyFrame.cs" />
+    <Compile Include="Gamedata\D2i\FastD2I.cs" />
+    <Compile Include="Gamedata\D2i\FastD2IReader.cs" />
     <Compile Include="Gamedata\D2OParsing.cs" />
     <Compile Include="Game\Job\GatherManager.cs" />
     <Compile Include="Game\Map\Map.cs" />
@@ -169,7 +171,6 @@
     <Compile Include="Utils\Extensions\ReflectionExtensions.cs" />
     <Compile Include="Utils\Randomize.cs" />
     <Compile Include="Utils\Singleton.cs" />
-    <Compile Include="Gamedata\D2i\D2iFile.cs" />
     <Compile Include="Gamedata\D2o\D2OClassAttribute.cs" />
     <Compile Include="Gamedata\D2o\D2OClassDefinition.cs" />
     <Compile Include="Gamedata\D2o\D2OFieldAttribute.cs" />
@@ -194,12 +195,6 @@
     <Compile Include="Gamedata\D2p\Layer.cs" />
     <Compile Include="Gamedata\D2p\Map.cs" />
     <Compile Include="Gamedata\D2p\MapsManager.cs" />
-    <Compile Include="Gamedata\I18n\I18nDataManager.cs" />
-    <Compile Include="Gamedata\I18n\I18nString.cs" />
-    <Compile Include="Gamedata\I18n\Languages.cs" />
-    <Compile Include="Gamedata\I18n\SafeGCHandle.cs" />
-    <Compile Include="Gamedata\I18n\WeakCollection.cs" />
-    <Compile Include="Gamedata\I18n\WeakReference.cs" />
     <Compile Include="Gamedata\Icons\Icon.cs" />
     <Compile Include="Gamedata\Icons\IconsManager.cs" />
     <Compile Include="Gamedata\D2o\other\AnimFunData.cs" />
