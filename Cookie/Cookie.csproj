@@ -476,7 +476,6 @@
     <Compile Include="Protocol\Enums\ClientTechnologyEnum.cs" />
     <Compile Include="Protocol\Enums\CompassTypeEnum.cs" />
     <Compile Include="Protocol\Enums\ConsoleMessageTypeEnum.cs" />
-    <Compile Include="Protocol\Enums\CrafterDirectoryParamBitEnum.cs" />
     <Compile Include="Protocol\Enums\CraftResultEnum.cs" />
     <Compile Include="Protocol\Enums\DareCriteriaTypeEnum.cs" />
     <Compile Include="Protocol\Enums\DareErrorEnum.cs" />
@@ -510,13 +509,11 @@
     <Compile Include="Protocol\Enums\MountEquipedErrorEnum.cs" />
     <Compile Include="Protocol\Enums\NicknameErrorEnum.cs" />
     <Compile Include="Protocol\Enums\NicknameGeneratingFailureEnum.cs" />
-    <Compile Include="Protocol\Enums\NumericalValueTypeEnum.cs" />
     <Compile Include="Protocol\Enums\ObjectErrorEnum.cs" />
     <Compile Include="Protocol\Enums\PartStateEnum.cs" />
     <Compile Include="Protocol\Enums\PartyJoinErrorEnum.cs" />
     <Compile Include="Protocol\Enums\PartyNameErrorEnum.cs" />
     <Compile Include="Protocol\Enums\PartyTypeEnum.cs" />
-    <Compile Include="Protocol\Enums\PaymentTypeEnum.cs" />
     <Compile Include="Protocol\Enums\PlayableBreedEnum.cs" />
     <Compile Include="Protocol\Enums\PlayerLifeStatusEnum.cs" />
     <Compile Include="Protocol\Enums\PlayerStateEnum.cs" />

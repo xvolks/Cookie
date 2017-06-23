@@ -52,5 +52,28 @@ namespace Cookie.Protocol.Enums
         Huppermage = 17,
         
         Ouginak = 18,
+
+        SUMMONED = -1,
+
+        MONSTER = -2,
+
+        MONSTER_GROUP = -3,
+
+        NPC = -4,
+
+        HUMAN_VENDOR = -5,
+
+        TAX_COLLECTOR = -6,
+
+        MUTANT = -7,
+
+        MUTANT_IN_DUNGEON = -8,
+
+        MOUNT_OUTSIDE = -9,
+
+        PRISM = -10,
+
+        INCARNATION = -11,
+
     }
 }
