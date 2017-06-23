@@ -34,5 +34,7 @@ namespace Cookie.Protocol.Enums
         CHAT_ERROR_NO_TEAM = 8,
         
         CHAT_ERROR_MALFORMED_CONTENT = 9,
+
+        CHAT_ERROR_NO_CHANNEL_COMMUNITY = 10,
     }
 }

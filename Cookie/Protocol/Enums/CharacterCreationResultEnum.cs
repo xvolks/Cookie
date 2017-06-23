@@ -30,5 +30,7 @@ namespace Cookie.Protocol.Enums
         ERR_NEW_PLAYER_NOT_ALLOWED = 6,
         
         ERR_RESTRICED_ZONE = 7,
+
+        ERR_INCONSISTENT_COMMUNITY = 8,
     }
 }
