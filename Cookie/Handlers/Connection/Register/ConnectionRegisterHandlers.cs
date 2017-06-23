@@ -1,9 +1,9 @@
 ﻿using Cookie.Core;
 using Cookie.Protocol.Network.Messages.Connection.Register;
 
-namespace Cookie.Handlers.Connection.register
+namespace Cookie.Handlers.Connection.Register
 {
-    class ConnectionRegisterHandler
+    public class ConnectionRegisterHandlers
     {
         [MessageHandler(NicknameRegistrationMessage.ProtocolId)]
         private void NicknameRegistrationMessageHandler(DofusClient client, NicknameRegistrationMessage message)
