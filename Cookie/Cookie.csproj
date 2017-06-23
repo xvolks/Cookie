@@ -78,6 +78,7 @@
     <Compile Include="Game\World\Pathfinding\Pathfinder.cs" />
     <Compile Include="Game\World\Pathfinding\PathingUtils.cs" />
     <Compile Include="Game\World\Pathfinding\VelocityHelper.cs" />
+    <Compile Include="Handlers\Connection\register\ConnectionRegisterHandler.cs" />
     <Compile Include="Handlers\Game\Achievement\GameAchievementHandlers.cs" />
     <Compile Include="Handlers\Game\Alliance\GameAllianceHandlers.cs" />
     <Compile Include="Handlers\Game\Almanach\GameAlmanachHandlers.cs" />

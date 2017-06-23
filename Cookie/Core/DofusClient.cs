@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net.Sockets;
 using Cookie.Handlers.Connection;
+using Cookie.Handlers.Connection.register;
 using Cookie.Handlers.Game.Achievement;
 using Cookie.Handlers.Game.Alliance;
 using Cookie.Handlers.Game.Almanach;
@@ -76,6 +77,7 @@ namespace Cookie.Core
             Register(typeof(QueuesHandlers));
             Register(typeof(SecurityHandlers));
             Register(typeof(ConnectionHandlers));
+            Register(typeof(ConnectionRegisterHandler));
             Register(typeof(GameApproachHandlers));
             Register(typeof(GameBasicHandlers));
             Register(typeof(GameCharacterChoiceHandlers));
