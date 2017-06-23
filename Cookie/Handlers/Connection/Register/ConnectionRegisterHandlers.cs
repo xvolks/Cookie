@@ -8,7 +8,7 @@ namespace Cookie.Handlers.Connection.Register
         [MessageHandler(NicknameRegistrationMessage.ProtocolId)]
         private void NicknameRegistrationMessageHandler(DofusClient client, NicknameRegistrationMessage message)
         {
-           //
+            client.Logger.Log("Vous devez choisir un pseudo pour pouvoir vous connecter.");
         }
     }
 }
