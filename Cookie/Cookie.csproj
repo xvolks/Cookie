@@ -131,6 +131,7 @@
     <Compile Include="Handlers\Security\SecurityHandlers.cs" />
     <Compile Include="Handlers\Server\Basic\ServerBasicHandlers.cs" />
     <Compile Include="Handlers\Web\Ankabox\WebAnkaboxHandlers.cs" />
+    <Compile Include="Protocol\Datacenter\items\criterion\AchievementPointsItemCriterion.cs" />
     <Compile Include="Utils\Enums\CharacterStatus.cs" />
     <Compile Include="Utils\Extensions\ActionExtensions.cs" />
     <Compile Include="Utils\Extensions\ArrayExtension.cs" />

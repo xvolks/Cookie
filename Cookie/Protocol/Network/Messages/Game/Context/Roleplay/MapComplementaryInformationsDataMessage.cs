@@ -103,16 +103,16 @@ namespace Cookie.Protocol.Network.Messages.Game.Context.Roleplay
 
         public MapComplementaryInformationsDataMessage(List<HouseInformations> houses, List<GameRolePlayActorInformations> actors, List<InteractiveElement> interactiveElements, List<StatedElement> statedElements, List<MapObstacle> obstacles, List<FightCommonInformations> fights, FightStartingPositions fightStartPositions, ushort subAreaId, int mapId, bool hasAggressiveMonsters)
         {
+            m_subAreaId = subAreaId;
+            m_mapId = mapId;
             m_houses = houses;
             m_actors = actors;
             m_interactiveElements = interactiveElements;
             m_statedElements = statedElements;
             m_obstacles = obstacles;
             m_fights = fights;
-            m_fightStartPositions = fightStartPositions;
-            m_subAreaId = subAreaId;
-            m_mapId = mapId;
             m_hasAggressiveMonsters = hasAggressiveMonsters;
+            m_fightStartPositions = fightStartPositions;
         }
 
         public MapComplementaryInformationsDataMessage()
