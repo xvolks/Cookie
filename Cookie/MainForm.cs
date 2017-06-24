@@ -3,15 +3,15 @@ using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Cookie.API.Gamedata.D2o;
+using Cookie.API.Gamedata.D2p;
+using Cookie.API.Protocol;
+using Cookie.API.Protocol.Enums;
+using Cookie.API.Protocol.Network.Messages.Game.Chat;
 using Cookie.Commands.Managers;
 using Cookie.Core;
-using Cookie.Gamedata.D2o;
-using Cookie.Gamedata.D2p;
 using Cookie.Gamedata.Icons;
-using Cookie.Network;
 using Cookie.Properties;
-using Cookie.Protocol.Enums;
-using Cookie.Protocol.Network.Messages.Game.Chat;
 using Cookie.Utils.Enums;
 
 namespace Cookie

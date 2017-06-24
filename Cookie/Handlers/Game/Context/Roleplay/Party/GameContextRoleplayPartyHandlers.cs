@@ -1,5 +1,6 @@
-﻿using Cookie.Core;
-using Cookie.Protocol.Network.Messages.Game.Context.Roleplay.Party;
+﻿using Cookie.API.Network;
+using Cookie.Core;
+using Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Party;
 
 namespace Cookie.Handlers.Game.Context.Roleplay.Party
 {

@@ -1,5 +1,6 @@
-﻿using Cookie.Core;
-using Cookie.Protocol.Network.Messages.Game.Chat.Smiley;
+﻿using Cookie.API.Network;
+using Cookie.Core;
+using Cookie.API.Protocol.Network.Messages.Game.Chat.Smiley;
 
 namespace Cookie.Handlers.Game.Chat.Smiley
 {

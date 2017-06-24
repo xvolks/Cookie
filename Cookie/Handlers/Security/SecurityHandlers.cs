@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Cookie.API.Network;
+using Cookie.API.Protocol.Network.Messages.Security;
 using Cookie.Core;
-using Cookie.Protocol.Network.Messages.Security;
 
 namespace Cookie.Handlers.Security
 {

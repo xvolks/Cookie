@@ -1,5 +1,6 @@
-﻿using Cookie.Core;
-using Cookie.Protocol.Network.Messages.Game.Context.Roleplay.Havenbag;
+﻿using Cookie.API.Network;
+using Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Havenbag;
+using Cookie.Core;
 
 namespace Cookie.Handlers.Game.Context.Roleplay.Havenbag
 {

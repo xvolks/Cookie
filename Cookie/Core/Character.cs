@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
+using Cookie.API.Protocol.Network.Types.Game.Character.Characteristic;
+using Cookie.API.Protocol.Network.Types.Game.Character.Restriction;
+using Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Job;
+using Cookie.API.Protocol.Network.Types.Game.Data.Items;
+using Cookie.API.Protocol.Network.Types.Game.Look;
 using Cookie.Game.Job;
 using Cookie.Game.Map;
-using Cookie.Protocol.Network.Types.Game.Character.Characteristic;
-using Cookie.Protocol.Network.Types.Game.Character.Restriction;
-using Cookie.Protocol.Network.Types.Game.Context.Roleplay.Job;
-using Cookie.Protocol.Network.Types.Game.Data.Items;
-using Cookie.Protocol.Network.Types.Game.Look;
 using Cookie.Utils.Enums;
 
 namespace Cookie.Core

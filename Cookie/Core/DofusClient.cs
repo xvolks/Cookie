@@ -1,6 +1,12 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Net.Sockets;
+using System.Reflection;
+using Cookie.API.Core;
+using Cookie.API.Extensions;
+using Cookie.API.IO;
+using Cookie.API.Protocol;
 using Cookie.Handlers.Connection;
 using Cookie.Handlers.Connection.Register;
 using Cookie.Handlers.Game.Achievement;
@@ -57,13 +63,11 @@ using Cookie.Handlers.Secure;
 using Cookie.Handlers.Security;
 using Cookie.Handlers.Server.Basic;
 using Cookie.Handlers.Web.Ankabox;
-using Cookie.IO;
 using Cookie.Utils.Enums;
-using Cookie.Utils.Extensions;
 
 namespace Cookie.Core
 {
-    public class DofusClient : Client
+    public class DofusClient : Client, IDofusClient
     {
         #region Constructor
 
@@ -130,6 +134,8 @@ namespace Cookie.Core
             Register(typeof(GameContextRoleplayPartyHandlers));
             Register(typeof(GameContextFightCharacterHandlers));
             Register(typeof(GameScriptHandlers));
+
+            LoadPlugins();
         }
 
         #endregion
@@ -239,6 +245,25 @@ namespace Cookie.Core
         public void UnRegister(Type type)
         {
             _dispatcher.UnRegisterFrame(type);
+        }
+
+        private void LoadPlugins()
+        {
+            const string path = "./plugins";
+            foreach (var file in Directory.GetFiles(path, "*.dll", SearchOption.AllDirectories))
+            {
+                var fileInfo = new FileInfo(file);
+                if (fileInfo.Name.Contains("Cookie")) continue;
+                var asm = Assembly.LoadFrom(fileInfo.FullName);
+                var types = asm.GetTypes();
+                var constructor = types.First(x => x.Name == "Main").GetConstructor(new[] { typeof(DofusClient)});
+                constructor.Invoke(new object[] {this});
+            }
+        }
+
+        public void Log(string text)
+        {
+            Logger.Log(text, LogMessageType.Info);
         }
 
         #endregion

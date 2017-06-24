@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Cookie.API.Network;
+using Cookie.API.Protocol;
 using Cookie.Core;
 
 namespace Cookie
@@ -14,7 +16,7 @@ namespace Cookie
         public Dispatcher(DofusClient client)
         {
             this.client = client;
-            methods = new Dictionary<uint, MethodHandler>();
+            methods = new Dictionary<uint, List<MethodHandler>>();
             msgQueue = new Queue<NetworkMessage>();
             timer = new TimerCore(Execute, 50, 50);
         }
@@ -35,7 +37,13 @@ namespace Cookie
                     LogMessageType.Community);
 
             if (methods.ContainsKey(actualMessage.MessageID))
-                executionTask = Task.Run(() => { methods[actualMessage.MessageID].Invoke(actualMessage, client); });
+            {
+                foreach (var method in methods[actualMessage.MessageID])
+                {
+                    executionTask = Task.Run(() => { method.Invoke(actualMessage, client); });
+                }
+            }
+                //executionTask = Task.Run(() => { methods[actualMessage.MessageID].Invoke(actualMessage, client); });
             else
                 executionTask = Task.Run(() =>
                 {
@@ -49,7 +57,7 @@ namespace Cookie
 
         #region Var
 
-        private readonly Dictionary<uint, MethodHandler> methods;
+        private readonly Dictionary<uint, List<MethodHandler>> methods;
         private readonly Queue<NetworkMessage> msgQueue;
         private Task executionTask;
         private TimerCore timer;
@@ -74,7 +82,10 @@ namespace Cookie
                             "Only two parameters is allowed to use the MessageHandler attribute. (method {0})",
                             methodInfo.Name));
 
-                    methods.Add(attributes.First().MessageId, new MethodHandler(methodInfo, obj, attributes));
+                    if(!methods.ContainsKey(attributes.First().MessageId))
+                        methods[attributes.First().MessageId] = new List<MethodHandler>();
+                    methods[attributes.First().MessageId].Add(new MethodHandler(methodInfo, obj, attributes));
+                    //methods.Add(attributes.First().MessageId, new MethodHandler(methodInfo, obj, attributes));
                 }
             }
         }
