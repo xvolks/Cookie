@@ -29,7 +29,11 @@ namespace Cookie.Handlers.Game.Character.Choice
         private void CharactersListMessageHandler(DofusClient client, CharactersListMessage message)
         {
             if (message.Characters.Count == 0)
+            {
+                client.Logger.Log("Pas de personnage.");
+                client.Logger.Log("Création du personnage en cours.");
                 client.Send(new CharacterNameSuggestionRequestMessage());
+            }
             else
             {
                 var c = message.Characters[0];
