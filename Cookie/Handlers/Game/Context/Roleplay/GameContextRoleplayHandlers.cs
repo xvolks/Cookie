@@ -1,6 +1,7 @@
-﻿using Cookie.Core;
-using Cookie.Protocol.Network.Messages.Game.Context.Roleplay;
-using Cookie.Protocol.Network.Messages.Game.Context.Roleplay.Quest;
+﻿using Cookie.API.Network;
+using Cookie.Core;
+using Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay;
+using Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Quest;
 
 namespace Cookie.Handlers.Game.Context.Roleplay
 {

@@ -1,4 +1,4 @@
-﻿using Cookie.Protocol.Enums;
+﻿using Cookie.API.Protocol.Enums;
 
 namespace Cookie.Utils
 {

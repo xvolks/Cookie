@@ -1,9 +1,10 @@
 ﻿using System.Linq;
+using Cookie.API.Datacenter;
+using Cookie.API.Gamedata.D2o;
+using Cookie.API.Network;
+using Cookie.API.Protocol.Enums;
 using Cookie.Core;
-using Cookie.Datacenter;
-using Cookie.Gamedata.D2o;
-using Cookie.Protocol.Enums;
-using Cookie.Protocol.Network.Messages.Game.Character.Creation;
+using Cookie.API.Protocol.Network.Messages.Game.Character.Creation;
 using Cookie.Utils;
 
 namespace Cookie.Handlers.Game.Character.Creation

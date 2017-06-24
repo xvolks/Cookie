@@ -1,6 +1,7 @@
-﻿using Cookie.Core;
-using Cookie.Protocol.Network.Messages.Game.Character.Choice;
-using Cookie.Protocol.Network.Messages.Game.Character.Creation;
+﻿using Cookie.API.Network;
+using Cookie.API.Protocol.Network.Messages.Game.Character.Choice;
+using Cookie.API.Protocol.Network.Messages.Game.Character.Creation;
+using Cookie.Core;
 
 namespace Cookie.Handlers.Game.Character.Choice
 {

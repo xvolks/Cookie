@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
-using Cookie.IO;
+using Cookie.API.IO;
 
 namespace Cookie.Utils.Cryptography
 {

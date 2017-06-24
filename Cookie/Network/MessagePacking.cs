@@ -1,5 +1,6 @@
 ﻿using System;
-using Cookie.IO;
+using Cookie.API.IO;
+using Cookie.API.Protocol;
 
 namespace Cookie
 {

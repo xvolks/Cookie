@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using Cookie.API.Protocol.Network.Types.Game.Interactive;
 using Cookie.Core;
-using Cookie.Protocol.Network.Types.Game.Interactive;
 using Cookie.Utils.Enums;
 
 namespace Cookie.Game.Job

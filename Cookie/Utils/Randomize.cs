@@ -1,5 +1,5 @@
 ﻿using System;
-using Cookie.Utils.Extensions;
+using Cookie.API.Extensions;
 
 namespace Cookie.Utils
 {

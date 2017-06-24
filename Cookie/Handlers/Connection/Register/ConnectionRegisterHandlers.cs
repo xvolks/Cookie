@@ -1,7 +1,8 @@
 ﻿using System;
+using Cookie.API.Extensions;
+using Cookie.API.Network;
+using Cookie.API.Protocol.Network.Messages.Connection.Register;
 using Cookie.Core;
-using Cookie.Protocol.Network.Messages.Connection.Register;
-using Cookie.Utils.Extensions;
 
 namespace Cookie.Handlers.Connection.Register
 {

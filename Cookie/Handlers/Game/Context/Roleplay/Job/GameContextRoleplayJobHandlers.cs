@@ -1,7 +1,8 @@
 ﻿using Cookie.Core;
 using Cookie.Gamedata;
-using Cookie.Gamedata.D2o;
-using Cookie.Protocol.Network.Messages.Game.Context.Roleplay.Job;
+using Cookie.API.Gamedata.D2o;
+using Cookie.API.Network;
+using Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Job;
 
 namespace Cookie.Handlers.Game.Context.Roleplay.Job
 {
@@ -46,7 +47,7 @@ namespace Cookie.Handlers.Game.Context.Roleplay.Job
                     break;
                 }
             client.Logger.Log(
-                $"{FastD2IReader.Instance.GetText(ObjectDataManager.Instance.Get<Datacenter.Job>(message.ExperiencesUpdate.JobId).NameId)} | Level: {message.ExperiencesUpdate.JobLevel} | Exp: {message.ExperiencesUpdate.JobXP}");
+                $"{FastD2IReader.Instance.GetText(ObjectDataManager.Instance.Get<API.Datacenter.Job>(message.ExperiencesUpdate.JobId).NameId)} | Level: {message.ExperiencesUpdate.JobLevel} | Exp: {message.ExperiencesUpdate.JobXP}");
         }
     }
 }

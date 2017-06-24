@@ -1,7 +1,8 @@
 ﻿using System.Threading;
+using Cookie.API.Network;
+using Cookie.API.Protocol.Network.Messages.Game.Approach;
+using Cookie.API.Protocol.Network.Messages.Game.Character.Choice;
 using Cookie.Core;
-using Cookie.Protocol.Network.Messages.Game.Approach;
-using Cookie.Protocol.Network.Messages.Game.Character.Choice;
 
 namespace Cookie.Handlers.Game.Approach
 {

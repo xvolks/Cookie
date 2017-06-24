@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using Cookie.Datacenter;
-using Cookie.Gamedata.D2o;
-using Cookie.Gamedata.D2p;
-using Cookie.Protocol.Network.Messages.Game.Interactive;
-using Cookie.Protocol.Network.Types.Game.Context.Roleplay;
-using Cookie.Protocol.Network.Types.Game.Interactive;
+using Cookie.API.Datacenter;
+using Cookie.API.Gamedata.D2o;
+using Cookie.API.Gamedata.D2p;
+using Cookie.API.Protocol.Network.Messages.Game.Interactive;
+using Cookie.API.Protocol.Network.Types.Game.Context.Roleplay;
+using Cookie.API.Protocol.Network.Types.Game.Interactive;
 
 namespace Cookie.Game.Map
 {
     public class MapData
     {
-        public Gamedata.D2p.Map Data;
+        public API.Gamedata.D2p.Map Data;
 
         public MapData()
         {
