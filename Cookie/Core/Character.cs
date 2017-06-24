@@ -12,6 +12,8 @@ namespace Cookie.Core
 {
     public class Character
     {
+        public bool IsFirstConnection = false;
+
         public Character(DofusClient client)
         {
             Client = client;
@@ -36,7 +38,6 @@ namespace Cookie.Core
         public string Name { get; set; }
         public int Level { get; set; }
         public bool Sex { get; set; }
-        public bool IsFirstConnection = false;
         public CharacterCharacteristicsInformations Stats { get; set; }
         public EntityLook Look { get; set; }
         public sbyte Breed { get; set; }
@@ -59,6 +60,7 @@ namespace Cookie.Core
         public List<ObjectItem> Inventory { get; set; }
         public List<SpellItem> Spells { get; set; }
         public List<JobExperience> Jobs { get; set; }
+
         public string GetSkinUrl(string mode, int orientation, int width, int height, int zoom)
         {
             var look = Look;

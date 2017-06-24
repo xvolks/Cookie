@@ -7,17 +7,6 @@ namespace Cookie.Protocol.Network.Messages.Connection
     public class IdentificationMessage : NetworkMessage
     {
         public const uint ProtocolId = 4;
-        public override uint MessageID => ProtocolId;
-
-        public bool Autoconnect { get; set; }
-        public bool UseCertificate { get; set; }
-        public bool UseLoginToken { get; set; }
-        public VersionExtended Version { get; set; }
-        public string Lang { get; set; }
-        public sbyte[] Credentials { get; set; }
-        public short ServerId { get; set; }
-        public long SessionOptionalSalt { get; set; }
-        public ushort[] FailedAttempts { get; set; }
 
         public IdentificationMessage()
         {
@@ -36,6 +25,18 @@ namespace Cookie.Protocol.Network.Messages.Connection
             SessionOptionalSalt = sessionOptionalSalt;
             FailedAttempts = failedAttempts;
         }
+
+        public override uint MessageID => ProtocolId;
+
+        public bool Autoconnect { get; set; }
+        public bool UseCertificate { get; set; }
+        public bool UseLoginToken { get; set; }
+        public VersionExtended Version { get; set; }
+        public string Lang { get; set; }
+        public sbyte[] Credentials { get; set; }
+        public short ServerId { get; set; }
+        public long SessionOptionalSalt { get; set; }
+        public ushort[] FailedAttempts { get; set; }
 
         public override void Serialize(ICustomDataOutput writer)
         {

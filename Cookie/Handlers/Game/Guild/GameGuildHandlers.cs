@@ -1,5 +1,4 @@
 ﻿using Cookie.Core;
-using Cookie.Gamedata;
 using Cookie.Protocol.Enums;
 using Cookie.Protocol.Network.Messages.Game.Guild;
 
@@ -38,9 +37,10 @@ namespace Cookie.Handlers.Game.Guild
         }
 
         [MessageHandler(ChallengeFightJoinRefusedMessage.ProtocolId)]
-        private void ChallengeFightJoinRefusedMessageHandler(DofusClient client, ChallengeFightJoinRefusedMessage message)
+        private void ChallengeFightJoinRefusedMessageHandler(DofusClient client,
+            ChallengeFightJoinRefusedMessage message)
         {
-            switch ((FighterRefusedReasonEnum)message.Reason)
+            switch ((FighterRefusedReasonEnum) message.Reason)
             {
                 case FighterRefusedReasonEnum.CHALLENGE_FULL:
                     client.Logger.Log("Partie pleine");

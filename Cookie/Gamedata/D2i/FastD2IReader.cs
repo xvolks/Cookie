@@ -20,10 +20,12 @@ public class FastD2IReader : IDisposable
     private static readonly FastD2I _myD2I = new FastD2I();
 
     private static string _pather;
-    private readonly Stream _stream;
     private static BinaryReader _br;
+    private readonly Stream _stream;
 
-    private FastD2IReader() { }
+    private FastD2IReader()
+    {
+    }
 
     public static FastD2IReader Instance
     {
@@ -110,7 +112,7 @@ public class FastD2IReader : IDisposable
     public string GetText<T>(T toSearch, bool versionDiacritique = false)
     {
         var myId = default(uint);
-        var result = new DataD2I { Str = "" };
+        var result = new DataD2I {Str = ""};
         if (typeof(T) == typeof(string))
         {
             myId = Convert.ToUInt32(toSearch);
@@ -120,7 +122,6 @@ public class FastD2IReader : IDisposable
             var convert = uint.TryParse(toSearch.ToString(), out myId);
         }
         if (_isFastLoad == false)
-        {
             try
             {
                 if (versionDiacritique)
@@ -146,9 +147,7 @@ public class FastD2IReader : IDisposable
             catch (Exception ex)
             {
             }
-        }
         else
-        {
             using (_br = new BinaryReader(File.Open(_pather, FileMode.Open, FileAccess.Read)))
             {
                 _myD2I.SizeOfD2I = _br.BaseStream.Length;
@@ -186,7 +185,6 @@ public class FastD2IReader : IDisposable
                     // ignored
                 }
             }
-        }
         //Return the result
         return result.Str;
     }

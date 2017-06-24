@@ -10,25 +10,16 @@
 
 namespace Cookie.Protocol.Network.Types.Game.House
 {
-    using System.Collections.Generic;
-    using Cookie.Protocol.Network.Messages;
-    using Cookie.Protocol.Network.Types;
     using Cookie.IO;
-    
-    
+
+
     public class HouseInstanceInformations : NetworkType
     {
         
         public const short ProtocolId = 511;
         
-        public override short TypeID
-        {
-            get
-            {
-                return ProtocolId;
-            }
-        }
-        
+        public override short TypeID => ProtocolId;
+
         private bool m_secondHand;
         
         public virtual bool SecondHand

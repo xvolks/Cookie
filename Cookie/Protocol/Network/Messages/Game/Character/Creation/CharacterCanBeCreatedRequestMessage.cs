@@ -1,15 +1,12 @@
-﻿namespace Cookie.Protocol.Network.Messages.Game.Character.Creation
+﻿using Cookie.IO;
+
+namespace Cookie.Protocol.Network.Messages.Game.Character.Creation
 {
-    using Cookie.IO;
-
-
     public class CharacterCanBeCreatedRequestMessage : NetworkMessage
     {
         public const uint ProtocolId = 6732;
-        public override uint MessageID => ProtocolId;
 
-        public CharacterCanBeCreatedRequestMessage()
-        {}
+        public override uint MessageID => ProtocolId;
 
         public override void Serialize(ICustomDataOutput writer)
         {

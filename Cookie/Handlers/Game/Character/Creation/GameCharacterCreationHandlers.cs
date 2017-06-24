@@ -21,7 +21,7 @@ namespace Cookie.Handlers.Game.Character.Creation
             // Nous récupérons les informations de la classe avec les D2O
             var breed = ObjectDataManager.Instance.Get<Breed>(breedId);
             // Nous récupérons la couleur de base de la classe, et nous faisons un léger random sur la couleur
-            var breedColors = breed.MaleColors.Select(i => Randomize.GetRandomNumber((int)i - 30000, (int)i + 30000)).ToList();
+            var breedColors = breed.MaleColors.Select(i => Randomize.GetRandomNumber((int)i - 80000, (int)i + 80000)).ToList();
             // On récupère la liste des cosmetics disponibles pour cette classe et ce sexe
             var headsList = ObjectDataManager.Instance.EnumerateObjects<Head>().ToList().FindAll(h => h.Breed == breedId && h.Gender == 0);
             // Nous selectionnons au hasard un cosmetics dans la liste
@@ -42,15 +42,15 @@ namespace Cookie.Handlers.Game.Character.Creation
                 case CharacterCreationResultEnum.ERR_NO_REASON:
                     break;
                 case CharacterCreationResultEnum.ERR_INVALID_NAME:
-                    client.Logger.Log($"Ce nom de personnage est invalide.", LogMessageType.Public);
+                    client.Logger.Log("Ce nom de personnage est invalide.", LogMessageType.Public);
                     client.Dispose();
                     break;
                 case CharacterCreationResultEnum.ERR_NAME_ALREADY_EXISTS:
-                    client.Logger.Log($"Ce nom de personnage est déjà pris.", LogMessageType.Public);
+                    client.Logger.Log("Ce nom de personnage est déjà pris.", LogMessageType.Public);
                     client.Dispose();
                     break;
                 case CharacterCreationResultEnum.ERR_TOO_MANY_CHARACTERS:
-                    client.Logger.Log($"Vous avez déjà atteint la limite de personnages disponible.", LogMessageType.Public);
+                    client.Logger.Log("Vous avez déjà atteint la limite de personnages disponible.", LogMessageType.Public);
                     client.Dispose();
                     break;
                 case CharacterCreationResultEnum.ERR_NOT_ALLOWED:

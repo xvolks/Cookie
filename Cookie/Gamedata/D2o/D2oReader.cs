@@ -45,11 +45,12 @@ namespace Cookie.Gamedata.D2o
         private static readonly Dictionary<Type, Func<object[], object>> objectCreators =
             new Dictionary<Type, Func<object[], object>>();
 
+        private readonly IDataReader reader;
+
 
         private int classcount;
         private int headeroffset;
         private int indextablelen;
-        private readonly IDataReader reader;
 
         /// <summary>
         ///     Create and initialise a new D2o file

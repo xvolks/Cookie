@@ -9,8 +9,8 @@ namespace Cookie.Utils
         public const sbyte Release = 0;
         public const int Revision = 121463;
         public const sbyte Patch = 6;
-        public const sbyte BuildType = (sbyte)BuildTypeEnum.RELEASE;
-        public const sbyte Install = (sbyte)ClientInstallTypeEnum.CLIENT_BUNDLE;
-        public const sbyte Technology = (sbyte)ClientTechnologyEnum.CLIENT_AIR;
+        public const sbyte BuildType = (sbyte) BuildTypeEnum.RELEASE;
+        public const sbyte Install = (sbyte) ClientInstallTypeEnum.CLIENT_BUNDLE;
+        public const sbyte Technology = (sbyte) ClientTechnologyEnum.CLIENT_AIR;
     }
 }

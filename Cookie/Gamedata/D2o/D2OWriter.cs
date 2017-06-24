@@ -28,6 +28,8 @@ namespace Cookie.Gamedata.D2o
     public class D2oWriter : IDisposable
     {
         private const int NullIdentifier = unchecked((int) 0xAAAAAAAA);
+
+        private readonly object writingSync = new object();
         private Dictionary<Type, int> allocatedClassId = new Dictionary<Type, int>();
 
         private Dictionary<int, D2oClassDefinition> classes;
@@ -36,8 +38,6 @@ namespace Cookie.Gamedata.D2o
         private Dictionary<int, object> objects = new Dictionary<int, object>();
         private BigEndianWriter writer;
         private bool writing;
-
-        private readonly object writingSync = new object();
 
         /// <summary>
         ///     Create a new instance of D2oWriter

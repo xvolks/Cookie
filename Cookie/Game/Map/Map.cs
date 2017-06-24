@@ -17,10 +17,10 @@ namespace Cookie.Game.Map
     {
         private readonly DofusClient _client;
         private int _mapId;
-        private bool _moving;
-        private int _time;
 
         private int _mapIdForChanging;
+        private bool _moving;
+        private int _time;
 
         public Map(DofusClient client)
         {
@@ -110,7 +110,7 @@ namespace Cookie.Game.Map
             var pathFinder = new Pathfinder();
             pathFinder.SetMap(_client.Account.Character.MapData, true);
             var timePath =
-                pathFinder.GetPath((short)_client.Account.Character.CellId, (short)cellid);
+                pathFinder.GetPath((short) _client.Account.Character.CellId, (short) cellid);
             var path = pathFinder.GetCompressedPath(timePath);
             if (path == null || timePath == null)
                 return false;
@@ -125,7 +125,7 @@ namespace Cookie.Game.Map
                 _client.Send(new GameMapMovementConfirmMessage());
                 return true;
             }
-            
+
             var msg = new GameMapMovementRequestMessage(path.ToList(), _client.Account.Character.MapId);
             _client.Send(msg);
             ConfirmMove();
@@ -169,7 +169,7 @@ namespace Cookie.Game.Map
             var posOld = D2OParsing.GetMapCoordinates(_client.Account.Character.MapId);
             var old = _client.Account.Character.MapId;
             _client.Logger.Log($"[Map] Old {old} | [{posOld.X};{posOld.Y}]");
-            Thread.Sleep(500); 
+            Thread.Sleep(500);
             var posNew = D2OParsing.GetMapCoordinates(_client.Account.Character.MapId);
             _client.Logger.Log($"[Map] New {_client.Account.Character.MapId}| [{posNew.X};{posNew.Y}]");
             if (old == _client.Account.Character.MapId)

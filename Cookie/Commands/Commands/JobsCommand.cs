@@ -10,8 +10,10 @@ namespace Cookie.Commands.Commands
 
         public void OnCommand(DofusClient client, string[] args)
         {
-            client.Account.Character.Jobs.ForEach(job =>            
-                client.Logger.Log(D2OParsing.GetJobName(job.JobId) + " | Level: " + job.JobLevel + " | Exp: " + job.JobXP, LogMessageType.Admin));
+            client.Account.Character.Jobs.ForEach(job =>
+                client.Logger.Log(
+                    D2OParsing.GetJobName(job.JobId) + " | Level: " + job.JobLevel + " | Exp: " + job.JobXP,
+                    LogMessageType.Admin));
         }
     }
 }

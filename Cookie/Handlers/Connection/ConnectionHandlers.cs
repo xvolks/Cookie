@@ -1,6 +1,5 @@
 ﻿using Cookie.Core;
 using Cookie.Gamedata;
-using Cookie.Gamedata.D2o;
 using Cookie.Protocol.Enums;
 using Cookie.Protocol.Network.Messages.Connection;
 using Cookie.Protocol.Network.Types.Version;
@@ -22,11 +21,18 @@ namespace Cookie.Handlers.Connection
         [MessageHandler(HelloConnectMessage.ProtocolId)]
         private void HelloConnectMessageHandler(DofusClient client, HelloConnectMessage message)
         {
+            /* On reçoit ce packet quan on est connecté au serveur d'authentification du jeu.
+             * Il faut ici crypter le nom de compte et le mot de passe du compte qu'on veut connecter avec la Key, et Salt
+             * donnés par le packet, en RSA, ainsi que préciser la version du jeu, pour cela il faut changer les variables
+             * dans le fichier GameConstant situé dans le dossier Utils du bot.
+             */
             client.Logger.Log("Connecté au serveur d'authentification.");
+            // On crypte le login et mot de passe
             var credentials = Rsa.Encrypt(message.Key, client.Account.Login, client.Account.Password, message.Salt);
-            //var version = new VersionExtended(2, 42, 0, 121441, 0, (sbyte) BuildTypeEnum.RELEASE, 1, 1);
+            // On défini la version du jeu
             var version = new VersionExtended(GameConstant.Major, GameConstant.Minor, GameConstant.Release,
-                GameConstant.Revision, GameConstant.Patch, GameConstant.BuildType, GameConstant.Install, 1);
+                GameConstant.Revision, GameConstant.Patch, GameConstant.BuildType, GameConstant.Install, GameConstant.Technology);
+            // On précise qu'on veut se connecter sur ce compte et cette version et on envois le packet
             var identificationMessage =
                 new IdentificationMessage(true, false, false, version, "fr", credentials, 0, 0, new ushort[0]);
             client.Logger.Log("Envois des informations d'identification...");
@@ -37,6 +43,10 @@ namespace Cookie.Handlers.Connection
         private void IdentificationFailedBannedMessageHandler(DofusClient client,
             IdentificationFailedBannedMessage message)
         {
+            /*
+             * On reçois ce packet quand l'identification échoue parce qu'on est banni
+             * On affiche donc la raison et le temps.
+             * */
             if (message.BanEndDate != 0)
                 client.Logger.Log($"Votre compte est banni jusqu'au : {message.BanEndDate.UnixTimestampToDateTime()}.",
                     LogMessageType.Public);
@@ -64,6 +74,9 @@ namespace Cookie.Handlers.Connection
         [MessageHandler(IdentificationSuccessMessage.ProtocolId)]
         private void IdentificationSuccessMessageHandler(DofusClient client, IdentificationSuccessMessage message)
         {
+            /*
+             * L'identification a réussi, il faut donc attribuer toutes les infos liés au compte à notre classe client.
+             */
             client.Account.Nickname = message.Nickname;
             client.Account.Id = message.AccountId;
             client.Account.SecretQuestion = message.SecretQuestion;
@@ -142,16 +155,7 @@ namespace Cookie.Handlers.Connection
             var server = message.Servers.Find(s => (ServerStatusEnum)s.Status == ServerStatusEnum.ONLINE
                 && s.IsSelectable && s.CharactersCount > 0);
 
-
-            if (server == null)
-            {
-                // TODO: Check if server 11 is online and selectable              
-                client.Send(new ServerSelectionMessage(11));
-                client.Logger.Log("Selection du serveur automatique : Brumaire");
-                return;
-            }
-            else
-                client.Send(new ServerSelectionMessage(server.ObjectID));
+            client.Send(server == null ? new ServerSelectionMessage(11) : new ServerSelectionMessage(server.ObjectID));
         }
 
         [MessageHandler(ServerStatusUpdateMessage.ProtocolId)]

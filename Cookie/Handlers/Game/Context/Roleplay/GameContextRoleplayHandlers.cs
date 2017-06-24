@@ -18,11 +18,14 @@ namespace Cookie.Handlers.Game.Context.Roleplay
         {
             client.Account.Character.MapData.AddActor(message.Informations);
         }
+
         [MessageHandler(MapFightStartPositionsUpdateMessage.ProtocolId)]
-        private void MapFightStartPositionsUpdateMessageHandler(DofusClient client, MapFightStartPositionsUpdateMessage message)
+        private void MapFightStartPositionsUpdateMessageHandler(DofusClient client,
+            MapFightStartPositionsUpdateMessage message)
         {
             //
         }
+
         [MessageHandler(MapFightCountMessage.ProtocolId)]
         private void MapFightCountMessageHandler(DofusClient client, MapFightCountMessage message)
         {
@@ -33,7 +36,6 @@ namespace Cookie.Handlers.Game.Context.Roleplay
         private void MapComplementaryInformationsDataMessageHandler(DofusClient client,
             MapComplementaryInformationsDataMessage message)
         {
-
             if (client.Account.Character.IsFirstConnection)
             {
                 client.Send(new GuidedModeQuitRequestMessage());

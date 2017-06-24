@@ -1,193 +1,41 @@
+using System.Collections.Generic;
+using Cookie.IO;
+
 namespace Cookie.Protocol.Network.Types.Game.House
 {
-    using Cookie.IO;
-    using System.Collections.Generic;
-
-
     public class HouseInformationsForSell : NetworkType
     {
-        
         public const short ProtocolId = 221;
-        
-        public override short TypeID => ProtocolId;
 
         private int m_instanceId;
-        
-        public virtual int InstanceId
-        {
-            get => m_instanceId;
-            set => m_instanceId = value;
-        }
-        
-        private bool m_secondHand;
-        
-        public virtual bool SecondHand
-        {
-            get
-            {
-                return m_secondHand;
-            }
-            set
-            {
-                m_secondHand = value;
-            }
-        }
-        
+
+        private bool m_isLocked;
+
         private uint m_modelId;
-        
-        public virtual uint ModelId
-        {
-            get
-            {
-                return m_modelId;
-            }
-            set
-            {
-                m_modelId = value;
-            }
-        }
-        
-        private string m_ownerName;
-        
-        public virtual string OwnerName
-        {
-            get
-            {
-                return m_ownerName;
-            }
-            set
-            {
-                m_ownerName = value;
-            }
-        }
-        
-        private bool m_ownerConnected;
-        
-        public virtual bool OwnerConnected
-        {
-            get
-            {
-                return m_ownerConnected;
-            }
-            set
-            {
-                m_ownerConnected = value;
-            }
-        }
-        
-        private short m_worldX;
-        
-        public virtual short WorldX
-        {
-            get
-            {
-                return m_worldX;
-            }
-            set
-            {
-                m_worldX = value;
-            }
-        }
-        
-        private short m_worldY;
-        
-        public virtual short WorldY
-        {
-            get
-            {
-                return m_worldY;
-            }
-            set
-            {
-                m_worldY = value;
-            }
-        }
-        
-        private ushort m_subAreaId;
-        
-        public virtual ushort SubAreaId
-        {
-            get
-            {
-                return m_subAreaId;
-            }
-            set
-            {
-                m_subAreaId = value;
-            }
-        }
-        
-        private byte m_nbRoom;
-        
-        public virtual byte NbRoom
-        {
-            get
-            {
-                return m_nbRoom;
-            }
-            set
-            {
-                m_nbRoom = value;
-            }
-        }
-        
+
         private byte m_nbChest;
-        
-        public virtual byte NbChest
-        {
-            get
-            {
-                return m_nbChest;
-            }
-            set
-            {
-                m_nbChest = value;
-            }
-        }
+
+        private byte m_nbRoom;
+
+        private bool m_ownerConnected;
+
+        private string m_ownerName;
+
+        private ulong m_price;
+
+        private bool m_secondHand;
 
         private List<int> m_skillListIds;
 
-        public virtual List<int> SkillListIds
-        {
-            get
-            {
-                return m_skillListIds;
-            }
-            set
-            {
-                m_skillListIds = value;
-            }
-        }
+        private ushort m_subAreaId;
 
-        private bool m_isLocked;
-        
-        public virtual bool IsLocked
-        {
-            get
-            {
-                return m_isLocked;
-            }
-            set
-            {
-                m_isLocked = value;
-            }
-        }
-        
-        private ulong m_price;
-        
-        public virtual ulong Price
-        {
-            get
-            {
-                return m_price;
-            }
-            set
-            {
-                m_price = value;
-            }
-        }
-        
-        public HouseInformationsForSell(List<int> skillListIds, int instanceId, bool secondHand, uint modelId, string ownerName, bool ownerConnected, short worldX, short worldY, ushort subAreaId, byte nbRoom, byte nbChest, bool isLocked, ulong price)
+        private short m_worldX;
+
+        private short m_worldY;
+
+        public HouseInformationsForSell(List<int> skillListIds, int instanceId, bool secondHand, uint modelId,
+            string ownerName, bool ownerConnected, short worldX, short worldY, ushort subAreaId, byte nbRoom,
+            byte nbChest, bool isLocked, ulong price)
         {
             m_skillListIds = skillListIds;
             m_instanceId = instanceId;
@@ -203,11 +51,91 @@ namespace Cookie.Protocol.Network.Types.Game.House
             m_isLocked = isLocked;
             m_price = price;
         }
-        
+
         public HouseInformationsForSell()
         {
         }
-        
+
+        public override short TypeID => ProtocolId;
+
+        public virtual int InstanceId
+        {
+            get => m_instanceId;
+            set => m_instanceId = value;
+        }
+
+        public virtual bool SecondHand
+        {
+            get => m_secondHand;
+            set => m_secondHand = value;
+        }
+
+        public virtual uint ModelId
+        {
+            get => m_modelId;
+            set => m_modelId = value;
+        }
+
+        public virtual string OwnerName
+        {
+            get => m_ownerName;
+            set => m_ownerName = value;
+        }
+
+        public virtual bool OwnerConnected
+        {
+            get => m_ownerConnected;
+            set => m_ownerConnected = value;
+        }
+
+        public virtual short WorldX
+        {
+            get => m_worldX;
+            set => m_worldX = value;
+        }
+
+        public virtual short WorldY
+        {
+            get => m_worldY;
+            set => m_worldY = value;
+        }
+
+        public virtual ushort SubAreaId
+        {
+            get => m_subAreaId;
+            set => m_subAreaId = value;
+        }
+
+        public virtual byte NbRoom
+        {
+            get => m_nbRoom;
+            set => m_nbRoom = value;
+        }
+
+        public virtual byte NbChest
+        {
+            get => m_nbChest;
+            set => m_nbChest = value;
+        }
+
+        public virtual List<int> SkillListIds
+        {
+            get => m_skillListIds;
+            set => m_skillListIds = value;
+        }
+
+        public virtual bool IsLocked
+        {
+            get => m_isLocked;
+            set => m_isLocked = value;
+        }
+
+        public virtual ulong Price
+        {
+            get => m_price;
+            set => m_price = value;
+        }
+
         public override void Serialize(ICustomDataOutput writer)
         {
             writer.WriteInt(m_instanceId);
@@ -220,16 +148,16 @@ namespace Cookie.Protocol.Network.Types.Game.House
             writer.WriteVarUhShort(m_subAreaId);
             writer.WriteByte(m_nbRoom);
             writer.WriteByte(m_nbChest);
-            writer.WriteShort(((short)(m_skillListIds.Count)));
+            writer.WriteShort((short) m_skillListIds.Count);
             int skillListIdsIndex;
-            for (skillListIdsIndex = 0; (skillListIdsIndex < m_skillListIds.Count); skillListIdsIndex = (skillListIdsIndex + 1))
-            {
+            for (skillListIdsIndex = 0;
+                skillListIdsIndex < m_skillListIds.Count;
+                skillListIdsIndex = skillListIdsIndex + 1)
                 writer.WriteInt(m_skillListIds[skillListIdsIndex]);
-            }
             writer.WriteBoolean(m_isLocked);
             writer.WriteVarUhLong(m_price);
         }
-        
+
         public override void Deserialize(ICustomDataInput reader)
         {
             m_instanceId = reader.ReadInt();
@@ -244,11 +172,11 @@ namespace Cookie.Protocol.Network.Types.Game.House
             m_nbChest = reader.ReadByte();
             int skillListIdsCount = reader.ReadUShort();
             int skillListIdsIndex;
-            m_skillListIds = new System.Collections.Generic.List<int>();
-            for (skillListIdsIndex = 0; (skillListIdsIndex < skillListIdsCount); skillListIdsIndex = (skillListIdsIndex + 1))
-            {
+            m_skillListIds = new List<int>();
+            for (skillListIdsIndex = 0;
+                skillListIdsIndex < skillListIdsCount;
+                skillListIdsIndex = skillListIdsIndex + 1)
                 m_skillListIds.Add(reader.ReadInt());
-            }
             m_isLocked = reader.ReadBoolean();
             m_price = reader.ReadVarUhLong();
         }
