@@ -1,5 +1,6 @@
 ﻿using Cookie.Core;
 using Cookie.Protocol.Network.Messages.Game.Context.Roleplay;
+using Cookie.Protocol.Network.Messages.Game.Context.Roleplay.Quest;
 
 namespace Cookie.Handlers.Game.Context.Roleplay
 {
@@ -32,6 +33,13 @@ namespace Cookie.Handlers.Game.Context.Roleplay
         private void MapComplementaryInformationsDataMessageHandler(DofusClient client,
             MapComplementaryInformationsDataMessage message)
         {
+
+            if (client.Account.Character.IsFirstConnection)
+            {
+                client.Send(new GuidedModeQuitRequestMessage());
+                client.Account.Character.IsFirstConnection = false;
+            }
+
             foreach (var actor in message.Actors)
             {
                 if (actor.ContextualId != client.Account.Character.Id) continue;

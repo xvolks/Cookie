@@ -124,6 +124,7 @@
     <Compile Include="Handlers\Game\Inventory\Spells\GameInventorySpellsHandlers.cs" />
     <Compile Include="Handlers\Game\Prism\GamePrismHandlers.cs" />
     <Compile Include="Handlers\Game\Pvp\GamePvpHandlers.cs" />
+    <Compile Include="Handlers\Game\Script\GameScriptHandlers.cs" />
     <Compile Include="Handlers\Game\Shortcut\GameShortcutHandlers.cs" />
     <Compile Include="Handlers\Game\Startup\GameStartupHandlers.cs" />
     <Compile Include="Handlers\Handshake\HandshakeHandlers.cs" />
@@ -133,6 +134,7 @@
     <Compile Include="Handlers\Server\Basic\ServerBasicHandlers.cs" />
     <Compile Include="Handlers\Web\Ankabox\WebAnkaboxHandlers.cs" />
     <Compile Include="Protocol\Datacenter\items\criterion\AchievementPointsItemCriterion.cs" />
+    <Compile Include="Protocol\Network\Messages\Game\Character\Creation\CharacterCanBeCreatedRequestMessage.cs" />
     <Compile Include="Utils\Enums\CharacterStatus.cs" />
     <Compile Include="Utils\Extensions\ActionExtensions.cs" />
     <Compile Include="Utils\Extensions\ArrayExtension.cs" />

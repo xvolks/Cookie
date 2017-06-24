@@ -11,7 +11,7 @@
 namespace Cookie.Protocol.Network.Messages.Game.Character.Creation
 {
     using Cookie.IO;
-
+    using System.Collections.Generic;
 
     public class CharacterCreationRequestMessage : NetworkMessage
     {
@@ -67,6 +67,14 @@ namespace Cookie.Protocol.Network.Messages.Game.Character.Creation
                 m_sex = value;
             }
         }
+
+        private List<int> m_colors;
+
+        public virtual List<int> Colors
+        {
+            get => m_colors;
+            set => m_colors = value;
+        }
         
         private ushort m_cosmeticId;
         
@@ -82,11 +90,12 @@ namespace Cookie.Protocol.Network.Messages.Game.Character.Creation
             }
         }
         
-        public CharacterCreationRequestMessage(string name, byte breed, bool sex, ushort cosmeticId)
+        public CharacterCreationRequestMessage(string name, byte breed, bool sex, List<int> colors, ushort cosmeticId)
         {
             m_name = name;
             m_breed = breed;
             m_sex = sex;
+            m_colors = colors;
             m_cosmeticId = cosmeticId;
         }
         
@@ -99,6 +108,8 @@ namespace Cookie.Protocol.Network.Messages.Game.Character.Creation
             writer.WriteUTF(m_name);
             writer.WriteByte(m_breed);
             writer.WriteBoolean(m_sex);
+            for (var i = 0; i < 5; i++)
+                writer.WriteInt(m_colors[i]);
             writer.WriteVarUhShort(m_cosmeticId);
         }
         
@@ -107,6 +118,8 @@ namespace Cookie.Protocol.Network.Messages.Game.Character.Creation
             m_name = reader.ReadUTF();
             m_breed = reader.ReadByte();
             m_sex = reader.ReadBoolean();
+            for (var i = 0; i < 5; i++)
+                m_colors[i] = reader.ReadInt();
             m_cosmeticId = reader.ReadVarUhShort();
         }
     }

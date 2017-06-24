@@ -48,6 +48,7 @@ using Cookie.Handlers.Game.Inventory.Items;
 using Cookie.Handlers.Game.Inventory.Spells;
 using Cookie.Handlers.Game.Prism;
 using Cookie.Handlers.Game.Pvp;
+using Cookie.Handlers.Game.Script;
 using Cookie.Handlers.Game.Shortcut;
 using Cookie.Handlers.Game.Startup;
 using Cookie.Handlers.Handshake;
@@ -128,6 +129,7 @@ namespace Cookie.Core
             Register(typeof(GameCharacterStatusHandlers));
             Register(typeof(GameContextRoleplayPartyHandlers));
             Register(typeof(GameContextFightCharacterHandlers));
+            Register(typeof(GameScriptHandlers));
         }
 
         #endregion

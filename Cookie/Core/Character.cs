@@ -36,6 +36,7 @@ namespace Cookie.Core
         public string Name { get; set; }
         public int Level { get; set; }
         public bool Sex { get; set; }
+        public bool IsFirstConnection = false;
         public CharacterCharacteristicsInformations Stats { get; set; }
         public EntityLook Look { get; set; }
         public sbyte Breed { get; set; }

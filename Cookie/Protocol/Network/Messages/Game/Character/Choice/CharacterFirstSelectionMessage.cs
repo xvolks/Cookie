@@ -23,10 +23,7 @@ namespace Cookie.Protocol.Network.Messages.Game.Character.Choice
         
         public override uint MessageID
         {
-            get
-            {
-                return ProtocolId;
-            }
+            get => ProtocolId;
         }
         
         private bool m_doTutorial;
@@ -43,7 +40,7 @@ namespace Cookie.Protocol.Network.Messages.Game.Character.Choice
             }
         }
         
-        public CharacterFirstSelectionMessage(bool doTutorial)
+        public CharacterFirstSelectionMessage(bool doTutorial, ulong id) : base(id)
         {
             m_doTutorial = doTutorial;
         }

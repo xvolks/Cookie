@@ -13,7 +13,7 @@ namespace Cookie.Handlers.Connection.Register
         {
             client.Logger.Log("Vous devez choisir un pseudo pour pouvoir vous connecter.", LogMessageType.Public);
             var random = new Random();
-            var nickname = StringExtensions.RandomString(random, 10);
+            var nickname = random.RandomString(10);
             var nicknameMessage = new NicknameChoiceRequestMessage(nickname);
             client.Send(nicknameMessage);
             client.Account.Nickname = nickname;

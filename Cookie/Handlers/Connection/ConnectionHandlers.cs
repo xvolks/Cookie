@@ -108,7 +108,26 @@ namespace Cookie.Handlers.Connection
         [MessageHandler(SelectedServerRefusedMessage.ProtocolId)]
         private void SelectedServerRefusedMessageHandler(DofusClient client, SelectedServerRefusedMessage message)
         {
-            //
+            client.Logger.Log($"Le serveur {D2OParsing.GetServerName(message.ServerId)} n'est pas accessible", LogMessageType.Public);
+            switch ((ServerConnectionErrorEnum)message.Error)
+            {
+                case ServerConnectionErrorEnum.SERVER_CONNECTION_ERROR_DUE_TO_STATUS:
+                    client.Logger.Log($"Status du serveur: {(ServerStatusEnum)message.ServerStatus}", LogMessageType.Public);
+                    break;
+                case ServerConnectionErrorEnum.SERVER_CONNECTION_ERROR_NO_REASON:
+                    break;
+                case ServerConnectionErrorEnum.SERVER_CONNECTION_ERROR_ACCOUNT_RESTRICTED:
+                    break;
+                case ServerConnectionErrorEnum.SERVER_CONNECTION_ERROR_COMMUNITY_RESTRICTED:
+                    break;
+                case ServerConnectionErrorEnum.SERVER_CONNECTION_ERROR_LOCATION_RESTRICTED:
+                    break;
+                case ServerConnectionErrorEnum.SERVER_CONNECTION_ERROR_SUBSCRIBERS_ONLY:
+                    break;
+                case ServerConnectionErrorEnum.SERVER_CONNECTION_ERROR_REGULAR_PLAYERS_ONLY:
+                    break;
+            }
+            client.Dispose();
         }
 
         [MessageHandler(ServerListMessage.ProtocolId)]
