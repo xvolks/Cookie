@@ -311,7 +311,7 @@ namespace Cookie.Gamedata.D2o
             {
                 var fieldValue = ReadField(reader, field, field.TypeId);
 
-                if (field.FieldType.IsAssignableFrom(fieldValue.GetType()))
+                if (field.FieldType.IsInstanceOfType(fieldValue))
                     values.Add(fieldValue);
                 else if (fieldValue is IConvertible &&
                          field.FieldType.GetInterface("IConvertible") != null)
@@ -507,11 +507,9 @@ namespace Cookie.Gamedata.D2o
                 if (reader.Position > 0)
                     reader.Seek(0, SeekOrigin.Begin);
 
-                Stream streamClone;
-
                 if (reader is FastBigEndianReader)
-                    return new FastBigEndianReader((reader as FastBigEndianReader).Buffer);
-                streamClone = new MemoryStream();
+                    return new FastBigEndianReader(((FastBigEndianReader) reader).Buffer);
+                Stream streamClone = new MemoryStream();
                 ((BigEndianReader) reader).BaseStream.CopyTo(streamClone);
 
                 return new BigEndianReader(streamClone);
@@ -548,10 +546,8 @@ namespace Cookie.Gamedata.D2o
                 ilGenerator.Emit(OpCodes.Ldc_I4, i);
                 ilGenerator.Emit(OpCodes.Ldelem_Ref);
 
-                if (fields[i].FieldType.IsClass)
-                    ilGenerator.Emit(OpCodes.Castclass, fields[i].FieldType);
-                else
-                    ilGenerator.Emit(OpCodes.Unbox_Any, fields[i].FieldType);
+                ilGenerator.Emit(fields[i].FieldType.IsClass ? OpCodes.Castclass : OpCodes.Unbox_Any,
+                    fields[i].FieldType);
 
                 ilGenerator.Emit(OpCodes.Stfld, fields[i]);
             }
