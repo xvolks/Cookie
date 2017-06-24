@@ -131,7 +131,7 @@ public class FastD2IReader : IDisposable
                     {
                         pointer = _myD2I.IndexList.First(n => (n.IStrKey == myId) & n.IDiaExist).IDiaIndex;
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         pointer = _myD2I.IndexList.First(n => n.IStrKey == myId).IStrIndex;
                     }
@@ -144,8 +144,9 @@ public class FastD2IReader : IDisposable
                     result.Str = _myD2I.DataList.First(m => m.StrIndex == pointer).Str;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
+                // ignored
             }
         else
             using (_br = new BinaryReader(File.Open(_pather, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
@@ -180,7 +181,7 @@ public class FastD2IReader : IDisposable
                             temp.IDiaIndex = ReadInt();
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     // ignored
                 }
@@ -219,7 +220,7 @@ public class FastD2IReader : IDisposable
         return Encoding.UTF8.GetString(buffer);
     }
 
-    private bool IsNumeric(string input)
+    public bool IsNumeric(string input)
     {
         return int.TryParse(input, out int test);
     }
@@ -244,7 +245,7 @@ public class FastD2IReader : IDisposable
             {
                 _br.Dispose();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // ignored
             }
@@ -253,7 +254,7 @@ public class FastD2IReader : IDisposable
             {
                 _stream.Dispose();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 // ignored
             }
