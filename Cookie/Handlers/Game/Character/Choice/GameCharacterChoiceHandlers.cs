@@ -1,8 +1,6 @@
-﻿using System.Threading.Tasks;
-using Cookie.Core;
+﻿using Cookie.Core;
 using Cookie.Protocol.Network.Messages.Game.Character.Choice;
 using Cookie.Protocol.Network.Messages.Game.Character.Creation;
-using Cookie.Utils.Thread;
 
 namespace Cookie.Handlers.Game.Character.Choice
 {
@@ -12,7 +10,9 @@ namespace Cookie.Handlers.Game.Character.Choice
         private void BasicCharactersListMessageHandler(DofusClient client, BasicCharactersListMessage message)
         {
             if (message.Characters.Count == 0)
+            {
                 client.Send(new CharacterNameSuggestionRequestMessage());
+            }
             else
             {
                 var c = message.Characters[0];

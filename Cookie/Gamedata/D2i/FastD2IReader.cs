@@ -61,7 +61,7 @@ public class FastD2IReader : IDisposable
 
     private static void LoadD2I()
     {
-        using (_br = new BinaryReader(File.Open(_pather, FileMode.Open, FileAccess.Read)))
+        using (_br = new BinaryReader(File.Open(_pather, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
         {
             //Get the total size
             _myD2I.SizeOfD2I = _br.BaseStream.Length;
@@ -148,7 +148,7 @@ public class FastD2IReader : IDisposable
             {
             }
         else
-            using (_br = new BinaryReader(File.Open(_pather, FileMode.Open, FileAccess.Read)))
+            using (_br = new BinaryReader(File.Open(_pather, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
             {
                 _myD2I.SizeOfD2I = _br.BaseStream.Length;
                 _myD2I.SizeOfData = ReadInt();

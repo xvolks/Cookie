@@ -31,7 +31,8 @@ namespace Cookie.Handlers.Connection
             var credentials = Rsa.Encrypt(message.Key, client.Account.Login, client.Account.Password, message.Salt);
             // On défini la version du jeu
             var version = new VersionExtended(GameConstant.Major, GameConstant.Minor, GameConstant.Release,
-                GameConstant.Revision, GameConstant.Patch, GameConstant.BuildType, GameConstant.Install, GameConstant.Technology);
+                GameConstant.Revision, GameConstant.Patch, GameConstant.BuildType, GameConstant.Install,
+                GameConstant.Technology);
             // On précise qu'on veut se connecter sur ce compte et cette version et on envois le packet
             var identificationMessage =
                 new IdentificationMessage(true, false, false, version, "fr", credentials, 0, 0, new ushort[0]);
@@ -121,11 +122,13 @@ namespace Cookie.Handlers.Connection
         [MessageHandler(SelectedServerRefusedMessage.ProtocolId)]
         private void SelectedServerRefusedMessageHandler(DofusClient client, SelectedServerRefusedMessage message)
         {
-            client.Logger.Log($"Le serveur {D2OParsing.GetServerName(message.ServerId)} n'est pas accessible", LogMessageType.Public);
-            switch ((ServerConnectionErrorEnum)message.Error)
+            client.Logger.Log($"Le serveur {D2OParsing.GetServerName(message.ServerId)} n'est pas accessible",
+                LogMessageType.Public);
+            switch ((ServerConnectionErrorEnum) message.Error)
             {
                 case ServerConnectionErrorEnum.SERVER_CONNECTION_ERROR_DUE_TO_STATUS:
-                    client.Logger.Log($"Status du serveur: {(ServerStatusEnum)message.ServerStatus}", LogMessageType.Public);
+                    client.Logger.Log($"Status du serveur: {(ServerStatusEnum) message.ServerStatus}",
+                        LogMessageType.Public);
                     break;
                 case ServerConnectionErrorEnum.SERVER_CONNECTION_ERROR_NO_REASON:
                     break;
@@ -151,9 +154,9 @@ namespace Cookie.Handlers.Connection
                 client.Send(new ServerSelectionMessage(message.AlreadyConnectedToServerId));
                 return;
             }
-                
-            var server = message.Servers.Find(s => (ServerStatusEnum)s.Status == ServerStatusEnum.ONLINE
-                && s.IsSelectable && s.CharactersCount > 0);
+
+            var server = message.Servers.Find(s => (ServerStatusEnum) s.Status == ServerStatusEnum.ONLINE
+                                                   && s.IsSelectable && s.CharactersCount > 0);
 
             client.Send(server == null ? new ServerSelectionMessage(11) : new ServerSelectionMessage(server.ObjectID));
         }
