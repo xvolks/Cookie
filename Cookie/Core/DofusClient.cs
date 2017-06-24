@@ -261,9 +261,9 @@ namespace Cookie.Core
             }
         }
 
-        public void Log(string text)
+        public void Log(string text, LogMessageType type = LogMessageType.Divers)
         {
-            Logger.Log(text, LogMessageType.Info);
+            Logger.Log(text, type);
         }
 
         #endregion
