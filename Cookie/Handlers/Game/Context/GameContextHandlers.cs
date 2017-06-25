@@ -31,7 +31,7 @@ namespace Cookie.Handlers.Game.Context
         [MessageHandler(GameContextRemoveElementMessage.ProtocolId)]
         private void GameContextRemoveElementMessageHandler(DofusClient client, GameContextRemoveElementMessage message)
         {
-            client.Account.Character.MapData.RemoveActor(message.ObjectId);
+            client.Account.Character.Map.RemoveEntity((int)message.ObjectId);
         }
 
         [MessageHandler(GameMapChangeOrientationMessage.ProtocolId)]
@@ -48,7 +48,7 @@ namespace Cookie.Handlers.Game.Context
                 client.Account.Character.Status = CharacterStatus.Moving;
                 client.Account.Character.CellId = message.KeyMovements.Last();
             }
-            client.Account.Character.MapData.RefreshActor(message.ActorId, message.KeyMovements.Last());
+            client.Account.Character.Map.UpdateEntity(message);
         }
 
         [MessageHandler(GameMapNoMovementMessage.ProtocolId)]

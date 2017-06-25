@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Cookie.API.Core.Frame;
 
 namespace Cookie.Core.Frame
 {
-    public class LatencyFrame
+    public class LatencyFrame : ILatencyFrame
     {
         private const uint LatencyAvgBufferSize = 50;
         private readonly Account _account;

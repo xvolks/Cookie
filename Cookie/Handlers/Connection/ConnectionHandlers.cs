@@ -1,4 +1,5 @@
-﻿using Cookie.API.Extensions;
+﻿using System.Threading;
+using Cookie.API.Extensions;
 using Cookie.API.Network;
 using Cookie.API.Protocol.Enums;
 using Cookie.API.Protocol.Network.Messages.Connection;
@@ -145,6 +146,7 @@ namespace Cookie.Handlers.Connection
                     break;
             }
             client.Dispose();
+            Thread.Sleep(100);
         }
 
         [MessageHandler(ServerListMessage.ProtocolId)]

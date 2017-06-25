@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using Cookie.API.Game.Map;
 using Cookie.API.IO;
 
 namespace Cookie.API.Gamedata.D2p
 {
-    public class Map : IMap
+    public class Map : IMap, IMapData
     {
         // Fields
         public long BackgroundAlpha;

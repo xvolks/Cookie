@@ -1,18 +1,25 @@
 ﻿using System.Collections.Generic;
+using Cookie.API.Core;
+using Cookie.API.Game.Map;
 using Cookie.API.Protocol.Network.Types.Game.Character.Characteristic;
 using Cookie.API.Protocol.Network.Types.Game.Character.Restriction;
 using Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Job;
 using Cookie.API.Protocol.Network.Types.Game.Data.Items;
 using Cookie.API.Protocol.Network.Types.Game.Look;
-using Cookie.Game.Job;
 using Cookie.Game.Map;
 using Cookie.Utils.Enums;
 
 namespace Cookie.Core
 {
-    public class Character
+    public class Character : ICharacter
     {
-        public bool IsFirstConnection = false;
+        private bool m_firstConnection = false;
+
+        public bool IsFirstConnection
+        {
+            get { return m_firstConnection; }
+            set { m_firstConnection = value; }
+        }
 
         public Character(DofusClient client)
         {
@@ -23,14 +30,12 @@ namespace Cookie.Core
             Inventory = new List<ObjectItem>();
             Spells = new List<SpellItem>();
             Status = CharacterStatus.Disconnected;
-            MapData = new MapData();
+            //MapData = new MapData();
             Map = new Map(Client);
-            GatherManager = new GatherManager(Client);
             Jobs = new List<JobExperience>();
         }
 
         public DofusClient Client { get; set; }
-        public GatherManager GatherManager { get; set; }
 
         public CharacterStatus Status { get; set; }
 
@@ -41,8 +46,8 @@ namespace Cookie.Core
         public CharacterCharacteristicsInformations Stats { get; set; }
         public EntityLook Look { get; set; }
         public sbyte Breed { get; set; }
-        public MapData MapData { get; set; }
-        public Map Map { get; set; }
+        //public MapData MapData { get; set; }
+        public IMap Map { get; set; }
 
         public int LifePercentage => (int) (Stats.LifePoints / (double) Stats.MaxLifePoints * 100);
         public int WeightPercentage => (int) (Weight / (double) MaxWeight * 100);

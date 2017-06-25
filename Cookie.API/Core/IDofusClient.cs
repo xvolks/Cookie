@@ -9,5 +9,7 @@ namespace Cookie.API.Core
         void Register(Type type);
         void Send(NetworkMessage message);
         void Log(string text, LogMessageType type = LogMessageType.Default);
+
+        IAccount Account { get; set; }
     }
 }

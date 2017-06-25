@@ -1,4 +1,6 @@
-﻿using Cookie.Commands.Interfaces;
+﻿using System.Windows.Forms.VisualStyles;
+using Cookie.API.Game.Map;
+using Cookie.Commands.Interfaces;
 using Cookie.Core;
 using Cookie.Utils.Enums;
 
@@ -17,8 +19,25 @@ namespace Cookie.Commands.Commands
             }
             else
             {
-                if (client.Account.Character.Status == CharacterStatus.None)
-                    client.Account.Character.Map.ChangeMap(args[0]);
+                switch (args[0])
+                {
+                    case "top":
+                    case "up":
+                        client.Account.Character.Map.ChangeMap(MapDirectionEnum.North);
+                        break;
+                    case "left":
+                        client.Account.Character.Map.ChangeMap(MapDirectionEnum.West);
+                        break;
+                    case "right":
+                        client.Account.Character.Map.ChangeMap(MapDirectionEnum.East);
+                        break;
+                    case "bottom":
+                    case "bot":
+                        client.Account.Character.Map.ChangeMap(MapDirectionEnum.South);
+                        break;
+
+                }
+                //if (client.Account.Character.Status == CharacterStatus.None)
             }
         }
     }

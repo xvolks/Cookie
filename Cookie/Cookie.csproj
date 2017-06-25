@@ -49,6 +49,9 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="Telerik.Windows.Documents.Flow">
+      <HintPath>E:\Rebirth 2.0\Rebirth\bin\Debug\Telerik.Windows.Documents.Flow.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\Commands\ChangeMapCommand.cs" />
@@ -64,17 +67,11 @@
     <Compile Include="Core\Account.cs" />
     <Compile Include="Core\DofusClient.cs" />
     <Compile Include="Core\Frame\LatencyFrame.cs" />
-    <Compile Include="Game\Job\GatherManager.cs" />
+    <Compile Include="Game\Entity\Entity.cs" />
+    <Compile Include="Game\Map\Elements\InteractiveElement.cs" />
+    <Compile Include="Game\Map\Elements\StatedElement.cs" />
+    <Compile Include="Game\Map\Elements\UsableElement.cs" />
     <Compile Include="Game\Map\Map.cs" />
-    <Compile Include="Game\Map\MapData.cs" />
-    <Compile Include="Game\World\Pathfinding\Cell.cs" />
-    <Compile Include="Game\World\Pathfinding\CellList.cs" />
-    <Compile Include="Game\World\Pathfinding\CellMatrix.cs" />
-    <Compile Include="Game\World\Pathfinding\CellWithOrientation.cs" />
-    <Compile Include="Game\World\Pathfinding\MovementTypeEnum.cs" />
-    <Compile Include="Game\World\Pathfinding\Pathfinder.cs" />
-    <Compile Include="Game\World\Pathfinding\PathingUtils.cs" />
-    <Compile Include="Game\World\Pathfinding\VelocityHelper.cs" />
     <Compile Include="Handlers\Connection\Register\ConnectionRegisterHandlers.cs" />
     <Compile Include="Handlers\Game\Achievement\GameAchievementHandlers.cs" />
     <Compile Include="Handlers\Game\Alliance\GameAllianceHandlers.cs" />
@@ -178,7 +175,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cookie.API\Cookie.API.csproj">
-      <Project>{4CEDB9AD-1A1E-42AB-9E1D-830D760812B4}</Project>
+      <Project>{4cedb9ad-1a1e-42ab-9e1d-830d760812b4}</Project>
       <Name>Cookie.API</Name>
     </ProjectReference>
   </ItemGroup>
