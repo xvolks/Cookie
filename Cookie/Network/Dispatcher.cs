@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Cookie.API.Network;
+using Cookie.API.Plugins;
 using Cookie.API.Protocol;
 using Cookie.Core;
 
@@ -66,6 +67,10 @@ namespace Cookie
         public void RegisterFrame(Type type)
         {
             var obj = Activator.CreateInstance(type);
+
+            if (obj is IPlugin plug)
+                plug.Client = client;
+
             foreach (var methodInfo in type.GetMethods(BindingFlags.Instance | BindingFlags.Public |
                                                        BindingFlags.NonPublic | BindingFlags.FlattenHierarchy))
             {

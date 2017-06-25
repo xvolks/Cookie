@@ -1,8 +1,6 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 using System.Net.Sockets;
-using System.Reflection;
 using Cookie.API.Core;
 using Cookie.API.Extensions;
 using Cookie.API.IO;
@@ -137,7 +135,7 @@ namespace Cookie.Core
             Register(typeof(GameContextFightCharacterHandlers));
             Register(typeof(GameScriptHandlers));
 
-            LoadPlugins();
+            //LoadPlugins();
         }
 
         #endregion
@@ -250,19 +248,6 @@ namespace Cookie.Core
             _dispatcher.UnRegisterFrame(type);
         }
 
-        private void LoadPlugins()
-        {
-            const string path = "./plugins";
-            foreach (var file in Directory.GetFiles(path, "*.dll", SearchOption.AllDirectories))
-            {
-                var fileInfo = new FileInfo(file);
-                if (fileInfo.Name.Contains("Cookie")) continue;
-                var asm = Assembly.LoadFrom(fileInfo.FullName);
-                var types = asm.GetTypes();
-                var constructor = types.First(x => x.Name == "Main").GetConstructor(new[] {typeof(DofusClient)});
-                constructor.Invoke(new object[] {this});
-            }
-        }
 
         public void Log(string text, LogMessageType type = LogMessageType.Divers)
         {

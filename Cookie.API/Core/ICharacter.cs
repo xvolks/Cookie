@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Cookie.API.Game.Job;
 using Cookie.API.Game.Map;
 using Cookie.API.Protocol.Enums;
 using Cookie.API.Protocol.Network.Types.Game.Character.Characteristic;
@@ -14,10 +13,10 @@ namespace Cookie.API.Core
     public interface ICharacter
     {
         IDofusClient Client { get; set; }
-        IGatherManager GatherManager { get; set; }
 
         CharacterStatus Status { get; set; }
         bool IsFirstConnection { get; set; }
+
         ulong Id { get; set; }
         string Name { get; set; }
         int Level { get; set; }
@@ -25,7 +24,6 @@ namespace Cookie.API.Core
         CharacterCharacteristicsInformations Stats { get; set; }
         EntityLook Look { get; set; }
         BreedEnum Breed { get; set; }
-        IMapData MapData { get; set; }
         IMap Map { get; set; }
 
         int LifePercentage { get; }

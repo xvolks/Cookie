@@ -1,5 +1,4 @@
-﻿using System;
-using Cookie.API.Commands;
+﻿using Cookie.API.Commands;
 using Cookie.API.Core;
 using Cookie.Core;
 
@@ -13,8 +12,8 @@ namespace Cookie.Commands.Commands
         {
             if (args.Length < 1)
                 Logger.Default.Log("Vous devez spécifier l'id de la ressource à récolter.", LogMessageType.Public);
-            else
-                client.Account.Character.GatherManager.GoGather(Convert.ToInt32(args[0]));
+            /*else
+                client.Account.Character.GatherManager.GoGather(Convert.ToInt32(args[0]));*/
         }
     }
 }

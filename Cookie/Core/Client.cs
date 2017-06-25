@@ -34,7 +34,7 @@ namespace Cookie.Core
             _receiveEvent.SetBuffer(Buffer, 0, Buffer.Length);
             _receiveEvent.Completed += ReceiveEvent_Completed;
 
-            _timer = new TimerCore(CheckDisonnect, 50, 500);
+            _timer = new TimerCore(CheckDisonnect, 50, 2000);
 
             if (!Socket.ReceiveAsync(_receiveEvent))
                 ReceiveEvent_Completed(Socket, _receiveEvent);
@@ -74,7 +74,7 @@ namespace Cookie.Core
             _receiveEvent.SetBuffer(Buffer, 0, Buffer.Length);
             _receiveEvent.Completed += ReceiveEvent_Completed;
 
-            _timer = new TimerCore(CheckDisonnect, 50, 500);
+            _timer = new TimerCore(CheckDisonnect, 50, 2000);
 
             if (!Socket.ReceiveAsync(_receiveEvent))
                 ReceiveEvent_Completed(Socket, _receiveEvent);
@@ -119,8 +119,8 @@ namespace Cookie.Core
         {
             if (Socket != null)
             {
-                Socket.Shutdown(SocketShutdown.Both);
-                Socket.Close();
+                //Socket.Shutdown(SocketShutdown.Both);
+                //Socket.Close();
                 Socket.Dispose();
                 Socket = null;
             }

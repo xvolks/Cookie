@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Cookie.API.Core;
-using Cookie.API.Game.Job;
 using Cookie.API.Game.Map;
 using Cookie.API.Protocol.Enums;
 using Cookie.API.Protocol.Network.Types.Game.Character.Characteristic;
@@ -8,7 +7,6 @@ using Cookie.API.Protocol.Network.Types.Game.Character.Restriction;
 using Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Job;
 using Cookie.API.Protocol.Network.Types.Game.Data.Items;
 using Cookie.API.Protocol.Network.Types.Game.Look;
-using Cookie.Game.Job;
 using Cookie.Game.Map;
 using Cookie.Utils.Enums;
 
@@ -25,19 +23,16 @@ namespace Cookie.Core
             Inventory = new List<ObjectItem>();
             Spells = new List<SpellItem>();
             Status = CharacterStatus.Disconnected;
-            MapData = new MapData();
+            //MapData = new MapData();
             Map = new Map(Client);
-            GatherManager = new GatherManager(Client);
             Jobs = new List<JobExperience>();
-
-            IsFirstConnection = false;
         }
 
+        public bool IsFirstConnection { get; set; }
+
         public IDofusClient Client { get; set; }
-        public IGatherManager GatherManager { get; set; }
 
         public CharacterStatus Status { get; set; }
-        public bool IsFirstConnection { get; set; }
 
         public ulong Id { get; set; }
         public string Name { get; set; }
@@ -45,8 +40,10 @@ namespace Cookie.Core
         public bool Sex { get; set; }
         public CharacterCharacteristicsInformations Stats { get; set; }
         public EntityLook Look { get; set; }
+
         public BreedEnum Breed { get; set; }
-        public IMapData MapData { get; set; }
+
+        //public IMapData MapData { get; set; }
         public IMap Map { get; set; }
 
         public int LifePercentage => (int) (Stats.LifePoints / (double) Stats.MaxLifePoints * 100);
