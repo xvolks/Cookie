@@ -1,5 +1,6 @@
 ﻿using System;
-using Cookie.Commands.Interfaces;
+using Cookie.API.Commands;
+using Cookie.API.Core;
 using Cookie.Core;
 
 namespace Cookie.Commands.Commands
@@ -8,7 +9,7 @@ namespace Cookie.Commands.Commands
     {
         public string CommandName => "gather";
 
-        public void OnCommand(DofusClient client, string[] args)
+        public void OnCommand(IDofusClient client, string[] args)
         {
             if (args.Length < 1)
                 Logger.Default.Log("Vous devez spécifier l'id de la ressource à récolter.", LogMessageType.Public);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Cookie.API.Datacenter;
+using Cookie.API.Game.Map;
 using Cookie.API.Gamedata.D2o;
 using Cookie.API.Gamedata.D2p;
 using Cookie.API.Protocol.Network.Messages.Game.Interactive;
@@ -9,10 +10,8 @@ using Cookie.API.Protocol.Network.Types.Game.Interactive;
 
 namespace Cookie.Game.Map
 {
-    public class MapData
+    public class MapData : IMapData
     {
-        public API.Gamedata.D2p.Map Data;
-
         public MapData()
         {
             Players = new List<GameRolePlayCharacterInformations>();
@@ -34,6 +33,7 @@ namespace Cookie.Game.Map
         public List<InteractiveElement> InteractiveElements { get; set; }
 
         public List<StatedElement> StatedElements { get; set; }
+        public API.Gamedata.D2p.IMap Data { get; set ; }
 
         public void ParseLocation(int mapId)
         {

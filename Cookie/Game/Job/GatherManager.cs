@@ -1,17 +1,19 @@
 ﻿using System.Collections.Generic;
+using Cookie.API.Core;
+using Cookie.API.Game.Job;
 using Cookie.API.Protocol.Network.Types.Game.Interactive;
 using Cookie.Core;
 using Cookie.Utils.Enums;
 
 namespace Cookie.Game.Job
 {
-    public class GatherManager
+    public class GatherManager : IGatherManager
     {
-        private readonly DofusClient _client;
+        private readonly IDofusClient _client;
 
         private InteractiveElement _tempElement;
 
-        public GatherManager(DofusClient client)
+        public GatherManager(IDofusClient client)
         {
             _client = client;
             BannedElementId = new List<int>();

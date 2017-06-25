@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Cookie.API.Core;
+using Cookie.API.Game.Map;
 using Cookie.API.Protocol.Network.Messages.Game.Context;
 using Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay;
 using Cookie.API.Protocol.Network.Messages.Game.Interactive;
@@ -13,16 +15,16 @@ using Cookie.Utils.Enums;
 
 namespace Cookie.Game.Map
 {
-    public class Map
+    public class Map : IMap
     {
-        private readonly DofusClient _client;
+        private readonly IDofusClient _client;
         private int _mapId;
 
         private int _mapIdForChanging;
         private bool _moving;
         private int _time;
 
-        public Map(DofusClient client)
+        public Map(IDofusClient client)
         {
             _client = client;
         }

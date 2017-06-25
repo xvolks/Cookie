@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using Cookie.API.Game.Map;
 using Cookie.API.Gamedata.D2p;
 using Cookie.Game.Map;
 
@@ -19,7 +20,7 @@ namespace Cookie.Game.World.Pathfinding
         private bool find;
 
         private Cell destinationCell, startCell;
-        private MapData currentMap;
+        private IMapData currentMap;
 
         private readonly CellMatrix matrix = new CellMatrix();
         private readonly CellList openList = new CellList();
@@ -33,7 +34,7 @@ namespace Cookie.Game.World.Pathfinding
 
         #region Public method
 
-        public void SetMap(MapData map, bool useDiagonal)
+        public void SetMap(IMapData map, bool useDiagonal)
         {
             currentMap = map;
             useDiagonals = useDiagonal;

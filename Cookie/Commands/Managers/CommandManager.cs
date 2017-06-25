@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using Cookie.API.Commands;
 using Cookie.Commands.Exceptions;
-using Cookie.Commands.Interfaces;
 using Cookie.Core;
 
 namespace Cookie.Commands.Managers

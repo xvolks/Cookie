@@ -1,4 +1,5 @@
-﻿using Cookie.Commands.Interfaces;
+﻿using Cookie.API.Commands;
+using Cookie.API.Core;
 using Cookie.Core;
 using Cookie.Gamedata;
 
@@ -8,7 +9,7 @@ namespace Cookie.Commands.Commands
     {
         public string CommandName => "jobs";
 
-        public void OnCommand(DofusClient client, string[] args)
+        public void OnCommand(IDofusClient client, string[] args)
         {
             client.Account.Character.Jobs.ForEach(job =>
                 Logger.Default.Log(

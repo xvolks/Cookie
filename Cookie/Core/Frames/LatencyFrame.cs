@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
+using Cookie.API.Core.Frames;
 
-namespace Cookie.Core.Frame
+namespace Cookie.Core.Frames
+
 {
-    public class LatencyFrame
+    public class LatencyFrame : ILatencyFrame
     {
         private const uint LatencyAvgBufferSize = 50;
         private readonly Account _account;
@@ -56,27 +56,6 @@ namespace Cookie.Core.Frame
         public int GetSamplesMax()
         {
             return (int) LatencyAvgBufferSize;
-        }
-
-        public int RolePlay()
-        {
-            var pId = (long) _account.Character.Id;
-            var ct = Convert.ToUInt32(_account.Ticket);
-            const string loaderInfo = "4dd3a4c8490e4517d1883a5c367e1B5f";
-            var bytes = Encoding.UTF8.GetBytes(loaderInfo);
-            var writer = new BinaryWriter(new MemoryStream());
-            var len = bytes.Length;
-
-            for (var i = 0; i < len; i++)
-                writer.Write(bytes[i]);
-
-            var reader = new BinaryReader(writer.BaseStream);
-            uint h = 0;
-
-            for (var j = 0; j < bytes.Length; j++)
-                h = Convert.ToUInt32(h + reader.ReadByte() + (ct & (j << 1)) % 128);
-
-            return Convert.ToUInt16(GetLatencyAvg() + (pId + h) % 20 - 10);
         }
     }
 }

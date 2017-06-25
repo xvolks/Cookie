@@ -1,4 +1,5 @@
 ﻿using Cookie.API.Network;
+using Cookie.API.Protocol.Enums;
 using Cookie.API.Protocol.Network.Messages.Game.Character.Choice;
 using Cookie.API.Protocol.Network.Messages.Game.Character.Creation;
 using Cookie.Core;
@@ -54,7 +55,7 @@ namespace Cookie.Handlers.Game.Character.Choice
             client.Account.Character.Name = message.Infos.Name;
             client.Account.Character.Sex = message.Infos.Sex;
             client.Account.Character.Look = message.Infos.EntityLook;
-            client.Account.Character.Breed = message.Infos.Breed;
+            client.Account.Character.Breed = (BreedEnum)message.Infos.Breed;
         }
 
         [MessageHandler(CharacterSelectedForceMessage.ProtocolId)]

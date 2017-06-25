@@ -6,54 +6,57 @@ namespace Cookie.API.Gamedata.D2p
 {
     public class Map : IMap
     {
-        // Fields
-        public long BackgroundAlpha;
+        public Map()
+        {
+            BackgroundFixtures = new List<Fixture>();
+            ForegroundFixtures = new List<Fixture>();
+            Layers = new List<Layer>();
+        }
 
-        public int BackgroundBlue;
-        public List<Fixture> BackgroundFixtures = new List<Fixture>();
-        public int BackgroundGreen;
-        public int BackgroundRed;
-        public int BackgroundsCount;
-        public int BottomNeighbourId;
-        public List<CellData> cells = new List<CellData>();
-        public bool Encrypted;
-        public int EncryptedVersion;
-        public List<Fixture> ForegroundFixtures = new List<Fixture>();
-        public int ForegroundsCount;
-        public uint GridAlpha;
-        public uint GridBlue;
-        public uint GridGreen;
-        public uint GridRed;
-        public string GroundCRC;
-        public int Id;
-        public bool IsUsingNewMovementSystem;
-        public List<Layer> Layers = new List<Layer>();
-        public int LayersCount;
-        public int LeftNeighbourId;
-        public int MapType;
-        public int MapVersion;
-        public int PresetId;
-        public int RelativeId;
-        public int RightNeighbourId;
-        public int ShadowBonusOnEntities;
-        public int SubAreaId;
-        public int TopNeighbourId;
-        public bool UseLowPassFilter;
-        public bool UseReverb;
-        public int ZoomOffsetX;
-        public int ZoomOffsetY;
-        public double ZoomScale;
-
-        public List<CellData> Cells => cells;
+        public long BackgroundAlpha { get; set; }
+        public int BackgroundBlue { get; set; }
+        public List<Fixture> BackgroundFixtures { get; set; }
+        public int BackgroundGreen { get; set; }
+        public int BackgroundRed { get; set; }
+        public int BackgroundsCount { get; set; }
+        public int BottomNeighbourId { get; set; }
+        public bool Encrypted { get; set; }
+        public int EncryptedVersion { get; set; }
+        public List<Fixture> ForegroundFixtures { get; set; }
+        public int ForegroundsCount { get; set; }
+        public uint GridAlpha { get; set; }
+        public uint GridBlue { get; set; }
+        public uint GridGreen { get; set; }
+        public uint GridRed { get; set; }
+        public string GroundCRC { get; set; }
+        public int Id { get; set; }
+        public bool IsUsingNewMovementSystem { get; set; }
+        public List<Layer> Layers { get; set; }
+        public int LayersCount { get; set; }
+        public int LeftNeighbourId { get; set; }
+        public int MapType { get; set; }
+        public int MapVersion { get; set; }
+        public int PresetId { get; set; }
+        public int RelativeId { get; set; }
+        public int RightNeighbourId { get; set; }
+        public int ShadowBonusOnEntities { get; set; }
+        public int SubAreaId { get; set; }
+        public int TopNeighbourId { get; set; }
+        public bool UseLowPassFilter { get; set; }
+        public bool UseReverb { get; set; }
+        public int ZoomOffsetX { get; set; }
+        public int ZoomOffsetY { get; set; }
+        public double ZoomScale { get; set; }
+        public List<CellData> Cells { get; } = new List<CellData>();
 
         public bool IsLineOfSight(int cellId)
         {
-            return cellId >= 0 && cellId < CellsCount && cells[cellId].Los;
+            return cellId >= 0 && cellId < CellsCount && Cells[cellId].Los;
         }
 
         public bool IsWalkable(int cellId)
         {
-            return cellId >= 0 && cellId < CellsCount && cells[cellId].Mov;
+            return cellId >= 0 && cellId < CellsCount && Cells[cellId].Mov;
         }
 
         public int CellsCount { get; private set; }
@@ -71,7 +74,7 @@ namespace Cookie.API.Gamedata.D2p
                 var count = reader.ReadInt();
                 if (Encrypted)
                 {
-                    var buffer = CustomHex.ToArray(CustomHex.FromString("649ae451ca33ec53bbcbcc33becf15f4", false));
+                    var buffer = CustomHex.ToArray(CustomHex.FromString("649ae451ca33ec53bbcbcc33becf15f4"));
                     var buffer2 = reader.ReadBytes(count);
                     for (var n = 0; n < buffer2.Length; n++)
                         buffer2[n] = Convert.ToByte(buffer2[n] ^ buffer[n % buffer.Length]);
@@ -151,7 +154,7 @@ namespace Cookie.API.Gamedata.D2p
                     oldMvtSys = data.MoveZone;
                 if (data.MoveZone != oldMvtSys)
                     IsUsingNewMovementSystem = true;
-                cells.Add(data);
+                Cells.Add(data);
             }
         }
     }

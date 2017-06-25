@@ -1,10 +1,12 @@
-﻿using Cookie.Core.Frame;
+﻿using Cookie.API.Core;
+using Cookie.API.Core.Frames;
+using Cookie.Core.Frames;
 
 namespace Cookie.Core
 {
-    public class Account
+    public class Account : IAccount
     {
-        public Account(string login, string password, DofusClient client)
+        public Account(string login, string password, IDofusClient client)
         {
             Login = login;
             Password = password;
@@ -18,7 +20,7 @@ namespace Cookie.Core
 
         public string Login { get; set; }
         public string Password { get; set; }
-        public DofusClient Client { get; set; }
+        public IDofusClient Client { get; set; }
 
         public int Id { get; set; }
         public string Ticket { get; set; }
@@ -29,8 +31,8 @@ namespace Cookie.Core
         public double SubscriptionElapsedDuration { get; set; }
         public double SubscriptionEndDate { get; set; }
 
-        public Character Character { get; set; }
+        public ICharacter Character { get; set; }
 
-        public LatencyFrame LatencyFrame { get; set; }
+        public ILatencyFrame LatencyFrame { get; set; }
     }
 }

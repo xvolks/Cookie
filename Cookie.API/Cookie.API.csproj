@@ -43,6 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\ICommand.cs" />
+    <Compile Include="Core\Frames\ILatencyFrame.cs" />
+    <Compile Include="Core\IAccount.cs" />
+    <Compile Include="Core\ICharacter.cs" />
     <Compile Include="Core\IDofusClient.cs" />
     <Compile Include="Gamedata\D2i\FastD2I.cs" />
     <Compile Include="Gamedata\D2i\FastD2IReader.cs" />
@@ -74,13 +78,16 @@
     <Compile Include="Gamedata\D2p\Elements\GraphicalElement.cs" />
     <Compile Include="Gamedata\D2p\Elements\SoundElement.cs" />
     <Compile Include="Gamedata\D2p\Fixture.cs" />
-    <Compile Include="Gamedata\D2p\ImageManager.cs" />
     <Compile Include="Gamedata\D2p\IMap.cs" />
+    <Compile Include="Gamedata\D2p\ImageManager.cs" />
     <Compile Include="Gamedata\D2p\Layer.cs" />
     <Compile Include="Gamedata\D2p\Map.cs" />
     <Compile Include="Gamedata\D2p\MapsManager.cs" />
     <Compile Include="Gamedata\Icons\Icon.cs" />
     <Compile Include="Gamedata\Icons\IconsManager.cs" />
+    <Compile Include="Game\Job\IGatherManager.cs" />
+    <Compile Include="Game\Map\IMap.cs" />
+    <Compile Include="Game\Map\IMapData.cs" />
     <Compile Include="Network\MessageHandlerAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Protocol\Datacenter\abuse\AbuseReasons.cs" />

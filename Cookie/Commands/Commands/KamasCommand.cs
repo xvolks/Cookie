@@ -1,4 +1,5 @@
-﻿using Cookie.Commands.Interfaces;
+﻿using Cookie.API.Commands;
+using Cookie.API.Core;
 using Cookie.Core;
 
 namespace Cookie.Commands.Commands
@@ -7,7 +8,7 @@ namespace Cookie.Commands.Commands
     {
         public string CommandName => "kamas";
 
-        public void OnCommand(DofusClient client, string[] args)
+        public void OnCommand(IDofusClient client, string[] args)
         {
             Logger.Default.Log($"Vous avez : {client.Account.Character.Stats.Kamas} kamas.",
                 LogMessageType.Admin);

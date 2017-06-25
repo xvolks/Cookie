@@ -1,4 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Cookie.API.Core;
+using Cookie.API.Game.Job;
+using Cookie.API.Game.Map;
+using Cookie.API.Gamedata.D2p;
+using Cookie.API.Protocol.Enums;
 using Cookie.API.Protocol.Network.Types.Game.Character.Characteristic;
 using Cookie.API.Protocol.Network.Types.Game.Character.Restriction;
 using Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Job;
@@ -10,11 +16,9 @@ using Cookie.Utils.Enums;
 
 namespace Cookie.Core
 {
-    public class Character
+    public class Character : ICharacter
     {
-        public bool IsFirstConnection = false;
-
-        public Character(DofusClient client)
+        public Character(IDofusClient client)
         {
             Client = client;
             Stats = new CharacterCharacteristicsInformations();
@@ -24,15 +28,18 @@ namespace Cookie.Core
             Spells = new List<SpellItem>();
             Status = CharacterStatus.Disconnected;
             MapData = new MapData();
-            Map = new Map(Client);
+            Map = new Game.Map.Map(Client);
             GatherManager = new GatherManager(Client);
             Jobs = new List<JobExperience>();
+
+            IsFirstConnection = false;
         }
 
-        public DofusClient Client { get; set; }
-        public GatherManager GatherManager { get; set; }
+        public IDofusClient Client { get; set; }
+        public IGatherManager GatherManager { get; set; }
 
         public CharacterStatus Status { get; set; }
+        public bool IsFirstConnection { get; set; }
 
         public ulong Id { get; set; }
         public string Name { get; set; }
@@ -40,9 +47,9 @@ namespace Cookie.Core
         public bool Sex { get; set; }
         public CharacterCharacteristicsInformations Stats { get; set; }
         public EntityLook Look { get; set; }
-        public sbyte Breed { get; set; }
-        public MapData MapData { get; set; }
-        public Map Map { get; set; }
+        public BreedEnum Breed { get; set; }
+        public IMapData MapData { get; set; }
+        public API.Game.Map.IMap Map { get; set; }
 
         public int LifePercentage => (int) (Stats.LifePoints / (double) Stats.MaxLifePoints * 100);
         public int WeightPercentage => (int) (Weight / (double) MaxWeight * 100);

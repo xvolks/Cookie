@@ -59,11 +59,10 @@
     <Compile Include="Commands\Commands\MapIdCommand.cs" />
     <Compile Include="Commands\Exceptions\CommandNotFoundException.cs" />
     <Compile Include="Commands\Exceptions\NoCommandException.cs" />
-    <Compile Include="Commands\Interfaces\ICommand.cs" />
     <Compile Include="Commands\Managers\CommandManager.cs" />
     <Compile Include="Core\Account.cs" />
     <Compile Include="Core\DofusClient.cs" />
-    <Compile Include="Core\Frame\LatencyFrame.cs" />
+    <Compile Include="Core\Frames\LatencyFrame.cs" />
     <Compile Include="Game\Job\GatherManager.cs" />
     <Compile Include="Game\Map\Map.cs" />
     <Compile Include="Game\Map\MapData.cs" />

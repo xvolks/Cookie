@@ -75,6 +75,8 @@ namespace Cookie.Core
         {
             _dispatcher = new Dispatcher(this);
 
+            Debug = false;
+
             Account = new Account(Login, Password, this);
 
             // Register Handlers
@@ -160,8 +162,8 @@ namespace Cookie.Core
 
         #region Public Properties
 
-        public Account Account { get; set; }
-        public bool Debug = false;
+        public IAccount Account { get; set; }
+        public bool Debug { get; set; }
 
         #endregion
 
