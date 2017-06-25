@@ -23,7 +23,7 @@ namespace Cookie.Handlers.Game.Inventory.Exchanges
         [MessageHandler(ExchangeRequestedTradeMessage.ProtocolId)]
         private void ExchangeRequestedTradeMessageHandler(DofusClient client, ExchangeRequestedTradeMessage message)
         {
-            client.Logger.Log($"Le joueur id: {message.Source} vous demande en échange.", LogMessageType.Info);
+            Logger.Default.Log($"Le joueur id: {message.Source} vous demande en échange.", LogMessageType.Info);
             client.Send(new ExchangeAcceptMessage());
         }
 
@@ -31,36 +31,36 @@ namespace Cookie.Handlers.Game.Inventory.Exchanges
         private void ExchangeLeaveMessageHandler(DofusClient client, ExchangeLeaveMessage message)
         {
             if (!message.Success)
-                client.Logger.Log("Echange annulé.", LogMessageType.Info);
+                Logger.Default.Log("Echange annulé.", LogMessageType.Info);
         }
 
         [MessageHandler(ExchangeErrorMessage.ProtocolId)]
         private void ExchangeErrorMessageHandler(DofusClient client, ExchangeErrorMessage message)
         {
-            client.Logger.Log("Un erreur est survenue lors de l'échange.", LogMessageType.Info);
+            Logger.Default.Log("Un erreur est survenue lors de l'échange.", LogMessageType.Info);
         }
 
         [MessageHandler(ExchangeStartedWithPodsMessage.ProtocolId)]
         private void ExchangeStartedWithPodsMessageHandler(DofusClient client, ExchangeStartedWithPodsMessage message)
         {
-            client.Logger.Log("Vous avez accepté l'échange.", LogMessageType.Info);
+            Logger.Default.Log("Vous avez accepté l'échange.", LogMessageType.Info);
             if (message.FirstCharacterId == client.Account.Character.Id)
             {
                 client.Account.Character.Weight = message.FirstCharacterCurrentWeight;
                 client.Account.Character.MaxWeight = message.FirstCharacterMaxWeight;
-                client.Logger.Log(
+                Logger.Default.Log(
                     $"Vous avez {message.FirstCharacterCurrentWeight} / {message.FirstCharacterMaxWeight} pods",
                     LogMessageType.Info);
-                client.Logger.Log(
+                Logger.Default.Log(
                     $"L'échangeur a {message.SecondCharacterCurrentWeight} / {message.SecondCharacterMaxWeight} pods",
                     LogMessageType.Info);
             }
             else if (message.SecondCharacterId == client.Account.Character.Id)
             {
-                client.Logger.Log(
+                Logger.Default.Log(
                     $"Vous avez {message.SecondCharacterCurrentWeight} / {message.SecondCharacterMaxWeight} pods",
                     LogMessageType.Info);
-                client.Logger.Log(
+                Logger.Default.Log(
                     $"L'échangeur a {message.FirstCharacterCurrentWeight} / {message.FirstCharacterMaxWeight} pods",
                     LogMessageType.Info);
                 client.Account.Character.Weight = message.SecondCharacterCurrentWeight;
@@ -71,7 +71,7 @@ namespace Cookie.Handlers.Game.Inventory.Exchanges
         [MessageHandler(ExchangeObjectAddedMessage.ProtocolId)]
         private void ExchangeObjectAddedMessageHandler(DofusClient client, ExchangeObjectAddedMessage message)
         {
-            client.Logger.Log(
+            Logger.Default.Log(
                 message.Remote
                     ? $"L'échangeur a ajouté {D2OParsing.GetItemName(message.Object.ObjectGID)} x{message.Object.Quantity} à l'échange"
                     : $"Vous avez ajouté {D2OParsing.GetItemName(message.Object.ObjectGID)} x{message.Object.Quantity} à l'échange",
@@ -82,7 +82,7 @@ namespace Cookie.Handlers.Game.Inventory.Exchanges
         private void ExchangeIsReadyMessageHandler(DofusClient client, ExchangeIsReadyMessage message)
         {
             if (message.Ready)
-                client.Logger.Log("Le joueur a accepté son échange", LogMessageType.Info);
+                Logger.Default.Log("Le joueur a accepté son échange", LogMessageType.Info);
         }
     }
 }

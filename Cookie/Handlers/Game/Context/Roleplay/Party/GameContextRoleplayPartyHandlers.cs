@@ -9,14 +9,14 @@ namespace Cookie.Handlers.Game.Context.Roleplay.Party
         [MessageHandler(PartyInvitationMessage.ProtocolId)]
         private void PartyInvitationMessageHandler(DofusClient client, PartyInvitationMessage message)
         {
-            client.Logger.Log($"Le joueur {message.FromName} vous invite dans son groupe.", LogMessageType.Info);
+            Logger.Default.Log($"Le joueur {message.FromName} vous invite dans son groupe.", LogMessageType.Info);
         }
 
         [MessageHandler(PartyInvitationCancelledForGuestMessage.ProtocolId)]
         private void PartyInvitationCancelledForGuestMessageHandler(DofusClient client,
             PartyInvitationCancelledForGuestMessage message)
         {
-            client.Logger.Log($"Le joueur id: {message.CancelerId} a annulé son invitation de groupe.",
+            Logger.Default.Log($"Le joueur id: {message.CancelerId} a annulé son invitation de groupe.",
                 LogMessageType.Info);
         }
     }

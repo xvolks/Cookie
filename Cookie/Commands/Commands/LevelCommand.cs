@@ -9,7 +9,7 @@ namespace Cookie.Commands.Commands
 
         public void OnCommand(DofusClient client, string[] args)
         {
-            client.Logger.Log($"Vous êtes niveau : {client.Account.Character.Level} ",
+            Logger.Default.Log($"Vous êtes niveau : {client.Account.Character.Level} ",
                 LogMessageType.Admin);
         }
     }

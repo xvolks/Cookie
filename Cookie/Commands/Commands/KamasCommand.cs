@@ -9,7 +9,7 @@ namespace Cookie.Commands.Commands
 
         public void OnCommand(DofusClient client, string[] args)
         {
-            client.Logger.Log($"Vous avez : {client.Account.Character.Stats.Kamas} kamas.",
+            Logger.Default.Log($"Vous avez : {client.Account.Character.Stats.Kamas} kamas.",
                 LogMessageType.Admin);
         }
     }

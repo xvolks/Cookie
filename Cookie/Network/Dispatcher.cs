@@ -32,7 +32,7 @@ namespace Cookie
             var actualMessage = msgQueue.Dequeue();
 
             if (client.Debug)
-                client.Logger.Log(
+                Logger.Default.Log(
                     $"Received: ({actualMessage.MessageID}) - " + actualMessage.ToString().Split('.').Last(),
                     LogMessageType.Community);
 
@@ -48,7 +48,7 @@ namespace Cookie
                 executionTask = Task.Run(() =>
                 {
                     if (client.Debug)
-                        client.Logger.Log("NO HANDLER : " + actualMessage.ToString().Split('.').Last(),
+                        Logger.Default.Log("NO HANDLER : " + actualMessage.ToString().Split('.').Last(),
                             LogMessageType.Admin);
                 });
         }

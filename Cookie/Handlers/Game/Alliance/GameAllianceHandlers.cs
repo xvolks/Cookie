@@ -9,7 +9,7 @@ namespace Cookie.Handlers.Game.Alliance
         [MessageHandler(AllianceMotdMessage.ProtocolId)]
         private void AllianceMotdMessageHandler(DofusClient client, AllianceMotdMessage message)
         {
-            client.Logger.Log("Annonce d'Alliance : " + message.Content, LogMessageType.Alliance);
+            Logger.Default.Log("Annonce d'Alliance : " + message.Content, LogMessageType.Alliance);
         }
     }
 }

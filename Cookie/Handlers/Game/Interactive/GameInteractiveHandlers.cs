@@ -41,7 +41,7 @@ namespace Cookie.Handlers.Game.Interactive
         [MessageHandler(InteractiveUseErrorMessage.ProtocolId)]
         private void InteractiveUseErrorMessageHandler(DofusClient client, InteractiveUseErrorMessage message)
         {
-            client.Logger.Log($"Erreur sur {message.ElemId} skill {message.SkillInstanceUid}");
+            Logger.Default.Log($"Erreur sur {message.ElemId} skill {message.SkillInstanceUid}");
             client.Account.Character.GatherManager.BannedElementId.Add((int) message.ElemId);
             client.Account.Character.Status = CharacterStatus.None;
         }

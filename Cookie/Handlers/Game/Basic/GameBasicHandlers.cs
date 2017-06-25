@@ -50,7 +50,7 @@ namespace Cookie.Handlers.Game.Basic
         private void CurrentServerStatusUpdateMessageHandler(DofusClient client,
             CurrentServerStatusUpdateMessage message)
         {
-            client.Logger.Log("Server Status: " + (ServerStatusEnum) message.Status);
+            Logger.Default.Log("Server Status: " + (ServerStatusEnum) message.Status);
         }
 
         [MessageHandler(TextInformationMessage.ProtocolId)]
@@ -68,31 +68,31 @@ namespace Cookie.Handlers.Game.Basic
             switch ((TextInformationTypeEnum) message.MsgType)
             {
                 case TextInformationTypeEnum.TEXT_INFORMATION_ERROR:
-                    client.Logger.Log(text, LogMessageType.Default);
+                    Logger.Default.Log(text, LogMessageType.Default);
                     client.Account.Character.Status = CharacterStatus.None;
                     break;
                 case TextInformationTypeEnum.TEXT_INFORMATION_MESSAGE:
-                    client.Logger.Log(text, LogMessageType.Info);
+                    Logger.Default.Log(text, LogMessageType.Info);
                     break;
                 case TextInformationTypeEnum.TEXT_INFORMATION_PVP:
                 case TextInformationTypeEnum.TEXT_INFORMATION_FIGHT_LOG:
-                    client.Logger.Log(text, LogMessageType.FightLog);
+                    Logger.Default.Log(text, LogMessageType.FightLog);
                     break;
                 case TextInformationTypeEnum.TEXT_INFORMATION_POPUP:
                 case TextInformationTypeEnum.TEXT_LIVING_OBJECT:
                 case TextInformationTypeEnum.TEXT_ENTITY_TALK:
-                    client.Logger.Log(text, LogMessageType.Default);
+                    Logger.Default.Log(text, LogMessageType.Default);
                     break;
                 case TextInformationTypeEnum.TEXT_INFORMATION_FIGHT:
-                    client.Logger.Log(text, LogMessageType.FightLog);
+                    Logger.Default.Log(text, LogMessageType.FightLog);
                     break;
                 default:
-                    client.Logger.Log((TextInformationTypeEnum) message.MsgType + " | ID = " + message.MsgId,
+                    Logger.Default.Log((TextInformationTypeEnum) message.MsgType + " | ID = " + message.MsgId,
                         LogMessageType.Arena);
                     for (var i = 0; i < message.Parameters.Count; i++)
                     {
                         var t = message.Parameters[i];
-                        client.Logger.Log("Parameter[" + i + "] " + t, LogMessageType.Arena);
+                        Logger.Default.Log("Parameter[" + i + "] " + t, LogMessageType.Arena);
                     }
                     break;
             }

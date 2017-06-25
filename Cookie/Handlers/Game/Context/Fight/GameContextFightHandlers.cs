@@ -9,7 +9,7 @@ namespace Cookie.Handlers.Game.Context.Fight
         [MessageHandler(GameFightEndMessage.ProtocolId)]
         private void GameFightEndMessageHandler(DofusClient client, GameFightEndMessage message)
         {
-            client.Logger.Log("Fin du combat en : " + message.Duration / 1000 + " secondes. ", LogMessageType.FightLog);
+            Logger.Default.Log("Fin du combat en : " + message.Duration / 1000 + " secondes. ", LogMessageType.FightLog);
         }
 
         [MessageHandler(GameFightHumanReadyStateMessage.ProtocolId)]
@@ -33,13 +33,13 @@ namespace Cookie.Handlers.Game.Context.Fight
         [MessageHandler(GameFightNewRoundMessage.ProtocolId)]
         private void GameFightNewRoundMessageHandler(DofusClient client, GameFightNewRoundMessage message)
         {
-            client.Logger.Log("Nouveau tour : " + message.RoundNumber, LogMessageType.FightLog);
+            Logger.Default.Log("Nouveau tour : " + message.RoundNumber, LogMessageType.FightLog);
         }
 
         [MessageHandler(GameFightNewWaveMessage.ProtocolId)]
         private void GameFightNewWaveMessageHandler(DofusClient client, GameFightNewWaveMessage message)
         {
-            client.Logger.Log("Nombre de tours avant la prochaine vague : " + message.NbTurnBeforeNextWave,
+            Logger.Default.Log("Nombre de tours avant la prochaine vague : " + message.NbTurnBeforeNextWave,
                 LogMessageType.FightLog);
         }
 
@@ -95,7 +95,7 @@ namespace Cookie.Handlers.Game.Context.Fight
         [MessageHandler(GameFightResumeMessage.ProtocolId)]
         private void GameFightResumeMessageHandler(DofusClient client, GameFightResumeMessage message)
         {
-            client.Logger.Log("Tour(s): (" + message.GameTurn + ")", LogMessageType.FightLog);
+            Logger.Default.Log("Tour(s): (" + message.GameTurn + ")", LogMessageType.FightLog);
         }
 
         [MessageHandler(GameFightResumeWithSlavesMessage.ProtocolId)]
@@ -115,13 +115,13 @@ namespace Cookie.Handlers.Game.Context.Fight
         private void GameFightSpectatePlayerRequestMessageHandler(DofusClient client,
             GameFightSpectatePlayerRequestMessage message)
         {
-            client.Logger.Log("Un spectateur a rejoint le combat.", LogMessageType.FightLog);
+            Logger.Default.Log("Un spectateur a rejoint le combat.", LogMessageType.FightLog);
         }
 
         [MessageHandler(GameFightStartingMessage.ProtocolId)]
         private void GameFightStartingMessageHandler(DofusClient client, GameFightStartingMessage message)
         {
-            client.Logger.Log("Le combat a commencé !", LogMessageType.FightLog);
+            Logger.Default.Log("Le combat a commencé !", LogMessageType.FightLog);
         }
 
         [MessageHandler(GameFightStartMessage.ProtocolId)]
@@ -139,7 +139,7 @@ namespace Cookie.Handlers.Game.Context.Fight
         [MessageHandler(GameFightTurnEndMessage.ProtocolId)]
         private void GameFightTurnEndMessageHandler(DofusClient client, GameFightTurnEndMessage message)
         {
-            client.Logger.Log("Fin du tour.", LogMessageType.FightLog);
+            Logger.Default.Log("Fin du tour.", LogMessageType.FightLog);
         }
 
         [MessageHandler(GameFightTurnListMessage.ProtocolId)]
@@ -152,7 +152,7 @@ namespace Cookie.Handlers.Game.Context.Fight
         private void GameFightTurnReadyRequestMessageHandler(DofusClient client,
             GameFightTurnReadyRequestMessage message)
         {
-            client.Logger.Log("A votre tour de jouer.", LogMessageType.FightLog);
+            Logger.Default.Log("A votre tour de jouer.", LogMessageType.FightLog);
         }
 
         [MessageHandler(GameFightTurnResumeMessage.ProtocolId)]

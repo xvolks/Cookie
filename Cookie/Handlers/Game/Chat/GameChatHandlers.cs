@@ -13,47 +13,47 @@ namespace Cookie.Handlers.Game.Chat
             switch ((ChatChannelsMultiEnum) message.Channel)
             {
                 case ChatChannelsMultiEnum.CHANNEL_ADMIN:
-                    client.Logger.Log("(Admin) " + message.SenderName + " : " + message.Content, LogMessageType.Admin);
+                    Logger.Default.Log("(Admin) " + message.SenderName + " : " + message.Content, LogMessageType.Admin);
                     break;
                 case ChatChannelsMultiEnum.CHANNEL_ALLIANCE:
-                    client.Logger.Log("(Alliance) " + message.SenderName + " : " + message.Content,
+                    Logger.Default.Log("(Alliance) " + message.SenderName + " : " + message.Content,
                         LogMessageType.Alliance);
                     break;
                 case ChatChannelsMultiEnum.CHANNEL_ARENA:
-                    client.Logger.Log("(Kolizéum) " + message.SenderName + " : " + message.Content,
+                    Logger.Default.Log("(Kolizéum) " + message.SenderName + " : " + message.Content,
                         LogMessageType.Arena);
                     break;
                 case ChatChannelsMultiEnum.CHANNEL_COMMUNITY:
-                    client.Logger.Log("(Communauté) " + message.SenderName + " : " + message.Content,
+                    Logger.Default.Log("(Communauté) " + message.SenderName + " : " + message.Content,
                         LogMessageType.Community);
                     break;
                 case ChatChannelsMultiEnum.CHANNEL_GLOBAL:
-                    client.Logger.Log("(Général) " + message.SenderName + " : " + message.Content,
+                    Logger.Default.Log("(Général) " + message.SenderName + " : " + message.Content,
                         LogMessageType.Global);
                     break;
                 case ChatChannelsMultiEnum.CHANNEL_GUILD:
-                    client.Logger.Log("(Guilde) " + message.SenderName + " : " + message.Content, LogMessageType.Guild);
+                    Logger.Default.Log("(Guilde) " + message.SenderName + " : " + message.Content, LogMessageType.Guild);
                     break;
                 case ChatChannelsMultiEnum.CHANNEL_NOOB:
-                    client.Logger.Log("(Débutant) " + message.SenderName + " : " + message.Content,
+                    Logger.Default.Log("(Débutant) " + message.SenderName + " : " + message.Content,
                         LogMessageType.Noob);
                     break;
                 case ChatChannelsMultiEnum.CHANNEL_PARTY:
-                    client.Logger.Log("(Groupe) " + message.SenderName + " : " + message.Content, LogMessageType.Party);
+                    Logger.Default.Log("(Groupe) " + message.SenderName + " : " + message.Content, LogMessageType.Party);
                     break;
                 case ChatChannelsMultiEnum.CHANNEL_SALES:
-                    client.Logger.Log("(Commerce) " + message.SenderName + " : " + message.Content,
+                    Logger.Default.Log("(Commerce) " + message.SenderName + " : " + message.Content,
                         LogMessageType.Sales);
                     break;
                 case ChatChannelsMultiEnum.CHANNEL_SEEK:
-                    client.Logger.Log("(Recrutement) " + message.SenderName + " : " + message.Content,
+                    Logger.Default.Log("(Recrutement) " + message.SenderName + " : " + message.Content,
                         LogMessageType.Seek);
                     break;
                 case ChatChannelsMultiEnum.CHANNEL_TEAM:
-                    client.Logger.Log("(Equipe) " + message.SenderName + " : " + message.Content);
+                    Logger.Default.Log("(Equipe) " + message.SenderName + " : " + message.Content);
                     break;
                 default:
-                    client.Logger.Log(message.SenderName + " : " + message.Content, LogMessageType.Sender);
+                    Logger.Default.Log(message.SenderName + " : " + message.Content, LogMessageType.Sender);
                     break;
             }
         }
@@ -70,7 +70,7 @@ namespace Cookie.Handlers.Game.Chat
             switch ((ChatErrorEnum) message.Reason)
             {
                 case ChatErrorEnum.CHAT_ERROR_NO_GUILD:
-                    client.Logger.Log("Vous ne possedez pas de guilde.", LogMessageType.Public);
+                    Logger.Default.Log("Vous ne possedez pas de guilde.", LogMessageType.Public);
                     break;
                 case ChatErrorEnum.CHAT_ERROR_UNKNOWN:
                 case ChatErrorEnum.CHAT_ERROR_RECEIVER_NOT_FOUND:
@@ -82,7 +82,7 @@ namespace Cookie.Handlers.Game.Chat
                 case ChatErrorEnum.CHAT_ERROR_NO_TEAM:
                 case ChatErrorEnum.CHAT_ERROR_MALFORMED_CONTENT:
                 default:
-                    client.Logger.Log("Erreur : " + (ChatErrorEnum) message.Reason, LogMessageType.Public);
+                    Logger.Default.Log("Erreur : " + (ChatErrorEnum) message.Reason, LogMessageType.Public);
                     break;
             }
         }

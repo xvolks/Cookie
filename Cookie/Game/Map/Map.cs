@@ -161,17 +161,17 @@ namespace Cookie.Game.Map
             Thread.Sleep(200);
             var msg = new InteractiveUseRequestMessage((uint) id, (uint) skillId);
             _client.Send(msg);
-            _client.Logger.Log($"Récole ressource id {id}", LogMessageType.Info);
+            Logger.Default.Log($"Récole ressource id {id}", LogMessageType.Info);
         }
 
         private void CheckMapChange()
         {
             var posOld = D2OParsing.GetMapCoordinates(_client.Account.Character.MapId);
             var old = _client.Account.Character.MapId;
-            _client.Logger.Log($"[Map] Old {old} | [{posOld.X};{posOld.Y}]");
+            Logger.Default.Log($"[Map] Old {old} | [{posOld.X};{posOld.Y}]");
             Thread.Sleep(500);
             var posNew = D2OParsing.GetMapCoordinates(_client.Account.Character.MapId);
-            _client.Logger.Log($"[Map] New {_client.Account.Character.MapId}| [{posNew.X};{posNew.Y}]");
+            Logger.Default.Log($"[Map] New {_client.Account.Character.MapId}| [{posNew.X};{posNew.Y}]");
             if (old == _client.Account.Character.MapId)
                 LaunchChangeMap(_mapIdForChanging);
             else

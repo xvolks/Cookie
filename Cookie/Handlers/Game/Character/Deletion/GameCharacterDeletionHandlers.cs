@@ -9,7 +9,7 @@ namespace Cookie.Handlers.Game.Character.Deletion
         [MessageHandler(CharacterDeletionErrorMessage.ProtocolId)]
         private void CharacterDeletionErrorMessageHandler(DofusClient client, CharacterDeletionErrorMessage message)
         {
-            client.Logger.Log("Une erreur est survenue lors de la suppression du personnage.", LogMessageType.Info);
+            Logger.Default.Log("Une erreur est survenue lors de la suppression du personnage.", LogMessageType.Info);
         }
     }
 }

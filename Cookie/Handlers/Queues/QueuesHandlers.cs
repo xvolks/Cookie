@@ -10,7 +10,7 @@ namespace Cookie.Handlers.Queues
         private void LoginQueueStatusMessageHandler(DofusClient client, LoginQueueStatusMessage message)
         {
             if (message.Position != 0 && message.Total != 0)
-                client.Logger.Log("Vous êtes en position " + message.Position + " sur " + message.Total +
+                Logger.Default.Log("Vous êtes en position " + message.Position + " sur " + message.Total +
                                   " dans la file d'attente.");
         }
 
@@ -18,7 +18,7 @@ namespace Cookie.Handlers.Queues
         private void QueueStatusMessageHandler(DofusClient client, QueueStatusMessage message)
         {
             if (message.Position != 0 && message.Total != 0)
-                client.Logger.Log("Vous êtes en position " + message.Position + " sur " + message.Total +
+                Logger.Default.Log("Vous êtes en position " + message.Position + " sur " + message.Total +
                                   " dans la file d'attente.");
         }
     }

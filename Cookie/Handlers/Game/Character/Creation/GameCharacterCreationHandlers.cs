@@ -45,15 +45,15 @@ namespace Cookie.Handlers.Game.Character.Creation
                 case CharacterCreationResultEnum.ERR_NO_REASON:
                     break;
                 case CharacterCreationResultEnum.ERR_INVALID_NAME:
-                    client.Logger.Log("Ce nom de personnage est invalide.", LogMessageType.Public);
+                    Logger.Default.Log("Ce nom de personnage est invalide.", LogMessageType.Public);
                     client.Dispose();
                     break;
                 case CharacterCreationResultEnum.ERR_NAME_ALREADY_EXISTS:
-                    client.Logger.Log("Ce nom de personnage est déjà pris.", LogMessageType.Public);
+                    Logger.Default.Log("Ce nom de personnage est déjà pris.", LogMessageType.Public);
                     client.Dispose();
                     break;
                 case CharacterCreationResultEnum.ERR_TOO_MANY_CHARACTERS:
-                    client.Logger.Log("Vous avez déjà atteint la limite de personnages disponible.",
+                    Logger.Default.Log("Vous avez déjà atteint la limite de personnages disponible.",
                         LogMessageType.Public);
                     client.Dispose();
                     break;
@@ -72,7 +72,7 @@ namespace Cookie.Handlers.Game.Character.Creation
         private void CharacterNameSuggestionFailureMessageHandler(DofusClient client,
             CharacterNameSuggestionFailureMessage message)
         {
-            client.Logger.Log($"{message.Reason}", LogMessageType.Public);
+            Logger.Default.Log($"{message.Reason}", LogMessageType.Public);
             client.Dispose();
         }
 
@@ -80,7 +80,7 @@ namespace Cookie.Handlers.Game.Character.Creation
         private void CharacterNameSuggestionSuccessMessageHandler(DofusClient client,
             CharacterNameSuggestionSuccessMessage message)
         {
-            client.Logger.Log($"Pseudo Suggérer: {message.Suggestion}");
+            Logger.Default.Log($"Pseudo Suggérer: {message.Suggestion}");
             client.Account.Character.Name = message.Suggestion;
 
             var test = new CharacterCanBeCreatedRequestMessage();

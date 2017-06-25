@@ -54,7 +54,7 @@ namespace Cookie.Handlers.Game.Context
         [MessageHandler(GameMapNoMovementMessage.ProtocolId)]
         private void GameMapNoMovementMessageHandler(DofusClient client, GameMapNoMovementMessage message)
         {
-            client.Logger.Log("Erreur lors du déplacement sur cellX : " + message.CellX + "cellY : " + message.CellY);
+            Logger.Default.Log("Erreur lors du déplacement sur cellX : " + message.CellX + "cellY : " + message.CellY);
             client.Account.Character.Status = CharacterStatus.None;
         }
 
@@ -64,7 +64,7 @@ namespace Cookie.Handlers.Game.Context
             var _ListDispositions = message.Dispositions;
             foreach (var player in _ListDispositions)
                 if (player.ObjectId == client.Account.Character.Id)
-                    client.Logger.Log("Actualisation des joueurs: Vous êtes sur la cellID: " + player.CellId);
+                    Logger.Default.Log("Actualisation des joueurs: Vous êtes sur la cellID: " + player.CellId);
         }
     }
 }

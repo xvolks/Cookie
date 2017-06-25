@@ -32,14 +32,14 @@ namespace Cookie.Handlers.Game.Context.Roleplay.Fight
             GameRolePlayPlayerFightFriendlyAnsweredMessage message)
         {
             if (!message.Accept)
-                client.Logger.Log("Fermeture de la demande de défi.", LogMessageType.Info);
+                Logger.Default.Log("Fermeture de la demande de défi.", LogMessageType.Info);
         }
 
         [MessageHandler(GameRolePlayPlayerFightFriendlyRequestedMessage.ProtocolId)]
         private void GameRolePlayPlayerFightFriendlyRequestedMessageHandler(DofusClient client,
             GameRolePlayPlayerFightFriendlyRequestedMessage message)
         {
-            client.Logger.Log($"Le joueur id: {message.SourceId} vous défi.", LogMessageType.Info);
+            Logger.Default.Log($"Le joueur id: {message.SourceId} vous défi.", LogMessageType.Info);
             Randomize.RunBetween(
                 () => client.Send(new GameRolePlayPlayerFightFriendlyAnswerMessage(message.FightId, false)), 2000,
                 4000);

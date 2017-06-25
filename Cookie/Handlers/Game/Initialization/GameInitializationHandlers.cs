@@ -31,7 +31,7 @@ namespace Cookie.Handlers.Game.Initialization
         [MessageHandler(OnConnectionEventMessage.ProtocolId)]
         private void OnConnectionEventMessageHandler(DofusClient client, OnConnectionEventMessage message)
         {
-            client.Logger.Log("Connection Event Type: " + message.EventType + " | MessageID: " + message.MessageID,
+            Logger.Default.Log("Connection Event Type: " + message.EventType + " | MessageID: " + message.MessageID,
                 LogMessageType.Arena);
         }
 

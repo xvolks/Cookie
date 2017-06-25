@@ -17,7 +17,7 @@ namespace Cookie.Handlers.Game.Character.Choice
             else
             {
                 var c = message.Characters[0];
-                client.Logger.Log("Connexion sur le personnage " + c.Name);
+                Logger.Default.Log("Connexion sur le personnage " + c.Name);
 
                 client.Send(client.Account.Character.IsFirstConnection == false
                     ? new CharacterSelectionMessage(c.ObjectID)
@@ -31,14 +31,14 @@ namespace Cookie.Handlers.Game.Character.Choice
         {
             if (message.Characters.Count == 0)
             {
-                client.Logger.Log("Pas de personnage.");
-                client.Logger.Log("Création du personnage en cours.");
+                Logger.Default.Log("Pas de personnage.");
+                Logger.Default.Log("Création du personnage en cours.");
                 client.Send(new CharacterNameSuggestionRequestMessage());
             }
             else
             {
                 var c = message.Characters[0];
-                client.Logger.Log("Connexion sur le personnage " + c.Name);
+                Logger.Default.Log("Connexion sur le personnage " + c.Name);
 
                 client.Send(client.Account.Character.IsFirstConnection == false
                     ? new CharacterSelectionMessage(c.ObjectID)

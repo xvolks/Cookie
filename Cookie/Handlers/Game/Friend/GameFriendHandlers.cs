@@ -38,7 +38,7 @@ namespace Cookie.Handlers.Game.Friend
                     case (byte) PlayerStateEnum.UNKNOWN_STATE:
                         continue;
                     default:
-                        client.Logger.Log($"{friend.AccountName} connecté");
+                        Logger.Default.Log($"{friend.AccountName} connecté");
                         break;
                 }
         }
@@ -71,7 +71,7 @@ namespace Cookie.Handlers.Game.Friend
         [MessageHandler(FriendDeleteResultMessage.ProtocolId)]
         private void FriendDeleteResultMessageHandler(DofusClient client, FriendDeleteResultMessage message)
         {
-            client.Logger.Log($"Vous venez de supprimer {message.Name} de votre liste d'ami ", LogMessageType.Info);
+            Logger.Default.Log($"Vous venez de supprimer {message.Name} de votre liste d'ami ", LogMessageType.Info);
         }
     }
 }

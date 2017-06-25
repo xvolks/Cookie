@@ -27,7 +27,7 @@ namespace Cookie.Handlers.Connection
              * donnés par le packet, en RSA, ainsi que préciser la version du jeu, pour cela il faut changer les variables
              * dans le fichier GameConstant situé dans le dossier Utils du bot.
              */
-            client.Logger.Log("Connecté au serveur d'authentification.");
+            Logger.Default.Log("Connecté au serveur d'authentification.");
             // On crypte le login et mot de passe
             var credentials = Rsa.Encrypt(message.Key, client.Account.Login, client.Account.Password, message.Salt);
             // On défini la version du jeu
@@ -37,7 +37,7 @@ namespace Cookie.Handlers.Connection
             // On précise qu'on veut se connecter sur ce compte et cette version et on envois le packet
             var identificationMessage =
                 new IdentificationMessage(true, false, false, version, "fr", credentials, 0, 0, new ushort[0]);
-            client.Logger.Log("Envois des informations d'identification...");
+            Logger.Default.Log("Envois des informations d'identification...");
             client.Send(identificationMessage);
         }
 
@@ -50,10 +50,10 @@ namespace Cookie.Handlers.Connection
              * On affiche donc la raison et le temps.
              * */
             if (message.BanEndDate != 0)
-                client.Logger.Log($"Votre compte est banni jusqu'au : {message.BanEndDate.UnixTimestampToDateTime()}.",
+                Logger.Default.Log($"Votre compte est banni jusqu'au : {message.BanEndDate.UnixTimestampToDateTime()}.",
                     LogMessageType.Public);
             else
-                client.Logger.Log("Votre compte est banni pour : " + message.Reason, LogMessageType.Public);
+                Logger.Default.Log("Votre compte est banni pour : " + message.Reason, LogMessageType.Public);
             client.Dispose();
         }
 
@@ -61,15 +61,15 @@ namespace Cookie.Handlers.Connection
         private void IdentificationFailedForBadVersionMessageHandler(DofusClient client,
             IdentificationFailedForBadVersionMessage message)
         {
-            client.Logger.Log("La version n'est pas bonne. Version requise : " + message.RequiredVersion,
+            Logger.Default.Log("La version n'est pas bonne. Version requise : " + message.RequiredVersion,
                 LogMessageType.Public);
         }
 
         [MessageHandler(IdentificationFailedMessage.ProtocolId)]
         private void IdentificationFailedMessageHandler(DofusClient client, IdentificationFailedMessage message)
         {
-            client.Logger.Log("Identification échouée !", LogMessageType.Public);
-            client.Logger.Log(((IdentificationFailureReasonEnum) message.Reason).ToString(), LogMessageType.Public);
+            Logger.Default.Log("Identification échouée !", LogMessageType.Public);
+            Logger.Default.Log(((IdentificationFailureReasonEnum) message.Reason).ToString(), LogMessageType.Public);
             client.Dispose();
         }
 
@@ -105,30 +105,30 @@ namespace Cookie.Handlers.Connection
         private void SelectedServerDataExtendedMessageHandler(DofusClient client,
             SelectedServerDataExtendedMessage message)
         {
-            client.Logger.Log("Sélection du serveur " + D2OParsing.GetServerName(message.ServerId));
+            Logger.Default.Log("Sélection du serveur " + D2OParsing.GetServerName(message.ServerId));
             client.Account.Ticket = AES.DecodeWithAES(message.Ticket);
-            client.Logger.Log("Connexion en cours <" + message.Address + ":" + message.Port + ">");
+            Logger.Default.Log("Connexion en cours <" + message.Address + ":" + message.Port + ">");
             client.ChangeRemote(message.Address, message.Port);
         }
 
         [MessageHandler(SelectedServerDataMessage.ProtocolId)]
         private void SelectedServerDataMessageMessageHandler(DofusClient client, SelectedServerDataMessage message)
         {
-            client.Logger.Log("Sélection du serveur " + D2OParsing.GetServerName(message.ServerId));
+            Logger.Default.Log("Sélection du serveur " + D2OParsing.GetServerName(message.ServerId));
             client.Account.Ticket = AES.DecodeWithAES(message.Ticket);
-            client.Logger.Log("Connexion en cours <" + message.Address + ":" + message.Port + ">");
+            Logger.Default.Log("Connexion en cours <" + message.Address + ":" + message.Port + ">");
             client.ChangeRemote(message.Address, message.Port);
         }
 
         [MessageHandler(SelectedServerRefusedMessage.ProtocolId)]
         private void SelectedServerRefusedMessageHandler(DofusClient client, SelectedServerRefusedMessage message)
         {
-            client.Logger.Log($"Le serveur {D2OParsing.GetServerName(message.ServerId)} n'est pas accessible",
+            Logger.Default.Log($"Le serveur {D2OParsing.GetServerName(message.ServerId)} n'est pas accessible",
                 LogMessageType.Public);
             switch ((ServerConnectionErrorEnum) message.Error)
             {
                 case ServerConnectionErrorEnum.SERVER_CONNECTION_ERROR_DUE_TO_STATUS:
-                    client.Logger.Log($"Status du serveur: {(ServerStatusEnum) message.ServerStatus}",
+                    Logger.Default.Log($"Status du serveur: {(ServerStatusEnum) message.ServerStatus}",
                         LogMessageType.Public);
                     break;
                 case ServerConnectionErrorEnum.SERVER_CONNECTION_ERROR_NO_REASON:
@@ -165,7 +165,7 @@ namespace Cookie.Handlers.Connection
         [MessageHandler(ServerStatusUpdateMessage.ProtocolId)]
         private void ServerStatusUpdateMessageHandler(DofusClient client, ServerStatusUpdateMessage message)
         {
-            client.Logger.Log(
+            Logger.Default.Log(
                 D2OParsing.GetServerName(message.Server.ObjectID) + ": " + (ServerStatusEnum) message.Server.Status,
                 LogMessageType.Default);
         }

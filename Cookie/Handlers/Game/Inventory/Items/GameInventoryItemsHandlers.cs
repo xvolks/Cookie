@@ -217,14 +217,14 @@ namespace Cookie.Handlers.Game.Inventory.Items
         [MessageHandler(ObtainedItemMessage.ProtocolId)]
         private void ObtainedItemMessageHandler(DofusClient client, ObtainedItemMessage message)
         {
-            client.Logger.Log(
+            Logger.Default.Log(
                 $"Tu as reçu : {FastD2IReader.Instance.GetText(ObjectDataManager.Instance.Get<Item>(message.GenericId).NameId)} x {message.BaseQuantity}");
         }
 
         [MessageHandler(GoldAddedMessage.ProtocolId)]
         private void GoldAddedMessageHandler(DofusClient client, GoldAddedMessage message)
         {
-            client.Logger.Log(
+            Logger.Default.Log(
                 $"Tu as reçu : {message.Gold}");
         }
 
@@ -232,29 +232,29 @@ namespace Cookie.Handlers.Game.Inventory.Items
         private void ExchangeObjectRemovedMessageHandler(DofusClient client, ExchangeObjectRemovedMessage message)
         {
             if (message.Remote)
-                client.Logger.Log($"L'échangeur a retiré un item de l'échange", LogMessageType.Info);
+                Logger.Default.Log($"L'échangeur a retiré un item de l'échange", LogMessageType.Info);
             else
-                client.Logger.Log($"Vous avez retiré un item de l'échange", LogMessageType.Info);
+                Logger.Default.Log($"Vous avez retiré un item de l'échange", LogMessageType.Info);
         }
 
         [MessageHandler(ExchangeKamaModifiedMessage.ProtocolId)]
         private void ExchangeKamaModifiedMessageHandler(DofusClient client, ExchangeKamaModifiedMessage message)
         {
             if (message.Remote)
-                client.Logger.Log($"L'échangeur a ajouté {message.Quantity} kamas à l'échange", LogMessageType.Info);
+                Logger.Default.Log($"L'échangeur a ajouté {message.Quantity} kamas à l'échange", LogMessageType.Info);
             else
-                client.Logger.Log($"Vous avez ajouté {message.Quantity} kamas à l'échange", LogMessageType.Info);
+                Logger.Default.Log($"Vous avez ajouté {message.Quantity} kamas à l'échange", LogMessageType.Info);
         }
 
         [MessageHandler(ExchangeObjectModifiedMessage.ProtocolId)]
         private void ExchangeObjectModifiedMessageHandler(DofusClient client, ExchangeObjectModifiedMessage message)
         {
             if (message.Remote)
-                client.Logger.Log(
+                Logger.Default.Log(
                     $"L'échangeur a modifié le nombre de {D2OParsing.GetItemName(message.Object.ObjectGID)} en x{message.Object.Quantity}",
                     LogMessageType.Info);
             else
-                client.Logger.Log(
+                Logger.Default.Log(
                     $"Vous avez modifié le nombre de {D2OParsing.GetItemName(message.Object.ObjectGID)} en x{message.Object.Quantity}",
                     LogMessageType.Info);
         }

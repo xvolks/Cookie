@@ -14,7 +14,7 @@ namespace Cookie.Handlers.Connection.Register
             /*
              * On reçoit ce packet sur un nouveau compte, il faut donc générer aléatoirement un pseudo afin de poursuivre le jeu.
              */
-            client.Logger.Log("Vous devez choisir un pseudo pour pouvoir vous connecter.", LogMessageType.Public);
+            Logger.Default.Log("Vous devez choisir un pseudo pour pouvoir vous connecter.", LogMessageType.Public);
             // Ici on génère donc un pseudo de 10 caractères aléatoires.
             var random = new Random();
             var nickname = random.RandomString(10);
@@ -29,7 +29,7 @@ namespace Cookie.Handlers.Connection.Register
         private void NicknameAcceptedMessageHandler(DofusClient client, NicknameAcceptedMessage message)
         {
             // Notre pseudo est bien accepté, on affiche un message.
-            client.Logger.Log($"Vous avez choisi le pseudo : {client.Account.Nickname}", LogMessageType.Info);
+            Logger.Default.Log($"Vous avez choisi le pseudo : {client.Account.Nickname}", LogMessageType.Info);
         }
     }
 }

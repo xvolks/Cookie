@@ -61,7 +61,7 @@ namespace Cookie
                         Debug = true
                     };
 
-                    _client.Logger.OnLog += Logger_OnLog;
+                    Logger.Default.OnLog += Logger_OnLog;
                 });
             }
             catch (Exception exception)
@@ -197,7 +197,7 @@ namespace Cookie
             if (_client.Account.Character.Status == CharacterStatus.Disconnected) return;
             if (string.IsNullOrWhiteSpace(ChatTextBox.Text))
             {
-                _client.Logger.Log("Vous ne pouvez pas envoyer un texte vide.", LogMessageType.Public);
+                Logger.Default.Log("Vous ne pouvez pas envoyer un texte vide.", LogMessageType.Public);
             }
             else
             {
@@ -210,7 +210,7 @@ namespace Cookie
                     }
                     catch
                     {
-                        _client.Logger.Log("Commande Incorrecte ou qui a échouée.", LogMessageType.Public);
+                        Logger.Default.Log("Commande Incorrecte ou qui a échouée.", LogMessageType.Public);
                     }
 
                     ChatTextBox.BeginInvoke(new Action(() => ChatTextBox.Text = ""));

@@ -19,7 +19,7 @@ namespace Cookie.Handlers.Game.Approach
         [MessageHandler(AccountLoggingKickedMessage.ProtocolId)]
         private void AccountLoggingKickedMessageHandler(DofusClient client, AccountLoggingKickedMessage message)
         {
-            client.Logger.Log(
+            Logger.Default.Log(
                 $"Compte kick pour {message.Days} jours, {message.Hours} heures, {message.Minutes} minutes :'( ",
                 LogMessageType.Public);
             client.Dispose();
@@ -28,7 +28,7 @@ namespace Cookie.Handlers.Game.Approach
         [MessageHandler(HelloGameMessage.ProtocolId)]
         private void HelloGameMessageHandler(DofusClient client, HelloGameMessage message)
         {
-            client.Logger.Log("Connecté au serveur de jeu.");
+            Logger.Default.Log("Connecté au serveur de jeu.");
             var atm = new AuthenticationTicketMessage("fr", client.Account.Ticket);
             client.Send(atm);
         }

@@ -11,7 +11,7 @@ namespace Cookie.Commands.Commands
         public void OnCommand(DofusClient client, string[] args)
         {
             var pos = D2OParsing.GetMapCoordinates(client.Account.Character.MapId);
-            client.Logger.Log($"MapID : {client.Account.Character.MapId} | [{pos.X};{pos.Y}]",
+            Logger.Default.Log($"MapID : {client.Account.Character.MapId} | [{pos.X};{pos.Y}]",
                 LogMessageType.Admin);
         }
     }

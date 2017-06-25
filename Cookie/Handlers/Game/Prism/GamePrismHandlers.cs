@@ -9,7 +9,7 @@ namespace Cookie.Handlers.Game.Prism
         [MessageHandler(PrismsListMessage.ProtocolId)]
         private void PrismsListMessageHandler(DofusClient client, PrismsListMessage message)
         {
-            //message.Prisms.ForEach(p => Client.Logger.Log($"Prism: Alliance({p.AllianceId}) SubArea({p.SubAreaId})"));
+            //message.Prisms.ForEach(p => Logger.Default.Log($"Prism: Alliance({p.AllianceId}) SubArea({p.SubAreaId})"));
         }
 
         [MessageHandler(PrismsListUpdateMessage.ProtocolId)]

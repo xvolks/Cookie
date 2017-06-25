@@ -25,7 +25,7 @@ namespace Cookie.Handlers.Game.Achievement
         {
             var text = FastD2IReader.Instance.GetText(ObjectDataManager.Instance
                 .Get<Cookie.API.Datacenter.Achievement>(message.ObjectId).NameId);
-            client.Logger.Log($"Succés {text} obtenu");
+            Logger.Default.Log($"Succés {text} obtenu");
         }
     }
 }

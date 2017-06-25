@@ -30,7 +30,7 @@ namespace Cookie.Handlers.Game.Context.Roleplay
         [MessageHandler(MapFightCountMessage.ProtocolId)]
         private void MapFightCountMessageHandler(DofusClient client, MapFightCountMessage message)
         {
-            client.Logger.Log($"Il y a {message.FightCount} combat(s) sur la map.", LogMessageType.Info);
+            Logger.Default.Log($"Il y a {message.FightCount} combat(s) sur la map.", LogMessageType.Info);
         }
 
         [MessageHandler(MapComplementaryInformationsDataMessage.ProtocolId)]
@@ -62,7 +62,7 @@ namespace Cookie.Handlers.Game.Context.Roleplay
         [MessageHandler(TeleportOnSameMapMessage.ProtocolId)]
         private void TeleportOnSameMapMessageHandler(DofusClient client, TeleportOnSameMapMessage message)
         {
-            client.Logger.Log($"Un joueur s'est téléporté sur la cellId : {message.CellId}.", LogMessageType.Info);
+            Logger.Default.Log($"Un joueur s'est téléporté sur la cellId : {message.CellId}.", LogMessageType.Info);
         }
     }
 }

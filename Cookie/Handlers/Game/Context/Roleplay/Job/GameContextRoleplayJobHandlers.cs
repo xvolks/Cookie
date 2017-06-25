@@ -24,7 +24,7 @@ namespace Cookie.Handlers.Game.Context.Roleplay.Job
         private void JobLevelUpMessageHandler(DofusClient client, JobLevelUpMessage message)
         {
             var jobName = D2OParsing.GetJobName(message.JobsDescription.JobId);
-            client.Logger.Log("Votre métier de " + jobName + " vient de passer niveau " + message.NewLevel);
+            Logger.Default.Log("Votre métier de " + jobName + " vient de passer niveau " + message.NewLevel);
         }
 
         [MessageHandler(JobCrafterDirectorySettingsMessage.ProtocolId)]
@@ -46,7 +46,7 @@ namespace Cookie.Handlers.Game.Context.Roleplay.Job
                     job.JobXpNextLevelFloor = message.ExperiencesUpdate.JobXpNextLevelFloor;
                     break;
                 }
-            client.Logger.Log(
+            Logger.Default.Log(
                 $"{FastD2IReader.Instance.GetText(ObjectDataManager.Instance.Get<API.Datacenter.Job>(message.ExperiencesUpdate.JobId).NameId)} | Level: {message.ExperiencesUpdate.JobLevel} | Exp: {message.ExperiencesUpdate.JobXP}");
         }
     }

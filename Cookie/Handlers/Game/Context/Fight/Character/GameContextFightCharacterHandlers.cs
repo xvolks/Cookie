@@ -10,7 +10,7 @@ namespace Cookie.Handlers.Game.Context.Fight.Character
         private void GameFightShowFighterMessageHandler(DofusClient client, GameFightShowFighterMessage message)
         {
             if (message.Informations.ContextualId == client.Account.Character.Id)
-                client.Logger.Log("Vous êtes entré dans un combat !", LogMessageType.Info);
+                Logger.Default.Log("Vous êtes entré dans un combat !", LogMessageType.Info);
         }
     }
 }

@@ -172,7 +172,7 @@ namespace Cookie.Core
             base.DisconnectedEvent();
             if (Account == null) return;
             Account.Character.Status = CharacterStatus.Disconnected;
-            Logger.Log("Vous avez été déconnecté.", LogMessageType.Public);
+            Logger.Default.Log("Vous avez été déconnecté.", LogMessageType.Public);
             Account = null;
         }
 
@@ -232,7 +232,7 @@ namespace Cookie.Core
             lock (Sender)
             {
                 if (Debug)
-                    Logger.Log($"Send: ({msg.MessageID}) - " + msg.ToString().Split('.').Last(), LogMessageType.Arena);
+                    Logger.Default.Log($"Send: ({msg.MessageID}) - " + msg.ToString().Split('.').Last(), LogMessageType.Arena);
                 Socket.Send(writer.Data);
             }
         }
@@ -263,7 +263,7 @@ namespace Cookie.Core
 
         public void Log(string text, LogMessageType type = LogMessageType.Divers)
         {
-            Logger.Log(text, type);
+            Logger.Default.Log(text, type);
         }
 
         #endregion

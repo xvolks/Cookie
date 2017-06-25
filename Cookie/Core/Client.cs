@@ -13,7 +13,6 @@ namespace Cookie.Core
 
         public byte[] Buffer = new byte[BufferLength];
         public Socket Socket;
-        public Logger Logger = Logger.Default;
 
         private SocketAsyncEventArgs _receiveEvent;
         private event Action Disconnected;
@@ -44,7 +43,7 @@ namespace Cookie.Core
         public Client(string ip, short port)
         {
             Sender = new object();
-            Logger.Log($"Connexion en cours <{ip}:{port}>");
+            Logger.Default.Log($"Connexion en cours <{ip}:{port}>");
             Connect(ip, port);
         }
 
