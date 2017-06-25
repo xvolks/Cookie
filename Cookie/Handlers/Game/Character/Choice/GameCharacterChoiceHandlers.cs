@@ -55,7 +55,7 @@ namespace Cookie.Handlers.Game.Character.Choice
             client.Account.Character.Name = message.Infos.Name;
             client.Account.Character.Sex = message.Infos.Sex;
             client.Account.Character.Look = message.Infos.EntityLook;
-            client.Account.Character.Breed = (BreedEnum)message.Infos.Breed;
+            client.Account.Character.Breed = (BreedEnum) message.Infos.Breed;
         }
 
         [MessageHandler(CharacterSelectedForceMessage.ProtocolId)]

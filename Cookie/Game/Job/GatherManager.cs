@@ -2,7 +2,6 @@
 using Cookie.API.Core;
 using Cookie.API.Game.Job;
 using Cookie.API.Protocol.Network.Types.Game.Interactive;
-using Cookie.Core;
 using Cookie.Utils.Enums;
 
 namespace Cookie.Game.Job

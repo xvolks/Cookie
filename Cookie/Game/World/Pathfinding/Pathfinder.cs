@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Linq;
 using Cookie.API.Game.Map;
 using Cookie.API.Gamedata.D2p;
-using Cookie.Game.Map;
 
 namespace Cookie.Game.World.Pathfinding
 {

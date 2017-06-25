@@ -1,7 +1,7 @@
-﻿using Cookie.API.Protocol.Network.Messages.Game.Interactive;
+﻿using System.Collections.Generic;
+using Cookie.API.Protocol.Network.Messages.Game.Interactive;
 using Cookie.API.Protocol.Network.Types.Game.Context.Roleplay;
 using Cookie.API.Protocol.Network.Types.Game.Interactive;
-using System.Collections.Generic;
 
 namespace Cookie.API.Game.Map
 {

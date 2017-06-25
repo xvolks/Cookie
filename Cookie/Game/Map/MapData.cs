@@ -7,6 +7,7 @@ using Cookie.API.Gamedata.D2p;
 using Cookie.API.Protocol.Network.Messages.Game.Interactive;
 using Cookie.API.Protocol.Network.Types.Game.Context.Roleplay;
 using Cookie.API.Protocol.Network.Types.Game.Interactive;
+using IMap = Cookie.API.Gamedata.D2p.IMap;
 
 namespace Cookie.Game.Map
 {
@@ -33,7 +34,7 @@ namespace Cookie.Game.Map
         public List<InteractiveElement> InteractiveElements { get; set; }
 
         public List<StatedElement> StatedElements { get; set; }
-        public API.Gamedata.D2p.IMap Data { get; set ; }
+        public IMap Data { get; set; }
 
         public void ParseLocation(int mapId)
         {

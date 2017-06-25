@@ -3,7 +3,7 @@
 namespace Cookie.API.Gamedata.D2p
 {
     /// <summary>
-    /// Represents some extra data of the current map
+    ///     Represents some extra data of the current map
     /// </summary>
     public interface IMap
     {
@@ -14,7 +14,7 @@ namespace Cookie.API.Gamedata.D2p
         int BackgroundGreen { get; set; }
         int BackgroundRed { get; set; }
         int BackgroundsCount { get; set; }
-        int BottomNeighbourId  { get; set; }
+        int BottomNeighbourId { get; set; }
         bool Encrypted { get; set; }
         int EncryptedVersion { get; set; }
         List<Fixture> ForegroundFixtures { get; set; }
@@ -44,25 +44,27 @@ namespace Cookie.API.Gamedata.D2p
         double ZoomScale { get; set; }
 
         /// <summary>
-        /// Gets the list of cells in the current map
+        ///     Gets the list of cells in the current map
         /// </summary>
         List<CellData> Cells { get; }
+
         /// <summary>
-        /// Gets the cells count in the current map
+        ///     Gets the cells count in the current map
         /// </summary>
         int CellsCount { get; }
+
         /// <summary>
-        /// Looks if a cell is in line of sight
+        ///     Looks if a cell is in line of sight
         /// </summary>
         /// <param name="cellId">The cell's id</param>
         /// <returns>True if the cell is in line of sight</returns>
         bool IsLineOfSight(int cellId);
+
         /// <summary>
-        /// Looks if a cell is walkable
+        ///     Looks if a cell is walkable
         /// </summary>
         /// <param name="cellId">The cell's id</param>
         /// <returns>True if the cell is walkable</returns>
         bool IsWalkable(int cellId);
-
     }
 }
