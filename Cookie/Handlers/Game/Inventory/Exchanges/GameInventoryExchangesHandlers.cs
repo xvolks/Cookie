@@ -1,7 +1,7 @@
 ﻿using Cookie.API.Network;
+using Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges;
 using Cookie.Core;
 using Cookie.Gamedata;
-using Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges;
 
 namespace Cookie.Handlers.Game.Inventory.Exchanges
 {

@@ -1,7 +1,7 @@
-﻿using Cookie.Core;
-using Cookie.API.Gamedata.D2o;
+﻿using Cookie.API.Gamedata.D2o;
 using Cookie.API.Network;
 using Cookie.API.Protocol.Network.Messages.Game.Achievement;
+using Cookie.Core;
 
 namespace Cookie.Handlers.Game.Achievement
 {
@@ -24,7 +24,7 @@ namespace Cookie.Handlers.Game.Achievement
         private void AchievementFinishedMessageHandler(Client client, AchievementFinishedMessage message)
         {
             var text = FastD2IReader.Instance.GetText(ObjectDataManager.Instance
-                .Get<Cookie.API.Datacenter.Achievement>(message.ObjectId).NameId);
+                .Get<API.Datacenter.Achievement>(message.ObjectId).NameId);
             Logger.Default.Log($"Succés {text} obtenu");
         }
     }

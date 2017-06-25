@@ -37,13 +37,9 @@ namespace Cookie
                     LogMessageType.Community);
 
             if (methods.ContainsKey(actualMessage.MessageID))
-            {
                 foreach (var method in methods[actualMessage.MessageID])
-                {
                     executionTask = Task.Run(() => { method.Invoke(actualMessage, client); });
-                }
-            }
-                //executionTask = Task.Run(() => { methods[actualMessage.MessageID].Invoke(actualMessage, client); });
+            //executionTask = Task.Run(() => { methods[actualMessage.MessageID].Invoke(actualMessage, client); });
             else
                 executionTask = Task.Run(() =>
                 {
@@ -82,7 +78,7 @@ namespace Cookie
                             "Only two parameters is allowed to use the MessageHandler attribute. (method {0})",
                             methodInfo.Name));
 
-                    if(!methods.ContainsKey(attributes.First().MessageId))
+                    if (!methods.ContainsKey(attributes.First().MessageId))
                         methods[attributes.First().MessageId] = new List<MethodHandler>();
                     methods[attributes.First().MessageId].Add(new MethodHandler(methodInfo, obj, attributes));
                     //methods.Add(attributes.First().MessageId, new MethodHandler(methodInfo, obj, attributes));

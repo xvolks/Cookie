@@ -161,7 +161,7 @@ namespace Cookie.Game.Map
             Thread.Sleep(200);
             var msg = new InteractiveUseRequestMessage((uint) id, (uint) skillId);
             _client.Send(msg);
-            Logger.Default.Log($"Récole ressource id {id}", LogMessageType.Info);
+            Logger.Default.Log($"Récolte ressource id {id}", LogMessageType.Info);
         }
 
         private void CheckMapChange()

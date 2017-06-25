@@ -11,7 +11,7 @@ namespace Cookie.Handlers.Queues
         {
             if (message.Position != 0 && message.Total != 0)
                 Logger.Default.Log("Vous êtes en position " + message.Position + " sur " + message.Total +
-                                  " dans la file d'attente.");
+                                   " dans la file d'attente.");
         }
 
         [MessageHandler(QueueStatusMessage.ProtocolId)]
@@ -19,7 +19,7 @@ namespace Cookie.Handlers.Queues
         {
             if (message.Position != 0 && message.Total != 0)
                 Logger.Default.Log("Vous êtes en position " + message.Position + " sur " + message.Total +
-                                  " dans la file d'attente.");
+                                   " dans la file d'attente.");
         }
     }
 }

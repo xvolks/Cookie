@@ -1,6 +1,4 @@
-﻿using Cookie.API.Gamedata.D2o;
-
-namespace Cookie.API.Gamedata.D2o.other
+﻿namespace Cookie.API.Gamedata.D2o.other
 {
     public class Point : IDataObject
     {

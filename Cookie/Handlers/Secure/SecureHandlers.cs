@@ -1,6 +1,6 @@
 ﻿using Cookie.API.Network;
-using Cookie.Core;
 using Cookie.API.Protocol.Network.Messages.Secure;
+using Cookie.Core;
 
 namespace Cookie.Handlers.Secure
 {

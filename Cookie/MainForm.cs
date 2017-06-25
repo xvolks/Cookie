@@ -43,6 +43,8 @@ namespace Cookie
                     MessageReceiver.Initialize();
                     ProtocolTypeManager.Initialize();
 
+                    Logger.Default.OnLog += Logger_OnLog;
+
                     Settings.Default.DofusPath = dofusPath;
                     Settings.Default.Save();
 
@@ -60,8 +62,6 @@ namespace Cookie
                     {
                         Debug = true
                     };
-
-                    Logger.Default.OnLog += Logger_OnLog;
                 });
             }
             catch (Exception exception)

@@ -1,10 +1,10 @@
 ﻿using Cookie.API.Network;
-using Cookie.Core;
 using Cookie.API.Protocol.Network.Messages.Game.Chat.Channel;
 using Cookie.API.Protocol.Network.Messages.Game.Context;
 using Cookie.API.Protocol.Network.Messages.Game.Friend;
 using Cookie.API.Protocol.Network.Messages.Game.Initialization;
 using Cookie.API.Protocol.Network.Messages.Security;
+using Cookie.Core;
 using Cookie.Utils;
 
 namespace Cookie.Handlers.Game.Initialization

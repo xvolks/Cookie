@@ -1,7 +1,7 @@
 ﻿using Cookie.API.Network;
-using Cookie.Core;
 using Cookie.API.Protocol.Enums;
 using Cookie.API.Protocol.Network.Messages.Game.Guild;
+using Cookie.Core;
 
 namespace Cookie.Handlers.Game.Guild
 {

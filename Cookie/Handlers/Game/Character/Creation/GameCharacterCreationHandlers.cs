@@ -3,8 +3,8 @@ using Cookie.API.Datacenter;
 using Cookie.API.Gamedata.D2o;
 using Cookie.API.Network;
 using Cookie.API.Protocol.Enums;
-using Cookie.Core;
 using Cookie.API.Protocol.Network.Messages.Game.Character.Creation;
+using Cookie.Core;
 using Cookie.Utils;
 
 namespace Cookie.Handlers.Game.Character.Creation

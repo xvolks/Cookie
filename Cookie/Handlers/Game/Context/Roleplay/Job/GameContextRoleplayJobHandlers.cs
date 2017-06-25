@@ -1,8 +1,8 @@
-﻿using Cookie.Core;
-using Cookie.Gamedata;
-using Cookie.API.Gamedata.D2o;
+﻿using Cookie.API.Gamedata.D2o;
 using Cookie.API.Network;
 using Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Job;
+using Cookie.Core;
+using Cookie.Gamedata;
 
 namespace Cookie.Handlers.Game.Context.Roleplay.Job
 {

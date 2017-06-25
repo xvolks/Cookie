@@ -1,7 +1,7 @@
 ﻿using Cookie.API.Network;
-using Cookie.Core;
 using Cookie.API.Protocol.Enums;
 using Cookie.API.Protocol.Network.Messages.Game.Chat;
+using Cookie.Core;
 
 namespace Cookie.Handlers.Game.Chat
 {
@@ -32,14 +32,16 @@ namespace Cookie.Handlers.Game.Chat
                         LogMessageType.Global);
                     break;
                 case ChatChannelsMultiEnum.CHANNEL_GUILD:
-                    Logger.Default.Log("(Guilde) " + message.SenderName + " : " + message.Content, LogMessageType.Guild);
+                    Logger.Default.Log("(Guilde) " + message.SenderName + " : " + message.Content,
+                        LogMessageType.Guild);
                     break;
                 case ChatChannelsMultiEnum.CHANNEL_NOOB:
                     Logger.Default.Log("(Débutant) " + message.SenderName + " : " + message.Content,
                         LogMessageType.Noob);
                     break;
                 case ChatChannelsMultiEnum.CHANNEL_PARTY:
-                    Logger.Default.Log("(Groupe) " + message.SenderName + " : " + message.Content, LogMessageType.Party);
+                    Logger.Default.Log("(Groupe) " + message.SenderName + " : " + message.Content,
+                        LogMessageType.Party);
                     break;
                 case ChatChannelsMultiEnum.CHANNEL_SALES:
                     Logger.Default.Log("(Commerce) " + message.SenderName + " : " + message.Content,

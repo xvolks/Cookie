@@ -232,7 +232,8 @@ namespace Cookie.Core
             lock (Sender)
             {
                 if (Debug)
-                    Logger.Default.Log($"Send: ({msg.MessageID}) - " + msg.ToString().Split('.').Last(), LogMessageType.Arena);
+                    Logger.Default.Log($"Send: ({msg.MessageID}) - " + msg.ToString().Split('.').Last(),
+                        LogMessageType.Arena);
                 Socket.Send(writer.Data);
             }
         }
@@ -256,7 +257,7 @@ namespace Cookie.Core
                 if (fileInfo.Name.Contains("Cookie")) continue;
                 var asm = Assembly.LoadFrom(fileInfo.FullName);
                 var types = asm.GetTypes();
-                var constructor = types.First(x => x.Name == "Main").GetConstructor(new[] { typeof(DofusClient)});
+                var constructor = types.First(x => x.Name == "Main").GetConstructor(new[] {typeof(DofusClient)});
                 constructor.Invoke(new object[] {this});
             }
         }

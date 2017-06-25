@@ -1,6 +1,6 @@
 ﻿using Cookie.API.Network;
-using Cookie.Core;
 using Cookie.API.Protocol.Network.Messages.Game.Context.Fight.Character;
+using Cookie.Core;
 
 namespace Cookie.Handlers.Game.Context.Fight.Character
 {

@@ -1,7 +1,6 @@
-﻿using System;
-using Cookie.API.Network;
-using Cookie.Core;
+﻿using Cookie.API.Network;
 using Cookie.API.Protocol.Network.Messages.Handshake;
+using Cookie.Core;
 
 namespace Cookie.Handlers.Handshake
 {
@@ -11,7 +10,9 @@ namespace Cookie.Handlers.Handshake
         private void ProtocolRequiredHandler(DofusClient client, ProtocolRequired message)
         {
             //
-            Logger.Default.Log($"[BOT] CurrentVersion: {message.CurrentVersion} / RequiredVersion {message.RequiredVersion}", LogMessageType.Info);
+            Logger.Default.Log(
+                $"[BOT] CurrentVersion: {message.CurrentVersion} / RequiredVersion {message.RequiredVersion}",
+                LogMessageType.Info);
         }
     }
 }

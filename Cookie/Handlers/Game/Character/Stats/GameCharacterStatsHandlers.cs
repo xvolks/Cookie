@@ -55,7 +55,8 @@ namespace Cookie.Handlers.Game.Character.Stats
             client.Account.Character.Stats.LifePoints = message.LifePoints;
             client.Account.Character.Stats.MaxLifePoints = message.MaxLifePoints;
             if (message.LifePointsGained != 0)
-                Logger.Default.Log($"Vous avez récupéré {message.LifePointsGained} points de vie.", LogMessageType.Info);
+                Logger.Default.Log($"Vous avez récupéré {message.LifePointsGained} points de vie.",
+                    LogMessageType.Info);
         }
 
         [MessageHandler(UpdateLifePointsMessage.ProtocolId)]

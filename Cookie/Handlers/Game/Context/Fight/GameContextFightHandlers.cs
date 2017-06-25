@@ -9,7 +9,8 @@ namespace Cookie.Handlers.Game.Context.Fight
         [MessageHandler(GameFightEndMessage.ProtocolId)]
         private void GameFightEndMessageHandler(DofusClient client, GameFightEndMessage message)
         {
-            Logger.Default.Log("Fin du combat en : " + message.Duration / 1000 + " secondes. ", LogMessageType.FightLog);
+            Logger.Default.Log("Fin du combat en : " + message.Duration / 1000 + " secondes. ",
+                LogMessageType.FightLog);
         }
 
         [MessageHandler(GameFightHumanReadyStateMessage.ProtocolId)]

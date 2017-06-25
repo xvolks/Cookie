@@ -1,6 +1,6 @@
 ﻿using Cookie.API.Network;
-using Cookie.Core;
 using Cookie.API.Protocol.Network.Messages.Game.Interactive;
+using Cookie.Core;
 using Cookie.Utils.Enums;
 
 namespace Cookie.Handlers.Game.Interactive
