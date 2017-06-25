@@ -4,20 +4,16 @@ using System.Linq;
 using Cookie.API.Core.Frames;
 
 namespace Cookie.Core.Frames
-
 {
     public class LatencyFrame : ILatencyFrame
     {
         private const uint LatencyAvgBufferSize = 50;
-        private readonly Account _account;
         private readonly List<uint> _latencyBuffer;
         private uint _latestSent;
 
-        public LatencyFrame(Account account)
+        public LatencyFrame()
         {
             _latencyBuffer = new List<uint>();
-            _account = account;
-
             Sequence = 0;
         }
 

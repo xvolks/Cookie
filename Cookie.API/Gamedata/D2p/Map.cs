@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using Cookie.API.Game.Map;
 using Cookie.API.IO;
 
 namespace Cookie.API.Gamedata.D2p
 {
-    public class Map : IMap
+    public class Map : IMap, IMapData
     {
         public Map()
         {
@@ -49,6 +50,8 @@ namespace Cookie.API.Gamedata.D2p
         public double ZoomScale { get; set; }
         public List<CellData> Cells { get; } = new List<CellData>();
 
+        public int CellsCount { get; private set; }
+
         public bool IsLineOfSight(int cellId)
         {
             return cellId >= 0 && cellId < CellsCount && Cells[cellId].Los;
@@ -58,8 +61,6 @@ namespace Cookie.API.Gamedata.D2p
         {
             return cellId >= 0 && cellId < CellsCount && Cells[cellId].Mov;
         }
-
-        public int CellsCount { get; private set; }
 
         internal void Init(BigEndianReader reader)
         {

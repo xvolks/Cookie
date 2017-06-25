@@ -1,44 +1,15 @@
-﻿using System.Collections.Generic;
-using Cookie.API.Protocol.Network.Messages.Game.Interactive;
-using Cookie.API.Protocol.Network.Types.Game.Context.Roleplay;
-using Cookie.API.Protocol.Network.Types.Game.Interactive;
-
-namespace Cookie.API.Game.Map
+﻿namespace Cookie.API.Game.Map
 {
     public interface IMapData
     {
-        Gamedata.D2p.IMap Data { get; set; }
+        /// <summary>Indique si la case spécifiée possède l'attribut 'ligne de vue'</summary>
+        /// <param name="cellId">Identifiant de la cellule</param>
+        /// <returns>True si la cellule est visible, sinon False</returns>
+        bool IsLineOfSight(int cellId);
 
-        List<GameRolePlayCharacterInformations> Players { get; set; }
-
-        List<GameRolePlayGroupMonsterInformations> Monsters { get; set; }
-
-        List<GameRolePlayNpcInformations> Npcs { get; set; }
-
-        List<GameRolePlayActorInformations> Others { get; set; }
-
-        List<InteractiveElement> InteractiveElements { get; set; }
-
-        List<StatedElement> StatedElements { get; set; }
-
-        void ParseLocation(int mapId);
-
-        void ParseActors(GameRolePlayActorInformations[] actors);
-        void AddActor(GameRolePlayActorInformations actor);
-        void RemoveActor(double contextualId);
-        void RefreshActor(double contextualId, short cellEnd);
-
-        void ParseInteractiveElement(InteractiveElement[] elements);
-        void ParseStatedElement(StatedElement[] elements);
-
-        void UpdateInteractiveElement(InteractiveElementUpdatedMessage update);
-
-        void UpdateStatedElement(StatedElementUpdatedMessage update);
-
-        bool NoEntitiesOnCell(int cellId);
-
-        bool NothingOnCell(int cellId);
-
-        void Clear();
+        /// <summary>Indique si la case spécifiée possède l'attribut 'marchable'</summary>
+        /// <param name="cellId">Identifiant de la cellule</param>
+        /// <returns>True si la cellule est marchable, sinon False</returns>
+        bool IsWalkable(int cellId);
     }
 }

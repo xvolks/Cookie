@@ -12,12 +12,13 @@ namespace Cookie.Handlers.Game.Context.Roleplay
         {
             client.Account.Character.MapId = message.MapId;
             client.Send(new MapInformationsRequestMessage(message.MapId));
+            client.Account.Character.Map.MapChange = -1;
         }
 
         [MessageHandler(GameRolePlayShowActorMessage.ProtocolId)]
         private void GameRolePlayShowActorMessageHandler(DofusClient client, GameRolePlayShowActorMessage message)
         {
-            client.Account.Character.MapData.AddActor(message.Informations);
+            client.Account.Character.Map.AddActor(message);
         }
 
         [MessageHandler(MapFightStartPositionsUpdateMessage.ProtocolId)]
@@ -50,19 +51,22 @@ namespace Cookie.Handlers.Game.Context.Roleplay
                 break;
             }
 
-            client.Account.Character.MapId = message.MapId;
+            /*client.Account.Character.MapId = message.MapId;
             client.Account.Character.MapData.Clear();
             client.Account.Character.GatherManager.BannedElementId.Clear();
             client.Account.Character.MapData.ParseLocation(message.MapId);
             client.Account.Character.MapData.ParseActors(message.Actors.ToArray());
             client.Account.Character.MapData.ParseInteractiveElement(message.InteractiveElements.ToArray());
-            client.Account.Character.MapData.ParseStatedElement(message.StatedElements.ToArray());
+            client.Account.Character.MapData.ParseStatedElement(message.StatedElements.ToArray());*/
+
+            client.Account.Character.Map.ParseMapComplementaryInformationsDataMessage(message);
         }
 
         [MessageHandler(TeleportOnSameMapMessage.ProtocolId)]
         private void TeleportOnSameMapMessageHandler(DofusClient client, TeleportOnSameMapMessage message)
         {
             Logger.Default.Log($"Un joueur s'est téléporté sur la cellId : {message.CellId}.", LogMessageType.Info);
+            client.Account.Character.Map.UpdateEntity(message);
         }
     }
 }
