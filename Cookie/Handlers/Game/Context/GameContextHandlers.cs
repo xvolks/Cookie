@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using Cookie.API.Network;
 using Cookie.API.Protocol.Network.Messages.Game.Context;
-using Cookie.Core;
-using Cookie.API.Utils.Enums;
 using Cookie.API.Utils;
+using Cookie.API.Utils.Enums;
+using Cookie.Core;
 
 namespace Cookie.Handlers.Game.Context
 {
@@ -34,7 +34,7 @@ namespace Cookie.Handlers.Game.Context
                 client.Account.Character.GatherManager.Id = -1;
         }
 
-       [MessageHandler(GameContextRefreshEntityLookMessage.ProtocolId)]
+        [MessageHandler(GameContextRefreshEntityLookMessage.ProtocolId)]
         private void GameContextRefreshEntityLookMessageHandler(DofusClient client,
             GameContextRefreshEntityLookMessage message)
         {

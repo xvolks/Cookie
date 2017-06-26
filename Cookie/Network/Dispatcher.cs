@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using Cookie.API.Network;
 using Cookie.API.Plugins;
 using Cookie.API.Protocol;
-using Cookie.Core;
 using Cookie.API.Utils;
 using Cookie.API.Utils.Enums;
+using Cookie.Core;
 
 namespace Cookie
 {

@@ -1,5 +1,5 @@
-﻿using Cookie.API.Utils.IO;
-using Cookie.API.Protocol.Network.Types.Game.Social;
+﻿using Cookie.API.Protocol.Network.Types.Game.Social;
+using Cookie.API.Utils.IO;
 
 namespace Cookie.API.Protocol.Network.Types.Game.Context.Roleplay
 {

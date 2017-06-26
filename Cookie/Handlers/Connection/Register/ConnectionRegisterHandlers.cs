@@ -1,10 +1,10 @@
 ﻿using System;
-using Cookie.API.Utils.Extensions;
 using Cookie.API.Network;
 using Cookie.API.Protocol.Network.Messages.Connection.Register;
-using Cookie.Core;
-using Cookie.API.Utils.Enums;
 using Cookie.API.Utils;
+using Cookie.API.Utils.Enums;
+using Cookie.API.Utils.Extensions;
+using Cookie.Core;
 
 namespace Cookie.Handlers.Connection.Register
 {

@@ -1,8 +1,8 @@
 ﻿using Cookie.API.Network;
 using Cookie.API.Protocol.Network.Messages.Game.Context.Fight.Character;
-using Cookie.Core;
 using Cookie.API.Utils;
 using Cookie.API.Utils.Enums;
+using Cookie.Core;
 
 namespace Cookie.Handlers.Game.Context.Fight.Character
 {

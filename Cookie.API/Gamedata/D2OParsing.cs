@@ -2,9 +2,9 @@
 using System.Drawing;
 using System.Runtime.CompilerServices;
 using Cookie.API.Datacenter;
+using Cookie.API.Gamedata.D2i;
 using Cookie.API.Gamedata.D2o;
 using Cookie.API.Gamedata.D2p;
-using Cookie.API.Gamedata.D2i;
 
 namespace Cookie.API.Gamedata
 {

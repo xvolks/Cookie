@@ -1,7 +1,7 @@
 ﻿using Cookie.API.Network;
 using Cookie.API.Protocol.Network.Messages.Queues;
-using Cookie.Core;
 using Cookie.API.Utils;
+using Cookie.Core;
 
 namespace Cookie.Handlers.Queues
 {

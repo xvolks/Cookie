@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Cookie.API.Utils.Extensions;
-using Cookie.API.Utils.IO;
 using Cookie.API.Protocol;
 using Cookie.API.Protocol.Network.Messages.Handshake;
+using Cookie.API.Utils.Extensions;
+using Cookie.API.Utils.IO;
 
 namespace Cookie
 {

@@ -1,5 +1,5 @@
-﻿using Cookie.API.Utils.IO;
-using Cookie.API.Protocol.Network.Types.Game.Look;
+﻿using Cookie.API.Protocol.Network.Types.Game.Look;
+using Cookie.API.Utils.IO;
 
 namespace Cookie.API.Protocol.Network.Types.Game.Character
 {

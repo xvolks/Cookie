@@ -1,8 +1,8 @@
 ﻿using Cookie.API.Network;
 using Cookie.API.Protocol.Network.Messages.Game.Interactive;
-using Cookie.Core;
-using Cookie.API.Utils.Enums;
 using Cookie.API.Utils;
+using Cookie.API.Utils.Enums;
+using Cookie.Core;
 
 namespace Cookie.Handlers.Game.Interactive
 {
@@ -37,7 +37,6 @@ namespace Cookie.Handlers.Game.Interactive
                 client.Account.Character.GatherManager.Gather();
                 client.Account.Character.Status = CharacterStatus.Gathering;
             }
-                
         }
 
         [MessageHandler(InteractiveUseErrorMessage.ProtocolId)]

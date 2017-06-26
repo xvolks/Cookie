@@ -1,11 +1,10 @@
 ﻿using Cookie.API.Network;
 using Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay;
-using Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Fight.Arena;
 using Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Quest;
-using Cookie.Core;
-using Cookie.Game.Map;
 using Cookie.API.Utils;
 using Cookie.API.Utils.Enums;
+using Cookie.Core;
+using Cookie.Game.Map;
 
 namespace Cookie.Handlers.Game.Context.Roleplay
 {
@@ -46,7 +45,7 @@ namespace Cookie.Handlers.Game.Context.Roleplay
             {
                 client.Send(new GuidedModeQuitRequestMessage());
                 client.Account.Character.IsFirstConnection = false;
-            }   
+            }
 
             foreach (var actor in message.Actors)
             {

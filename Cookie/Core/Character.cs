@@ -27,7 +27,7 @@ namespace Cookie.Core
             Status = CharacterStatus.Disconnected;
             Jobs = new List<JobExperience>();
             GatherManager = new GatherManager(this);
-            PathManager = new PathManager("./trajets/trajet.txt", this);
+            PathManager = new PathManager(this);
         }
 
         public bool IsFirstConnection { get; set; }

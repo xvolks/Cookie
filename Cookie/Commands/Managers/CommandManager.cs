@@ -6,7 +6,6 @@ using System.Reflection;
 using Cookie.API.Commands;
 using Cookie.API.Core;
 using Cookie.Commands.Exceptions;
-using Cookie.Core;
 
 namespace Cookie.Commands.Managers
 {

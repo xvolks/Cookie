@@ -19,8 +19,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Cookie.API.Utils.Extensions;
 using Cookie.API.Gamedata.D2p;
+using Cookie.API.Utils.Extensions;
 
 namespace Cookie.API.Gamedata.Icons
 {

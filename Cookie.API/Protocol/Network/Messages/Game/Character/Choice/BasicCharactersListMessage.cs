@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using Cookie.API.Utils.IO;
 using Cookie.API.Protocol.Network.Types.Game.Character.Choice;
+using Cookie.API.Utils.IO;
 
 namespace Cookie.API.Protocol.Network.Messages.Game.Character.Choice
 {

@@ -8,6 +8,7 @@ using Cookie.API.Game.Map;
 using Cookie.API.Game.Map.Elements;
 using Cookie.API.Game.World.Pathfinding;
 using Cookie.API.Game.World.Pathfinding.Positions;
+using Cookie.API.Gamedata.D2i;
 using Cookie.API.Gamedata.D2o;
 using Cookie.API.Gamedata.D2p;
 using Cookie.API.Gamedata.D2p.Elements;
@@ -15,11 +16,10 @@ using Cookie.API.Protocol.Network.Messages.Game.Context;
 using Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay;
 using Cookie.API.Protocol.Network.Messages.Game.Interactive;
 using Cookie.API.Protocol.Network.Types.Game.Context.Roleplay;
+using Cookie.API.Utils;
 using Cookie.API.Utils.Extensions;
 using Cookie.Game.Map.Elements;
 using IMap = Cookie.API.Game.Map.IMap;
-using Cookie.API.Utils;
-using Cookie.API.Gamedata.D2i;
 
 namespace Cookie.Game.Map
 {

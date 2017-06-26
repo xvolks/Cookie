@@ -4,10 +4,12 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Reflection;
 using Cookie.API.Core;
-using Cookie.API.Utils.Extensions;
-using Cookie.API.Utils.IO;
 using Cookie.API.Plugins;
 using Cookie.API.Protocol;
+using Cookie.API.Utils;
+using Cookie.API.Utils.Enums;
+using Cookie.API.Utils.Extensions;
+using Cookie.API.Utils.IO;
 using Cookie.Handlers.Connection;
 using Cookie.Handlers.Connection.Register;
 using Cookie.Handlers.Game.Achievement;
@@ -64,8 +66,6 @@ using Cookie.Handlers.Secure;
 using Cookie.Handlers.Security;
 using Cookie.Handlers.Server.Basic;
 using Cookie.Handlers.Web.Ankabox;
-using Cookie.API.Utils.Enums;
-using Cookie.API.Utils;
 
 namespace Cookie.Core
 {

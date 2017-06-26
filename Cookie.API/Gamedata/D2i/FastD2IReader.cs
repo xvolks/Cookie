@@ -114,7 +114,7 @@ namespace Cookie.API.Gamedata.D2i
         public string GetText<T>(T toSearch, bool versionDiacritique = false)
         {
             var myId = default(uint);
-            var result = new DataD2I { Str = "" };
+            var result = new DataD2I {Str = ""};
             if (typeof(T) == typeof(string))
             {
                 myId = Convert.ToUInt32(toSearch);
@@ -208,7 +208,7 @@ namespace Cookie.API.Gamedata.D2i
                 {
                     while (_br.BaseStream.Position < _br.BaseStream.Length)
                     {
-                        var myUi = new UI { UStrIndex = ReadShort() };
+                        var myUi = new UI {UStrIndex = ReadShort()};
                         myUi.UStr = ReadUtf8(myUi.UStrIndex);
                         myUi.UPointer = ReadInt();
                         if (string.Compare(mySearch, myUi.UStr, StringComparison.OrdinalIgnoreCase) != 0) continue;

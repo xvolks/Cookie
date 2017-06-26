@@ -1,6 +1,6 @@
 ﻿using System;
-using Cookie.API.Utils.IO;
 using Cookie.API.Protocol.Network.Types.Version;
+using Cookie.API.Utils.IO;
 
 namespace Cookie.API.Protocol.Network.Messages.Connection
 {
