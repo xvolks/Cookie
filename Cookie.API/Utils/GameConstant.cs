@@ -1,6 +1,6 @@
 ﻿using Cookie.API.Protocol.Enums;
 
-namespace Cookie.Utils
+namespace Cookie.API.Utils
 {
     public static class GameConstant
     {

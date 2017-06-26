@@ -1,13 +1,14 @@
 ﻿using System.Threading;
-using Cookie.API.Extensions;
+using Cookie.API.Utils.Extensions;
 using Cookie.API.Network;
 using Cookie.API.Protocol.Enums;
 using Cookie.API.Protocol.Network.Messages.Connection;
 using Cookie.API.Protocol.Network.Types.Version;
 using Cookie.Core;
-using Cookie.Gamedata;
-using Cookie.Utils;
-using Cookie.Utils.Cryptography;
+using Cookie.API.Gamedata;
+using Cookie.API.Utils.Cryptography;
+using Cookie.API.Utils;
+using Cookie.API.Utils.Enums;
 
 namespace Cookie.Handlers.Connection
 {

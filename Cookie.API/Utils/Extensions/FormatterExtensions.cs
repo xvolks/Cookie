@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Cookie.API.Extensions
+namespace Cookie.API.Utils.Extensions
 {
     public static class FormatterExtensions
     {

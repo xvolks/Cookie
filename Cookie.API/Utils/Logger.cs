@@ -1,4 +1,6 @@
-﻿namespace Cookie.Core
+﻿using Cookie.API.Utils.Enums;
+
+namespace Cookie.API.Utils
 {
     public delegate void OnLogDelegate(string log, LogMessageType logType);
 

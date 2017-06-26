@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace Cookie
+namespace Cookie.API.Utils
 {
     public class TimerCore : IDisposable
     {

@@ -6,7 +6,7 @@ using Cookie.API.Protocol.Network.Types.Game.Character.Restriction;
 using Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Job;
 using Cookie.API.Protocol.Network.Types.Game.Data.Items;
 using Cookie.API.Protocol.Network.Types.Game.Look;
-using Cookie.Utils.Enums;
+using Cookie.API.Utils.Enums;
 
 namespace Cookie.API.Core
 {

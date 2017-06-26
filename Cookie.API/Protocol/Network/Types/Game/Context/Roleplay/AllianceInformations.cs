@@ -11,7 +11,7 @@
 namespace Cookie.API.Protocol.Network.Types.Game.Context.Roleplay
 {
     using Cookie.API.Protocol.Network.Types.Game.Guild;
-    using Cookie.API.IO;
+    using Cookie.API.Utils.IO;
 
 
     public class AllianceInformations : BasicNamedAllianceInformations

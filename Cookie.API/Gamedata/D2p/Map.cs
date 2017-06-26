@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Cookie.API.Game.Map;
-using Cookie.API.IO;
+using Cookie.API.Utils.IO;
 
 namespace Cookie.API.Gamedata.D2p
 {

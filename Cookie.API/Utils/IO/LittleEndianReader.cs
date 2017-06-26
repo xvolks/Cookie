@@ -19,7 +19,7 @@
 using System.IO;
 using System.Text;
 
-namespace Cookie.API.IO
+namespace Cookie.API.Utils.IO
 {
     public unsafe class LittleEndianReader
     {

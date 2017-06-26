@@ -10,7 +10,7 @@
 
 namespace Cookie.API.Protocol.Network.Messages.Game.Actions.Fight
 {
-    using Cookie.API.IO;
+    using Cookie.API.Utils.IO;
 
 
     public class GameActionFightLifeAndShieldPointsLostMessage : GameActionFightLifePointsLostMessage

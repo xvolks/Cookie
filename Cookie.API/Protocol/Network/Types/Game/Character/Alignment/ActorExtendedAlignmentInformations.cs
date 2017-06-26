@@ -10,7 +10,7 @@
 
 namespace Cookie.API.Protocol.Network.Types.Game.Character.Alignment
 {
-    using Cookie.API.IO;
+    using Cookie.API.Utils.IO;
 
 
     public class ActorExtendedAlignmentInformations : ActorAlignmentInformations

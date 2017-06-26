@@ -10,9 +10,11 @@ using Cookie.API.Protocol.Enums;
 using Cookie.API.Protocol.Network.Messages.Game.Chat;
 using Cookie.Commands.Managers;
 using Cookie.Core;
-using Cookie.Gamedata.Icons;
 using Cookie.Properties;
-using Cookie.Utils.Enums;
+using Cookie.API.Utils;
+using Cookie.API.Gamedata.Icons;
+using Cookie.API.Gamedata.D2i;
+using Cookie.API.Utils.Enums;
 
 namespace Cookie
 {

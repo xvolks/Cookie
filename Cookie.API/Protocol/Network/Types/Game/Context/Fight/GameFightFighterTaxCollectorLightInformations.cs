@@ -10,7 +10,7 @@
 
 namespace Cookie.API.Protocol.Network.Types.Game.Context.Fight
 {
-    using Cookie.API.IO;
+    using Cookie.API.Utils.IO;
 
 
     public class GameFightFighterTaxCollectorLightInformations : GameFightFighterLightInformations

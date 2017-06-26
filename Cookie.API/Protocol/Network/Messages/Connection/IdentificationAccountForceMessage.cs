@@ -10,7 +10,7 @@
 
 namespace Cookie.API.Protocol.Network.Messages.Connection
 {
-    using Cookie.API.IO;
+    using Cookie.API.Utils.IO;
 
 
     public class IdentificationAccountForceMessage : IdentificationMessage

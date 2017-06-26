@@ -10,7 +10,7 @@
 
 namespace Cookie.API.Protocol.Network.Messages.Game.Character.Creation
 {
-    using Cookie.API.IO;
+    using Cookie.API.Utils.IO;
     using System.Collections.Generic;
 
     public class CharacterCreationRequestMessage : NetworkMessage

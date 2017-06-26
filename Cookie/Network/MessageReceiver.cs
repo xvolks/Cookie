@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Cookie.API.Extensions;
-using Cookie.API.IO;
+using Cookie.API.Utils.Extensions;
+using Cookie.API.Utils.IO;
 using Cookie.API.Protocol;
 using Cookie.API.Protocol.Network.Messages.Handshake;
 

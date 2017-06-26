@@ -1,7 +1,7 @@
 ﻿using System;
-using Cookie.API.Extensions;
+using Cookie.API.Utils.Extensions;
 
-namespace Cookie.Utils
+namespace Cookie.API.Utils
 {
     public class Randomize
     {

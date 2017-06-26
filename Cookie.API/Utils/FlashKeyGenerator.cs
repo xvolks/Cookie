@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Cookie.Utils
+namespace Cookie.API.Utils
 {
     public static class FlashKeyGenerator
     {

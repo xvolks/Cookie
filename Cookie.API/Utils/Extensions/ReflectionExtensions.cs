@@ -3,7 +3,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Cookie.API.Extensions
+namespace Cookie.API.Utils.Extensions
 {
     public static class ReflectionExtensions
     {

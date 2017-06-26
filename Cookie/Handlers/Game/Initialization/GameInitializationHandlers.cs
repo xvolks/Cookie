@@ -5,7 +5,8 @@ using Cookie.API.Protocol.Network.Messages.Game.Friend;
 using Cookie.API.Protocol.Network.Messages.Game.Initialization;
 using Cookie.API.Protocol.Network.Messages.Security;
 using Cookie.Core;
-using Cookie.Utils;
+using Cookie.API.Utils;
+using Cookie.API.Utils.Enums;
 
 namespace Cookie.Handlers.Game.Initialization
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 using Cookie.API.Protocol;
-using Cookie.Core;
+using Cookie.API.Utils.Enums;
 
 namespace Cookie.API.Core
 {

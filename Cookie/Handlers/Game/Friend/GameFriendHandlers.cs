@@ -2,6 +2,8 @@
 using Cookie.API.Protocol.Enums;
 using Cookie.API.Protocol.Network.Messages.Game.Friend;
 using Cookie.Core;
+using Cookie.API.Utils;
+using Cookie.API.Utils.Enums;
 
 namespace Cookie.Handlers.Game.Friend
 {

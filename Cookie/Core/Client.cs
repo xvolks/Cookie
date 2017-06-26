@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
-using Cookie.API.Extensions;
+using Cookie.API.Utils.Extensions;
+using Cookie.API.Utils;
 
 namespace Cookie.Core
 {

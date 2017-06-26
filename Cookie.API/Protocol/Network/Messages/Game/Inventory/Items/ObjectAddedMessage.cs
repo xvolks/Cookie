@@ -11,7 +11,7 @@
 namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
 {
     using Cookie.API.Protocol.Network.Types.Game.Data.Items;
-    using Cookie.API.IO;
+    using Cookie.API.Utils.IO;
 
 
     public class ObjectAddedMessage : NetworkMessage

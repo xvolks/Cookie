@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace Cookie.API.IO
+namespace Cookie.API.Utils.IO
 {
     public interface IDataReader : IDisposable
     {

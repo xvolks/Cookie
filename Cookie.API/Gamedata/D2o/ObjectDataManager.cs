@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Cookie.API.Utils.Extensions;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Cookie.API.Extensions;
 
 namespace Cookie.API.Gamedata.D2o
 {

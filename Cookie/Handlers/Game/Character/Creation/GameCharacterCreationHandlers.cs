@@ -5,7 +5,8 @@ using Cookie.API.Network;
 using Cookie.API.Protocol.Enums;
 using Cookie.API.Protocol.Network.Messages.Game.Character.Creation;
 using Cookie.Core;
-using Cookie.Utils;
+using Cookie.API.Utils;
+using Cookie.API.Utils.Enums;
 
 namespace Cookie.Handlers.Game.Character.Creation
 {

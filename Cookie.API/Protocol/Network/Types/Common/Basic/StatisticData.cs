@@ -11,7 +11,7 @@
 namespace Cookie.API.Protocol.Network.Types.Common.Basic
 {
     using Cookie;
-    using Cookie.API.IO;
+    using Cookie.API.Utils.IO;
 
 
     public class StatisticData : NetworkType

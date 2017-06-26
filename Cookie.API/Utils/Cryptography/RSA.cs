@@ -6,7 +6,7 @@ using System.Numerics;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Cookie.Utils.Cryptography
+namespace Cookie.API.Utils.Cryptography
 {
     public class Rsa
     {

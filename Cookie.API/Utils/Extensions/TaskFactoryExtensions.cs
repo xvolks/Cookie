@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Cookie.API.Extensions
+namespace Cookie.API.Utils.Extensions
 {
     /// <summary>
     ///     Extensions for TaskFactory.

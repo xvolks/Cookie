@@ -10,7 +10,7 @@
 
 namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Party
 {
-    using Cookie.API.IO;
+    using Cookie.API.Utils.IO;
 
 
     public class PartyNameSetErrorMessage : AbstractPartyMessage

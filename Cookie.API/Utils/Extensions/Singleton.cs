@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Cookie.API.Extensions
+namespace Cookie.API.Utils.Extensions
 {
     public abstract class Singleton<T> where T : class
     {

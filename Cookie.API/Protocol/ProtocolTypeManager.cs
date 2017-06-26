@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.Serialization;
-using Cookie.API.Extensions;
+using Cookie.API.Utils.Extensions;
 
 namespace Cookie.API.Protocol
 {

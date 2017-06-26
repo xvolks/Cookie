@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Cookie.API.IO.Types
+namespace Cookie.API.Utils.IO.Types
 {
     public class CustomUInt64 : Binary64
     {

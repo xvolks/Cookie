@@ -1,4 +1,4 @@
-﻿namespace Cookie.Utils.Enums
+﻿namespace Cookie.API.Utils.Enums
 {
     public enum CharacterStatus
     {

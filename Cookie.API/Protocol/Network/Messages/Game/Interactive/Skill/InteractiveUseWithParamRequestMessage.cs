@@ -14,7 +14,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Interactive.Skill
     using System.Collections.Generic;
     using Cookie.API.Protocol.Network.Messages;
     using Cookie.API.Protocol.Network.Types;
-    using Cookie.API.IO;
+    using Cookie.API.Utils.IO;
     
     
     public class InteractiveUseWithParamRequestMessage : InteractiveUseRequestMessage

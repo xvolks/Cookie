@@ -1,4 +1,4 @@
-namespace Cookie.API.IO
+namespace Cookie.API.Utils.IO
 {
     public interface IDataWriter
     {

@@ -11,7 +11,7 @@
 namespace Cookie.API.Protocol.Network.Messages.Game.Character.Stats
 {
     using Cookie.API.Protocol.Network.Types.Game.Character.Characteristic;
-    using Cookie.API.IO;
+    using Cookie.API.Utils.IO;
 
 
     public class CharacterStatsListMessage : NetworkMessage

@@ -2,7 +2,8 @@
 using Cookie.API.Network;
 using Cookie.API.Protocol.Network.Messages.Game.Context;
 using Cookie.Core;
-using Cookie.Utils.Enums;
+using Cookie.API.Utils.Enums;
+using Cookie.API.Utils;
 
 namespace Cookie.Handlers.Game.Context
 {

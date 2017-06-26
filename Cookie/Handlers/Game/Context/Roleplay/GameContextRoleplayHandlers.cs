@@ -3,6 +3,8 @@ using Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay;
 using Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Quest;
 using Cookie.Core;
 using Cookie.Game.Map;
+using Cookie.API.Utils;
+using Cookie.API.Utils.Enums;
 
 namespace Cookie.Handlers.Game.Context.Roleplay
 {
