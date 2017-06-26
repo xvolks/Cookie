@@ -12,7 +12,6 @@ namespace Cookie.API.Plugins
         /// <summary>
         ///     This method is used to load the plugin
         /// </summary>
-        /// <param name="client"></param>
-        void OnLoad(IDofusClient client);
+        void OnLoad();
     }
 }

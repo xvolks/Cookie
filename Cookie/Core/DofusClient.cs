@@ -158,7 +158,8 @@ namespace Cookie.Core
                     var t = ass2.GetType(type.FullName);
                     if (t.GetInterface(typeof(IPlugin).FullName) == null) continue;
                     var instance = (IPlugin) Activator.CreateInstance(t);
-                    instance.OnLoad(this);
+                    instance.Client = this;
+                    instance.OnLoad();
                 }
             }
         }
