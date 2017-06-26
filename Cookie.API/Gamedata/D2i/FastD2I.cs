@@ -22,6 +22,8 @@ public class FastD2I
 
     //List of the indexes
     public List<Index> IndexList { get; set; }
+
+    public uint SizeOfUi { get; set; }
 }
 
 public class DataD2I
@@ -49,4 +51,11 @@ public class Index
 
     //Store its pointer if exists
     public uint IDiaIndex { get; set; }
+}
+
+public class UI
+{
+    public ushort UStrIndex { get; set; }
+    public string UStr { get; set; }
+    public uint UPointer { get; set; }
 }

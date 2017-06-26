@@ -190,6 +190,45 @@ public class FastD2IReader : IDisposable
         return result.Str;
     }
 
+    public string GetUi(string mySearch)
+    {
+        var uiResult = "No Result";
+        using (_br = new BinaryReader(File.Open(_pather, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
+        {
+            _br.BaseStream.Position = 0;
+            _myD2I.SizeOfD2I = _br.BaseStream.Length;
+            _myD2I.SizeOfData = ReadInt();
+            _br.BaseStream.Position = _myD2I.SizeOfData;
+            _myD2I.SizeOfIndex = ReadInt();
+            _br.BaseStream.Position = _br.BaseStream.Position + _myD2I.SizeOfIndex;
+            _myD2I.SizeOfUi = ReadInt();
+            try
+            {
+                while (_br.BaseStream.Position < _br.BaseStream.Length)
+                {
+                    var myUi = new UI { UStrIndex = ReadShort() };
+                    myUi.UStr = ReadUtf8(myUi.UStrIndex);
+                    myUi.UPointer = ReadInt();
+                    if (string.Compare(mySearch, myUi.UStr, StringComparison.OrdinalIgnoreCase) != 0) continue;
+                    _br.BaseStream.Position = myUi.UPointer;
+                    var myResult = new DataD2I
+                    {
+                        StrIndex = myUi.UPointer,
+                        StrSize = ReadShort()
+                    };
+                    myResult.Str = ReadUtf8(myResult.StrSize);
+                    uiResult = myResult.Str;
+                    break; // TODO: might not be correct. Was : Exit While
+                }
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
+        }   
+        return uiResult;
+    }
+
     //Read 4 bytes to UInteger 32 (reversed for endian)
     private static uint ReadInt()
     {
