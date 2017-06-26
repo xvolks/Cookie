@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using Cookie.API.Commands;
+using Cookie.API.Core;
 using Cookie.Commands.Exceptions;
 using Cookie.Core;
 
@@ -23,7 +24,7 @@ namespace Cookie.Commands.Managers
             // Parameters from Action<T1, T2>
             var commandName = Expression.Parameter(typeof(string), "commandName");
             var args = Expression.Parameter(typeof(string[]), "args");
-            var client = Expression.Parameter(typeof(DofusClient), "client");
+            var client = Expression.Parameter(typeof(IDofusClient), "client");
 
             cases.AddRange(from com in commands
                 let cmdName = (Activator.CreateInstance(com) as ICommand).CommandName
@@ -41,12 +42,12 @@ namespace Cookie.Commands.Managers
             var defaultBody = Expression.Block(throwEx, returnLabel);
 
             var se = Expression.Switch(commandName, defaultBody, cases.ToArray());
-            Parser = Expression.Lambda<Action<DofusClient, string, string[]>>(se, client, commandName, args).Compile();
+            Parser = Expression.Lambda<Action<IDofusClient, string, string[]>>(se, client, commandName, args).Compile();
         }
 
-        private static Action<DofusClient, string, string[]> Parser { get; }
+        private static Action<IDofusClient, string, string[]> Parser { get; }
 
-        public static void ParseAndCall(DofusClient client, string str)
+        public static void ParseAndCall(IDofusClient client, string str)
         {
             if (str == string.Empty)
                 throw new NoCommandException();
