@@ -7,30 +7,24 @@ using Cookie.API.Protocol.Network.Types.Game.Character.Restriction;
 using Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Job;
 using Cookie.API.Protocol.Network.Types.Game.Data.Items;
 using Cookie.API.Protocol.Network.Types.Game.Look;
-using Cookie.Game.Map;
 using Cookie.Utils.Enums;
 
 namespace Cookie.Core
 {
     public class Character : ICharacter
     {
-        public Character(IDofusClient client)
+        public Character()
         {
-            Client = client;
             Stats = new CharacterCharacteristicsInformations();
             Look = new EntityLook();
             Restrictions = new ActorRestrictionsInformations();
             Inventory = new List<ObjectItem>();
             Spells = new List<SpellItem>();
             Status = CharacterStatus.Disconnected;
-            //MapData = new MapData();
-            Map = new Map(Client);
             Jobs = new List<JobExperience>();
         }
 
         public bool IsFirstConnection { get; set; }
-
-        public IDofusClient Client { get; set; }
 
         public CharacterStatus Status { get; set; }
 
@@ -42,14 +36,12 @@ namespace Cookie.Core
         public EntityLook Look { get; set; }
 
         public BreedEnum Breed { get; set; }
-
-        //public IMapData MapData { get; set; }
         public IMap Map { get; set; }
 
         public int LifePercentage => (int) (Stats.LifePoints / (double) Stats.MaxLifePoints * 100);
         public int WeightPercentage => (int) (Weight / (double) MaxWeight * 100);
         public int EnergyPercentage => (int) (Stats.EnergyPoints / (double) Stats.MaxEnergyPoints * 100);
-        public int XPPercentage => (int) (Stats.Experience / (double) Stats.ExperienceNextLevelFloor * 100);
+        public int ExperiencePercentage => (int) (Stats.Experience / (double) Stats.ExperienceNextLevelFloor * 100);
 
         public int CellId { get; set; }
         public int MapId { get; set; }

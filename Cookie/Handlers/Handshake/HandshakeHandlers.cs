@@ -10,9 +10,6 @@ namespace Cookie.Handlers.Handshake
         private void ProtocolRequiredHandler(DofusClient client, ProtocolRequired message)
         {
             //
-            Logger.Default.Log(
-                $"[BOT] CurrentVersion: {message.CurrentVersion} / RequiredVersion {message.RequiredVersion}",
-                LogMessageType.Info);
         }
     }
 }

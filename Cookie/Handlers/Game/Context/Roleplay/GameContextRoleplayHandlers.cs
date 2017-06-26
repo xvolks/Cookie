@@ -2,6 +2,7 @@
 using Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay;
 using Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Quest;
 using Cookie.Core;
+using Cookie.Game.Map;
 
 namespace Cookie.Handlers.Game.Context.Roleplay
 {
@@ -12,7 +13,7 @@ namespace Cookie.Handlers.Game.Context.Roleplay
         {
             client.Account.Character.MapId = message.MapId;
             client.Send(new MapInformationsRequestMessage(message.MapId));
-            client.Account.Character.Map.MapChange = -1;
+            client.Account.Character.Map = new Map(client) {MapChange = -1};
         }
 
         [MessageHandler(GameRolePlayShowActorMessage.ProtocolId)]

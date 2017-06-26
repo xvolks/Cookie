@@ -1,10 +1,5 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using Cookie.API.Core;
+﻿using Cookie.API.Core;
 using Cookie.API.Core.Frames;
-using Cookie.API.Plugins;
 using Cookie.Core.Frames;
 
 namespace Cookie.Core
@@ -16,18 +11,13 @@ namespace Cookie.Core
             Login = login;
             Password = password;
 
-            Client = client;
-
-            Character = new Character(Client);
+            Character = new Character();
 
             LatencyFrame = new LatencyFrame();
-
-            LoadPlugins();
         }
 
         public string Login { get; set; }
         public string Password { get; set; }
-        public IDofusClient Client { get; set; }
 
         public int Id { get; set; }
         public string Ticket { get; set; }
@@ -41,23 +31,5 @@ namespace Cookie.Core
         public ICharacter Character { get; set; }
 
         public ILatencyFrame LatencyFrame { get; set; }
-
-        private void LoadPlugins()
-        {
-            const string path = @"./plugins";
-            foreach (var file in Directory.GetFiles(path, "*.dll", SearchOption.AllDirectories))
-            {
-                var ass2 = Assembly.Load(File.ReadAllBytes(file));
-                var types = ass2.GetTypes().Where(f => !f.IsAbstract && f.IsPublic).ToArray();
-
-                foreach (var type in types)
-                {
-                    var t = ass2.GetType(type.FullName);
-                    if (t.GetInterface(typeof(IPlugin).FullName) == null) continue;
-                    var instance = (IPlugin) Activator.CreateInstance(t);
-                    instance.OnLoad(Client);
-                }
-            }
-        }
     }
 }

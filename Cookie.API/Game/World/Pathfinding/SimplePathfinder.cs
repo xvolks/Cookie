@@ -13,10 +13,10 @@ namespace Cookie.API.Game.World.Pathfinding
         private readonly List<SimpleCellInfo> list_1 = new List<SimpleCellInfo>();
         private readonly List<int> ListCellIdFighters = new List<int>();
         private readonly Gamedata.D2p.Map MapData;
-        private MapPoint MapPoint_FromCell;
-        private MapPoint MapPoint_ToCell;
 
         private readonly int v_MouvementPoints = -1;
+        private MapPoint MapPoint_FromCell;
+        private MapPoint MapPoint_ToCell;
 
         // Methods
         public SimplePathfinder(Gamedata.D2p.Map Map)

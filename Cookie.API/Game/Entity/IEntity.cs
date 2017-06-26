@@ -2,10 +2,14 @@
 {
     public interface IEntity
     {
-        /// <summary>Cellule de l'entité</summary>
+        /// <summary>
+        ///     Cellule de l'entité
+        /// </summary>
         int CellId { get; }
 
-        /// <summary>Identifiant de l'entité</summary>
+        /// <summary>
+        ///     Identifiant de l'entité
+        /// </summary>
         int Id { get; }
     }
 }

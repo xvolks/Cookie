@@ -1,9 +1,12 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Net.Sockets;
+using System.Reflection;
 using Cookie.API.Core;
 using Cookie.API.Extensions;
 using Cookie.API.IO;
+using Cookie.API.Plugins;
 using Cookie.API.Protocol;
 using Cookie.Handlers.Connection;
 using Cookie.Handlers.Connection.Register;
@@ -73,6 +76,8 @@ namespace Cookie.Core
         {
             _dispatcher = new Dispatcher(this);
 
+            LoadPlugins();
+
             Debug = false;
 
             Account = new Account(Login, Password, this);
@@ -139,6 +144,24 @@ namespace Cookie.Core
         }
 
         #endregion
+
+        private void LoadPlugins()
+        {
+            const string path = @"./plugins";
+            foreach (var file in Directory.GetFiles(path, "*.dll", SearchOption.AllDirectories))
+            {
+                var ass2 = Assembly.Load(File.ReadAllBytes(file));
+                var types = ass2.GetTypes().Where(f => !f.IsAbstract && f.IsPublic).ToArray();
+
+                foreach (var type in types)
+                {
+                    var t = ass2.GetType(type.FullName);
+                    if (t.GetInterface(typeof(IPlugin).FullName) == null) continue;
+                    var instance = (IPlugin) Activator.CreateInstance(t);
+                    instance.OnLoad(this);
+                }
+            }
+        }
 
         #region IPs / Ports
 

@@ -206,7 +206,7 @@ public class FastD2IReader : IDisposable
             {
                 while (_br.BaseStream.Position < _br.BaseStream.Length)
                 {
-                    var myUi = new UI { UStrIndex = ReadShort() };
+                    var myUi = new UI {UStrIndex = ReadShort()};
                     myUi.UStr = ReadUtf8(myUi.UStrIndex);
                     myUi.UPointer = ReadInt();
                     if (string.Compare(mySearch, myUi.UStr, StringComparison.OrdinalIgnoreCase) != 0) continue;
@@ -225,7 +225,7 @@ public class FastD2IReader : IDisposable
             {
                 // ignored
             }
-        }   
+        }
         return uiResult;
     }
 

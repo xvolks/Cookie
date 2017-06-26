@@ -1,4 +1,7 @@
-﻿using Cookie.API.Core;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using Cookie.API.Core;
 using Cookie.API.Datacenter;
 using Cookie.API.Game.Entity;
 using Cookie.API.Game.Map;
@@ -12,68 +15,16 @@ using Cookie.API.Protocol.Network.Messages.Game.Context;
 using Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay;
 using Cookie.API.Protocol.Network.Messages.Game.Interactive;
 using Cookie.API.Protocol.Network.Types.Game.Context.Roleplay;
+using Cookie.API.Utils.Extensions;
 using Cookie.Game.Map.Elements;
 using Cookie.Utils;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using Cookie.API.Utils.Extensions;
 using IMap = Cookie.API.Game.Map.IMap;
-using Pathfinder = Cookie.API.Game.World.Pathfinding.Pathfinder;
 
 namespace Cookie.Game.Map
 {
     public class Map : IMap
     {
         private readonly IDofusClient _client;
-        
-        public Dictionary<int, IInteractiveElement> Doors { get; private set; }
-        public Dictionary<int, IStatedElement> StatedElements { get; private set; }
-        public int WorldId => ObjectDataManager.Instance.Get<MapPosition>(Id).WorldMap;
-        public IMapData Data { get; private set; }
-        public int Id => ((API.Gamedata.D2p.Map)Data).Id;
-        public int X => ObjectDataManager.Instance.Get<MapPosition>(Id).PosX;
-        public int Y => ObjectDataManager.Instance.Get<MapPosition>(Id).PosY;
-        public Dictionary<int, IInteractiveElement> InteractiveElements { get; private set; }
-        public int SubAreaId { get; private set; }
-        public int MapChange { get; set; }
-
-        public object CheckLock { get; set; }
-
-        public string Position { get; set; }
-
-        public string Zone { get; set; }
-
-        public Dictionary<int, IUsableElement> UsableElements
-        {
-            get
-            {
-                var usableElements = new Dictionary<int, IUsableElement>();
-                foreach (var element in InteractiveElements)
-                {
-                    var interactiveElements = (Elements.InteractiveElement) element.Value;
-                    if (interactiveElements.EnabledSkills.Count < 1) continue;
-                    foreach (var layer in ((API.Gamedata.D2p.Map) Data).Layers)
-                    {
-                        foreach (var cell in layer.Cells)
-                        {
-                            foreach (var layerElement in cell.Elements)
-                            {
-                                if (!(layerElement is GraphicalElement l)) continue;
-                                if (l.Identifier == interactiveElements.Id)
-                                    usableElements.Add((int) interactiveElements.Id,
-                                        new UsableElement(cell.CellId, interactiveElements,
-                                            interactiveElements.EnabledSkills));
-                            }
-                        }
-                    }
-                }
-                return usableElements;
-            }
-        }
-
-        public IEntity Character => Entities.FirstOrDefault(e => e.Id == (int) _client.Account.Character.Id);
-        public List<IEntity> Entities { get; private set; }
 
         public Map(IDofusClient client)
         {
@@ -86,6 +37,50 @@ namespace Cookie.Game.Map
             SubAreaId = 0;
             CheckLock = new object();
         }
+
+        public object CheckLock { get; set; }
+
+        public string Position { get; set; }
+
+        public string Zone { get; set; }
+        public List<IEntity> Entities { get; }
+
+        public Dictionary<int, IInteractiveElement> Doors { get; }
+        public Dictionary<int, IStatedElement> StatedElements { get; }
+        public int WorldId => ObjectDataManager.Instance.Get<MapPosition>(Id).WorldMap;
+        public IMapData Data { get; private set; }
+        public int Id => ((API.Gamedata.D2p.Map) Data).Id;
+        public int X => ObjectDataManager.Instance.Get<MapPosition>(Id).PosX;
+        public int Y => ObjectDataManager.Instance.Get<MapPosition>(Id).PosY;
+        public Dictionary<int, IInteractiveElement> InteractiveElements { get; }
+        public int SubAreaId { get; private set; }
+        public int MapChange { get; set; }
+
+        public Dictionary<int, IUsableElement> UsableElements
+        {
+            get
+            {
+                var usableElements = new Dictionary<int, IUsableElement>();
+                foreach (var element in InteractiveElements)
+                {
+                    var interactiveElements = (InteractiveElement) element.Value;
+                    if (interactiveElements.EnabledSkills.Count < 1) continue;
+                    foreach (var layer in ((API.Gamedata.D2p.Map) Data).Layers)
+                    foreach (var cell in layer.Cells)
+                    foreach (var layerElement in cell.Elements)
+                    {
+                        if (!(layerElement is GraphicalElement l)) continue;
+                        if (l.Identifier == interactiveElements.Id)
+                            usableElements.Add((int) interactiveElements.Id,
+                                new UsableElement(cell.CellId, interactiveElements,
+                                    interactiveElements.EnabledSkills));
+                    }
+                }
+                return usableElements;
+            }
+        }
+
+        public IEntity Character => Entities.FirstOrDefault(e => e.Id == (int) _client.Account.Character.Id);
 
 
         public bool CanGatherElement(int id, int distance)
@@ -104,21 +99,21 @@ namespace Cookie.Game.Map
             }
             else if (direction == MapDirectionEnum.South)
             {
-                neighbourId = ((API.Gamedata.D2p.Map)Data).BottomNeighbourId;
+                neighbourId = ((API.Gamedata.D2p.Map) Data).BottomNeighbourId;
                 num2 = 4;
             }
             else if (direction == MapDirectionEnum.East)
             {
-                neighbourId = ((API.Gamedata.D2p.Map)Data).RightNeighbourId;
+                neighbourId = ((API.Gamedata.D2p.Map) Data).RightNeighbourId;
                 num2 = 1;
             }
             else if (direction == MapDirectionEnum.West)
             {
-                neighbourId = ((API.Gamedata.D2p.Map)Data).LeftNeighbourId;
+                neighbourId = ((API.Gamedata.D2p.Map) Data).LeftNeighbourId;
                 num2 = 16;
             }
 
-            if ((num2 != -1) && (neighbourId >= 0))
+            if (num2 != -1 && neighbourId >= 0)
             {
                 var cellId = _client.Account.Character.CellId;
                 if ((((API.Gamedata.D2p.Map) Data).Cells[cellId].MapChangeData & num2) > 0)
@@ -130,10 +125,8 @@ namespace Cookie.Game.Map
                 var num4 = ((API.Gamedata.D2p.Map) Data).Cells.Count - 1;
 
                 for (var i = 0; i < num4; i++)
-                {
-                    if (((((API.Gamedata.D2p.Map)Data).Cells[i].MapChangeData & num2) > 0) && NothingOnCell(i))
+                    if ((((API.Gamedata.D2p.Map) Data).Cells[i].MapChangeData & num2) > 0 && NothingOnCell(i))
                         list.Add(i);
-                }
 
                 while (list.Count > 0)
                 {
@@ -141,7 +134,7 @@ namespace Cookie.Game.Map
                     if (MoveToCell(randomCellId))
                     {
                         MapChange = neighbourId;
-                        if ((((API.Gamedata.D2p.Map)Data).Cells[randomCellId].MapChangeData & num2) > 0)
+                        if ((((API.Gamedata.D2p.Map) Data).Cells[randomCellId].MapChangeData & num2) > 0)
                         {
                             LaunchChangeMap(neighbourId);
                             return true;
@@ -157,14 +150,14 @@ namespace Cookie.Game.Map
         public bool MoveToCell(int cellId)
         {
             var path =
-                (new API.Game.World.Pathfinding.Pathfinder(_client.Account.Character.Map)).FindPath(
+                new Pathfinder(_client.Account.Character.Map).FindPath(
                     _client.Account.Character.CellId, cellId);
             if (path == null)
                 return false;
             var serverMovement = MapMovementAdapter.GetServerMovement(path);
 
             _client.Send(
-                new GameMapMovementRequestMessage(serverMovement.Select<uint, short>(ui => (short) ui).ToList(), Id));
+                new GameMapMovementRequestMessage(serverMovement.Select(ui => (short) ui).ToList(), Id));
 
             var timeTowait = MapMovementAdapter.GetPathVelocity(path,
                 path.Cells.Count < 4
@@ -174,11 +167,6 @@ namespace Cookie.Game.Map
             Thread.Sleep(timeTowait * 2);
             ConfirmMove();
             return true;
-        }
-
-        public void ConfirmMove()
-        {
-            _client.Send(new GameMapMovementConfirmMessage());
         }
 
         public bool MoveToDoor(int cellId)
@@ -213,7 +201,10 @@ namespace Cookie.Game.Map
         }
 
         public void UseElement(int id, int skillId)
-            => Randomize.RunBetween(() =>  _client.Send(new InteractiveUseRequestMessage((uint)id, (uint)skillId)), 150, 200);
+        {
+            Randomize.RunBetween(() => _client.Send(new InteractiveUseRequestMessage((uint) id, (uint) skillId)), 150,
+                200);
+        }
 
         public bool MoveToCellWithDistance(int cellId, int maxDistance, bool bool1)
         {
@@ -258,45 +249,9 @@ namespace Cookie.Game.Map
             return true;
         }
 
-        private IEnumerable<MapPoint> GetListPointAtGoodDistance(MapPoint characterPoint, MapPoint elementPoint, int weaponRange)
-        {
-            var list = new List<MapPoint>();
-            var num = -1;
-            var direction = 1;
-            while (true)
-            {
-                var i = 0;
-                while (i < weaponRange)
-                {
-                    i += 1;
-                    var nearestCellInDirection = elementPoint.GetNearestCellInDirection(direction, i);
-                    if (!nearestCellInDirection.IsInMap() ||
-                        !_client.Account.Character.Map.Data.IsWalkable(nearestCellInDirection.CellId)) continue;
-                    var num4 = characterPoint.DistanceToCell(nearestCellInDirection);
-                    if (num == -1 || num >= num4)
-                    {
-                        if (num4 < num)
-                            list.Clear();
-                        num = num4;
-                        list.Add(nearestCellInDirection);
-                    }
-                    break;
-                }
-                direction = direction + 2;
-                if (direction > 7)
-                    return list;
-            }
-        }
-
-        private void LaunchChangeMap(int mapId)
-        {
-
-            _client.Send(new ChangeMapMessage(mapId));
-        }
-
         public void RemoveEntity(int id)
         {
-            lock (this.CheckLock)
+            lock (CheckLock)
             {
                 var removeEntity = Entities.FirstOrDefault(e => e.Id == id);
                 if (removeEntity != null)
@@ -306,44 +261,46 @@ namespace Cookie.Game.Map
 
         public void UpdateEntity(GameMapMovementMessage message)
         {
-            lock (this.CheckLock)
+            lock (CheckLock)
             {
-                    var clientMovement = MapMovementAdapter.GetClientMovement(message.KeyMovements.Select<short, uint>(s => (uint)s).ToList());
-                    var entity = Entities.FirstOrDefault(e => e.Id == message.ActorId);
-                    if (entity != null)
-                        ((Entity.Entity)Entities[Entities.IndexOf(entity)]).CellId = clientMovement.CellEnd.CellId;
+                var clientMovement =
+                    MapMovementAdapter.GetClientMovement(message.KeyMovements.Select(s => (uint) s).ToList());
+                var entity = Entities.FirstOrDefault(e => e.Id == message.ActorId);
+                if (entity != null)
+                    ((Entity.Entity) Entities[Entities.IndexOf(entity)]).CellId = clientMovement.CellEnd.CellId;
             }
         }
 
         public void UpdateEntity(TeleportOnSameMapMessage message)
         {
-            lock (this.CheckLock)
+            lock (CheckLock)
             {
                 var entity = Entities.FirstOrDefault(e => e.Id == message.TargetId);
                 if (entity != null)
-                    ((Entity.Entity)Entities[Entities.IndexOf(entity)]).CellId = message.CellId;
+                    ((Entity.Entity) Entities[Entities.IndexOf(entity)]).CellId = message.CellId;
             }
         }
 
         public void AddActor(GameRolePlayShowActorMessage message)
         {
-            lock (this.CheckLock)
+            lock (CheckLock)
             {
-                IEntity entity = new Entity.Entity((int) message.Informations.ContextualId, message.Informations.Disposition.CellId);
+                IEntity entity = new Entity.Entity((int) message.Informations.ContextualId,
+                    message.Informations.Disposition.CellId);
                 Entities.Add(entity);
             }
         }
 
         public void UpdateInteractive(InteractiveElementUpdatedMessage message)
         {
-            lock (this.CheckLock)
+            lock (CheckLock)
             {
                 if (!message.InteractiveElement.OnCurrentMap) return;
                 var interactiveElement = InteractiveElements.GetValue(message.InteractiveElement.ElementId);
                 if (interactiveElement != null)
-                    InteractiveElements.Remove((int)interactiveElement.Id);
+                    InteractiveElements.Remove((int) interactiveElement.Id);
                 InteractiveElements.Add(message.InteractiveElement.ElementId,
-                    new Elements.InteractiveElement((uint) message.InteractiveElement.ElementId,
+                    new InteractiveElement((uint) message.InteractiveElement.ElementId,
                         message.InteractiveElement.ElementTypeId, message.InteractiveElement.EnabledSkills.ToList(),
                         message.InteractiveElement.DisabledSkills.ToList()));
             }
@@ -351,16 +308,16 @@ namespace Cookie.Game.Map
 
         public void UpdateInteractive(InteractiveMapUpdateMessage message)
         {
-            lock (this.CheckLock)
+            lock (CheckLock)
             {
                 foreach (var interactiveElementDofus in message.InteractiveElements)
                 {
                     if (!interactiveElementDofus.OnCurrentMap) continue;
                     var selectedInteractiveElement = InteractiveElements.GetValue(interactiveElementDofus.ElementId);
                     if (selectedInteractiveElement != null)
-                        InteractiveElements.Remove((int)selectedInteractiveElement.Id);
+                        InteractiveElements.Remove((int) selectedInteractiveElement.Id);
                     InteractiveElements.Add(interactiveElementDofus.ElementId,
-                        new Elements.InteractiveElement((uint) interactiveElementDofus.ElementId,
+                        new InteractiveElement((uint) interactiveElementDofus.ElementId,
                             interactiveElementDofus.ElementTypeId, interactiveElementDofus.EnabledSkills.ToList(),
                             interactiveElementDofus.DisabledSkills.ToList()));
                 }
@@ -420,23 +377,22 @@ namespace Cookie.Game.Map
 
         public void UpdateStatedElement(StatedElementUpdatedMessage message)
         {
-            lock (this.CheckLock)
+            lock (CheckLock)
             {
                 var statedElement = StatedElements.GetValue(message.StatedElement.ElementId);
                 if (statedElement != null)
                 {
-                    StatedElements.Remove((int)statedElement.Id);
+                    StatedElements.Remove((int) statedElement.Id);
                     StatedElements.Add(message.StatedElement.ElementId,
-                        new Elements.StatedElement((uint)message.StatedElement.ElementCellId,
-                            (uint)message.StatedElement.ElementId, (uint)message.StatedElement.ElementState));
+                        new StatedElement(message.StatedElement.ElementCellId,
+                            (uint) message.StatedElement.ElementId, message.StatedElement.ElementState));
                 }
-                    
             }
         }
 
         public void UpdateStatedElement(StatedMapUpdateMessage message)
         {
-            lock (this.CheckLock)
+            lock (CheckLock)
             {
                 foreach (var statedElementDofus in message.StatedElements)
                 {
@@ -444,14 +400,54 @@ namespace Cookie.Game.Map
                     var selectedStatedElement = StatedElements.GetValue(statedElementDofus.ElementId);
                     if (selectedStatedElement != null)
                     {
-                        StatedElements.Remove((int)selectedStatedElement.Id);
+                        StatedElements.Remove((int) selectedStatedElement.Id);
                         StatedElements.Add(statedElementDofus.ElementId,
-                            new Elements.StatedElement((uint)statedElementDofus.ElementCellId,
-                                (uint)statedElementDofus.ElementId, (uint)statedElementDofus.ElementState));
+                            new StatedElement(statedElementDofus.ElementCellId,
+                                (uint) statedElementDofus.ElementId, statedElementDofus.ElementState));
                     }
-                        
                 }
             }
+        }
+
+        public void ConfirmMove()
+        {
+            _client.Send(new GameMapMovementConfirmMessage());
+        }
+
+        private IEnumerable<MapPoint> GetListPointAtGoodDistance(MapPoint characterPoint, MapPoint elementPoint,
+            int weaponRange)
+        {
+            var list = new List<MapPoint>();
+            var num = -1;
+            var direction = 1;
+            while (true)
+            {
+                var i = 0;
+                while (i < weaponRange)
+                {
+                    i += 1;
+                    var nearestCellInDirection = elementPoint.GetNearestCellInDirection(direction, i);
+                    if (!nearestCellInDirection.IsInMap() ||
+                        !_client.Account.Character.Map.Data.IsWalkable(nearestCellInDirection.CellId)) continue;
+                    var num4 = characterPoint.DistanceToCell(nearestCellInDirection);
+                    if (num == -1 || num >= num4)
+                    {
+                        if (num4 < num)
+                            list.Clear();
+                        num = num4;
+                        list.Add(nearestCellInDirection);
+                    }
+                    break;
+                }
+                direction = direction + 2;
+                if (direction > 7)
+                    return list;
+            }
+        }
+
+        private void LaunchChangeMap(int mapId)
+        {
+            _client.Send(new ChangeMapMessage(mapId));
         }
     }
 }

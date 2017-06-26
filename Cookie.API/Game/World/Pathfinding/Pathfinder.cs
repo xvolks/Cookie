@@ -9,19 +9,7 @@ namespace Cookie.API.Game.World.Pathfinding
 {
     public class Pathfinder
     {
-        private bool AllowDiag;
-        private bool AllowDiagCornering;
-        private bool AllowTroughEntity = true;
-        private MapPoint AuxEndPoint;
-        private int AuxEndX;
-        private int AuxEndY;
         private readonly int DCost = 20;
-
-        private int DistanceToEnd;
-        private MapPoint End;
-        private MapPoint EndPoint;
-        private int EndX;
-        private int EndY;
         private readonly object HeuristicCost = 10;
         private readonly int HVCost = 10;
 
@@ -38,6 +26,18 @@ namespace Cookie.API.Game.World.Pathfinding
 
         private readonly int MinX = 0;
         private readonly int MinY = -19;
+        private bool AllowDiag;
+        private bool AllowDiagCornering;
+        private bool AllowTroughEntity = true;
+        private MapPoint AuxEndPoint;
+        private int AuxEndX;
+        private int AuxEndY;
+
+        private int DistanceToEnd;
+        private MapPoint End;
+        private MapPoint EndPoint;
+        private int EndX;
+        private int EndY;
         private int MovePoint = -1;
         private MovementPath MovPath;
         private int NowX;

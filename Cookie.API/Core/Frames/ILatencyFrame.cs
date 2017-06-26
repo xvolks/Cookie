@@ -2,6 +2,9 @@
 {
     public interface ILatencyFrame
     {
+        /// <summary>
+        ///     The sequence to send to the server
+        /// </summary>
         int Sequence { get; set; }
 
         void LowSend();
