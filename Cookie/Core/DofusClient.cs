@@ -148,6 +148,8 @@ namespace Cookie.Core
         private void LoadPlugins()
         {
             const string path = @"./plugins";
+            if (!string.IsNullOrEmpty(path) && !Directory.Exists(path))
+                Directory.CreateDirectory(path);
             foreach (var file in Directory.GetFiles(path, "*.dll", SearchOption.AllDirectories))
             {
                 var ass2 = Assembly.Load(File.ReadAllBytes(file));
