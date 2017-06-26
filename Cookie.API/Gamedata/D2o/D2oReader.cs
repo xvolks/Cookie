@@ -25,8 +25,8 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Reflection.Emit;
 using Cookie.API.Datacenter;
-using Cookie.API.Extensions;
-using Cookie.API.IO;
+using Cookie.API.Utils.IO;
+using Cookie.API.Utils.Extensions;
 
 namespace Cookie.API.Gamedata.D2o
 {

@@ -21,7 +21,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Cookie.API.IO;
+using Cookie.API.Utils.IO;
 
 namespace Cookie.API.Gamedata.D2o
 {

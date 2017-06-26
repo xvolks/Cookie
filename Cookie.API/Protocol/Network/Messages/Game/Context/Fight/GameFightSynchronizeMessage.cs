@@ -10,7 +10,7 @@
 
 namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
 {
-    using Cookie.API.IO;
+    using Cookie.API.Utils.IO;
     using Cookie.API.Protocol.Network.Types.Game.Context.Fight;
     using System.Collections.Generic;
 

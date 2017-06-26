@@ -7,6 +7,8 @@ using Cookie.API.Network;
 using Cookie.API.Plugins;
 using Cookie.API.Protocol;
 using Cookie.Core;
+using Cookie.API.Utils;
+using Cookie.API.Utils.Enums;
 
 namespace Cookie
 {

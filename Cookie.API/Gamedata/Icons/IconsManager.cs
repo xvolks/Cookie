@@ -19,10 +19,10 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Cookie.API.Extensions;
+using Cookie.API.Utils.Extensions;
 using Cookie.API.Gamedata.D2p;
 
-namespace Cookie.Gamedata.Icons
+namespace Cookie.API.Gamedata.Icons
 {
     public class IconsManager : Singleton<IconsManager>
     {

@@ -11,7 +11,7 @@
 namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
 {
     using Cookie.API.Protocol.Network.Types.Game.House;
-    using Cookie.API.IO;
+    using Cookie.API.Utils.IO;
     using System;
 
     public class MapComplementaryInformationsDataInHouseMessage : MapComplementaryInformationsDataMessage

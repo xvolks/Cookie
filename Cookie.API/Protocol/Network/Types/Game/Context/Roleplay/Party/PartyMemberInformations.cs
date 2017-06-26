@@ -10,7 +10,7 @@
 
 namespace Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Party
 {
-    using Cookie.API.IO;
+    using Cookie.API.Utils.IO;
     using Cookie.API.Protocol.Network.Types.Game.Character.Choice;
     using Cookie.API.Protocol.Network.Types.Game.Character.Status;
     using Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Party.Companion;

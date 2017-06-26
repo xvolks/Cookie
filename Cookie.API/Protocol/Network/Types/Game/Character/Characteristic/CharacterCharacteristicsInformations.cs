@@ -11,7 +11,7 @@
 namespace Cookie.API.Protocol.Network.Types.Game.Character.Characteristic
 {
     using Cookie.API.Protocol.Network.Types.Game.Character.Alignment;
-    using Cookie.API.IO;
+    using Cookie.API.Utils.IO;
     using System.Collections.Generic;
 
 

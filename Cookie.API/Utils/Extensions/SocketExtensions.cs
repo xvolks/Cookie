@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net.Sockets;
 
-namespace Cookie.API.Extensions
+namespace Cookie.API.Utils.Extensions
 {
     public static class SocketExtensions
     {

@@ -19,7 +19,7 @@
 using System.Drawing;
 using System.IO;
 
-namespace Cookie.Gamedata.Icons
+namespace Cookie.API.Gamedata.Icons
 {
     public class Icon
     {

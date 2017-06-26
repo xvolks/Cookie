@@ -1,5 +1,5 @@
 ﻿using System;
-using Cookie.API.IO;
+using Cookie.API.Utils.IO;
 using Cookie.API.Protocol.Network.Types.Version;
 
 namespace Cookie.API.Protocol.Network.Messages.Connection

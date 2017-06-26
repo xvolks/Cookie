@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using Cookie.API.IO;
+using Cookie.API.Utils.IO;
 
 namespace Cookie.API.Gamedata.D2p
 {

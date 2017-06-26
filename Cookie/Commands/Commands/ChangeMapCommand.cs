@@ -1,7 +1,8 @@
 using Cookie.API.Commands;
 using Cookie.API.Core;
 using Cookie.API.Game.Map;
-using Cookie.Core;
+using Cookie.API.Utils;
+using Cookie.API.Utils.Enums;
 
 namespace Cookie.Commands.Commands
 {

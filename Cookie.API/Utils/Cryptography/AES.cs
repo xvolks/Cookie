@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
-using Cookie.API.IO;
+using Cookie.API.Utils.IO;
 
-namespace Cookie.Utils.Cryptography
+namespace Cookie.API.Utils.Cryptography
 {
     public static class AES
     {

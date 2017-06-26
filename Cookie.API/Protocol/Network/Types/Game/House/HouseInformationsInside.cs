@@ -10,7 +10,7 @@
 
 namespace Cookie.API.Protocol.Network.Types.Game.House
 {
-    using Cookie.API.IO;
+    using Cookie.API.Utils.IO;
 
     public class HouseInformationsInside : HouseInformations
     {

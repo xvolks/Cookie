@@ -1,6 +1,8 @@
-﻿using Cookie.API.Gamedata.D2o;
+﻿using Cookie.API.Gamedata.D2i;
+using Cookie.API.Gamedata.D2o;
 using Cookie.API.Network;
 using Cookie.API.Protocol.Network.Messages.Game.Achievement;
+using Cookie.API.Utils;
 using Cookie.Core;
 
 namespace Cookie.Handlers.Game.Achievement

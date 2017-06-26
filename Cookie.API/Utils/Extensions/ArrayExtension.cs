@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Cookie.API.Extensions
+namespace Cookie.API.Utils.Extensions
 {
     public static class ArrayExtension
     {

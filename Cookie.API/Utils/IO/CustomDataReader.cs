@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
-using Cookie.API.IO.Types;
+using Cookie.API.Utils.IO.Types;
 
-namespace Cookie.API.IO
+namespace Cookie.API.Utils.IO
 {
     public class CustomDataReader : ICustomDataInput, IDisposable
     {

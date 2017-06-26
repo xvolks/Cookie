@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Cookie.API.Extensions
+namespace Cookie.API.Utils.Extensions
 {
     public static class EventHandlerExtensions
     {

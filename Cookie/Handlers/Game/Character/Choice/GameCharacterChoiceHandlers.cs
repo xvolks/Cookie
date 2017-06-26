@@ -3,6 +3,7 @@ using Cookie.API.Protocol.Enums;
 using Cookie.API.Protocol.Network.Messages.Game.Character.Choice;
 using Cookie.API.Protocol.Network.Messages.Game.Character.Creation;
 using Cookie.Core;
+using Cookie.API.Utils;
 
 namespace Cookie.Handlers.Game.Character.Choice
 {

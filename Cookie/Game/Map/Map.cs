@@ -17,8 +17,9 @@ using Cookie.API.Protocol.Network.Messages.Game.Interactive;
 using Cookie.API.Protocol.Network.Types.Game.Context.Roleplay;
 using Cookie.API.Utils.Extensions;
 using Cookie.Game.Map.Elements;
-using Cookie.Utils;
 using IMap = Cookie.API.Game.Map.IMap;
+using Cookie.API.Utils;
+using Cookie.API.Gamedata.D2i;
 
 namespace Cookie.Game.Map
 {

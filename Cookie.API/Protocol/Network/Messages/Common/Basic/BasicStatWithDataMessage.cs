@@ -10,7 +10,7 @@
 
 namespace Cookie.API.Protocol.Network.Messages.Common.Basic
 {
-    using Cookie.API.IO;
+    using Cookie.API.Utils.IO;
     using Cookie.API.Protocol.Network.Types.Common.Basic;
     using System.Collections.Generic;
 

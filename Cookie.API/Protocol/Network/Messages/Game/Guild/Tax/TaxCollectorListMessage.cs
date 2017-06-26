@@ -12,7 +12,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild.Tax
 {
     using Cookie.API.Protocol.Network.Types.Game.Guild.Tax;
     using System.Collections.Generic;
-    using Cookie.API.IO;
+    using Cookie.API.Utils.IO;
     
     
     public class TaxCollectorListMessage : AbstractTaxCollectorListMessage

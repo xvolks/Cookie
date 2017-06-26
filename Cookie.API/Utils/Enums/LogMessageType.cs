@@ -1,4 +1,4 @@
-﻿namespace Cookie.Core
+﻿namespace Cookie.API.Utils.Enums
 {
     public enum LogMessageType
     {

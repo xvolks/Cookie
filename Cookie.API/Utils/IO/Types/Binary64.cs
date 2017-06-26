@@ -1,4 +1,4 @@
-﻿namespace Cookie.API.IO.Types
+﻿namespace Cookie.API.Utils.IO.Types
 {
     public class Binary64
     {

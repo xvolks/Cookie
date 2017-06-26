@@ -37,6 +37,9 @@
     <ApplicationIcon>cookie-icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Cookie.API">
+      <HintPath>..\Cookie.API\bin\Debug\Cookie.API.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
@@ -168,12 +171,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="cookie-icon.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Cookie.API\Cookie.API.csproj">
-      <Project>{4cedb9ad-1a1e-42ab-9e1d-830d760812b4}</Project>
-      <Name>Cookie.API</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

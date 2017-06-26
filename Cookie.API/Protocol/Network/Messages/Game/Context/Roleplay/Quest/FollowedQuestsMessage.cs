@@ -11,7 +11,7 @@
 namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Quest
 {
     using Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Quest;
-    using Cookie.API.IO;
+    using Cookie.API.Utils.IO;
     using System.Collections.Generic;
 
 

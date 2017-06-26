@@ -13,7 +13,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Chat.Community
     using System.Collections.Generic;
     using Cookie.API.Protocol.Network.Messages;
     using Cookie.API.Protocol.Network.Types;
-    using Cookie.API.IO;
+    using Cookie.API.Utils.IO;
     
     
     public class ChatCommunityChannelCommunityMessage : NetworkMessage

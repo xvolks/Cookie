@@ -11,7 +11,7 @@
 namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Paddock
 {
     using Cookie.API.Protocol.Network.Types.Game.Paddock;
-    using Cookie.API.IO;
+    using Cookie.API.Utils.IO;
 
 
     public class PaddockPropertiesMessage : NetworkMessage
