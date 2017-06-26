@@ -46,13 +46,7 @@ namespace Cookie.Handlers.Game.Context.Roleplay
             {
                 client.Send(new GuidedModeQuitRequestMessage());
                 client.Account.Character.IsFirstConnection = false;
-            }
-
-            if (client.Account.Character.GatherManager.Launched)
-            {
-                client.Account.Character.GatherManager.Gather();
-                client.Account.Character.Status = CharacterStatus.Gathering;
-            }
+            }   
 
             foreach (var actor in message.Actors)
             {
@@ -64,7 +58,10 @@ namespace Cookie.Handlers.Game.Context.Roleplay
             client.Account.Character.Map.ParseMapComplementaryInformationsDataMessage(message);
 
             if (client.Account.Character.GatherManager.Launched)
-                client.Account.Character.GatherManager.Gather(client.Account.Character.GatherManager.ToGather);
+            {
+                client.Account.Character.GatherManager.Gather();
+                client.Account.Character.Status = CharacterStatus.Gathering;
+            }
         }
 
         [MessageHandler(TeleportOnSameMapMessage.ProtocolId)]
