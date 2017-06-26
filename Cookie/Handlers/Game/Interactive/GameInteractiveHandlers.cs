@@ -8,12 +8,6 @@ namespace Cookie.Handlers.Game.Interactive
 {
     public class GameInteractiveHandlers
     {
-        [MessageHandler(InteractiveUseRequestMessage.ProtocolId)]
-        private void InteractiveUseRequestMessageHandler(DofusClient client, InteractiveUseRequestMessage message)
-        {
-            //
-        }
-
         [MessageHandler(InteractiveUsedMessage.ProtocolId)]
         private void InteractiveUsedMessageHandler(DofusClient client, InteractiveUsedMessage message)
         {

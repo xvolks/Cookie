@@ -47,20 +47,18 @@ namespace Cookie.Handlers.Game.Context.Roleplay
                 client.Account.Character.IsFirstConnection = false;
             }
 
+            if (client.Account.Character.GatherManager.Launched)
+            {
+                client.Account.Character.GatherManager.Gather();
+                client.Account.Character.Status = CharacterStatus.Gathering;
+            }
+
             foreach (var actor in message.Actors)
             {
                 if (actor.ContextualId != client.Account.Character.Id) continue;
                 client.Account.Character.CellId = actor.Disposition.CellId;
                 break;
             }
-
-            /*client.Account.Character.MapId = message.MapId;
-            client.Account.Character.MapData.Clear();
-            client.Account.Character.GatherManager.BannedElementId.Clear();
-            client.Account.Character.MapData.ParseLocation(message.MapId);
-            client.Account.Character.MapData.ParseActors(message.Actors.ToArray());
-            client.Account.Character.MapData.ParseInteractiveElement(message.InteractiveElements.ToArray());
-            client.Account.Character.MapData.ParseStatedElement(message.StatedElements.ToArray());*/
 
             client.Account.Character.Map.ParseMapComplementaryInformationsDataMessage(message);
         }
