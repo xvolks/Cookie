@@ -1,5 +1,6 @@
 ﻿using Cookie.API.Network;
 using Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay;
+using Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Fight.Arena;
 using Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Quest;
 using Cookie.Core;
 using Cookie.Game.Map;
@@ -54,15 +55,10 @@ namespace Cookie.Handlers.Game.Context.Roleplay
                 break;
             }
 
-            /*client.Account.Character.MapId = message.MapId;
-            client.Account.Character.MapData.Clear();
-            client.Account.Character.GatherManager.BannedElementId.Clear();
-            client.Account.Character.MapData.ParseLocation(message.MapId);
-            client.Account.Character.MapData.ParseActors(message.Actors.ToArray());
-            client.Account.Character.MapData.ParseInteractiveElement(message.InteractiveElements.ToArray());
-            client.Account.Character.MapData.ParseStatedElement(message.StatedElements.ToArray());*/
-
             client.Account.Character.Map.ParseMapComplementaryInformationsDataMessage(message);
+
+            if (client.Account.Character.GatherManager.Launched)
+                client.Account.Character.GatherManager.Gather(client.Account.Character.GatherManager.ToGather);
         }
 
         [MessageHandler(TeleportOnSameMapMessage.ProtocolId)]
