@@ -1,5 +1,6 @@
 ﻿using Cookie.API.Network;
 using Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay;
+using Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Fight.Arena;
 using Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Quest;
 using Cookie.Core;
 using Cookie.Game.Map;
@@ -61,6 +62,9 @@ namespace Cookie.Handlers.Game.Context.Roleplay
             }
 
             client.Account.Character.Map.ParseMapComplementaryInformationsDataMessage(message);
+
+            if (client.Account.Character.GatherManager.Launched)
+                client.Account.Character.GatherManager.Gather(client.Account.Character.GatherManager.ToGather);
         }
 
         [MessageHandler(TeleportOnSameMapMessage.ProtocolId)]
