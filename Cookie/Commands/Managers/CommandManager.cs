@@ -36,10 +36,7 @@ namespace Cookie.Commands.Managers
 
             var throwEx = Expression.Throw(Expression.New(typeof(CommandNotFoundException)));
 
-            var breakTarget = Expression.Label(typeof(void));
-            var returnLabel = Expression.Label(breakTarget);
-
-            var defaultBody = Expression.Block(throwEx, returnLabel);
+            var defaultBody = Expression.Block(throwEx);
 
             var se = Expression.Switch(commandName, defaultBody, cases.ToArray());
             Parser = Expression.Lambda<Action<IDofusClient, string, string[]>>(se, client, commandName, args).Compile();
