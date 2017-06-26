@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Cookie.API.Game.Jobs;
 using Cookie.API.Game.Map;
+using Cookie.API.Game.Pathmanager;
 using Cookie.API.Protocol.Enums;
 using Cookie.API.Protocol.Network.Types.Game.Character.Characteristic;
 using Cookie.API.Protocol.Network.Types.Game.Character.Restriction;
@@ -127,6 +128,8 @@ namespace Cookie.API.Core
         ///     Gather Manager
         /// </summary>
         IGatherManager GatherManager { get; set; }
+
+        IPathManager PathManager { get; set; }
 
         /// <summary>
         ///     This method return the url string of the image of this character

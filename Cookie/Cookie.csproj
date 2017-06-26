@@ -55,9 +55,8 @@
     <Compile Include="Commands\Commands\GatherCommand.cs" />
     <Compile Include="Commands\Commands\GoCellCommand.cs" />
     <Compile Include="Commands\Commands\JobsCommand.cs" />
-    <Compile Include="Commands\Commands\KamasCommand.cs" />
     <Compile Include="Commands\Commands\MapIdCommand.cs" />
-    <Compile Include="Commands\Commands\TestCommand.cs" />
+    <Compile Include="Commands\Commands\PathCommand.cs" />
     <Compile Include="Commands\Exceptions\CommandNotFoundException.cs" />
     <Compile Include="Commands\Exceptions\NoCommandException.cs" />
     <Compile Include="Commands\Managers\CommandManager.cs" />
@@ -70,6 +69,7 @@
     <Compile Include="Game\Map\Elements\StatedElement.cs" />
     <Compile Include="Game\Map\Elements\UsableElement.cs" />
     <Compile Include="Game\Map\Map.cs" />
+    <Compile Include="Game\Pathmanager\PathManager.cs" />
     <Compile Include="Handlers\Connection\Register\ConnectionRegisterHandlers.cs" />
     <Compile Include="Handlers\Game\Achievement\GameAchievementHandlers.cs" />
     <Compile Include="Handlers\Game\Alliance\GameAllianceHandlers.cs" />
