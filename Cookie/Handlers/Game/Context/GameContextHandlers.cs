@@ -27,7 +27,14 @@ namespace Cookie.Handlers.Game.Context
             //
         }
 
-        [MessageHandler(GameContextRefreshEntityLookMessage.ProtocolId)]
+        [MessageHandler(GameMapMovementCancelMessage.ProtocolId)]
+        private void GameMapMovementCancelMessageHandler(DofusClient client, GameMapMovementCancelMessage message)
+        {
+            if (client.Account.Character.GatherManager.Id != -1)
+                client.Account.Character.GatherManager.Id = -1;
+        }
+
+       [MessageHandler(GameContextRefreshEntityLookMessage.ProtocolId)]
         private void GameContextRefreshEntityLookMessageHandler(DofusClient client,
             GameContextRefreshEntityLookMessage message)
         {

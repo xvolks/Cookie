@@ -32,6 +32,7 @@ namespace Cookie.Handlers.Game.Inventory.Exchanges
         [MessageHandler(ExchangeLeaveMessage.ProtocolId)]
         private void ExchangeLeaveMessageHandler(DofusClient client, ExchangeLeaveMessage message)
         {
+            client.Account.Character.Status = CharacterStatus.None;
             if (!message.Success)
                 Logger.Default.Log("Echange annulé.", LogMessageType.Info);
         }
@@ -46,6 +47,7 @@ namespace Cookie.Handlers.Game.Inventory.Exchanges
         private void ExchangeStartedWithPodsMessageHandler(DofusClient client, ExchangeStartedWithPodsMessage message)
         {
             Logger.Default.Log("Vous avez accepté l'échange.", LogMessageType.Info);
+            client.Account.Character.Status = CharacterStatus.Exchanging;
             if (message.FirstCharacterId == client.Account.Character.Id)
             {
                 client.Account.Character.Weight = message.FirstCharacterCurrentWeight;

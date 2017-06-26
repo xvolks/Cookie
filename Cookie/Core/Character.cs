@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Cookie.API.Core;
+using Cookie.API.Game.Jobs;
 using Cookie.API.Game.Map;
 using Cookie.API.Protocol.Enums;
 using Cookie.API.Protocol.Network.Types.Game.Character.Characteristic;
@@ -8,6 +9,7 @@ using Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Job;
 using Cookie.API.Protocol.Network.Types.Game.Data.Items;
 using Cookie.API.Protocol.Network.Types.Game.Look;
 using Cookie.API.Utils.Enums;
+using Cookie.Game.Jobs;
 
 namespace Cookie.Core
 {
@@ -22,6 +24,7 @@ namespace Cookie.Core
             Spells = new List<SpellItem>();
             Status = CharacterStatus.Disconnected;
             Jobs = new List<JobExperience>();
+            GatherManager = new GatherManager(this);
         }
 
         public bool IsFirstConnection { get; set; }
@@ -54,6 +57,7 @@ namespace Cookie.Core
         public List<ObjectItem> Inventory { get; set; }
         public List<SpellItem> Spells { get; set; }
         public List<JobExperience> Jobs { get; set; }
+        public IGatherManager GatherManager { get; set; }
 
         public string GetSkinUrl(string mode, int orientation, int width, int height, int zoom)
         {

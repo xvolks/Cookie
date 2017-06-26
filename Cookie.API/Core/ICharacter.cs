@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Cookie.API.Game.Jobs;
 using Cookie.API.Game.Map;
 using Cookie.API.Protocol.Enums;
 using Cookie.API.Protocol.Network.Types.Game.Character.Characteristic;
@@ -121,6 +122,11 @@ namespace Cookie.API.Core
         ///     The character jobs
         /// </summary>
         List<JobExperience> Jobs { get; set; }
+
+        /// <summary>
+        ///     Gather Manager
+        /// </summary>
+        IGatherManager GatherManager { get; set; }
 
         /// <summary>
         ///     This method return the url string of the image of this character

@@ -64,6 +64,7 @@
     <Compile Include="Core\DofusClient.cs" />
     <Compile Include="Core\Frames\LatencyFrame.cs" />
     <Compile Include="Game\Entity\Entity.cs" />
+    <Compile Include="Game\Jobs\GatherManager.cs" />
     <Compile Include="Game\Map\Elements\InteractiveElement.cs" />
     <Compile Include="Game\Map\Elements\StatedElement.cs" />
     <Compile Include="Game\Map\Elements\UsableElement.cs" />

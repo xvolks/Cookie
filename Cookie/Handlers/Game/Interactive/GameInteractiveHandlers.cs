@@ -37,6 +37,13 @@ namespace Cookie.Handlers.Game.Interactive
             InteractiveElementUpdatedMessage message)
         {
             client.Account.Character.Map.UpdateInteractive(message);
+
+            if (client.Account.Character.GatherManager.Launched)
+            {
+                client.Account.Character.GatherManager.Gather();
+                client.Account.Character.Status = CharacterStatus.Gathering;
+            }
+                
         }
 
         [MessageHandler(InteractiveUseErrorMessage.ProtocolId)]

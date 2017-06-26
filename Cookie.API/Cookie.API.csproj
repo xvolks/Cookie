@@ -87,6 +87,7 @@
     <Compile Include="Gamedata\Icons\Icon.cs" />
     <Compile Include="Gamedata\Icons\IconsManager.cs" />
     <Compile Include="Game\Entity\IEntity.cs" />
+    <Compile Include="Game\Jobs\IGatherManager.cs" />
     <Compile Include="Game\Map\Elements\IInteractiveElement.cs" />
     <Compile Include="Game\Map\Elements\IStatedElement.cs" />
     <Compile Include="Game\Map\Elements\IUsableElement.cs" />
