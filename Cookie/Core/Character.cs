@@ -2,6 +2,7 @@
 using Cookie.API.Core;
 using Cookie.API.Game.Jobs;
 using Cookie.API.Game.Map;
+using Cookie.API.Game.Pathmanager;
 using Cookie.API.Protocol.Enums;
 using Cookie.API.Protocol.Network.Types.Game.Character.Characteristic;
 using Cookie.API.Protocol.Network.Types.Game.Character.Restriction;
@@ -10,6 +11,7 @@ using Cookie.API.Protocol.Network.Types.Game.Data.Items;
 using Cookie.API.Protocol.Network.Types.Game.Look;
 using Cookie.API.Utils.Enums;
 using Cookie.Game.Jobs;
+using Cookie.Game.Pathmanager;
 
 namespace Cookie.Core
 {
@@ -25,6 +27,7 @@ namespace Cookie.Core
             Status = CharacterStatus.Disconnected;
             Jobs = new List<JobExperience>();
             GatherManager = new GatherManager(this);
+            PathManager = new PathManager("./trajet/trajet.txt", this);
         }
 
         public bool IsFirstConnection { get; set; }
@@ -58,6 +61,7 @@ namespace Cookie.Core
         public List<SpellItem> Spells { get; set; }
         public List<JobExperience> Jobs { get; set; }
         public IGatherManager GatherManager { get; set; }
+        public IPathManager PathManager { get; set; }
 
         public string GetSkinUrl(string mode, int orientation, int width, int height, int zoom)
         {
