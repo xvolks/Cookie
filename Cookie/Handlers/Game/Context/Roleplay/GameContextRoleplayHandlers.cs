@@ -62,6 +62,9 @@ namespace Cookie.Handlers.Game.Context.Roleplay
                 client.Account.Character.GatherManager.Gather();
                 client.Account.Character.Status = CharacterStatus.Gathering;
             }
+
+            if (client.Account.Character.PathManager.Launched)
+                client.Account.Character.PathManager.DoAction();
         }
 
         [MessageHandler(TeleportOnSameMapMessage.ProtocolId)]
