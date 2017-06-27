@@ -50,7 +50,6 @@
             this.txtPath.BackColor = System.Drawing.Color.White;
             this.txtPath.Location = new System.Drawing.Point(109, 12);
             this.txtPath.Name = "txtPath";
-            this.txtPath.ReadOnly = true;
             this.txtPath.Size = new System.Drawing.Size(273, 21);
             this.txtPath.TabIndex = 1;
             // 
