@@ -11,7 +11,7 @@ using Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay;
 using Cookie.API.Utils;
 using Cookie.API.Utils.Enums;
 
-namespace Cookie.Game.Pathmanager
+namespace Cookie.Core.Pathmanager
 {
     public class PathManager : IPathManager
     {
@@ -125,7 +125,6 @@ namespace Cookie.Game.Pathmanager
             catch (Exception e)
             {
                 MessageBox.Show(e.Message);
-                //throw;
             }
         }
 
