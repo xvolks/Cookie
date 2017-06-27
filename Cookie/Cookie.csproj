@@ -157,6 +157,10 @@
       <Project>{4cedb9ad-1a1e-42ab-9e1d-830d760812b4}</Project>
       <Name>Cookie.API</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Cookie.Design\Cookie.Design.vbproj">
+      <Project>{cbf6f19e-f400-4cf4-adc4-035b2737d3ec}</Project>
+      <Name>Cookie.Design</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

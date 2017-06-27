@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Windows.Forms;
 
 namespace Cookie.Utils.Configurations
 {
     public class GlobalConfiguration
     {
-
         #region Singleton
 
         private static GlobalConfiguration configuration;
+
         public static GlobalConfiguration Instance
         {
             get
@@ -25,19 +26,20 @@ namespace Cookie.Utils.Configurations
 
         // Properties
         public string DofusPath { get; private set; }
-        public List<AccountConfiguration> Accounts { get; private set; }
+
+        public List<AccountConfiguration> Accounts { get; }
 
 
         // Fields
-        private const string configPath = "config.cookie";
-        private const string accountsPath = "Accounts";
-        private bool initialized;
+        private const string ConfigPath = "config.cookie";
+
+        private bool _initialized;
 
 
         // Constructor
         public GlobalConfiguration()
         {
-            initialized = false;
+            _initialized = false;
 
             Accounts = new List<AccountConfiguration>();
         }
@@ -45,63 +47,56 @@ namespace Cookie.Utils.Configurations
 
         public void Initialize()
         {
-            if (initialized)
+            if (_initialized)
                 return;
 
             // If the config file doesn't exist yet = first use
-            if (!File.Exists(configPath))
-            {
-                using (FirstUseForm fuf = new FirstUseForm())
+            if (!File.Exists(ConfigPath))
+                using (var fuf = new FirstUseForm())
                 {
-                    if (fuf.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+                    if (fuf.ShowDialog() != DialogResult.OK)
                         Environment.Exit(-1);
 
                     DofusPath = fuf.DofusPath;
-                    initialized = true;
+                    _initialized = true;
                     SaveConfiguration();
                 }
-            }
             else
-            {
                 LoadConfiguration();
-            }
         }
 
         public void AddAccount(string username, string password)
         {
-            AccountConfiguration ac = new AccountConfiguration(username, password);
+            var ac = new AccountConfiguration(username, password);
             Accounts.Add(ac);
             SaveConfiguration();
         }
 
         private void SaveConfiguration()
         {
-            if (!initialized)
+            if (!_initialized)
                 return;
 
-            using (BinaryWriter bw = new BinaryWriter(File.Open(configPath, FileMode.Create)))
+            using (var bw = new BinaryWriter(File.Open(ConfigPath, FileMode.Create)))
             {
                 bw.Write(DofusPath);
 
-                bw.Write((byte)Accounts.Count);
+                bw.Write((byte) Accounts.Count);
                 Accounts.ForEach(f => f.Save(bw));
             }
         }
 
         private void LoadConfiguration()
         {
-            using (BinaryReader br = new BinaryReader(File.Open(configPath, FileMode.Open)))
+            using (var br = new BinaryReader(File.Open(ConfigPath, FileMode.Open)))
             {
                 DofusPath = br.ReadString();
-                byte x = br.ReadByte();
-                for (int i = 0; i < x; i++)
-                {
+                var x = br.ReadByte();
+                for (var i = 0; i < x; i++)
                     Accounts.Add(AccountConfiguration.Load(br));
-                }
 
-                initialized = true;
+                _initialized = true;
             }
         }
-
     }
 }
