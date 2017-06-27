@@ -30,41 +30,19 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AccountsForm));
-            this.lvAccounts = new System.Windows.Forms.ListView();
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.connecterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.ajouterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.supprimerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.bForm1 = new Cookie.Design.BForm();
             this.label1 = new System.Windows.Forms.Label();
+            this.lvAccounts = new System.Windows.Forms.ListView();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.contextMenuStrip1.SuspendLayout();
+            this.bForm1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // lvAccounts
-            // 
-            this.lvAccounts.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1,
-            this.columnHeader2});
-            this.lvAccounts.ContextMenuStrip = this.contextMenuStrip1;
-            this.lvAccounts.FullRowSelect = true;
-            this.lvAccounts.Location = new System.Drawing.Point(12, 29);
-            this.lvAccounts.Name = "lvAccounts";
-            this.lvAccounts.Size = new System.Drawing.Size(313, 207);
-            this.lvAccounts.TabIndex = 0;
-            this.lvAccounts.UseCompatibleStateImageBehavior = false;
-            this.lvAccounts.View = System.Windows.Forms.View.Details;
-            // 
-            // columnHeader1
-            // 
-            this.columnHeader1.Text = "Nom de compte";
-            this.columnHeader1.Width = 140;
-            // 
-            // columnHeader2
-            // 
-            this.columnHeader2.Text = "Mot de passe";
-            this.columnHeader2.Width = 140;
             // 
             // contextMenuStrip1
             // 
@@ -102,24 +80,62 @@
             this.supprimerToolStripMenuItem.Text = "Supprimer";
             this.supprimerToolStripMenuItem.Click += new System.EventHandler(this.supprimerToolStripMenuItem_Click);
             // 
+            // bForm1
+            // 
+            this.bForm1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.bForm1.Controls.Add(this.label1);
+            this.bForm1.Controls.Add(this.lvAccounts);
+            this.bForm1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.bForm1.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.bForm1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.bForm1.Location = new System.Drawing.Point(0, 0);
+            this.bForm1.Name = "bForm1";
+            this.bForm1.Size = new System.Drawing.Size(341, 285);
+            this.bForm1.TabIndex = 1;
+            this.bForm1.Text = "Cookie - Connecter un compte";
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 9);
+            this.label1.Location = new System.Drawing.Point(8, 40);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(73, 16);
-            this.label1.TabIndex = 1;
+            this.label1.Size = new System.Drawing.Size(75, 19);
+            this.label1.TabIndex = 3;
             this.label1.Text = "Compte(s):";
+            // 
+            // lvAccounts
+            // 
+            this.lvAccounts.BackColor = System.Drawing.Color.White;
+            this.lvAccounts.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1,
+            this.columnHeader2});
+            this.lvAccounts.ContextMenuStrip = this.contextMenuStrip1;
+            this.lvAccounts.FullRowSelect = true;
+            this.lvAccounts.Location = new System.Drawing.Point(12, 64);
+            this.lvAccounts.Name = "lvAccounts";
+            this.lvAccounts.Size = new System.Drawing.Size(313, 207);
+            this.lvAccounts.TabIndex = 2;
+            this.lvAccounts.UseCompatibleStateImageBehavior = false;
+            this.lvAccounts.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "Nom de compte";
+            this.columnHeader1.Width = 140;
+            // 
+            // columnHeader2
+            // 
+            this.columnHeader2.Text = "Mot de passe";
+            this.columnHeader2.Width = 140;
             // 
             // AccountsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(337, 250);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.lvAccounts);
+            this.ClientSize = new System.Drawing.Size(341, 285);
+            this.Controls.Add(this.bForm1);
             this.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MaximizeBox = false;
@@ -128,21 +144,22 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Cookie - Comptes";
             this.contextMenuStrip1.ResumeLayout(false);
+            this.bForm1.ResumeLayout(false);
+            this.bForm1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.ListView lvAccounts;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ColumnHeader columnHeader1;
-        private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem ajouterToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem supprimerToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem connecterToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private Design.BForm bForm1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ListView lvAccounts;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.ColumnHeader columnHeader2;
     }
 }
