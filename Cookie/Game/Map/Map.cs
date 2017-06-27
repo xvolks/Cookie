@@ -281,7 +281,9 @@ namespace Cookie.Game.Map
 
         public void ConfirmMove(int time)
         {
-            Randomize.Run(() => _account.Network.SendToServer(new GameMapMovementConfirmMessage()), time * 2);
+            Randomize.RunBetween(
+                () => _account.Network.SendToServer(new GameMapMovementConfirmMessage()), time * 2, time * 2 + 500);
+
         }
 
         private IEnumerable<MapPoint> GetListPointAtGoodDistance(MapPoint characterPoint, MapPoint elementPoint,
