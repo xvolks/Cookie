@@ -29,68 +29,91 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddAccountForm));
-            this.label1 = new System.Windows.Forms.Label();
-            this.txtUsername = new System.Windows.Forms.TextBox();
-            this.txtPassword = new System.Windows.Forms.TextBox();
+            this.bForm1 = new Cookie.Design.BForm();
+            this.btnConfirm = new Cookie.Design.BButton();
+            this.txtPassword = new Cookie.Design.BTextBox();
+            this.txtUsername = new Cookie.Design.BTextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.btnConfirm = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.bForm1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // label1
+            // bForm1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 15);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(103, 16);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Nom du compte:";
+            this.bForm1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.bForm1.Controls.Add(this.btnConfirm);
+            this.bForm1.Controls.Add(this.txtPassword);
+            this.bForm1.Controls.Add(this.txtUsername);
+            this.bForm1.Controls.Add(this.label2);
+            this.bForm1.Controls.Add(this.label1);
+            this.bForm1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.bForm1.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.bForm1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
+            this.bForm1.Location = new System.Drawing.Point(0, 0);
+            this.bForm1.Name = "bForm1";
+            this.bForm1.Size = new System.Drawing.Size(263, 161);
+            this.bForm1.TabIndex = 0;
+            this.bForm1.Text = "Cookie - Ajouter un compte";
             // 
-            // txtUsername
+            // btnConfirm
             // 
-            this.txtUsername.Location = new System.Drawing.Point(121, 12);
-            this.txtUsername.Name = "txtUsername";
-            this.txtUsername.Size = new System.Drawing.Size(100, 23);
-            this.txtUsername.TabIndex = 1;
+            this.btnConfirm.DisplayImage = null;
+            this.btnConfirm.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btnConfirm.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.btnConfirm.Location = new System.Drawing.Point(165, 118);
+            this.btnConfirm.Name = "btnConfirm";
+            this.btnConfirm.Size = new System.Drawing.Size(86, 31);
+            this.btnConfirm.TabIndex = 10;
+            this.btnConfirm.Text = "Confirmer";
+            this.btnConfirm.UseVisualStyleBackColor = true;
+            this.btnConfirm.Click += new System.EventHandler(this.BtnConfirm_Click);
             // 
             // txtPassword
             // 
-            this.txtPassword.Location = new System.Drawing.Point(107, 41);
+            this.txtPassword.Location = new System.Drawing.Point(113, 74);
+            this.txtPassword.MultiLine = false;
             this.txtPassword.Name = "txtPassword";
-            this.txtPassword.PasswordChar = '•';
-            this.txtPassword.Size = new System.Drawing.Size(114, 23);
-            this.txtPassword.TabIndex = 3;
+            this.txtPassword.ReadOnly = false;
+            this.txtPassword.Size = new System.Drawing.Size(138, 22);
+            this.txtPassword.TabIndex = 9;
+            this.txtPassword.UseSystemPasswordChar = false;
+            // 
+            // txtUsername
+            // 
+            this.txtUsername.Location = new System.Drawing.Point(130, 41);
+            this.txtUsername.MultiLine = false;
+            this.txtUsername.Name = "txtUsername";
+            this.txtUsername.ReadOnly = false;
+            this.txtUsername.Size = new System.Drawing.Size(121, 22);
+            this.txtUsername.TabIndex = 8;
+            this.txtUsername.UseSystemPasswordChar = false;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 44);
+            this.label2.Location = new System.Drawing.Point(12, 78);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(89, 16);
-            this.label2.TabIndex = 2;
+            this.label2.Size = new System.Drawing.Size(95, 19);
+            this.label2.TabIndex = 7;
             this.label2.Text = "Mot de passe:";
             // 
-            // btnConfirm
+            // label1
             // 
-            this.btnConfirm.Location = new System.Drawing.Point(131, 81);
-            this.btnConfirm.Name = "btnConfirm";
-            this.btnConfirm.Size = new System.Drawing.Size(90, 32);
-            this.btnConfirm.TabIndex = 4;
-            this.btnConfirm.Text = "Confirmer";
-            this.btnConfirm.UseVisualStyleBackColor = true;
-            this.btnConfirm.Click += new System.EventHandler(this.BtnConfirm_Click);
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 46);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(112, 19);
+            this.label1.TabIndex = 5;
+            this.label1.Text = "Nom du compte:";
             // 
             // AddAccountForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(233, 122);
-            this.Controls.Add(this.btnConfirm);
-            this.Controls.Add(this.txtPassword);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.txtUsername);
-            this.Controls.Add(this.label1);
+            this.ClientSize = new System.Drawing.Size(263, 161);
+            this.Controls.Add(this.bForm1);
             this.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.MaximizeBox = false;
@@ -98,17 +121,19 @@
             this.Name = "AddAccountForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Cookie - Ajouter un compte";
+            this.bForm1.ResumeLayout(false);
+            this.bForm1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txtUsername;
-        private System.Windows.Forms.TextBox txtPassword;
+        private Design.BForm bForm1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button btnConfirm;
+        private System.Windows.Forms.Label label1;
+        private Design.BButton btnConfirm;
+        private Design.BTextBox txtPassword;
+        private Design.BTextBox txtUsername;
     }
 }
