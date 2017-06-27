@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Cookie.API.Core.Pathmanager;
 using Cookie.API.Game.Achievement;
 using Cookie.API.Game.Alliance;
 using Cookie.API.Game.Chat;
@@ -8,7 +9,6 @@ using Cookie.API.Game.Inventory;
 using Cookie.API.Game.Jobs;
 using Cookie.API.Game.Map;
 using Cookie.API.Game.Party;
-using Cookie.API.Game.Pathmanager;
 using Cookie.API.Protocol.Enums;
 using Cookie.API.Protocol.Network.Types.Game.Character.Characteristic;
 using Cookie.API.Protocol.Network.Types.Game.Character.Restriction;
