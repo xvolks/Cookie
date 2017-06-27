@@ -102,15 +102,5 @@ namespace Cookie.API.Game.Map
         void UseElement(int id, int skillId);
 
         bool MoveToCellWithDistance(int cellId, int maxDistance, bool bool1);
-
-        void UpdateEntity(GameMapMovementMessage message);
-        void UpdateStatedElement(StatedElementUpdatedMessage message);
-        void UpdateStatedElement(StatedMapUpdateMessage message);
-        void ParseMapComplementaryInformationsDataMessage(MapComplementaryInformationsDataMessage message);
-        void UpdateEntity(TeleportOnSameMapMessage message);
-        void UpdateInteractive(InteractiveElementUpdatedMessage message);
-        void UpdateInteractive(InteractiveMapUpdateMessage message);
-        void RemoveEntity(int id);
-        void AddActor(GameRolePlayShowActorMessage message);
     }
 }
