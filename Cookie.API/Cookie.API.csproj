@@ -102,7 +102,7 @@
     <Compile Include="Game\Map\IMapData.cs" />
     <Compile Include="Game\Map\MapDirectionEnum.cs" />
     <Compile Include="Game\Party\IParty.cs" />
-    <Compile Include="Game\Pathmanager\IPathManager.cs" />
+    <Compile Include="Core\Pathmanager\IPathManager.cs" />
     <Compile Include="Game\World\Pathfinding\CellInfo.cs" />
     <Compile Include="Game\World\Pathfinding\Dofus1Line.cs" />
     <Compile Include="Game\World\Pathfinding\MapMovementAdapter.cs" />
