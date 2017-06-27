@@ -4,14 +4,14 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Cookie.API.Core;
+using Cookie.API.Core.Pathmanager;
 using Cookie.API.Game.Map;
-using Cookie.API.Game.Pathmanager;
 using Cookie.API.Messages;
 using Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay;
 using Cookie.API.Utils;
 using Cookie.API.Utils.Enums;
 
-namespace Cookie.Game.Pathmanager
+namespace Cookie.Core.Pathmanager
 {
     public class PathManager : IPathManager
     {
@@ -125,7 +125,6 @@ namespace Cookie.Game.Pathmanager
             catch (Exception e)
             {
                 MessageBox.Show(e.Message);
-                //throw;
             }
         }
 

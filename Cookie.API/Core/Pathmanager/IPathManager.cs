@@ -1,6 +1,4 @@
-﻿using Cookie.API.Core;
-
-namespace Cookie.API.Game.Pathmanager
+﻿namespace Cookie.API.Core.Pathmanager
 {
     public interface IPathManager
     {

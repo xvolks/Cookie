@@ -177,8 +177,8 @@ namespace Cookie
             }
             else
             {
-                var time = DateTime.Now.ToShortTimeString();
-                var rows = new[] { time, origin, id, name };
+                var time = DateTime.Now.ToLongTimeString();
+                var rows = new[] {time, origin, id, name};
                 var listViewItem = new ListViewItem(rows);
                 PacketsListView.Items.Add(listViewItem);
                 switch (origin)

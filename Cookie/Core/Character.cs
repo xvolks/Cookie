@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Cookie.API.Core;
+using Cookie.API.Core.Pathmanager;
 using Cookie.API.Datacenter;
 using Cookie.API.Game.Achievement;
 using Cookie.API.Game.Alliance;
@@ -11,7 +12,6 @@ using Cookie.API.Game.Inventory;
 using Cookie.API.Game.Jobs;
 using Cookie.API.Game.Map;
 using Cookie.API.Game.Party;
-using Cookie.API.Game.Pathmanager;
 using Cookie.API.Gamedata.D2o;
 using Cookie.API.Messages;
 using Cookie.API.Protocol.Enums;
@@ -33,6 +33,7 @@ using Cookie.API.Protocol.Network.Types.Game.Data.Items;
 using Cookie.API.Protocol.Network.Types.Game.Look;
 using Cookie.API.Utils;
 using Cookie.API.Utils.Enums;
+using Cookie.Core.Pathmanager;
 using Cookie.Game.Alliance;
 using Cookie.Game.Chat;
 using Cookie.Game.Friend;
@@ -41,7 +42,6 @@ using Cookie.Game.Inventory;
 using Cookie.Game.Jobs;
 using Cookie.Game.Map;
 using Cookie.Game.Party;
-using Cookie.Game.Pathmanager;
 using Achievement = Cookie.Game.Achievement.Achievement;
 
 namespace Cookie.Core
