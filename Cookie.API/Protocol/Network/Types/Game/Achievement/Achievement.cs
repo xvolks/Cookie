@@ -82,7 +82,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Achievement
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort(((short)(m_finishedObjective.Count)));
             int finishedObjectiveIndex;
@@ -101,7 +101,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Achievement
             writer.WriteVarUhShort(m_ObjectId);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             int finishedObjectiveCount = reader.ReadUShort();
             int finishedObjectiveIndex;

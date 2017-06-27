@@ -67,13 +67,13 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Fight.Arena
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteInt(m_fightId);
             writer.WriteVarUhShort(m_duration);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_fightId = reader.ReadInt();
             m_duration = reader.ReadVarUhShort();

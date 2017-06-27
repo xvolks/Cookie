@@ -97,7 +97,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarUhInt(m_symbioteUID);
             writer.WriteSByte(m_symbiotePos);
@@ -105,7 +105,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
             writer.WriteSByte(m_hostPos);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_symbioteUID = reader.ReadVarUhInt();
             m_symbiotePos = reader.ReadSByte();

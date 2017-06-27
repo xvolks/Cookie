@@ -67,13 +67,13 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Alliance
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteUTF(m_recrutedName);
             writer.WriteByte(m_invitationState);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_recrutedName = reader.ReadUTF();
             m_invitationState = reader.ReadByte();

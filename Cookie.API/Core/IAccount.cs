@@ -1,4 +1,13 @@
 ﻿using Cookie.API.Core.Frames;
+using Cookie.API.Core.Network;
+using Cookie.API.Game.Achievement;
+using Cookie.API.Game.Alliance;
+using Cookie.API.Game.Chat;
+using Cookie.API.Game.Friend;
+using Cookie.API.Game.Guild;
+using Cookie.API.Game.Inventory;
+using Cookie.API.Game.Map;
+using Cookie.API.Game.Party;
 
 namespace Cookie.API.Core
 {
@@ -63,5 +72,26 @@ namespace Cookie.API.Core
         ///     The latency frame for this account
         /// </summary>
         ILatencyFrame LatencyFrame { get; set; }
+
+        INetwork Network { get; set; }
+
+        IAchievement Achievement { get; set; }
+
+        IAlliance Alliance { get; set; }
+
+        IChat Chat { get; set; }
+
+        IMap Map { get; set; }
+
+        IFriend Friend { get; set; }
+
+        IGuild Guild { get; set; }
+
+        IInventory Inventory { get; set; }
+
+        IParty Party { get; set; }
+
+        void LogPacket(string origin, string name, string id);
+        void LogNoHandler(string name);
     }
 }

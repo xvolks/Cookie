@@ -50,13 +50,13 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Character.Status
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteUShort(((ushort)(m_status.TypeID)));
             m_status.Serialize(writer);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_status = ProtocolTypeManager.GetInstance<PlayerStatus>((short)reader.ReadUShort());
             m_status.Deserialize(reader);

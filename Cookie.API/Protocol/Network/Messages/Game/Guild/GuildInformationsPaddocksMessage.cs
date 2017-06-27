@@ -68,7 +68,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort(((short)(m_paddocksInformations.Count)));
             int paddocksInformationsIndex;
@@ -80,7 +80,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild
             writer.WriteByte(m_nbPaddockMax);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             int paddocksInformationsCount = reader.ReadUShort();
             int paddocksInformationsIndex;

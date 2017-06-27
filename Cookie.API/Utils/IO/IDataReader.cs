@@ -44,5 +44,17 @@ namespace Cookie.API.Utils.IO
         void Seek(int offset, SeekOrigin seekOrigin);
 
         void SkipBytes(int n);
+
+        int ReadVarInt();
+
+        uint ReadVarUhInt();
+
+        short ReadVarShort();
+
+        ushort ReadVarUhShort();
+
+        long ReadVarLong();
+
+        ulong ReadVarUhLong();
     }
 }

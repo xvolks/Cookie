@@ -27,7 +27,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Prism
             set => _mPrisms = value;
         }
 
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort((short) _mPrisms.Count);
             int prismsIndex;
@@ -39,7 +39,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Prism
             }
         }
 
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             _mPrisms = new List<PrismSubareaEmptyInfo>();
             var loc2 = reader.ReadUShort();

@@ -67,13 +67,13 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Job
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteBoolean(m_addedOrDeleted);
             writer.WriteByte(m_jobId);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_addedOrDeleted = reader.ReadBoolean();
             m_jobId = reader.ReadByte();

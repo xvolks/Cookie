@@ -67,13 +67,13 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Mount
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarInt(m_mountId);
             writer.WriteUTF(m_name);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_mountId = reader.ReadVarInt();
             m_name = reader.ReadUTF();

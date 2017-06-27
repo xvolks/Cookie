@@ -97,7 +97,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Dare
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteByte(m_type);
             writer.WriteVarUhShort(m_monsterId);
@@ -105,7 +105,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Dare
             writer.WriteDouble(m_dareId);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_type = reader.ReadByte();
             m_monsterId = reader.ReadVarUhShort();

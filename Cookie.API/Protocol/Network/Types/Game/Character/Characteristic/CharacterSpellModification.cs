@@ -82,14 +82,14 @@ namespace Cookie.API.Protocol.Network.Types.Game.Character.Characteristic
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             m_value.Serialize(writer);
             writer.WriteByte(m_modificationType);
             writer.WriteVarUhShort(m_spellId);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_value = new CharacterBaseCharacteristic();
             m_value.Deserialize(reader);

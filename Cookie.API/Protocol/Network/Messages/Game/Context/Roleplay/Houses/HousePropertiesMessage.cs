@@ -81,7 +81,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Houses
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarUhInt(m_houseId);
             writer.WriteShort(((short)(m_doorsOnMap.Count)));
@@ -94,7 +94,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Houses
             m_properties.Serialize(writer);
          }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_houseId = reader.ReadVarUhInt();
             int doorsOnMapCount = reader.ReadUShort();

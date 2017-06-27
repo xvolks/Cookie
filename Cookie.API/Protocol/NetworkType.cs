@@ -7,7 +7,7 @@ namespace Cookie.API.Protocol
     {
         public abstract short TypeID { get; }
 
-        public abstract void Serialize(ICustomDataOutput writer);
-        public abstract void Deserialize(ICustomDataInput reader);
+        public abstract void Serialize(IDataWriter writer);
+        public abstract void Deserialize(IDataReader reader);
     }
 }

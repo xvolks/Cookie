@@ -67,13 +67,13 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Lockable
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteBoolean(m_changeOrUse);
             writer.WriteByte(m_codeSize);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_changeOrUse = reader.ReadBoolean();
             m_codeSize = reader.ReadByte();

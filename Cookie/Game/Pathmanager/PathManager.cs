@@ -6,8 +6,11 @@ using System.Windows.Forms;
 using Cookie.API.Core;
 using Cookie.API.Game.Map;
 using Cookie.API.Game.Pathmanager;
+using Cookie.API.Messages;
+using Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay;
 using Cookie.API.Utils;
 using Cookie.API.Utils.Enums;
+using Cookie.Core;
 
 namespace Cookie.Game.Pathmanager
 {
@@ -15,14 +18,16 @@ namespace Cookie.Game.Pathmanager
     {
         public const string TrajetsDirectory = @"./trajets/";
 
-        public PathManager(ICharacter character)
+        public PathManager(IAccount account)
         {
             if (!string.IsNullOrEmpty(TrajetsDirectory) && !Directory.Exists(TrajetsDirectory))
                 Directory.CreateDirectory(TrajetsDirectory);
 
             Launched = false;
-            Character = character;
+            Account = account;
             PathData = new Dictionary<int, Tuple<MapDirectionEnum, string>>();
+
+            Account.Network.RegisterPacket<MapComplementaryInformationsDataMessage>(HandleMapComplementaryInformationsDataMessage, MessagePriority.Normal);
         }
 
         private Dictionary<int, Tuple<MapDirectionEnum, string>> PathData { get; set; }
@@ -30,7 +35,7 @@ namespace Cookie.Game.Pathmanager
 
         public bool Launched { get; set; }
 
-        public ICharacter Character { get; set; }
+        public IAccount Account { get; set; }
 
         public async void Start(string trajet)
         {
@@ -47,25 +52,25 @@ namespace Cookie.Game.Pathmanager
         public void DoAction()
         {
             if (!Launched) return;
-            if (PathData.ContainsKey(Character.MapId))
-                switch (PathData[Character.MapId].Item2)
+            if (PathData.ContainsKey(Account.Character.MapId))
+                switch (PathData[Account.Character.MapId].Item2)
                 {
                     case "move":
-                        Logger.Default.Log($"[PathManager] Déplacement vers {PathData[Character.MapId].Item1}",
+                        Logger.Default.Log($"[PathManager] Déplacement vers {PathData[Account.Character.MapId].Item1}",
                             LogMessageType.Info);
-                        Character.Map.ChangeMap(PathData[Character.MapId].Item1);
+                        Account.Map.ChangeMap(PathData[Account.Character.MapId].Item1);
                         break;
                     case "gather":
                         Logger.Default.Log("[PathManager] Récolte non gérée", LogMessageType.Public);
-                        Character.Map.ChangeMap(PathData[Character.MapId].Item1);
+                        Account.Map.ChangeMap(PathData[Account.Character.MapId].Item1);
                         break;
                     case "fight":
                         Logger.Default.Log("[PathManager] Combat non géré", LogMessageType.Public);
-                        Character.Map.ChangeMap(PathData[Character.MapId].Item1);
+                        Account.Map.ChangeMap(PathData[Account.Character.MapId].Item1);
                         break;
                 }
             else
-                Logger.Default.Log($"Map {Character.MapId} non gérée dans le trajet");
+                Logger.Default.Log($"Map {Account.Character.MapId} non gérée dans le trajet");
         }
 
         private void ParseTrajet(string path)
@@ -122,6 +127,13 @@ namespace Cookie.Game.Pathmanager
                 MessageBox.Show(e.Message);
                 //throw;
             }
+        }
+
+        private void HandleMapComplementaryInformationsDataMessage(IAccount account,
+            MapComplementaryInformationsDataMessage message)
+        {
+            if(Launched)
+                DoAction();
         }
     }
 }

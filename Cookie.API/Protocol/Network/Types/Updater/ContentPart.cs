@@ -67,13 +67,13 @@ namespace Cookie.API.Protocol.Network.Types.Updater
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteUTF(m_ObjectId);
             writer.WriteByte(m_state);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_ObjectId = reader.ReadUTF();
             m_state = reader.ReadByte();

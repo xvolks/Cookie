@@ -34,7 +34,7 @@ namespace Cookie.API.Protocol.Network.Types.Connection
         public byte CharactersSlots { get; set; }
         public double Date { get; set; }
 
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarUhShort(ObjectID);
             writer.WriteByte(ServerType);
@@ -46,7 +46,7 @@ namespace Cookie.API.Protocol.Network.Types.Connection
             writer.WriteDouble(Date);
         }
 
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             ObjectID = reader.ReadVarUhShort();
             ServerType = reader.ReadByte();

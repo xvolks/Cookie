@@ -582,7 +582,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Mount
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             byte flag = new byte();
             BooleanByteWrapper.SetFlag(0, flag, m_sex);
@@ -638,7 +638,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Mount
             } 
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             byte flag = reader.ReadByte();
             m_sex = BooleanByteWrapper.GetFlag(flag, 0);

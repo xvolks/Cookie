@@ -97,7 +97,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Tinsel
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort(((short)(m_titles.Count)));
             int titlesIndex;
@@ -115,7 +115,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Tinsel
             writer.WriteVarUhShort(m_activeOrnament);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             int titlesCount = reader.ReadUShort();
             int titlesIndex;

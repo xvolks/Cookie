@@ -23,14 +23,14 @@ namespace Cookie.API.Protocol.Network.Types.Game.Look
 
         public override short TypeID => ProtocolId;
 
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteByte(BindingPointCategory);
             writer.WriteByte(BindingPointIndex);
             SubEntityLook.Serialize(writer);
         }
 
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             BindingPointCategory = reader.ReadByte();
             BindingPointIndex = reader.ReadByte();

@@ -67,13 +67,13 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Pvp
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteByte(m_status);
             writer.WriteInt(m_probationTime);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_status = reader.ReadByte();
             m_probationTime = reader.ReadInt();

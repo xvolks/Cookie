@@ -67,13 +67,13 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteBoolean(m_onlySuccess);
             writer.WriteVarUhInt(m_objectUID);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_onlySuccess = reader.ReadBoolean();
             m_objectUID = reader.ReadVarUhInt();

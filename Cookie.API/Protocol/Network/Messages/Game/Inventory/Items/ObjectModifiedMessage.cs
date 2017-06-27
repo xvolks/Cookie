@@ -53,12 +53,12 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             m_object.Serialize(writer);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_object = new ObjectItem();
             m_object.Deserialize(reader);

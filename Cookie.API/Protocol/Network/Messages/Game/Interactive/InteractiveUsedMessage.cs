@@ -112,7 +112,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Interactive
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarUhLong(m_entityId);
             writer.WriteVarUhInt(m_elemId);
@@ -121,7 +121,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Interactive
             writer.WriteBoolean(m_canMove);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_entityId = reader.ReadVarUhLong();
             m_elemId = reader.ReadVarUhInt();

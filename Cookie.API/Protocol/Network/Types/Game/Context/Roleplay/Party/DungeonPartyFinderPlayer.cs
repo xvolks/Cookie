@@ -109,7 +109,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Party
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarUhLong(m_playerId);
             writer.WriteUTF(m_playerName);
@@ -118,7 +118,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Party
             writer.WriteSByte(m_level);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_playerId = reader.ReadVarUhLong();
             m_playerName = reader.ReadUTF();

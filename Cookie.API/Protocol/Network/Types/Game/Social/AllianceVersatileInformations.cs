@@ -97,7 +97,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Social
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarUhInt(m_allianceId);
             writer.WriteVarUhShort(m_nbGuilds);
@@ -105,7 +105,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Social
             writer.WriteVarUhShort(m_nbSubarea);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_allianceId = reader.ReadVarUhInt();
             m_nbGuilds = reader.ReadVarUhShort();

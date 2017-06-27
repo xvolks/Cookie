@@ -67,13 +67,13 @@ namespace Cookie.API.Protocol.Network.Messages.Web.Krosmaster
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteUTF(m_uid);
             writer.WriteByte(m_failure);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_uid = reader.ReadUTF();
             m_failure = reader.ReadByte();

@@ -60,11 +60,6 @@ namespace Cookie.API.Core
         BreedEnum Breed { get; set; }
 
         /// <summary>
-        ///     The character Map
-        /// </summary>
-        IMap Map { get; set; }
-
-        /// <summary>
         ///     The character life percentage
         /// </summary>
         int LifePercentage { get; }

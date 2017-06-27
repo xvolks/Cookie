@@ -97,7 +97,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Mount
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarUhInt(m_mountUid);
             writer.WriteByte(m_mountLocation);
@@ -105,7 +105,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Mount
             writer.WriteVarUhInt(m_quantity);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_mountUid = reader.ReadVarUhInt();
             m_mountLocation = reader.ReadByte();

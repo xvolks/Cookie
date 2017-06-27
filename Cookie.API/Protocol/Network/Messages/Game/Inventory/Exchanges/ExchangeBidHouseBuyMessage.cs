@@ -82,14 +82,14 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarUhInt(m_uid);
             writer.WriteVarUhInt(m_qty);
             writer.WriteVarUhLong(m_price);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_uid = reader.ReadVarUhInt();
             m_qty = reader.ReadVarUhInt();

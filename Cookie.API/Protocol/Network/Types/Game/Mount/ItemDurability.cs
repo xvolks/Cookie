@@ -67,13 +67,13 @@ namespace Cookie.API.Protocol.Network.Types.Game.Mount
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort(m_durability);
             writer.WriteShort(m_durabilityMax);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_durability = reader.ReadShort();
             m_durabilityMax = reader.ReadShort();

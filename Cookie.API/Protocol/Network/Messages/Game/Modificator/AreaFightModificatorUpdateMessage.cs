@@ -52,12 +52,12 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Modificator
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteInt(m_spellPairId);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_spellPairId = reader.ReadInt();
         }

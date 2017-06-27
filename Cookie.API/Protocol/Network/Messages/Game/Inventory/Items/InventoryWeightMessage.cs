@@ -67,13 +67,13 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarUhInt(m_weight);
             writer.WriteVarUhInt(m_weightMax);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_weight = reader.ReadVarUhInt();
             m_weightMax = reader.ReadVarUhInt();

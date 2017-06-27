@@ -67,13 +67,13 @@ namespace Cookie.API.Protocol.Network.Types.Game.Look
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             m_look.Serialize(writer);
             writer.WriteByte(m_index);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_look = new EntityLook();
             m_look.Deserialize(reader);

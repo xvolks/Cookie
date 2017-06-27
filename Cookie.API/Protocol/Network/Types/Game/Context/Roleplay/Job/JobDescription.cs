@@ -66,7 +66,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Job
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteByte(m_jobId);
             writer.WriteShort((short) m_skills.Count);
@@ -77,7 +77,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Job
             }
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_skills = new List<SkillActionDescription>();
             var loc4 = 0;

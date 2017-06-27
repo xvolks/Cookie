@@ -21,7 +21,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Approach
 
         public override uint MessageID => ProtocolId;
 
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort((short) Variables.Count);
             for (var i = 0; i < Variables.Count; i++)
@@ -32,7 +32,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Approach
             }
         }
 
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             int length = reader.ReadUShort();
             Variables = new List<ServerSessionConstant>();

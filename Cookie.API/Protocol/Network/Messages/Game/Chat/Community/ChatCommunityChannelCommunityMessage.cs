@@ -52,12 +52,12 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Chat.Community
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort(m_communityId);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_communityId = reader.ReadShort();
         }

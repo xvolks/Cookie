@@ -94,7 +94,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Prism
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             base.Serialize(writer);
             writer.WriteShort(m_worldX);
@@ -104,7 +104,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Prism
             m_prism.Serialize(writer);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             base.Deserialize(reader);
             m_worldX = reader.ReadShort();

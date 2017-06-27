@@ -52,12 +52,12 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Initialization
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarUhShort(m_experiencePercent);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_experiencePercent = reader.ReadVarUhShort();
         }

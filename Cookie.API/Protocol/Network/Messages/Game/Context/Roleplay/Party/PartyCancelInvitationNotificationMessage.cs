@@ -67,14 +67,14 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Party
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             base.Serialize(writer);
             writer.WriteVarUhLong(m_cancelerId);
             writer.WriteVarUhLong(m_guestId);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             base.Deserialize(reader);
             m_cancelerId = reader.ReadVarUhLong();

@@ -53,12 +53,12 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             m_orientation.Serialize(writer);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_orientation = new ActorOrientation();
             m_orientation.Deserialize(reader);

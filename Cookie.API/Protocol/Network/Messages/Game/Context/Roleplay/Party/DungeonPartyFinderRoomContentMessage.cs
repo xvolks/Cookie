@@ -68,7 +68,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Party
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort(((short)(m_players.Count)));
             int playersIndex;
@@ -80,7 +80,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Party
             writer.WriteVarUhShort(m_dungeonId);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             int playersCount = reader.ReadUShort();
             int playersIndex;

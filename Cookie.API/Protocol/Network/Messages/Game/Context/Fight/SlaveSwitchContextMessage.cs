@@ -116,7 +116,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort(((short)(m_slaveSpells.Count)));
             int slaveSpellsIndex;
@@ -138,7 +138,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
             writer.WriteDouble(m_slaveId);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             int slaveSpellsCount = reader.ReadUShort();
             int slaveSpellsIndex;

@@ -67,7 +67,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Basic
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             byte flag = new byte();
             BooleanByteWrapper.SetFlag(0, flag, m_enable);
@@ -75,7 +75,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Basic
             writer.WriteByte(flag);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             byte flag = reader.ReadByte();
             m_enable = BooleanByteWrapper.GetFlag(flag, 0);

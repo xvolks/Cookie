@@ -171,7 +171,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Friend
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteInt(m_spouseAccountId);
             writer.WriteVarUhLong(m_spouseId);
@@ -184,7 +184,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Friend
             writer.WriteByte(m_alignmentSide);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_spouseAccountId = reader.ReadInt();
             m_spouseId = reader.ReadVarUhLong();

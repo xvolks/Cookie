@@ -21,14 +21,14 @@ namespace Cookie.API.Protocol.Network.Types.Game.Character.Choice
         public sbyte Breed { get; set; }
         public bool Sex { get; set; }
 
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             base.Serialize(writer);
             writer.WriteSByte(Breed);
             writer.WriteBoolean(Sex);
         }
 
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             base.Deserialize(reader);
             Breed = reader.ReadSByte();

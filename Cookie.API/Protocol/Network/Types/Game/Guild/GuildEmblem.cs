@@ -97,7 +97,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Guild
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarUhShort(m_symbolShape);
             writer.WriteInt(m_symbolColor);
@@ -105,7 +105,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Guild
             writer.WriteInt(m_backgroundColor);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_symbolShape = reader.ReadVarUhShort();
             m_symbolColor = reader.ReadInt();

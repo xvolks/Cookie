@@ -82,14 +82,14 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Npc
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteInt(m_npcId);
             writer.WriteByte(m_npcActionId);
             writer.WriteInt(m_npcMapId);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_npcId = reader.ReadInt();
             m_npcActionId = reader.ReadByte();

@@ -10,7 +10,7 @@ namespace Cookie.Commands.Commands
     {
         public string CommandName => "gocell";
 
-        public void OnCommand(IDofusClient client, string[] args)
+        public void OnCommand(IAccount account, string[] args)
         {
             if (args.Length < 1)
             {
@@ -21,7 +21,7 @@ namespace Cookie.Commands.Commands
             {
                 var cell = Convert.ToInt32(args[0]);
                 if (cell <= 0 || cell >= 560) return;
-                if (client.Account.Character.Map.MoveToCell(cell))
+                if (account.Map.MoveToCell(cell))
                     Logger.Default.Log("Vous êtes bien arrivé!",
                         LogMessageType.Default);
                 else

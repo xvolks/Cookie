@@ -43,7 +43,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Friend
             set => m_achievementPoints = value;
         }
 
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             base.Serialize(writer);
             writer.WriteByte(m_playerState);
@@ -51,7 +51,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Friend
             writer.WriteInt(m_achievementPoints);
         }
 
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             base.Deserialize(reader);
             m_playerState = reader.ReadByte();

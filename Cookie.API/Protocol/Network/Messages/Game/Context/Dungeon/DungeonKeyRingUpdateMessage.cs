@@ -67,13 +67,13 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Dungeon
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarUhShort(m_dungeonId);
             writer.WriteBoolean(m_available);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_dungeonId = reader.ReadVarUhShort();
             m_available = reader.ReadBoolean();

@@ -67,7 +67,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort(((short)(m_steps.Count)));
             int stepsIndex;
@@ -78,7 +78,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context
             writer.WriteInt(m_ObjectId);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             int stepsCount = reader.ReadUShort();
             int stepsIndex;

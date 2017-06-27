@@ -23,7 +23,7 @@ namespace Cookie.Commands.Managers
             // Parameters from Action<T1, T2>
             var commandName = Expression.Parameter(typeof(string), "commandName");
             var args = Expression.Parameter(typeof(string[]), "args");
-            var client = Expression.Parameter(typeof(IDofusClient), "client");
+            var client = Expression.Parameter(typeof(IAccount), "account");
 
             cases.AddRange(from com in commands
                 let cmdName = (Activator.CreateInstance(com) as ICommand).CommandName
@@ -38,12 +38,12 @@ namespace Cookie.Commands.Managers
             var defaultBody = Expression.Block(throwEx);
 
             var se = Expression.Switch(commandName, defaultBody, cases.ToArray());
-            Parser = Expression.Lambda<Action<IDofusClient, string, string[]>>(se, client, commandName, args).Compile();
+            Parser = Expression.Lambda<Action<IAccount, string, string[]>>(se, client, commandName, args).Compile();
         }
 
-        private static Action<IDofusClient, string, string[]> Parser { get; }
+        private static Action<IAccount, string, string[]> Parser { get; }
 
-        public static void ParseAndCall(IDofusClient client, string str)
+        public static void ParseAndCall(IAccount client, string str)
         {
             if (str == string.Empty)
                 throw new NoCommandException();

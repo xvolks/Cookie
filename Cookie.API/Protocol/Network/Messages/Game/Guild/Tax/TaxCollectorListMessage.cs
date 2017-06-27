@@ -66,7 +66,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild.Tax
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             base.Serialize(writer);
             writer.WriteShort(((short)(m_fightersInformations.Count)));
@@ -79,7 +79,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild.Tax
             writer.WriteByte(m_nbcollectorMax);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             base.Deserialize(reader);
             int fightersInformationsCount = reader.ReadUShort();

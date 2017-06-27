@@ -52,12 +52,12 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Fight.Arena
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteInt(m_battleMode);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_battleMode = reader.ReadInt();
         }

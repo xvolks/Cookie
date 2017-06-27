@@ -51,7 +51,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort(((short)(m_fighters.Count)));
             int fightersIndex;
@@ -63,7 +63,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
             }
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             int fightersCount = reader.ReadUShort();
             int fightersIndex;

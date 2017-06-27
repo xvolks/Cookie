@@ -82,14 +82,14 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Job
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteByte(m_jobId);
             writer.WriteSByte(m_minLevel);
             writer.WriteBoolean(m_free);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_jobId = reader.ReadByte();
             m_minLevel = reader.ReadSByte();

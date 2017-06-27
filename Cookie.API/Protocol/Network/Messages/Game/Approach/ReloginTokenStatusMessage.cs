@@ -67,7 +67,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Approach
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort(((short)(m_ticket.Count)));
             int ticketIndex;
@@ -78,7 +78,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Approach
             writer.WriteBoolean(m_validToken);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             int ticketCount = reader.ReadUShort();
             int ticketIndex;

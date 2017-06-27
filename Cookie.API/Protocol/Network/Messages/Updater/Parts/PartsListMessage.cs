@@ -53,7 +53,7 @@ namespace Cookie.API.Protocol.Network.Messages.Updater.Parts
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort(((short)(m_parts.Count)));
             int partsIndex;
@@ -64,7 +64,7 @@ namespace Cookie.API.Protocol.Network.Messages.Updater.Parts
             }
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             int partsCount = reader.ReadUShort();
             int partsIndex;

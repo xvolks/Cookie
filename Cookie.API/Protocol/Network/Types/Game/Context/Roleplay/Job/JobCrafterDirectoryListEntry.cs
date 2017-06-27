@@ -67,13 +67,13 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Job
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             m_playerInfo.Serialize(writer);
             m_jobInfo.Serialize(writer);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_playerInfo = new JobCrafterDirectoryEntryPlayerInfo();
             m_playerInfo.Deserialize(reader);

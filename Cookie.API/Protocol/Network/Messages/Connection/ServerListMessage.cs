@@ -26,7 +26,7 @@ namespace Cookie.API.Protocol.Network.Messages.Connection
 
         public override uint MessageID => ProtocolId;
 
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort((short) Servers.Count);
             for (var serversIndex = 0; serversIndex < Servers.Count; serversIndex = serversIndex + 1)
@@ -38,7 +38,7 @@ namespace Cookie.API.Protocol.Network.Messages.Connection
             writer.WriteBoolean(CanCreateNewCharacter);
         }
 
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             int serversCount = reader.ReadUShort();
             int serversIndex;

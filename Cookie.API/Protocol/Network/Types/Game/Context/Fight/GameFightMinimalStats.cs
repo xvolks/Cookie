@@ -725,7 +725,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Fight
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarUhInt(m_lifePoints);
             writer.WriteVarUhInt(m_maxLifePoints);
@@ -772,7 +772,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Fight
             writer.WriteVarUhShort(m_spellDamageReceivedPercent);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_lifePoints = reader.ReadVarUhInt();
             m_maxLifePoints = reader.ReadVarUhInt();

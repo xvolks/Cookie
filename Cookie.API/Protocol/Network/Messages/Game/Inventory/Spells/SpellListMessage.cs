@@ -68,7 +68,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Spells
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteBoolean(m_spellPrevisualization);
             writer.WriteShort(((short)(m_spells.Count)));
@@ -80,7 +80,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Spells
             }
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_spellPrevisualization = reader.ReadBoolean();
             int spellsCount = reader.ReadUShort();

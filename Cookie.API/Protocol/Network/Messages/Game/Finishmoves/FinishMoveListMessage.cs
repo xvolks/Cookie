@@ -53,7 +53,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Finishmoves
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort(((short)(m_finishMoves.Count)));
             int finishMovesIndex;
@@ -64,7 +64,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Finishmoves
             }
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             int finishMovesCount = reader.ReadUShort();
             int finishMovesIndex;

@@ -53,12 +53,12 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight.Arena
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             m_leaver.Serialize(writer);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_leaver = new CharacterBasicMinimalInformations();
             m_leaver.Deserialize(reader);

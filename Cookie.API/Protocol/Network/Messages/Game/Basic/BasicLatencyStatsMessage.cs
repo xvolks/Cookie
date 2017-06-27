@@ -82,14 +82,14 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Basic
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteUShort(m_latency);
             writer.WriteVarUhShort(m_sampleCount);
             writer.WriteVarUhShort(m_max);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_latency = reader.ReadUShort();
             m_sampleCount = reader.ReadVarUhShort();

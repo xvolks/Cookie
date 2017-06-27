@@ -112,7 +112,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Fight
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             base.Serialize(writer);
             writer.WriteSByte(m_grade);
@@ -122,7 +122,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Fight
             writer.WriteVarShort(m_honorDelta);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             base.Deserialize(reader);
             m_grade = reader.ReadSByte();

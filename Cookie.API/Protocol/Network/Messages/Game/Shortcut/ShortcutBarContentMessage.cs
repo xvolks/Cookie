@@ -69,7 +69,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Shortcut
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteByte(m_barType);
             writer.WriteShort(((short)(m_shortcuts.Count)));
@@ -82,7 +82,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Shortcut
             }    
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_barType = reader.ReadByte();
             int shortcutsCount = reader.ReadUShort();

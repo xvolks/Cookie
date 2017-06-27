@@ -65,14 +65,14 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Atlas.Compass
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteUShort(((ushort)(m_coords.TypeID)));
             m_coords.Serialize(writer);
             writer.WriteByte(m_type);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_coords = ProtocolTypeManager.GetInstance<MapCoordinates>((short)reader.ReadUShort());
             m_coords.Deserialize(reader);

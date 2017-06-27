@@ -29,7 +29,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Look
         public List<short> Scales { get; set; }
         public List<SubEntity> SubEntities { get; set; }
 
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarUhShort(BonesId);
             writer.WriteShort((short) Skins.Count);
@@ -49,7 +49,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Look
             }
         }
 
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             BonesId = reader.ReadVarUhShort();
             var skinsLength = reader.ReadUShort();

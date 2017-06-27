@@ -185,7 +185,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Guild.Tax
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             m_additionalInfos.Serialize(writer);
             m_look.Serialize(writer);
@@ -206,7 +206,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Guild.Tax
             writer.WriteByte(m_state);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_additionalInfos = new AdditionalTaxCollectorInformations();
             m_additionalInfos.Deserialize(reader);

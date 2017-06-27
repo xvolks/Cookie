@@ -112,7 +112,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Job
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort(((short)(m_runesId.Count)));
             int runesIdIndex;
@@ -131,7 +131,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Job
             writer.WriteFloat(m_bonusMax);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             int runesIdCount = reader.ReadUShort();
             int runesIdIndex;

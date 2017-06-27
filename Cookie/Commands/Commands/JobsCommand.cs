@@ -10,9 +10,9 @@ namespace Cookie.Commands.Commands
     {
         public string CommandName => "jobs";
 
-        public void OnCommand(IDofusClient client, string[] args)
+        public void OnCommand(IAccount account, string[] args)
         {
-            client.Account.Character.Jobs.ForEach(job =>
+            account.Character.Jobs.ForEach(job =>
                 Logger.Default.Log(
                     D2OParsing.GetJobName(job.JobId) + " | Level: " + job.JobLevel + " | Exp: " + job.JobXP,
                     LogMessageType.Admin));

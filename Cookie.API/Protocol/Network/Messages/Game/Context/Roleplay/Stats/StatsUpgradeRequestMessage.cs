@@ -82,14 +82,14 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Stats
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteBoolean(m_useAdditionnal);
             writer.WriteByte(m_statId);
             writer.WriteVarUhShort(m_boostPoint);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_useAdditionnal = reader.ReadBoolean();
             m_statId = reader.ReadByte();

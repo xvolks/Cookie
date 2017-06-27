@@ -78,7 +78,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.House
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             base.Serialize(writer);
             writer.WriteUShort(((ushort)(m_houseInfos.TypeID)));
@@ -87,7 +87,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.House
             writer.WriteShort(m_worldY);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             base.Deserialize(reader);
             m_houseInfos = ProtocolTypeManager.GetInstance<HouseInstanceInformations>((short)reader.ReadUShort());

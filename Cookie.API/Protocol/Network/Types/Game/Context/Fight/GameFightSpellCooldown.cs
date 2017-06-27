@@ -67,13 +67,13 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Fight
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteInt(m_spellId);
             writer.WriteByte(m_cooldown);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_spellId = reader.ReadInt();
             m_cooldown = reader.ReadByte();

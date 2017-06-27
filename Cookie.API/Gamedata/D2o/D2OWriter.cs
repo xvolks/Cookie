@@ -389,7 +389,7 @@ namespace Cookie.API.Gamedata.D2o
             }
         }
 
-        private void WriteField(BigEndianWriter writer, D2oFieldDefinition field, dynamic obj, int vectorDimension = 0)
+        private void WriteField(IDataWriter writer, D2oFieldDefinition field, dynamic obj, int vectorDimension = 0)
         {
             switch (field.TypeId)
             {
@@ -421,7 +421,7 @@ namespace Cookie.API.Gamedata.D2o
         }
 
 
-        private void WriteFieldVector(BigEndianWriter writer, D2oFieldDefinition field, IList list, int vectorDimension)
+        private void WriteFieldVector(IDataWriter writer, D2oFieldDefinition field, IList list, int vectorDimension)
         {
             writer.WriteInt(list.Count);
 
@@ -429,7 +429,7 @@ namespace Cookie.API.Gamedata.D2o
                 WriteField(writer, field, field.VectorTypes[vectorDimension], ++vectorDimension);
         }
 
-        private void WriteFieldObject(BigEndianWriter writer, object obj)
+        private void WriteFieldObject(IDataWriter writer, object obj)
         {
             if (obj == null)
             {
@@ -448,32 +448,32 @@ namespace Cookie.API.Gamedata.D2o
             }
         }
 
-        private static void WriteFieldInt(BigEndianWriter writer, int value)
+        private static void WriteFieldInt(IDataWriter writer, int value)
         {
             writer.WriteInt(value);
         }
 
-        private static void WriteFieldUInt(BigEndianWriter writer, uint value)
+        private static void WriteFieldUInt(IDataWriter writer, uint value)
         {
             writer.WriteUInt(value);
         }
 
-        private static void WriteFieldBool(BigEndianWriter writer, bool value)
+        private static void WriteFieldBool(IDataWriter writer, bool value)
         {
             writer.WriteBoolean(value);
         }
 
-        private static void WriteFieldUTF(BigEndianWriter writer, string value)
+        private static void WriteFieldUTF(IDataWriter writer, string value)
         {
             writer.WriteUTF(value);
         }
 
-        private static void WriteFieldDouble(BigEndianWriter writer, double value)
+        private static void WriteFieldDouble(IDataWriter writer, double value)
         {
             writer.WriteDouble(value);
         }
 
-        private static void WriteFieldI18n(BigEndianWriter writer, int value)
+        private static void WriteFieldI18n(IDataWriter writer, int value)
         {
             writer.WriteInt(value);
         }

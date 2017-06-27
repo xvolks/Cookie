@@ -82,14 +82,14 @@ namespace Cookie.API.Protocol.Network.Messages.Security
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteUTF(m_filenameHash);
             writer.WriteByte(m_type);
             writer.WriteUTF(m_value);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_filenameHash = reader.ReadUTF();
             m_type = reader.ReadByte();

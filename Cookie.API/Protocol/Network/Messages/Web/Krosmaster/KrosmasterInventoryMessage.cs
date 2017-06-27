@@ -53,7 +53,7 @@ namespace Cookie.API.Protocol.Network.Messages.Web.Krosmaster
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort(((short)(m_figures.Count)));
             int figuresIndex;
@@ -64,7 +64,7 @@ namespace Cookie.API.Protocol.Network.Messages.Web.Krosmaster
             }
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             int figuresCount = reader.ReadUShort();
             int figuresIndex;

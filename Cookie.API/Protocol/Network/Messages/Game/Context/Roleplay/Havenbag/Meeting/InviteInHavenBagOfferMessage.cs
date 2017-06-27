@@ -68,13 +68,13 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Havenbag.Me
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             m_hostInformations.Serialize(writer);
             writer.WriteVarInt(m_timeLeftBeforeCancel);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_hostInformations = new CharacterMinimalInformations();
             m_hostInformations.Deserialize(reader);

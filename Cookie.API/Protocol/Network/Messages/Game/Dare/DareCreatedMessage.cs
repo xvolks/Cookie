@@ -68,13 +68,13 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Dare
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             m_dareInfos.Serialize(writer);
             writer.WriteBoolean(m_needNotifications);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_dareInfos = new DareInformations();
             m_dareInfos.Deserialize(reader);

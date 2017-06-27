@@ -142,7 +142,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Paddock
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteUTF(m_guildOwner);
             writer.WriteShort(m_worldX);
@@ -153,7 +153,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Paddock
             writer.WriteVarUhLong(m_price);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_guildOwner = reader.ReadUTF();
             m_worldX = reader.ReadShort();

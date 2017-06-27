@@ -114,7 +114,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
             set => m_hasAggressiveMonsters = value;
         }
 
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarUhShort(m_subAreaId);
             writer.WriteInt(m_mapId);
@@ -171,7 +171,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
             m_fightStartPositions.Serialize(writer);
         }
 
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_subAreaId = reader.ReadVarUhShort();
             m_mapId = reader.ReadInt();

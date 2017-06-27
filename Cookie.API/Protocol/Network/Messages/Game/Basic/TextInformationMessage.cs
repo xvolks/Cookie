@@ -24,7 +24,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Basic
 
         public override uint MessageID => ProtocolId;
 
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteByte(MsgType);
             writer.WriteVarUhShort(MsgId);
@@ -33,7 +33,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Basic
                 writer.WriteUTF(Parameters[i]);
         }
 
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             MsgType = reader.ReadByte();
             MsgId = reader.ReadVarUhShort();

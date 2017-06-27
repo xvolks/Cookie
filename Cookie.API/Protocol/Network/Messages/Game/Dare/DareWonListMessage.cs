@@ -52,7 +52,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Dare
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort(((short)(m_dareId.Count)));
             int dareIdIndex;
@@ -62,7 +62,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Dare
             }
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             int dareIdCount = reader.ReadUShort();
             int dareIdIndex;

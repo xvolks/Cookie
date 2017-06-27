@@ -52,13 +52,13 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Social
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             base.Serialize(writer);
             writer.WriteInt(m_lastNotifiedTimestamp);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             base.Deserialize(reader);
             m_lastNotifiedTimestamp = reader.ReadInt();

@@ -19,7 +19,7 @@ namespace Cookie.API.Protocol.Network.Messages.Security
 
         public byte[] Content { get; set; }
 
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             var contentLength = Content.Length;
             writer.WriteVarInt(contentLength);
@@ -27,7 +27,7 @@ namespace Cookie.API.Protocol.Network.Messages.Security
                 writer.WriteByte(Content[i]);
         }
 
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             var contentLength = reader.ReadVarInt();
             reader.ReadBytes(contentLength);

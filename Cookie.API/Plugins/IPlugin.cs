@@ -7,7 +7,7 @@ namespace Cookie.API.Plugins
         /// <summary>
         ///     The client to pass to the plugin
         /// </summary>
-        IDofusClient Client { get; set; }
+        IAccount Account { get; set; }
 
         /// <summary>
         ///     This method is used to load the plugin

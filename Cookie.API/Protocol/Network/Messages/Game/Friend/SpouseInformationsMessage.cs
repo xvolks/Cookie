@@ -50,13 +50,13 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Friend
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteUShort(((ushort)(m_spouse.TypeID)));
             m_spouse.Serialize(writer);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_spouse = ProtocolTypeManager.GetInstance<FriendSpouseInformations>((short)reader.ReadUShort());
             m_spouse.Deserialize(reader);

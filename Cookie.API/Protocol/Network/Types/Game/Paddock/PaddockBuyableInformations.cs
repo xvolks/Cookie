@@ -67,13 +67,13 @@ namespace Cookie.API.Protocol.Network.Types.Game.Paddock
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarUhLong(m_price);
             writer.WriteBoolean(m_locked);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_price = reader.ReadVarUhLong();
             m_locked = reader.ReadBoolean();

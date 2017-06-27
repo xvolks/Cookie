@@ -188,7 +188,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Dare
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             byte flag = new byte();
             BooleanByteWrapper.SetFlag(0, flag, m_isPrivate);
@@ -210,7 +210,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Dare
             writer.WriteUInt(m_duration);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             byte flag = reader.ReadByte();
             m_isPrivate = BooleanByteWrapper.GetFlag(flag, 0);

@@ -53,12 +53,12 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Fight.Arena
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             m_solo.Serialize(writer);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_solo = new ArenaRankInfos();
             m_solo.Deserialize(reader);

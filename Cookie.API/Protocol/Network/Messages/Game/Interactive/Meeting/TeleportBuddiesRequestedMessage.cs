@@ -82,7 +82,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Interactive.Meeting
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort(((short)(m_invalidBuddiesIds.Count)));
             int invalidBuddiesIdsIndex;
@@ -94,7 +94,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Interactive.Meeting
             writer.WriteVarUhLong(m_inviterId);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             int invalidBuddiesIdsCount = reader.ReadUShort();
             int invalidBuddiesIdsIndex;

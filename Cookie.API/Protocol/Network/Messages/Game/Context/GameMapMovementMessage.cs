@@ -82,7 +82,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort(((short)(m_keyMovements.Count)));
             int keyMovementsIndex;
@@ -94,7 +94,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context
             writer.WriteDouble(m_actorId);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             int keyMovementsCount = reader.ReadUShort();
             int keyMovementsIndex;

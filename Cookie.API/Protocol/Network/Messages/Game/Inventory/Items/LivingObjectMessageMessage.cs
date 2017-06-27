@@ -97,7 +97,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarUhShort(m_msgId);
             writer.WriteInt(m_timeStamp);
@@ -105,7 +105,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
             writer.WriteVarUhShort(m_objectGenericId);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_msgId = reader.ReadVarUhShort();
             m_timeStamp = reader.ReadInt();

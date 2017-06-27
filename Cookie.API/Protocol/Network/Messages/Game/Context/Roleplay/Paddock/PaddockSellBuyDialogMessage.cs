@@ -82,14 +82,14 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Paddock
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteBoolean(m_bsell);
             writer.WriteVarUhInt(m_ownerId);
             writer.WriteVarUhLong(m_price);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_bsell = reader.ReadBoolean();
             m_ownerId = reader.ReadVarUhInt();

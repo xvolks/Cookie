@@ -97,7 +97,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarUhLong(m_memberId);
             writer.WriteVarUhShort(m_rank);
@@ -105,7 +105,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild
             writer.WriteVarUhInt(m_rights);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_memberId = reader.ReadVarUhLong();
             m_rank = reader.ReadVarUhShort();

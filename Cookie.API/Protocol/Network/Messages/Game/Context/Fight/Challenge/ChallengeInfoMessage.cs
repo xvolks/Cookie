@@ -97,7 +97,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight.Challenge
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarUhShort(m_challengeId);
             writer.WriteDouble(m_targetId);
@@ -105,7 +105,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight.Challenge
             writer.WriteVarUhInt(m_dropBonus);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_challengeId = reader.ReadVarUhShort();
             m_targetId = reader.ReadDouble();

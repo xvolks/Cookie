@@ -68,13 +68,13 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Initialization
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             m_restrictions.Serialize(writer);
             writer.WriteDouble(m_actorId);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_restrictions = new ActorRestrictionsInformations();
             m_restrictions.Deserialize(reader);

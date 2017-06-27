@@ -82,14 +82,14 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Interactive.Meeting
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarUhShort(m_dungeonId);
             writer.WriteVarUhLong(m_buddyId);
             writer.WriteVarUhInt(m_timeLeft);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_dungeonId = reader.ReadVarUhShort();
             m_buddyId = reader.ReadVarUhLong();

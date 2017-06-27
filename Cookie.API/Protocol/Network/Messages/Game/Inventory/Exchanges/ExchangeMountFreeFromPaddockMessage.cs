@@ -97,7 +97,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteUTF(m_name);
             writer.WriteShort(m_worldX);
@@ -105,7 +105,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
             writer.WriteUTF(m_liberator);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_name = reader.ReadUTF();
             m_worldX = reader.ReadShort();

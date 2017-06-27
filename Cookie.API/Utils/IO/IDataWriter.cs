@@ -1,6 +1,8 @@
+using System;
+
 namespace Cookie.API.Utils.IO
 {
-    public interface IDataWriter
+    public interface IDataWriter : IDisposable
     {
         byte[] Data { get; }
 
@@ -41,5 +43,17 @@ namespace Cookie.API.Utils.IO
         void Clear();
 
         void Seek(int offset);
+
+        void WriteVarInt(int value);
+
+        void WriteVarUhInt(uint value);
+
+        void WriteVarShort(short value);
+
+        void WriteVarUhShort(ushort value);
+
+        void WriteVarLong(long value);
+
+        void WriteVarUhLong(ulong value);
     }
 }

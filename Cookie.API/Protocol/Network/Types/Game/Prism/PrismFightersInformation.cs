@@ -96,7 +96,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Prism
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             m_waitingForHelpInfo.Serialize(writer);
             writer.WriteShort(((short)(m_allyCharactersInformations.Count)));
@@ -118,7 +118,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Prism
             writer.WriteVarUhShort(m_subAreaId);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_waitingForHelpInfo = new ProtectedEntityWaitingForHelpInfo();
             m_waitingForHelpInfo.Deserialize(reader);

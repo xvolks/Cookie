@@ -115,7 +115,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Alliance
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteUShort(((ushort)(m_infos.TypeID)));
             m_infos.Serialize(writer);
@@ -136,7 +136,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Alliance
             writer.WriteUTF(m_leaderCharacterName);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_infos = ProtocolTypeManager.GetInstance<AllianceFactSheetInformations>((short)reader.ReadUShort());
             m_infos.Deserialize(reader);

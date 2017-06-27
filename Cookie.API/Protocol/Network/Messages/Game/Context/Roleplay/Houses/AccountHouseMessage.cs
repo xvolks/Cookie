@@ -53,7 +53,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Houses
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort(((short)(m_houses.Count)));
             int housesIndex;
@@ -64,7 +64,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Houses
             }
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             int housesCount = reader.ReadUShort();
             int housesIndex;

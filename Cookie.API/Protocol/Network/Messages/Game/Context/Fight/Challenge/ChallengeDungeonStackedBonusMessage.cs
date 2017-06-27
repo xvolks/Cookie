@@ -82,14 +82,14 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight.Challenge
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteInt(m_dungeonId);
             writer.WriteInt(m_xpBonus);
             writer.WriteInt(m_dropBonus);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_dungeonId = reader.ReadInt();
             m_xpBonus = reader.ReadInt();

@@ -112,7 +112,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteInt(m_requestId);
             writer.WriteDouble(m_requesterId);
@@ -121,7 +121,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
             writer.WriteVarUhShort(m_requestedCellId);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_requestId = reader.ReadInt();
             m_requesterId = reader.ReadDouble();

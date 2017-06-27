@@ -80,7 +80,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Quest
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarUhShort(m_objectiveId);
             writer.WriteBoolean(m_objectiveStatus);
@@ -92,7 +92,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Quest
             }
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_objectiveId = reader.ReadVarUhShort();
             m_objectiveStatus = reader.ReadBoolean();

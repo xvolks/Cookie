@@ -80,7 +80,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteDouble(m_contextualId);
             m_look.Serialize(writer);
@@ -89,7 +89,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context
             
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_contextualId = reader.ReadDouble();
             m_look = new EntityLook();

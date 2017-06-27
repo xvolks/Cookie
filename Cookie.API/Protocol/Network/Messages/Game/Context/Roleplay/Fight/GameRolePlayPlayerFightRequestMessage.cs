@@ -82,14 +82,14 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Fight
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarUhLong(m_targetId);
             writer.WriteShort(m_targetCellId);
             writer.WriteBoolean(m_friendly);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_targetId = reader.ReadVarUhLong();
             m_targetCellId = reader.ReadShort();

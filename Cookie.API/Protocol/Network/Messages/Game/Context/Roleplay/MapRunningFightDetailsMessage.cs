@@ -81,7 +81,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort(((short)(m_attackers.Count)));
             int attackersIndex;
@@ -102,7 +102,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
             writer.WriteInt(m_fightId);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             int attackersCount = reader.ReadUShort();
             int attackersIndex;

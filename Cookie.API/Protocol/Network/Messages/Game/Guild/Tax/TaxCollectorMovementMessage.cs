@@ -98,7 +98,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild.Tax
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             m_basicInfos.Serialize(writer);
             writer.WriteByte(m_movementType);
@@ -106,7 +106,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild.Tax
             writer.WriteUTF(m_playerName);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_basicInfos = new TaxCollectorBasicInformations();
             m_basicInfos.Deserialize(reader);

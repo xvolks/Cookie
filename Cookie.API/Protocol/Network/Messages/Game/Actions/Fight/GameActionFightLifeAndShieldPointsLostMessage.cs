@@ -49,13 +49,13 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Actions.Fight
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             base.Serialize(writer);
             writer.WriteVarUhShort(m_shieldLoss);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             base.Deserialize(reader);
             m_shieldLoss = reader.ReadVarUhShort();

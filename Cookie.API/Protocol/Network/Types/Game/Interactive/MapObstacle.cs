@@ -67,13 +67,13 @@ namespace Cookie.API.Protocol.Network.Types.Game.Interactive
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarUhShort(m_obstacleCellId);
             writer.WriteByte(m_state);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_obstacleCellId = reader.ReadVarUhShort();
             m_state = reader.ReadByte();

@@ -67,13 +67,13 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Character.Stats
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarUhInt(m_lifePoints);
             writer.WriteVarUhInt(m_maxLifePoints);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_lifePoints = reader.ReadVarUhInt();
             m_maxLifePoints = reader.ReadVarUhInt();

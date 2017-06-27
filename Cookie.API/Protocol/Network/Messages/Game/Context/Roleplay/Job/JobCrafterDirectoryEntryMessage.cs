@@ -84,7 +84,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Job
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             m_playerInfo.Serialize(writer);
             writer.WriteShort(((short)(m_jobInfoList.Count)));
@@ -97,7 +97,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Job
             m_playerLook.Serialize(writer);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_playerInfo = new JobCrafterDirectoryEntryPlayerInfo();
             m_playerInfo.Deserialize(reader);

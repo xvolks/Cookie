@@ -65,7 +65,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Job
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             base.Serialize(writer);
             writer.WriteVarUhLong(m_playerId);
@@ -77,7 +77,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Job
             }
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             base.Deserialize(reader);
             m_playerId = reader.ReadVarUhLong();

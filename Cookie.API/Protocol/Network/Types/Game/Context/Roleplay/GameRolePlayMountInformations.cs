@@ -69,14 +69,14 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Roleplay
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             base.Serialize(writer);
             writer.WriteUTF(m_ownerName);
             writer.WriteSByte(m_level);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             base.Deserialize(reader);
             m_ownerName = reader.ReadUTF();

@@ -52,7 +52,7 @@ namespace Cookie.API.Protocol.Network.Messages.Connection.Search
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort(((short)(m_servers.Count)));
             int serversIndex;
@@ -62,7 +62,7 @@ namespace Cookie.API.Protocol.Network.Messages.Connection.Search
             }
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             int serversCount = reader.ReadUShort();
             int serversIndex;

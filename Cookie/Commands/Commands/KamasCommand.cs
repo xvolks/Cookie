@@ -1,5 +1,6 @@
 ﻿using Cookie.API.Commands;
 using Cookie.API.Core;
+using Cookie.API.Utils;
 
 namespace Cookie.Commands.Commands
 {
@@ -7,9 +8,9 @@ namespace Cookie.Commands.Commands
     {
         public string CommandName => "kamas";
 
-        public void OnCommand(IDofusClient client, string[] args)
+        public void OnCommand(IAccount account, string[] args)
         {
-            client.Log($"Vous avez {client.Account.Character.Stats.Kamas} kamas.");
+            Logger.Default.Log($"Vous avez {account.Character.Stats.Kamas} kamas.");
         }
     }
 }

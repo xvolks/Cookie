@@ -53,7 +53,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Mount
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort(((short)(m_paddockItemDescription.Count)));
             int paddockItemDescriptionIndex;
@@ -64,7 +64,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Mount
             }
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             int paddockItemDescriptionCount = reader.ReadUShort();
             int paddockItemDescriptionIndex;

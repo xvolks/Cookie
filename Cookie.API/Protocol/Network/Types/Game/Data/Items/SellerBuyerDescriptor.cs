@@ -157,7 +157,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Data.Items
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort(((short)(m_quantities.Count)));
             int quantitiesIndex;
@@ -179,7 +179,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Data.Items
             writer.WriteVarUhShort(m_unsoldDelay);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             int quantitiesCount = reader.ReadUShort();
             int quantitiesIndex;

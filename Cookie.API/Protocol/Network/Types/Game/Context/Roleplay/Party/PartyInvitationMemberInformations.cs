@@ -115,7 +115,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Party
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             base.Serialize(writer);
             writer.WriteShort(((short)(m_companions.Count)));
@@ -131,7 +131,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Party
             writer.WriteVarUhShort(m_subAreaId);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             base.Deserialize(reader);
             int companionsCount = reader.ReadUShort();

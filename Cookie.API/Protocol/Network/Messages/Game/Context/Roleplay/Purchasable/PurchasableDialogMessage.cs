@@ -112,7 +112,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Purchasable
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             byte flag = new byte();
             BooleanByteWrapper.SetFlag(0, flag, m_buyOrSell);
@@ -123,7 +123,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Purchasable
             writer.WriteVarUhLong(m_price);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             byte flag = reader.ReadByte();
             m_buyOrSell = BooleanByteWrapper.GetFlag(flag, 0);

@@ -82,7 +82,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Preset
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort(((short)(m_missingIdols.Count)));
             int missingIdolsIndex;
@@ -94,7 +94,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Preset
             writer.WriteByte(m_code);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             int missingIdolsCount = reader.ReadUShort();
             int missingIdolsIndex;

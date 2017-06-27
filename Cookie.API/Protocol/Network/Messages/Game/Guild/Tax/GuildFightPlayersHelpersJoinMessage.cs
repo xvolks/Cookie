@@ -68,13 +68,13 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild.Tax
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             m_playerInfo.Serialize(writer);
             writer.WriteInt(m_fightId);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_playerInfo = new CharacterMinimalPlusLookInformations();
             m_playerInfo.Deserialize(reader);

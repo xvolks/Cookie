@@ -53,12 +53,12 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Idol
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             m_partyIdol.Serialize(writer);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_partyIdol = new PartyIdol();
             m_partyIdol.Deserialize(reader);

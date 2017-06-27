@@ -67,13 +67,13 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Party
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteByte(m_teamId);
             writer.WriteUTF(m_partyName);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_teamId = reader.ReadByte();
             m_partyName = reader.ReadUTF();

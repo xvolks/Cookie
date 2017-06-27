@@ -68,13 +68,13 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Character.Choice
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             m_infos.Serialize(writer);
             writer.WriteBoolean(m_isCollectingStats);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_infos = new CharacterBaseInformations();
             m_infos.Deserialize(reader);
