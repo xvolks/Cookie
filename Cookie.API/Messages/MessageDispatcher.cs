@@ -19,14 +19,15 @@ namespace Cookie.API.Messages
         private readonly Dictionary<string, Dictionary<Type, List<MessageHandler>>> _handlers =
             new Dictionary<string, Dictionary<Type, List<MessageHandler>>>();
 
+        private readonly ManualResetEventSlim _messageEnqueuedEvent = new ManualResetEventSlim(false);
+
         private readonly SortedDictionary<MessagePriority, Queue<Tuple<Message, object>>> _messagesToDispatch =
             new SortedDictionary<MessagePriority, Queue<Tuple<Message, object>>>();
 
+        private readonly ManualResetEventSlim _resumeEvent = new ManualResetEventSlim(true);
+
         private int _currentThreadId;
         private bool _dispatching;
-        private readonly ManualResetEventSlim _messageEnqueuedEvent = new ManualResetEventSlim(false);
-
-        private readonly ManualResetEventSlim _resumeEvent = new ManualResetEventSlim(true);
 
         private Stopwatch _spy;
 
@@ -155,21 +156,20 @@ namespace Cookie.API.Messages
 
         protected virtual void Dispatch(Message message, object token)
         {
-                foreach (var handler in GetHandlers(message.GetType(), token).ToArray()
-                ) // have to transform it into a collection if we want to add/remove handler
+            foreach (var handler in GetHandlers(message.GetType(), token).ToArray()
+            ) // have to transform it into a collection if we want to add/remove handler
+            {
+                try
                 {
-                    try
-                    {
-                        handler.Handler.Invoke((IAccount)token, message);
-                    }
-                    catch (Exception ex)
-                    {
-                        Logger.Default.Log($"Cannot dispatch {message}", LogMessageType.Public);
-                        Console.WriteLine(ex);
-                    }
-                    if (message.Canceled)
-                        break;
-                
+                    handler.Handler.Invoke((IAccount) token, message);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Default.Log($"Cannot dispatch {message}", LogMessageType.Public);
+                    Console.WriteLine(ex);
+                }
+                if (message.Canceled)
+                    break;
             }
 
             message.OnDispatched();

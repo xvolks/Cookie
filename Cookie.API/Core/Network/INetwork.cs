@@ -9,6 +9,12 @@ namespace Cookie.API.Core.Network
     {
         ClientConnectionType ConnectionType { get; set; }
 
+        bool ExpectedDisconnection { get; set; }
+
+        MessageDispatcher Dispatcher { get; set; }
+
+        IClient Connection { get; set; }
+
         event Action<IAccount, NetworkMessage> MessageReceived;
         event Action<IAccount, NetworkMessage> MessageSent;
 
@@ -22,12 +28,6 @@ namespace Cookie.API.Core.Network
 
         void AddMessage(Action a);
 
-        bool ExpectedDisconnection { get; set; }
-
         void Dispose();
-
-        MessageDispatcher Dispatcher { get; set; }
-
-        IClient Connection { get; set; }
     }
 }

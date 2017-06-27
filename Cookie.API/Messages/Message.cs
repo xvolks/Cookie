@@ -6,26 +6,17 @@ namespace Cookie.API.Messages
     [Serializable]
     public abstract class Message
     {
-        public event Action<Message> Dispatched;
-
         protected Message()
         {
             Priority = MessagePriority.Normal;
         }
 
-        public bool Canceled
-        {
-            get;
-            set;
-        }
+        public bool Canceled { get; set; }
 
-        public MessagePriority Priority
-        {
-            get;
-            set;
-        }
+        public MessagePriority Priority { get; set; }
 
         public bool IsDispatched { get; private set; }
+        public event Action<Message> Dispatched;
 
         public virtual void BlockProgression()
         {
@@ -33,7 +24,7 @@ namespace Cookie.API.Messages
         }
 
         /// <summary>
-        /// Internal use only
+        ///     Internal use only
         /// </summary>
         public void OnDispatched()
         {
@@ -52,7 +43,7 @@ namespace Cookie.API.Messages
         }
 
         /// <summary>
-        /// Block the current thread until the message is dispatched
+        ///     Block the current thread until the message is dispatched
         /// </summary>
         /// <returns>false whenever the message has already been dispatched</returns>
         public bool Wait()
@@ -61,7 +52,7 @@ namespace Cookie.API.Messages
         }
 
         /// <summary>
-        /// Block the current thread until the message is dispatched
+        ///     Block the current thread until the message is dispatched
         /// </summary>
         /// <param name="timeout"></param>
         /// <returns>false whenever the message has already been dispatched</returns>

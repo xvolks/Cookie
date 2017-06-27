@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Cookie.API.Core;
+using Cookie.API.Datacenter;
 using Cookie.API.Game.Jobs;
 using Cookie.API.Game.Map.Elements;
 using Cookie.API.Game.World.Pathfinding.Positions;
@@ -14,7 +15,6 @@ using Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay;
 using Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Job;
 using Cookie.API.Protocol.Network.Messages.Game.Interactive;
 using Cookie.API.Utils;
-using Cookie.Core;
 
 namespace Cookie.Game.Jobs
 {
@@ -25,14 +25,21 @@ namespace Cookie.Game.Jobs
         public GatherManager(IAccount account)
         {
             _account = account;
-            _account.Network.RegisterPacket<JobExperienceMultiUpdateMessage>(HandleJobExperienceMultiUpdateMessage, MessagePriority.VeryHigh);
+            _account.Network.RegisterPacket<JobExperienceMultiUpdateMessage>(HandleJobExperienceMultiUpdateMessage,
+                MessagePriority.VeryHigh);
             _account.Network.RegisterPacket<JobLevelUpMessage>(HandleJobLevelUpMessage, MessagePriority.VeryHigh);
-            _account.Network.RegisterPacket<JobExperienceUpdateMessage>(HandleJobExperienceUpdateMessage, MessagePriority.VeryHigh);
-            _account.Network.RegisterPacket<MapComplementaryInformationsDataMessage>(HandleMapComplementaryInformationsDataMessage, MessagePriority.Normal);
-            _account.Network.RegisterPacket<GameMapMovementCancelMessage>(HandleGameMapMovementCancelMessage, MessagePriority.Normal);
-            _account.Network.RegisterPacket<GameMapMovementConfirmMessage>(HandleGameMapMovementConfirmMessage, MessagePriority.Normal);
-            _account.Network.RegisterPacket<InteractiveElementUpdatedMessage>(HandleInteractiveElementUpdatedMessage, MessagePriority.Normal);
-            _account.Network.RegisterPacket<InteractiveMapUpdateMessage>(HandleInteractiveMapUpdateMessage, MessagePriority.Normal);
+            _account.Network.RegisterPacket<JobExperienceUpdateMessage>(HandleJobExperienceUpdateMessage,
+                MessagePriority.VeryHigh);
+            _account.Network.RegisterPacket<MapComplementaryInformationsDataMessage>(
+                HandleMapComplementaryInformationsDataMessage, MessagePriority.Normal);
+            _account.Network.RegisterPacket<GameMapMovementCancelMessage>(HandleGameMapMovementCancelMessage,
+                MessagePriority.Normal);
+            _account.Network.RegisterPacket<GameMapMovementConfirmMessage>(HandleGameMapMovementConfirmMessage,
+                MessagePriority.Normal);
+            _account.Network.RegisterPacket<InteractiveElementUpdatedMessage>(HandleInteractiveElementUpdatedMessage,
+                MessagePriority.Normal);
+            _account.Network.RegisterPacket<InteractiveMapUpdateMessage>(HandleInteractiveMapUpdateMessage,
+                MessagePriority.Normal);
         }
 
         private int SkillInstanceUid { get; set; } = -1;
@@ -55,24 +62,24 @@ namespace Cookie.Game.Jobs
             {
                 if (ToGather.Count > 0)
                     foreach (var ressourceId in ToGather)
-                    foreach (var usableElement in _account.Map.UsableElements)
-                    foreach (var interactiveElement in _account.Map.InteractiveElements.Values)
+                    foreach (var usableElement in _account.Character.Map.UsableElements)
+                    foreach (var interactiveElement in _account.Character.Map.InteractiveElements.Values)
                     {
                         if (usableElement.Value.Element.Id != interactiveElement.Id ||
                             !interactiveElement.IsUsable) continue;
                         if (interactiveElement.TypeId != ressourceId ||
-                            !_account.Map.NoEntitiesOnCell(usableElement.Value.CellId))
+                            !_account.Character.Map.NoEntitiesOnCell(usableElement.Value.CellId))
                             continue;
                         listUsableElement.Add(usableElement.Value);
                         listDistance.Add(GetRessourceDistance((int) usableElement.Value.Element.Id));
                     }
                 else
-                    foreach (var usableElement in _account.Map.UsableElements)
-                    foreach (var interactiveElement in _account.Map.InteractiveElements.Values)
+                    foreach (var usableElement in _account.Character.Map.UsableElements)
+                    foreach (var interactiveElement in _account.Character.Map.InteractiveElements.Values)
                     {
                         if (usableElement.Value.Element.Id != interactiveElement.Id ||
                             !interactiveElement.IsUsable) continue;
-                        if (!_account.Map.NoEntitiesOnCell(usableElement.Value.CellId)) continue;
+                        if (!_account.Character.Map.NoEntitiesOnCell(usableElement.Value.CellId)) continue;
                         listUsableElement.Add(usableElement.Value);
                         listDistance.Add(GetRessourceDistance((int) usableElement.Value.Element.Id));
                     }
@@ -83,19 +90,19 @@ namespace Cookie.Game.Jobs
                         if (GetRessourceDistance((int) usableElement.Element.Id) == 1 || IsFishing)
                         {
                             if (Moved)
-                                _account.Map.UseElement(Id, SkillInstanceUid);
+                                _account.Character.Map.UseElement(Id, SkillInstanceUid);
                             else
-                                _account.Map.UseElement((int) usableElement.Element.Id,
+                                _account.Character.Map.UseElement((int) usableElement.Element.Id,
                                     usableElement.Skills[0].SkillInstanceUid);
 
                             Moved = false;
                             IsFishing = false;
                             return true;
                         }
-                        if (!_account.Map.MoveToElement((int) usableElement.Element.Id, 1)) continue;
+                        if (!_account.Character.Map.MoveToElement((int) usableElement.Element.Id, 1)) continue;
                         Id = (int) usableElement.Element.Id;
                         SkillInstanceUid = usableElement.Skills[0].SkillInstanceUid;
-                        _account.Map.UseElement(Id, SkillInstanceUid);
+                        _account.Character.Map.UseElement(Id, SkillInstanceUid);
                         return true;
                     }
                 }
@@ -141,7 +148,7 @@ namespace Cookie.Game.Jobs
         private int GetRessourceDistance(int id)
         {
             var characterMapPoint = new MapPoint(_account.Character.CellId);
-            var statedRessource = _account.Map.StatedElements.FirstOrDefault(se => se.Value.Id == id).Value;
+            var statedRessource = _account.Character.Map.StatedElements.FirstOrDefault(se => se.Value.Id == id).Value;
             if (statedRessource == null) return -1;
             var ressourceMapPoint = new MapPoint((int) statedRessource.CellId);
             return characterMapPoint.DistanceTo(ressourceMapPoint);
@@ -170,7 +177,7 @@ namespace Cookie.Game.Jobs
                     break;
                 }
             Logger.Default.Log(
-                $"{FastD2IReader.Instance.GetText(ObjectDataManager.Instance.Get<API.Datacenter.Job>(message.ExperiencesUpdate.JobId).NameId)} | Level: {message.ExperiencesUpdate.JobLevel} | Exp: {message.ExperiencesUpdate.JobXP}");
+                $"{FastD2IReader.Instance.GetText(ObjectDataManager.Instance.Get<Job>(message.ExperiencesUpdate.JobId).NameId)} | Level: {message.ExperiencesUpdate.JobLevel} | Exp: {message.ExperiencesUpdate.JobXP}");
         }
 
         private void HandleMapComplementaryInformationsDataMessage(IAccount account,

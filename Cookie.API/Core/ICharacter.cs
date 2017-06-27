@@ -1,6 +1,13 @@
 ﻿using System.Collections.Generic;
+using Cookie.API.Game.Achievement;
+using Cookie.API.Game.Alliance;
+using Cookie.API.Game.Chat;
+using Cookie.API.Game.Friend;
+using Cookie.API.Game.Guild;
+using Cookie.API.Game.Inventory;
 using Cookie.API.Game.Jobs;
 using Cookie.API.Game.Map;
+using Cookie.API.Game.Party;
 using Cookie.API.Game.Pathmanager;
 using Cookie.API.Protocol.Enums;
 using Cookie.API.Protocol.Network.Types.Game.Character.Characteristic;
@@ -105,11 +112,6 @@ namespace Cookie.API.Core
         ActorRestrictionsInformations Restrictions { get; set; }
 
         /// <summary>
-        ///     The character inventory
-        /// </summary>
-        List<ObjectItem> Inventory { get; set; }
-
-        /// <summary>
         ///     The character spells
         /// </summary>
         List<SpellItem> Spells { get; set; }
@@ -125,6 +127,22 @@ namespace Cookie.API.Core
         IGatherManager GatherManager { get; set; }
 
         IPathManager PathManager { get; set; }
+
+        IAchievement Achievement { get; set; }
+
+        IAlliance Alliance { get; set; }
+
+        IChat Chat { get; set; }
+
+        IMap Map { get; set; }
+
+        IFriend Friend { get; set; }
+
+        IGuild Guild { get; set; }
+
+        IInventory Inventory { get; set; }
+
+        IParty Party { get; set; }
 
         /// <summary>
         ///     This method return the url string of the image of this character

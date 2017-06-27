@@ -6,7 +6,8 @@ namespace Cookie.API.Messages
     public class MessageHandler
     {
         // Constructors
-        public MessageHandler(Type messageType, Action<IAccount, object> handler, string pluginName, Type tokenType, MessagePriority priority)
+        public MessageHandler(Type messageType, Action<IAccount, object> handler, string pluginName, Type tokenType,
+            MessagePriority priority)
         {
             MessageType = messageType;
             Handler = handler;

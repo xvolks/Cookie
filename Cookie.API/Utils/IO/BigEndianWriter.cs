@@ -7,8 +7,6 @@ namespace Cookie.API.Utils.IO
 {
     public class BigEndianWriter : IDisposable, IDataWriter
     {
-        private BinaryWriter m_writer;
-
         private static readonly int INT_SIZE = 32;
 
         private static readonly int SHORT_MIN_VALUE = -32768;
@@ -19,11 +17,12 @@ namespace Cookie.API.Utils.IO
 
         private static readonly int CHUNCK_BIT_SIZE = 7;
 
-        private static int MAX_ENCODING_LENGTH = (int)Math.Ceiling((double)INT_SIZE / CHUNCK_BIT_SIZE);
+        private static int MAX_ENCODING_LENGTH = (int) Math.Ceiling((double) INT_SIZE / CHUNCK_BIT_SIZE);
 
         private static readonly int MASK_10000000 = 128;
 
         private static readonly int MASK_01111111 = 127;
+        private BinaryWriter m_writer;
 
         public BigEndianWriter()
         {
@@ -163,6 +162,120 @@ namespace Cookie.API.Utils.IO
             m_writer = new BinaryWriter(new MemoryStream(), Encoding.UTF8);
         }
 
+        public void WriteVarInt(int value)
+        {
+            if (value >= 0 && value <= MASK_01111111)
+            {
+                WriteByte((byte) value);
+                return;
+            }
+            var b = 0;
+            var c = value;
+            while (c != 0 && c != -1)
+            {
+                b = c & MASK_01111111;
+                c = c >> CHUNCK_BIT_SIZE;
+                if (c > 0)
+                    b = b | MASK_10000000;
+                WriteByte((byte) b);
+            }
+        }
+
+        public void WriteVarUhInt(uint value)
+        {
+            if (value <= MASK_01111111)
+            {
+                WriteByte((byte) value);
+                return;
+            }
+            uint b = 0;
+            var c = value;
+            while (c != 0)
+            {
+                b = (uint) (c & MASK_01111111);
+                c = c >> CHUNCK_BIT_SIZE;
+                if (c > 0)
+                    b = b | (uint) MASK_10000000;
+                WriteByte((byte) b);
+            }
+        }
+
+        public void WriteVarShort(short value)
+        {
+            if (value > SHORT_MAX_VALUE || value < SHORT_MIN_VALUE)
+                throw new Exception("Forbidden value");
+            var b = 0;
+            if (value >= 0 && value <= MASK_01111111)
+            {
+                WriteByte((byte) value);
+                return;
+            }
+            var c = value & 65535;
+            while (c != 0 && c != -1)
+            {
+                b = c & MASK_01111111;
+                c = c >> CHUNCK_BIT_SIZE;
+                if (c > 0)
+                    b = b | MASK_10000000;
+                WriteByte((byte) b);
+            }
+        }
+
+        public void WriteVarUhShort(ushort value)
+        {
+            if (value > UNSIGNED_SHORT_MAX_VALUE || value < SHORT_MIN_VALUE)
+                throw new Exception("Forbidden value");
+            var b = 0;
+            if (value >= 0 && value <= MASK_01111111)
+            {
+                WriteByte((byte) value);
+                return;
+            }
+            var c = value & 65535;
+            while (c != 0)
+            {
+                b = c & MASK_01111111;
+                c = c >> CHUNCK_BIT_SIZE;
+                if (c > 0)
+                    b = b | MASK_10000000;
+                WriteByte((byte) b);
+            }
+        }
+
+        public void WriteVarLong(long value)
+        {
+            uint i = 0;
+            var val = CustomInt64.fromNumber(value);
+            if (val.high == 0)
+            {
+                WriteInt32(val.low);
+            }
+            else
+            {
+                i = 0;
+                while (i < 4)
+                {
+                    WriteByte((byte) ((val.low & 127) | 128));
+                    val.low = val.low >> 7;
+                    i++;
+                }
+                if ((val.high & (268435455 << 3)) == 0)
+                {
+                    WriteByte((byte) ((val.high << 4) | val.low));
+                }
+                else
+                {
+                    WriteByte((byte) ((((val.high << 4) | val.low) & 127) | 128));
+                    WriteInt32(val.high >> 3);
+                }
+            }
+        }
+
+        public void WriteVarUhLong(ulong value)
+        {
+            WriteVarLong((long) value);
+        }
+
         public void Dispose()
         {
             m_writer.Flush();
@@ -192,128 +305,14 @@ namespace Cookie.API.Utils.IO
             m_writer.BaseStream.Seek(offset, seekOrigin);
         }
 
-        public void WriteVarInt(int value)
-        {
-            if (value >= 0 && value <= MASK_01111111)
-            {
-                WriteByte((byte)value);
-                return;
-            }
-            var b = 0;
-            var c = value;
-            while (c != 0 && c != -1)
-            {
-                b = c & MASK_01111111;
-                c = c >> CHUNCK_BIT_SIZE;
-                if (c > 0)
-                    b = b | MASK_10000000;
-                WriteByte((byte)b);
-            }
-        }
-
-        public void WriteVarUhInt(uint value)
-        {
-            if (value <= MASK_01111111)
-            {
-                WriteByte((byte)value);
-                return;
-            }
-            uint b = 0;
-            var c = value;
-            while (c != 0)
-            {
-                b = (uint)(c & MASK_01111111);
-                c = c >> CHUNCK_BIT_SIZE;
-                if (c > 0)
-                    b = b | (uint)MASK_10000000;
-                WriteByte((byte)b);
-            }
-        }
-
-        public void WriteVarShort(short value)
-        {
-            if (value > SHORT_MAX_VALUE || value < SHORT_MIN_VALUE)
-                throw new Exception("Forbidden value");
-            var b = 0;
-            if (value >= 0 && value <= MASK_01111111)
-            {
-                WriteByte((byte)value);
-                return;
-            }
-            var c = value & 65535;
-            while (c != 0 && c != -1)
-            {
-                b = c & MASK_01111111;
-                c = c >> CHUNCK_BIT_SIZE;
-                if (c > 0)
-                    b = b | MASK_10000000;
-                WriteByte((byte)b);
-            }
-        }
-
-        public void WriteVarUhShort(ushort value)
-        {
-            if (value > UNSIGNED_SHORT_MAX_VALUE || value < SHORT_MIN_VALUE)
-                throw new Exception("Forbidden value");
-            var b = 0;
-            if (value >= 0 && value <= MASK_01111111)
-            {
-                WriteByte((byte)value);
-                return;
-            }
-            var c = value & 65535;
-            while (c != 0)
-            {
-                b = c & MASK_01111111;
-                c = c >> CHUNCK_BIT_SIZE;
-                if (c > 0)
-                    b = b | MASK_10000000;
-                WriteByte((byte)b);
-            }
-        }
-
-        public void WriteVarLong(long value)
-        {
-            uint i = 0;
-            var val = CustomInt64.fromNumber(value);
-            if (val.high == 0)
-            {
-                WriteInt32(val.low);
-            }
-            else
-            {
-                i = 0;
-                while (i < 4)
-                {
-                    WriteByte((byte)((val.low & 127) | 128));
-                    val.low = val.low >> 7;
-                    i++;
-                }
-                if ((val.high & (268435455 << 3)) == 0)
-                {
-                    WriteByte((byte)((val.high << 4) | val.low));
-                }
-                else
-                {
-                    WriteByte((byte)((((val.high << 4) | val.low) & 127) | 128));
-                    WriteInt32(val.high >> 3);
-                }
-            }
-        }
-
-        public void WriteVarUhLong(ulong value)
-        {
-            WriteVarLong((long)value);
-        }
-
         private void WriteInt32(uint value)
         {
             while (value >= 128)
             {
-                WriteByte((byte)((value & 127) | 128));
+                WriteByte((byte) ((value & 127) | 128));
                 value = value >> 7;
             }
-            WriteByte((byte)value);
+            WriteByte((byte) value);
         }
     }
 }

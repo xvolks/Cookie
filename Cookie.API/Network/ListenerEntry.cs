@@ -8,6 +8,6 @@ namespace Cookie.API.Network
         Undefined = 0,
         Local = 1,
         Client = 2,
-        Server = 4,
+        Server = 4
     }
 }

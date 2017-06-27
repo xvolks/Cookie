@@ -11,10 +11,11 @@ namespace Cookie.API.Utils.Extensions
     {
         private readonly LockFreeQueue<Action> m_messageQueue;
         private readonly Stopwatch m_queueTimer;
+        private readonly List<SimplerTimer> m_timers;
         private int m_currentThreadId;
         private int m_lastUpdate;
+
         private Task m_updateTask;
-        private readonly List<SimplerTimer> m_timers;
 
         protected SelfRunningTaskQueue(int updateInterval)
         {
@@ -24,28 +25,15 @@ namespace Cookie.API.Utils.Extensions
             UpdateInterval = updateInterval;
         }
 
-        public virtual string Name
-        {
-            get;
-            set;
-        }
+        public virtual string Name { get; set; }
 
-        public int UpdateInterval
-        {
-            get;
-            set;
-        }
+        public int UpdateInterval { get; set; }
 
-        private bool m_running;
+        public bool Running { get; protected set; }
 
-        public bool Running
-        {
-            get { return m_running; }
-            protected set
-            {
-                m_running = value;
-            }
-        }
+        public bool IsInContext => Thread.CurrentThread.ManagedThreadId == m_currentThreadId;
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
 
         public virtual void Start()
@@ -60,14 +48,6 @@ namespace Cookie.API.Utils.Extensions
             Running = false;
         }
 
-        public bool IsInContext
-        {
-            get
-            {
-                return Thread.CurrentThread.ManagedThreadId == m_currentThreadId;
-            }
-        }
-
         public void AddMessage(Action action)
         {
             m_messageQueue.Enqueue(action);
@@ -76,17 +56,13 @@ namespace Cookie.API.Utils.Extensions
         public void EnsureNotContext()
         {
             if (IsInContext)
-            {
                 throw new InvalidOperationException("Forbidden context");
-            }
         }
 
         public void EnsureContext()
         {
             if (!IsInContext)
-            {
                 throw new InvalidOperationException("Not in context");
-            }
         }
 
         public bool ExecuteInContext(Action action)
@@ -145,9 +121,9 @@ namespace Cookie.API.Utils.Extensions
             {
                 if (Interlocked.CompareExchange(ref m_currentThreadId, Thread.CurrentThread.ManagedThreadId, 0) == 0)
                 {
-                    long timerStart = m_queueTimer.ElapsedMilliseconds;
-                    var updateDt = (int)(timerStart - m_lastUpdate);
-                    m_lastUpdate = (int)timerStart;
+                    var timerStart = m_queueTimer.ElapsedMilliseconds;
+                    var updateDt = (int) (timerStart - m_lastUpdate);
+                    m_lastUpdate = (int) timerStart;
 
                     // do stuff here
 
@@ -203,20 +179,20 @@ namespace Cookie.API.Utils.Extensions
                     Interlocked.Exchange(ref m_currentThreadId, 0);
 
                     // get the end time
-                    long timerStop = m_queueTimer.ElapsedMilliseconds;
+                    var timerStop = m_queueTimer.ElapsedMilliseconds;
 
-                    bool updateLagged = timerStop - timerStart > UpdateInterval;
-                    long callbackTimeout = updateLagged ? 0 : ((timerStart + UpdateInterval) - timerStop);
+                    var updateLagged = timerStop - timerStart > UpdateInterval;
+                    var callbackTimeout = updateLagged ? 0 : timerStart + UpdateInterval - timerStop;
 
                     Interlocked.Exchange(ref m_currentThreadId, 0);
 
                     if (Running)
-                    {
-                        // re-register the Update-callback
-                        m_updateTask = Task.Factory.StartNewDelayed((int)callbackTimeout, Tick);
-                    }
+                        m_updateTask = Task.Factory.StartNewDelayed((int) callbackTimeout, Tick);
                 }
-                else Debug.WriteLine("");
+                else
+                {
+                    Debug.WriteLine("");
+                }
             }
             catch (Exception ex)
             {
@@ -224,12 +200,10 @@ namespace Cookie.API.Utils.Extensions
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string propertyName)
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
-
     }
 }

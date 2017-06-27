@@ -15,7 +15,7 @@ using Cookie.API.Protocol.Network.Messages.Game.Chat;
 using Cookie.API.Utils;
 using Cookie.API.Utils.Enums;
 using Cookie.Commands.Managers;
-using Cookie.Core;
+using Cookie.FullSocket;
 using Cookie.Properties;
 
 namespace Cookie
@@ -23,10 +23,6 @@ namespace Cookie
     public partial class MainForm : Form
     {
         private IAccount _account;
-
-        private delegate void InsertIntoListDelegate(string origin, string name, string id);
-
-        private delegate void InsertIntoNoHandler(string name);
 
         private FullSocket.FullSocket _fullSocket;
 
@@ -67,24 +63,18 @@ namespace Cookie
                     ImageManager.Init(Settings.Default.DofusPath);
                 }).ContinueWith(p =>
                 {
-                    /*_client = new DofusClient(accountName, accountPassword)
+                    var fullSocketConfiguration = new FullSocketConfiguration
                     {
-                        Debug = true
-                    };*/
+                        RealAuthHost = "213.248.126.40",
+                        RealAuthPort = 443
+                    };
+
+                    var messageReceiver = new MessageReceiver();
+                    messageReceiver.Initialize();
+                    _fullSocket = new FullSocket.FullSocket(fullSocketConfiguration, messageReceiver);
+                    var dispatcherTask = new DispatcherTask(new MessageDispatcher(), _fullSocket);
+                    _account = _fullSocket.Connect(accountName, accountPassword, this);
                 });
-
-                var fullSocketConfiguration = new FullSocket.FullSocketConfiguration
-                {
-                    RealAuthHost = "213.248.126.40",
-                    RealAuthPort = 443,
-                };
-
-                var messageReceiver = new MessageReceiver();
-                messageReceiver.Initialize();
-                _fullSocket = new FullSocket.FullSocket(fullSocketConfiguration, messageReceiver);
-                var dispatcherTask = new DispatcherTask(new MessageDispatcher(), _fullSocket);
-                _account = _fullSocket.Connect(accountName, accountPassword, this);
-                
             }
             catch (Exception exception)
             {
@@ -195,7 +185,9 @@ namespace Cookie
         public void AddPacketsListView(string origin, string name, string id)
         {
             if (PacketsListView.InvokeRequired)
+            {
                 Invoke(new InsertIntoListDelegate(AddPacketsListView), origin, name, id);
+            }
             else
             {
                 var time = DateTime.Now.ToShortTimeString();
@@ -223,9 +215,7 @@ namespace Cookie
             if (NoHandlersListBox.InvokeRequired)
                 Invoke(new InsertIntoNoHandler(AddNoHandlerPacket), name);
             else
-            {
                 NoHandlersListBox.Items.Add(name);
-            }
         }
 
         private void ChatTextBox_KeyDown(object sender, KeyEventArgs e)
@@ -250,7 +240,7 @@ namespace Cookie
                     {
                         CommandManager.ParseAndCall(_account, txt);
                     }
-                    catch(Exception e)
+                    catch (Exception e)
                     {
                         Logger.Default.Log(e.Message);
                         Logger.Default.Log("Commande Incorrecte ou qui a échouée.", LogMessageType.Public);
@@ -263,7 +253,8 @@ namespace Cookie
 
                 if (ChatTextBox.Text.Length < 2)
                 {
-                    _account.Network.SendToServer(new ChatClientMultiMessage((byte) ChatChannelsMultiEnum.CHANNEL_GLOBAL,
+                    _account.Network.SendToServer(new ChatClientMultiMessage(
+                        (byte) ChatChannelsMultiEnum.CHANNEL_GLOBAL,
                         ChatTextBox.Text));
                 }
                 else
@@ -274,46 +265,55 @@ namespace Cookie
                     {
                         case "/g":
                             if (string.IsNullOrWhiteSpace(chattxt))
-                                _account.Network.SendToServer(new ChatClientMultiMessage((byte) ChatChannelsMultiEnum.CHANNEL_GUILD,
+                                _account.Network.SendToServer(new ChatClientMultiMessage(
+                                    (byte) ChatChannelsMultiEnum.CHANNEL_GUILD,
                                     chattxt));
                             break;
                         case "/s":
                             if (string.IsNullOrWhiteSpace(chattxt))
-                                _account.Network.SendToServer(new ChatClientMultiMessage((byte) ChatChannelsMultiEnum.CHANNEL_GLOBAL,
+                                _account.Network.SendToServer(new ChatClientMultiMessage(
+                                    (byte) ChatChannelsMultiEnum.CHANNEL_GLOBAL,
                                     chattxt));
                             break;
                         case "/t":
                             if (string.IsNullOrWhiteSpace(chattxt))
-                                _account.Network.SendToServer(new ChatClientMultiMessage((byte) ChatChannelsMultiEnum.CHANNEL_TEAM,
+                                _account.Network.SendToServer(new ChatClientMultiMessage(
+                                    (byte) ChatChannelsMultiEnum.CHANNEL_TEAM,
                                     chattxt));
                             break;
                         case "/a":
                             if (string.IsNullOrWhiteSpace(chattxt))
-                                _account.Network.SendToServer(new ChatClientMultiMessage((byte) ChatChannelsMultiEnum.CHANNEL_ALLIANCE,
+                                _account.Network.SendToServer(new ChatClientMultiMessage(
+                                    (byte) ChatChannelsMultiEnum.CHANNEL_ALLIANCE,
                                     chattxt));
                             break;
                         case "/p":
                             if (string.IsNullOrWhiteSpace(chattxt))
-                                _account.Network.SendToServer(new ChatClientMultiMessage((byte) ChatChannelsMultiEnum.CHANNEL_PARTY,
+                                _account.Network.SendToServer(new ChatClientMultiMessage(
+                                    (byte) ChatChannelsMultiEnum.CHANNEL_PARTY,
                                     chattxt));
                             break;
                         case "/k":
                             if (string.IsNullOrWhiteSpace(chattxt))
-                                _account.Network.SendToServer(new ChatClientMultiMessage((byte) ChatChannelsMultiEnum.CHANNEL_ARENA,
+                                _account.Network.SendToServer(new ChatClientMultiMessage(
+                                    (byte) ChatChannelsMultiEnum.CHANNEL_ARENA,
                                     chattxt));
                             break;
                         case "/b":
                             if (string.IsNullOrWhiteSpace(chattxt))
-                                _account.Network.SendToServer(new ChatClientMultiMessage((byte) ChatChannelsMultiEnum.CHANNEL_SALES,
+                                _account.Network.SendToServer(new ChatClientMultiMessage(
+                                    (byte) ChatChannelsMultiEnum.CHANNEL_SALES,
                                     chattxt));
                             break;
                         case "/r":
                             if (string.IsNullOrWhiteSpace(chattxt))
-                                _account.Network.SendToServer(new ChatClientMultiMessage((byte) ChatChannelsMultiEnum.CHANNEL_SEEK,
+                                _account.Network.SendToServer(new ChatClientMultiMessage(
+                                    (byte) ChatChannelsMultiEnum.CHANNEL_SEEK,
                                     chattxt));
                             break;
                         default:
-                            _account.Network.SendToServer(new ChatClientMultiMessage((byte) ChatChannelsMultiEnum.CHANNEL_GLOBAL,
+                            _account.Network.SendToServer(new ChatClientMultiMessage(
+                                (byte) ChatChannelsMultiEnum.CHANNEL_GLOBAL,
                                 ChatTextBox.Text));
                             break;
                     }
@@ -321,5 +321,9 @@ namespace Cookie
                 }
             }
         }
+
+        private delegate void InsertIntoListDelegate(string origin, string name, string id);
+
+        private delegate void InsertIntoNoHandler(string name);
     }
 }

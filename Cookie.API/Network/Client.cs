@@ -7,59 +7,26 @@ namespace Cookie.API.Network
 {
     public abstract class Client : IClient
     {
-        private readonly object _lockObject = new object();
         private readonly BigEndianReader _buffer = new BigEndianReader();
+        private readonly object _lockObject = new object();
 
         private MessagePart _currentMessage;
-
-        public event Action<Client, NetworkMessage> MessageReceived;
-        public event Action<Client, NetworkMessage> MessageSent;
-        public event Action<Client> Disconnected;
-
-        protected virtual void OnMessageReceived(NetworkMessage message)
-        {
-            var handler = MessageReceived;
-            handler?.Invoke(this, message);
-        }
-
-        protected virtual void OnMessageSended(NetworkMessage message)
-        {
-            var handler = MessageSent;
-            handler?.Invoke(this, message);
-        }
-
-        protected virtual void OnClientDisconnected()
-        {
-            var handler = Disconnected;
-            handler?.Invoke(this);
-        }
 
         protected Client(Socket socket)
         {
             Socket = socket;
         }
 
-        public Socket Socket
-        {
-            get;
-            private set;
-        }
+        public Socket Socket { get; private set; }
 
         public bool Connected => Socket != null && Socket.Connected;
 
         /// <summary>
-        /// Last activity as a socket client (last received packet or sent packet)
+        ///     Last activity as a socket client (last received packet or sent packet)
         /// </summary>
-        public DateTime LastActivity
-        {
-            get;
-            private set;
-        }
+        public DateTime LastActivity { get; private set; }
 
-        public abstract IMessageBuilder MessageBuilder
-        {
-            get;
-        }
+        public abstract IMessageBuilder MessageBuilder { get; }
 
         public virtual void Send(NetworkMessage message)
         {
@@ -88,12 +55,6 @@ namespace Cookie.API.Network
             LastActivity = DateTime.Now;
         }
 
-        private void OnSendCompleted(object sender, SocketAsyncEventArgs e)
-        {
-            OnMessageSended((NetworkMessage)e.UserToken);
-            e.Dispose();
-        }
-
         public virtual void Receive(byte[] data, int offset, int count)
         {
             try
@@ -111,6 +72,47 @@ namespace Cookie.API.Network
             }
         }
 
+        public virtual void Disconnect()
+        {
+            if (Socket != null && Socket.Connected)
+            {
+                Socket.Shutdown(SocketShutdown.Both);
+                Socket.Close();
+
+                Socket = null;
+            }
+
+            OnClientDisconnected();
+        }
+
+        public event Action<Client, NetworkMessage> MessageReceived;
+        public event Action<Client, NetworkMessage> MessageSent;
+        public event Action<Client> Disconnected;
+
+        protected virtual void OnMessageReceived(NetworkMessage message)
+        {
+            var handler = MessageReceived;
+            handler?.Invoke(this, message);
+        }
+
+        protected virtual void OnMessageSended(NetworkMessage message)
+        {
+            var handler = MessageSent;
+            handler?.Invoke(this, message);
+        }
+
+        protected virtual void OnClientDisconnected()
+        {
+            var handler = Disconnected;
+            handler?.Invoke(this);
+        }
+
+        private void OnSendCompleted(object sender, SocketAsyncEventArgs e)
+        {
+            OnMessageSended((NetworkMessage) e.UserToken);
+            e.Dispose();
+        }
+
         private void BuildMessage()
         {
             if (_buffer.BytesAvailable <= 0)
@@ -124,7 +126,7 @@ namespace Cookie.API.Network
             var messageDataReader = new BigEndianReader(_currentMessage.Data);
             if (_currentMessage.MessageId != null)
             {
-                var message = MessageBuilder.BuildMessage((uint)_currentMessage.MessageId.Value, messageDataReader);
+                var message = MessageBuilder.BuildMessage((uint) _currentMessage.MessageId.Value, messageDataReader);
 
                 LastActivity = DateTime.Now;
                 OnMessageReceived(message);
@@ -132,19 +134,6 @@ namespace Cookie.API.Network
 
             _currentMessage = null;
             BuildMessage(); // there is maybe a second message in the buffer
-        }
-
-        public virtual void Disconnect()
-        {
-            if (Socket != null && Socket.Connected)
-            {
-                Socket.Shutdown(SocketShutdown.Both);
-                Socket.Close();
-
-                Socket = null;
-            }
-
-            OnClientDisconnected();
         }
     }
 }

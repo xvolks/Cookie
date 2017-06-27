@@ -4,6 +4,6 @@
     {
         Disconnected = 0,
         Authentification,
-        GameConnection,
+        GameConnection
     }
 }

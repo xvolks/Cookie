@@ -2,8 +2,15 @@
 using System.Linq;
 using Cookie.API.Core;
 using Cookie.API.Datacenter;
+using Cookie.API.Game.Achievement;
+using Cookie.API.Game.Alliance;
+using Cookie.API.Game.Chat;
+using Cookie.API.Game.Friend;
+using Cookie.API.Game.Guild;
+using Cookie.API.Game.Inventory;
 using Cookie.API.Game.Jobs;
 using Cookie.API.Game.Map;
+using Cookie.API.Game.Party;
 using Cookie.API.Game.Pathmanager;
 using Cookie.API.Gamedata.D2o;
 using Cookie.API.Messages;
@@ -26,8 +33,16 @@ using Cookie.API.Protocol.Network.Types.Game.Data.Items;
 using Cookie.API.Protocol.Network.Types.Game.Look;
 using Cookie.API.Utils;
 using Cookie.API.Utils.Enums;
+using Cookie.Game.Alliance;
+using Cookie.Game.Chat;
+using Cookie.Game.Friend;
+using Cookie.Game.Guild;
+using Cookie.Game.Inventory;
 using Cookie.Game.Jobs;
+using Cookie.Game.Map;
+using Cookie.Game.Party;
 using Cookie.Game.Pathmanager;
+using Achievement = Cookie.Game.Achievement.Achievement;
 
 namespace Cookie.Core
 {
@@ -39,50 +54,87 @@ namespace Cookie.Core
             Stats = new CharacterCharacteristicsInformations();
             Look = new EntityLook();
             Restrictions = new ActorRestrictionsInformations();
-            Inventory = new List<ObjectItem>();
             Spells = new List<SpellItem>();
             Status = CharacterStatus.Disconnected;
             Jobs = new List<JobExperience>();
             GatherManager = new GatherManager(_account);
             PathManager = new PathManager(_account);
 
+            Achievement = new Achievement(_account);
+            Alliance = new Alliance(_account);
+            Chat = new Chat(_account);
+            Map = new Map(_account);
+            Friend = new Friend(_account);
+            Guild = new Guild(_account);
+            Inventory = new Inventory(_account);
+            Party = new Party(_account);
+
             #region Choice Handler
-            account.Network.RegisterPacket<BasicCharactersListMessage>(HandleBasicCharactersListMessage, MessagePriority.VeryHigh);
-            account.Network.RegisterPacket<CharactersListMessage>(HandleCharactersListMessage, MessagePriority.VeryHigh);
-            account.Network.RegisterPacket<CharacterSelectedSuccessMessage>(HandleCharacterSelectedSuccessMessage, MessagePriority.VeryHigh);
+
+            account.Network.RegisterPacket<BasicCharactersListMessage>(HandleBasicCharactersListMessage,
+                MessagePriority.VeryHigh);
+            account.Network.RegisterPacket<CharactersListMessage>(HandleCharactersListMessage,
+                MessagePriority.VeryHigh);
+            account.Network.RegisterPacket<CharacterSelectedSuccessMessage>(HandleCharacterSelectedSuccessMessage,
+                MessagePriority.VeryHigh);
+
             #endregion
 
             #region Creation Handler
-            account.Network.RegisterPacket<CharacterCanBeCreatedResultMessage>(HandleCharacterCanBeCreatedResultMessage, MessagePriority.VeryHigh);
-            account.Network.RegisterPacket<CharacterCreationResultMessage>(HandleCharacterCreationResultMessage, MessagePriority.VeryHigh);
-            account.Network.RegisterPacket<CharacterNameSuggestionFailureMessage>(HandleCharacterNameSuggestionFailureMessage, MessagePriority.VeryHigh);
-            account.Network.RegisterPacket<CharacterNameSuggestionSuccessMessage>(HandleCharacterNameSuggestionSuccessMessage, MessagePriority.VeryHigh);
+
+            account.Network.RegisterPacket<CharacterCanBeCreatedResultMessage>(HandleCharacterCanBeCreatedResultMessage,
+                MessagePriority.VeryHigh);
+            account.Network.RegisterPacket<CharacterCreationResultMessage>(HandleCharacterCreationResultMessage,
+                MessagePriority.VeryHigh);
+            account.Network.RegisterPacket<CharacterNameSuggestionFailureMessage>(
+                HandleCharacterNameSuggestionFailureMessage, MessagePriority.VeryHigh);
+            account.Network.RegisterPacket<CharacterNameSuggestionSuccessMessage>(
+                HandleCharacterNameSuggestionSuccessMessage, MessagePriority.VeryHigh);
+
             #endregion
 
             #region Deletion Handler
-            account.Network.RegisterPacket<CharacterDeletionErrorMessage>(HandleCharacterDeletionErrorMessage, MessagePriority.VeryHigh);
+
+            account.Network.RegisterPacket<CharacterDeletionErrorMessage>(HandleCharacterDeletionErrorMessage,
+                MessagePriority.VeryHigh);
+
             #endregion
 
             #region Stats Handler
-            account.Network.RegisterPacket<CharacterStatsListMessage>(HandleCharacterStatsListMessage, MessagePriority.VeryHigh);
-            account.Network.RegisterPacket<CharacterExperienceGainMessage>(HandleCharacterExperienceGainMessage, MessagePriority.VeryHigh);
-            account.Network.RegisterPacket<CharacterLevelUpInformationMessage>(HandleCharacterLevelUpInformationMessage, MessagePriority.VeryHigh);
-            account.Network.RegisterPacket<CharacterLevelUpMessage>(HandleCharacterLevelUpMessage, MessagePriority.VeryHigh);
-            account.Network.RegisterPacket<LifePointsRegenEndMessage>(HandleLifePointsRegenEndMessage, MessagePriority.VeryHigh);
-            account.Network.RegisterPacket<UpdateLifePointsMessage>(HandleUpdateLifePointsMessage, MessagePriority.VeryHigh);
+
+            account.Network.RegisterPacket<CharacterStatsListMessage>(HandleCharacterStatsListMessage,
+                MessagePriority.VeryHigh);
+            account.Network.RegisterPacket<CharacterExperienceGainMessage>(HandleCharacterExperienceGainMessage,
+                MessagePriority.VeryHigh);
+            account.Network.RegisterPacket<CharacterLevelUpInformationMessage>(HandleCharacterLevelUpInformationMessage,
+                MessagePriority.VeryHigh);
+            account.Network.RegisterPacket<CharacterLevelUpMessage>(HandleCharacterLevelUpMessage,
+                MessagePriority.VeryHigh);
+            account.Network.RegisterPacket<LifePointsRegenEndMessage>(HandleLifePointsRegenEndMessage,
+                MessagePriority.VeryHigh);
+            account.Network.RegisterPacket<UpdateLifePointsMessage>(HandleUpdateLifePointsMessage,
+                MessagePriority.VeryHigh);
+
             #endregion
 
             #region Initialization Handler
-            account.Network.RegisterPacket<CharacterLoadingCompleteMessage>(HandleCharacterLoadingCompleteMessage, MessagePriority.VeryHigh);
-            account.Network.RegisterPacket<OnConnectionEventMessage>(HandleOnConnectionEventMessage, MessagePriority.VeryHigh);
-            account.Network.RegisterPacket<SetCharacterRestrictionsMessage>(HandleSetCharacterRestrictionsMessage, MessagePriority.VeryHigh);
+
+            account.Network.RegisterPacket<CharacterLoadingCompleteMessage>(HandleCharacterLoadingCompleteMessage,
+                MessagePriority.VeryHigh);
+            account.Network.RegisterPacket<OnConnectionEventMessage>(HandleOnConnectionEventMessage,
+                MessagePriority.VeryHigh);
+            account.Network.RegisterPacket<SetCharacterRestrictionsMessage>(HandleSetCharacterRestrictionsMessage,
+                MessagePriority.VeryHigh);
+
             #endregion
 
-            _account.Network.RegisterPacket<MapComplementaryInformationsDataMessage>(HandleMapComplementaryInformationsDataMessage, MessagePriority.Normal);
-            _account.Network.RegisterPacket<GameContextRefreshEntityLookMessage>(HandleGameContextRefreshEntityLookMessage, MessagePriority.Normal);
+            _account.Network.RegisterPacket<MapComplementaryInformationsDataMessage>(
+                HandleMapComplementaryInformationsDataMessage, MessagePriority.Normal);
+            _account.Network.RegisterPacket<GameContextRefreshEntityLookMessage>(
+                HandleGameContextRefreshEntityLookMessage, MessagePriority.Normal);
         }
 
-        private IAccount _account { get; set; }
+        private IAccount _account { get; }
 
         public bool IsFirstConnection { get; set; }
 
@@ -110,7 +162,14 @@ namespace Cookie.Core
 
         public ActorRestrictionsInformations Restrictions { get; set; }
 
-        public List<ObjectItem> Inventory { get; set; }
+        public IAchievement Achievement { get; set; }
+        public IAlliance Alliance { get; set; }
+        public IChat Chat { get; set; }
+        public IMap Map { get; set; }
+        public IFriend Friend { get; set; }
+        public IGuild Guild { get; set; }
+        public IInventory Inventory { get; set; }
+        public IParty Party { get; set; }
         public List<SpellItem> Spells { get; set; }
         public List<JobExperience> Jobs { get; set; }
         public IGatherManager GatherManager { get; set; }
@@ -232,7 +291,40 @@ namespace Cookie.Core
             return text;
         }
 
+        #region Deletion
+
+        private void HandleCharacterDeletionErrorMessage(IAccount account, CharacterDeletionErrorMessage message)
+        {
+            Logger.Default.Log("Une erreur est survenue lors de la suppresion du personnae.");
+        }
+
+        #endregion
+
+        private void HandleMapComplementaryInformationsDataMessage(IAccount account,
+            MapComplementaryInformationsDataMessage message)
+        {
+            if (account.Character.IsFirstConnection)
+            {
+                account.Network.SendToServer(new GuidedModeQuitRequestMessage());
+                account.Character.IsFirstConnection = false;
+            }
+
+            foreach (var actor in message.Actors)
+            {
+                if (actor.ContextualId != account.Character.Id) continue;
+                account.Character.CellId = actor.Disposition.CellId;
+            }
+        }
+
+        private void HandleGameContextRefreshEntityLookMessage(IAccount account,
+            GameContextRefreshEntityLookMessage message)
+        {
+            if (message.ObjectId == Id)
+                Look = message.Look;
+        }
+
         #region Choice
+
         private void HandleBasicCharactersListMessage(IAccount account, BasicCharactersListMessage message)
         {
             if (message.Characters.Count == 0)
@@ -275,8 +367,9 @@ namespace Cookie.Core
             account.Character.Name = message.Infos.Name;
             account.Character.Sex = message.Infos.Sex;
             account.Character.Look = message.Infos.EntityLook;
-            account.Character.Breed = (BreedEnum)message.Infos.Breed;
+            account.Character.Breed = (BreedEnum) message.Infos.Breed;
         }
+
         #endregion
 
         #region Creation
@@ -287,11 +380,11 @@ namespace Cookie.Core
             // Si nous ne pouvons pas créer de personnages, nous arrêtons la fonction
             if (!message.YesYouCan) return;
             // Sinon, nous choisissons une classe au hasard 
-            var breedId = (byte)Randomize.GetRandomNumber(1, 18);
+            var breedId = (byte) Randomize.GetRandomNumber(1, 18);
             // Nous récupérons les informations de la classe avec les D2O
             var breed = ObjectDataManager.Instance.Get<Breed>(breedId);
             // Nous récupérons la couleur de base de la classe, et nous faisons un léger random sur la couleur
-            var breedColors = breed.MaleColors.Select(i => Randomize.GetRandomNumber((int)i - 80000, (int)i + 80000))
+            var breedColors = breed.MaleColors.Select(i => Randomize.GetRandomNumber((int) i - 80000, (int) i + 80000))
                 .ToList();
             // On récupère la liste des cosmetics disponibles pour cette classe et ce sexe
             var headsList = ObjectDataManager.Instance.EnumerateObjects<Head>().ToList()
@@ -300,13 +393,13 @@ namespace Cookie.Core
             var head = headsList[Randomize.GetRandomNumber(0, 7)];
             //// Nous envoyons la requête pour créer le personnage
             var test = new CharacterCreationRequestMessage(account.Character.Name, breedId, false, breedColors,
-                (ushort)head.Id);
+                (ushort) head.Id);
             account.Network.SendToServer(test);
         }
 
         private void HandleCharacterCreationResultMessage(IAccount account, CharacterCreationResultMessage message)
         {
-            switch ((CharacterCreationResultEnum)message.Result)
+            switch ((CharacterCreationResultEnum) message.Result)
             {
                 case CharacterCreationResultEnum.OK:
                     account.Character.IsFirstConnection = true;
@@ -350,16 +443,11 @@ namespace Cookie.Core
             var test = new CharacterCanBeCreatedRequestMessage();
             account.Network.SendToServer(test);
         }
-        #endregion
 
-        #region Deletion
-        private void HandleCharacterDeletionErrorMessage(IAccount account, CharacterDeletionErrorMessage message)
-        {
-            Logger.Default.Log("Une erreur est survenue lors de la suppresion du personnae."); 
-        }
         #endregion
 
         #region Stats
+
         private void HandleCharacterStatsListMessage(IAccount account, CharacterStatsListMessage message)
         {
             account.Character.Stats = message.Stats;
@@ -407,9 +495,11 @@ namespace Cookie.Core
             account.Character.Stats.LifePoints = message.LifePoints;
             account.Character.Stats.MaxLifePoints = message.MaxLifePoints;
         }
+
         #endregion
 
         #region Initialization
+
         private void HandleCharacterLoadingCompleteMessage(IAccount account, CharacterLoadingCompleteMessage message)
         {
             account.Network.SendToServer(new FriendsGetListMessage());
@@ -431,30 +521,6 @@ namespace Cookie.Core
             account.Character.Restrictions = message.Restrictions;
         }
 
-
         #endregion
-
-        private void HandleMapComplementaryInformationsDataMessage(IAccount account,
-            MapComplementaryInformationsDataMessage message)
-        {
-            if (account.Character.IsFirstConnection)
-            {
-                account.Network.SendToServer(new GuidedModeQuitRequestMessage());
-                account.Character.IsFirstConnection = false;
-            }
-
-            foreach (var actor in message.Actors)
-            {
-                if (actor.ContextualId != account.Character.Id) continue;
-                account.Character.CellId = actor.Disposition.CellId;
-            }
-        }
-
-        private void HandleGameContextRefreshEntityLookMessage(IAccount account,
-            GameContextRefreshEntityLookMessage message)
-        {
-            if (message.ObjectId == Id)
-                Look = message.Look;
-        }
     }
 }

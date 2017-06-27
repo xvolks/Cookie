@@ -7,11 +7,12 @@ using Cookie.API.Utils.Enums;
 
 namespace Cookie.Game.Party
 {
-    public class Party: IParty
+    public class Party : IParty
     {
         public Party(IAccount account)
         {
-            account.Network.RegisterPacket<PartyInvitationMessage>(HandlePartyInvitationMessage, MessagePriority.VeryHigh);
+            account.Network.RegisterPacket<PartyInvitationMessage>(HandlePartyInvitationMessage,
+                MessagePriority.VeryHigh);
             account.Network.RegisterPacket<PartyInvitationCancelledForGuestMessage>(
                 HandlePartyInvitationCancelledForGuestMessage, MessagePriority.VeryHigh);
         }

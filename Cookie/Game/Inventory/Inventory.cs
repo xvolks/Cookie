@@ -13,51 +13,81 @@ using Cookie.API.Protocol.Network.Messages.Game.Inventory.Spells;
 using Cookie.API.Protocol.Network.Types.Game.Data.Items;
 using Cookie.API.Utils;
 using Cookie.API.Utils.Enums;
+using Item = Cookie.API.Datacenter.Item;
 
 namespace Cookie.Game.Inventory
 {
     public class Inventory : IInventory
     {
-        public List<ObjectItem> Objects { get; set; }
-
         public Inventory(IAccount account)
         {
             Objects = new List<ObjectItem>();
-            
+
             #region Exchange
-            account.Network.RegisterPacket<ExchangeRequestedTradeMessage>(HandleExchangeRequestedTradeMessage, MessagePriority.VeryHigh);
+
+            account.Network.RegisterPacket<ExchangeRequestedTradeMessage>(HandleExchangeRequestedTradeMessage,
+                MessagePriority.VeryHigh);
             account.Network.RegisterPacket<ExchangeLeaveMessage>(HandleExchangeLeaveMessage, MessagePriority.VeryHigh);
             account.Network.RegisterPacket<ExchangeErrorMessage>(HandleExchangeErrorMessage, MessagePriority.VeryHigh);
-            account.Network.RegisterPacket<ExchangeStartedWithPodsMessage>(HandleExchangeStartedWithPodsMessage, MessagePriority.VeryHigh);
-            account.Network.RegisterPacket<ExchangeObjectAddedMessage>(HandleExchangeObjectAddedMessage, MessagePriority.VeryHigh);
-            account.Network.RegisterPacket<ExchangeIsReadyMessage>(HandleExchangeIsReadyMessage, MessagePriority.VeryHigh);
-            account.Network.RegisterPacket<ExchangePodsModifiedMessage>(HandleExchangePodsModifiedMessage, MessagePriority.VeryHigh);
-            account.Network.RegisterPacket<ExchangeObjectRemovedMessage>(HandleExchangeObjectRemovedMessage, MessagePriority.VeryHigh);
-            account.Network.RegisterPacket<ExchangeKamaModifiedMessage>(HandleExchangeKamaModifiedMessage, MessagePriority.VeryHigh);
-            account.Network.RegisterPacket<ExchangeObjectModifiedMessage>(HandleExchangeObjectModifiedMessage, MessagePriority.VeryHigh);
+            account.Network.RegisterPacket<ExchangeStartedWithPodsMessage>(HandleExchangeStartedWithPodsMessage,
+                MessagePriority.VeryHigh);
+            account.Network.RegisterPacket<ExchangeObjectAddedMessage>(HandleExchangeObjectAddedMessage,
+                MessagePriority.VeryHigh);
+            account.Network.RegisterPacket<ExchangeIsReadyMessage>(HandleExchangeIsReadyMessage,
+                MessagePriority.VeryHigh);
+            account.Network.RegisterPacket<ExchangePodsModifiedMessage>(HandleExchangePodsModifiedMessage,
+                MessagePriority.VeryHigh);
+            account.Network.RegisterPacket<ExchangeObjectRemovedMessage>(HandleExchangeObjectRemovedMessage,
+                MessagePriority.VeryHigh);
+            account.Network.RegisterPacket<ExchangeKamaModifiedMessage>(HandleExchangeKamaModifiedMessage,
+                MessagePriority.VeryHigh);
+            account.Network.RegisterPacket<ExchangeObjectModifiedMessage>(HandleExchangeObjectModifiedMessage,
+                MessagePriority.VeryHigh);
+
             #endregion
 
             #region Inventory
+
             account.Network.RegisterPacket<KamasUpdateMessage>(HandleKamasUpdateMessage, MessagePriority.VeryHigh);
-            account.Network.RegisterPacket<InventoryContentAndPresetMessage>(HandleInventoryContentAndPresetMessage, MessagePriority.VeryHigh);
-            account.Network.RegisterPacket<InventoryContentMessage>(HandleInventoryContentMessage, MessagePriority.VeryHigh);
-            account.Network.RegisterPacket<InventoryWeightMessage>(HandleInventoryWeightMessage, MessagePriority.VeryHigh);
-            account.Network.RegisterPacket<ObjectModifiedMessage>(HandleObjectModifiedMessage, MessagePriority.VeryHigh);
+            account.Network.RegisterPacket<InventoryContentAndPresetMessage>(HandleInventoryContentAndPresetMessage,
+                MessagePriority.VeryHigh);
+            account.Network.RegisterPacket<InventoryContentMessage>(HandleInventoryContentMessage,
+                MessagePriority.VeryHigh);
+            account.Network.RegisterPacket<InventoryWeightMessage>(HandleInventoryWeightMessage,
+                MessagePriority.VeryHigh);
+            account.Network.RegisterPacket<ObjectModifiedMessage>(HandleObjectModifiedMessage,
+                MessagePriority.VeryHigh);
             account.Network.RegisterPacket<ObjectAddedMessage>(HandleObjectAddedMessage, MessagePriority.VeryHigh);
             account.Network.RegisterPacket<ObjectsAddedMessage>(HandleObjectsAddedMessage, MessagePriority.VeryHigh);
             account.Network.RegisterPacket<ObjectDeletedMessage>(HandleObjectDeletedMessage, MessagePriority.VeryHigh);
-            account.Network.RegisterPacket<ObjectsDeletedMessage>(HandleObjectsDeletedMessage, MessagePriority.VeryHigh);
+            account.Network.RegisterPacket<ObjectsDeletedMessage>(HandleObjectsDeletedMessage,
+                MessagePriority.VeryHigh);
             account.Network.RegisterPacket<ObtainedItemMessage>(HandleObtainedItemMessage, MessagePriority.VeryHigh);
             account.Network.RegisterPacket<GoldAddedMessage>(HandleGoldAddedMessage, MessagePriority.VeryHigh);
+
             #endregion
 
             #region Spells
+
             account.Network.RegisterPacket<SpellListMessage>(HandleSpellListMessage, MessagePriority.VeryHigh);
+
             #endregion
         }
 
+        public List<ObjectItem> Objects { get; set; }
+
+        #region Spells
+
+        private void HandleSpellListMessage(IAccount account, SpellListMessage message)
+        {
+            account.Character.Spells = message.Spells;
+        }
+
+        #endregion
+
 
         #region Exchange
+
         private void HandleExchangeRequestedTradeMessage(IAccount account, ExchangeRequestedTradeMessage message)
         {
             Logger.Default.Log($"Le joueur id: {message.Source} vous demande en échange.", LogMessageType.Info);
@@ -149,9 +179,11 @@ namespace Cookie.Game.Inventory
                     : $"Vous avez modifié le nombre de {D2OParsing.GetItemName(message.Object.ObjectGID)} en x{message.Object.Quantity}",
                 LogMessageType.Info);
         }
+
         #endregion
 
         #region Inventory
+
         private void HandleKamasUpdateMessage(IAccount account, KamasUpdateMessage message)
         {
             account.Character.Stats.Kamas = message.KamasTotal;
@@ -165,7 +197,7 @@ namespace Cookie.Game.Inventory
         private void HandleInventoryContentMessage(IAccount account, InventoryContentMessage message)
         {
             account.Character.Stats.Kamas = message.Kamas;
-            account.Character.Inventory = message.Objects;
+            account.Character.Inventory.Objects = message.Objects;
         }
 
         private void HandleInventoryWeightMessage(IAccount account, InventoryWeightMessage message)
@@ -176,7 +208,7 @@ namespace Cookie.Game.Inventory
 
         private void HandleObjectModifiedMessage(IAccount account, ObjectModifiedMessage message)
         {
-            account.Inventory.Objects.ForEach(Object =>
+            account.Character.Inventory.Objects.ForEach(Object =>
             {
                 if (Object.ObjectUID != message.Object.ObjectUID) return;
                 Object = message.Object;
@@ -185,30 +217,31 @@ namespace Cookie.Game.Inventory
 
         private void HandleObjectAddedMessage(IAccount account, ObjectAddedMessage message)
         {
-            account.Inventory.Objects.Add(message.Object);
+            account.Character.Inventory.Objects.Add(message.Object);
         }
 
         private void HandleObjectsAddedMessage(IAccount account, ObjectsAddedMessage message)
         {
-            account.Inventory.Objects.AddRange(message.Object);
+            account.Character.Inventory.Objects.AddRange(message.Object);
         }
 
         private void HandleObjectDeletedMessage(IAccount account, ObjectDeletedMessage message)
         {
-            account.Inventory.Objects.Remove(account.Inventory.Objects.First(o => o.ObjectUID == message.ObjectUID));
+            account.Character.Inventory.Objects.Remove(
+                account.Character.Inventory.Objects.First(o => o.ObjectUID == message.ObjectUID));
         }
 
         private void HandleObjectsDeletedMessage(IAccount account, ObjectsDeletedMessage message)
         {
             message.ObjectUID.ForEach(
-                o => account.Inventory.Objects.Remove(
-                    account.Inventory.Objects.FirstOrDefault(item => item.ObjectUID == o)));
+                o => account.Character.Inventory.Objects.Remove(
+                    account.Character.Inventory.Objects.FirstOrDefault(item => item.ObjectUID == o)));
         }
 
         private void HandleObtainedItemMessage(IAccount account, ObtainedItemMessage message)
         {
             Logger.Default.Log(
-                $"Tu as reçu :{FastD2IReader.Instance.GetText(ObjectDataManager.Instance.Get<API.Datacenter.Item>(message.GenericId).NameId)} x {message.BaseQuantity}");
+                $"Tu as reçu :{FastD2IReader.Instance.GetText(ObjectDataManager.Instance.Get<Item>(message.GenericId).NameId)} x {message.BaseQuantity}");
         }
 
         private void HandleGoldAddedMessage(IAccount account, GoldAddedMessage message)
@@ -216,13 +249,7 @@ namespace Cookie.Game.Inventory
             Logger.Default.Log(
                 $"Tu as reçu : {message.Gold}");
         }
-        #endregion
 
-        #region Spells
-        private void HandleSpellListMessage(IAccount account, SpellListMessage message)
-        {
-            account.Character.Spells = message.Spells;
-        }
         #endregion
     }
 }

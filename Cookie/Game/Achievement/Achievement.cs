@@ -12,7 +12,8 @@ namespace Cookie.Game.Achievement
     {
         public Achievement(IAccount account)
         {
-            account.Network.RegisterPacket<AchievementFinishedMessage>(HandleAchievementFinishedMessage, MessagePriority.VeryHigh);
+            account.Network.RegisterPacket<AchievementFinishedMessage>(HandleAchievementFinishedMessage,
+                MessagePriority.VeryHigh);
         }
 
         private void HandleAchievementFinishedMessage(IAccount account, AchievementFinishedMessage message)

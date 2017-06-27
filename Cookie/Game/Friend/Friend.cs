@@ -13,7 +13,8 @@ namespace Cookie.Game.Friend
         public Friend(IAccount account)
         {
             account.Network.RegisterPacket<FriendsListMessage>(HandleFriendsListMessage, MessagePriority.VeryHigh);
-            account.Network.RegisterPacket<FriendDeleteResultMessage>(HandleFriendDeleteResultMessage, MessagePriority.VeryHigh);
+            account.Network.RegisterPacket<FriendDeleteResultMessage>(HandleFriendDeleteResultMessage,
+                MessagePriority.VeryHigh);
         }
 
         private void HandleFriendsListMessage(IAccount account, FriendsListMessage message)
@@ -21,9 +22,9 @@ namespace Cookie.Game.Friend
             foreach (var friend in message.FriendsList)
                 switch (friend.PlayerState)
                 {
-                    case (byte)PlayerStateEnum.NOT_CONNECTED:
+                    case (byte) PlayerStateEnum.NOT_CONNECTED:
                         continue;
-                    case (byte)PlayerStateEnum.UNKNOWN_STATE:
+                    case (byte) PlayerStateEnum.UNKNOWN_STATE:
                         continue;
                     default:
                         Logger.Default.Log($"{friend.AccountName} connecté");
@@ -33,8 +34,9 @@ namespace Cookie.Game.Friend
 
         private void HandleFriendDeleteResultMessage(IAccount account, FriendDeleteResultMessage message)
         {
-            if(message.Success)
-                Logger.Default.Log($"Vous venez de supprimer {message.Name} de votre liste d'ami ", LogMessageType.Info);
+            if (message.Success)
+                Logger.Default.Log($"Vous venez de supprimer {message.Name} de votre liste d'ami ",
+                    LogMessageType.Info);
             else
                 Logger.Default.Log($"Erreur lors de la suppresion de l'ami {message.Name}");
         }

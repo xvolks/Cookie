@@ -6,6 +6,6 @@
         High = 3,
         Normal = 2,
         Low = 1,
-        VeryLow = 0,
+        VeryLow = 0
     }
 }

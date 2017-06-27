@@ -12,11 +12,7 @@ namespace Cookie.FullSocket
     {
         private readonly List<Message> _mLogs = new List<Message>();
 
-        public IClient Server
-        {
-            get;
-            set;
-        }
+        public IClient Server { get; set; }
 
         protected override void Dispatch(Message message, object token)
         {
@@ -32,7 +28,6 @@ namespace Cookie.FullSocket
             if (message == null) throw new ArgumentNullException(nameof(message));
 
             if (message.Destinations.HasFlag(ListenerEntry.Local))
-            {
                 try
                 {
                     InternalDispatch(message, token);
@@ -42,12 +37,9 @@ namespace Cookie.FullSocket
                     Console.WriteLine($@"Cannot dispatch {message}");
                     Console.Write(ex);
                 }
-            }
 
             if (Server != null && message.Destinations.HasFlag(ListenerEntry.Server))
-            {
                 Server.Send(message);
-            }
 
             message.OnDispatched();
             OnMessageDispatched(message);
@@ -56,12 +48,14 @@ namespace Cookie.FullSocket
         private void InternalDispatch(NetworkMessage message, object token)
         {
             if (message == null) throw new ArgumentNullException(nameof(message));
-            var handlers = GetHandlers(message.GetType(), token).ToArray(); // have to transform it into a collection if we want to add/remove handler
+            var handlers =
+                GetHandlers(message.GetType(), token)
+                    .ToArray(); // have to transform it into a collection if we want to add/remove handler
 
 
             foreach (var handler in handlers)
             {
-                handler.Handler((IAccount)token, message);
+                handler.Handler((IAccount) token, message);
 
                 if (message.Canceled)
                     break;

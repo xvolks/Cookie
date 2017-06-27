@@ -10,11 +10,11 @@ namespace Cookie.Game.Guild
 {
     public class Guild : IGuild
     {
-
         public Guild(IAccount account)
         {
             account.Network.RegisterPacket<GuildMotdMessage>(HandleGuildMotdMessage, MessagePriority.VeryHigh);
-            account.Network.RegisterPacket<ChallengeFightJoinRefusedMessage>(HandleChallengeFightJoinRefusedMessage, MessagePriority.VeryHigh);
+            account.Network.RegisterPacket<ChallengeFightJoinRefusedMessage>(HandleChallengeFightJoinRefusedMessage,
+                MessagePriority.VeryHigh);
         }
 
         private void HandleGuildMotdMessage(IAccount account, GuildMotdMessage message)
@@ -24,7 +24,7 @@ namespace Cookie.Game.Guild
 
         private void HandleChallengeFightJoinRefusedMessage(IAccount account, ChallengeFightJoinRefusedMessage message)
         {
-            switch ((FighterRefusedReasonEnum)message.Reason)
+            switch ((FighterRefusedReasonEnum) message.Reason)
             {
                 case FighterRefusedReasonEnum.CHALLENGE_FULL:
                     Logger.Default.Log("Partie pleine");

@@ -18,7 +18,7 @@ namespace Cookie.Game.Chat
 
         private void HandleChatServerMessage(IAccount account, ChatServerMessage message)
         {
-            switch ((ChatChannelsMultiEnum)message.Channel)
+            switch ((ChatChannelsMultiEnum) message.Channel)
             {
                 case ChatChannelsMultiEnum.CHANNEL_ADMIN:
                     Logger.Default.Log("(Admin) " + message.SenderName + " : " + message.Content, LogMessageType.Admin);
@@ -70,13 +70,13 @@ namespace Cookie.Game.Chat
 
         private void HandleChatErrorMessage(IAccount account, ChatErrorMessage message)
         {
-            switch ((ChatErrorEnum)message.Reason)
+            switch ((ChatErrorEnum) message.Reason)
             {
                 case ChatErrorEnum.CHAT_ERROR_NO_GUILD:
                     Logger.Default.Log("Vous ne possedez pas de guilde.", LogMessageType.Public);
                     break;
                 default:
-                    Logger.Default.Log("Erreur : " + (ChatErrorEnum)message.Reason, LogMessageType.Public);
+                    Logger.Default.Log("Erreur : " + (ChatErrorEnum) message.Reason, LogMessageType.Public);
                     break;
             }
         }

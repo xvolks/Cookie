@@ -15,7 +15,7 @@ namespace Cookie.API.Network
         }
 
         /// <summary>
-        ///   Gets the number of SocketAsyncEventArgs instances in the pool
+        ///     Gets the number of SocketAsyncEventArgs instances in the pool
         /// </summary>
         public int Count => _pool.Count;
 

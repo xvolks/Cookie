@@ -19,7 +19,8 @@ namespace Cookie.Commands.Commands
                     case "on":
                         if (string.IsNullOrEmpty(args[1]))
                         {
-                            Logger.Default.Log("Vous devez indiquer le nom de votre fichier trajet.", LogMessageType.Public);
+                            Logger.Default.Log("Vous devez indiquer le nom de votre fichier trajet.",
+                                LogMessageType.Public);
                         }
                         else
                         {

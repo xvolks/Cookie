@@ -50,10 +50,8 @@ namespace Cookie.API.Network
             }
             else
             {
-                if ((_numBytes - _bufferSize) < _currentIndex)
-                {
+                if (_numBytes - _bufferSize < _currentIndex)
                     return false;
-                }
                 args.SetBuffer(_buffer, _currentIndex, _bufferSize);
                 _currentIndex += _bufferSize;
             }

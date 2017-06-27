@@ -5,6 +5,7 @@ using Cookie.API.Datacenter;
 using Cookie.API.Gamedata.D2i;
 using Cookie.API.Gamedata.D2o;
 using Cookie.API.Gamedata.D2p;
+using Cookie.API.Protocol.Datacenter;
 
 namespace Cookie.API.Gamedata
 {

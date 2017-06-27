@@ -21,7 +21,7 @@ namespace Cookie.Commands.Commands
             {
                 var cell = Convert.ToInt32(args[0]);
                 if (cell <= 0 || cell >= 560) return;
-                if (account.Map.MoveToCell(cell))
+                if (account.Character.Map.MoveToCell(cell))
                     Logger.Default.Log("Vous êtes bien arrivé!",
                         LogMessageType.Default);
                 else

@@ -2,9 +2,8 @@
 using Cookie.API.Core;
 using Cookie.API.Network;
 using Cookie.API.Protocol;
+using Cookie.API.Utils;
 using Cookie.API.Utils.Extensions;
-using Cookie.Core;
-using Client = Cookie.API.Network.Client;
 
 namespace Cookie.FullSocket
 {
@@ -24,10 +23,11 @@ namespace Cookie.FullSocket
 
         public bool IsBoundToServer => Server != null && Server.IsConnected;
 
-        public ServerConnection Server { get; private set; }
+        public ServerConnection Server { get; }
         public SimplerTimer TimeOutTimer { get; set; }
+
         /// <summary>
-        /// Open a new connection and bind the client to the server
+        ///     Open a new connection and bind the client to the server
         /// </summary>
         public void BindToServer(string host, int port)
         {
@@ -58,6 +58,7 @@ namespace Cookie.FullSocket
         private static void OnServerConnected(ServerConnection server)
         {
             Console.WriteLine($@"Connected to Server {server.Ip}");
+            Logger.Default.Log("Connexion en cours <" + server.Ip + ">");
         }
 
         protected override void OnMessageReceived(NetworkMessage message)

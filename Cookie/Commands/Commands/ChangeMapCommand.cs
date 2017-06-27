@@ -20,17 +20,17 @@ namespace Cookie.Commands.Commands
                 {
                     case "top":
                     case "up":
-                        account.Map.ChangeMap(MapDirectionEnum.North);
+                        account.Character.Map.ChangeMap(MapDirectionEnum.North);
                         break;
                     case "left":
-                        account.Map.ChangeMap(MapDirectionEnum.West);
+                        account.Character.Map.ChangeMap(MapDirectionEnum.West);
                         break;
                     case "right":
-                        account.Map.ChangeMap(MapDirectionEnum.East);
+                        account.Character.Map.ChangeMap(MapDirectionEnum.East);
                         break;
                     case "bottom":
                     case "bot":
-                        account.Map.ChangeMap(MapDirectionEnum.South);
+                        account.Character.Map.ChangeMap(MapDirectionEnum.South);
                         break;
                 }
         }

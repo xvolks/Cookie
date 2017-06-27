@@ -17,7 +17,6 @@ using Cookie.API.Utils.Cryptography;
 using Cookie.API.Utils.Enums;
 using Cookie.API.Utils.Extensions;
 using Cookie.Core;
-using Client = Cookie.API.Network.Client;
 
 namespace Cookie.FullSocket
 {
@@ -26,7 +25,11 @@ namespace Cookie.FullSocket
         public static int ServerConnectionTimeout = 4000;
 
         private readonly FullSocketConfiguration _mConfiguration;
-        private readonly Dictionary<string, Tuple<IAccount, SelectedServerDataMessage>> _mTickets = new Dictionary<string, Tuple<IAccount, SelectedServerDataMessage>>();
+
+        private readonly Dictionary<string, Tuple<IAccount, SelectedServerDataMessage>> _mTickets =
+            new Dictionary<string, Tuple<IAccount, SelectedServerDataMessage>>();
+
+        private readonly List<ConnectionFullSocket> _servers = new List<ConnectionFullSocket>();
 
         public FullSocket(FullSocketConfiguration configuration, MessageReceiver messageReceiver)
         {
@@ -35,15 +38,9 @@ namespace Cookie.FullSocket
             MessageBuilder = messageReceiver;
         }
 
-        private readonly List<ConnectionFullSocket> _servers = new List<ConnectionFullSocket>();
-
         public ClientManager<ConnectionFullSocket> AuthConnection { get; set; }
 
-        public MessageReceiver MessageBuilder
-        {
-            get;
-            set;
-        }
+        public MessageReceiver MessageBuilder { get; set; }
 
         public IAccount Connect(string username, string password, MainForm main)
         {
@@ -52,27 +49,33 @@ namespace Cookie.FullSocket
             server.Disconnected += OnAuthClientDisconnected;
             server.MessageReceived += OnAuthClientMessageReceived;
 
-            var dispatcher = new NetworkMessageDispatcher { Server = server };
+            var dispatcher = new NetworkMessageDispatcher {Server = server};
 
             server.Account = new Account(username, password, server, dispatcher, main)
             {
                 Network = {ConnectionType = ClientConnectionType.Authentification}
             };
 
-            server.Account.Network.RegisterPacket<HelloConnectMessage>(HandleHelloConnectMessage, MessagePriority.VeryHigh);
+            server.Account.Network.RegisterPacket<HelloConnectMessage>(HandleHelloConnectMessage,
+                MessagePriority.VeryHigh);
 
             server.Account.Network.RegisterPacket<ServerListMessage>(HandleServerListMessage, MessagePriority.VeryHigh);
-            server.Account.Network.RegisterPacket<SelectedServerDataMessage>(HandleSelectedServerDataMessage, MessagePriority.VeryHigh);
+            server.Account.Network.RegisterPacket<SelectedServerDataMessage>(HandleSelectedServerDataMessage,
+                MessagePriority.VeryHigh);
             server.Account.Network.RegisterPacket<RawDataMessage>(HandleRawDataMessage, MessagePriority.VeryHigh);
-            server.Account.Network.RegisterPacket<SelectedServerDataExtendedMessage>(HandleSelectedServerDataExtendedMessage, MessagePriority.VeryHigh);
-            server.Account.Network.RegisterPacket<IdentificationFailedBannedMessage>(HandleIdentificationFailedBannedMessage, MessagePriority.VeryHigh);
+            server.Account.Network.RegisterPacket<SelectedServerDataExtendedMessage>(
+                HandleSelectedServerDataExtendedMessage, MessagePriority.VeryHigh);
+            server.Account.Network.RegisterPacket<IdentificationFailedBannedMessage>(
+                HandleIdentificationFailedBannedMessage, MessagePriority.VeryHigh);
 
-            server.Account.Network.RegisterPacket<LoginQueueStatusMessage>(HandleLoginQueueStatusMessage, MessagePriority.VeryHigh);
-            server.Account.Network.RegisterPacket<QueueStatusMessage>(HandleQueueStatusMessage, MessagePriority.VeryHigh);            
+            server.Account.Network.RegisterPacket<LoginQueueStatusMessage>(HandleLoginQueueStatusMessage,
+                MessagePriority.VeryHigh);
+            server.Account.Network.RegisterPacket<QueueStatusMessage>(HandleQueueStatusMessage,
+                MessagePriority.VeryHigh);
             // Connection FullSocket BindingToServer
             server.Account.Network.Start();
             server.BindToServer(_mConfiguration.RealAuthHost, _mConfiguration.RealAuthPort);
-            
+
             _servers.Add(server);
             return server.Account;
         }
@@ -149,12 +152,14 @@ namespace Cookie.FullSocket
                 HandleIdentificationSuccessMessage(fs, (IdentificationSuccessMessage) message);
             if (message is SelectedServerDataMessage)
             {
-                var msg = (SelectedServerDataMessage)message;
+                var msg = (SelectedServerDataMessage) message;
 
                 Logger.Default.Log("Sélection du serveur " + D2OParsing.GetServerName(msg.ServerId));
                 var ticket = AES.DecodeWithAES(msg.Ticket);
-                Logger.Default.Log("Connexion en cours <" + msg.Address + ":" + msg.Port + ">");
-                _mTickets.Add(ticket, Tuple.Create(fs.Account, new SelectedServerDataMessage(msg.ServerId, msg.Address, msg.Port, msg.CanCreateNewCharacter, msg.Ticket)));
+                _mTickets.Add(ticket,
+                    Tuple.Create(fs.Account,
+                        new SelectedServerDataMessage(msg.ServerId, msg.Address, msg.Port, msg.CanCreateNewCharacter,
+                            msg.Ticket)));
                 fs.Account.Ticket = ticket;
             }
             if (fs.Account.Network == null)
@@ -167,11 +172,11 @@ namespace Cookie.FullSocket
             if (!(client is ConnectionFullSocket))
                 throw new ArgumentException("client is not of type ConnectionFullSocket");
 
-            var fs = (ConnectionFullSocket)client;
+            var fs = (ConnectionFullSocket) client;
 
             if (message is HelloGameMessage)
             {
-                var timer = ((ConnectionFullSocket)fs.Account.Network.Connection).TimeOutTimer;
+                var timer = ((ConnectionFullSocket) fs.Account.Network.Connection).TimeOutTimer;
                 timer?.Dispose();
 
                 fs.SendToServer(new AuthenticationTicketMessage("fr", fs.Account.Ticket));
@@ -195,7 +200,8 @@ namespace Cookie.FullSocket
             }
         }
 
-        private void HandleIdentificationSuccessMessage(ConnectionFullSocket client, IdentificationSuccessMessage message)
+        private void HandleIdentificationSuccessMessage(ConnectionFullSocket client,
+            IdentificationSuccessMessage message)
         {
             client.Account.Nickname = message.Login;
             Logger.Default.Log("Connecté");
@@ -217,9 +223,9 @@ namespace Cookie.FullSocket
 
         private void HandleServerListMessage(IAccount account, ServerListMessage message)
         {
-            var server = message.Servers.First((se) => se.CharactersCount > 0);
+            var server = message.Servers.First(se => se.CharactersCount > 0);
 
-            var ssmsg = new ServerSelectionMessage((ushort)server.ObjectID);
+            var ssmsg = new ServerSelectionMessage(server.ObjectID);
 
             account.Network.SendToServer(ssmsg);
         }

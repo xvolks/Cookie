@@ -40,10 +40,7 @@ namespace Cookie.API.Utils.Extensions
         /// <summary>
         ///     Whether or not the timer is running.
         /// </summary>
-        public bool IsRunning
-        {
-            get { return MillisSinceLastTick >= 0; }
-        }
+        public bool IsRunning => MillisSinceLastTick >= 0;
 
         /// <summary>
         ///     Stops and cleans up the timer.
@@ -107,7 +104,6 @@ namespace Cookie.API.Utils.Extensions
                 RemainingTime -= dtMillis;
 
                 if (RemainingTime <= 0)
-                {
                     if (m_intervalMillis == 0)
                     {
                         // we need to stop the timer if it's only
@@ -120,7 +116,6 @@ namespace Cookie.API.Utils.Extensions
                         m_action();
                         MillisSinceLastTick = 0;
                     }
-                }
             }
             else
             {
@@ -132,16 +127,14 @@ namespace Cookie.API.Utils.Extensions
                     // time to tick
                     m_action();
                     if (MillisSinceLastTick != -1)
-                    {
                         MillisSinceLastTick -= m_intervalMillis;
-                    }
                 }
             }
         }
 
         public override bool Equals(object obj)
         {
-            if (obj.GetType() != typeof (SimplerTimer)) return false;
+            if (obj.GetType() != typeof(SimplerTimer)) return false;
             return Equals((SimplerTimer) obj);
         }
 
@@ -155,7 +148,7 @@ namespace Cookie.API.Utils.Extensions
         {
             unchecked
             {
-                var result = m_intervalMillis*397 ^ (m_action != null ? m_action.GetHashCode() : 0);
+                var result = (m_intervalMillis * 397) ^ (m_action != null ? m_action.GetHashCode() : 0);
                 return result;
             }
         }

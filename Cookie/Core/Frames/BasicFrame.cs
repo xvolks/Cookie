@@ -17,11 +17,16 @@ namespace Cookie.Core.Frames
     {
         public BasicFrame(IAccount account)
         {
-            account.Network.RegisterPacket<BasicLatencyStatsRequestMessage>(HandleBasicLatencyStatsRequestMessage, MessagePriority.VeryHigh);
-            account.Network.RegisterPacket<SequenceNumberRequestMessage>(HandleSequenceNumberRequestMessage, MessagePriority.VeryHigh);
-            account.Network.RegisterPacket<CurrentServerStatusUpdateMessage>(HandleCurrentServerStatusUpdateMessage, MessagePriority.VeryHigh);
-            account.Network.RegisterPacket<TextInformationMessage>(HandleTextInformationMessage, MessagePriority.VeryHigh);
-            account.Network.RegisterPacket<SystemMessageDisplayMessage>(HandleSystemMessageDisplayMessage, MessagePriority.VeryHigh);
+            account.Network.RegisterPacket<BasicLatencyStatsRequestMessage>(HandleBasicLatencyStatsRequestMessage,
+                MessagePriority.VeryHigh);
+            account.Network.RegisterPacket<SequenceNumberRequestMessage>(HandleSequenceNumberRequestMessage,
+                MessagePriority.VeryHigh);
+            account.Network.RegisterPacket<CurrentServerStatusUpdateMessage>(HandleCurrentServerStatusUpdateMessage,
+                MessagePriority.VeryHigh);
+            account.Network.RegisterPacket<TextInformationMessage>(HandleTextInformationMessage,
+                MessagePriority.VeryHigh);
+            account.Network.RegisterPacket<SystemMessageDisplayMessage>(HandleSystemMessageDisplayMessage,
+                MessagePriority.VeryHigh);
             account.Network.RegisterPacket<MailStatusMessage>(HandleMailStatusMessage, MessagePriority.VeryHigh);
             account.Network.RegisterPacket<NewMailMessage>(HandleNewMailMessage, MessagePriority.VeryHigh);
         }
@@ -29,9 +34,9 @@ namespace Cookie.Core.Frames
         private void HandleBasicLatencyStatsRequestMessage(IAccount account, BasicLatencyStatsRequestMessage message)
         {
             var basicLatencyStatsMessage = new BasicLatencyStatsMessage(
-                (ushort)account.LatencyFrame.GetLatencyAvg(),
-                (ushort)account.LatencyFrame.GetSamplesCount(),
-                (ushort)account.LatencyFrame.GetSamplesMax());
+                (ushort) account.LatencyFrame.GetLatencyAvg(),
+                (ushort) account.LatencyFrame.GetSamplesCount(),
+                (ushort) account.LatencyFrame.GetSamplesMax());
             account.Network.SendToServer(basicLatencyStatsMessage);
         }
 
@@ -57,7 +62,7 @@ namespace Cookie.Core.Frames
                 text = text.Replace("%" + (i + 1), parameter);
             }
 
-            switch ((TextInformationTypeEnum)message.MsgType)
+            switch ((TextInformationTypeEnum) message.MsgType)
             {
                 case TextInformationTypeEnum.TEXT_INFORMATION_ERROR:
                     Logger.Default.Log(text, LogMessageType.Default);
@@ -78,7 +83,7 @@ namespace Cookie.Core.Frames
                     Logger.Default.Log(text, LogMessageType.FightLog);
                     break;
                 default:
-                    Logger.Default.Log((TextInformationTypeEnum)message.MsgType + " | ID = " + message.MsgId,
+                    Logger.Default.Log((TextInformationTypeEnum) message.MsgType + " | ID = " + message.MsgId,
                         LogMessageType.Arena);
                     for (var i = 0; i < message.Parameters.Count; i++)
                     {

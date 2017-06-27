@@ -9,20 +9,12 @@ namespace Cookie.API.Protocol
     {
         public abstract uint MessageID { get; }
 
+        public ListenerEntry Destinations { get; set; }
+
+        public ListenerEntry From { get; set; }
+
         public abstract void Serialize(IDataWriter writer);
         public abstract void Deserialize(IDataReader reader);
-
-        public ListenerEntry Destinations
-        {
-            get;
-            set;
-        }
-
-        public ListenerEntry From
-        {
-            get;
-            set;
-        }
 
         public override void BlockProgression()
         {
@@ -41,11 +33,9 @@ namespace Cookie.API.Protocol
             if (param1 > 65535)
                 num = 3;
             else if (param1 <= 255)
-                num = (byte)(param1 <= 0 ? 0 : 1);
+                num = (byte) (param1 <= 0 ? 0 : 1);
             else
-            {
                 num = 2;
-            }
             return num;
         }
 
@@ -55,11 +45,20 @@ namespace Cookie.API.Protocol
             WritePacket(writer);
         }
 
-        private static uint SubComputeStaticHeader(uint id, byte typeLen) => id << 2 | typeLen;
+        private static uint SubComputeStaticHeader(uint id, byte typeLen)
+        {
+            return (id << 2) | typeLen;
+        }
 
-        public override string ToString() => GetType().Name;
+        public override string ToString()
+        {
+            return GetType().Name;
+        }
 
-        public void Unpack(IDataReader reader) => Deserialize(reader);
+        public void Unpack(IDataReader reader)
+        {
+            Deserialize(reader);
+        }
 
         private void WritePacket(IDataWriter writer)
         {
@@ -67,21 +66,21 @@ namespace Cookie.API.Protocol
             writer.Clear();
             var num = ComputeTypeLen(data.Length);
             var num1 = SubComputeStaticHeader(MessageID, num);
-            writer.WriteShort((short)num1);
+            writer.WriteShort((short) num1);
             writer.WriteUInt(MessageUtils._instanceId++);
             switch (num)
             {
                 case 0:
                     break;
                 case 1:
-                    writer.WriteByte((byte)(data.Length));
+                    writer.WriteByte((byte) data.Length);
                     break;
                 case 2:
-                    writer.WriteShort((short)(data.Length));
+                    writer.WriteShort((short) data.Length);
                     break;
                 case 3:
-                    writer.WriteByte((byte)(data.Length >> 16 & 255));
-                    writer.WriteShort((short)(data.Length & 65535));
+                    writer.WriteByte((byte) ((data.Length >> 16) & 255));
+                    writer.WriteShort((short) (data.Length & 65535));
                     break;
                 default:
                     throw new Exception("Packet's length can't be encoded on 4 or more bytes");

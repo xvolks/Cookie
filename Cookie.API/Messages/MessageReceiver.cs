@@ -11,15 +11,17 @@ namespace Cookie.API.Messages
 {
     public class MessageReceiver : IMessageBuilder
     {
-        private readonly Dictionary<uint, Func<NetworkMessage>> _constructors = new Dictionary<uint, Func<NetworkMessage>>(800);
+        private readonly Dictionary<uint, Func<NetworkMessage>> _constructors =
+            new Dictionary<uint, Func<NetworkMessage>>(800);
+
         private readonly Dictionary<uint, Type> _messages = new Dictionary<uint, Type>(800);
 
         #region IMessageBuilder Members
 
         /// <summary>
-        ///   Gets instance of the message defined by id thanks to BigEndianReader.
+        ///     Gets instance of the message defined by id thanks to BigEndianReader.
         /// </summary>
-        /// <param name = "id">id.</param>
+        /// <param name="id">id.</param>
         /// <returns></returns>
         public NetworkMessage BuildMessage(uint id, IDataReader reader)
         {
@@ -39,7 +41,7 @@ namespace Cookie.API.Messages
         #endregion
 
         /// <summary>
-        ///   Initializes this instance.
+        ///     Initializes this instance.
         /// </summary>
         public void Initialize()
         {
@@ -53,7 +55,7 @@ namespace Cookie.API.Messages
                 var fieldId = type.GetField("ProtocolId");
 
                 if (fieldId == null) continue;
-                var id = (uint)fieldId.GetValue(type);
+                var id = (uint) fieldId.GetValue(type);
                 if (_messages.ContainsKey(id))
                     throw new AmbiguousMatchException(
                         $"MessageReceiver() => {id} item is already in the dictionary, old type is : {_messages[id]}, new type is  {type}");

@@ -30,9 +30,7 @@ namespace Cookie.API.Utils.Extensions
             : this()
         {
             foreach (var item in items)
-            {
                 Enqueue(item);
-            }
         }
 
         /// <summary>
@@ -53,9 +51,7 @@ namespace Cookie.API.Utils.Extensions
             do
             {
                 if (currentNode.Item == null)
-                {
                     yield break;
-                }
                 yield return currentNode.Item;
             } while ((currentNode = currentNode.Next) != null);
         }
@@ -93,17 +89,11 @@ namespace Cookie.API.Utils.Extensions
                 var oldTailNext = oldTail.Next;
 
                 if (_tail == oldTail)
-                {
                     if (oldTailNext == null)
-                    {
                         newNodeWasAdded =
                             Interlocked.CompareExchange(ref _tail.Next, newNode, null) == null;
-                    }
                     else
-                    {
                         Interlocked.CompareExchange(ref _tail, oldTailNext, oldTail);
-                    }
-                }
             }
 
             Interlocked.CompareExchange(ref _tail, newNode, oldTail);
@@ -141,7 +131,6 @@ namespace Cookie.API.Utils.Extensions
                 var oldHeadNext = oldHead.Next;
 
                 if (oldHead == _head)
-                {
                     if (oldHead == oldTail)
                     {
                         if (oldHeadNext == null)
@@ -156,7 +145,6 @@ namespace Cookie.API.Utils.Extensions
                         haveAdvancedHead =
                             Interlocked.CompareExchange(ref _head, oldHeadNext, oldHead) == oldHead;
                     }
-                }
             }
 
             Interlocked.Decrement(ref _count);
@@ -172,9 +160,7 @@ namespace Cookie.API.Utils.Extensions
             T result;
 
             if (!TryDequeue(out result))
-            {
                 throw new InvalidOperationException("the queue is empty");
-            }
 
             return result;
         }

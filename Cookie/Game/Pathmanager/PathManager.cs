@@ -10,7 +10,6 @@ using Cookie.API.Messages;
 using Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay;
 using Cookie.API.Utils;
 using Cookie.API.Utils.Enums;
-using Cookie.Core;
 
 namespace Cookie.Game.Pathmanager
 {
@@ -27,7 +26,8 @@ namespace Cookie.Game.Pathmanager
             Account = account;
             PathData = new Dictionary<int, Tuple<MapDirectionEnum, string>>();
 
-            Account.Network.RegisterPacket<MapComplementaryInformationsDataMessage>(HandleMapComplementaryInformationsDataMessage, MessagePriority.Normal);
+            Account.Network.RegisterPacket<MapComplementaryInformationsDataMessage>(
+                HandleMapComplementaryInformationsDataMessage, MessagePriority.Normal);
         }
 
         private Dictionary<int, Tuple<MapDirectionEnum, string>> PathData { get; set; }
@@ -58,15 +58,15 @@ namespace Cookie.Game.Pathmanager
                     case "move":
                         Logger.Default.Log($"[PathManager] Déplacement vers {PathData[Account.Character.MapId].Item1}",
                             LogMessageType.Info);
-                        Account.Map.ChangeMap(PathData[Account.Character.MapId].Item1);
+                        Account.Character.Map.ChangeMap(PathData[Account.Character.MapId].Item1);
                         break;
                     case "gather":
                         Logger.Default.Log("[PathManager] Récolte non gérée", LogMessageType.Public);
-                        Account.Map.ChangeMap(PathData[Account.Character.MapId].Item1);
+                        Account.Character.Map.ChangeMap(PathData[Account.Character.MapId].Item1);
                         break;
                     case "fight":
                         Logger.Default.Log("[PathManager] Combat non géré", LogMessageType.Public);
-                        Account.Map.ChangeMap(PathData[Account.Character.MapId].Item1);
+                        Account.Character.Map.ChangeMap(PathData[Account.Character.MapId].Item1);
                         break;
                 }
             else
@@ -132,7 +132,7 @@ namespace Cookie.Game.Pathmanager
         private void HandleMapComplementaryInformationsDataMessage(IAccount account,
             MapComplementaryInformationsDataMessage message)
         {
-            if(Launched)
+            if (Launched)
                 DoAction();
         }
     }

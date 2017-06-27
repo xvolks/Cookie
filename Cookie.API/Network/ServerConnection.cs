@@ -8,39 +8,10 @@ namespace Cookie.API.Network
 {
     public class ServerConnection : IClient, INotifyPropertyChanged
     {
+        private readonly byte[] _buffer = new byte[8192];
+        private readonly object _recvLocker = new object();
         private readonly BigEndianReader buffer = new BigEndianReader();
         private MessagePart _currentMessage;
-        private readonly object _recvLocker = new object();
-
-        //private IPEndPoint endPoint;
-        public event Action<ServerConnection, NetworkMessage> MessageReceived;
-        public event Action<ServerConnection, NetworkMessage> MessageSent;
-        public event Action<ServerConnection> Connected;
-        public event Action<ServerConnection> Disconnected;
-
-        private void OnMessageReceived(NetworkMessage message)
-        {
-            var handler = MessageReceived;
-            handler?.Invoke(this, message);
-        }
-
-        private void OnMessageSended(NetworkMessage message)
-        {
-            var handler = MessageSent;
-            handler?.Invoke(this, message);
-        }
-
-        private void OnClientConnected()
-        {
-            var handler = Connected;
-            handler?.Invoke(this);
-        }
-
-        private void OnClientDisconnected()
-        {
-            var handler = Disconnected;
-            handler?.Invoke(this);
-        }
 
         public ServerConnection(IMessageBuilder messageBuilder)
         {
@@ -48,100 +19,36 @@ namespace Cookie.API.Network
             MessageBuilder = messageBuilder;
         }
 
-        public Socket Socket
-        {
-            get;
-            private set;
-        }
+        public Socket Socket { get; private set; }
 
         public bool IsConnected => Socket != null && Socket.Connected;
 
         public string Ip => $"{Host}:{Port}";
 
-        public int Port
-        {
-            get;
-            private set;
-        }
+        public int Port { get; private set; }
 
-        public string Host
-        {
-            get;
-            private set;
-        }
+        public string Host { get; private set; }
 
 
         /// <summary>
-        /// Last activity as a socket client (since last packet received sent )
+        ///     Last activity as a socket client (since last packet received sent )
         /// </summary>
-        public DateTime LastActivity
-        {
-            get;
-            private set;
-        }
+        public DateTime LastActivity { get; private set; }
 
-        public IMessageBuilder MessageBuilder
-        {
-            get;
-        }
+        public IMessageBuilder MessageBuilder { get; }
 
         /// <summary>
-        /// True whenever the server has sent at least one packet
+        ///     True whenever the server has sent at least one packet
         /// </summary>
-        public bool IsResponding
-        {
-            get;
-            private set;
-        }
-
-        public void Connect(string host, int port)
-        {
-            if (Socket == null)
-            {
-                throw new Exception("Socket already closed");
-            }
-            if (Socket.Connected)
-            {
-                throw new Exception("Socket already connected");
-            }
-
-            Host = host;
-            Port = port;
-            Socket.Connect(host, port);
-            OnClientConnected();
-
-            ReceiveLoop();
-        }
-
-        public void Reconnect()
-        {
-            if (IsConnected)
-                Disconnect();
-
-            Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-
-            Connect(Host, Port);
-        }
-
-        public void Reconnect(string host, int port)
-        {
-            if (IsConnected)
-                Socket.Close();
-
-            Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-
-            Connect(host, port);
-        }
+        public bool IsResponding { get; private set; }
 
         /// <summary>
-        ///   Disconnect the Client
+        ///     Disconnect the Client
         /// </summary>
         public void Disconnect()
         {
             if (IsConnected)
-            {
                 Close();
-            }
 
             OnClientDisconnected();
         }
@@ -176,13 +83,108 @@ namespace Cookie.API.Network
             }
         }
 
+        public virtual void Receive(byte[] data, int offset, int count)
+        {
+            lock (_recvLocker)
+            {
+                buffer.Add(data, offset, count);
+
+                while (buffer.BytesAvailable > 0)
+                {
+                    if (_currentMessage == null)
+                        _currentMessage = new MessagePart();
+
+                    // if message is complete
+                    if (!_currentMessage.Build(buffer)) continue;
+                    var messageDataReader = new BigEndianReader(_currentMessage.Data);
+                    if (_currentMessage.MessageId != null)
+                    {
+                        var message =
+                            MessageBuilder.BuildMessage((uint) _currentMessage.MessageId.Value, messageDataReader);
+
+                        LastActivity = DateTime.Now;
+                        OnMessageReceived(message);
+                    }
+
+                    _currentMessage = null;
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        //private IPEndPoint endPoint;
+        public event Action<ServerConnection, NetworkMessage> MessageReceived;
+
+        public event Action<ServerConnection, NetworkMessage> MessageSent;
+        public event Action<ServerConnection> Connected;
+        public event Action<ServerConnection> Disconnected;
+
+        private void OnMessageReceived(NetworkMessage message)
+        {
+            var handler = MessageReceived;
+            handler?.Invoke(this, message);
+        }
+
+        private void OnMessageSended(NetworkMessage message)
+        {
+            var handler = MessageSent;
+            handler?.Invoke(this, message);
+        }
+
+        private void OnClientConnected()
+        {
+            var handler = Connected;
+            handler?.Invoke(this);
+        }
+
+        private void OnClientDisconnected()
+        {
+            var handler = Disconnected;
+            handler?.Invoke(this);
+        }
+
+        public void Connect(string host, int port)
+        {
+            if (Socket == null)
+                throw new Exception("Socket already closed");
+            if (Socket.Connected)
+                throw new Exception("Socket already connected");
+
+            Host = host;
+            Port = port;
+            Socket.Connect(host, port);
+            OnClientConnected();
+
+            ReceiveLoop();
+        }
+
+        public void Reconnect()
+        {
+            if (IsConnected)
+                Disconnect();
+
+            Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
+            Connect(Host, Port);
+        }
+
+        public void Reconnect(string host, int port)
+        {
+            if (IsConnected)
+                Socket.Close();
+
+            Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
+            Connect(host, port);
+        }
+
         private void OnSendCompleted(object sender, SocketAsyncEventArgs socketAsyncEventArgs)
         {
-            OnMessageSended((NetworkMessage)socketAsyncEventArgs.UserToken);
+            OnMessageSended((NetworkMessage) socketAsyncEventArgs.UserToken);
             socketAsyncEventArgs.Dispose();
         }
 
-        private readonly byte[] _buffer = new byte[8192];
         private void ReceiveLoop()
         {
             lock (this)
@@ -195,9 +197,7 @@ namespace Cookie.API.Network
                 args.SetBuffer(_buffer, 0, 8192);
 
                 if (!Socket.ReceiveAsync(args))
-                {
                     ProcessReceiveCompleted(args);
-                }
             }
         }
 
@@ -237,33 +237,6 @@ namespace Cookie.API.Network
             }
         }
 
-        public virtual void Receive(byte[] data, int offset, int count)
-        {
-            lock (_recvLocker)
-            {
-                buffer.Add(data, offset, count);
-
-                while (buffer.BytesAvailable > 0)
-                {
-                    if (_currentMessage == null)
-                        _currentMessage = new MessagePart();
-
-                    // if message is complete
-                    if (!_currentMessage.Build(buffer)) continue;
-                    var messageDataReader = new BigEndianReader(_currentMessage.Data);
-                    if (_currentMessage.MessageId != null)
-                    {
-                        var message = MessageBuilder.BuildMessage((uint)_currentMessage.MessageId.Value, messageDataReader);
-
-                        LastActivity = DateTime.Now;
-                        OnMessageReceived(message);
-                    }
-
-                    _currentMessage = null;
-                }
-            }
-        }
-
         protected void Close()
         {
             lock (this)
@@ -281,7 +254,9 @@ namespace Cookie.API.Network
             return string.Concat("<", Ip, ">");
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

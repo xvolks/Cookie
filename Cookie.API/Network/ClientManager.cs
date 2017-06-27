@@ -10,55 +10,27 @@ namespace Cookie.API.Network
     public class ClientManager<T>
         where T : class, IClient
     {
+        public delegate T ClientCreationHandler(Socket socket);
+
         public const int MaxConcurrentConnections = 1000;
         public const int BufferSize = 8192;
 
-        private BufferManager _bufferManager; // allocate memory dedicated to a client to avoid memory alloc on each send/recv
+        private readonly SocketAsyncEventArgs _acceptArgs = new SocketAsyncEventArgs()
+            ; // async arg used on client connection
 
-        private SemaphoreSlim _semaphore; // limit the number of threads accessing to a ressource
-        private readonly SocketAsyncEventArgs _acceptArgs = new SocketAsyncEventArgs(); // async arg used on client connection
+        private readonly ClientCreationHandler _clientCreationDelegate;
 
         private readonly List<T> _clients = new List<T>();
 
-        private readonly Socket _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream,
-                                                    ProtocolType.Tcp);
-
         private readonly IPEndPoint _endPoint;
 
+        private readonly Socket _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream,
+            ProtocolType.Tcp);
 
-        public delegate T ClientCreationHandler(Socket socket);
-        private readonly ClientCreationHandler _clientCreationDelegate;
+        private BufferManager _bufferManager
+            ; // allocate memory dedicated to a client to avoid memory alloc on each send/recv
 
-        #region Events
-        public event Action<T> ClientConnected;
-
-        private void OnClientConnected(T client)
-        {
-            var handler = ClientConnected;
-            handler?.Invoke(client);
-        }
-
-        public event Action<T> ClientDisconnected;
-
-        private void OnClientDisconnected(T client)
-        {
-            var handler = ClientDisconnected;
-            handler?.Invoke(client);
-        }
-        #endregion
-
-        /// <summary>
-        /// List of connected Clients
-        /// </summary>
-        public ReadOnlyCollection<T> Clients => _clients.AsReadOnly();
-
-        public int Count => _clients.Count;
-
-        public bool Running
-        {
-            get;
-            private set;
-        }
+        private SemaphoreSlim _semaphore; // limit the number of threads accessing to a ressource
 
         public ClientManager(IPEndPoint endPoint, ClientCreationHandler clientCreationDelegate)
         {
@@ -67,6 +39,15 @@ namespace Cookie.API.Network
 
             Initialize();
         }
+
+        /// <summary>
+        ///     List of connected Clients
+        /// </summary>
+        public ReadOnlyCollection<T> Clients => _clients.AsReadOnly();
+
+        public int Count => _clients.Count;
+
+        public bool Running { get; private set; }
 
         private void Initialize()
         {
@@ -102,9 +83,7 @@ namespace Cookie.API.Network
             lock (_clients)
             {
                 foreach (var client in _clients)
-                {
                     client.Disconnect();
-                }
             }
 
             _semaphore = new SemaphoreSlim(MaxConcurrentConnections, MaxConcurrentConnections);
@@ -128,9 +107,7 @@ namespace Cookie.API.Network
 
             // raise or not the event depending on AcceptAsync return
             if (!_socket.AcceptAsync(_acceptArgs))
-            {
                 ProcessAccept(_acceptArgs);
-            }
         }
 
         private void ProcessAccept(SocketAsyncEventArgs e)
@@ -152,7 +129,9 @@ namespace Cookie.API.Network
                 args.UserToken = client;
 
                 lock (_clients)
+                {
                     _clients.Add(client);
+                }
 
                 OnClientConnected(client);
 
@@ -165,7 +144,6 @@ namespace Cookie.API.Network
                 else
                 {
                     StartAccept();
-
                 }
             }
             catch (Exception)
@@ -228,9 +206,7 @@ namespace Cookie.API.Network
             var willRaiseEvent = client.Socket.ReceiveAsync(e);
 
             if (!willRaiseEvent)
-            {
                 ProcessReceive(e);
-            }
         }
 
         private void CloseClientSocket(SocketAsyncEventArgs e)
@@ -251,7 +227,9 @@ namespace Cookie.API.Network
             {
                 var removed = false;
                 lock (_clients)
+                {
                     removed = _clients.Remove(client);
+                }
 
                 if (removed)
                 {
@@ -262,5 +240,25 @@ namespace Cookie.API.Network
                 e.Dispose();
             }
         }
+
+        #region Events
+
+        public event Action<T> ClientConnected;
+
+        private void OnClientConnected(T client)
+        {
+            var handler = ClientConnected;
+            handler?.Invoke(client);
+        }
+
+        public event Action<T> ClientDisconnected;
+
+        private void OnClientDisconnected(T client)
+        {
+            var handler = ClientDisconnected;
+            handler?.Invoke(client);
+        }
+
+        #endregion
     }
 }

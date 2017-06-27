@@ -3,7 +3,7 @@
 using System.Collections.Generic;
 using Cookie.API.Gamedata.D2o;
 
-namespace Cookie.API.Datacenter
+namespace Cookie.API.Protocol.Datacenter
 {
     [D2oClass("Servers")]
     public class Server : IDataObject

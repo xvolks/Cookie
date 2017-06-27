@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using Cookie.API.Core;
 using Cookie.API.Datacenter;
 using Cookie.API.Game.Entity;
@@ -17,7 +16,6 @@ using Cookie.API.Protocol.Network.Messages.Game.Context;
 using Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay;
 using Cookie.API.Protocol.Network.Messages.Game.Interactive;
 using Cookie.API.Protocol.Network.Types.Game.Context.Roleplay;
-using Cookie.API.Protocol.Network.Types.Game.Friend;
 using Cookie.API.Utils;
 using Cookie.API.Utils.Enums;
 using Cookie.API.Utils.Extensions;
@@ -151,7 +149,7 @@ namespace Cookie.Game.Map
         public bool MoveToCell(int cellId)
         {
             var path =
-                new Pathfinder(_account.Map).FindPath(
+                new Pathfinder(_account.Character.Map).FindPath(
                     _account.Character.CellId, cellId);
             if (path == null)
                 return false;
@@ -164,7 +162,7 @@ namespace Cookie.Game.Map
                 path.Cells.Count < 4
                     ? MapMovementAdapter.MovementTypeEnum.Walking
                     : MapMovementAdapter.MovementTypeEnum.Running);
-            
+
             ConfirmMove(timeTowait);
             return true;
         }
@@ -231,7 +229,7 @@ namespace Cookie.Game.Map
                 if (!NothingOnCell(point.CellId))
                     continue;
                 Label_00A8:
-                pathFinding = new Pathfinder(_account.Map);
+                pathFinding = new Pathfinder(_account.Character.Map);
                 var path2 = pathFinding.FindPath(_account.Character.CellId, point.CellId);
                 if (path2 == null) continue;
                 path = path2;
@@ -437,7 +435,8 @@ namespace Cookie.Game.Map
                 MessagePriority.VeryHigh);
             _account.Network.RegisterPacket<StatedMapUpdateMessage>(HandleStatedMapUpdateMessage,
                 MessagePriority.VeryHigh);
-            _account.Network.RegisterPacket<GameMapNoMovementMessage>(HandleGameMapNoMovementMessage, MessagePriority.VeryHigh);
+            _account.Network.RegisterPacket<GameMapNoMovementMessage>(HandleGameMapNoMovementMessage,
+                MessagePriority.VeryHigh);
         }
 
         public void ConfirmMove(int time)
@@ -460,7 +459,7 @@ namespace Cookie.Game.Map
                     i += 1;
                     var nearestCellInDirection = elementPoint.GetNearestCellInDirection(direction, i);
                     if (!nearestCellInDirection.IsInMap() ||
-                        !_account.Map.Data.IsWalkable(nearestCellInDirection.CellId)) continue;
+                        !_account.Character.Map.Data.IsWalkable(nearestCellInDirection.CellId)) continue;
                     var num4 = characterPoint.DistanceToCell(nearestCellInDirection);
                     if (num == -1 || num >= num4)
                     {
@@ -502,12 +501,12 @@ namespace Cookie.Game.Map
 
         private void HandleGameMapMovementConfirmMessage(IAccount account, GameMapMovementConfirmMessage message)
         {
-            if (account.Map.MapChange != -1)
+            if (account.Character.Map.MapChange != -1)
             {
                 var mapChangeData = ((API.Gamedata.D2p.Map) Data).Cells[account.Character.CellId].MapChangeData;
                 if (mapChangeData != 0)
                 {
-                    var neighbourId = account.Map.MapChange;
+                    var neighbourId = account.Character.Map.MapChange;
                     if (neighbourId == -2)
                     {
                         if ((mapChangeData & 64) > 0)
@@ -520,10 +519,7 @@ namespace Cookie.Game.Map
                             neighbourId = ((API.Gamedata.D2p.Map) Data).RightNeighbourId;
                     }
                     if (neighbourId >= 0)
-                    {
                         Randomize.RunBetween(() => LaunchChangeMap(neighbourId), 100, 200);
-                    }
-                        
                 }
             }
         }
@@ -631,14 +627,12 @@ namespace Cookie.Game.Map
                         foreach (var layer in ((API.Gamedata.D2p.Map) Data).Layers)
                         foreach (var cell in layer.Cells)
                         foreach (var layerElement in cell.Elements)
-                                    if (layerElement is GraphicalElement graphicalElement)
-                                    {
-                                        if (graphicalElement.Identifier == interactiveElement.ElementId &&
-                                            !Doors.ContainsKey(cell.CellId))
-                                            Doors.Add(cell.CellId,
-                                                new InteractiveElement((uint)element.ElementId, element.ElementTypeId,
-                                                    element.EnabledSkills.ToList(), element.DisabledSkills.ToList()));
-                                    }
+                            if (layerElement is GraphicalElement graphicalElement)
+                                if (graphicalElement.Identifier == interactiveElement.ElementId &&
+                                    !Doors.ContainsKey(cell.CellId))
+                                    Doors.Add(cell.CellId,
+                                        new InteractiveElement((uint) element.ElementId, element.ElementTypeId,
+                                            element.EnabledSkills.ToList(), element.DisabledSkills.ToList()));
                 }
             }
         }

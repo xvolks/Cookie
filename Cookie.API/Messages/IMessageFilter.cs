@@ -5,7 +5,7 @@ namespace Cookie.API.Messages
     public interface IMessageFilter
     {
         /// <summary>
-        /// Method called to allow or not a message handling.
+        ///     Method called to allow or not a message handling.
         /// </summary>
         /// <param name="message">The handled message</param>
         /// <param name="sender">The message sender</param>
