@@ -33,6 +33,7 @@ using Cookie.API.Protocol.Network.Types.Game.Data.Items;
 using Cookie.API.Protocol.Network.Types.Game.Look;
 using Cookie.API.Utils;
 using Cookie.API.Utils.Enums;
+using Cookie.Core.Pathmanager;
 using Cookie.Game.Alliance;
 using Cookie.Game.Chat;
 using Cookie.Game.Friend;
@@ -41,7 +42,6 @@ using Cookie.Game.Inventory;
 using Cookie.Game.Jobs;
 using Cookie.Game.Map;
 using Cookie.Game.Party;
-using Cookie.Game.Pathmanager;
 using Achievement = Cookie.Game.Achievement.Achievement;
 
 namespace Cookie.Core

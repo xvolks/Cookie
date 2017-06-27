@@ -83,7 +83,7 @@
     <Compile Include="Game\Map\Elements\UsableElement.cs" />
     <Compile Include="Game\Map\Map.cs" />
     <Compile Include="Game\Party\Party.cs" />
-    <Compile Include="Game\Pathmanager\PathManager.cs" />
+    <Compile Include="Core\Pathmanager\PathManager.cs" />
     <Compile Include="Core\Character.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
