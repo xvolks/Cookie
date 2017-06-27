@@ -35,7 +35,6 @@
             this.OriginColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.IdColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.NameColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.NoHandlersListBox = new System.Windows.Forms.ListBox();
             this.ChatTextBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
@@ -48,7 +47,7 @@
             this.LogTextBox.Location = new System.Drawing.Point(513, 0);
             this.LogTextBox.Name = "LogTextBox";
             this.LogTextBox.ReadOnly = true;
-            this.LogTextBox.Size = new System.Drawing.Size(575, 447);
+            this.LogTextBox.Size = new System.Drawing.Size(575, 582);
             this.LogTextBox.TabIndex = 0;
             this.LogTextBox.Text = "";
             // 
@@ -88,26 +87,15 @@
             this.NameColumnHeader.Text = "Nom";
             this.NameColumnHeader.Width = 286;
             // 
-            // NoHandlersListBox
-            // 
-            this.NoHandlersListBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
-            this.NoHandlersListBox.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.NoHandlersListBox.ForeColor = System.Drawing.Color.Red;
-            this.NoHandlersListBox.FormattingEnabled = true;
-            this.NoHandlersListBox.Location = new System.Drawing.Point(513, 467);
-            this.NoHandlersListBox.Name = "NoHandlersListBox";
-            this.NoHandlersListBox.Size = new System.Drawing.Size(575, 147);
-            this.NoHandlersListBox.TabIndex = 2;
-            // 
             // ChatTextBox
             // 
             this.ChatTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
             this.ChatTextBox.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.ChatTextBox.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ChatTextBox.Font = new System.Drawing.Font("Segoe UI", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ChatTextBox.ForeColor = System.Drawing.Color.White;
-            this.ChatTextBox.Location = new System.Drawing.Point(513, 445);
+            this.ChatTextBox.Location = new System.Drawing.Point(513, 580);
             this.ChatTextBox.Name = "ChatTextBox";
-            this.ChatTextBox.Size = new System.Drawing.Size(575, 22);
+            this.ChatTextBox.Size = new System.Drawing.Size(575, 34);
             this.ChatTextBox.TabIndex = 3;
             this.ChatTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ChatTextBox_KeyDown);
             // 
@@ -117,7 +105,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1088, 614);
             this.Controls.Add(this.ChatTextBox);
-            this.Controls.Add(this.NoHandlersListBox);
             this.Controls.Add(this.PacketsListView);
             this.Controls.Add(this.LogTextBox);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -134,7 +121,6 @@
         #endregion
 
         private System.Windows.Forms.RichTextBox LogTextBox;
-        private System.Windows.Forms.ListBox NoHandlersListBox;
         private System.Windows.Forms.ColumnHeader TimeColumnHeader;
         private System.Windows.Forms.ColumnHeader OriginColumnHeader;
         private System.Windows.Forms.ColumnHeader IdColumnHeader;

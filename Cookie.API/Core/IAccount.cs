@@ -70,6 +70,5 @@ namespace Cookie.API.Core
         INetwork Network { get; set; }
 
         void LogPacket(string origin, string name, string id);
-        void LogNoHandler(string name);
     }
 }

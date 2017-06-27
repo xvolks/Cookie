@@ -59,11 +59,6 @@ namespace Cookie.Core
             MainForm.AddPacketsListView(origin, name, id);
         }
 
-        public void LogNoHandler(string name)
-        {
-            MainForm.AddNoHandlerPacket(name);
-        }
-
         private void LoadPlugins()
         {
             const string path = @"./plugins";

@@ -152,31 +152,11 @@ namespace Cookie
                         LogTextBox.SelectionColor = ColorTranslator.FromHtml("#E8890D");
                         break;
                 }
-                var valueOrig = string.Empty;
 
-                if (log.Contains("Received:") || log.Contains("Send"))
-                {
-                    switch (log.Split(':')[0])
-                    {
-                        case "Received":
-                            valueOrig = "Serveur";
-                            break;
-                        case "Send":
-                            valueOrig = "Client";
-                            break;
-                    }
-                }
-                else if (log.Contains("NO HANDLER"))
-                {
-                    NoHandlersListBox.Items.Add(log.Split(':')[1].Replace(" ", ""));
-                }
-                else
-                {
-                    var text = $"[{DateTime.Now.ToLongTimeString()}] {log}";
-                    LogTextBox.SelectedText = text + "\r\n";
-                    LogTextBox.SelectionColor = LogTextBox.ForeColor;
-                    LogTextBox.ScrollToCaret();
-                }
+                var text = $"[{DateTime.Now.ToLongTimeString()}] {log}";
+                LogTextBox.SelectedText = text + "\r\n";
+                LogTextBox.SelectionColor = LogTextBox.ForeColor;
+                LogTextBox.ScrollToCaret();
             }
 
             LogTextBox.Invoke((Action) LogCallback);
@@ -208,14 +188,6 @@ namespace Cookie
 
                 PacketsListView.EnsureVisible(PacketsListView.Items.Count - 1);
             }
-        }
-
-        public void AddNoHandlerPacket(string name)
-        {
-            if (NoHandlersListBox.InvokeRequired)
-                Invoke(new InsertIntoNoHandler(AddNoHandlerPacket), name);
-            else
-                NoHandlersListBox.Items.Add(name);
         }
 
         private void ChatTextBox_KeyDown(object sender, KeyEventArgs e)
@@ -323,7 +295,5 @@ namespace Cookie
         }
 
         private delegate void InsertIntoListDelegate(string origin, string name, string id);
-
-        private delegate void InsertIntoNoHandler(string name);
     }
 }
