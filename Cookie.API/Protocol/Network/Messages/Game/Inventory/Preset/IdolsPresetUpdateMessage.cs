@@ -53,12 +53,12 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Preset
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             m_idolsPreset.Serialize(writer);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_idolsPreset = new IdolsPreset();
             m_idolsPreset.Deserialize(reader);

@@ -84,7 +84,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Action.Fight
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarUhShort(m_actionId);
             writer.WriteDouble(m_sourceId);
@@ -92,7 +92,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Action.Fight
             m_effect.Serialize(writer);      
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_actionId = reader.ReadVarUhShort();
             m_sourceId = reader.ReadDouble();

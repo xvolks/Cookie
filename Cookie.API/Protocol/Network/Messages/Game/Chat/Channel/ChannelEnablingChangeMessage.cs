@@ -67,13 +67,13 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Chat.Channel
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteByte(m_channel);
             writer.WriteBoolean(m_enable);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_channel = reader.ReadByte();
             m_enable = reader.ReadBoolean();

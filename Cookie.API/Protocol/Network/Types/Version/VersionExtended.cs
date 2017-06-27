@@ -24,14 +24,14 @@ namespace Cookie.API.Protocol.Network.Types.Version
         public sbyte Install { get; set; }
         public sbyte Technology { get; set; }
 
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             base.Serialize(writer);
             writer.WriteSByte(Install);
             writer.WriteSByte(Technology);
         }
 
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             base.Deserialize(reader);
             Install = reader.ReadSByte();

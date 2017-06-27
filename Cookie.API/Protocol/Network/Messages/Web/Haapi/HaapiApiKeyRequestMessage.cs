@@ -52,12 +52,12 @@ namespace Cookie.API.Protocol.Network.Messages.Web.Haapi
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteByte(m_keyType);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_keyType = reader.ReadByte();
         }

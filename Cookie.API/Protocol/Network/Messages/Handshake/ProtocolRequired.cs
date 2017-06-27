@@ -22,13 +22,13 @@ namespace Cookie.API.Protocol.Network.Messages.Handshake
         public int RequiredVersion { get; set; }
         public int CurrentVersion { get; set; }
 
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteInt(RequiredVersion);
             writer.WriteInt(CurrentVersion);
         }
 
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             RequiredVersion = reader.ReadInt();
             if (RequiredVersion < 0)

@@ -19,12 +19,12 @@ namespace Cookie.API.Protocol.Network.Messages.Connection
 
         public override uint MessageID => ProtocolId;
 
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarUhShort(ServerId);
         }
 
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             ServerId = reader.ReadVarUhShort();
         }

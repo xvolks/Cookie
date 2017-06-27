@@ -1396,7 +1396,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Character.Characteristic
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarUhLong(m_experience);
             writer.WriteVarUhLong(m_experienceLevelFloor);
@@ -1491,7 +1491,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Character.Characteristic
             writer.WriteInt(m_probationTime);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_experience = reader.ReadVarUhLong();
             m_experienceLevelFloor = reader.ReadVarUhLong();

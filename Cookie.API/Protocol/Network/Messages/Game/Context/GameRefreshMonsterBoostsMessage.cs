@@ -68,7 +68,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort(((short)(m_monsterBoosts.Count)));
             int monsterBoostsIndex;
@@ -86,7 +86,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context
             }
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             int monsterBoostsCount = reader.ReadUShort();
             int monsterBoostsIndex;

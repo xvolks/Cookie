@@ -158,7 +158,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Alliance
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort(((short)(m_alliances.Count)));
             int alliancesIndex;
@@ -191,7 +191,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Alliance
             writer.WriteDouble(m_nextTickTime);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             int alliancesCount = reader.ReadUShort();
             int alliancesIndex;

@@ -136,7 +136,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.House
             set => m_price = value;
         }
 
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteInt(m_instanceId);
             writer.WriteBoolean(m_secondHand);
@@ -158,7 +158,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.House
             writer.WriteVarUhLong(m_price);
         }
 
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_instanceId = reader.ReadInt();
             m_secondHand = reader.ReadBoolean();

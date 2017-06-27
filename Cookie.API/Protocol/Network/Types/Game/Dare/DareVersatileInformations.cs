@@ -82,14 +82,14 @@ namespace Cookie.API.Protocol.Network.Types.Game.Dare
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteDouble(m_dareId);
             writer.WriteInt(m_countEntrants);
             writer.WriteInt(m_countWinners);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_dareId = reader.ReadDouble();
             m_countEntrants = reader.ReadInt();

@@ -112,7 +112,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Interactive.Zaap
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort(((short)(m_mapIds.Count)));
             int mapIdsIndex;
@@ -141,7 +141,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Interactive.Zaap
             writer.WriteByte(m_teleporterType);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             int mapIdsCount = reader.ReadUShort();
             int mapIdsIndex;

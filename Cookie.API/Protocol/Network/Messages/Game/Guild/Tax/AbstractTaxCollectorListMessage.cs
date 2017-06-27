@@ -51,7 +51,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild.Tax
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort(((short)(m_informations.Count)));
             int informationsIndex;
@@ -63,7 +63,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild.Tax
             }
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             int informationsCount = reader.ReadUShort();
             int informationsIndex;

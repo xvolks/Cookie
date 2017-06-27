@@ -97,7 +97,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Fight.Arena
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarUhShort(m_rank);
             writer.WriteVarUhShort(m_bestRank);
@@ -105,7 +105,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Fight.Arena
             writer.WriteVarUhShort(m_fightcount);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_rank = reader.ReadVarUhShort();
             m_bestRank = reader.ReadVarUhShort();

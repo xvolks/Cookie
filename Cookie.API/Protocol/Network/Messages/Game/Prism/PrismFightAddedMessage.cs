@@ -53,12 +53,12 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Prism
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             m_fight.Serialize(writer);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_fight = new PrismFightersInformation();
             m_fight.Deserialize(reader);

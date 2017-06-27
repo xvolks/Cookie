@@ -52,12 +52,12 @@ namespace Cookie.API.Protocol.Network.Types.Game.Data.Items.Effects
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarUhShort(m_actionId);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_actionId = reader.ReadVarUhShort();
         }

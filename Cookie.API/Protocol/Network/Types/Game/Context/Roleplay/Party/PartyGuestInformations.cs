@@ -158,7 +158,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Party
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             m_guestLook.Serialize(writer);
             writer.WriteUShort(((ushort)(m_status.TypeID)));
@@ -177,7 +177,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Party
             writer.WriteBoolean(m_sex);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_guestLook = new EntityLook();
             m_guestLook.Deserialize(reader);

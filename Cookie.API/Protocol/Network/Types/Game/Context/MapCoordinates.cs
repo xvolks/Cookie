@@ -67,13 +67,13 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort(m_worldX);
             writer.WriteShort(m_worldY);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_worldX = reader.ReadShort();
             m_worldY = reader.ReadShort();

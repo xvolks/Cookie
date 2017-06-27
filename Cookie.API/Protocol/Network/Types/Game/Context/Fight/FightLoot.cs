@@ -65,7 +65,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Fight
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {          
             writer.WriteShort(((short)(m_objects.Count)));
             int objectsIndex;
@@ -76,7 +76,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Fight
             writer.WriteVarUhLong(m_kamas);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             int objectsCount = reader.ReadUShort();
             int objectsIndex;

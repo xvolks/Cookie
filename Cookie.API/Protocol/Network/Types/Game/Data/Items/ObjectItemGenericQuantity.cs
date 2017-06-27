@@ -67,14 +67,14 @@ namespace Cookie.API.Protocol.Network.Types.Game.Data.Items
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             base.Serialize(writer);
             writer.WriteVarUhShort(m_objectGID);
             writer.WriteVarUhInt(m_quantity);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             base.Deserialize(reader);
             m_objectGID = reader.ReadVarUhShort();

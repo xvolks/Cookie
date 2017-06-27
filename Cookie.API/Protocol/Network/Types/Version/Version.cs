@@ -30,7 +30,7 @@ namespace Cookie.API.Protocol.Network.Types.Version
         public sbyte Patch { get; set; }
         public sbyte BuildType { get; set; }
 
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteSByte(Major);
             writer.WriteSByte(Minor);
@@ -40,7 +40,7 @@ namespace Cookie.API.Protocol.Network.Types.Version
             writer.WriteSByte(BuildType);
         }
 
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             Major = reader.ReadSByte();
             if (Major < 0)

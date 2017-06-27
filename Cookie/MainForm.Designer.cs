@@ -134,13 +134,13 @@
         #endregion
 
         private System.Windows.Forms.RichTextBox LogTextBox;
-        private System.Windows.Forms.ListView PacketsListView;
         private System.Windows.Forms.ListBox NoHandlersListBox;
         private System.Windows.Forms.ColumnHeader TimeColumnHeader;
         private System.Windows.Forms.ColumnHeader OriginColumnHeader;
         private System.Windows.Forms.ColumnHeader IdColumnHeader;
         private System.Windows.Forms.ColumnHeader NameColumnHeader;
         private System.Windows.Forms.TextBox ChatTextBox;
+        public System.Windows.Forms.ListView PacketsListView;
     }
 }
 

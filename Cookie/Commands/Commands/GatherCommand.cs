@@ -11,7 +11,7 @@ namespace Cookie.Commands.Commands
     {
         public string CommandName => "gather";
 
-        public void OnCommand(IDofusClient client, string[] args)
+        public void OnCommand(IAccount account, string[] args)
         {
             if (args.Length < 1)
             {
@@ -23,9 +23,9 @@ namespace Cookie.Commands.Commands
             {
                 if (args[0] == "stop")
                 {
-                    if (client.Account.Character.GatherManager.Launched)
+                    if (account.Character.GatherManager.Launched)
                     {
-                        client.Account.Character.GatherManager.Launched = false;
+                        account.Character.GatherManager.Launched = false;
                         Logger.Default.Log("[GATHER] Récolte terminée!", LogMessageType.Default);
                     }
                     else
@@ -39,7 +39,7 @@ namespace Cookie.Commands.Commands
                 {
                     Logger.Default.Log("[GATHER] On commence la Récolte !", LogMessageType.Default);
                     var list = args.Select(arg => Convert.ToInt32(arg)).ToList();
-                    client.Account.Character.GatherManager.Gather(list);
+                    account.Character.GatherManager.Gather(list);
                 }
             }
         }

@@ -38,7 +38,7 @@ namespace Cookie.API.Protocol.Network.Messages.Connection
         public long SessionOptionalSalt { get; set; }
         public ushort[] FailedAttempts { get; set; }
 
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             byte flag1 = 0;
             flag1 = BooleanByteWrapper.SetFlag(flag1, 0, Autoconnect);
@@ -57,7 +57,7 @@ namespace Cookie.API.Protocol.Network.Messages.Connection
                 writer.WriteVarShort((short) entry);
         }
 
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             var flag1 = reader.ReadByte();
             Autoconnect = BooleanByteWrapper.GetFlag(flag1, 0);

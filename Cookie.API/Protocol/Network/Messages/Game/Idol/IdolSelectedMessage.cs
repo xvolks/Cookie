@@ -82,7 +82,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Idol
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             byte flag = new byte();
             BooleanByteWrapper.SetFlag(0, flag, m_activate);
@@ -91,7 +91,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Idol
             writer.WriteVarUhShort(m_idolId);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             byte flag = reader.ReadByte();
             m_activate = BooleanByteWrapper.GetFlag(flag, 0);

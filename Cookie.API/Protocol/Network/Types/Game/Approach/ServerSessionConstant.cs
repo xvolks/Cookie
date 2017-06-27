@@ -19,12 +19,12 @@ namespace Cookie.API.Protocol.Network.Types.Game.Approach
 
         public ushort ObjectID { get; set; }
 
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarUhShort(ObjectID);
         }
 
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             ObjectID = reader.ReadVarUhShort();
         }

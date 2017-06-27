@@ -24,7 +24,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Roleplay
 
         public override short TypeID => ProtocolId;
 
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             base.Serialize(writer);
             writer.WriteVarUhInt(GuildId);
@@ -32,7 +32,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Roleplay
             writer.WriteSByte(GuildLevel);
         }
 
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             base.Deserialize(reader);
             GuildId = reader.ReadVarUhInt();

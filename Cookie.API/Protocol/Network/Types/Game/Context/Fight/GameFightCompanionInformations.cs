@@ -84,7 +84,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Fight
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             base.Serialize(writer);
             writer.WriteByte(m_companionGenericId);
@@ -92,7 +92,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Fight
             writer.WriteDouble(m_masterId);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             base.Deserialize(reader);
             m_companionGenericId = reader.ReadByte();

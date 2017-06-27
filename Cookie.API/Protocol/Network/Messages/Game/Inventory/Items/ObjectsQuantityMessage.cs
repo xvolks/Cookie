@@ -53,7 +53,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort(((short)(m_objectsUIDAndQty.Count)));
             int objectsUIDAndQtyIndex;
@@ -64,7 +64,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
             }
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             int objectsUIDAndQtyCount = reader.ReadUShort();
             int objectsUIDAndQtyIndex;

@@ -96,7 +96,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort(((short)(m_effects.Count)));
             int effectsIndex;
@@ -116,7 +116,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
             writer.WriteInt(m_objGenericId);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             int effectsCount = reader.ReadUShort();
             int effectsIndex;

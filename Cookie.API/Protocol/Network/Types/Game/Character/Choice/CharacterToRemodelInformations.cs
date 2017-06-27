@@ -67,14 +67,14 @@ namespace Cookie.API.Protocol.Network.Types.Game.Character.Choice
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             base.Serialize(writer);
             writer.WriteByte(m_possibleChangeMask);
             writer.WriteByte(m_mandatoryChangeMask);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             base.Deserialize(reader);
             m_possibleChangeMask = reader.ReadByte();

@@ -19,17 +19,17 @@ namespace Cookie.API.Protocol.Network.Messages.Security
 
         public string Key { get; set; }
 
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteUTF(Key);
         }
 
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             _keyFunc(reader);
         }
 
-        private void _keyFunc(ICustomDataInput Reader)
+        private void _keyFunc(IDataReader Reader)
         {
             Key = Reader.ReadUTF();
         }

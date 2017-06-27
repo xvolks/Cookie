@@ -187,7 +187,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort(((short)(m_spellId.Count)));
             int spellIdIndex;
@@ -211,7 +211,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild
             writer.WriteVarUhShort(m_boostPoints);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             int spellIdCount = reader.ReadUShort();
             int spellIdIndex;

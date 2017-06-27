@@ -83,14 +83,14 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Party.Companio
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             m_entityLook.Serialize(writer);
             writer.WriteByte(m_indexId);
             writer.WriteByte(m_companionGenericId);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_entityLook = new EntityLook();
             m_entityLook.Deserialize(reader);

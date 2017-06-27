@@ -67,7 +67,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Spell
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort(((short)(m_spellsId.Count)));
             int spellsIdIndex;
@@ -78,7 +78,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Spell
             writer.WriteVarUhShort(m_boostPoint);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             int spellsIdCount = reader.ReadUShort();
             int spellsIdIndex;

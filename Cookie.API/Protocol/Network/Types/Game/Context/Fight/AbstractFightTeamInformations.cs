@@ -112,7 +112,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Fight
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteByte(m_teamId);
             writer.WriteDouble(m_leaderId);
@@ -121,7 +121,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Fight
             writer.WriteByte(m_nbWaves);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_teamId = reader.ReadByte();
             m_leaderId = reader.ReadDouble();

@@ -14,6 +14,6 @@ namespace Cookie.API.Commands
         /// </summary>
         /// <param name="client"></param>
         /// <param name="args"></param>
-        void OnCommand(IDofusClient client, string[] args);
+        void OnCommand(IAccount client, string[] args);
     }
 }

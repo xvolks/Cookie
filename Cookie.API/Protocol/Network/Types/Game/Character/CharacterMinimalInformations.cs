@@ -19,13 +19,13 @@ namespace Cookie.API.Protocol.Network.Types.Game.Character
 
         public byte Level { get; set; }
 
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             base.Serialize(writer);
             writer.WriteByte(Level);
         }
 
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             base.Deserialize(reader);
             Level = reader.ReadByte();

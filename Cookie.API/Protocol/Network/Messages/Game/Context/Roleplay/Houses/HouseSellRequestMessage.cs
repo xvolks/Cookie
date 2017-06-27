@@ -82,14 +82,14 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Houses
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteInt(m_instanceId);
             writer.WriteVarUhLong(m_amount);
             writer.WriteBoolean(m_forSale);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_instanceId = reader.ReadInt();
             m_amount = reader.ReadVarUhLong();

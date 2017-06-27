@@ -112,7 +112,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Houses
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarUhInt(m_houseId);
             writer.WriteInt(m_instanceId);
@@ -121,7 +121,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Houses
             writer.WriteUTF(m_buyerName);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_houseId = reader.ReadVarUhInt();
             m_instanceId = reader.ReadInt();

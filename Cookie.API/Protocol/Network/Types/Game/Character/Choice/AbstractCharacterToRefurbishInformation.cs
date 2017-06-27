@@ -68,7 +68,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Character.Choice
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             base.Serialize(writer);
             writer.WriteVarUhInt(m_cosmeticId);
@@ -80,7 +80,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Character.Choice
             }          
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             base.Deserialize(reader);
             m_cosmeticId = reader.ReadVarUhInt();

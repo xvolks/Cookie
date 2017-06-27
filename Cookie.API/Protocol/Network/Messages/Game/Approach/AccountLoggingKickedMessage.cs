@@ -82,14 +82,14 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Approach
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarUhShort(m_days);
             writer.WriteByte(m_hours);
             writer.WriteByte(m_minutes);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_days = reader.ReadVarUhShort();
             m_hours = reader.ReadByte();

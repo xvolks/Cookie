@@ -52,7 +52,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.TreasureHun
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort(((short)(m_availableLegendaryIds.Count)));
             int availableLegendaryIdsIndex;
@@ -62,7 +62,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.TreasureHun
             }
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             int availableLegendaryIdsCount = reader.ReadUShort();
             int availableLegendaryIdsIndex;

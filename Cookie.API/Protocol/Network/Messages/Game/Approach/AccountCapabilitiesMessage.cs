@@ -30,7 +30,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Approach
 
         public override uint MessageID => ProtocolId;
 
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             var flag = new byte();
             BooleanByteWrapper.SetFlag(0, flag, TutorialAvailable);
@@ -42,7 +42,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Approach
             writer.WriteByte(Status);
         }
 
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             var flag = reader.ReadByte();
             TutorialAvailable = BooleanByteWrapper.GetFlag(flag, 0);

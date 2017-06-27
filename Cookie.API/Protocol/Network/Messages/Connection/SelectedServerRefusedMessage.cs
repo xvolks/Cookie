@@ -82,14 +82,14 @@ namespace Cookie.API.Protocol.Network.Messages.Connection
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarUhShort(m_serverId);
             writer.WriteByte(m_error);
             writer.WriteByte(m_serverStatus);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_serverId = reader.ReadVarUhShort();
             m_error = reader.ReadByte();

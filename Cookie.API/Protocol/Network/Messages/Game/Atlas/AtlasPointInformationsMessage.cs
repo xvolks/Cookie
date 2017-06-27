@@ -53,12 +53,12 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Atlas
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             m_type.Serialize(writer);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_type = new AtlasPointsInformations();
             m_type.Deserialize(reader);

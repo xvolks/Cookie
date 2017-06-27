@@ -65,14 +65,14 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Shortcut
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteUShort(((ushort)(m_shortcut.TypeID)));
             m_shortcut.Serialize(writer);
             writer.WriteByte(m_barType);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_shortcut = ProtocolTypeManager.GetInstance<Shortcut>((short)reader.ReadUShort());
             m_shortcut.Deserialize(reader);

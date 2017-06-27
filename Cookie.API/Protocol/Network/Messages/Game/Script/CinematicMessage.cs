@@ -52,12 +52,12 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Script
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarUhShort(m_cinematicId);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_cinematicId = reader.ReadVarUhShort();
         }

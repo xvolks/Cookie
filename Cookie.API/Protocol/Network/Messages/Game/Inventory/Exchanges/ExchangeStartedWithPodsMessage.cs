@@ -127,7 +127,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             base.Serialize(writer);
             writer.WriteDouble(m_firstCharacterId);
@@ -138,7 +138,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
             writer.WriteVarUhInt(m_secondCharacterMaxWeight);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             base.Deserialize(reader);
             m_firstCharacterId = reader.ReadDouble();

@@ -109,7 +109,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Prism
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteByte(m_typeId);
             writer.WriteByte(m_state);
@@ -118,7 +118,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Prism
             writer.WriteVarUhInt(m_rewardTokenCount);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_typeId = reader.ReadByte();
             m_state = reader.ReadByte();

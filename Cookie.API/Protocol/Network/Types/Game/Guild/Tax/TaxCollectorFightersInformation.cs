@@ -81,7 +81,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Guild.Tax
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort(((short)(m_allyCharactersInformations.Count)));
             int allyCharactersInformationsIndex;
@@ -102,7 +102,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Guild.Tax
             writer.WriteInt(m_collectorId);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             int allyCharactersInformationsCount = reader.ReadUShort();
             int allyCharactersInformationsIndex;

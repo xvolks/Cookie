@@ -82,14 +82,14 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Delay
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteDouble(m_delayedCharacterId);
             writer.WriteByte(m_delayTypeId);
             writer.WriteDouble(m_delayEndTime);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_delayedCharacterId = reader.ReadDouble();
             m_delayTypeId = reader.ReadByte();

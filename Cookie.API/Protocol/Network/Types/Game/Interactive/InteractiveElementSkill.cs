@@ -64,13 +64,13 @@ namespace Cookie.API.Protocol.Network.Types.Game.Interactive
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarUhInt(m_skillId);
             writer.WriteInt(m_skillInstanceUid);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_skillId = reader.ReadVarUhInt();
             m_skillInstanceUid = reader.ReadInt();

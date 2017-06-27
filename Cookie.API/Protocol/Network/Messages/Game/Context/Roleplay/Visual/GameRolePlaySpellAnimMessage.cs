@@ -97,7 +97,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Visual
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarUhLong(m_casterId);
             writer.WriteVarUhShort(m_targetCellId);
@@ -105,7 +105,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Visual
             writer.WriteShort(m_spellLevel);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_casterId = reader.ReadVarUhLong();
             m_targetCellId = reader.ReadVarUhShort();

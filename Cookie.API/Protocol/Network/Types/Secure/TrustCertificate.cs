@@ -67,13 +67,13 @@ namespace Cookie.API.Protocol.Network.Types.Secure
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteInt(m_ObjectId);
             writer.WriteUTF(m_hash);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_ObjectId = reader.ReadInt();
             m_hash = reader.ReadUTF();

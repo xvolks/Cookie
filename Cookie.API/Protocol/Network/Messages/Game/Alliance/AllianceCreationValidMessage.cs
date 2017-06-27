@@ -83,14 +83,14 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Alliance
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             m_allianceEmblem.Serialize(writer);
             writer.WriteUTF(m_allianceName);
             writer.WriteUTF(m_allianceTag);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_allianceEmblem = new GuildEmblem();
             m_allianceEmblem.Deserialize(reader);

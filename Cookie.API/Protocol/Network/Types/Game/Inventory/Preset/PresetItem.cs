@@ -82,14 +82,14 @@ namespace Cookie.API.Protocol.Network.Types.Game.Inventory.Preset
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteSByte(m_position);
             writer.WriteVarUhShort(m_objGid);
             writer.WriteVarUhInt(m_objUid);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_position = reader.ReadSByte();
             m_objGid = reader.ReadVarUhShort();

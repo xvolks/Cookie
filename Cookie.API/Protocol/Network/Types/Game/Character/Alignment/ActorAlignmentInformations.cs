@@ -97,7 +97,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Character.Alignment
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteByte(m_alignmentSide);
             writer.WriteByte(m_alignmentValue);
@@ -105,7 +105,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Character.Alignment
             writer.WriteDouble(m_characterPower);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_alignmentSide = reader.ReadByte();
             m_alignmentValue = reader.ReadByte();

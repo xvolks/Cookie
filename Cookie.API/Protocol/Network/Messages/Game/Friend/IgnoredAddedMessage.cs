@@ -65,14 +65,14 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Friend
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteUShort(((ushort)(m_ignoreAdded.TypeID)));
             m_ignoreAdded.Serialize(writer);
             writer.WriteBoolean(m_session);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_ignoreAdded = ProtocolTypeManager.GetInstance<IgnoredInformations>((short)reader.ReadUShort());
             m_ignoreAdded.Deserialize(reader);

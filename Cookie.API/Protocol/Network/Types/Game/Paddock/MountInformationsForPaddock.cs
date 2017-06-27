@@ -82,14 +82,14 @@ namespace Cookie.API.Protocol.Network.Types.Game.Paddock
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarUhShort(m_modelId);
             writer.WriteUTF(m_name);
             writer.WriteUTF(m_ownerName);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_modelId = reader.ReadVarUhShort();
             m_name = reader.ReadUTF();

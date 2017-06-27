@@ -82,7 +82,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Lockable
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             base.Serialize(writer);
             writer.WriteVarUhInt(m_houseId);
@@ -90,7 +90,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Lockable
             writer.WriteBoolean(m_secondHand);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             base.Deserialize(reader);
             m_houseId = reader.ReadVarUhInt();

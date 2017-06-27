@@ -139,7 +139,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Fight
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             base.Serialize(writer);
             byte flag = new byte();
@@ -153,7 +153,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Fight
             writer.WriteVarUhInt(m_meanLevel);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             base.Deserialize(reader);
             byte flag = reader.ReadByte();

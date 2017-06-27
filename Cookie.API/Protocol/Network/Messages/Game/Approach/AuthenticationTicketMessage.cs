@@ -21,13 +21,13 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Approach
         public string Lang { get; set; }
         public string Ticket { get; set; }
 
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteUTF(Lang);
             writer.WriteUTF(Ticket);
         }
 
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             Lang = reader.ReadUTF();
             Ticket = reader.ReadUTF();

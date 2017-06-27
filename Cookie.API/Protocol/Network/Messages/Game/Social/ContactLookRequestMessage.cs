@@ -67,13 +67,13 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Social
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteSByte(m_requestId);
             writer.WriteByte(m_contactType);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_requestId = reader.ReadSByte();
             m_contactType = reader.ReadByte();

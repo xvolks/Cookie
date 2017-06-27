@@ -97,7 +97,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Fight
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort(((short)(m_spellCooldowns.Count)));
             int spellCooldownsIndex;
@@ -111,7 +111,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Fight
             writer.WriteByte(m_bombCount);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             int spellCooldownsCount = reader.ReadUShort();
             int spellCooldownsIndex;

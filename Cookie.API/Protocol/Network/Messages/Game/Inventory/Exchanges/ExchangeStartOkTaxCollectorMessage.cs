@@ -83,7 +83,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteInt(m_collectorId);
             writer.WriteShort(((short)(m_objectsInfos.Count)));
@@ -96,7 +96,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
             writer.WriteVarUhInt(m_goldInfo);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_collectorId = reader.ReadInt();
             int objectsInfosCount = reader.ReadUShort();

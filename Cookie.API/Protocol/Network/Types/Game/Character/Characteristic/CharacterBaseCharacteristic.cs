@@ -109,7 +109,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Character.Characteristic
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarShort(m_base);
             writer.WriteVarShort(m_additionnal);
@@ -118,7 +118,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Character.Characteristic
             writer.WriteVarShort(m_contextModif);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_base = reader.ReadVarShort();
             m_additionnal = reader.ReadVarShort();

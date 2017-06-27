@@ -97,7 +97,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteUShort(((ushort)(m_infos.TypeID)));
             m_infos.Serialize(writer);
@@ -112,7 +112,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild
             writer.WriteVarUhShort(m_nbTaxCollectors);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_infos = ProtocolTypeManager.GetInstance<GuildFactSheetInformations>((short)reader.ReadUShort());
             m_infos.Deserialize(reader);

@@ -63,13 +63,13 @@ namespace Cookie.API.Protocol.Network.Types.Game.Prism
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarUhShort(m_subAreaId);
             writer.WriteVarUhInt(m_allianceId);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_subAreaId = reader.ReadVarUhShort();
             m_allianceId = reader.ReadVarUhInt();

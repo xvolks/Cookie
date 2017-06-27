@@ -103,7 +103,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Character.Creation
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteUTF(m_name);
             writer.WriteByte(m_breed);
@@ -113,7 +113,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Character.Creation
             writer.WriteVarUhShort(m_cosmeticId);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_name = reader.ReadUTF();
             m_breed = reader.ReadByte();

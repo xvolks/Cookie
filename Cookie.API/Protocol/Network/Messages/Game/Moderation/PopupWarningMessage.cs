@@ -82,14 +82,14 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Moderation
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteSByte(m_lockDuration);
             writer.WriteUTF(m_author);
             writer.WriteUTF(m_content);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_lockDuration = reader.ReadSByte();
             m_author = reader.ReadUTF();

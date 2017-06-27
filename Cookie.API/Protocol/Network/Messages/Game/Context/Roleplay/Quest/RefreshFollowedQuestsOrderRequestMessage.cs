@@ -52,7 +52,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Quest
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort(((short)(m_quests.Count)));
             int questsIndex;
@@ -62,7 +62,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Quest
             }
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             int questsCount = reader.ReadUShort();
             int questsIndex;

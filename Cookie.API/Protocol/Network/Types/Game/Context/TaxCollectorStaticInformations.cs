@@ -83,14 +83,14 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             m_guildIdentity.Serialize(writer);
             writer.WriteVarUhShort(m_firstNameId);
             writer.WriteVarUhShort(m_lastNameId);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_guildIdentity = new GuildInformations();
             m_guildIdentity.Deserialize(reader);

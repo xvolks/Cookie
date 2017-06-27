@@ -97,7 +97,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Fight
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteInt(m_fightId);
             writer.WriteByte(m_fightType);
@@ -105,7 +105,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Fight
             writer.WriteBoolean(m_fightSpectatorLocked);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_fightId = reader.ReadInt();
             m_fightType = reader.ReadByte();

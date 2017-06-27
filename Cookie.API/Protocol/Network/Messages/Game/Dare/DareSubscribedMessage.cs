@@ -98,7 +98,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Dare
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             byte flag = new byte();
             BooleanByteWrapper.SetFlag(0, flag, m_success);
@@ -108,7 +108,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Dare
             writer.WriteDouble(m_dareId);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             byte flag = reader.ReadByte();
             m_success = BooleanByteWrapper.GetFlag(flag, 0);

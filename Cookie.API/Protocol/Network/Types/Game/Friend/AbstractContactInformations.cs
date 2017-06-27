@@ -34,13 +34,13 @@ namespace Cookie.API.Protocol.Network.Types.Game.Friend
             set => m_accountName = value;
         }
 
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteInt(m_accountId);
             writer.WriteUTF(m_accountName);
         }
 
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_accountId = reader.ReadInt();
             m_accountName = reader.ReadUTF();

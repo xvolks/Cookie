@@ -5,7 +5,7 @@ namespace Cookie.API.Game.Pathmanager
     public interface IPathManager
     {
         bool Launched { get; set; }
-        ICharacter Character { get; set; }
+        IAccount Account { get; set; }
         void Start(string trajet);
         void Stop();
         void DoAction();

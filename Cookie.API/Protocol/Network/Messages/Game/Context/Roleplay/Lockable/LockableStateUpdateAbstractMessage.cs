@@ -52,12 +52,12 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Lockable
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteBoolean(m_locked);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_locked = reader.ReadBoolean();
         }

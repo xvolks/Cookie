@@ -52,12 +52,12 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Character.Stats
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteSByte(m_newLevel);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_newLevel = reader.ReadSByte();
         }

@@ -94,7 +94,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Character.Alignment
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             base.Serialize(writer);
             writer.WriteVarUhShort(m_honor);
@@ -103,7 +103,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Character.Alignment
             writer.WriteByte(m_aggressable);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             base.Deserialize(reader);
             m_honor = reader.ReadVarUhShort();

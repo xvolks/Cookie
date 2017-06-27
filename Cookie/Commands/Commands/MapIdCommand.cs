@@ -10,10 +10,10 @@ namespace Cookie.Commands.Commands
     {
         public string CommandName => "mapid";
 
-        public void OnCommand(IDofusClient client, string[] args)
+        public void OnCommand(IAccount account, string[] args)
         {
-            var pos = D2OParsing.GetMapCoordinates(client.Account.Character.MapId);
-            Logger.Default.Log($"MapID : {client.Account.Character.MapId} | [{pos.X};{pos.Y}]",
+            var pos = D2OParsing.GetMapCoordinates(account.Character.MapId);
+            Logger.Default.Log($"MapID : {account.Character.MapId} | [{pos.X};{pos.Y}]",
                 LogMessageType.Admin);
         }
     }

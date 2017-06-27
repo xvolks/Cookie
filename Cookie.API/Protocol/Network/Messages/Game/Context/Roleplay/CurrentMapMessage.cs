@@ -21,24 +21,24 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
         public int MapId { get; set; }
         public string MapKey { get; set; }
 
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteInt(MapId);
             writer.WriteUTF(MapKey);
         }
 
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             _mapIdFunc(reader);
             _mapKeyFunc(reader);
         }
 
-        private void _mapIdFunc(ICustomDataInput reader)
+        private void _mapIdFunc(IDataReader reader)
         {
             MapId = reader.ReadInt();
         }
 
-        private void _mapKeyFunc(ICustomDataInput reader)
+        private void _mapKeyFunc(IDataReader reader)
         {
             MapKey = reader.ReadUTF();
         }

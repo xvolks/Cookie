@@ -67,13 +67,13 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Achievement
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarUhShort(m_ObjectId);
             writer.WriteSByte(m_finishedlevel);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_ObjectId = reader.ReadVarUhShort();
             m_finishedlevel = reader.ReadSByte();

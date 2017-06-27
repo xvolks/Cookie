@@ -21,7 +21,7 @@ namespace Cookie.API.Protocol.Network.Messages.Secure
 
         public override uint MessageID => ProtocolId;
 
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             var flag = new byte();
             BooleanByteWrapper.SetFlag(0, flag, Trusted);
@@ -29,7 +29,7 @@ namespace Cookie.API.Protocol.Network.Messages.Secure
             writer.WriteByte(flag);
         }
 
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             var flag = reader.ReadByte();
             Trusted = BooleanByteWrapper.GetFlag(flag, 0);

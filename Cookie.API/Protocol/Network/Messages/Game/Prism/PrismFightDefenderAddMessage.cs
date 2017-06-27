@@ -80,7 +80,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Prism
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteUShort(((ushort)(m_defender.TypeID)));
             m_defender.Serialize(writer);
@@ -88,7 +88,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Prism
             writer.WriteVarUhShort(m_fightId);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_defender = ProtocolTypeManager.GetInstance<CharacterMinimalPlusLookInformations>((short)reader.ReadUShort());
             m_defender.Deserialize(reader);

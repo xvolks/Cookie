@@ -82,14 +82,14 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteByte(m_ObjectId);
             writer.WriteByte(m_teamId);
             writer.WriteShort(m_nbTurnBeforeNextWave);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_ObjectId = reader.ReadByte();
             m_teamId = reader.ReadByte();

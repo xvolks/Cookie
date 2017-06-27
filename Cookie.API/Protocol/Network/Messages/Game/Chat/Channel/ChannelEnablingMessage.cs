@@ -21,24 +21,24 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Chat.Channel
         public uint Channel { get; set; }
         public bool Enable { get; set; }
 
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteByte((byte) Channel);
             writer.WriteBoolean(Enable);
         }
 
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             _channelFunc(reader);
             _enableFunc(reader);
         }
 
-        private void _channelFunc(ICustomDataInput reader)
+        private void _channelFunc(IDataReader reader)
         {
             Channel = reader.ReadByte();
         }
 
-        private void _enableFunc(ICustomDataInput reader)
+        private void _enableFunc(IDataReader reader)
         {
             Enable = reader.ReadBoolean();
         }

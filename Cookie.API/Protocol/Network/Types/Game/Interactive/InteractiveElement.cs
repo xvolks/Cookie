@@ -109,7 +109,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Interactive
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteInt(m_elementId);
             writer.WriteInt(m_elementTypeId);
@@ -132,7 +132,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Interactive
             writer.WriteBoolean(m_onCurrentMap);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_elementId = reader.ReadInt();
             m_elementTypeId = reader.ReadInt();

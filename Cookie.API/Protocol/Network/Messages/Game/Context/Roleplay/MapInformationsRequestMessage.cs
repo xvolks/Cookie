@@ -19,17 +19,17 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
 
         public int MapId { get; set; }
 
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteInt(MapId);
         }
 
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             _mapIdFunc(reader);
         }
 
-        private void _mapIdFunc(ICustomDataInput reader)
+        private void _mapIdFunc(IDataReader reader)
         {
             MapId = reader.ReadInt();
         }

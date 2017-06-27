@@ -98,7 +98,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Npc
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort(((short)(m_npcsIdsWithQuest.Count)));
             int npcsIdsWithQuestIndex;
@@ -122,7 +122,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Npc
             writer.WriteInt(m_mapId);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             int npcsIdsWithQuestCount = reader.ReadUShort();
             int npcsIdsWithQuestIndex;

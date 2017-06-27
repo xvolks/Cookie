@@ -82,7 +82,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Npc
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort(((short)(m_parameters.Count)));
             int parametersIndex;
@@ -94,7 +94,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Npc
             writer.WriteVarUhShort(m_textId);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             int parametersCount = reader.ReadUShort();
             int parametersIndex;

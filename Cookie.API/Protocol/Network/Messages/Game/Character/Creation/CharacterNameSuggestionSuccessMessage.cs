@@ -52,12 +52,12 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Character.Creation
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteUTF(m_suggestion);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_suggestion = reader.ReadUTF();
         }

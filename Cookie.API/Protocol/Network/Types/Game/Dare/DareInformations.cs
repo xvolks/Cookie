@@ -203,7 +203,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Dare
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             m_creator.Serialize(writer);
             writer.WriteShort(((short)(m_criterions.Count)));
@@ -224,7 +224,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Dare
             writer.WriteDouble(m_startDate);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_creator = new CharacterBasicMinimalInformations();
             m_creator.Deserialize(reader);

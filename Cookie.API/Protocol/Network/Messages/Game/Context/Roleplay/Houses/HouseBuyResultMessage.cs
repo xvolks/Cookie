@@ -112,7 +112,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Houses
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             byte flag = new byte();
             BooleanByteWrapper.SetFlag(0, flag, m_secondHand);
@@ -123,7 +123,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Houses
             writer.WriteVarUhLong(m_realPrice);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             byte flag = reader.ReadByte();
             m_secondHand = BooleanByteWrapper.GetFlag(flag, 0);

@@ -67,13 +67,13 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Character.Deletion
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarUhLong(m_characterId);
             writer.WriteUTF(m_secretAnswerHash);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_characterId = reader.ReadVarUhLong();
             m_secretAnswerHash = reader.ReadUTF();

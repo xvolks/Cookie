@@ -45,10 +45,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\ICommand.cs" />
+    <Compile Include="Core\Frames\IBasicFrame.cs" />
     <Compile Include="Core\Frames\ILatencyFrame.cs" />
     <Compile Include="Core\IAccount.cs" />
     <Compile Include="Core\ICharacter.cs" />
-    <Compile Include="Core\IDofusClient.cs" />
+    <Compile Include="Core\Network\INetwork.cs" />
     <Compile Include="Gamedata\D2i\FastD2I.cs" />
     <Compile Include="Gamedata\D2i\FastD2IReader.cs" />
     <Compile Include="Gamedata\D2OParsing.cs" />
@@ -86,7 +87,13 @@
     <Compile Include="Gamedata\D2p\MapsManager.cs" />
     <Compile Include="Gamedata\Icons\Icon.cs" />
     <Compile Include="Gamedata\Icons\IconsManager.cs" />
+    <Compile Include="Game\Achievement\IAchievement.cs" />
+    <Compile Include="Game\Alliance\IAlliance.cs" />
+    <Compile Include="Game\Chat\IChat.cs" />
     <Compile Include="Game\Entity\IEntity.cs" />
+    <Compile Include="Game\Friend\IFriend.cs" />
+    <Compile Include="Game\Guild\IGuild.cs" />
+    <Compile Include="Game\Inventory\IInventory.cs" />
     <Compile Include="Game\Jobs\IGatherManager.cs" />
     <Compile Include="Game\Map\Elements\IInteractiveElement.cs" />
     <Compile Include="Game\Map\Elements\IStatedElement.cs" />
@@ -94,6 +101,7 @@
     <Compile Include="Game\Map\IMap.cs" />
     <Compile Include="Game\Map\IMapData.cs" />
     <Compile Include="Game\Map\MapDirectionEnum.cs" />
+    <Compile Include="Game\Party\IParty.cs" />
     <Compile Include="Game\Pathmanager\IPathManager.cs" />
     <Compile Include="Game\World\Pathfinding\CellInfo.cs" />
     <Compile Include="Game\World\Pathfinding\Dofus1Line.cs" />
@@ -105,8 +113,28 @@
     <Compile Include="Game\World\Pathfinding\Positions\PathElement.cs" />
     <Compile Include="Game\World\Pathfinding\SimpleCellInfo.cs" />
     <Compile Include="Game\World\Pathfinding\SimplePathfinder.cs" />
-    <Compile Include="Network\MessageHandlerAttribute.cs" />
+    <Compile Include="Messages\DispatcherTask.cs" />
+    <Compile Include="Messages\HostInitializationMessage.cs" />
+    <Compile Include="Messages\IMessageFilter.cs" />
+    <Compile Include="Messages\Message.cs" />
+    <Compile Include="Messages\MessageDispatcher.cs" />
+    <Compile Include="Messages\MessageHandler.cs" />
+    <Compile Include="Messages\MessagePriority.cs" />
+    <Compile Include="Messages\MessageReceiver.cs" />
+    <Compile Include="Messages\MessageValidityCheckRoutines.cs" />
+    <Compile Include="Network\BufferManager.cs" />
+    <Compile Include="Network\Client.cs" />
+    <Compile Include="Network\ClientConnectionType.cs" />
+    <Compile Include="Network\ClientManager.cs" />
+    <Compile Include="Network\IClient.cs" />
+    <Compile Include="Network\IMessageBuilder.cs" />
+    <Compile Include="Network\ListenerEntry.cs" />
+    <Compile Include="Network\MessagePart.cs" />
+    <Compile Include="Network\MessageUtils.cs" />
+    <Compile Include="Network\ServerConnection.cs" />
+    <Compile Include="Network\SocketAsyncEventArgsPool.cs" />
     <Compile Include="Plugins\IPlugin.cs" />
+    <Compile Include="Utils\Extensions\LockFreeQueue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Protocol\Datacenter\abuse\AbuseReasons.cs" />
     <Compile Include="Protocol\Datacenter\alignments\AlignmentBalance.cs" />
@@ -1829,6 +1857,8 @@
     <Compile Include="Utils\Extensions\ForEachExtensions.cs" />
     <Compile Include="Utils\Extensions\FormatterExtensions.cs" />
     <Compile Include="Utils\Extensions\ReflectionExtensions.cs" />
+    <Compile Include="Utils\Extensions\SelfRunningTaskQueue.cs" />
+    <Compile Include="Utils\Extensions\SimplerTimer.cs" />
     <Compile Include="Utils\Extensions\Singleton.cs" />
     <Compile Include="Utils\Extensions\SocketExtensions.cs" />
     <Compile Include="Utils\Extensions\StringExtensions.cs" />
@@ -1841,11 +1871,7 @@
     <Compile Include="Utils\IO\BigEndianReader.cs" />
     <Compile Include="Utils\IO\BigEndianWriter.cs" />
     <Compile Include="Utils\IO\BooleanByteWrapper.cs" />
-    <Compile Include="Utils\IO\CustomDataReader.cs" />
-    <Compile Include="Utils\IO\CustomDataWriter.cs" />
     <Compile Include="Utils\IO\FastBigEndianReader.cs" />
-    <Compile Include="Utils\IO\ICustomDataInput.cs" />
-    <Compile Include="Utils\IO\ICustomDataOutput.cs" />
     <Compile Include="Utils\IO\IDataReader.cs" />
     <Compile Include="Utils\IO\IDataWriter.cs" />
     <Compile Include="Utils\IO\LittleEndianReader.cs" />
@@ -1857,5 +1883,6 @@
     <Compile Include="Utils\Randomize.cs" />
     <Compile Include="Utils\TimerCore.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

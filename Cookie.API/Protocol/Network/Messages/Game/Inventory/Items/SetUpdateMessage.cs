@@ -81,7 +81,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarUhShort(m_setId);
             writer.WriteShort(((short)(m_setObjects.Count)));
@@ -100,7 +100,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
             }
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_setId = reader.ReadVarUhShort();
             int setObjectsCount = reader.ReadUShort();

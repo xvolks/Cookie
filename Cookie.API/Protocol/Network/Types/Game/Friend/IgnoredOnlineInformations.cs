@@ -94,7 +94,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Friend
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             base.Serialize(writer);
             writer.WriteVarUhLong(m_playerId);
@@ -103,7 +103,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Friend
             writer.WriteBoolean(m_sex);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             base.Deserialize(reader);
             m_playerId = reader.ReadVarUhLong();

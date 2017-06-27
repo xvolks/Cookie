@@ -50,12 +50,12 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Paddock
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             m_properties.Serialize(writer);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_properties = new PaddockInstancesInformations();
             m_properties.Deserialize(reader);

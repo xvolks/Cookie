@@ -373,7 +373,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Character.Restriction
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             byte flag = new byte();
             BooleanByteWrapper.SetFlag(0, flag, m_cantBeAggressed);
@@ -399,7 +399,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Character.Restriction
             BooleanByteWrapper.SetFlag(4, flag, m_cantWalk8Directions);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             byte flag = reader.ReadByte();
             m_cantBeAggressed = BooleanByteWrapper.GetFlag(flag, 0);

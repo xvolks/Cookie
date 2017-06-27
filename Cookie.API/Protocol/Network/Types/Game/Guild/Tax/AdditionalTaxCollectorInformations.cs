@@ -67,13 +67,13 @@ namespace Cookie.API.Protocol.Network.Types.Game.Guild.Tax
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteUTF(m_collectorCallerName);
             writer.WriteInt(m_date);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_collectorCallerName = reader.ReadUTF();
             m_date = reader.ReadInt();

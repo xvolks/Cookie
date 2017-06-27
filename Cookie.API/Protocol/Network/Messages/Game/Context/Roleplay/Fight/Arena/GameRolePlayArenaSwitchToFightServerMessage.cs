@@ -82,7 +82,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Fight.Arena
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort(((short)(m_ticket.Count)));
             int ticketIndex;
@@ -94,7 +94,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Fight.Arena
             writer.WriteUShort(m_port);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             int ticketCount = reader.ReadUShort();
             int ticketIndex;

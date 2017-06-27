@@ -83,7 +83,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Paddock
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort(((short)(m_paddockList.Count)));
             int paddockListIndex;
@@ -96,7 +96,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Paddock
             writer.WriteVarUhShort(m_totalPage);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             int paddockListCount = reader.ReadUShort();
             int paddockListIndex;

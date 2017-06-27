@@ -68,13 +68,13 @@ namespace Cookie.API.Protocol.Network.Messages.Updater.Parts
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             m_part.Serialize(writer);
             writer.WriteFloat(m_installationPercent);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_part = new ContentPart();
             m_part.Deserialize(reader);

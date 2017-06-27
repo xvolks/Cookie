@@ -143,7 +143,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild.Tax
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             m_guild.Serialize(writer);
             writer.WriteVarUhShort(m_firstNameId);
@@ -154,7 +154,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild.Tax
             writer.WriteVarUhShort(m_subAreaId);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_guild = new BasicGuildInformations();
             m_guild.Deserialize(reader);

@@ -52,7 +52,7 @@ namespace Cookie.API.Protocol.Network.Messages.Connection
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort(((short)(m_migratedServerIds.Count)));
             int migratedServerIdsIndex;
@@ -62,7 +62,7 @@ namespace Cookie.API.Protocol.Network.Messages.Connection
             }
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             int migratedServerIdsCount = reader.ReadUShort();
             int migratedServerIdsIndex;

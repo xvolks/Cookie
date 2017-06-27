@@ -21,7 +21,7 @@ namespace Cookie.API.Protocol.Network.Messages.Connection
 
         public override uint MessageID => ProtocolId;
 
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteUTF(Salt);
             writer.WriteVarInt((ushort) Key.Length);
@@ -29,7 +29,7 @@ namespace Cookie.API.Protocol.Network.Messages.Connection
                 writer.WriteSByte(@byte);
         }
 
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             Salt = reader.ReadUTF();
             var num = (ushort) reader.ReadVarInt();

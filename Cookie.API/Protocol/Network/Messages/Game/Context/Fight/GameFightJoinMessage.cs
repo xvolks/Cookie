@@ -127,7 +127,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             byte flag = new byte();
             BooleanByteWrapper.SetFlag(0, flag, m_isTeamPhase);
@@ -139,7 +139,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
             writer.WriteByte(m_fightType);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             byte flag = reader.ReadByte();
             m_isTeamPhase = BooleanByteWrapper.GetFlag(flag, 0);

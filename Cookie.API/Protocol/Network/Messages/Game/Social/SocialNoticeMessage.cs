@@ -97,7 +97,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Social
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteUTF(m_content);
             writer.WriteInt(m_timestamp);
@@ -105,7 +105,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Social
             writer.WriteUTF(m_memberName);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_content = reader.ReadUTF();
             m_timestamp = reader.ReadInt();

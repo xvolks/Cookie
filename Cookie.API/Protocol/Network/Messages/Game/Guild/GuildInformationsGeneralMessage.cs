@@ -157,7 +157,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteBoolean(m_abandonnedPaddock);
             writer.WriteSByte(m_level);
@@ -169,7 +169,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild
             writer.WriteVarUhShort(m_nbConnectedMembers);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_abandonnedPaddock = reader.ReadBoolean();
             m_level = reader.ReadSByte();

@@ -67,7 +67,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Roleplay
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             m_mainCreatureLightInfos.Serialize(writer);
             writer.WriteShort(((short)(m_underlings.Count)));
@@ -79,7 +79,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Roleplay
             }
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_mainCreatureLightInfos = new MonsterInGroupLightInformations();
             m_mainCreatureLightInfos.Deserialize(reader);

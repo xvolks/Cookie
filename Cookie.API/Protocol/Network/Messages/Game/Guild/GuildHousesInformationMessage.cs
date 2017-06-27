@@ -53,7 +53,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort(((short)(m_housesInformations.Count)));
             int housesInformationsIndex;
@@ -64,7 +64,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild
             }
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             int housesInformationsCount = reader.ReadUShort();
             int housesInformationsIndex;

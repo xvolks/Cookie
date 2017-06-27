@@ -82,7 +82,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort(((short)(m_positionsForChallengers.Count)));
             int positionsForChallengersIndex;
@@ -99,7 +99,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
             writer.WriteByte(m_teamNumber);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             int positionsForChallengersCount = reader.ReadUShort();
             int positionsForChallengersIndex;

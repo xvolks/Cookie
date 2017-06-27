@@ -64,13 +64,13 @@ namespace Cookie.API.Protocol.Network.Types.Game.House
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarUhInt(m_houseId);
             writer.WriteVarUhShort(m_modelId);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_houseId = reader.ReadVarUhInt();
             m_modelId = reader.ReadVarUhShort();

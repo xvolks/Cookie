@@ -53,7 +53,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Interactive
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort(((short)(m_statedElements.Count)));
             int statedElementsIndex;
@@ -64,7 +64,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Interactive
             }
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             int statedElementsCount = reader.ReadUShort();
             int statedElementsIndex;

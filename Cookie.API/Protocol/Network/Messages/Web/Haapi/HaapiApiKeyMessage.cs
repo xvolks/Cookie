@@ -82,14 +82,14 @@ namespace Cookie.API.Protocol.Network.Messages.Web.Haapi
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteByte(m_returnType);
             writer.WriteByte(m_keyType);
             writer.WriteUTF(m_token);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_returnType = reader.ReadByte();
             m_keyType = reader.ReadByte();

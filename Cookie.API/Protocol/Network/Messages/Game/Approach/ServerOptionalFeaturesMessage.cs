@@ -20,14 +20,14 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Approach
 
         public override uint MessageID => ProtocolId;
 
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort((short) Features.Count);
             for (var i = 0; i < Features.Count; i++)
                 writer.WriteByte(Features[i]);
         }
 
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             var lenght = reader.ReadUShort();
             Features = new List<byte>();

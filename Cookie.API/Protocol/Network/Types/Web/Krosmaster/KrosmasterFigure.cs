@@ -96,7 +96,7 @@ namespace Cookie.API.Protocol.Network.Types.Web.Krosmaster
         {
         }
         
-        public override void Serialize(ICustomDataOutput writer)
+        public override void Serialize(IDataWriter writer)
         {
             writer.WriteUTF(m_uid);
             writer.WriteVarUhShort(m_figure);
@@ -104,7 +104,7 @@ namespace Cookie.API.Protocol.Network.Types.Web.Krosmaster
             writer.WriteBoolean(m_bound);
         }
         
-        public override void Deserialize(ICustomDataInput reader)
+        public override void Deserialize(IDataReader reader)
         {
             m_uid = reader.ReadUTF();
             m_figure = reader.ReadVarUhShort();
