@@ -8,7 +8,11 @@ namespace Cookie.API.Utils.Extensions
     {
         public static void RunAfter(this Action action, int ms)
         {
-            Task.Factory.StartNew(() => Thread.Sleep(ms)).ContinueWith(t => action());
+            Task.Run(async () =>
+            {
+                await Task.Delay(ms);
+                action.Invoke();
+            });
         }
     }
 }
