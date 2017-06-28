@@ -174,9 +174,8 @@ namespace Cookie.Game.Map
 
         public void UseElement(int id, int skillId)
         {
-            Randomize.RunBetween(
-                () => _account.Network.SendToServer(new InteractiveUseRequestMessage((uint) id, (uint) skillId)), 150,
-                200);
+            _account.PerformAction(
+                () => _account.Network.SendToServer(new InteractiveUseRequestMessage((uint) id, (uint) skillId)), 150);
         }
 
         public ICellMovement MoveToCellWithDistance(int cellId, int maxDistance, bool bool1)
