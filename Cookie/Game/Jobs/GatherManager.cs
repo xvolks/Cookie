@@ -50,10 +50,12 @@ namespace Cookie.Game.Jobs
         public bool Moved { get; set; }
         public bool Launched { get; set; }
         public List<int> ToGather { get; set; }
+        public bool AutoGather { get; set; }
 
-        public object Gather(List<int> @params)
+        public object Gather(List<int> @params, bool autoGather)
         {
             Launched = true;
+            AutoGather = autoGather;
             Console.WriteLine(@"[GATHER] Lauching récolte");
             ToGather = @params;
             var listDistance = new List<int>();
@@ -121,6 +123,7 @@ namespace Cookie.Game.Jobs
                         return toReturn;
                     }
                 }
+                Launched = false;
                 return toReturn;
             }
             catch (Exception e)
@@ -132,7 +135,7 @@ namespace Cookie.Game.Jobs
 
         public object Gather()
         {
-            return Gather(ToGather);
+            return Gather(ToGather, AutoGather);
         }
 
         public List<IUsableElement> TrierDistanceElement(List<int> listDistance, List<IUsableElement> listUsableElement)
@@ -198,8 +201,11 @@ namespace Cookie.Game.Jobs
         private void HandleMapComplementaryInformationsDataMessage(IAccount account,
             MapComplementaryInformationsDataMessage message)
         {
-            if (Launched)
-                Gather();
+            if (AutoGather)
+            {
+                Launched = true;
+                account.PerformAction(() => Gather(), 1000);
+            }
         }
 
         private void HandleGameMapMovementCancelMessage(IAccount account, GameMapMovementCancelMessage message)
@@ -215,14 +221,20 @@ namespace Cookie.Game.Jobs
 
         private void HandleInteractiveElementUpdatedMessage(IAccount account, InteractiveElementUpdatedMessage message)
         {
-            if (Launched && message.InteractiveElement.OnCurrentMap)
+            if (AutoGather && message.InteractiveElement.OnCurrentMap)
+            {
+                Launched = true;
                 Gather();
+            }
         }
 
         private void HandleInteractiveMapUpdateMessage(IAccount account, InteractiveMapUpdateMessage message)
         {
-            if (message.InteractiveElements.Any(element => Launched && element.OnCurrentMap))
+            if (message.InteractiveElements.Any(element => Launched && element.OnCurrentMap) && AutoGather)
+            {
+                Launched = true;
                 Gather();
+            }
         }
     }
 }
