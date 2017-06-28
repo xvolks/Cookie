@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Cookie.API.Core;
 using Cookie.API.Datacenter;
@@ -92,8 +93,9 @@ namespace Cookie.Game.Map
             return distance <= 1 && distance >= 0;
         }
 
-        public bool ChangeMap(MapDirectionEnum direction)
+        public IMapChangement ChangeMap(MapDirectionEnum direction)
         {
+            IMapChangement toReturn = null;
             var neighbourId = -1;
             var num2 = -1;
             if (direction == MapDirectionEnum.North)
@@ -119,69 +121,41 @@ namespace Cookie.Game.Map
 
             if (num2 != -1 && neighbourId >= 0)
             {
-                var cellId = _account.Character.CellId;
-                if ((((API.Gamedata.D2p.Map) Data).Cells[cellId].MapChangeData & num2) > 0)
-                {
-                    LaunchChangeMap(neighbourId);
-                    return true;
-                }
                 var list = new List<int>();
                 var num4 = ((API.Gamedata.D2p.Map) Data).Cells.Count - 1;
 
                 for (var i = 0; i < num4; i++)
                     if ((((API.Gamedata.D2p.Map) Data).Cells[i].MapChangeData & num2) > 0 && NothingOnCell(i))
                         list.Add(i);
-
-                while (list.Count > 0)
-                {
-                    var randomCellId = list[Randomize.GetRandomNumber(0, list.Count)];
-                    if (MoveToCell(randomCellId))
-                    {
-                        MapChange = neighbourId;
-                        return true;
-                    }
-                    list.Remove(randomCellId);
-                }
+                var randomCellId = list[Randomize.GetRandomNumber(0, list.Count)];
+                var move = MoveToCell(randomCellId);
+                toReturn = new MapChangement(_account, move, neighbourId, _account.Character.CellId);
+                return toReturn;
             }
-            return false;
+            return toReturn;
         }
 
-        public bool MoveToCell(int cellId)
+        public ICellMovement MoveToCell(int cellId)
         {
-            var path =
-                new Pathfinder(_account.Character.Map).FindPath(
-                    _account.Character.CellId, cellId);
-            if (path == null)
-                return false;
-            var serverMovement = MapMovementAdapter.GetServerMovement(path);
-
-            _account.Network.SendToServer(
-                new GameMapMovementRequestMessage(serverMovement.Select(ui => (short) ui).ToList(), Id));
-
-            var timeTowait = MapMovementAdapter.GetPathVelocity(path,
-                path.Cells.Count < 4
-                    ? MapMovementAdapter.MovementTypeEnum.Walking
-                    : MapMovementAdapter.MovementTypeEnum.Running);
-
-            ConfirmMove(timeTowait);
-            return true;
+            var path = new Pathfinder(_account.Character.Map).FindPath(_account.Character.CellId, cellId);
+            return new CellMovement(_account, path);
         }
 
-        public bool MoveToDoor(int cellId)
+        public ICellMovement MoveToDoor(int cellId)
         {
             return MoveToCellWithDistance(cellId, 1, true);
         }
 
-        public bool MoveToElement(int id, int maxDistance)
+        public ICellMovement MoveToElement(int id, int maxDistance)
         {
             var element = StatedElements.GetValue(id);
-            return element != null && MoveToCellWithDistance((int) element.CellId, maxDistance, true);
+            return element != null ? MoveToCellWithDistance((int) element.CellId, maxDistance, true) : null;
         }
 
-        public bool MoveToSecureElement(int id)
+        public ICellMovement MoveToSecureElement(int id)
         {
             var element = StatedElements.GetValue(id);
-            return element != null && MoveToCellWithDistance((int) element.CellId, 1, true);
+            return element != null ? MoveToCellWithDistance((int)element.CellId, 1, true) : null;
         }
 
         public bool NoEntitiesOnCell(int cellId)
@@ -205,7 +179,7 @@ namespace Cookie.Game.Map
                 200);
         }
 
-        public bool MoveToCellWithDistance(int cellId, int maxDistance, bool bool1)
+        public ICellMovement MoveToCellWithDistance(int cellId, int maxDistance, bool bool1)
         {
             MovementPath path = null;
             var savDistance = -1;
@@ -236,16 +210,9 @@ namespace Cookie.Game.Map
                 savDistance = distance;
             }
             if (path == null)
-                return false;
-            var serverMovement = MapMovementAdapter.GetServerMovement(path);
-            _account.Network.SendToServer(
-                new GameMapMovementRequestMessage(serverMovement.Select(ui => (short) ui).ToList(), Id));
-            var timeTowait = MapMovementAdapter.GetPathVelocity(path,
-                path.Cells.Count < 4
-                    ? MapMovementAdapter.MovementTypeEnum.Walking
-                    : MapMovementAdapter.MovementTypeEnum.Running);
-            ConfirmMove(timeTowait);
-            return true;
+                return null;
+            var move = new CellMovement(_account, path);
+            return move;
         }
         
         private void Attach()
@@ -363,6 +330,7 @@ namespace Cookie.Game.Map
                         Randomize.RunBetween(() => LaunchChangeMap(neighbourId), 100, 200);
                 }
             }
+            OnMovementConfirmed();
         }
 
         private void HandleGameMapMovementMessage(IAccount account, GameMapMovementMessage message)
@@ -377,6 +345,7 @@ namespace Cookie.Game.Map
                 if (message.ActorId == account.Character.Id)
                     account.Character.CellId = clientMovement.CellEnd.CellId;
             }
+            OnMapMovement(message);
         }
 
         private void HandleGameRolePlayShowActorMessage(IAccount account, GameRolePlayShowActorMessage message)
@@ -476,6 +445,7 @@ namespace Cookie.Game.Map
                                             element.EnabledSkills.ToList(), element.DisabledSkills.ToList()));
                 }
             }
+            OnMapChanged();
         }
 
         private void HandleMapComplementaryInformationsWithCoordsMessage(IAccount account,
@@ -529,6 +499,17 @@ namespace Cookie.Game.Map
         {
             Logger.Default.Log("Erreur lors du déplacement sur cellX : " + message.CellX + "cellY : " + message.CellY);
             account.Character.Status = CharacterStatus.None;
+            OnMovementFailed();
         }
+
+        public event EventHandler MovementConfirmed;
+        public event EventHandler MovementFailed;
+        public event Action<GameMapMovementMessage> MapMovement;
+        public event EventHandler<MapChangedEventArgs> MapChanged;
+
+        private void OnMapMovement(GameMapMovementMessage message) => MapMovement?.Invoke(message);
+        private void OnMovementConfirmed() => MovementConfirmed?.Invoke(_account, null);
+        private void OnMovementFailed() => MovementFailed?.Invoke(_account, null);
+        private void OnMapChanged() => MapChanged?.Invoke(_account, new MapChangedEventArgs(Id));
     }
 }

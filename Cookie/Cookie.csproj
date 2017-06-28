@@ -78,10 +78,12 @@
     <Compile Include="Game\Guild\Guild.cs" />
     <Compile Include="Game\Inventory\Inventory.cs" />
     <Compile Include="Game\Jobs\GatherManager.cs" />
+    <Compile Include="Game\Map\CellMovement.cs" />
     <Compile Include="Game\Map\Elements\InteractiveElement.cs" />
     <Compile Include="Game\Map\Elements\StatedElement.cs" />
     <Compile Include="Game\Map\Elements\UsableElement.cs" />
     <Compile Include="Game\Map\Map.cs" />
+    <Compile Include="Game\Map\MapChangement.cs" />
     <Compile Include="Game\Party\Party.cs" />
     <Compile Include="Core\Pathmanager\PathManager.cs" />
     <Compile Include="Core\Character.cs" />

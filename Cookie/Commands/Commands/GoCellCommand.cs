@@ -1,6 +1,7 @@
 ﻿using System;
 using Cookie.API.Commands;
 using Cookie.API.Core;
+using Cookie.API.Game.Map;
 using Cookie.API.Utils;
 using Cookie.API.Utils.Enums;
 
@@ -21,12 +22,22 @@ namespace Cookie.Commands.Commands
             {
                 var cell = Convert.ToInt32(args[0]);
                 if (cell <= 0 || cell >= 560) return;
-                if (account.Character.Map.MoveToCell(cell))
-                    Logger.Default.Log("Vous êtes bien arrivé!",
-                        LogMessageType.Default);
-                else
-                    Logger.Default.Log("Erreur dans le déplacement de la command gocell.",
-                        LogMessageType.Public);
+                var movement = account.Character.Map.MoveToCell(cell);
+                movement.PerformMovement();
+                movement.MovementFinished += OnMovementFinished;
+            }
+        }
+
+        private void OnMovementFinished(object sender, CellMovementEventArgs e)
+        {
+            switch (e.Sucess)
+            {
+                case true:
+                    Logger.Default.Log($"Déplacement réussi ! Cell d'arrivé: {e.EndCell}");
+                    break;
+                case false:
+                    Logger.Default.Log($"Echec du déplacement :'( StartCell: {e.StartCell} -> EndCell: {e.EndCell}");
+                    break;
             }
         }
     }
