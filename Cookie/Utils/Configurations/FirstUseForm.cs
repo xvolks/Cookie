@@ -32,13 +32,13 @@ namespace Cookie.Utils.Configurations
 
         private void btnConfirm_Click(object sender, EventArgs e)
         {
-            string path = txtPath.Text;
+            var path = txtPath.Text;
 
             if (string.IsNullOrEmpty(path) ||
-                !path.EndsWith("Dofus") ||
+                !File.Exists("Dofus.exe") ||
                 !Directory.Exists(Path.Combine(path, "app")))
             {
-                MessageBox.Show("Mauvais chemin vers Dofus.");
+                MessageBox.Show(@"Mauvais chemin vers Dofus.");
                 return;
             }
 
