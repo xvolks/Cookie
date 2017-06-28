@@ -13,8 +13,10 @@ namespace Cookie.Commands.Commands
         public void OnCommand(IAccount account, string[] args)
         {
             if (args.Length < 1)
+            {
                 Logger.Default.Log("Vous devez spécifier la direction pour changer de map (left, right, top, bottom).",
                     LogMessageType.Public);
+            }
             else
             {
                 IMapChangement move = null;

@@ -224,7 +224,7 @@ namespace Cookie.Game.Jobs
             if (AutoGather && message.InteractiveElement.OnCurrentMap)
             {
                 Launched = true;
-                Gather();
+                account.PerformAction(() => Gather(), 1000);
             }
         }
 
@@ -233,7 +233,7 @@ namespace Cookie.Game.Jobs
             if (message.InteractiveElements.Any(element => Launched && element.OnCurrentMap) && AutoGather)
             {
                 Launched = true;
-                Gather();
+                account.PerformAction(() => Gather(), 1000);
             }
         }
     }

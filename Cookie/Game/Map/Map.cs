@@ -176,7 +176,7 @@ namespace Cookie.Game.Map
         public void UseElement(int id, int skillId)
         {
             _account.PerformAction(
-                () => _account.Network.SendToServer(new InteractiveUseRequestMessage((uint) id, (uint) skillId)), 150);
+                () => _account.Network.SendToServer(new InteractiveUseRequestMessage((uint) id, (uint) skillId)), 500);
         }
 
         public ICellMovement MoveToCellWithDistance(int cellId, int maxDistance, bool bool1)

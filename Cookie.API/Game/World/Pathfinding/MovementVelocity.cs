@@ -5,19 +5,19 @@ namespace Cookie.API.Game.World.Pathfinding
 {
     public static class MovementVelocity
     {
-
         public enum MovementTypeEnum
         {
             MOUNTED,
             PARABLE,
             RUNNING,
             SLIDE,
-            WALKING,
+            WALKING
         }
 
         public static uint GetPathVelocity(MovementPath cells, MovementTypeEnum moveType)
         {
-            return cells.Cells.Aggregate<PathElement, uint>(0, (current, cell) => current + GetVelocity(cell, moveType));
+            return cells.Cells.Aggregate<PathElement, uint>(0,
+                (current, cell) => current + GetVelocity(cell, moveType));
         }
 
         public static uint GetVelocity(PathElement cell, MovementTypeEnum moveType)
@@ -25,9 +25,6 @@ namespace Cookie.API.Game.World.Pathfinding
             if (cell.Orientation % 2 == 0)
             {
                 if (cell.Orientation % 4 == 0)
-                {
-                    // HORIZONTAL DIAGONAL VELOCITY
-
                     switch (moveType)
                     {
                         case MovementTypeEnum.MOUNTED:
@@ -41,7 +38,6 @@ namespace Cookie.API.Game.World.Pathfinding
                         case MovementTypeEnum.WALKING:
                             return 510;
                     }
-                }
 
                 // VERTICAL DIAGONAL VELOCITY
 
@@ -78,6 +74,5 @@ namespace Cookie.API.Game.World.Pathfinding
 
             return 0;
         }
-
     }
 }

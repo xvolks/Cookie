@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Timers;
 using Cookie.API.Core;
 using Cookie.API.Game.Map;
@@ -14,12 +10,10 @@ namespace Cookie.Game.Map
     public class MapChangement : IMapChangement
     {
         private readonly IAccount _account;
+        private readonly int _oId;
         private int _cellId;
         private ICellMovement _cellMovement;
-        private readonly int _oId;
         private Timer _timeoutTimer;
-
-        public int NewMap { get; }
 
         public MapChangement(IAccount account, ICellMovement cm, int nid, int cell)
         {
@@ -32,12 +26,7 @@ namespace Cookie.Game.Map
             _timeoutTimer.Elapsed += _timeoutTimer_Elapsed;
         }
 
-        private void _timeoutTimer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            _timeoutTimer.Stop();
-            Logger.Default.Log("[MapChangement] Timeout.");
-            OnChangementFinished(false);
-        }
+        public int NewMap { get; }
 
         public void PerformChangement()
         {
@@ -50,6 +39,16 @@ namespace Cookie.Game.Map
             _cellMovement.MovementFinished += _cellMovement_MovementFinished;
             _cellMovement.PerformMovement();
             _timeoutTimer.Start();
+        }
+
+        public event EventHandler<MapChangementFinishedEventArgs> ChangementFinished;
+        public event Action Timeout;
+
+        private void _timeoutTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            _timeoutTimer.Stop();
+            Logger.Default.Log("[MapChangement] Timeout.");
+            OnChangementFinished(false);
         }
 
         private void Map_MapChanged(object sender, MapChangedEventArgs e)
@@ -72,9 +71,6 @@ namespace Cookie.Game.Map
             _account.Character.Map.MapChanged += Map_MapChanged;
             _account.Network.SendToServer(new ChangeMapMessage(NewMap));
         }
-
-        public event EventHandler<MapChangementFinishedEventArgs> ChangementFinished;
-        public event Action Timeout;
 
         private void OnTimeout()
         {

@@ -7,29 +7,6 @@ namespace Cookie.Utils.Configurations
 {
     public class GlobalConfiguration
     {
-        #region Singleton
-
-        private static GlobalConfiguration configuration;
-
-        public static GlobalConfiguration Instance
-        {
-            get
-            {
-                if (configuration == null)
-                    configuration = new GlobalConfiguration();
-
-                return configuration;
-            }
-        }
-
-        #endregion
-
-        // Properties
-        public string DofusPath { get; private set; }
-
-        public List<AccountConfiguration> Accounts { get; }
-
-
         // Fields
         private const string ConfigPath = "config.cookie";
 
@@ -43,6 +20,11 @@ namespace Cookie.Utils.Configurations
 
             Accounts = new List<AccountConfiguration>();
         }
+
+        // Properties
+        public string DofusPath { get; private set; }
+
+        public List<AccountConfiguration> Accounts { get; }
 
 
         public void Initialize()
@@ -98,5 +80,22 @@ namespace Cookie.Utils.Configurations
                 _initialized = true;
             }
         }
+
+        #region Singleton
+
+        private static GlobalConfiguration configuration;
+
+        public static GlobalConfiguration Instance
+        {
+            get
+            {
+                if (configuration == null)
+                    configuration = new GlobalConfiguration();
+
+                return configuration;
+            }
+        }
+
+        #endregion
     }
 }

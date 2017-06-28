@@ -14,13 +14,22 @@ namespace Cookie.Game.Achievement
         {
             account.Network.RegisterPacket<AchievementFinishedMessage>(HandleAchievementFinishedMessage,
                 MessagePriority.VeryHigh);
+            account.Network.RegisterPacket<AchievementRewardSuccessMessage>(HandleAchievementRewardSuccessMessage, MessagePriority.VeryHigh);
         }
 
         private void HandleAchievementFinishedMessage(IAccount account, AchievementFinishedMessage message)
         {
             var text = FastD2IReader.Instance.GetText(ObjectDataManager.Instance
                 .Get<API.Datacenter.Achievement>(message.ObjectId).NameId);
-            Logger.Default.Log($"Succés {text} obtenu");
+            Logger.Default.Log($"Succés: {text} Dévérouillé");
+            account.Network.SendToServer(new AchievementRewardRequestMessage((short) message.ObjectId));
+        }
+
+        private void HandleAchievementRewardSuccessMessage(IAccount account, AchievementRewardSuccessMessage message)
+        {
+            var text = FastD2IReader.Instance.GetText(ObjectDataManager.Instance
+                .Get<API.Datacenter.Achievement>(message.AchievementId).NameId);
+            Logger.Default.Log($"Succés: {text} Accepté!");
         }
     }
 }

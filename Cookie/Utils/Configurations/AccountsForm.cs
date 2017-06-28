@@ -5,11 +5,6 @@ namespace Cookie.Utils.Configurations
 {
     public partial class AccountsForm : Form
     {
-
-        // Properties
-        public AccountConfiguration AccountToConnect { get; private set; }
-
-
         // Constructor
         public AccountsForm()
         {
@@ -17,6 +12,9 @@ namespace Cookie.Utils.Configurations
 
             RefreshAccounts();
         }
+
+        // Properties
+        public AccountConfiguration AccountToConnect { get; private set; }
 
         private void RefreshAccounts()
         {
@@ -40,7 +38,7 @@ namespace Cookie.Utils.Configurations
 
         private void AddToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            using (AddAccountForm aaf = new AddAccountForm())
+            using (var aaf = new AddAccountForm())
             {
                 if (aaf.ShowDialog() == DialogResult.OK)
                 {
@@ -59,6 +57,9 @@ namespace Cookie.Utils.Configurations
             RefreshAccounts();
         }
 
-        private void CloseButton_Click(object sender, EventArgs e) => Environment.Exit(0);
+        private void CloseButton_Click(object sender, EventArgs e)
+        {
+            Environment.Exit(0);
+        }
     }
 }

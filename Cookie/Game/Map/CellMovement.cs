@@ -12,13 +12,9 @@ namespace Cookie.Game.Map
 {
     public class CellMovement : ICellMovement
     {
-        private readonly MovementPath _path;
         private readonly IAccount _account;
+        private readonly MovementPath _path;
         private Timer _timeoutTimer;
-
-        public int EndCell { get; }
-
-        public int StartCell { get; }
 
         public CellMovement(IAccount account, MovementPath mp)
         {
@@ -30,14 +26,9 @@ namespace Cookie.Game.Map
             _timeoutTimer.Elapsed += _timeoutTimer_Elapsed;
         }
 
-        private void _timeoutTimer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            _timeoutTimer.Stop();
-            _timeoutTimer.Elapsed -= _timeoutTimer_Elapsed;
-            _timeoutTimer = null;
+        public int EndCell { get; }
 
-            OnTimeOut();
-        }
+        public int StartCell { get; }
 
         public void PerformMovement()
         {
@@ -46,7 +37,7 @@ namespace Cookie.Game.Map
                 OnMovementFinished(false);
                 return;
             }
-            
+
             var keys = MapMovementAdapter.GetServerMovement(_path).Select(f => (short) f).ToList();
 
             _account.Character.Map.MovementFailed += Map_MovementFailed;
@@ -54,6 +45,19 @@ namespace Cookie.Game.Map
 
             _account.Network.SendToServer(new GameMapMovementRequestMessage(keys, _account.Character.MapId));
             _timeoutTimer.Start();
+        }
+
+        public event EventHandler<CellMovementEventArgs> MovementFinished;
+
+        public event Action Timeout;
+
+        private void _timeoutTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            _timeoutTimer.Stop();
+            _timeoutTimer.Elapsed -= _timeoutTimer_Elapsed;
+            _timeoutTimer = null;
+
+            OnTimeOut();
         }
 
         private void Map_MapMovement(GameMapMovementMessage message)
@@ -76,13 +80,15 @@ namespace Cookie.Game.Map
             }, (int) time);
         }
 
-        private void Map_MovementConfirmed(object sender, EventArgs e) => OnMovementFinished(true);
+        private void Map_MovementConfirmed(object sender, EventArgs e)
+        {
+            OnMovementFinished(true);
+        }
 
-        private void Map_MovementFailed(object sender, EventArgs e) => OnMovementFinished(false);
-
-        public event EventHandler<CellMovementEventArgs> MovementFinished;
-
-        public event Action Timeout;
+        private void Map_MovementFailed(object sender, EventArgs e)
+        {
+            OnMovementFinished(false);
+        }
 
         private void OnTimeOut()
         {

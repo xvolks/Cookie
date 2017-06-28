@@ -5,13 +5,6 @@ namespace Cookie.Utils.Configurations
 {
     public class AccountConfiguration
     {
-        // Properties
-        public string Username { get; }
-
-        public string Password { get; }
-        public string FilePath => $"{Username}.cookie";
-
-
         // Fields
         private const string pw = "c00k1eB0tPr0j3cT";
 
@@ -22,6 +15,12 @@ namespace Cookie.Utils.Configurations
             Username = username;
             Password = password;
         }
+
+        // Properties
+        public string Username { get; }
+
+        public string Password { get; }
+        public string FilePath => $"{Username}.cookie";
 
 
         public void Save(BinaryWriter bw)

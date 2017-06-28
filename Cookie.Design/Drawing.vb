@@ -1,9 +1,10 @@
 ﻿Imports System.Drawing
+Imports System.Drawing.Drawing2D
+Imports System.IO
 Imports System.Threading
 Imports System.Windows.Forms
 
 Friend Module Helpers
-
     Private TSM As SizeF
 
     Public Enum MouseState As Byte
@@ -14,17 +15,16 @@ Friend Module Helpers
 
     Public Function MiddlePoint(G As Graphics, TargetText As String, TargetFont As Font, Rect As Rectangle) As Point
         TSM = G.MeasureString(TargetText, TargetFont)
-        Return New Point(CInt(Rect.Width / 2 - TSM.Width / 2), CInt(Rect.Height / 2 - TSM.Height / 2))
+        Return New Point(CInt(Rect.Width/2 - TSM.Width/2), CInt(Rect.Height/2 - TSM.Height/2))
     End Function
 
     Public Sub CenterString(G As Graphics, T As String, F As Font, C As Color, R As Rectangle)
         Dim TS As SizeF = G.MeasureString(T, F)
 
         Using B As New SolidBrush(C)
-            G.DrawString(T, F, B, New Point(R.X + R.Width / 2 - (TS.Width / 2), R.Y + R.Height / 2 - (TS.Height / 2) - 1))
+            G.DrawString(T, F, B, New Point(R.X + R.Width/2 - (TS.Width/2), R.Y + R.Height/2 - (TS.Height/2) - 1))
         End Using
     End Sub
-
 End Module
 
 Public Class BTextBox
@@ -36,7 +36,7 @@ Public Class BTextBox
     Private AnimatingT As Thread
     Private AnimatingT2 As Thread
 
-    Private RGB() As Integer = {70, 70, 70}
+    Private ReadOnly RGB() As Integer = {70, 70, 70}
 
     Private Block As Boolean
 
@@ -44,7 +44,7 @@ Public Class BTextBox
         Get
             Return T.Text
         End Get
-        Set(value As String)
+        Set
             MyBase.Text = value
             T.Text = value
             Invalidate()
@@ -55,28 +55,28 @@ Public Class BTextBox
         Get
             Return T.UseSystemPasswordChar
         End Get
-        Set(value As Boolean)
+        Set
             T.UseSystemPasswordChar = value
             Invalidate()
         End Set
     End Property
 
-    Public Property MultiLine() As Boolean
+    Public Property MultiLine As Boolean
         Get
             Return T.Multiline
         End Get
-        Set(ByVal value As Boolean)
+        Set
             T.Multiline = value
             Size = New Size(T.Width + 2, T.Height + 2)
             Invalidate()
         End Set
     End Property
 
-    Public Shadows Property [ReadOnly]() As Boolean
+    Public Shadows Property [ReadOnly] As Boolean
         Get
             Return T.ReadOnly
         End Get
-        Set(ByVal value As Boolean)
+        Set
             T.ReadOnly = value
             Invalidate()
         End Set
@@ -107,7 +107,6 @@ Public Class BTextBox
         End Using
 
         MyBase.OnPaint(e)
-
     End Sub
 
     Private Sub TEnter() Handles T.Enter
@@ -117,18 +116,18 @@ Public Class BTextBox
                 .IsBackground = True}
             AnimatingT.Start()
         End If
-
     End Sub
 
     Private Sub TLeave() Handles T.Leave
         AnimatingT2 = New Thread(AddressOf UndoAnimation) With {
-                .IsBackground = True}
+            .IsBackground = True}
         AnimatingT2.Start()
     End Sub
 
     Protected Overrides Sub OnResize(e As EventArgs)
         If MultiLine Then
-            T.Size = New Size(Width - 7, Height - 7) : Invalidate()
+            T.Size = New Size(Width - 7, Height - 7)
+            Invalidate()
         Else
             T.Size = New Size(Width - 8, T.Height - 2)
             Size = New Size(Width, T.Height + 9)
@@ -152,7 +151,6 @@ Public Class BTextBox
             Thread.Sleep(5)
 
         End While
-
     End Sub
 
     Private Sub UndoAnimation()
@@ -170,13 +168,11 @@ Public Class BTextBox
         End While
 
         Block = False
-
     End Sub
 
     Private Sub TKeyDown(sender As Object, e As KeyEventArgs) Handles T.KeyDown
         OnKeyDown(e)
     End Sub
-
 End Class
 
 Public Class BRichTextBox
@@ -189,7 +185,7 @@ Public Class BRichTextBox
         Get
             Return T.SelectionColor
         End Get
-        Set(value As Color)
+        Set
             T.SelectionColor = value
             T.Invalidate()
         End Set
@@ -199,7 +195,7 @@ Public Class BRichTextBox
         Get
             Return T.SelectedText
         End Get
-        Set(value As String)
+        Set
             T.SelectedText = value
             T.Invalidate()
         End Set
@@ -209,7 +205,7 @@ Public Class BRichTextBox
         Get
             Return T.SelectionStart
         End Get
-        Set(value As Integer)
+        Set
             T.SelectionStart = value
             T.Invalidate()
         End Set
@@ -219,7 +215,7 @@ Public Class BRichTextBox
         Get
             Return T.SelectionLength
         End Get
-        Set(value As Integer)
+        Set
             T.SelectionLength = value
             T.Invalidate()
         End Set
@@ -233,29 +229,29 @@ Public Class BRichTextBox
         Get
             Return T.Text
         End Get
-        Set(value As String)
+        Set
             MyBase.Text = value
             T.Text = value
             Invalidate()
         End Set
     End Property
 
-    Public Property MultiLine() As Boolean
+    Public Property MultiLine As Boolean
         Get
             Return T.Multiline
         End Get
-        Set(ByVal value As Boolean)
+        Set
             T.Multiline = value
             Size = New Size(T.Width + 2, T.Height + 2)
             Invalidate()
         End Set
     End Property
 
-    Public Shadows Property [ReadOnly]() As Boolean
+    Public Shadows Property [ReadOnly] As Boolean
         Get
             Return T.ReadOnly
         End Get
-        Set(ByVal value As Boolean)
+        Set
             T.ReadOnly = value
             Invalidate()
         End Set
@@ -286,12 +282,12 @@ Public Class BRichTextBox
         End Using
 
         MyBase.OnPaint(e)
-
     End Sub
 
     Protected Overrides Sub OnResize(e As EventArgs)
         If MultiLine Then
-            T.Size = New Size(Width - 6, Height - 7) : Invalidate()
+            T.Size = New Size(Width - 6, Height - 7)
+            Invalidate()
         Else
             T.Size = New Size(Width - 2, T.Height - 2)
             Size = New Size(Width, T.Height + 3)
@@ -302,7 +298,6 @@ Public Class BRichTextBox
     Private Sub TTextChanged() Handles T.TextChanged
         MyBase.OnTextChanged(EventArgs.Empty)
     End Sub
-
 End Class
 
 Public Class BProgress
@@ -317,7 +312,7 @@ Public Class BProgress
         Get
             Return _ProgressColor
         End Get
-        Set(value As Color)
+        Set
             _ProgressColor = value
             Invalidate()
         End Set
@@ -328,7 +323,7 @@ Public Class BProgress
         Get
             Return _DisplayText
         End Get
-        Set(value As String)
+        Set
             _DisplayText = value
             Invalidate()
         End Set
@@ -337,7 +332,8 @@ Public Class BProgress
     Private G As Graphics
 
     Sub New()
-        SetStyle(ControlStyles.UserPaint Or ControlStyles.OptimizedDoubleBuffer Or ControlStyles.AllPaintingInWmPaint, True)
+        SetStyle(ControlStyles.UserPaint Or ControlStyles.OptimizedDoubleBuffer Or ControlStyles.AllPaintingInWmPaint,
+                 True)
     End Sub
 
     Protected Overrides Sub OnPaint(e As PaintEventArgs)
@@ -353,21 +349,21 @@ Public Class BProgress
         End Using
 
         Using Background As New SolidBrush(ProgressColor)
-            G.FillRectangle(Background, New Rectangle(0, 0, CInt(Value / Maximum * Width - 1), Height - 1))
+            G.FillRectangle(Background, New Rectangle(0, 0, CInt(Value/Maximum*Width - 1), Height - 1))
         End Using
 
         Using Font As New Font("Segoe UI", 8), ShadowBrush As New SolidBrush(Color.FromArgb(60, 60, 60))
 
             If Shadow Then
-                G.DrawString(DisplayText, Font, ShadowBrush, MiddlePoint(G, DisplayText, Font, New Rectangle(2, 2, Width + 2, Height + 2)))
+                G.DrawString(DisplayText, Font, ShadowBrush,
+                             MiddlePoint(G, DisplayText, Font, New Rectangle(2, 2, Width + 2, Height + 2)))
             End If
 
-            G.DrawString(DisplayText, Font, Brushes.White, MiddlePoint(G, DisplayText, Font, New Rectangle(0, 0, Width, Height)))
+            G.DrawString(DisplayText, Font, Brushes.White,
+                         MiddlePoint(G, DisplayText, Font, New Rectangle(0, 0, Width, Height)))
 
         End Using
-
     End Sub
-
 End Class
 
 Public Class BCheckBox
@@ -379,25 +375,28 @@ Public Class BCheckBox
     Private AnimatingT As Thread
     Private AnimatingT2 As Thread
 
-    Private RGB() As Integer = {70, 70, 70}
+    Private ReadOnly RGB() As Integer = {70, 70, 70}
 
     Private Block As Boolean
 
     Public Property Radio As Boolean
 
-    Private CheckedIcon As String = "iVBORw0KGgoAAAANSUhEUgAAAAsAAAAKCAMAAABVLlSxAAAASFBMVEUlJSYuLi8oKCmlpaXx8fGioqJoaGjOzs8+Pj/k5OTu7u5LS0zIyMiBgYKFhYXo6OhUVFWVlZW7u7t+fn7h4eE5OTlfX1+YmJn8uq7eAAAAA3RSTlMAAAD6dsTeAAAACXBIWXMAAABIAAAASABGyWs+AAAAO0lEQVQI12NgwAKYWVhhTDYWdkYok4OTixvCYGDiYeEFM/n4BQRZhCDywiz8XCKiDDAOixjcPGFxDCsASakBdDYGvzAAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTYtMTItMTRUMTI6MDM6MjktMDY6MDB4J65tAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE2LTEyLTE0VDEyOjAzOjI5LTA2OjAwCXoW0QAAAABJRU5ErkJggg=="
+    Private ReadOnly _
+        CheckedIcon As String =
+            "iVBORw0KGgoAAAANSUhEUgAAAAsAAAAKCAMAAABVLlSxAAAASFBMVEUlJSYuLi8oKCmlpaXx8fGioqJoaGjOzs8+Pj/k5OTu7u5LS0zIyMiBgYKFhYXo6OhUVFWVlZW7u7t+fn7h4eE5OTlfX1+YmJn8uq7eAAAAA3RSTlMAAAD6dsTeAAAACXBIWXMAAABIAAAASABGyWs+AAAAO0lEQVQI12NgwAKYWVhhTDYWdkYok4OTixvCYGDiYeEFM/n4BQRZhCDywiz8XCKiDDAOixjcPGFxDCsASakBdDYGvzAAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTYtMTItMTRUMTI6MDM6MjktMDY6MDB4J65tAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE2LTEyLTE0VDEyOjAzOjI5LTA2OjAwCXoW0QAAAABJRU5ErkJggg=="
 
     Sub New()
         DoubleBuffered = True
         Font = New Font("Segoe UI", 9)
         ForeColor = Color.FromArgb(200, 200, 200)
-        SetStyle(ControlStyles.UserPaint Or ControlStyles.OptimizedDoubleBuffer Or ControlStyles.AllPaintingInWmPaint, True)
+        SetStyle(ControlStyles.UserPaint Or ControlStyles.OptimizedDoubleBuffer Or ControlStyles.AllPaintingInWmPaint,
+                 True)
     End Sub
 
     Protected Overrides Sub OnPaint(e As PaintEventArgs)
 
         G = e.Graphics
-        G.InterpolationMode = Drawing2D.InterpolationMode.HighQualityBicubic
+        G.InterpolationMode = InterpolationMode.HighQualityBicubic
 
         G.Clear(BackColor)
 
@@ -415,12 +414,11 @@ Public Class BCheckBox
 
         If Checked Then
 
-            Using Mark As Image = Image.FromStream(New IO.MemoryStream(Convert.FromBase64String(CheckedIcon)))
+            Using Mark As Image = Image.FromStream(New MemoryStream(Convert.FromBase64String(CheckedIcon)))
                 G.DrawImage(Mark, New Point(2, 3))
             End Using
 
         End If
-
     End Sub
 
     Protected Overrides Sub OnMouseEnter(e As EventArgs)
@@ -436,7 +434,7 @@ Public Class BCheckBox
 
     Protected Overrides Sub OnMouseLeave(e As EventArgs)
         AnimatingT2 = New Thread(AddressOf UndoAnimation) With {
-                .IsBackground = True}
+            .IsBackground = True}
         AnimatingT2.Start()
 
         MyBase.OnMouseLeave(e)
@@ -444,7 +442,7 @@ Public Class BCheckBox
 
     Protected Overrides Sub OnMouseUp(e As MouseEventArgs)
         If Radio Then
-            For Each C As bCheckBox In Parent.Controls.OfType(Of bCheckBox)
+            For Each C As bCheckBox In Parent.Controls.OfType (Of bCheckBox)
                 C.Checked = False
             Next
         End If
@@ -464,7 +462,6 @@ Public Class BCheckBox
             Thread.Sleep(4)
 
         End While
-
     End Sub
 
     Private Sub UndoAnimation()
@@ -482,9 +479,7 @@ Public Class BCheckBox
         End While
 
         Block = False
-
     End Sub
-
 End Class
 
 Public Class BForm
@@ -552,9 +547,7 @@ Public Class BForm
         End Using
 
         MyBase.OnPaint(e)
-
     End Sub
-
 End Class
 
 Public Class BButton
@@ -565,7 +558,7 @@ Public Class BButton
     Private AnimatingT As Thread
     Private AnimatingT2 As Thread
 
-    Private RGB() As Integer = {42, 42, 45}
+    Private ReadOnly RGB() As Integer = {42, 42, 45}
 
     Private Block As Boolean
 
@@ -575,7 +568,8 @@ Public Class BButton
         DoubleBuffered = True
         Font = New Font("Segoe UI", 9)
         ForeColor = Color.FromArgb(200, 200, 200)
-        SetStyle(ControlStyles.UserPaint Or ControlStyles.AllPaintingInWmPaint Or ControlStyles.OptimizedDoubleBuffer, True)
+        SetStyle(ControlStyles.UserPaint Or ControlStyles.AllPaintingInWmPaint Or ControlStyles.OptimizedDoubleBuffer,
+                 True)
     End Sub
 
     Protected Overrides Sub OnPaint(e As PaintEventArgs)
@@ -597,11 +591,10 @@ Public Class BButton
             If IsNothing(DisplayImage) Then
                 G.DrawString(Text, Font, Fore, MiddlePoint(G, Text, Font, New Rectangle(0, 0, Width - 1, Height - 1)))
             Else
-                G.DrawImage(DisplayImage, New Rectangle(Width / 2 - 6, 6, 12, 12))
+                G.DrawImage(DisplayImage, New Rectangle(Width/2 - 6, 6, 12, 12))
             End If
 
         End Using
-
     End Sub
 
     Protected Overrides Sub OnMouseEnter(e As EventArgs)
@@ -617,7 +610,7 @@ Public Class BButton
 
     Protected Overrides Sub OnMouseLeave(e As EventArgs)
         AnimatingT2 = New Thread(AddressOf UndoAnimation) With {
-                .IsBackground = True}
+            .IsBackground = True}
         AnimatingT2.Start()
 
         MyBase.OnMouseLeave(e)
@@ -635,7 +628,6 @@ Public Class BButton
             Thread.Sleep(5)
 
         End While
-
     End Sub
 
     Private Sub UndoAnimation()
@@ -653,9 +645,7 @@ Public Class BButton
         End While
 
         Block = False
-
     End Sub
-
 End Class
 
 Public Class Renderer
@@ -708,7 +698,6 @@ Public Class Renderer
     Protected Overrides Sub OnRenderSeparator(e As ToolStripSeparatorRenderEventArgs)
         RaiseEvent PaintSeparator(Me, e)
     End Sub
-
 End Class
 
 Public Class BContextMenuStrip
@@ -741,9 +730,10 @@ Public Class BContextMenuStrip
         G = e.Graphics
 
         Using Border As New Pen(Color.FromArgb(35, 35, 38))
-            G.DrawRectangle(Border, New Rectangle(e.AffectedBounds.X, e.AffectedBounds.Y, e.AffectedBounds.Width - 1, e.AffectedBounds.Height - 1))
+            G.DrawRectangle(Border,
+                            New Rectangle(e.AffectedBounds.X, e.AffectedBounds.Y, e.AffectedBounds.Width - 1,
+                                          e.AffectedBounds.Height - 1))
         End Using
-
     End Sub
 
     Private Sub Renderer_PaintItemImage(sender As Object, e As ToolStripItemImageRenderEventArgs)
@@ -751,7 +741,6 @@ Public Class BContextMenuStrip
         G = e.Graphics
 
         G.DrawImage(e.Image, New Point(10, 3))
-
     End Sub
 
     Private Sub Renderer_PaintItemText(sender As Object, e As ToolStripItemTextRenderEventArgs)
@@ -761,7 +750,6 @@ Public Class BContextMenuStrip
         Using Fore As New SolidBrush(e.TextColor)
             G.DrawString(e.Text, Font, Fore, New Point(e.TextRectangle.X, e.TextRectangle.Y + 1))
         End Using
-
     End Sub
 
     Private Sub Renderer_PaintItemBackground(sender As Object, e As ToolStripItemRenderEventArgs)
@@ -777,9 +765,7 @@ Public Class BContextMenuStrip
             End Using
 
         End If
-
     End Sub
-
 End Class
 
 Public Class BToolTip
@@ -806,9 +792,7 @@ Public Class BToolTip
         Using TextFont As New Font("Segoe UI", 9), Fore As New SolidBrush(Color.FromArgb(180, 180, 180))
             G.DrawString(e.ToolTipText, TextFont, Fore, New PointF(e.Bounds.X + 4, e.Bounds.Y + 1))
         End Using
-
     End Sub
-
 End Class
 
 Public Class BTabControl
@@ -830,7 +814,9 @@ Public Class BTabControl
         SizeMode = TabSizeMode.Fixed
         ItemSize = New Size(32, 170)
         Font = New Font("Segoe UI", 9)
-        SetStyle(ControlStyles.UserPaint Or ControlStyles.AllPaintingInWmPaint Or ControlStyles.Opaque Or ControlStyles.OptimizedDoubleBuffer, True)
+        SetStyle(
+            ControlStyles.UserPaint Or ControlStyles.AllPaintingInWmPaint Or ControlStyles.Opaque Or
+            ControlStyles.OptimizedDoubleBuffer, True)
     End Sub
 
     Protected Overrides Sub OnPaint(e As PaintEventArgs)
@@ -847,7 +833,7 @@ Public Class BTabControl
             G.DrawLine(Border, ItemSize.Height + 3, 4, ItemSize.Height + 3, Height - 5)
         End Using
 
-        For T As Integer = 0 To TabPages.Count - 1
+        For T = 0 To TabPages.Count - 1
 
             Rect = GetTabRect(T)
 
@@ -898,7 +884,6 @@ Public Class BTabControl
 
         MyBase.OnPaint(e)
     End Sub
-
 End Class
 
 Public Class BHorizontalTabControl
@@ -920,7 +905,9 @@ Public Class BHorizontalTabControl
         SizeMode = TabSizeMode.Fixed
         ItemSize = New Size(120, 30)
         Font = New Font("Segoe UI", 9)
-        SetStyle(ControlStyles.UserPaint Or ControlStyles.AllPaintingInWmPaint Or ControlStyles.Opaque Or ControlStyles.OptimizedDoubleBuffer, True)
+        SetStyle(
+            ControlStyles.UserPaint Or ControlStyles.AllPaintingInWmPaint Or ControlStyles.Opaque Or
+            ControlStyles.OptimizedDoubleBuffer, True)
     End Sub
 
     Protected Overrides Sub OnPaint(e As PaintEventArgs)
@@ -937,7 +924,7 @@ Public Class BHorizontalTabControl
             G.DrawRectangle(Border, New Rectangle(0, 0, Width - 1, 30))
         End Using
 
-        For T As Integer = 0 To TabPages.Count - 1
+        For T = 0 To TabPages.Count - 1
 
             Rect = GetTabRect(T)
 
@@ -965,8 +952,6 @@ Public Class BHorizontalTabControl
 
         MyBase.OnPaint(e)
     End Sub
-
-
 End Class
 
 Public Class BComboBox
@@ -987,7 +972,9 @@ Public Class BComboBox
         BackColor = Color.FromArgb(40, 40, 43)
         DropDownStyle = ComboBoxStyle.DropDownList
         DrawMode = DrawMode.OwnerDrawFixed
-        SetStyle(ControlStyles.UserPaint Or ControlStyles.AllPaintingInWmPaint Or ControlStyles.Opaque Or ControlStyles.OptimizedDoubleBuffer, True)
+        SetStyle(
+            ControlStyles.UserPaint Or ControlStyles.AllPaintingInWmPaint Or ControlStyles.Opaque Or
+            ControlStyles.OptimizedDoubleBuffer, True)
     End Sub
 
     Protected Overrides Sub OnPaint(e As PaintEventArgs)
@@ -1024,9 +1011,11 @@ Public Class BComboBox
         End Using
 
         If Not IsNothing(Items) Then
-            Try : FirstItem = GetItemText(Items(0)) : Catch : End Try
+            Try : FirstItem = GetItemText(Items(0)) :
+            Catch :
+            End Try
 
-            If Not SelectedIndex = -1 Then
+            If Not SelectedIndex = - 1 Then
 
                 Using TextBrush As New SolidBrush(Color.FromArgb(200, 200, 200))
                     G.DrawString(ItemString, Font, TextBrush, New Point(4, 4))
@@ -1042,7 +1031,6 @@ Public Class BComboBox
 
 
         End If
-
     End Sub
 
     Protected Overrides Sub OnDrawItem(e As DrawItemEventArgs)
@@ -1055,7 +1043,7 @@ Public Class BComboBox
             G.FillRectangle(Back, New Rectangle(e.Bounds.X - 4, e.Bounds.Y - 1, e.Bounds.Width + 4, e.Bounds.Height - 1))
         End Using
 
-        If Not e.Index = -1 Then
+        If Not e.Index = - 1 Then
             ItemString = GetItemText(Items(e.Index))
         End If
 
@@ -1074,29 +1062,30 @@ Public Class BComboBox
         End If
 
         MyBase.OnDrawItem(e)
-
     End Sub
 
-    Protected Overrides Sub OnSelectedItemChanged(ByVal e As EventArgs)
+    Protected Overrides Sub OnSelectedItemChanged(e As EventArgs)
         Invalidate()
         MyBase.OnSelectedItemChanged(e)
     End Sub
 
     Protected Overrides Sub OnSelectedIndexChanged(e As EventArgs)
-        State = MouseState.None : Invalidate()
+        State = MouseState.None
+        Invalidate()
         MyBase.OnSelectedIndexChanged(e)
     End Sub
 
     Protected Overrides Sub OnMouseEnter(e As EventArgs)
-        State = MouseState.Over : Invalidate()
+        State = MouseState.Over
+        Invalidate()
         MyBase.OnMouseEnter(e)
     End Sub
 
     Protected Overrides Sub OnMouseLeave(e As EventArgs)
-        State = MouseState.None : Invalidate()
+        State = MouseState.None
+        Invalidate()
         MyBase.OnMouseLeave(e)
     End Sub
-
 End Class
 
 Public Class BStatusBar
@@ -1171,8 +1160,6 @@ Public Class BStatusBar
         Invalidate()
         MyBase.OnTextChanged(e)
     End Sub
-
-
 End Class
 
 Public Class BListBox
@@ -1188,7 +1175,7 @@ Public Class BListBox
         Get
             Return _SelectedColor
         End Get
-        Set(value As Color)
+        Set
             _SelectedColor = value
         End Set
     End Property
@@ -1197,7 +1184,7 @@ Public Class BListBox
         Get
             Return _Items
         End Get
-        Set(value As String())
+        Set
             _Items = value
             LB.Items.Clear()
             If Not IsNothing(value) Then
@@ -1207,24 +1194,24 @@ Public Class BListBox
         End Set
     End Property
 
-    Public ReadOnly Property SelectedItem() As String
+    Public ReadOnly Property SelectedItem As String
         Get
             Return LB.SelectedItem
         End Get
     End Property
 
-    Public ReadOnly Property SelectedIndex() As Integer
+    Public ReadOnly Property SelectedIndex As Integer
         Get
             Return LB.SelectedIndex
         End Get
     End Property
 
-    Sub AddRange(ByVal items As Object())
+    Sub AddRange(items As Object())
         LB.Items.Remove("")
         LB.Items.AddRange(items)
     End Sub
 
-    Sub AddItem(ByVal item As Object)
+    Sub AddItem(item As Object)
         LB.Items.Remove("")
         LB.Items.Add(item)
     End Sub
@@ -1236,12 +1223,12 @@ Public Class BListBox
     Sub New()
         Font = New Font("Segoe UI", 8)
         LB = New ListBox With {
-        .BorderStyle = BorderStyle.None,
-        .BackColor = Color.FromArgb(40, 40, 43),
-        .Font = Font,
-        .Location = New Point(2, 2),
-        .ForeColor = Color.FromArgb(200, 200, 200),
-        .DrawMode = DrawMode.OwnerDrawFixed}
+            .BorderStyle = BorderStyle.None,
+            .BackColor = Color.FromArgb(40, 40, 43),
+            .Font = Font,
+            .Location = New Point(2, 2),
+            .ForeColor = Color.FromArgb(200, 200, 200),
+            .DrawMode = DrawMode.OwnerDrawFixed}
         Controls.Add(LB)
         DoubleBuffered = True
     End Sub
@@ -1258,10 +1245,9 @@ Public Class BListBox
             G.FillRectangle(Background, New Rectangle(0, 0, Width - 1, Height - 1))
             G.DrawRectangle(Border, New Rectangle(0, 0, Width - 1, Height - 1))
         End Using
-
     End Sub
 
-    Sub Drawitem(ByVal sender As Object, ByVal e As DrawItemEventArgs) Handles LB.DrawItem
+    Sub Drawitem(sender As Object, e As DrawItemEventArgs) Handles LB.DrawItem
 
         e.DrawBackground()
 
@@ -1283,12 +1269,10 @@ Public Class BListBox
         Using Fore As New SolidBrush(Color.FromArgb(255, 255, 255))
             e.Graphics.DrawString(LB.GetItemText(LB.Items(e.Index)), Font, Fore, e.Bounds)
         End Using
-
     End Sub
 
     Protected Overrides Sub OnResize(e As EventArgs)
         LB.Size = New Size(Width - 3, Height - 2)
         MyBase.OnResize(e)
     End Sub
-
 End Class
