@@ -58,6 +58,7 @@ namespace Cookie.Game.Jobs
             ToGather = @params;
             var listDistance = new List<int>();
             var listUsableElement = new List<IUsableElement>();
+            bool toReturn = false;
             try
             {
                 if (ToGather.Count > 0)
@@ -97,16 +98,30 @@ namespace Cookie.Game.Jobs
 
                             Moved = false;
                             IsFishing = false;
-                            return true;
+                            toReturn = true;
+                            return toReturn;
                         }
                         //if (!_account.Character.Map.MoveToElement((int) usableElement.Element.Id, 1)) continue;
-                        Id = (int) usableElement.Element.Id;
-                        SkillInstanceUid = usableElement.Skills[0].SkillInstanceUid;
-                        _account.Character.Map.UseElement(Id, SkillInstanceUid);
-                        return true;
+                        var move = _account.Character.Map.MoveToElement((int) usableElement.Element.Id, 1);
+                        move.MovementFinished += (sender, args) =>
+                        {
+                            if (args.Sucess)
+                            {
+                                toReturn = true;
+                                Id = (int)usableElement.Element.Id;
+                                SkillInstanceUid = usableElement.Skills[0].SkillInstanceUid;
+                                _account.Character.Map.UseElement(Id, SkillInstanceUid);
+                            }
+                            else
+                            {
+                                toReturn = false;
+                            }
+                        };
+                        move.PerformMovement();
+                        return toReturn;
                     }
                 }
-                return false;
+                return toReturn;
             }
             catch (Exception e)
             {

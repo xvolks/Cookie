@@ -23,8 +23,8 @@ namespace Cookie.Commands.Commands
                 var cell = Convert.ToInt32(args[0]);
                 if (cell <= 0 || cell >= 560) return;
                 var movement = account.Character.Map.MoveToCell(cell);
-                movement.PerformMovement();
                 movement.MovementFinished += OnMovementFinished;
+                movement.PerformMovement();
             }
         }
 
