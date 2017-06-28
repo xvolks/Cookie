@@ -28,61 +28,26 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AccountsForm));
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.connecterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.ajouterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.supprimerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bForm1 = new Cookie.Design.BForm();
             this.label1 = new System.Windows.Forms.Label();
             this.lvAccounts = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.contextMenuStrip1.SuspendLayout();
+            this.MainContextMenuStrip = new Cookie.Design.BContextMenuStrip();
+            this.ConnectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.AddToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.RemoveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.CloseButton = new Cookie.Design.BButton();
             this.bForm1.SuspendLayout();
+            this.MainContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.connecterToolStripMenuItem,
-            this.toolStripSeparator1,
-            this.ajouterToolStripMenuItem,
-            this.supprimerToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(130, 76);
-            // 
-            // connecterToolStripMenuItem
-            // 
-            this.connecterToolStripMenuItem.Name = "connecterToolStripMenuItem";
-            this.connecterToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
-            this.connecterToolStripMenuItem.Text = "Connecter";
-            this.connecterToolStripMenuItem.Click += new System.EventHandler(this.connecterToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(126, 6);
-            // 
-            // ajouterToolStripMenuItem
-            // 
-            this.ajouterToolStripMenuItem.Name = "ajouterToolStripMenuItem";
-            this.ajouterToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
-            this.ajouterToolStripMenuItem.Text = "Ajouter";
-            this.ajouterToolStripMenuItem.Click += new System.EventHandler(this.ajouterToolStripMenuItem_Click);
-            // 
-            // supprimerToolStripMenuItem
-            // 
-            this.supprimerToolStripMenuItem.Name = "supprimerToolStripMenuItem";
-            this.supprimerToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
-            this.supprimerToolStripMenuItem.Text = "Supprimer";
-            this.supprimerToolStripMenuItem.Click += new System.EventHandler(this.supprimerToolStripMenuItem_Click);
             // 
             // bForm1
             // 
             this.bForm1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.bForm1.Controls.Add(this.CloseButton);
             this.bForm1.Controls.Add(this.label1);
             this.bForm1.Controls.Add(this.lvAccounts);
             this.bForm1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -109,11 +74,11 @@
             this.lvAccounts.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2});
-            this.lvAccounts.ContextMenuStrip = this.contextMenuStrip1;
+            this.lvAccounts.ContextMenuStrip = this.MainContextMenuStrip;
             this.lvAccounts.FullRowSelect = true;
             this.lvAccounts.Location = new System.Drawing.Point(12, 64);
             this.lvAccounts.Name = "lvAccounts";
-            this.lvAccounts.Size = new System.Drawing.Size(313, 207);
+            this.lvAccounts.Size = new System.Drawing.Size(317, 207);
             this.lvAccounts.TabIndex = 2;
             this.lvAccounts.UseCompatibleStateImageBehavior = false;
             this.lvAccounts.View = System.Windows.Forms.View.Details;
@@ -127,6 +92,57 @@
             // 
             this.columnHeader2.Text = "Mot de passe";
             this.columnHeader2.Width = 140;
+            // 
+            // MainContextMenuStrip
+            // 
+            this.MainContextMenuStrip.Font = new System.Drawing.Font("Segoe UI", 8F);
+            this.MainContextMenuStrip.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.MainContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ConnectToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.AddToolStripMenuItem,
+            this.RemoveToolStripMenuItem});
+            this.MainContextMenuStrip.Name = "MainContextMenuStrip";
+            this.MainContextMenuStrip.Size = new System.Drawing.Size(128, 76);
+            // 
+            // ConnectToolStripMenuItem
+            // 
+            this.ConnectToolStripMenuItem.Name = "ConnectToolStripMenuItem";
+            this.ConnectToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.ConnectToolStripMenuItem.Text = "Connecter";
+            this.ConnectToolStripMenuItem.Click += new System.EventHandler(this.ConnectToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(124, 6);
+            // 
+            // AddToolStripMenuItem
+            // 
+            this.AddToolStripMenuItem.Name = "AddToolStripMenuItem";
+            this.AddToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.AddToolStripMenuItem.Text = "Ajouter";
+            this.AddToolStripMenuItem.Click += new System.EventHandler(this.AddToolStripMenuItem_Click);
+            // 
+            // RemoveToolStripMenuItem
+            // 
+            this.RemoveToolStripMenuItem.Name = "RemoveToolStripMenuItem";
+            this.RemoveToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.RemoveToolStripMenuItem.Text = "Supprimer";
+            this.RemoveToolStripMenuItem.Click += new System.EventHandler(this.RemoveToolStripMenuItem_Click);
+            // 
+            // CloseButton
+            // 
+            this.CloseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.CloseButton.DisplayImage = global::Cookie.Properties.Resources.cross_remove_sign;
+            this.CloseButton.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.CloseButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.CloseButton.Location = new System.Drawing.Point(307, 3);
+            this.CloseButton.Name = "CloseButton";
+            this.CloseButton.Size = new System.Drawing.Size(22, 23);
+            this.CloseButton.TabIndex = 8;
+            this.CloseButton.UseVisualStyleBackColor = true;
+            this.CloseButton.Click += new System.EventHandler(this.CloseButton_Click);
             // 
             // AccountsForm
             // 
@@ -143,23 +159,24 @@
             this.Name = "AccountsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Cookie - Comptes";
-            this.contextMenuStrip1.ResumeLayout(false);
             this.bForm1.ResumeLayout(false);
             this.bForm1.PerformLayout();
+            this.MainContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem ajouterToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem supprimerToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem connecterToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private Design.BForm bForm1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ListView lvAccounts;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
+        private Design.BContextMenuStrip MainContextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem ConnectToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem AddToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem RemoveToolStripMenuItem;
+        private Design.BButton CloseButton;
     }
 }

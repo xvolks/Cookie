@@ -30,16 +30,18 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FirstUseForm));
             this.bForm1 = new Cookie.Design.BForm();
-            this.label1 = new System.Windows.Forms.Label();
-            this.txtPath = new Cookie.Design.BTextBox();
-            this.btnChoosePath = new Cookie.Design.BButton();
             this.btnConfirm = new Cookie.Design.BButton();
+            this.btnChoosePath = new Cookie.Design.BButton();
+            this.txtPath = new Cookie.Design.BTextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.CloseButton = new Cookie.Design.BButton();
             this.bForm1.SuspendLayout();
             this.SuspendLayout();
             // 
             // bForm1
             // 
             this.bForm1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.bForm1.Controls.Add(this.CloseButton);
             this.bForm1.Controls.Add(this.btnConfirm);
             this.bForm1.Controls.Add(this.btnChoosePath);
             this.bForm1.Controls.Add(this.txtPath);
@@ -53,25 +55,18 @@
             this.bForm1.TabIndex = 0;
             this.bForm1.Text = "Cookie - Première utilisation";
             // 
-            // label1
+            // btnConfirm
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(12, 49);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(91, 16);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "Dossier Dofus:";
-            // 
-            // txtPath
-            // 
-            this.txtPath.Location = new System.Drawing.Point(109, 44);
-            this.txtPath.MultiLine = false;
-            this.txtPath.Name = "txtPath";
-            this.txtPath.ReadOnly = false;
-            this.txtPath.Size = new System.Drawing.Size(273, 27);
-            this.txtPath.TabIndex = 8;
-            this.txtPath.UseSystemPasswordChar = false;
+            this.btnConfirm.DisplayImage = null;
+            this.btnConfirm.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btnConfirm.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.btnConfirm.Location = new System.Drawing.Point(319, 88);
+            this.btnConfirm.Name = "btnConfirm";
+            this.btnConfirm.Size = new System.Drawing.Size(100, 30);
+            this.btnConfirm.TabIndex = 10;
+            this.btnConfirm.Text = "Confirmer";
+            this.btnConfirm.UseVisualStyleBackColor = true;
+            this.btnConfirm.Click += new System.EventHandler(this.btnConfirm_Click);
             // 
             // btnChoosePath
             // 
@@ -86,18 +81,38 @@
             this.btnChoosePath.UseVisualStyleBackColor = true;
             this.btnChoosePath.Click += new System.EventHandler(this.btnChoosePath_Click);
             // 
-            // btnConfirm
+            // txtPath
             // 
-            this.btnConfirm.DisplayImage = null;
-            this.btnConfirm.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btnConfirm.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
-            this.btnConfirm.Location = new System.Drawing.Point(319, 88);
-            this.btnConfirm.Name = "btnConfirm";
-            this.btnConfirm.Size = new System.Drawing.Size(100, 30);
-            this.btnConfirm.TabIndex = 10;
-            this.btnConfirm.Text = "Confirmer";
-            this.btnConfirm.UseVisualStyleBackColor = true;
-            this.btnConfirm.Click += new System.EventHandler(this.btnConfirm_Click);
+            this.txtPath.Location = new System.Drawing.Point(109, 44);
+            this.txtPath.MultiLine = false;
+            this.txtPath.Name = "txtPath";
+            this.txtPath.ReadOnly = false;
+            this.txtPath.Size = new System.Drawing.Size(273, 22);
+            this.txtPath.TabIndex = 8;
+            this.txtPath.UseSystemPasswordChar = false;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(12, 49);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(91, 16);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "Dossier Dofus:";
+            // 
+            // CloseButton
+            // 
+            this.CloseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.CloseButton.DisplayImage = global::Cookie.Properties.Resources.cross_remove_sign;
+            this.CloseButton.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.CloseButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.CloseButton.Location = new System.Drawing.Point(399, 3);
+            this.CloseButton.Name = "CloseButton";
+            this.CloseButton.Size = new System.Drawing.Size(22, 23);
+            this.CloseButton.TabIndex = 11;
+            this.CloseButton.UseVisualStyleBackColor = true;
+            this.CloseButton.Click += new System.EventHandler(this.CloseButton_Click);
             // 
             // FirstUseForm
             // 
@@ -126,5 +141,6 @@
         private Design.BTextBox txtPath;
         private Design.BButton btnChoosePath;
         private Design.BButton btnConfirm;
+        private Design.BButton CloseButton;
     }
 }

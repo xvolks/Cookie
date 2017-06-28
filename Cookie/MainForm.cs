@@ -302,5 +302,28 @@ namespace Cookie
         }
 
         private delegate void InsertIntoListDelegate(string origin, string name, string id);
+
+        private void CloseButton_Click(object sender, EventArgs e)
+        {
+            Environment.Exit(0);
+        }
+
+        private void MaximizeButton_Click(object sender, EventArgs e)
+        {
+            switch (WindowState)
+            {
+                case FormWindowState.Maximized:
+                    WindowState = FormWindowState.Normal;
+                    break;
+                case FormWindowState.Normal:
+                    WindowState = FormWindowState.Maximized;
+                    break;
+            }
+        }
+
+        private void MinimizeButton_Click(object sender, EventArgs e)
+        {
+            WindowState = FormWindowState.Minimized;
+        }
     }
 }

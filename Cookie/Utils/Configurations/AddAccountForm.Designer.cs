@@ -35,12 +35,14 @@
             this.txtUsername = new Cookie.Design.BTextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.CloseButton = new Cookie.Design.BButton();
             this.bForm1.SuspendLayout();
             this.SuspendLayout();
             // 
             // bForm1
             // 
             this.bForm1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.bForm1.Controls.Add(this.CloseButton);
             this.bForm1.Controls.Add(this.btnConfirm);
             this.bForm1.Controls.Add(this.txtPassword);
             this.bForm1.Controls.Add(this.txtUsername);
@@ -70,17 +72,17 @@
             // 
             // txtPassword
             // 
-            this.txtPassword.Location = new System.Drawing.Point(113, 74);
+            this.txtPassword.Location = new System.Drawing.Point(113, 78);
             this.txtPassword.MultiLine = false;
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.ReadOnly = false;
             this.txtPassword.Size = new System.Drawing.Size(138, 22);
             this.txtPassword.TabIndex = 9;
-            this.txtPassword.UseSystemPasswordChar = false;
+            this.txtPassword.UseSystemPasswordChar = true;
             // 
             // txtUsername
             // 
-            this.txtUsername.Location = new System.Drawing.Point(130, 41);
+            this.txtUsername.Location = new System.Drawing.Point(130, 46);
             this.txtUsername.MultiLine = false;
             this.txtUsername.Name = "txtUsername";
             this.txtUsername.ReadOnly = false;
@@ -105,6 +107,19 @@
             this.label1.Size = new System.Drawing.Size(112, 19);
             this.label1.TabIndex = 5;
             this.label1.Text = "Nom du compte:";
+            // 
+            // CloseButton
+            // 
+            this.CloseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.CloseButton.DisplayImage = global::Cookie.Properties.Resources.cross_remove_sign;
+            this.CloseButton.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.CloseButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.CloseButton.Location = new System.Drawing.Point(229, 3);
+            this.CloseButton.Name = "CloseButton";
+            this.CloseButton.Size = new System.Drawing.Size(22, 23);
+            this.CloseButton.TabIndex = 11;
+            this.CloseButton.UseVisualStyleBackColor = true;
+            this.CloseButton.Click += new System.EventHandler(this.CloseButton_Click);
             // 
             // AddAccountForm
             // 
@@ -135,5 +150,6 @@
         private Design.BButton btnConfirm;
         private Design.BTextBox txtPassword;
         private Design.BTextBox txtUsername;
+        private Design.BButton CloseButton;
     }
 }

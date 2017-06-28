@@ -124,6 +124,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="Utils\Configurations\AccountsForm.resx">
       <DependentUpon>AccountsForm.cs</DependentUpon>
@@ -151,6 +152,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="cookie-icon.ico" />
+    <None Include="Resources\minimize-tab.png" />
+    <None Include="Resources\maximize.png" />
+    <None Include="Resources\cross-remove-sign.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cookie.API\Cookie.API.csproj">

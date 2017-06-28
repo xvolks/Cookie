@@ -1,19 +1,19 @@
-﻿using Cookie.API.Utils.Cryptography;
-using System.IO;
+﻿using System.IO;
+using Cookie.API.Utils.Cryptography;
 
 namespace Cookie.Utils.Configurations
 {
     public class AccountConfiguration
     {
-
         // Properties
-        public string Username { get; private set; }
-        public string Password { get; private set; }
+        public string Username { get; }
+
+        public string Password { get; }
         public string FilePath => $"{Username}.cookie";
 
 
         // Fields
-        private const string pw = "c00k1e";
+        private const string pw = "c00k1eB0tPr0j3cT";
 
 
         // Constructor
@@ -32,10 +32,9 @@ namespace Cookie.Utils.Configurations
 
         public static AccountConfiguration Load(BinaryReader br)
         {
-            string username = br.ReadString();
-            string password = AES.Decrypt(br.ReadString(), pw);
+            var username = br.ReadString();
+            var password = AES.Decrypt(br.ReadString(), pw);
             return new AccountConfiguration(username, password);
         }
-
     }
 }

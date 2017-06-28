@@ -47,5 +47,6 @@ namespace Cookie.Utils.Configurations
             Close();
         }
 
+        private void CloseButton_Click(object sender, EventArgs e) => Environment.Exit(0);
     }
 }

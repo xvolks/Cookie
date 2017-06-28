@@ -18,8 +18,27 @@ namespace Cookie.Utils.Configurations
             RefreshAccounts();
         }
 
+        private void RefreshAccounts()
+        {
+            lvAccounts.Items.Clear();
 
-        private void ajouterToolStripMenuItem_Click(object sender, EventArgs e)
+            GlobalConfiguration.Instance.Accounts.ForEach(a =>
+            {
+                lvAccounts.Items.Add(a.Username).SubItems.Add(new string('•', a.Password.Length));
+            });
+        }
+
+        private void ConnectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (lvAccounts.FocusedItem == null)
+                return;
+
+            AccountToConnect = GlobalConfiguration.Instance.Accounts[lvAccounts.FocusedItem.Index];
+            DialogResult = DialogResult.OK;
+            Close();
+        }
+
+        private void AddToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using (AddAccountForm aaf = new AddAccountForm())
             {
@@ -31,7 +50,7 @@ namespace Cookie.Utils.Configurations
             }
         }
 
-        private void supprimerToolStripMenuItem_Click(object sender, EventArgs e)
+        private void RemoveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (lvAccounts.FocusedItem == null)
                 return;
@@ -40,25 +59,6 @@ namespace Cookie.Utils.Configurations
             RefreshAccounts();
         }
 
-        private void connecterToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (lvAccounts.FocusedItem == null)
-                return;
-
-            AccountToConnect = GlobalConfiguration.Instance.Accounts[lvAccounts.FocusedItem.Index];
-            DialogResult = DialogResult.OK;
-            Close();
-        }
-
-        private void RefreshAccounts()
-        {
-            lvAccounts.Items.Clear();
-
-            GlobalConfiguration.Instance.Accounts.ForEach(a =>
-            {
-                lvAccounts.Items.Add(a.Username).SubItems.Add(new string('•', a.Password.Length));
-            });
-        }
-
+        private void CloseButton_Click(object sender, EventArgs e) => Environment.Exit(0);
     }
 }
