@@ -12,8 +12,9 @@ namespace Cookie.API.Game.Jobs
         List<int> ToGather { get; set; }
         bool AutoGather { get; set; }
 
-        object Gather();
-        object Gather(List<int> resourcesId, bool autoGather);
+        void Gather();
+        void Gather(List<int> resourcesId, bool autoGather);
+        bool CanGatherOnMap(List<int> ids);
 
         List<IUsableElement> TrierDistanceElement(List<int> listDistance,
             List<IUsableElement> listUsableElement);

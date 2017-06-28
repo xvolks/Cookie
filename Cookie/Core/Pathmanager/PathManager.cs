@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Cookie.API.Core;
@@ -31,7 +32,7 @@ namespace Cookie.Core.Pathmanager
         }
 
         private Dictionary<int, Tuple<MapDirectionEnum, string>> PathData { get; set; }
-
+        private List<int> RessourcesToGather { get; set; }
 
         public bool Launched { get; set; }
 
@@ -39,6 +40,7 @@ namespace Cookie.Core.Pathmanager
 
         public async void Start(string trajet)
         {
+            RessourcesToGather = new List<int>();
             await Task.Run(() => ParseTrajet(TrajetsDirectory + trajet + ".txt"));
             Launched = true;
             DoAction();
@@ -52,25 +54,39 @@ namespace Cookie.Core.Pathmanager
         public void DoAction()
         {
             if (!Launched) return;
+            IMapChangement mapChangement = null;
             if (PathData.ContainsKey(Account.Character.MapId))
                 switch (PathData[Account.Character.MapId].Item2)
                 {
                     case "move":
                         Logger.Default.Log($"[PathManager] Déplacement vers {PathData[Account.Character.MapId].Item1}",
                             LogMessageType.Info);
-                        Account.Character.Map.ChangeMap(PathData[Account.Character.MapId].Item1);
+                        mapChangement = Account.Character.Map.ChangeMap(PathData[Account.Character.MapId].Item1);
                         break;
                     case "gather":
-                        Logger.Default.Log("[PathManager] Récolte non gérée", LogMessageType.Public);
-                        Account.Character.Map.ChangeMap(PathData[Account.Character.MapId].Item1);
+                        if (Account.Character.GatherManager.CanGatherOnMap(RessourcesToGather)) // Change ressource Id ici
+                        {
+                            Logger.Default.Log("Lancement de la récolte");
+                            Account.Character.GatherManager.Gather(RessourcesToGather, false);
+                            break;
+                        }
+                        Logger.Default.Log("Rien a récolter");
+                        mapChangement = Account.Character.Map.ChangeMap(PathData[Account.Character.MapId].Item1);
                         break;
                     case "fight":
                         Logger.Default.Log("[PathManager] Combat non géré", LogMessageType.Public);
-                        Account.Character.Map.ChangeMap(PathData[Account.Character.MapId].Item1);
+                        mapChangement = Account.Character.Map.ChangeMap(PathData[Account.Character.MapId].Item1);
                         break;
                 }
             else
                 Logger.Default.Log($"Map {Account.Character.MapId} non gérée dans le trajet");
+
+            if (mapChangement == null) return;
+            mapChangement.ChangementFinished += delegate(object sender, MapChangementFinishedEventArgs args)
+            {
+                Logger.Default.Log($"Changement de map {args.Success}");
+            };
+            mapChangement.PerformChangement();
         }
 
         private void ParseTrajet(string path)
@@ -82,6 +98,16 @@ namespace Cookie.Core.Pathmanager
 
                 foreach (var line in trajet)
                 {
+                    if(string.IsNullOrEmpty(line)) continue;
+
+                    if (line.Contains("IdGather"))
+                    {
+                        var tempLine = line.Split(':');
+                            var ids = tempLine[1].Split(',').Select(id => Convert.ToInt32(id)).ToList();
+                            RessourcesToGather = ids;
+                        continue;
+                    }
+
                     var data = line.Split(':');
                     var mapId = Convert.ToInt32(data[0]);
                     var tempDirection = data[1];
@@ -132,7 +158,7 @@ namespace Cookie.Core.Pathmanager
             MapComplementaryInformationsDataMessage message)
         {
             if (Launched)
-                DoAction();
+                account.PerformAction(DoAction, 1000);
         }
     }
 }
