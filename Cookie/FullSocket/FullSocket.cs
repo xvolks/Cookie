@@ -6,6 +6,7 @@ using Cookie.API.Gamedata;
 using Cookie.API.Messages;
 using Cookie.API.Network;
 using Cookie.API.Protocol;
+using Cookie.API.Protocol.Enums;
 using Cookie.API.Protocol.Network.Messages.Connection;
 using Cookie.API.Protocol.Network.Messages.Game.Approach;
 using Cookie.API.Protocol.Network.Messages.Game.Character.Choice;
@@ -67,6 +68,7 @@ namespace Cookie.FullSocket
                 HandleSelectedServerDataExtendedMessage, MessagePriority.VeryHigh);
             server.Account.Network.RegisterPacket<IdentificationFailedBannedMessage>(
                 HandleIdentificationFailedBannedMessage, MessagePriority.VeryHigh);
+            server.Account.Network.RegisterPacket<IdentificationFailedMessage>(HandleIdentificationFailedMessage, MessagePriority.VeryHigh);
 
             server.Account.Network.RegisterPacket<LoginQueueStatusMessage>(HandleLoginQueueStatusMessage,
                 MessagePriority.VeryHigh);
@@ -252,6 +254,11 @@ namespace Cookie.FullSocket
                     LogMessageType.Public);
             else
                 Logger.Default.Log("Votre compte est banni pour : " + message.Reason, LogMessageType.Public);
+        }
+
+        private void HandleIdentificationFailedMessage(IAccount account, IdentificationFailedMessage message)
+        {
+            Logger.Default.Log($"Identification Fail -> {(IdentificationFailureReasonEnum)message.Reason}");
         }
 
         private void HandleLoginQueueStatusMessage(IAccount account, LoginQueueStatusMessage message)

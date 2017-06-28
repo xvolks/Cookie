@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Cookie.API.Game.Entity;
 using Cookie.API.Game.Map.Elements;
@@ -63,28 +64,28 @@ namespace Cookie.API.Game.Map
         /// <summary>Change de carte vers la direction indiquée, en utilisant MoveToCell et MapChange</summary>
         /// <param name="direction">Direction dans laquelle changer de carte</param>
         /// <returns>True si le personnage se déplace ou change de carte, sinon false</returns>
-        bool ChangeMap(MapDirectionEnum direction);
+        IMapChangement ChangeMap(MapDirectionEnum direction);
 
         /// <summary>Se déplace sur la cellule indiquée</summary>
         /// <param name="cellId">Cellule sur laquelle se déplacer</param>
         /// <returns>True si le personnage se déplace, sinon false</returns>
-        bool MoveToCell(int cellId);
+        //bool MoveToCell(int cellId);
 
         /// <summary>Se déplace en vue d'utiliser un élément interactif de type porte</summary>
         /// <param name="cellId">Case de la porte</param>
         /// <returns>True si le personnage se déplace, sinon false</returns>
-        bool MoveToDoor(int cellId);
+        ICellMovement MoveToDoor(int cellId);
 
         /// <summary>Se déplace en vue d'utiliser un élément interactif</summary>
         /// <param name="id">Identifiant de l'élément interactif à récolter</param>
         /// <param name="maxDistance">Distance maximum à laquelle se placer de l'élement</param>
         /// <returns>True si le personnage se déplace, sinon false</returns>
-        bool MoveToElement(int id, int maxDistance);
+        ICellMovement MoveToElement(int id, int maxDistance);
 
         /// <summary>Se déplace sur un element</summary>
         /// <param name="id">Identifiant de l'élément</param>
         /// <returns>True si le personnage se déplace, sinon false</returns>
-        bool MoveToSecureElement(int id);
+        ICellMovement MoveToSecureElement(int id);
 
         /// <summary>Indique si aucune entité ne se trouve sur la cellule</summary>
         /// <param name="cellId">Identificateur de la cellule</param>
@@ -101,6 +102,13 @@ namespace Cookie.API.Game.Map
         /// <param name="skillId">Identifiant unique de la compétence à utiliser</param>
         void UseElement(int id, int skillId);
 
-        bool MoveToCellWithDistance(int cellId, int maxDistance, bool bool1);
+        ICellMovement MoveToCellWithDistance(int cellId, int maxDistance, bool bool1);
+
+        event EventHandler MovementConfirmed;
+        event EventHandler MovementFailed;
+        event Action<GameMapMovementMessage> MapMovement;
+        event EventHandler<MapChangedEventArgs> MapChanged;
+
+        ICellMovement MoveToCell(int cellId);
     }
 }

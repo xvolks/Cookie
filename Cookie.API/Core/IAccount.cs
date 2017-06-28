@@ -1,4 +1,5 @@
-﻿using Cookie.API.Core.Frames;
+﻿using System;
+using Cookie.API.Core.Frames;
 using Cookie.API.Core.Network;
 
 namespace Cookie.API.Core
@@ -70,5 +71,7 @@ namespace Cookie.API.Core
         INetwork Network { get; set; }
 
         void LogPacket(string origin, string name, string id);
+
+        void PerformAction(Action action, int delay);
     }
 }

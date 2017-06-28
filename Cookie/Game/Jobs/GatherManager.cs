@@ -99,7 +99,7 @@ namespace Cookie.Game.Jobs
                             IsFishing = false;
                             return true;
                         }
-                        if (!_account.Character.Map.MoveToElement((int) usableElement.Element.Id, 1)) continue;
+                        //if (!_account.Character.Map.MoveToElement((int) usableElement.Element.Id, 1)) continue;
                         Id = (int) usableElement.Element.Id;
                         SkillInstanceUid = usableElement.Skills[0].SkillInstanceUid;
                         _account.Character.Map.UseElement(Id, SkillInstanceUid);

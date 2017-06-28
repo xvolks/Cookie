@@ -2,12 +2,15 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 using Cookie.API.Core;
 using Cookie.API.Core.Frames;
 using Cookie.API.Core.Network;
 using Cookie.API.Messages;
 using Cookie.API.Network;
 using Cookie.API.Plugins;
+using Cookie.API.Utils;
 using Cookie.Core.Frames;
 
 namespace Cookie.Core
@@ -78,6 +81,28 @@ namespace Cookie.Core
                     instance.OnLoad();
                 }
             }
+        }
+
+        public void PerformAction(Action action, int delay)
+        {
+            PerformCancelableAction(action, delay);
+        }
+        public void PerformCancelableAction( Action action, int delay)
+        {
+            var cts = new CancellationTokenSource();
+            Task.Run(async delegate
+            {
+                await Task.Delay(delay, cts.Token);
+                if (!cts.IsCancellationRequested)
+                    try
+                    {
+                        action.Invoke();
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Default.Log(ex.ToString());
+                    }
+            }, cts.Token);
         }
     }
 }
