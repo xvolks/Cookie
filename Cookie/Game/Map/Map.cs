@@ -400,12 +400,6 @@ namespace Cookie.Game.Map
         private void HandleMapComplementaryInformationsDataMessage(IAccount account,
             MapComplementaryInformationsDataMessage message)
         {
-            if (account.Character.IsFirstConnection)
-            {
-                account.Network.SendToServer(new GuidedModeQuitRequestMessage());
-                account.Character.IsFirstConnection = false;
-            }
-
             lock (CheckLock)
             {
                 SubAreaId = message.SubAreaId;

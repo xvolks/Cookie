@@ -225,11 +225,16 @@ namespace Cookie.FullSocket
 
         private void HandleServerListMessage(IAccount account, ServerListMessage message)
         {
-            var server = message.Servers.First(se => se.CharactersCount > 0);
+            if (message.AlreadyConnectedToServerId != 0)
+            {
+                account.Network.SendToServer(new ServerSelectionMessage(message.AlreadyConnectedToServerId));
+                return;
+            }
 
-            var ssmsg = new ServerSelectionMessage(server.ObjectID);
+            var server = message.Servers.Find(s => (ServerStatusEnum)s.Status == ServerStatusEnum.ONLINE
+                                                   && s.IsSelectable && s.CharactersCount > 0);
 
-            account.Network.SendToServer(ssmsg);
+            account.Network.SendToServer(server == null ? new ServerSelectionMessage(11) : new ServerSelectionMessage(server.ObjectID));
         }
 
         private void HandleSelectedServerDataMessage(IAccount account, SelectedServerDataMessage message)
