@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Cookie.API.Commands;
 using Cookie.API.Core;
@@ -26,6 +27,7 @@ namespace Cookie.Commands.Commands
                     if (account.Character.GatherManager.Launched)
                     {
                         account.Character.GatherManager.Launched = false;
+                        account.Character.GatherManager.AutoGather = false;
                         Logger.Default.Log("[GATHER] Récolte terminée!", LogMessageType.Default);
                     }
                     else
@@ -38,8 +40,11 @@ namespace Cookie.Commands.Commands
                 else
                 {
                     Logger.Default.Log("[GATHER] On commence la Récolte !", LogMessageType.Default);
-                    var list = args.Select(arg => Convert.ToInt32(arg)).ToList();
-                    account.Character.GatherManager.Gather(list);
+                    var autogather = args[0] == "true";
+                    var list = new List<int>();
+                    for (var i = 1; i < args.Length; i++)
+                        list.Add(Convert.ToInt32(args[i]));
+                    account.Character.GatherManager.Gather(list, autogather);
                 }
             }
         }
