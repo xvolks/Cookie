@@ -8,7 +8,9 @@ using Cookie.API.Core;
 using Cookie.API.Core.Pathmanager;
 using Cookie.API.Game.Map;
 using Cookie.API.Messages;
+using Cookie.API.Protocol.Network.Messages.Game.Context;
 using Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay;
+using Cookie.API.Protocol.Network.Messages.Game.Interactive;
 using Cookie.API.Utils;
 using Cookie.API.Utils.Enums;
 
@@ -29,6 +31,10 @@ namespace Cookie.Core.Pathmanager
 
             Account.Network.RegisterPacket<MapComplementaryInformationsDataMessage>(
                 HandleMapComplementaryInformationsDataMessage, MessagePriority.Normal);
+            Account.Network.RegisterPacket<InteractiveUseErrorMessage>(
+                HandleInteractiveUseErrorMessage, MessagePriority.Normal);
+            Account.Network.RegisterPacket<GameMapNoMovementMessage>(
+                HandleGameMapNoMovementMessage, MessagePriority.Normal);
         }
 
         private Dictionary<int, Tuple<MapDirectionEnum, string>> PathData { get; set; }
@@ -64,7 +70,7 @@ namespace Cookie.Core.Pathmanager
                         mapChangement = Account.Character.Map.ChangeMap(PathData[Account.Character.MapId].Item1);
                         break;
                     case "gather":
-                        if (Account.Character.GatherManager.CanGatherOnMap(RessourcesToGather)) // Change ressource Id ici
+                        if (Account.Character.GatherManager.CanGatherOnMap(RessourcesToGather))
                         {
                             Logger.Default.Log("Lancement de la récolte");
                             Account.Character.GatherManager.Gather(RessourcesToGather, false);
@@ -156,6 +162,18 @@ namespace Cookie.Core.Pathmanager
 
         private void HandleMapComplementaryInformationsDataMessage(IAccount account,
             MapComplementaryInformationsDataMessage message)
+        {
+            if (Launched)
+                account.PerformAction(DoAction, 1000);
+        }
+
+        private void HandleInteractiveUseErrorMessage(IAccount account, InteractiveUseErrorMessage message)
+        {
+            if (Launched)
+                account.PerformAction(DoAction, 1000);
+        }
+
+        private void HandleGameMapNoMovementMessage(IAccount account, GameMapNoMovementMessage message)
         {
             if (Launched)
                 account.PerformAction(DoAction, 1000);
