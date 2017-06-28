@@ -15,6 +15,7 @@ using Cookie.API.Gamedata.D2p.Elements;
 using Cookie.API.Messages;
 using Cookie.API.Protocol.Network.Messages.Game.Context;
 using Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay;
+using Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Quest;
 using Cookie.API.Protocol.Network.Messages.Game.Interactive;
 using Cookie.API.Protocol.Network.Types.Game.Context.Roleplay;
 using Cookie.API.Utils;
@@ -400,6 +401,12 @@ namespace Cookie.Game.Map
         private void HandleMapComplementaryInformationsDataMessage(IAccount account,
             MapComplementaryInformationsDataMessage message)
         {
+            if (account.Character.IsFirstConnection)
+            {
+                account.Network.SendToServer(new GuidedModeQuitRequestMessage());
+                account.Character.IsFirstConnection = false;
+            }
+
             lock (CheckLock)
             {
                 SubAreaId = message.SubAreaId;
