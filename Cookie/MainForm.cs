@@ -197,6 +197,19 @@ namespace Cookie
             }
         }
 
+        public void AddPluginListBox(string name, UserControl uc)
+        {
+            if (TabPlugin.InvokeRequired)
+                Invoke(new InsertIntoListBox(AddPluginListBox), name, uc);
+            else
+            {
+                var tabPage = new TabPage(name);
+                tabPage.Controls.Add(uc);
+                TabPlugin.Controls.Add(tabPage);
+                tabPage.Select();
+            }
+        }
+
         private void ChatTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -302,6 +315,8 @@ namespace Cookie
         }
 
         private delegate void InsertIntoListDelegate(string origin, string name, string id);
+
+        private delegate void InsertIntoListBox(string name, UserControl uc);
 
         private void CloseButton_Click(object sender, EventArgs e)
         {
