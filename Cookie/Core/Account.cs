@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Cookie.API.Core;
 using Cookie.API.Core.Frames;
 using Cookie.API.Core.Network;
@@ -64,22 +65,31 @@ namespace Cookie.Core
 
         private void LoadPlugins()
         {
-            const string path = @"./plugins";
-            if (!string.IsNullOrEmpty(path) && !Directory.Exists(path))
-                Directory.CreateDirectory(path);
-            foreach (var file in Directory.GetFiles(path, "*.dll", SearchOption.AllDirectories))
+            try
             {
-                var ass2 = Assembly.Load(File.ReadAllBytes(file));
-                var types = ass2.GetTypes().Where(f => !f.IsAbstract && f.IsPublic).ToArray();
+                const string path = @"./plugins";
+                if (!string.IsNullOrEmpty(path) && !Directory.Exists(path))
+                    Directory.CreateDirectory(path);
 
-                foreach (var type in types)
+                foreach (var file in Directory.GetFiles(path, "*.dll", SearchOption.AllDirectories))
                 {
-                    var t = ass2.GetType(type.FullName);
-                    if (t.GetInterface(typeof(IPlugin).FullName) == null) continue;
-                    var instance = (IPlugin) Activator.CreateInstance(t);
-                    instance.Account = this;
-                    instance.OnLoad();
+                    var ass2 = Assembly.Load(File.ReadAllBytes(file));
+                    var types = ass2.GetTypes().Where(f => !f.IsAbstract && f.IsPublic).ToArray();
+                    foreach (var type in types)
+                    {
+                        var t = ass2.GetType(type.FullName);
+                        if (t.GetInterface(typeof(IPlugin).FullName) == null) continue;
+                        var instance = (IPlugin)Activator.CreateInstance(t);
+                        instance.Account = this;
+                        instance.OnLoad();
+                    }
+
                 }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
             }
         }
 
@@ -103,6 +113,11 @@ namespace Cookie.Core
                         Logger.Default.Log(ex.ToString());
                     }
             }, cts.Token);
+        }
+
+        public void CreatePage(string name, UserControl control)
+        {
+            MainForm.AddPluginListBox(name, control);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Forms;
 using Cookie.API.Core.Frames;
 using Cookie.API.Core.Network;
 
@@ -73,5 +74,7 @@ namespace Cookie.API.Core
         void LogPacket(string origin, string name, string id);
 
         void PerformAction(Action action, int delay);
+
+        void CreatePage(string name, UserControl control);
     }
 }
