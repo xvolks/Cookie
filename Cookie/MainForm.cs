@@ -32,6 +32,8 @@ namespace Cookie
             InitializeComponent();
 
             LogTextBox.Font = new Font("Tahoma", 8, FontStyle.Regular);
+
+            SetPacketsListViewColor("#262626", "#F16392", "#9EC79D");
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -169,34 +171,6 @@ namespace Cookie
             LogTextBox.Invoke((Action)LogCallback);
         }
 
-        public void AddPacketsListView(string origin, string name, string id)
-        {
-            if (PacketsListView.InvokeRequired)
-            {
-                Invoke(new InsertIntoListDelegate(AddPacketsListView), origin, name, id);
-            }
-            else
-            {
-                var time = DateTime.Now.ToLongTimeString();
-                var rows = new[] {time, origin, id, name};
-                var listViewItem = new ListViewItem(rows);
-                PacketsListView.Items.Add(listViewItem);
-                switch (origin)
-                {
-                    case "Client":
-                        PacketsListView.Items[PacketsListView.Items.Count - 1].ForeColor =
-                            ColorTranslator.FromHtml("#F16392");
-                        break;
-                    case "Server":
-                        PacketsListView.Items[PacketsListView.Items.Count - 1].ForeColor =
-                            ColorTranslator.FromHtml("#9EC79D");
-                        break;
-                }
-
-                PacketsListView.EnsureVisible(PacketsListView.Items.Count - 1);
-            }
-        }
-
         public void AddPluginListBox(string name, UserControl uc)
         {
             if (TabPlugin.InvokeRequired)
@@ -213,7 +187,10 @@ namespace Cookie
         private void ChatTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true;
                 HandleSendChatMessage();
+            }
         }
 
         private void HandleSendChatMessage()
@@ -339,6 +316,64 @@ namespace Cookie
         private void MinimizeButton_Click(object sender, EventArgs e)
         {
             WindowState = FormWindowState.Minimized;
+        }
+
+        public void AddPacketsListView(string origin, string name, string id)
+        {
+            if (PacketsListView.InvokeRequired)
+            {
+                Invoke(new InsertIntoListDelegate(AddPacketsListView), origin, name, id);
+            }
+            else
+            {
+                string time = DateTime.Now.ToLongTimeString();
+                String[] rows = new String[] { time, origin, id, name };
+
+                // If coming from client, append '#' at the beginning of each element
+                if (origin == "Client")
+                    foreach (string element in rows)
+                        rows[Array.IndexOf(rows, element)] = "#" + element;
+
+                ListViewItem listViewItem = new ListViewItem(rows);
+                PacketsListView.Items.Add(listViewItem);
+
+                PacketsListView.EnsureVisible(PacketsListView.Items.Count - 1);
+            }
+        }
+
+        private void SetPacketsListViewColor(string headerColor, string fromClientColor, string fromServerColor)
+        {
+            PacketsListView.OwnerDraw = true;
+            PacketsListView.DrawColumnHeader += new DrawListViewColumnHeaderEventHandler(
+                (object sender, DrawListViewColumnHeaderEventArgs e) => PacketsListView_DrawColumnHeader(sender, e, headerColor));
+
+            PacketsListView.DrawSubItem += new DrawListViewSubItemEventHandler(
+                (object sender, DrawListViewSubItemEventArgs e)
+                => PacketsListView_DrawSubItem(sender, e, fromClientColor, fromServerColor));
+        }
+
+        private void PacketsListView_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e, string color)
+        {
+            Color rgbColor = ColorTranslator.FromHtml(color);
+
+            // Filling background & drawing header text
+            e.Graphics.FillRectangle(new SolidBrush(rgbColor), e.Bounds);
+            e.Graphics.DrawString(e.Header.Text, e.Font, new SolidBrush(Color.White), e.Bounds);
+        }
+
+        private void PacketsListView_DrawSubItem(object sender, DrawListViewSubItemEventArgs e,
+            string fromClientColor, string fromServerColor)
+        {
+            Color fromClientRGB = ColorTranslator.FromHtml(fromClientColor);
+            Color fromServerRGB = ColorTranslator.FromHtml(fromServerColor);
+
+            // If coming from client
+            if (e.SubItem.Text[0] == '#')
+            {
+                e.Graphics.DrawString(e.SubItem.Text.Substring(1), PacketsListView.Font, new SolidBrush(fromClientRGB),
+                    e.Bounds);
+            }
+            else e.Graphics.DrawString(e.SubItem.Text, PacketsListView.Font, new SolidBrush(fromServerRGB), e.Bounds);
         }
     }
 }
