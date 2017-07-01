@@ -10,6 +10,8 @@ namespace Cookie.API.Game.Map
 {
     public interface IMap
     {
+        List<IEntity> Entities { get; }
+
         /// <summary>Récupère le dictionnaire des portes de la carte</summary>
         /// <returns>Dictionnaire (cellId, element) contenant les portes</returns>
         Dictionary<int, IInteractiveElement> Doors { get; }
@@ -110,5 +112,7 @@ namespace Cookie.API.Game.Map
         event EventHandler<MapChangedEventArgs> MapChanged;
 
         ICellMovement MoveToCell(int cellId);
+
+        void PlayerFightRequest(string playerName);
     }
 }
