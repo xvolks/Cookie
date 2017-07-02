@@ -1,8 +1,10 @@
 using Cookie.API.Commands;
 using Cookie.API.Core;
 using Cookie.API.Game.Map;
+using Cookie.API.Gamedata;
 using Cookie.API.Utils;
 using Cookie.API.Utils.Enums;
+using System.Drawing;
 
 namespace Cookie.Commands.Commands
 {
@@ -48,13 +50,16 @@ namespace Cookie.Commands.Commands
 
         private void OnChangementFinished(object sender, MapChangementFinishedEventArgs e)
         {
+            Point pos = D2OParsing.GetMapCoordinates(e.NewMap);
             switch (e.Success)
             {
                 case true:
-                    Logger.Default.Log($"Changement de map réussi ! Arrivé sur la map {e.NewMap}");
+                    Logger.Default.Log(
+                        $"Changement de map réussi ! Arrivé sur la map [{pos.X};{pos.Y}] ({e.NewMap})");
                     break;
                 case false:
-                    Logger.Default.Log($"Changement de map échoué ! Toujours sur la map {e.OldMap}");
+                    Logger.Default.Log(
+                        $"Changement de map échoué ! Toujours sur la map [{pos.X};{pos.Y}] ({e.NewMap})");
                     break;
             }
         }

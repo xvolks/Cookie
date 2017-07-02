@@ -159,6 +159,11 @@ namespace Cookie.Game.Map
             return element != null ? MoveToCellWithDistance((int)element.CellId, 1, true) : null;
         }
 
+        public void PlayerFightRequest(string playerName)
+        {
+            Logger.Default.Log("Appel de fonction fight!");
+        }
+
         public bool NoEntitiesOnCell(int cellId)
         {
             lock (CheckLock)

@@ -52,12 +52,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\Commands\ChangeMapCommand.cs" />
+    <Compile Include="Commands\Commands\DuelCommand.cs" />
     <Compile Include="Commands\Commands\GatherCommand.cs" />
     <Compile Include="Commands\Commands\GoCellCommand.cs" />
     <Compile Include="Commands\Commands\JobsCommand.cs" />
     <Compile Include="Commands\Commands\KamasCommand.cs" />
     <Compile Include="Commands\Commands\LevelCommand.cs" />
-    <Compile Include="Commands\Commands\MapIdCommand.cs" />
+    <Compile Include="Commands\Commands\MapCommand.cs" />
     <Compile Include="Commands\Commands\PathCommand.cs" />
     <Compile Include="Commands\Exceptions\CommandNotFoundException.cs" />
     <Compile Include="Commands\Exceptions\NoCommandException.cs" />
