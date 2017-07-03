@@ -5,11 +5,11 @@
         /// <summary>
         ///     Cellule de l'entité
         /// </summary>
-        int CellId { get; }
+        int CellId { get; set; }
 
         /// <summary>
         ///     Identifiant de l'entité
         /// </summary>
-        int Id { get; }
+        int Id { get; set; }
     }
 }

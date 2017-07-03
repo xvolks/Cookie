@@ -311,6 +311,10 @@ namespace Cookie.Game.Map
         {
             lock (CheckLock)
             {
+                Players.Remove(Players.Find(p => p.Id == (int)message.ObjectId));
+                Monsters.Remove(Monsters.Find(x => x.Id == (int)message.ObjectId));
+                Entities.Remove(Entities.Find(x => x.Id == (int)message.ObjectId));
+
                 var removeEntity = Entities.FirstOrDefault(e => e.Id == message.ObjectId);
                 if (removeEntity != null)
                     Entities.Remove(removeEntity);
@@ -347,6 +351,7 @@ namespace Cookie.Game.Map
         {
             lock (CheckLock)
             {
+                Players.Find(x => x.Id == (int)message.ActorId).CellId = message.KeyMovements.Last();
                 var clientMovement =
                     MapMovementAdapter.GetClientMovement(message.KeyMovements.Select(s => (uint)s).ToList());
                 var entity = Entities.FirstOrDefault(e => e.Id == message.ActorId);
@@ -362,6 +367,7 @@ namespace Cookie.Game.Map
         {
             lock (CheckLock)
             {
+                AddActors(new List<GameRolePlayActorInformations>() { message.Informations });
                 IEntity entity = new Entity.Entity((int)message.Informations.ContextualId,
                     message.Informations.Disposition.CellId);
                 Entities.Add(entity);
@@ -424,25 +430,7 @@ namespace Cookie.Game.Map
                 Monsters.Clear();
                 Npcs.Clear();
                 Players.Clear();
-                foreach (var actor in message.Actors)
-                {
-                    if (actor is GameRolePlayGroupMonsterInformations monster)
-                    {
-                        Monsters.Add(new MonsterGroup(monster.StaticInfos, monster.StaticInfos.MainCreatureLightInfos.CreatureGenericId, monster.Disposition.CellId));
-                    }
-                    else if (actor is GameRolePlayNpcInformations npc)
-                    {
-                        Npcs.Add(new Entity.Npc(npc.Disposition.CellId, (int)npc.ContextualId, npc.NpcId));
-                    }
-                    else if (actor is GameRolePlayCharacterInformations player)
-                    {
-                        Players.Add(new Player(actor.Disposition.CellId, (int)player.ContextualId, player.Name));
-                    }
-                    else
-                    {
-                        Entities.Add(new Entity.Entity((int)actor.ContextualId, actor.Disposition.CellId));
-                    }
-                }
+                AddActors(message.Actors);
                 StatedElements.Clear();
                 foreach (var statedElementDofus in message.StatedElements)
                     if (!StatedElements.ContainsKey(statedElementDofus.ElementId) && statedElementDofus.OnCurrentMap)
@@ -474,24 +462,31 @@ namespace Cookie.Game.Map
                                                     element.EnabledSkills.ToList(), element.DisabledSkills.ToList()));
                 }
             }
-            /*foreach (var m in Monsters)
-            {
-                Logger.Default.Log($"Groupe de monstre ({m.GroupName}) niveau {m.GroupLevel} sur la cellId {m.CellId}");
-            }
-            foreach (var n in Npcs)
-            {
-                Logger.Default.Log($"Npc ({n.Name}) sur la cellId {n.CellId}");
-            }
-            foreach (var p in Players)
-            {
-                Logger.Default.Log($"Joueur ({p.Name}) sur la cellId {p.CellId}");
-            }
-            foreach (var e in Entities)
-            {
-                Logger.Default.Log($"Entitée sur la cellId {e.CellId}");
-            }*/
 
             OnMapChanged();
+        }
+
+        private void AddActors(List<GameRolePlayActorInformations> actors)
+        {
+            foreach (var actor in actors)
+            {
+                if (actor is GameRolePlayGroupMonsterInformations monster)
+                {
+                    Monsters.Add(new MonsterGroup(monster.StaticInfos, monster.StaticInfos.MainCreatureLightInfos.CreatureGenericId, monster.Disposition.CellId));
+                }
+                else if (actor is GameRolePlayNpcInformations npc)
+                {
+                    Npcs.Add(new Entity.Npc(npc.Disposition.CellId, (int)npc.ContextualId, npc.NpcId));
+                }
+                else if (actor is GameRolePlayCharacterInformations player)
+                {
+                    Players.Add(new Player(actor.Disposition.CellId, (int)player.ContextualId, player.Name));
+                }
+                else
+                {
+                    Entities.Add(new Entity.Entity((int)actor.ContextualId, actor.Disposition.CellId));
+                }
+            }
         }
 
         private void HandleMapComplementaryInformationsWithCoordsMessage(IAccount account,

@@ -10,7 +10,7 @@ namespace Cookie.Game.Entity
             CellId = cellId;
         }
 
-        public int CellId { get; internal set; }
-        public int Id { get; protected set; }
+        public int CellId { get; set; }
+        public int Id { get; set; }
     }
 }
