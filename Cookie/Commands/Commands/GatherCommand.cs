@@ -25,8 +25,8 @@ namespace Cookie.Commands.Commands
                 {
                     if (account.Character.GatherManager.Launched)
                     {
-                        account.Character.GatherManager.Launched = false;
-                        account.Character.GatherManager.AutoGather = false;
+                        account.Character.GatherManager.Stop();
+                        account.Character.GatherManager.DoAutoGather(false);
                         Logger.Default.Log("[GATHER] Récolte terminée!", LogMessageType.Default);
                     }
                     else
@@ -35,7 +35,6 @@ namespace Cookie.Commands.Commands
                             LogMessageType.Public);
                     }
                 }
-
                 else
                 {
                     Logger.Default.Log("[GATHER] On commence la Récolte !", LogMessageType.Default);

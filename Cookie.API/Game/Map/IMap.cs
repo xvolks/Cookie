@@ -11,6 +11,9 @@ namespace Cookie.API.Game.Map
     public interface IMap
     {
         List<IEntity> Entities { get; }
+        List<IMonsterGroup> Monsters { get; }
+        List<INpc> Npcs { get; }
+        List<IPlayer> Players { get; }
 
         /// <summary>Récupère le dictionnaire des portes de la carte</summary>
         /// <returns>Dictionnaire (cellId, element) contenant les portes</returns>
@@ -107,8 +110,11 @@ namespace Cookie.API.Game.Map
         ICellMovement MoveToCellWithDistance(int cellId, int maxDistance, bool bool1);
 
         event EventHandler MovementConfirmed;
+
         event EventHandler MovementFailed;
+
         event Action<GameMapMovementMessage> MapMovement;
+
         event EventHandler<MapChangedEventArgs> MapChanged;
 
         ICellMovement MoveToCell(int cellId);
