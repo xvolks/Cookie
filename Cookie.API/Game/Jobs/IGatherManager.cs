@@ -5,15 +5,23 @@ namespace Cookie.API.Game.Jobs
 {
     public interface IGatherManager
     {
-        int Id { get; set; }
-        bool IsFishing { get; set; }
-        bool Moved { get; set; }
-        bool Launched { get; set; }
-        List<int> ToGather { get; set; }
-        bool AutoGather { get; set; }
+        int Id { get; }
+        bool IsFishing { get; }
+        bool Moved { get; }
+        bool Launched { get; }
+        List<int> ToGather { get; }
+        bool AutoGather { get; }
+
+        void Launch();
+
+        void Stop();
+
+        void DoAutoGather(bool arg);
 
         void Gather();
+
         void Gather(List<int> resourcesId, bool autoGather);
+
         bool CanGatherOnMap(List<int> ids);
 
         List<IUsableElement> TrierDistanceElement(List<int> listDistance,
