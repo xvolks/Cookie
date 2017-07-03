@@ -75,6 +75,10 @@
     <Compile Include="Game\Alliance\Alliance.cs" />
     <Compile Include="Game\Chat\Chat.cs" />
     <Compile Include="Game\Entity\Entity.cs" />
+	<Compile Include="Game\Fight\Fight.cs" />
+    <Compile Include="Game\Fight\FightData.cs" />
+    <Compile Include="Game\Fight\Fighters\Fighter.cs" />
+    <Compile Include="Game\Fight\Fighters\Monster.cs" />
     <Compile Include="Game\Entity\MonsterGroup.cs" />
     <Compile Include="Game\Entity\Npc.cs" />
     <Compile Include="Game\Entity\Player.cs" />
