@@ -351,10 +351,6 @@ namespace Cookie.Game.Map
                 Players.Remove(Players.Find(p => p.Id == (int) message.ObjectId));
                 Monsters.Remove(Monsters.Find(x => x.Id == (int) message.ObjectId));
                 Entities.Remove(Entities.Find(x => x.Id == (int) message.ObjectId));
-
-                var removeEntity = Entities.FirstOrDefault(e => e.Id == message.ObjectId);
-                if (removeEntity != null)
-                    Entities.Remove(removeEntity);
             }
         }
 
@@ -388,12 +384,13 @@ namespace Cookie.Game.Map
         {
             lock (CheckLock)
             {
-                Players.Find(x => x.Id == (int) message.ActorId).CellId = message.KeyMovements.Last();
                 var clientMovement =
                     MapMovementAdapter.GetClientMovement(message.KeyMovements.Select(s => (uint) s).ToList());
-                var entity = Entities.FirstOrDefault(e => e.Id == message.ActorId);
-                if (entity != null)
-                    ((Entity.Entity) Entities[Entities.IndexOf(entity)]).CellId = clientMovement.CellEnd.CellId;
+
+                Players.Find(x => x.Id == (int)message.ActorId).CellId = clientMovement.CellEnd.CellId;
+                Entities.Find(x => x.Id == (int)message.ActorId).CellId = clientMovement.CellEnd.CellId;
+                Monsters.Find(x => x.Id == (int)message.ActorId).CellId = clientMovement.CellEnd.CellId;
+
                 if (message.ActorId == account.Character.Id)
                     account.Character.CellId = clientMovement.CellEnd.CellId;
             }
@@ -558,9 +555,8 @@ namespace Cookie.Game.Map
         {
             lock (CheckLock)
             {
-                var entity = Entities.FirstOrDefault(e => e.Id == message.TargetId);
-                if (entity != null)
-                    ((Entity.Entity) Entities[Entities.IndexOf(entity)]).CellId = message.CellId;
+                Entities.Find(x => x.Id == message.TargetId).CellId = message.CellId;
+                Players.Find(x => x.Id == message.TargetId).CellId = message.CellId;
             }
         }
 
@@ -571,24 +567,12 @@ namespace Cookie.Game.Map
             OnMovementFailed();
         }
 
-        private void OnMapMovement(GameMapMovementMessage message)
-        {
-            MapMovement?.Invoke(message);
-        }
+        private void OnMapMovement(GameMapMovementMessage message) => MapMovement?.Invoke(message);
 
-        private void OnMovementConfirmed()
-        {
-            MovementConfirmed?.Invoke(_account, null);
-        }
+        private void OnMovementConfirmed() => MovementConfirmed?.Invoke(_account, null);
 
-        private void OnMovementFailed()
-        {
-            MovementFailed?.Invoke(_account, null);
-        }
+        private void OnMovementFailed() => MovementFailed?.Invoke(_account, null);
 
-        private void OnMapChanged()
-        {
-            MapChanged?.Invoke(_account, new MapChangedEventArgs(Id));
-        }
+        private void OnMapChanged() => MapChanged?.Invoke(_account, new MapChangedEventArgs(Id));
     }
 }
