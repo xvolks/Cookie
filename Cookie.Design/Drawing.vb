@@ -1011,7 +1011,7 @@ Public Class BComboBox
         End Using
 
         If Not IsNothing(Items) Then
-            Try : FirstItem = GetItemText(Items(0)) :
+            Try : FirstItem = GetItemText(Items(0))
             Catch :
             End Try
 
@@ -1275,4 +1275,302 @@ Public Class BListBox
         LB.Size = New Size(Width - 3, Height - 2)
         MyBase.OnResize(e)
     End Sub
+End Class
+
+Public Class BListView
+    Inherits Control
+
+    Public Property Columns As String()
+
+    Public Property Items As ListViewItem()
+
+    Public Property ColumnWidth As Integer = 120
+
+    Public Property SelectedIndex As Integer = - 1
+
+    Public Property SelectedIndexes As New List(Of Integer)
+
+    Public Property Multiselect As Boolean
+
+    Public Property HandleItemsForeColor As Boolean
+
+    Public Property Grid As Boolean
+
+    Public ReadOnly Property SelectedCount As Integer
+        Get
+            Return SelectedIndexes.Count
+        End Get
+    End Property
+
+    Public ReadOnly Property FocusedItem As ListViewItem
+        Get
+            If IsNothing(SelectedIndexes) Then
+                Return New ListViewItem
+            End If
+
+            Return Items(SelectedIndexes(0))
+        End Get
+    End Property
+
+    Private SelectedBounds As Rectangle
+    Private BorderIndex As Integer = - 1
+
+    Public Event SelectedIndexChanged(sender As Object, e As EventArgs)
+
+    Public Sub Add(Item As ListViewItem)
+        If Items Is Nothing Then
+            Items = New ListViewItem() {}
+        End If
+        Dim ItemsList As List(Of ListViewItem) = Items.ToList
+        ItemsList.Add(Item)
+        Items = ItemsList.ToArray
+        Invalidate()
+    End Sub
+
+    Sub New()
+        DoubleBuffered = True
+        ForeColor = Color.FromArgb(200, 200, 200)
+        Font = New Font("Segoe UI", 9)
+    End Sub
+
+    Public Function ReturnForeFromItem(I As Integer, Item As ListViewItem) As SolidBrush
+        If SelectedIndexes.Contains(I) Then
+            Return New SolidBrush(Color.FromArgb(10, 10, 10))
+        End If
+        If HandleItemsForeColor Then
+            Return New SolidBrush(Item.ForeColor)
+        Else
+            Return New SolidBrush(ForeColor)
+        End If
+    End Function
+
+    Public Function ReturnForeFromSubItem(I As Integer, Item As ListViewItem.ListViewSubItem) As SolidBrush
+        If SelectedIndexes.Contains(I) Then
+            Return New SolidBrush(Color.FromArgb(10, 10, 10))
+        End If
+        If HandleItemsForeColor Then
+            Return New SolidBrush(Item.ForeColor)
+        Else
+            Return New SolidBrush(ForeColor)
+        End If
+    End Function
+
+    'Caution: Don't read below if you don't want your brain to be completely fucked.
+    Protected Overrides Sub OnPaint(e As PaintEventArgs)
+
+        e.Graphics.Clear(Color.FromArgb(50, 50, 53))
+
+        Using Background As New SolidBrush(Color.FromArgb(55, 55, 58))
+            e.Graphics.FillRectangle(Background, New Rectangle(1, 1, Width - 2, 26))
+        End Using
+
+        Using Border As New Pen(Color.FromArgb(42, 42, 45)), Shadow As New Pen(Color.FromArgb(65, 65, 68))
+            e.Graphics.DrawRectangle(Border, New Rectangle(0, 0, Width - 1, Height - 1))
+            e.Graphics.DrawRectangle(Border, New Rectangle(0, 0, Width - 1, 26))
+            e.Graphics.DrawLine(Shadow, 1, 1, Width - 2, 1)
+        End Using
+
+        If Not IsNothing(Columns) Then
+
+            For I = 0 To Columns.Count - 1
+
+                If Not I = 0 Then
+
+                    Using Separator As New SolidBrush(Color.FromArgb(42, 42, 45)),
+                        Shadow As New SolidBrush(Color.FromArgb(65, 65, 68))
+                        e.Graphics.FillRectangle(Separator, New Rectangle(ColumnWidth*I, 1, 1, 26))
+                        e.Graphics.FillRectangle(Shadow, New Rectangle(ColumnWidth*I - 1, 1, 1, 25))
+
+                        If Grid AndAlso Not IsNothing(Items) Then
+
+                            e.Graphics.FillRectangle(Separator,
+                                                     New Rectangle(ColumnWidth*I, 1, 1, 26 + (Items.Count*16)))
+                            e.Graphics.FillRectangle(Shadow,
+                                                     New Rectangle(ColumnWidth*I - 1, 1, 1, 25 + (Items.Count*16)))
+
+                        End If
+
+                    End Using
+
+                End If
+
+                Using Fore As New SolidBrush(ForeColor)
+
+                    If I = 0 Then
+                        e.Graphics.DrawString(Columns(I), Font, Fore, New Point(6, 4))
+                    Else
+                        e.Graphics.DrawString(Columns(I), Font, Fore, New Point((ColumnWidth*I) + 6, 4))
+                    End If
+
+                End Using
+
+            Next
+
+        End If
+
+        If Not IsNothing(Items) Then
+
+            Using Selection As New SolidBrush(Color.FromArgb(41, 130, 232)), Line As New Pen(Color.FromArgb(40, 40, 40))
+
+                If Multiselect AndAlso Not SelectedIndexes.Count = 0 Then
+
+                    For Each Selected As Integer In SelectedIndexes
+
+                        If Selected = 0 Then
+                            e.Graphics.FillRectangle(Selection, New Rectangle(1, 27, Width - 2, 16))
+                        Else
+                            e.Graphics.FillRectangle(Selection, New Rectangle(1, 27 + Selected*16, Width - 2, 16))
+                        End If
+
+                        If Selected = 0 AndAlso SelectedIndexes.Count = 1 Then
+                            e.Graphics.DrawLine(Line, 1, 27 + 16, Width - 2, 27 + 16)
+
+                        ElseIf SelectedIndexes.Count = 1 Then
+                            e.Graphics.DrawLine(Line, 1, 27 + 16 + Selected*16, Width - 2, 27 + 16 + Selected*16)
+                        End If
+
+                    Next
+
+                Else
+
+                    If SelectedIndex = 0 Then
+                        e.Graphics.FillRectangle(Selection, New Rectangle(1, 27, Width - 2, 16))
+
+                    ElseIf SelectedIndex > 0 Then
+                        e.Graphics.FillRectangle(Selection, New Rectangle(1, 27 + SelectedIndex*16, Width - 2, 16))
+                    End If
+
+                End If
+
+
+            End Using
+
+            If SelectedIndexes.Count > 0 Then
+                BorderIndex = SelectedIndexes.Max
+            End If
+
+            For I = 0 To Items.Count - 1
+
+                Using Fore As New SolidBrush(ForeColor)
+
+                    If I = 0 Then
+
+                        e.Graphics.DrawString(Items(I).Text, Font, ReturnForeFromItem(0, Items(0)), New Point(6, 26))
+                        SelectedBounds = New Rectangle(1, 27, Width - 2, 16)
+
+                    Else
+                        e.Graphics.DrawString(Items(I).Text, Font, ReturnForeFromItem(I, Items(I)),
+                                              New Point(6, 26 + I*16))
+                        SelectedBounds = New Rectangle(1, 27 + I*16, Width - 2, 16)
+                    End If
+
+
+                    If Not IsNothing(Items(I).SubItems) Then
+
+                        For X = 0 To Items(I).SubItems.Count - 1
+
+                            If Not Items(I).SubItems(X).Text = Items(I).Text Then
+                                e.Graphics.DrawString(Items(I).SubItems(X).Text, Font,
+                                                      ReturnForeFromSubItem(I, Items(I).SubItems(X)),
+                                                      New Rectangle((ColumnWidth*X) + 6, 26 + I*16, ColumnWidth - 8, 16))
+                            End If
+
+                        Next
+
+                    End If
+
+                End Using
+
+            Next
+
+            If SelectedIndexes.Contains(BorderIndex) Then
+
+                Using Selection As New SolidBrush(Color.FromArgb(41, 130, 232)),
+                    Line As New Pen(Color.FromArgb(40, 40, 40))
+                    e.Graphics.DrawLine(Line, 1, 27 + 16 + BorderIndex*16, Width - 2, 27 + 16 + BorderIndex*16)
+                End Using
+
+            End If
+
+        End If
+
+        MyBase.OnPaint(e)
+    End Sub
+
+    Protected Overrides Sub OnMouseUp(e As MouseEventArgs)
+
+        Dim Selection As Integer = GetSelectedFromLocation(e.Location)
+
+        If Selection = - 1 OrElse Not e.Button = MouseButtons.Left Then MyBase.OnMouseUp(e) : Return
+
+        If Multiselect AndAlso My.Computer.Keyboard.CtrlKeyDown Then
+
+            If Not SelectedIndexes.Contains(Selection) Then
+                SelectedIndexes.Add(Selection)
+            Else
+                SelectedIndexes.Remove(Selection)
+            End If
+
+        ElseIf Multiselect AndAlso Not My.Computer.Keyboard.CtrlKeyDown AndAlso Not My.Computer.Keyboard.ShiftKeyDown _
+            Then
+
+            SelectedIndexes = New List(Of Integer)
+            SelectedIndexes.Add(Selection)
+
+        Else
+            SelectedIndexes = New List(Of Integer)
+            SelectedIndexes.Add(Selection)
+            SelectedIndex = Selection
+        End If
+
+        If Selection = - 1 Then
+            SelectedIndexes = New List(Of Integer)
+        End If
+
+        Invalidate()
+
+        RaiseEvent SelectedIndexChanged(Me, e)
+        MyBase.OnMouseUp(e)
+    End Sub
+
+    Protected Overrides Sub OnKeyDown(e As KeyEventArgs)
+
+        If Multiselect And e.KeyCode = Keys.A AndAlso e.Control Then
+            SelectedIndexes = New List(Of Integer)
+
+            For I = 0 To Items.Count - 1
+                SelectedIndexes.Add(I)
+            Next
+            Invalidate()
+        End If
+
+        MyBase.OnKeyDown(e)
+    End Sub
+
+    Private Function GetSelectedFromLocation(Location As Point) As Integer
+
+        If Not IsNothing(Items) Then
+
+            For I = 0 To Items.Count - 1
+
+                If I = 0 Then
+
+                    If New Rectangle(1, 27, Width - 2, 16).Contains(Location) Then
+                        Return 0
+                    End If
+
+                Else
+
+                    If New Rectangle(1, 27 + I*16, Width - 2, 16).Contains(Location) Then
+                        Return I
+                    End If
+
+                End If
+
+            Next
+
+        End If
+
+        Return - 1
+    End Function
 End Class

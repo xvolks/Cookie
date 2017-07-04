@@ -6,19 +6,20 @@ namespace Cookie.Game.Entity
 {
     public class Npc : INpc, IEntity
     {
-        public int CellId { get; set; }
-
-        public int Id { get; set; }
-
-        public int NpcId { get; set; }
-
-        public string Name => FastD2IReader.Instance.GetText(ObjectDataManager.Instance.Get<API.Datacenter.Npc>(NpcId).NameId);
-
         public Npc(int cell, int id, int npcid)
         {
             CellId = cell;
             Id = id;
             NpcId = npcid;
         }
+
+        public int CellId { get; set; }
+
+        public int Id { get; set; }
+
+        public int NpcId { get; set; }
+
+        public string Name => FastD2IReader.Instance.GetText(ObjectDataManager.Instance.Get<API.Datacenter.Npc>(NpcId)
+            .NameId);
     }
 }

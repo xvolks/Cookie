@@ -8,8 +8,8 @@ namespace Cookie.Commands.Commands
 {
     public class MapCommand : ICommand
     {
-        public string CommandName => "map";
         private readonly string CommandSuffix = "[Map]";
+        public string CommandName => "map";
 
         public void OnCommand(IAccount account, string[] args)
         {
@@ -39,21 +39,13 @@ namespace Cookie.Commands.Commands
         private void PrintEntities(IAccount account)
         {
             foreach (var m in account.Character.Map.Monsters)
-            {
                 Logger.Default.Log($"Groupe de monstre ({m.GroupName}) niveau {m.GroupLevel} sur la cellId {m.CellId}");
-            }
             foreach (var n in account.Character.Map.Npcs)
-            {
                 Logger.Default.Log($"Npc ({n.Name}) sur la cellId {n.CellId}");
-            }
             foreach (var p in account.Character.Map.Players)
-            {
                 Logger.Default.Log($"Joueur ({p.Name}) sur la cellId {p.CellId}");
-            }
             foreach (var e in account.Character.Map.Entities)
-            {
                 Logger.Default.Log($"Entitée sur la cellId {e.CellId}");
-            }
         }
 
         private void PrintError(string message)

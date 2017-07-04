@@ -4,7 +4,6 @@ using Cookie.API.Game.Map;
 using Cookie.API.Gamedata;
 using Cookie.API.Utils;
 using Cookie.API.Utils.Enums;
-using System.Drawing;
 
 namespace Cookie.Commands.Commands
 {
@@ -50,7 +49,7 @@ namespace Cookie.Commands.Commands
 
         private void OnChangementFinished(object sender, MapChangementFinishedEventArgs e)
         {
-            Point pos = D2OParsing.GetMapCoordinates(e.NewMap);
+            var pos = D2OParsing.GetMapCoordinates(e.NewMap);
             switch (e.Success)
             {
                 case true:

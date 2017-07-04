@@ -30,16 +30,14 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AccountsForm));
             this.bForm1 = new Cookie.Design.BForm();
+            this.lvAccounts = new Cookie.Design.BListView();
+            this.CloseButton = new Cookie.Design.BButton();
             this.label1 = new System.Windows.Forms.Label();
-            this.lvAccounts = new System.Windows.Forms.ListView();
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.MainContextMenuStrip = new Cookie.Design.BContextMenuStrip();
             this.ConnectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.AddToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.RemoveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.CloseButton = new Cookie.Design.BButton();
             this.bForm1.SuspendLayout();
             this.MainContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -47,9 +45,9 @@
             // bForm1
             // 
             this.bForm1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.bForm1.Controls.Add(this.lvAccounts);
             this.bForm1.Controls.Add(this.CloseButton);
             this.bForm1.Controls.Add(this.label1);
-            this.bForm1.Controls.Add(this.lvAccounts);
             this.bForm1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.bForm1.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.bForm1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(180)))), ((int)(((byte)(180)))), ((int)(((byte)(180)))));
@@ -59,6 +57,40 @@
             this.bForm1.TabIndex = 1;
             this.bForm1.Text = "Cookie - Connecter un compte";
             // 
+            // lvAccounts
+            // 
+            this.lvAccounts.Columns = new string[] {
+        "Nom de compte",
+        "Mot de passe"};
+            this.lvAccounts.ColumnWidth = 120;
+            this.lvAccounts.ContextMenuStrip = this.MainContextMenuStrip;
+            this.lvAccounts.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.lvAccounts.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.lvAccounts.Grid = false;
+            this.lvAccounts.HandleItemsForeColor = false;
+            this.lvAccounts.Items = null;
+            this.lvAccounts.Location = new System.Drawing.Point(12, 75);
+            this.lvAccounts.Multiselect = false;
+            this.lvAccounts.Name = "lvAccounts";
+            this.lvAccounts.SelectedIndex = -1;
+            this.lvAccounts.SelectedIndexes = ((System.Collections.Generic.List<int>)(resources.GetObject("lvAccounts.SelectedIndexes")));
+            this.lvAccounts.Size = new System.Drawing.Size(317, 198);
+            this.lvAccounts.TabIndex = 9;
+            this.lvAccounts.Text = "bListView1";
+            // 
+            // CloseButton
+            // 
+            this.CloseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.CloseButton.DisplayImage = global::Cookie.Properties.Resources.cross_remove_sign;
+            this.CloseButton.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.CloseButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.CloseButton.Location = new System.Drawing.Point(307, 3);
+            this.CloseButton.Name = "CloseButton";
+            this.CloseButton.Size = new System.Drawing.Size(22, 23);
+            this.CloseButton.TabIndex = 8;
+            this.CloseButton.UseVisualStyleBackColor = true;
+            this.CloseButton.Click += new System.EventHandler(this.CloseButton_Click);
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -67,31 +99,6 @@
             this.label1.Size = new System.Drawing.Size(75, 19);
             this.label1.TabIndex = 3;
             this.label1.Text = "Compte(s):";
-            // 
-            // lvAccounts
-            // 
-            this.lvAccounts.BackColor = System.Drawing.Color.White;
-            this.lvAccounts.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1,
-            this.columnHeader2});
-            this.lvAccounts.ContextMenuStrip = this.MainContextMenuStrip;
-            this.lvAccounts.FullRowSelect = true;
-            this.lvAccounts.Location = new System.Drawing.Point(12, 64);
-            this.lvAccounts.Name = "lvAccounts";
-            this.lvAccounts.Size = new System.Drawing.Size(317, 207);
-            this.lvAccounts.TabIndex = 2;
-            this.lvAccounts.UseCompatibleStateImageBehavior = false;
-            this.lvAccounts.View = System.Windows.Forms.View.Details;
-            // 
-            // columnHeader1
-            // 
-            this.columnHeader1.Text = "Nom de compte";
-            this.columnHeader1.Width = 140;
-            // 
-            // columnHeader2
-            // 
-            this.columnHeader2.Text = "Mot de passe";
-            this.columnHeader2.Width = 140;
             // 
             // MainContextMenuStrip
             // 
@@ -131,19 +138,6 @@
             this.RemoveToolStripMenuItem.Text = "Supprimer";
             this.RemoveToolStripMenuItem.Click += new System.EventHandler(this.RemoveToolStripMenuItem_Click);
             // 
-            // CloseButton
-            // 
-            this.CloseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.CloseButton.DisplayImage = global::Cookie.Properties.Resources.cross_remove_sign;
-            this.CloseButton.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.CloseButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
-            this.CloseButton.Location = new System.Drawing.Point(307, 3);
-            this.CloseButton.Name = "CloseButton";
-            this.CloseButton.Size = new System.Drawing.Size(22, 23);
-            this.CloseButton.TabIndex = 8;
-            this.CloseButton.UseVisualStyleBackColor = true;
-            this.CloseButton.Click += new System.EventHandler(this.CloseButton_Click);
-            // 
             // AccountsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -169,14 +163,12 @@
         #endregion
         private Design.BForm bForm1;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ListView lvAccounts;
-        private System.Windows.Forms.ColumnHeader columnHeader1;
-        private System.Windows.Forms.ColumnHeader columnHeader2;
         private Design.BContextMenuStrip MainContextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem ConnectToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem AddToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem RemoveToolStripMenuItem;
         private Design.BButton CloseButton;
+        private Design.BListView lvAccounts;
     }
 }

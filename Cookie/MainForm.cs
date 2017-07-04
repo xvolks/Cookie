@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Cookie.API.Core;
@@ -32,8 +31,6 @@ namespace Cookie
             InitializeComponent();
 
             LogTextBox.Font = new Font("Tahoma", 8, FontStyle.Regular);
-
-            SetPacketsListViewColor("#262626", "#F16392", "#9EC79D");
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -44,7 +41,7 @@ namespace Cookie
 
                 AccountConfiguration accountToConnect = null;
 
-                using (AccountsForm af = new AccountsForm())
+                using (var af = new AccountsForm())
                 {
                     if (af.ShowDialog() != DialogResult.OK)
                         Environment.Exit(-1);
@@ -168,13 +165,15 @@ namespace Cookie
                 LogTextBox.ScrollToCaret();
             }
 
-            LogTextBox.Invoke((Action)LogCallback);
+            LogTextBox.Invoke((Action) LogCallback);
         }
 
         public void AddPluginListBox(string name, UserControl uc)
         {
             if (TabPlugin.InvokeRequired)
+            {
                 Invoke(new InsertIntoListBox(AddPluginListBox), name, uc);
+            }
             else
             {
                 var tabPage = new TabPage(name);
@@ -223,7 +222,7 @@ namespace Cookie
                 if (ChatTextBox.Text.Length < 2)
                 {
                     _account.Network.SendToServer(new ChatClientMultiMessage(
-                        (byte)ChatChannelsMultiEnum.CHANNEL_GLOBAL,
+                        (byte) ChatChannelsMultiEnum.CHANNEL_GLOBAL,
                         ChatTextBox.Text));
                 }
                 else
@@ -235,54 +234,54 @@ namespace Cookie
                         case "/g":
                             if (string.IsNullOrWhiteSpace(chattxt))
                                 _account.Network.SendToServer(new ChatClientMultiMessage(
-                                    (byte)ChatChannelsMultiEnum.CHANNEL_GUILD,
+                                    (byte) ChatChannelsMultiEnum.CHANNEL_GUILD,
                                     chattxt));
                             break;
                         case "/s":
                             if (string.IsNullOrWhiteSpace(chattxt))
                                 _account.Network.SendToServer(new ChatClientMultiMessage(
-                                    (byte)ChatChannelsMultiEnum.CHANNEL_GLOBAL,
+                                    (byte) ChatChannelsMultiEnum.CHANNEL_GLOBAL,
                                     chattxt));
                             break;
                         case "/t":
                             if (string.IsNullOrWhiteSpace(chattxt))
                                 _account.Network.SendToServer(new ChatClientMultiMessage(
-                                    (byte)ChatChannelsMultiEnum.CHANNEL_TEAM,
+                                    (byte) ChatChannelsMultiEnum.CHANNEL_TEAM,
                                     chattxt));
                             break;
                         case "/a":
                             if (string.IsNullOrWhiteSpace(chattxt))
                                 _account.Network.SendToServer(new ChatClientMultiMessage(
-                                    (byte)ChatChannelsMultiEnum.CHANNEL_ALLIANCE,
+                                    (byte) ChatChannelsMultiEnum.CHANNEL_ALLIANCE,
                                     chattxt));
                             break;
                         case "/p":
                             if (string.IsNullOrWhiteSpace(chattxt))
                                 _account.Network.SendToServer(new ChatClientMultiMessage(
-                                    (byte)ChatChannelsMultiEnum.CHANNEL_PARTY,
+                                    (byte) ChatChannelsMultiEnum.CHANNEL_PARTY,
                                     chattxt));
                             break;
                         case "/k":
                             if (string.IsNullOrWhiteSpace(chattxt))
                                 _account.Network.SendToServer(new ChatClientMultiMessage(
-                                    (byte)ChatChannelsMultiEnum.CHANNEL_ARENA,
+                                    (byte) ChatChannelsMultiEnum.CHANNEL_ARENA,
                                     chattxt));
                             break;
                         case "/b":
                             if (string.IsNullOrWhiteSpace(chattxt))
                                 _account.Network.SendToServer(new ChatClientMultiMessage(
-                                    (byte)ChatChannelsMultiEnum.CHANNEL_SALES,
+                                    (byte) ChatChannelsMultiEnum.CHANNEL_SALES,
                                     chattxt));
                             break;
                         case "/r":
                             if (string.IsNullOrWhiteSpace(chattxt))
                                 _account.Network.SendToServer(new ChatClientMultiMessage(
-                                    (byte)ChatChannelsMultiEnum.CHANNEL_SEEK,
+                                    (byte) ChatChannelsMultiEnum.CHANNEL_SEEK,
                                     chattxt));
                             break;
                         default:
                             _account.Network.SendToServer(new ChatClientMultiMessage(
-                                (byte)ChatChannelsMultiEnum.CHANNEL_GLOBAL,
+                                (byte) ChatChannelsMultiEnum.CHANNEL_GLOBAL,
                                 ChatTextBox.Text));
                             break;
                     }
@@ -290,10 +289,6 @@ namespace Cookie
                 }
             }
         }
-
-        private delegate void InsertIntoListDelegate(string origin, string name, string id);
-
-        private delegate void InsertIntoListBox(string name, UserControl uc);
 
         private void CloseButton_Click(object sender, EventArgs e)
         {
@@ -326,54 +321,28 @@ namespace Cookie
             }
             else
             {
-                string time = DateTime.Now.ToLongTimeString();
-                String[] rows = new String[] { time, origin, id, name };
+                var time = DateTime.Now.ToLongTimeString();
+                var rows = new[] {time, origin, id, name};
+                var listViewItem = new ListViewItem(rows);
+                PacketsListView.Add(listViewItem);
+                switch (origin)
+                {
+                    case "Client":
+                        PacketsListView.Items[PacketsListView.Items.Length - 1].ForeColor =
+                            ColorTranslator.FromHtml("#F16392");
+                        break;
+                    case "Server":
+                        PacketsListView.Items[PacketsListView.Items.Length - 1].ForeColor =
+                            ColorTranslator.FromHtml("#9EC79D");
+                        break;
+                }
 
-                // If coming from client, append '#' at the beginning of each element
-                if (origin == "Client")
-                    foreach (string element in rows)
-                        rows[Array.IndexOf(rows, element)] = "#" + element;
-
-                ListViewItem listViewItem = new ListViewItem(rows);
-                PacketsListView.Items.Add(listViewItem);
-
-                PacketsListView.EnsureVisible(PacketsListView.Items.Count - 1);
+                // PacketsListView.EnsureVisible(PacketsListView.Items.Length - 1);
             }
         }
 
-        private void SetPacketsListViewColor(string headerColor, string fromClientColor, string fromServerColor)
-        {
-            PacketsListView.OwnerDraw = true;
-            PacketsListView.DrawColumnHeader += new DrawListViewColumnHeaderEventHandler(
-                (object sender, DrawListViewColumnHeaderEventArgs e) => PacketsListView_DrawColumnHeader(sender, e, headerColor));
+        private delegate void InsertIntoListDelegate(string origin, string name, string id);
 
-            PacketsListView.DrawSubItem += new DrawListViewSubItemEventHandler(
-                (object sender, DrawListViewSubItemEventArgs e)
-                => PacketsListView_DrawSubItem(sender, e, fromClientColor, fromServerColor));
-        }
-
-        private void PacketsListView_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e, string color)
-        {
-            Color rgbColor = ColorTranslator.FromHtml(color);
-
-            // Filling background & drawing header text
-            e.Graphics.FillRectangle(new SolidBrush(rgbColor), e.Bounds);
-            e.Graphics.DrawString(e.Header.Text, e.Font, new SolidBrush(Color.White), e.Bounds);
-        }
-
-        private void PacketsListView_DrawSubItem(object sender, DrawListViewSubItemEventArgs e,
-            string fromClientColor, string fromServerColor)
-        {
-            Color fromClientRGB = ColorTranslator.FromHtml(fromClientColor);
-            Color fromServerRGB = ColorTranslator.FromHtml(fromServerColor);
-
-            // If coming from client
-            if (e.SubItem.Text[0] == '#')
-            {
-                e.Graphics.DrawString(e.SubItem.Text.Substring(1), PacketsListView.Font, new SolidBrush(fromClientRGB),
-                    e.Bounds);
-            }
-            else e.Graphics.DrawString(e.SubItem.Text, PacketsListView.Font, new SolidBrush(fromServerRGB), e.Bounds);
-        }
+        private delegate void InsertIntoListBox(string name, UserControl uc);
     }
 }

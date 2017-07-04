@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using Cookie.API.Game.Entity;
 using Cookie.API.Game.Map.Elements;
 using Cookie.API.Protocol.Network.Messages.Game.Context;
-using Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay;
-using Cookie.API.Protocol.Network.Messages.Game.Interactive;
 
 namespace Cookie.API.Game.Map
 {
@@ -75,7 +73,6 @@ namespace Cookie.API.Game.Map
         /// <param name="cellId">Cellule sur laquelle se déplacer</param>
         /// <returns>True si le personnage se déplace, sinon false</returns>
         //bool MoveToCell(int cellId);
-
         /// <summary>Se déplace en vue d'utiliser un élément interactif de type porte</summary>
         /// <param name="cellId">Case de la porte</param>
         /// <returns>True si le personnage se déplace, sinon false</returns>

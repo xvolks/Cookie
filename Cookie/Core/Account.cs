@@ -63,6 +63,16 @@ namespace Cookie.Core
             MainForm.AddPacketsListView(origin, name, id);
         }
 
+        public void PerformAction(Action action, int delay)
+        {
+            PerformCancelableAction(action, delay);
+        }
+
+        public void CreatePage(string name, UserControl control)
+        {
+            MainForm.AddPluginListBox(name, control);
+        }
+
         private void LoadPlugins()
         {
             try
@@ -79,11 +89,10 @@ namespace Cookie.Core
                     {
                         var t = ass2.GetType(type.FullName);
                         if (t.GetInterface(typeof(IPlugin).FullName) == null) continue;
-                        var instance = (IPlugin)Activator.CreateInstance(t);
+                        var instance = (IPlugin) Activator.CreateInstance(t);
                         instance.Account = this;
                         instance.OnLoad();
                     }
-
                 }
             }
             catch (Exception e)
@@ -93,11 +102,7 @@ namespace Cookie.Core
             }
         }
 
-        public void PerformAction(Action action, int delay)
-        {
-            PerformCancelableAction(action, delay);
-        }
-        public void PerformCancelableAction( Action action, int delay)
+        public void PerformCancelableAction(Action action, int delay)
         {
             var cts = new CancellationTokenSource();
             Task.Run(async delegate
@@ -113,11 +118,6 @@ namespace Cookie.Core
                         Logger.Default.Log(ex.ToString());
                     }
             }, cts.Token);
-        }
-
-        public void CreatePage(string name, UserControl control)
-        {
-            MainForm.AddPluginListBox(name, control);
         }
     }
 }

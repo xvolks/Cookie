@@ -104,13 +104,13 @@ namespace Cookie.Core.Pathmanager
 
                 foreach (var line in trajet)
                 {
-                    if(string.IsNullOrEmpty(line)) continue;
+                    if (string.IsNullOrEmpty(line)) continue;
 
                     if (line.Contains("IdGather"))
                     {
                         var tempLine = line.Split(':');
-                            var ids = tempLine[1].Split(',').Select(id => Convert.ToInt32(id)).ToList();
-                            RessourcesToGather = ids;
+                        var ids = tempLine[1].Split(',').Select(id => Convert.ToInt32(id)).ToList();
+                        RessourcesToGather = ids;
                         continue;
                     }
 

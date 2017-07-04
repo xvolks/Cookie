@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Cookie.API.Core;
 using Cookie.API.Gamedata;
 using Cookie.API.Messages;
@@ -68,7 +67,8 @@ namespace Cookie.FullSocket
                 HandleSelectedServerDataExtendedMessage, MessagePriority.VeryHigh);
             server.Account.Network.RegisterPacket<IdentificationFailedBannedMessage>(
                 HandleIdentificationFailedBannedMessage, MessagePriority.VeryHigh);
-            server.Account.Network.RegisterPacket<IdentificationFailedMessage>(HandleIdentificationFailedMessage, MessagePriority.VeryHigh);
+            server.Account.Network.RegisterPacket<IdentificationFailedMessage>(HandleIdentificationFailedMessage,
+                MessagePriority.VeryHigh);
 
             server.Account.Network.RegisterPacket<LoginQueueStatusMessage>(HandleLoginQueueStatusMessage,
                 MessagePriority.VeryHigh);
@@ -231,10 +231,12 @@ namespace Cookie.FullSocket
                 return;
             }
 
-            var server = message.Servers.Find(s => (ServerStatusEnum)s.Status == ServerStatusEnum.ONLINE
+            var server = message.Servers.Find(s => (ServerStatusEnum) s.Status == ServerStatusEnum.ONLINE
                                                    && s.IsSelectable && s.CharactersCount > 0);
 
-            account.Network.SendToServer(server == null ? new ServerSelectionMessage(11) : new ServerSelectionMessage(server.ObjectID));
+            account.Network.SendToServer(server == null
+                ? new ServerSelectionMessage(11)
+                : new ServerSelectionMessage(server.ObjectID));
         }
 
         private void HandleSelectedServerDataMessage(IAccount account, SelectedServerDataMessage message)
@@ -263,7 +265,7 @@ namespace Cookie.FullSocket
 
         private void HandleIdentificationFailedMessage(IAccount account, IdentificationFailedMessage message)
         {
-            Logger.Default.Log($"Identification Fail -> {(IdentificationFailureReasonEnum)message.Reason}");
+            Logger.Default.Log($"Identification Fail -> {(IdentificationFailureReasonEnum) message.Reason}");
         }
 
         private void HandleLoginQueueStatusMessage(IAccount account, LoginQueueStatusMessage message)

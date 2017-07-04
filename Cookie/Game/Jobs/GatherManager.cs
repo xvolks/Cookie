@@ -22,7 +22,6 @@ namespace Cookie.Game.Jobs
     public class GatherManager : IGatherManager
     {
         private readonly IAccount _account;
-        private ICellMovement Move { get; set; }
 
         public GatherManager(IAccount account)
         {
@@ -43,6 +42,8 @@ namespace Cookie.Game.Jobs
             _account.Network.RegisterPacket<InteractiveMapUpdateMessage>(HandleInteractiveMapUpdateMessage,
                 MessagePriority.Normal);
         }
+
+        private ICellMovement Move { get; set; }
 
         private int SkillInstanceUid { get; set; } = -1;
 
@@ -85,33 +86,33 @@ namespace Cookie.Game.Jobs
             try
             {
                 foreach (var ressourceId in ToGather)
-                    foreach (var usableElement in _account.Character.Map.UsableElements)
-                        foreach (var interactiveElement in _account.Character.Map.InteractiveElements.Values)
-                        {
-                            if (usableElement.Value.Element.Id != interactiveElement.Id ||
-                                !interactiveElement.IsUsable) continue;
-                            if (interactiveElement.TypeId != ressourceId ||
-                                !_account.Character.Map.NoEntitiesOnCell(usableElement.Value.CellId))
-                                continue;
-                            listUsableElement.Add(usableElement.Value);
-                            listDistance.Add(GetRessourceDistance((int)usableElement.Value.Element.Id));
-                        }
+                foreach (var usableElement in _account.Character.Map.UsableElements)
+                foreach (var interactiveElement in _account.Character.Map.InteractiveElements.Values)
+                {
+                    if (usableElement.Value.Element.Id != interactiveElement.Id ||
+                        !interactiveElement.IsUsable) continue;
+                    if (interactiveElement.TypeId != ressourceId ||
+                        !_account.Character.Map.NoEntitiesOnCell(usableElement.Value.CellId))
+                        continue;
+                    listUsableElement.Add(usableElement.Value);
+                    listDistance.Add(GetRessourceDistance((int) usableElement.Value.Element.Id));
+                }
                 if (listDistance.Count <= 0) return;
                 foreach (var usableElement in TrierDistanceElement(listDistance, listUsableElement))
                 {
-                    if (GetRessourceDistance((int)usableElement.Element.Id) == 1 || IsFishing)
+                    if (GetRessourceDistance((int) usableElement.Element.Id) == 1 || IsFishing)
                     {
                         if (Moved)
                             _account.Character.Map.UseElement(Id, SkillInstanceUid);
                         else
-                            _account.Character.Map.UseElement((int)usableElement.Element.Id,
+                            _account.Character.Map.UseElement((int) usableElement.Element.Id,
                                 usableElement.Skills[0].SkillInstanceUid);
 
                         Moved = false;
                         IsFishing = false;
                         break;
                     }
-                    Id = (int)usableElement.Element.Id;
+                    Id = (int) usableElement.Element.Id;
                     SkillInstanceUid = usableElement.Skills[0].SkillInstanceUid;
                     Move = _account.Character.Map.MoveToElement(Id, 1);
                     Move.MovementFinished += OnMovementFinished;
@@ -126,44 +127,17 @@ namespace Cookie.Game.Jobs
             }
         }
 
-        private void OnMovementFinished(object sender, CellMovementEventArgs args)
-        {
-            Move.MovementFinished -= OnMovementFinished;
-            if (args.Sucess)
-            {
-                _account.Character.Map.UseElement(Id, SkillInstanceUid);
-                _account.PerformAction(() =>
-                {
-                    if (CanGatherOnMap(ToGather))
-                        Gather();
-                    else
-                    {
-                        if (_account.Character.PathManager.Launched)
-                            _account.Character.PathManager.DoAction();
-                    }
-                }, 5000);
-            }
-            else
-            {
-                _account.PerformAction(() =>
-                {
-                    if (_account.Character.PathManager.Launched)
-                        _account.Character.PathManager.DoAction();
-                }, 5000);
-            }
-        }
-
         public bool CanGatherOnMap(List<int> ids)
         {
             try
             {
                 return ids.Count >= 1 && (from ressourceId in ids
-                                          from usableElement in _account.Character.Map.UsableElements
-                                          from interactiveElement in _account.Character.Map.InteractiveElements.Values
-                                          where usableElement.Value.Element.Id == interactiveElement.Id && interactiveElement.IsUsable
-                                          where interactiveElement.TypeId == ressourceId &&
-                                                _account.Character.Map.NoEntitiesOnCell(usableElement.Value.CellId)
-                                          select ressourceId).Any();
+                           from usableElement in _account.Character.Map.UsableElements
+                           from interactiveElement in _account.Character.Map.InteractiveElements.Values
+                           where usableElement.Value.Element.Id == interactiveElement.Id && interactiveElement.IsUsable
+                           where interactiveElement.TypeId == ressourceId &&
+                                 _account.Character.Map.NoEntitiesOnCell(usableElement.Value.CellId)
+                           select ressourceId).Any();
             }
             catch (Exception e)
             {
@@ -193,7 +167,7 @@ namespace Cookie.Game.Jobs
                     listDistance[i + 1] = Convert.ToInt32(timeToAccess);
                     timeToAccess = listUsableElement[i];
                     listUsableElement[i] = listUsableElement[i + 1];
-                    listUsableElement[i + 1] = (IUsableElement)timeToAccess;
+                    listUsableElement[i + 1] = (IUsableElement) timeToAccess;
                     inOrder = false;
                 }
                 listLength = listLength - 1;
@@ -202,12 +176,41 @@ namespace Cookie.Game.Jobs
             return listUsableElement;
         }
 
+        private void OnMovementFinished(object sender, CellMovementEventArgs args)
+        {
+            Move.MovementFinished -= OnMovementFinished;
+            if (args.Sucess)
+            {
+                _account.Character.Map.UseElement(Id, SkillInstanceUid);
+                _account.PerformAction(() =>
+                {
+                    if (CanGatherOnMap(ToGather))
+                    {
+                        Gather();
+                    }
+                    else
+                    {
+                        if (_account.Character.PathManager.Launched)
+                            _account.Character.PathManager.DoAction();
+                    }
+                }, 5000);
+            }
+            else
+            {
+                _account.PerformAction(() =>
+                {
+                    if (_account.Character.PathManager.Launched)
+                        _account.Character.PathManager.DoAction();
+                }, 5000);
+            }
+        }
+
         private int GetRessourceDistance(int id)
         {
             var characterMapPoint = new MapPoint(_account.Character.CellId);
             var statedRessource = _account.Character.Map.StatedElements.FirstOrDefault(se => se.Value.Id == id).Value;
             if (statedRessource == null) return -1;
-            var ressourceMapPoint = new MapPoint((int)statedRessource.CellId);
+            var ressourceMapPoint = new MapPoint((int) statedRessource.CellId);
             return characterMapPoint.DistanceTo(ressourceMapPoint);
         }
 

@@ -30,24 +30,22 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.bForm1 = new Cookie.Design.BForm();
-            this.MinimizeButton = new Cookie.Design.BButton();
-            this.MaximizeButton = new Cookie.Design.BButton();
-            this.CloseButton = new Cookie.Design.BButton();
             this.bTabControl1 = new Cookie.Design.BTabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.PacketsListView = new System.Windows.Forms.ListView();
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.LogTextBox = new Cookie.Design.BRichTextBox();
-            this.ChatTextBox = new Cookie.Design.BTextBox();
             this.TabPlugin = new Cookie.Design.BTabControl();
+            this.MinimizeButton = new Cookie.Design.BButton();
+            this.MaximizeButton = new Cookie.Design.BButton();
+            this.CloseButton = new Cookie.Design.BButton();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.PacketsListView = new Cookie.Design.BListView();
+            this.ChatTextBox = new Cookie.Design.BTextBox();
+            this.LogTextBox = new Cookie.Design.BRichTextBox();
             this.bForm1.SuspendLayout();
             this.bTabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // bForm1
@@ -65,6 +63,64 @@
             this.bForm1.Size = new System.Drawing.Size(1088, 614);
             this.bForm1.TabIndex = 0;
             this.bForm1.Text = "Cookie";
+            // 
+            // bTabControl1
+            // 
+            this.bTabControl1.Alignment = System.Windows.Forms.TabAlignment.Left;
+            this.bTabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.bTabControl1.Controls.Add(this.tabPage1);
+            this.bTabControl1.Controls.Add(this.tabPage2);
+            this.bTabControl1.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.bTabControl1.ItemSize = new System.Drawing.Size(32, 170);
+            this.bTabControl1.Location = new System.Drawing.Point(0, 32);
+            this.bTabControl1.Multiline = true;
+            this.bTabControl1.Name = "bTabControl1";
+            this.bTabControl1.SelectedIndex = 0;
+            this.bTabControl1.Size = new System.Drawing.Size(1085, 582);
+            this.bTabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
+            this.bTabControl1.TabIndex = 10;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.tabPage1.Controls.Add(this.tableLayoutPanel1);
+            this.tabPage1.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.tabPage1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.tabPage1.Location = new System.Drawing.Point(174, 4);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(907, 574);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Log";
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.tabPage2.Controls.Add(this.TabPlugin);
+            this.tabPage2.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.tabPage2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.tabPage2.Location = new System.Drawing.Point(174, 4);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(907, 574);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Plugins";
+            // 
+            // TabPlugin
+            // 
+            this.TabPlugin.Alignment = System.Windows.Forms.TabAlignment.Left;
+            this.TabPlugin.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TabPlugin.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.TabPlugin.ItemSize = new System.Drawing.Size(32, 170);
+            this.TabPlugin.Location = new System.Drawing.Point(3, 3);
+            this.TabPlugin.Multiline = true;
+            this.TabPlugin.Name = "TabPlugin";
+            this.TabPlugin.SelectedIndex = 0;
+            this.TabPlugin.Size = new System.Drawing.Size(901, 568);
+            this.TabPlugin.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
+            this.TabPlugin.TabIndex = 0;
             // 
             // MinimizeButton
             // 
@@ -105,88 +161,63 @@
             this.CloseButton.UseVisualStyleBackColor = true;
             this.CloseButton.Click += new System.EventHandler(this.CloseButton_Click);
             // 
-            // bTabControl1
+            // tableLayoutPanel1
             // 
-            this.bTabControl1.Alignment = System.Windows.Forms.TabAlignment.Left;
-            this.bTabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.bTabControl1.Controls.Add(this.tabPage1);
-            this.bTabControl1.Controls.Add(this.tabPage2);
-            this.bTabControl1.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.bTabControl1.ItemSize = new System.Drawing.Size(32, 170);
-            this.bTabControl1.Location = new System.Drawing.Point(0, 32);
-            this.bTabControl1.Multiline = true;
-            this.bTabControl1.Name = "bTabControl1";
-            this.bTabControl1.SelectedIndex = 0;
-            this.bTabControl1.Size = new System.Drawing.Size(1085, 582);
-            this.bTabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
-            this.bTabControl1.TabIndex = 10;
-            // 
-            // tabPage1
-            // 
-            this.tabPage1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
-            this.tabPage1.Controls.Add(this.ChatTextBox);
-            this.tabPage1.Controls.Add(this.LogTextBox);
-            this.tabPage1.Controls.Add(this.PacketsListView);
-            this.tabPage1.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.tabPage1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
-            this.tabPage1.Location = new System.Drawing.Point(174, 4);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(907, 574);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Log";
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
-            this.tabPage2.Controls.Add(this.TabPlugin);
-            this.tabPage2.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.tabPage2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
-            this.tabPage2.Location = new System.Drawing.Point(174, 4);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(907, 574);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Plugins";
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.PacketsListView, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.LogTextBox, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.ChatTextBox, 1, 1);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(901, 568);
+            this.tableLayoutPanel1.TabIndex = 0;
             // 
             // PacketsListView
             // 
-            this.PacketsListView.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
-            this.PacketsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1,
-            this.columnHeader2,
-            this.columnHeader3,
-            this.columnHeader4});
-            this.PacketsListView.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
-            this.PacketsListView.Location = new System.Drawing.Point(6, 6);
+            this.PacketsListView.Columns = new string[] {
+        "Heure",
+        "Origine",
+        "ID",
+        "Nom"};
+            this.PacketsListView.ColumnWidth = 120;
+            this.PacketsListView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PacketsListView.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.PacketsListView.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.PacketsListView.Grid = false;
+            this.PacketsListView.HandleItemsForeColor = true;
+            this.PacketsListView.Items = null;
+            this.PacketsListView.Location = new System.Drawing.Point(3, 3);
+            this.PacketsListView.Multiselect = false;
             this.PacketsListView.Name = "PacketsListView";
-            this.PacketsListView.Size = new System.Drawing.Size(406, 560);
-            this.PacketsListView.TabIndex = 0;
-            this.PacketsListView.UseCompatibleStateImageBehavior = false;
-            this.PacketsListView.View = System.Windows.Forms.View.Details;
+            this.tableLayoutPanel1.SetRowSpan(this.PacketsListView, 2);
+            this.PacketsListView.SelectedIndex = -1;
+            this.PacketsListView.SelectedIndexes = ((System.Collections.Generic.List<int>)(resources.GetObject("PacketsListView.SelectedIndexes")));
+            this.PacketsListView.Size = new System.Drawing.Size(444, 562);
+            this.PacketsListView.TabIndex = 6;
+            this.PacketsListView.Text = "bListView1";
             // 
-            // columnHeader1
+            // ChatTextBox
             // 
-            this.columnHeader1.Text = "Heure";
-            // 
-            // columnHeader2
-            // 
-            this.columnHeader2.Text = "Origine";
-            // 
-            // columnHeader3
-            // 
-            this.columnHeader3.Text = "ID";
-            // 
-            // columnHeader4
-            // 
-            this.columnHeader4.Text = "Nom";
-            this.columnHeader4.Width = 222;
+            this.ChatTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ChatTextBox.Location = new System.Drawing.Point(453, 541);
+            this.ChatTextBox.MultiLine = false;
+            this.ChatTextBox.Name = "ChatTextBox";
+            this.ChatTextBox.ReadOnly = false;
+            this.ChatTextBox.Size = new System.Drawing.Size(445, 25);
+            this.ChatTextBox.TabIndex = 5;
+            this.ChatTextBox.UseSystemPasswordChar = false;
+            this.ChatTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ChatTextBox_KeyDown);
             // 
             // LogTextBox
             // 
-            this.LogTextBox.Location = new System.Drawing.Point(419, 7);
+            this.LogTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.LogTextBox.Location = new System.Drawing.Point(453, 3);
             this.LogTextBox.MultiLine = true;
             this.LogTextBox.Name = "LogTextBox";
             this.LogTextBox.ReadOnly = true;
@@ -194,33 +225,8 @@
             this.LogTextBox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
             this.LogTextBox.SelectionLength = 0;
             this.LogTextBox.SelectionStart = 0;
-            this.LogTextBox.Size = new System.Drawing.Size(482, 528);
-            this.LogTextBox.TabIndex = 1;
-            // 
-            // ChatTextBox
-            // 
-            this.ChatTextBox.Location = new System.Drawing.Point(419, 541);
-            this.ChatTextBox.MultiLine = false;
-            this.ChatTextBox.Name = "ChatTextBox";
-            this.ChatTextBox.ReadOnly = false;
-            this.ChatTextBox.Size = new System.Drawing.Size(482, 25);
-            this.ChatTextBox.TabIndex = 2;
-            this.ChatTextBox.UseSystemPasswordChar = false;
-            this.ChatTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ChatTextBox_KeyDown);
-            // 
-            // TabPlugin
-            // 
-            this.TabPlugin.Alignment = System.Windows.Forms.TabAlignment.Left;
-            this.TabPlugin.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TabPlugin.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.TabPlugin.ItemSize = new System.Drawing.Size(32, 170);
-            this.TabPlugin.Location = new System.Drawing.Point(3, 3);
-            this.TabPlugin.Multiline = true;
-            this.TabPlugin.Name = "TabPlugin";
-            this.TabPlugin.SelectedIndex = 0;
-            this.TabPlugin.Size = new System.Drawing.Size(901, 568);
-            this.TabPlugin.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
-            this.TabPlugin.TabIndex = 0;
+            this.LogTextBox.Size = new System.Drawing.Size(445, 532);
+            this.LogTextBox.TabIndex = 4;
             // 
             // MainForm
             // 
@@ -239,6 +245,7 @@
             this.bTabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -251,15 +258,12 @@
         private Design.BButton CloseButton;
         private Design.BTabControl bTabControl1;
         private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.ListView PacketsListView;
-        private System.Windows.Forms.ColumnHeader columnHeader1;
-        private System.Windows.Forms.ColumnHeader columnHeader2;
-        private System.Windows.Forms.ColumnHeader columnHeader3;
-        private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.TabPage tabPage2;
+        private Design.BTabControl TabPlugin;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private Design.BListView PacketsListView;
         private Design.BRichTextBox LogTextBox;
         private Design.BTextBox ChatTextBox;
-        private Design.BTabControl TabPlugin;
     }
 }
 

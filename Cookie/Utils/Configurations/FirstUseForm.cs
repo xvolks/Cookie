@@ -6,25 +6,23 @@ namespace Cookie.Utils.Configurations
 {
     public partial class FirstUseForm : Form
     {
-
-        // Properties
-        public string DofusPath { get; private set; }
-
-            
         // Constructor
         public FirstUseForm()
         {
             InitializeComponent();
         }
 
+        // Properties
+        public string DofusPath { get; private set; }
+
 
         private void btnChoosePath_Click(object sender, EventArgs e)
         {
-            using (FolderBrowserDialog fbd = new FolderBrowserDialog())
+            using (var fbd = new FolderBrowserDialog())
             {
                 if (fbd.ShowDialog() == DialogResult.OK)
                 {
-                    string path = fbd.SelectedPath;
+                    var path = fbd.SelectedPath;
                     txtPath.Text = path;
                 }
             }
@@ -47,6 +45,9 @@ namespace Cookie.Utils.Configurations
             Close();
         }
 
-        private void CloseButton_Click(object sender, EventArgs e) => Environment.Exit(0);
+        private void CloseButton_Click(object sender, EventArgs e)
+        {
+            Environment.Exit(0);
+        }
     }
 }

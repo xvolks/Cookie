@@ -18,20 +18,21 @@ namespace Cookie.Utils.Configurations
 
         private void RefreshAccounts()
         {
-            lvAccounts.Items.Clear();
+            lvAccounts.Items = new ListViewItem[] { }; // lvAccounts.Items.Clear();
 
             GlobalConfiguration.Instance.Accounts.ForEach(a =>
             {
-                lvAccounts.Items.Add(a.Username).SubItems.Add(new string('•', a.Password.Length));
+                lvAccounts.Add(new ListViewItem(a.Username));
+                lvAccounts.Items[lvAccounts.Items.Length - 1].SubItems.Add(new string('•', a.Password.Length));
             });
         }
 
         private void ConnectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (lvAccounts.FocusedItem == null)
+            if (lvAccounts.SelectedIndex == -1)
                 return;
 
-            AccountToConnect = GlobalConfiguration.Instance.Accounts[lvAccounts.FocusedItem.Index];
+            AccountToConnect = GlobalConfiguration.Instance.Accounts[lvAccounts.SelectedIndex];
             DialogResult = DialogResult.OK;
             Close();
         }
