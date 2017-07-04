@@ -58,5 +58,11 @@ namespace Cookie.API.Gamedata
             var id = RuntimeHelpers.GetObjectValue(ObjectDataManager.Instance.Get<Item>(GID).IconId);
             return ImageManager.GetImage(Convert.ToInt32(id));
         }
+
+        public static object GetMonsterName(int creatureId)
+        {
+            var objectValue = RuntimeHelpers.GetObjectValue(ObjectDataManager.Instance.Get<Monster>(creatureId).NameId);
+            return FastD2IReader.Instance.GetText(Convert.ToInt32(objectValue));
+        }
     }
 }

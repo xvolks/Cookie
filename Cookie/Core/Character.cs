@@ -37,12 +37,14 @@ using Cookie.Core.Pathmanager;
 using Cookie.Game.Alliance;
 using Cookie.Game.Chat;
 using Cookie.Game.Friend;
+using Cookie.Game.Fight;
 using Cookie.Game.Guild;
 using Cookie.Game.Inventory;
 using Cookie.Game.Jobs;
 using Cookie.Game.Map;
 using Cookie.Game.Party;
 using Achievement = Cookie.Game.Achievement.Achievement;
+using Cookie.API.Game.Fight;
 
 namespace Cookie.Core
 {
@@ -64,6 +66,7 @@ namespace Cookie.Core
             Alliance = new Alliance(_account);
             Chat = new Chat(_account);
             Map = new Map(_account);
+            Fight = new Fight(_account);
             Friend = new Friend(_account);
             Guild = new Guild(_account);
             Inventory = new Inventory(_account);
@@ -166,6 +169,7 @@ namespace Cookie.Core
         public IAlliance Alliance { get; set; }
         public IChat Chat { get; set; }
         public IMap Map { get; set; }
+        public IFight Fight { get; set; }
         public IFriend Friend { get; set; }
         public IGuild Guild { get; set; }
         public IInventory Inventory { get; set; }
