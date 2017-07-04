@@ -15,6 +15,7 @@ using Cookie.API.Gamedata.D2p.Elements;
 using Cookie.API.Messages;
 using Cookie.API.Protocol.Network.Messages.Game.Context;
 using Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay;
+using Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Fight;
 using Cookie.API.Protocol.Network.Messages.Game.Interactive;
 using Cookie.API.Protocol.Network.Types.Game.Context.Roleplay;
 using Cookie.API.Utils;
@@ -99,6 +100,33 @@ namespace Cookie.Game.Map
         public bool CanGatherElement(int id, int distance)
         {
             return distance <= 1 && distance >= 0;
+        }
+
+        public void LaunchAttackByCellId(ushort cellId)
+        {
+            if (cellId > 559) return;
+            var movement = MoveToCell(cellId);
+            movement.MovementFinished += (sender, e) =>
+            {
+                if (!e.Sucess) return;
+                var monsterGroup = Monsters.First(g => g.CellId == cellId);
+                if (monsterGroup != null)
+                    _account.Network.SendToServer(new GameRolePlayAttackMonsterRequestMessage(monsterGroup.Id));
+            };
+            movement.PerformMovement();
+        }
+
+
+        public void LaunchAttackByMonsterGroup(IMonsterGroup monsterGroup)
+        {
+            if (monsterGroup == null) return;
+            var movement = MoveToCell(monsterGroup.CellId);
+            movement.MovementFinished += (sender, e) =>
+            {
+                if (e.Sucess)
+                    _account.Network.SendToServer(new GameRolePlayAttackMonsterRequestMessage(monsterGroup.Id));
+            };
+            movement.PerformMovement();
         }
 
         public IMapChangement ChangeMap(MapDirectionEnum direction)

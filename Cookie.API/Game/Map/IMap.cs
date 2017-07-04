@@ -104,6 +104,10 @@ namespace Cookie.API.Game.Map
         /// <param name="skillId">Identifiant unique de la compétence à utiliser</param>
         void UseElement(int id, int skillId);
 
+        void LaunchAttackByCellId(ushort cellId);
+
+        void LaunchAttackByMonsterGroup(IMonsterGroup monsterGroup);
+
         ICellMovement MoveToCellWithDistance(int cellId, int maxDistance, bool bool1);
 
         event EventHandler MovementConfirmed;
