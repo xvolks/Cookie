@@ -34,7 +34,7 @@ namespace Cookie.API.Core
         /// <summary>
         ///     The character id
         /// </summary>
-        ulong Id { get; set; }
+        double Id { get; set; }
 
         /// <summary>
         ///     The character name

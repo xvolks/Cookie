@@ -6,7 +6,7 @@ namespace Cookie.Game.Entity
 {
     public class Npc : INpc, IEntity
     {
-        public Npc(int cell, int id, int npcid)
+        public Npc(int cell, double id, int npcid)
         {
             CellId = cell;
             Id = id;
@@ -15,7 +15,7 @@ namespace Cookie.Game.Entity
 
         public int CellId { get; set; }
 
-        public int Id { get; set; }
+        public double Id { get; set; }
 
         public int NpcId { get; set; }
 
