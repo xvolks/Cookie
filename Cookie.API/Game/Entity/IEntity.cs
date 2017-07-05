@@ -10,6 +10,6 @@
         /// <summary>
         ///     Identifiant de l'entité
         /// </summary>
-        int Id { get; set; }
+        double Id { get; set; }
     }
 }

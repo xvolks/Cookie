@@ -6,12 +6,12 @@ namespace Cookie.Game.Fight.Fighters
 {
     public class Monster : Fighter, IMonster
     {
-        public Monster(int id, int cellId, GameFightMinimalStats stats, uint teamId, bool isAlive,
+        public Monster(double id, int cellId, GameFightMinimalStats stats, uint teamId, bool isAlive,
             ushort creatureGenericId, byte creatureGrade) : base(id, cellId, stats, teamId, isAlive)
         {
             CreatureGenericId = creatureGenericId;
             CreatureGrade = creatureGrade;
-            Name = (string) D2OParsing.GetMonsterName(creatureGenericId);
+            Name = (string)D2OParsing.GetMonsterName(creatureGenericId);
         }
 
         public ushort CreatureGenericId { get; internal set; }

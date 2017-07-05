@@ -9,7 +9,7 @@ namespace Cookie.Game.Entity
 {
     public class MonsterGroup : IMonsterGroup
     {
-        public MonsterGroup(GroupMonsterStaticInformations staticInfos, int id, int cellId)
+        public MonsterGroup(GroupMonsterStaticInformations staticInfos, double id, int cellId)
         {
             StaticInfos = staticInfos;
             Id = id;
@@ -29,12 +29,12 @@ namespace Cookie.Game.Entity
                 {
                     var monsterGrade = ObjectDataManager.Instance.Get<Monster>(monster.CreatureGenericId).Grades;
                     var monsterGradeData = monsterGrade[monster.Grade - 1];
-                    groupLevel += (int) monsterGradeData.Level;
+                    groupLevel += (int)monsterGradeData.Level;
                 }
                 var mainMonsterGrade = ObjectDataManager.Instance
                     .Get<Monster>(StaticInfos.MainCreatureLightInfos.CreatureGenericId).Grades;
                 var mainMonsterGradeData = mainMonsterGrade[StaticInfos.MainCreatureLightInfos.Grade - 1];
-                groupLevel += (int) mainMonsterGradeData.Level;
+                groupLevel += (int)mainMonsterGradeData.Level;
                 return groupLevel;
             }
         }
@@ -67,6 +67,6 @@ namespace Cookie.Game.Entity
 
         public int CellId { get; set; }
 
-        public int Id { get; set; }
+        public double Id { get; set; }
     }
 }
