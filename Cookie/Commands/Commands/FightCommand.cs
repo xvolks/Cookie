@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Cookie.API.Commands;
+﻿using Cookie.API.Commands;
 using Cookie.API.Core;
 using Cookie.API.Utils;
-using Cookie.API.Utils.Enums;
 
 namespace Cookie.Commands.Commands
 {
@@ -23,7 +17,7 @@ namespace Cookie.Commands.Commands
                 return;
             }
 
-            account.Character.Map.LaunchAttackByCellId(Convert.ToUInt16(args[0]));
+            account.Character.Map.LaunchAttack();
         }
     }
 }

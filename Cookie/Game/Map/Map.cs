@@ -102,6 +102,17 @@ namespace Cookie.Game.Map
             return distance <= 1 && distance >= 0;
         }
 
+        public void LaunchAttack()
+        {
+            var monsterGroup = Monsters.FirstOrDefault();
+            var movement = MoveToCell(monsterGroup.CellId);
+            movement.MovementFinished += (sender, e) =>
+            {
+                if (e.Sucess)
+                    _account.Network.SendToServer(new GameRolePlayAttackMonsterRequestMessage(monsterGroup.Id));
+            };
+            movement.PerformMovement();
+        }
         public void LaunchAttackByCellId(ushort cellId)
         {
             if (cellId > 559) return;

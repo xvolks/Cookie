@@ -104,6 +104,8 @@ namespace Cookie.API.Game.Map
         /// <param name="skillId">Identifiant unique de la compétence à utiliser</param>
         void UseElement(int id, int skillId);
 
+        void LaunchAttack();
+
         void LaunchAttackByCellId(ushort cellId);
 
         void LaunchAttackByMonsterGroup(IMonsterGroup monsterGroup);

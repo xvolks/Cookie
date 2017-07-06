@@ -29,5 +29,9 @@ namespace Cookie.API.Game.Fight
         ///     Retourne le monstre le plus proche
         /// </summary>
         IMonster NearestMonster();
+        /// <summary>
+        ///     Retourne le monstre le plus faible
+        /// </summary>
+        IMonster WeakestMonster();
     }
 }
