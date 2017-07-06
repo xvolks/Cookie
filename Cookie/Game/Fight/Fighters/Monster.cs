@@ -11,7 +11,7 @@ namespace Cookie.Game.Fight.Fighters
         {
             CreatureGenericId = creatureGenericId;
             CreatureGrade = creatureGrade;
-            Name = (string)D2OParsing.GetMonsterName(creatureGenericId);
+            Name = D2OParsing.GetMonsterName(creatureGenericId);
         }
 
         public ushort CreatureGenericId { get; internal set; }

@@ -1,5 +1,4 @@
-﻿using Cookie.API.Game.Entity;
-using Cookie.API.Game.Fight.Fighters;
+﻿using Cookie.API.Game.Fight.Fighters;
 using Cookie.API.Protocol.Network.Types.Game.Context.Fight;
 
 namespace Cookie.Game.Fight.Fighters
