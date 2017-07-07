@@ -10,12 +10,9 @@
 
 namespace Cookie.API.Protocol.Network.Messages.Game.Chat
 {
-    using System.Collections.Generic;
-    using Cookie.API.Protocol.Network.Messages;
-    using Cookie.API.Protocol.Network.Types;
     using Cookie.API.Utils.IO;
-    
-    
+
+
     public class ChatClientPrivateMessage : ChatAbstractClientMessage
     {
         
@@ -43,7 +40,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Chat
             }
         }
         
-        public ChatClientPrivateMessage(string receiver)
+        public ChatClientPrivateMessage(string receiver, string content) : base (content)
         {
             m_receiver = receiver;
         }
