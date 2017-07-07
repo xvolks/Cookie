@@ -78,6 +78,7 @@
     <Compile Include="Game\Entity\Entity.cs" />
     <Compile Include="Game\Fight\Fight.cs" />
     <Compile Include="Game\Fight\FightData.cs" />
+    <Compile Include="Game\Fight\Fighters\Companion.cs" />
     <Compile Include="Game\Fight\Fighters\Fighter.cs" />
     <Compile Include="Game\Fight\Fighters\Monster.cs" />
     <Compile Include="Game\Entity\MonsterGroup.cs" />

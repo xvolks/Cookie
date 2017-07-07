@@ -14,11 +14,11 @@ namespace Cookie.Game.Fight.Fighters
             Level = level;
             CompanionGenericId = companionGenericId;
             MasterId = MasterId;
-            Name = (string)D2OParsing.GetMonsterName((int)CompanionGenericId);
+            Name = D2OParsing.GetMonsterName((int)CompanionGenericId);
         }
-        public string Name { get; internal set; }
-        public int Level { get; internal set; }
-        public byte CompanionGenericId { get; internal set; }
-        public double MasterId { get; internal set; }
+        public string Name { get; set; }
+        public int Level { get; set; }
+        public byte CompanionGenericId { get; set; }
+        public double MasterId { get; set; }
     }
 }

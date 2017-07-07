@@ -92,13 +92,15 @@
     <Compile Include="Game\Alliance\IAlliance.cs" />
     <Compile Include="Game\Chat\IChat.cs" />
     <Compile Include="Game\Entity\IEntity.cs" />
-	<Compile Include="Game\Fight\IFight.cs" />
+    <Compile Include="Game\Fight\Fighters\ICompanion.cs" />
+    <Compile Include="Game\Fight\IFight.cs" />
     <Compile Include="Game\Fight\Fighters\IFighter.cs" />
     <Compile Include="Game\Fight\Fighters\IMonster.cs" />
     <Compile Include="Game\Fight\IFightData.cs" />
     <Compile Include="Game\Entity\IMonsterGroup.cs" />
     <Compile Include="Game\Entity\INpc.cs" />
     <Compile Include="Game\Entity\IPlayer.cs" />
+    <Compile Include="Game\Fight\SpellInabilityReason.cs" />
     <Compile Include="Game\Friend\IFriend.cs" />
     <Compile Include="Game\Guild\IGuild.cs" />
     <Compile Include="Game\Inventory\IInventory.cs" />
