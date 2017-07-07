@@ -32,20 +32,20 @@
             this.bForm1 = new Cookie.Design.BForm();
             this.bTabControl1 = new Cookie.Design.BTabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.PacketsListView = new Cookie.Design.BListView();
+            this.LogTextBox = new Cookie.Design.BRichTextBox();
+            this.ChatTextBox = new Cookie.Design.BTextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.TabPlugin = new Cookie.Design.BTabControl();
             this.MinimizeButton = new Cookie.Design.BButton();
             this.MaximizeButton = new Cookie.Design.BButton();
             this.CloseButton = new Cookie.Design.BButton();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.PacketsListView = new Cookie.Design.BListView();
-            this.ChatTextBox = new Cookie.Design.BTextBox();
-            this.LogTextBox = new Cookie.Design.BRichTextBox();
             this.bForm1.SuspendLayout();
             this.bTabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
             // bForm1
@@ -94,6 +94,73 @@
             this.tabPage1.Size = new System.Drawing.Size(907, 574);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Log";
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.PacketsListView, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.LogTextBox, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.ChatTextBox, 1, 1);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(901, 568);
+            this.tableLayoutPanel1.TabIndex = 0;
+            // 
+            // PacketsListView
+            // 
+            this.PacketsListView.Columns = new string[] {
+        "Heure",
+        "Origine",
+        "ID",
+        "Nom"};
+            this.PacketsListView.ColumnWidth = 120;
+            this.PacketsListView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PacketsListView.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.PacketsListView.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.PacketsListView.Grid = false;
+            this.PacketsListView.HandleItemsForeColor = true;
+            this.PacketsListView.Items = null;
+            this.PacketsListView.Location = new System.Drawing.Point(3, 3);
+            this.PacketsListView.Multiselect = false;
+            this.PacketsListView.Name = "PacketsListView";
+            this.tableLayoutPanel1.SetRowSpan(this.PacketsListView, 2);
+            this.PacketsListView.SelectedIndex = -1;
+            this.PacketsListView.SelectedIndexes = ((System.Collections.Generic.List<int>)(resources.GetObject("PacketsListView.SelectedIndexes")));
+            this.PacketsListView.Size = new System.Drawing.Size(444, 562);
+            this.PacketsListView.TabIndex = 6;
+            this.PacketsListView.Text = "bListView1";
+            // 
+            // LogTextBox
+            // 
+            this.LogTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.LogTextBox.Location = new System.Drawing.Point(453, 3);
+            this.LogTextBox.MultiLine = true;
+            this.LogTextBox.Name = "LogTextBox";
+            this.LogTextBox.ReadOnly = true;
+            this.LogTextBox.SelectedText = "";
+            this.LogTextBox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.LogTextBox.SelectionLength = 0;
+            this.LogTextBox.SelectionStart = 0;
+            this.LogTextBox.Size = new System.Drawing.Size(445, 532);
+            this.LogTextBox.TabIndex = 4;
+            // 
+            // ChatTextBox
+            // 
+            this.ChatTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ChatTextBox.Location = new System.Drawing.Point(453, 541);
+            this.ChatTextBox.MultiLine = false;
+            this.ChatTextBox.Name = "ChatTextBox";
+            this.ChatTextBox.ReadOnly = false;
+            this.ChatTextBox.Size = new System.Drawing.Size(445, 25);
+            this.ChatTextBox.TabIndex = 5;
+            this.ChatTextBox.UseSystemPasswordChar = false;
+            this.ChatTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ChatTextBox_KeyDown);
             // 
             // tabPage2
             // 
@@ -161,73 +228,6 @@
             this.CloseButton.UseVisualStyleBackColor = true;
             this.CloseButton.Click += new System.EventHandler(this.CloseButton_Click);
             // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.PacketsListView, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.LogTextBox, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.ChatTextBox, 1, 1);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(901, 568);
-            this.tableLayoutPanel1.TabIndex = 0;
-            // 
-            // PacketsListView
-            // 
-            this.PacketsListView.Columns = new string[] {
-        "Heure",
-        "Origine",
-        "ID",
-        "Nom"};
-            this.PacketsListView.ColumnWidth = 120;
-            this.PacketsListView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PacketsListView.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.PacketsListView.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
-            this.PacketsListView.Grid = false;
-            this.PacketsListView.HandleItemsForeColor = true;
-            this.PacketsListView.Items = null;
-            this.PacketsListView.Location = new System.Drawing.Point(3, 3);
-            this.PacketsListView.Multiselect = false;
-            this.PacketsListView.Name = "PacketsListView";
-            this.tableLayoutPanel1.SetRowSpan(this.PacketsListView, 2);
-            this.PacketsListView.SelectedIndex = -1;
-            this.PacketsListView.SelectedIndexes = ((System.Collections.Generic.List<int>)(resources.GetObject("PacketsListView.SelectedIndexes")));
-            this.PacketsListView.Size = new System.Drawing.Size(444, 562);
-            this.PacketsListView.TabIndex = 6;
-            this.PacketsListView.Text = "bListView1";
-            // 
-            // ChatTextBox
-            // 
-            this.ChatTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ChatTextBox.Location = new System.Drawing.Point(453, 541);
-            this.ChatTextBox.MultiLine = false;
-            this.ChatTextBox.Name = "ChatTextBox";
-            this.ChatTextBox.ReadOnly = false;
-            this.ChatTextBox.Size = new System.Drawing.Size(445, 25);
-            this.ChatTextBox.TabIndex = 5;
-            this.ChatTextBox.UseSystemPasswordChar = false;
-            this.ChatTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ChatTextBox_KeyDown);
-            // 
-            // LogTextBox
-            // 
-            this.LogTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.LogTextBox.Location = new System.Drawing.Point(453, 3);
-            this.LogTextBox.MultiLine = true;
-            this.LogTextBox.Name = "LogTextBox";
-            this.LogTextBox.ReadOnly = true;
-            this.LogTextBox.SelectedText = "";
-            this.LogTextBox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
-            this.LogTextBox.SelectionLength = 0;
-            this.LogTextBox.SelectionStart = 0;
-            this.LogTextBox.Size = new System.Drawing.Size(445, 532);
-            this.LogTextBox.TabIndex = 4;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -244,8 +244,8 @@
             this.bForm1.ResumeLayout(false);
             this.bTabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
-            this.tabPage2.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

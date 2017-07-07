@@ -22,11 +22,21 @@ namespace Cookie.Game.Fight
             IsFighterTurn = false;
         }
 
-        public void LockFight() => Account.Network.SendToServer(new GameFightOptionToggleMessage((byte) FightOptionsEnum.FIGHT_OPTION_SET_CLOSED));
+        public void LockFight()
+        {
+            Account.Network.SendToServer(
+                new GameFightOptionToggleMessage((byte) FightOptionsEnum.FIGHT_OPTION_SET_CLOSED));
+        }
 
-        public void SetReady() => Account.Network.SendToServer(new GameFightReadyMessage(true));
+        public void SetReady()
+        {
+            Account.Network.SendToServer(new GameFightReadyMessage(true));
+        }
 
-        public void KickPlayer(int id) => Account.Network.SendToServer(new GameContextKickMessage(id));
+        public void KickPlayer(int id)
+        {
+            Account.Network.SendToServer(new GameContextKickMessage(id));
+        }
 
         public bool MoveToCell(int cellId)
         {

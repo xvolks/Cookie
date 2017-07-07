@@ -29,12 +29,12 @@ namespace Cookie.Game.Entity
                 {
                     var monsterGrade = ObjectDataManager.Instance.Get<Monster>(monster.CreatureGenericId).Grades;
                     var monsterGradeData = monsterGrade[monster.Grade - 1];
-                    groupLevel += (int)monsterGradeData.Level;
+                    groupLevel += (int) monsterGradeData.Level;
                 }
                 var mainMonsterGrade = ObjectDataManager.Instance
                     .Get<Monster>(StaticInfos.MainCreatureLightInfos.CreatureGenericId).Grades;
                 var mainMonsterGradeData = mainMonsterGrade[StaticInfos.MainCreatureLightInfos.Grade - 1];
-                groupLevel += (int)mainMonsterGradeData.Level;
+                groupLevel += (int) mainMonsterGradeData.Level;
                 return groupLevel;
             }
         }
