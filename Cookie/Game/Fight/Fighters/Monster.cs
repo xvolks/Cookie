@@ -14,8 +14,8 @@ namespace Cookie.Game.Fight.Fighters
             Name = D2OParsing.GetMonsterName(creatureGenericId);
         }
 
-        public ushort CreatureGenericId { get; internal set; }
-        public byte CreatureGrade { get; internal set; }
-        public string Name { get; internal set; }
+        public ushort CreatureGenericId { get; set; }
+        public byte CreatureGrade { get; set; }
+        public string Name { get; set; }
     }
 }

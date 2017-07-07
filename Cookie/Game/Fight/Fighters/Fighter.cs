@@ -16,12 +16,12 @@ namespace Cookie.Game.Fight.Fighters
             MovementPoints = stats.MovementPoints;
         }
 
-        public uint LifePoints { get; internal set; }
-        public uint MaxLifePoints { get; internal set; }
-        public short ActionPoints { get; internal set; }
-        public short MovementPoints { get; internal set; }
-        public bool IsAlive { get; internal set; }
-        public uint TeamId { get; internal set; }
-        public GameFightMinimalStats Stats { get; internal set; }
+        public uint LifePoints { get; set; }
+        public uint MaxLifePoints { get; set; }
+        public short ActionPoints { get; set; }
+        public short MovementPoints { get; set; }
+        public bool IsAlive { get; set; }
+        public uint TeamId { get; set; }
+        public GameFightMinimalStats Stats { get; set; }
     }
 }
