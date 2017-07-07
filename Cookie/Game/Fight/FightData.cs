@@ -22,6 +22,7 @@ using Cookie.API.Utils.Enums;
 using Cookie.Game.Fight.Fighters;
 using Companion = Cookie.Game.Fight.Fighters.Companion;
 using Monster = Cookie.Game.Fight.Fighters.Monster;
+using Cookie.API.Protocol.Network.Types.Game.Data.Items;
 
 namespace Cookie.Game.Fight
 {
@@ -429,6 +430,37 @@ namespace Cookie.Game.Fight
 
         #region Public Fonction
 
+        public int CanUseSpell(SpellItem spell, IFighter target)
+        {
+            if (CanLaunchSpell(spell.SpellId) != SpellInabilityReason.None)
+            {
+                return -1;
+            }
+
+            if (CanLaunchSpellOn(spell.SpellId, Fighter.CellId, target.CellId) == SpellInabilityReason.None)
+            {
+                return 0;
+            }
+
+            int moveCell = -1;
+            int distance = -1;
+            foreach (int cell in GetReachableCells())
+            {
+                if (CanLaunchSpellOn(spell.SpellId, cell, target.CellId, true) == SpellInabilityReason.None)
+                {
+                    MapPoint characterPoint = new MapPoint(cell);
+                    int tempDistance = characterPoint.DistanceToCell(new MapPoint(target.CellId));
+
+                    if (tempDistance > distance || distance == -1)
+                    {
+                        distance = tempDistance;
+                        moveCell = cell;
+                    }
+                }
+            }
+            return moveCell;
+        }
+
         public IMonster NearestMonster()
         {
             var savDistance = -1;
@@ -537,8 +569,14 @@ namespace Cookie.Game.Fight
             return SpellInabilityReason.None;
         }
 
-        protected SpellInabilityReason CanLaunchSpell(int spellId, int characterCellId, int cellId)
+        protected SpellInabilityReason CanLaunchSpellOn(int spellId, int characterCellId, int cellId, bool withMove = false)
         {
+            if (!withMove)
+            {
+                SpellInabilityReason canLaunchSpell = CanLaunchSpell(spellId);
+                if (canLaunchSpell != SpellInabilityReason.None)
+                    return canLaunchSpell;
+            }
             var spellLevelsData = ObjectDataManager.Instance.Get<SpellLevel>(spellId);
             if (spellLevelsData == null)
                 return SpellInabilityReason.Unknown;

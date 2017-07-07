@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Cookie.API.Game.Fight.Fighters;
+using Cookie.API.Protocol.Network.Types.Game.Data.Items;
 
 namespace Cookie.API.Game.Fight
 {
@@ -39,5 +40,10 @@ namespace Cookie.API.Game.Fight
         ///     Retourne le monstre le plus faible
         /// </summary>
         IMonster WeakestMonster();
+
+        /// <summary>
+        ///     Test si le sort peut être utiliser
+        /// </summary>
+        int CanUseSpell(SpellItem spell, IFighter target);
     }
 }
