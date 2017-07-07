@@ -80,6 +80,8 @@ namespace Cookie.Game.Fight
                 MessagePriority.VeryHigh);
             Account.Network.RegisterPacket<GameActionFightSpellCastMessage>(HandleGameActionFightSpellCastMessage,
                 MessagePriority.VeryHigh);
+
+            CheckLock = new object();
         }
 
         public bool IsFightStarted { get; protected set; }
