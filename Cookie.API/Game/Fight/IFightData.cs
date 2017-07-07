@@ -1,11 +1,28 @@
 ﻿using System.Collections.Generic;
 using Cookie.API.Game.Fight.Fighters;
 using Cookie.API.Protocol.Network.Types.Game.Data.Items;
+using System;
+using Cookie.API.Protocol.Network.Messages.Game.Context.Fight;
 
 namespace Cookie.API.Game.Fight
 {
     public interface IFightData
     {
+        /// <summary>
+        ///     Indique dès que le combat démarre
+        /// </summary>
+        event Action FightStarted;
+
+        /// <summary>
+        ///     Indique dès que c'est le tour du bot
+        /// </summary>
+
+        event Action TurnStarted;
+        /// <summary>
+        ///     Indique dès que le combat fini
+        /// </summary>
+        event Action<GameFightEndMessage> FightEnded;
+
         /// <summary>
         ///     Liste des combattants
         /// </summary>
@@ -44,6 +61,6 @@ namespace Cookie.API.Game.Fight
         /// <summary>
         ///     Test si le sort peut être utiliser
         /// </summary>
-        int CanUseSpell(SpellItem spell, IFighter target);
+        int CanUseSpell(int spellId, IFighter target);
     }
 }

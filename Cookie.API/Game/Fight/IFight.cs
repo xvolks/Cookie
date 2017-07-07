@@ -1,6 +1,6 @@
 ﻿namespace Cookie.API.Game.Fight
 {
-    public interface IFight
+    public interface IFight : IFightData
     {
         /// <summary>
         ///     Lance un sort

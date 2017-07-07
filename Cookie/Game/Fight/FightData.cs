@@ -105,9 +105,9 @@ namespace Cookie.Game.Fight
 
         #region Event
 
-        public event Action<object, GameFightEndMessage> FightEnded;
-        public event Action<object> FightStarted;
-        public event Action<object> TurnStarted;
+        public event Action<GameFightEndMessage> FightEnded;
+        public event Action FightStarted;
+        public event Action TurnStarted;
 
         #endregion
 
@@ -292,7 +292,7 @@ namespace Cookie.Game.Fight
             {
                 IsFighterTurn = true;
                 Account.Character.Status = CharacterStatus.Fighting;
-                TurnStarted?.Invoke(this);
+                TurnStarted?.Invoke();
             }
             else
             {
@@ -396,7 +396,7 @@ namespace Cookie.Game.Fight
         {
             WaitForReady = false;
             IsFightStarted = true;
-            FightStarted?.Invoke(this);
+            FightStarted?.Invoke();
             Account.Character.Status = CharacterStatus.Fighting;
             Logger.Default.Log("Début du combat");
         }
@@ -406,7 +406,7 @@ namespace Cookie.Game.Fight
             WaitForReady = false;
             IsFighterTurn = false;
             IsFightStarted = false;
-            FightEnded?.Invoke(this, message);
+            FightEnded?.Invoke(message);
 
             Account.Character.Status = CharacterStatus.None;
         }
@@ -430,14 +430,14 @@ namespace Cookie.Game.Fight
 
         #region Public Fonction
 
-        public int CanUseSpell(SpellItem spell, IFighter target)
+        public int CanUseSpell(int spellId, IFighter target)
         {
-            if (CanLaunchSpell(spell.SpellId) != SpellInabilityReason.None)
+            if (CanLaunchSpell(spellId) != SpellInabilityReason.None)
             {
                 return -1;
             }
 
-            if (CanLaunchSpellOn(spell.SpellId, Fighter.CellId, target.CellId) == SpellInabilityReason.None)
+            if (CanLaunchSpellOn(spellId, Fighter.CellId, target.CellId) == SpellInabilityReason.None)
             {
                 return 0;
             }
@@ -446,7 +446,7 @@ namespace Cookie.Game.Fight
             int distance = -1;
             foreach (int cell in GetReachableCells())
             {
-                if (CanLaunchSpellOn(spell.SpellId, cell, target.CellId, true) == SpellInabilityReason.None)
+                if (CanLaunchSpellOn(spellId, cell, target.CellId, true) == SpellInabilityReason.None)
                 {
                     MapPoint characterPoint = new MapPoint(cell);
                     int tempDistance = characterPoint.DistanceToCell(new MapPoint(target.CellId));

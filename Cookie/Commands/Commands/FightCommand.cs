@@ -1,6 +1,7 @@
 ﻿using Cookie.API.Commands;
 using Cookie.API.Core;
 using Cookie.API.Utils;
+using Cookie.Game.Fight;
 
 namespace Cookie.Commands.Commands
 {
@@ -17,6 +18,7 @@ namespace Cookie.Commands.Commands
                 return;
             }
 
+            new ArtificialIntelligence().Load(account, args[0]);
             account.Character.Map.LaunchAttack();
         }
     }

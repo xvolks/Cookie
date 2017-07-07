@@ -16,6 +16,7 @@ using Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Job;
 using Cookie.API.Protocol.Network.Types.Game.Data.Items;
 using Cookie.API.Protocol.Network.Types.Game.Look;
 using Cookie.API.Utils.Enums;
+using Cookie.API.Game.Fight;
 
 namespace Cookie.API.Core
 {
@@ -135,6 +136,8 @@ namespace Cookie.API.Core
         IChat Chat { get; set; }
 
         IMap Map { get; set; }
+
+        IFight Fight { get; }
 
         IFriend Friend { get; set; }
 

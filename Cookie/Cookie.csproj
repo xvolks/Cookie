@@ -38,7 +38,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MoonSharp.Interpreter, Version=2.0.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
-      <HintPath>..\packages\MoonSharp.2.0.0.0\lib\net40-client\MoonSharp.Interpreter.dll</HintPath>
+      <HintPath>..\..\..\Desktop\armée\MoonSharp.Interpreter.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -83,6 +83,7 @@
     <Compile Include="Game\Alliance\Alliance.cs" />
     <Compile Include="Game\Chat\Chat.cs" />
     <Compile Include="Game\Entity\Entity.cs" />
+    <Compile Include="Game\Fight\ArtificialIntelligence.cs" />
     <Compile Include="Game\Fight\Fight.cs" />
     <Compile Include="Game\Fight\FightData.cs" />
     <Compile Include="Game\Fight\Fighters\Companion.cs" />
