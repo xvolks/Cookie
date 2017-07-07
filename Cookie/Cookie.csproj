@@ -37,6 +37,9 @@
     <ApplicationIcon>cookie-icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MoonSharp.Interpreter, Version=2.0.0.0, Culture=neutral, PublicKeyToken=921e73ce94aa17f8, processorArchitecture=MSIL">
+      <HintPath>..\packages\MoonSharp.2.0.0.0\lib\net40-client\MoonSharp.Interpreter.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
@@ -59,6 +62,7 @@
     <Compile Include="Commands\Commands\JobsCommand.cs" />
     <Compile Include="Commands\Commands\KamasCommand.cs" />
     <Compile Include="Commands\Commands\LevelCommand.cs" />
+    <Compile Include="Commands\Commands\LoadIACommand.cs" />
     <Compile Include="Commands\Commands\MapCommand.cs" />
     <Compile Include="Commands\Commands\PathCommand.cs" />
     <Compile Include="Commands\Exceptions\CommandNotFoundException.cs" />
@@ -68,6 +72,9 @@
     <Compile Include="Core\Frames\BasicFrame.cs" />
     <Compile Include="Core\Frames\LatencyFrame.cs" />
     <Compile Include="Core\Network\Network.cs" />
+    <Compile Include="Core\Scripts\IASpell.cs" />
+    <Compile Include="Core\Scripts\ScriptsData.cs" />
+    <Compile Include="Core\Scripts\ScriptsManager.cs" />
     <Compile Include="FullSocket\ConnectionFullSocket.cs" />
     <Compile Include="FullSocket\FullSocket.cs" />
     <Compile Include="FullSocket\FullSocketConfiguration.cs" />
@@ -147,6 +154,7 @@
     <EmbeddedResource Include="Utils\Configurations\FirstUseForm.resx">
       <DependentUpon>FirstUseForm.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

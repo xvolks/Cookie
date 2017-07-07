@@ -17,6 +17,7 @@ using Cookie.Commands.Managers;
 using Cookie.FullSocket;
 using Cookie.Properties;
 using Cookie.Utils.Configurations;
+using MoonSharp.Interpreter;
 
 namespace Cookie
 {
@@ -51,6 +52,7 @@ namespace Cookie
 
                 Task.Factory.StartNew(() =>
                 {
+                    UserData.RegisterAssembly();
                     CommandManager.Build();
                     ProtocolTypeManager.Initialize();
 

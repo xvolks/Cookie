@@ -21,6 +21,7 @@ using Cookie.API.Protocol.Network.Types.Game.Context.Roleplay;
 using Cookie.API.Utils;
 using Cookie.API.Utils.Enums;
 using Cookie.API.Utils.Extensions;
+using Cookie.Core.Scripts;
 using Cookie.Game.Entity;
 using Cookie.Game.Map.Elements;
 using IMap = Cookie.API.Game.Map.IMap;
