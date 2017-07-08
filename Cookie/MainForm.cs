@@ -326,20 +326,20 @@ namespace Cookie
                 var time = DateTime.Now.ToLongTimeString();
                 var rows = new[] {time, origin, id, name};
                 var listViewItem = new ListViewItem(rows);
-                PacketsListView.Add(listViewItem);
+                PacketsListView.Items.Add(listViewItem);
                 switch (origin)
                 {
                     case "Client":
-                        PacketsListView.Items[PacketsListView.Items.Length - 1].ForeColor =
+                        PacketsListView.Items[PacketsListView.Items.Count - 1].ForeColor =
                             ColorTranslator.FromHtml("#F16392");
                         break;
                     case "Server":
-                        PacketsListView.Items[PacketsListView.Items.Length - 1].ForeColor =
+                        PacketsListView.Items[PacketsListView.Items.Count - 1].ForeColor =
                             ColorTranslator.FromHtml("#9EC79D");
                         break;
                 }
 
-                // PacketsListView.EnsureVisible(PacketsListView.Items.Length - 1);
+                PacketsListView.EnsureVisible(PacketsListView.Items.Count - 1);
             }
         }
 

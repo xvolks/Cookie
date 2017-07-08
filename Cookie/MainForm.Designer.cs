@@ -33,7 +33,6 @@
             this.bTabControl1 = new Cookie.Design.BTabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.PacketsListView = new Cookie.Design.BListView();
             this.LogTextBox = new Cookie.Design.BRichTextBox();
             this.ChatTextBox = new Cookie.Design.BTextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
@@ -41,6 +40,11 @@
             this.MinimizeButton = new Cookie.Design.BButton();
             this.MaximizeButton = new Cookie.Design.BButton();
             this.CloseButton = new Cookie.Design.BButton();
+            this.PacketsListView = new System.Windows.Forms.ListView();
+            this.columnHeaderTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderOrigin = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.bForm1.SuspendLayout();
             this.bTabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -100,9 +104,9 @@
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.PacketsListView, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.LogTextBox, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.ChatTextBox, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.PacketsListView, 0, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -111,30 +115,6 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(901, 568);
             this.tableLayoutPanel1.TabIndex = 0;
-            // 
-            // PacketsListView
-            // 
-            this.PacketsListView.Columns = new string[] {
-        "Heure",
-        "Origine",
-        "ID",
-        "Nom"};
-            this.PacketsListView.ColumnWidth = 120;
-            this.PacketsListView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PacketsListView.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.PacketsListView.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
-            this.PacketsListView.Grid = false;
-            this.PacketsListView.HandleItemsForeColor = true;
-            this.PacketsListView.Items = null;
-            this.PacketsListView.Location = new System.Drawing.Point(3, 3);
-            this.PacketsListView.Multiselect = false;
-            this.PacketsListView.Name = "PacketsListView";
-            this.tableLayoutPanel1.SetRowSpan(this.PacketsListView, 2);
-            this.PacketsListView.SelectedIndex = -1;
-            this.PacketsListView.SelectedIndexes = ((System.Collections.Generic.List<int>)(resources.GetObject("PacketsListView.SelectedIndexes")));
-            this.PacketsListView.Size = new System.Drawing.Size(444, 562);
-            this.PacketsListView.TabIndex = 6;
-            this.PacketsListView.Text = "bListView1";
             // 
             // LogTextBox
             // 
@@ -228,6 +208,43 @@
             this.CloseButton.UseVisualStyleBackColor = true;
             this.CloseButton.Click += new System.EventHandler(this.CloseButton_Click);
             // 
+            // PacketsListView
+            // 
+            this.PacketsListView.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.PacketsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeaderTime,
+            this.columnHeaderOrigin,
+            this.columnHeaderId,
+            this.columnHeaderName});
+            this.PacketsListView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PacketsListView.Location = new System.Drawing.Point(3, 3);
+            this.PacketsListView.Name = "PacketsListView";
+            this.tableLayoutPanel1.SetRowSpan(this.PacketsListView, 2);
+            this.PacketsListView.Size = new System.Drawing.Size(444, 562);
+            this.PacketsListView.TabIndex = 6;
+            this.PacketsListView.UseCompatibleStateImageBehavior = false;
+            this.PacketsListView.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeaderTime
+            // 
+            this.columnHeaderTime.Text = "Heure";
+            this.columnHeaderTime.Width = 77;
+            // 
+            // columnHeaderOrigin
+            // 
+            this.columnHeaderOrigin.Text = "Origine";
+            this.columnHeaderOrigin.Width = 54;
+            // 
+            // columnHeaderId
+            // 
+            this.columnHeaderId.Text = "ID";
+            this.columnHeaderId.Width = 51;
+            // 
+            // columnHeaderName
+            // 
+            this.columnHeaderName.Text = "Nom";
+            this.columnHeaderName.Width = 223;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -261,9 +278,13 @@
         private System.Windows.Forms.TabPage tabPage2;
         private Design.BTabControl TabPlugin;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private Design.BListView PacketsListView;
         private Design.BRichTextBox LogTextBox;
         private Design.BTextBox ChatTextBox;
+        private System.Windows.Forms.ListView PacketsListView;
+        private System.Windows.Forms.ColumnHeader columnHeaderTime;
+        private System.Windows.Forms.ColumnHeader columnHeaderOrigin;
+        private System.Windows.Forms.ColumnHeader columnHeaderId;
+        private System.Windows.Forms.ColumnHeader columnHeaderName;
     }
 }
 
