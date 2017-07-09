@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using Cookie.API.Core;
 using Cookie.API.Datacenter;
@@ -481,17 +482,20 @@ namespace Cookie.Game.Fight
 
         public IMonster NearestMonster()
         {
-            var savDistance = -1;
+            MapPoint charMp = new MapPoint(Fighter.CellId);
+            var distance = -1;
+            IMonster rMonster = null;
+
             foreach (var monster in Monsters)
             {
-                if (monster.TeamId == Fighter.TeamId || monster.IsAlive == false)
-                    continue;
-                var dist = DistanceFrom(monster);
-                if (dist >= savDistance && savDistance != -1 || monster == Fighter) continue;
-                savDistance = dist;
-                return monster;
+                var monsterMp = new MapPoint(monster.CellId);
+
+                if (distance != -1 && charMp.DistanceToCell(monsterMp) >= distance) continue;
+                rMonster = monster;
+                distance = charMp.DistanceToCell(monsterMp);
             }
-            return null;
+
+            return rMonster;
         }
 
         public IMonster WeakestMonster()
@@ -549,11 +553,23 @@ namespace Cookie.Game.Fight
 
         protected SpellInabilityReason CanLaunchSpell(int spellId)
         {
-            var spellLevelsData = ObjectDataManager.Instance.Get<SpellLevel>(spellId);
+            short spellLevel;
+            try
+            {
+                spellLevel = Account.Character.Spells.First(s => s.SpellId == spellId).SpellLevel;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return SpellInabilityReason.UnknownSpell;
+            }
+            
+
+            var spell = ObjectDataManager.Instance.Get<Spell>(spellId);
+            var id = Convert.ToInt32(spell.SpellLevels[spellLevel - 1]);
+            var spellLevelsData = ObjectDataManager.Instance.Get<SpellLevel>(id);
             if (spellLevelsData == null)
                 return SpellInabilityReason.Unknown;
-            if (spellId == 0)
-                return SpellInabilityReason.UnknownSpell;
             if (spellId != 0 && Fighter.ActionPoints < spellLevelsData.ApCost)
                 return SpellInabilityReason.ActionPoints;
             if (TotalLaunchBySpell.ContainsKey(spellId) &&

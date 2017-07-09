@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Cookie.API.Core;
 using Cookie.API.Game.Inventory;
@@ -81,6 +82,8 @@ namespace Cookie.Game.Inventory
         private void HandleSpellListMessage(IAccount account, SpellListMessage message)
         {
             account.Character.Spells = message.Spells;
+            foreach (var spell in account.Character.Spells)
+                Logger.Default.Log(spell.SpellId + " | " + spell.SpellLevel);
         }
 
         #endregion

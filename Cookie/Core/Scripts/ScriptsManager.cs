@@ -7,7 +7,7 @@ namespace Cookie.Core.Scripts
 {
     public class ScriptsManager
     {
-        public static IEnumerable<IASpell> LoadSpellsFromIA(string path)
+        public static List<IASpell> LoadSpellsFromIA(string path)
         {
             var spells = new List<IASpell>();
 
