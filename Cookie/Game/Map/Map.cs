@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Windows.Forms;
-using Cookie.API.Core;
+﻿using Cookie.API.Core;
 using Cookie.API.Datacenter;
 using Cookie.API.Game.Entity;
 using Cookie.API.Game.Map;
@@ -15,7 +10,6 @@ using Cookie.API.Gamedata.D2o;
 using Cookie.API.Gamedata.D2p;
 using Cookie.API.Gamedata.D2p.Elements;
 using Cookie.API.Messages;
-using Cookie.API.Protocol.Enums;
 using Cookie.API.Protocol.Network.Messages.Game.Context;
 using Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay;
 using Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Fight;
@@ -25,10 +19,13 @@ using Cookie.API.Utils;
 using Cookie.API.Utils.Enums;
 using Cookie.API.Utils.Extensions;
 using Cookie.Core;
-using Cookie.Core.Scripts;
 using Cookie.Game.Entity;
 using Cookie.Game.Map.Elements;
 using DofusMapControl;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Forms;
 using IMap = Cookie.API.Game.Map.IMap;
 using Npc = Cookie.Game.Entity.Npc;
 
@@ -52,7 +49,24 @@ namespace Cookie.Game.Map
             SubAreaId = 0;
             CheckLock = new object();
 
+            ((Account)account).MainForm.mapControl.CellClicked += MapControl_CellClicked;
+
             Attach();
+        }
+
+        private void MapControl_CellClicked(MapControl control, MapCell cell, MouseButtons buttons, bool hold)
+        {
+            if (buttons == MouseButtons.Left)
+            {
+                var mov = MoveToCell(cell.Id);
+                mov.MovementFinished += (sender, e) =>
+                {
+                    if (e.Sucess)
+                        Logger.Default.Log($"Déplacement réussi sur la cell: {cell.Id}");
+                };
+                mov.PerformMovement();
+                control.Invalidate(cell);
+            }
         }
 
         public object CheckLock { get; set; }
@@ -414,6 +428,9 @@ namespace Cookie.Game.Map
                 if (message.ActorId == account.Character.Id)
                     account.Character.CellId = clientMovement.CellEnd.CellId;
             }
+
+            UpdateMapControl();
+
             OnMapMovement(message);
         }
 
@@ -475,24 +492,6 @@ namespace Cookie.Game.Map
                 SubAreaId = message.SubAreaId;
                 Data = MapsManager.FromId(message.MapId);
 
-                /////// MAPCONTROL ///////
-                var tmp = MapsManager.FromId(message.MapId);
-                tmp.Cells.ForEachWithIndex((cellData, index) =>
-                {
-                    var cell = ((Account) account).MainForm.mapControl.GetCell(index);
-                    cell.Text = cell.Id.ToString();
-                    if (cellData.Los)
-                        cell.State = CellState.NonWalkable;
-                    if (cellData.Red)
-                        cell.State = CellState.RedPlacement;
-                    if (cellData.Blue)
-                        cell.State = CellState.BluePlacement;
-                    if (cellData.Mov)
-                        cell.State = CellState.Walkable;
-                });
-                ((Account)account).MainForm.mapControl.Invalidate();
-                /////// MAPCONTROL ///////
-
                 var subArea = ObjectDataManager.Instance.Get<SubArea>(SubAreaId);
                 var mapName =
                     FastD2IReader.Instance.GetText(ObjectDataManager.Instance.Get<Area>(subArea.AreaId).NameId);
@@ -536,7 +535,48 @@ namespace Cookie.Game.Map
                 }
             }
 
+            UpdateMapControl();
+
             OnMapChanged();
+        }
+
+        private void UpdateMapControl()
+        {
+            /////// MAPCONTROL ///////
+            var tmp = MapsManager.FromId(Id);
+            tmp.Cells.ForEachWithIndex((cellData, index) =>
+            {
+                var cell = ((Account)_account).MainForm.mapControl.GetCell(index);
+                cell.Text = cell.Id.ToString();
+                if (cellData.Los)
+                    cell.State = CellState.NonWalkable;
+                if (cellData.Mov)
+                    cell.State = CellState.Walkable;
+            });
+
+            foreach (var npc in Npcs)
+            {
+                var cell = ((Account)_account).MainForm.mapControl.GetCell(npc.CellId);
+                cell.Text += $"\nNPC: {npc.Name}";
+                cell.State = CellState.Trigger;
+            }
+
+            foreach (var g in Monsters)
+            {
+                var cell = ((Account)_account).MainForm.mapControl.GetCell(g.CellId);
+                cell.Text += $"\n{g.GroupName} | Level: {g.GroupLevel}";
+                cell.State = CellState.RedPlacement;
+            }
+
+            foreach (var p in Players)
+            {
+                var cell = ((Account)_account).MainForm.mapControl.GetCell(p.CellId);
+                cell.Text += $"\n{p.Name}";
+                cell.State = CellState.Road;
+            }
+
+            ((Account)_account).MainForm.mapControl.Invalidate();
+            /////// MAPCONTROL ///////
         }
 
         private void AddActors(List<GameRolePlayActorInformations> actors)
