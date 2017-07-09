@@ -35,20 +35,25 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.LogTextBox = new Cookie.Design.BRichTextBox();
             this.ChatTextBox = new Cookie.Design.BTextBox();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.TabPlugin = new Cookie.Design.BTabControl();
-            this.MinimizeButton = new Cookie.Design.BButton();
-            this.MaximizeButton = new Cookie.Design.BButton();
-            this.CloseButton = new Cookie.Design.BButton();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
             this.PacketsListView = new System.Windows.Forms.ListView();
             this.columnHeaderTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderOrigin = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.mapControl = new DofusMapControl.MapControl();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.TabPlugin = new Cookie.Design.BTabControl();
+            this.MinimizeButton = new Cookie.Design.BButton();
+            this.MaximizeButton = new Cookie.Design.BButton();
+            this.CloseButton = new Cookie.Design.BButton();
             this.bForm1.SuspendLayout();
             this.bTabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
+            this.tabPage4.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -75,6 +80,8 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.bTabControl1.Controls.Add(this.tabPage1);
+            this.bTabControl1.Controls.Add(this.tabPage4);
+            this.bTabControl1.Controls.Add(this.tabPage3);
             this.bTabControl1.Controls.Add(this.tabPage2);
             this.bTabControl1.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.bTabControl1.ItemSize = new System.Drawing.Size(32, 170);
@@ -97,16 +104,15 @@
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(907, 574);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Log";
+            this.tabPage1.Text = "Accueil";
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.LogTextBox, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.ChatTextBox, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.PacketsListView, 0, 0);
+            this.tableLayoutPanel1.ColumnCount = 1;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Controls.Add(this.LogTextBox, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.ChatTextBox, 0, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -119,7 +125,7 @@
             // LogTextBox
             // 
             this.LogTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.LogTextBox.Location = new System.Drawing.Point(453, 3);
+            this.LogTextBox.Location = new System.Drawing.Point(3, 3);
             this.LogTextBox.MultiLine = true;
             this.LogTextBox.Name = "LogTextBox";
             this.LogTextBox.ReadOnly = true;
@@ -127,20 +133,103 @@
             this.LogTextBox.SelectionColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
             this.LogTextBox.SelectionLength = 0;
             this.LogTextBox.SelectionStart = 0;
-            this.LogTextBox.Size = new System.Drawing.Size(445, 532);
+            this.LogTextBox.Size = new System.Drawing.Size(895, 532);
             this.LogTextBox.TabIndex = 4;
             // 
             // ChatTextBox
             // 
             this.ChatTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ChatTextBox.Location = new System.Drawing.Point(453, 541);
+            this.ChatTextBox.Location = new System.Drawing.Point(3, 541);
             this.ChatTextBox.MultiLine = false;
             this.ChatTextBox.Name = "ChatTextBox";
             this.ChatTextBox.ReadOnly = false;
-            this.ChatTextBox.Size = new System.Drawing.Size(445, 25);
+            this.ChatTextBox.Size = new System.Drawing.Size(895, 25);
             this.ChatTextBox.TabIndex = 5;
             this.ChatTextBox.UseSystemPasswordChar = false;
             this.ChatTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ChatTextBox_KeyDown);
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.tabPage4.Controls.Add(this.PacketsListView);
+            this.tabPage4.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.tabPage4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.tabPage4.Location = new System.Drawing.Point(174, 4);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(907, 574);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Packets";
+            // 
+            // PacketsListView
+            // 
+            this.PacketsListView.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.PacketsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeaderTime,
+            this.columnHeaderOrigin,
+            this.columnHeaderId,
+            this.columnHeaderName});
+            this.PacketsListView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PacketsListView.Location = new System.Drawing.Point(3, 3);
+            this.PacketsListView.Name = "PacketsListView";
+            this.PacketsListView.Size = new System.Drawing.Size(901, 568);
+            this.PacketsListView.TabIndex = 7;
+            this.PacketsListView.UseCompatibleStateImageBehavior = false;
+            this.PacketsListView.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeaderTime
+            // 
+            this.columnHeaderTime.Text = "Heure";
+            this.columnHeaderTime.Width = 148;
+            // 
+            // columnHeaderOrigin
+            // 
+            this.columnHeaderOrigin.Text = "Origine";
+            this.columnHeaderOrigin.Width = 79;
+            // 
+            // columnHeaderId
+            // 
+            this.columnHeaderId.Text = "ID";
+            this.columnHeaderId.Width = 91;
+            // 
+            // columnHeaderName
+            // 
+            this.columnHeaderName.Text = "Nom";
+            this.columnHeaderName.Width = 356;
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.tabPage3.Controls.Add(this.mapControl);
+            this.tabPage3.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.tabPage3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.tabPage3.Location = new System.Drawing.Point(174, 4);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(907, 574);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Map";
+            // 
+            // mapControl
+            // 
+            this.mapControl.ActiveCellColor = System.Drawing.Color.Transparent;
+            this.mapControl.BorderColorOnOver = System.Drawing.Color.Empty;
+            this.mapControl.CommonCellHeight = 43D;
+            this.mapControl.CommonCellWidth = 86D;
+            this.mapControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mapControl.DrawMode = ((DofusMapControl.DrawMode)((((DofusMapControl.DrawMode.Movements | DofusMapControl.DrawMode.Fights) 
+            | DofusMapControl.DrawMode.Triggers) 
+            | DofusMapControl.DrawMode.Others)));
+            this.mapControl.InactiveCellColor = System.Drawing.Color.DarkGray;
+            this.mapControl.LesserQuality = false;
+            this.mapControl.Location = new System.Drawing.Point(3, 3);
+            this.mapControl.MapHeight = 20;
+            this.mapControl.MapWidth = 14;
+            this.mapControl.Name = "mapControl";
+            this.mapControl.Size = new System.Drawing.Size(901, 568);
+            this.mapControl.TabIndex = 0;
+            this.mapControl.TraceOnOver = false;
+            this.mapControl.ViewGrid = true;
             // 
             // tabPage2
             // 
@@ -208,43 +297,6 @@
             this.CloseButton.UseVisualStyleBackColor = true;
             this.CloseButton.Click += new System.EventHandler(this.CloseButton_Click);
             // 
-            // PacketsListView
-            // 
-            this.PacketsListView.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
-            this.PacketsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeaderTime,
-            this.columnHeaderOrigin,
-            this.columnHeaderId,
-            this.columnHeaderName});
-            this.PacketsListView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PacketsListView.Location = new System.Drawing.Point(3, 3);
-            this.PacketsListView.Name = "PacketsListView";
-            this.tableLayoutPanel1.SetRowSpan(this.PacketsListView, 2);
-            this.PacketsListView.Size = new System.Drawing.Size(444, 562);
-            this.PacketsListView.TabIndex = 6;
-            this.PacketsListView.UseCompatibleStateImageBehavior = false;
-            this.PacketsListView.View = System.Windows.Forms.View.Details;
-            // 
-            // columnHeaderTime
-            // 
-            this.columnHeaderTime.Text = "Heure";
-            this.columnHeaderTime.Width = 77;
-            // 
-            // columnHeaderOrigin
-            // 
-            this.columnHeaderOrigin.Text = "Origine";
-            this.columnHeaderOrigin.Width = 54;
-            // 
-            // columnHeaderId
-            // 
-            this.columnHeaderId.Text = "ID";
-            this.columnHeaderId.Width = 51;
-            // 
-            // columnHeaderName
-            // 
-            this.columnHeaderName.Text = "Nom";
-            this.columnHeaderName.Width = 223;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -262,6 +314,8 @@
             this.bTabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
+            this.tabPage4.ResumeLayout(false);
+            this.tabPage3.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -280,6 +334,9 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private Design.BRichTextBox LogTextBox;
         private Design.BTextBox ChatTextBox;
+        private System.Windows.Forms.TabPage tabPage3;
+        public DofusMapControl.MapControl mapControl;
+        private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.ListView PacketsListView;
         private System.Windows.Forms.ColumnHeader columnHeaderTime;
         private System.Windows.Forms.ColumnHeader columnHeaderOrigin;

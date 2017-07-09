@@ -82,8 +82,6 @@ namespace Cookie.Game.Inventory
         private void HandleSpellListMessage(IAccount account, SpellListMessage message)
         {
             account.Character.Spells = message.Spells;
-            foreach (var spell in account.Character.Spells)
-                Logger.Default.Log(spell.SpellId + " | " + spell.SpellLevel);
         }
 
         #endregion

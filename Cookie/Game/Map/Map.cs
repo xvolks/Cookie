@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 using Cookie.API.Core;
 using Cookie.API.Datacenter;
 using Cookie.API.Game.Entity;
@@ -13,6 +15,7 @@ using Cookie.API.Gamedata.D2o;
 using Cookie.API.Gamedata.D2p;
 using Cookie.API.Gamedata.D2p.Elements;
 using Cookie.API.Messages;
+using Cookie.API.Protocol.Enums;
 using Cookie.API.Protocol.Network.Messages.Game.Context;
 using Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay;
 using Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Fight;
@@ -21,9 +24,11 @@ using Cookie.API.Protocol.Network.Types.Game.Context.Roleplay;
 using Cookie.API.Utils;
 using Cookie.API.Utils.Enums;
 using Cookie.API.Utils.Extensions;
+using Cookie.Core;
 using Cookie.Core.Scripts;
 using Cookie.Game.Entity;
 using Cookie.Game.Map.Elements;
+using DofusMapControl;
 using IMap = Cookie.API.Game.Map.IMap;
 using Npc = Cookie.Game.Entity.Npc;
 
@@ -469,6 +474,25 @@ namespace Cookie.Game.Map
             {
                 SubAreaId = message.SubAreaId;
                 Data = MapsManager.FromId(message.MapId);
+
+                /////// MAPCONTROL ///////
+                var tmp = MapsManager.FromId(message.MapId);
+                tmp.Cells.ForEachWithIndex((cellData, index) =>
+                {
+                    var cell = ((Account) account).MainForm.mapControl.GetCell(index);
+                    cell.Text = cell.Id.ToString();
+                    if (cellData.Los)
+                        cell.State = CellState.NonWalkable;
+                    if (cellData.Red)
+                        cell.State = CellState.RedPlacement;
+                    if (cellData.Blue)
+                        cell.State = CellState.BluePlacement;
+                    if (cellData.Mov)
+                        cell.State = CellState.Walkable;
+                });
+                ((Account)account).MainForm.mapControl.Invalidate();
+                /////// MAPCONTROL ///////
+
                 var subArea = ObjectDataManager.Instance.Get<SubArea>(SubAreaId);
                 var mapName =
                     FastD2IReader.Instance.GetText(ObjectDataManager.Instance.Get<Area>(subArea.AreaId).NameId);

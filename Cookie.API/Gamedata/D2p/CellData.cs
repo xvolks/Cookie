@@ -73,7 +73,7 @@ namespace Cookie.API.Gamedata.D2p
 
                 Speed = Reader.ReadSByte();
                 MapChangeData = Reader.ReadSByte();
-                Console.WriteLine(MapChangeData);
+                //Console.WriteLine(MapChangeData);
 
                 if (MapVersion > 5)
                     MoveZone = Reader.ReadByte();

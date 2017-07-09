@@ -133,6 +133,9 @@
     <Compile Include="Utils\Configurations\FirstUseForm.Designer.cs">
       <DependentUpon>FirstUseForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utils\MapControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
