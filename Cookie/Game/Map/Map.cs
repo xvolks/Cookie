@@ -382,6 +382,8 @@ namespace Cookie.Game.Map
                 Players.Remove(Players.Find(p => p.Id == message.ObjectId));
                 Monsters.Remove(Monsters.Find(x => x.Id == message.ObjectId));
                 Entities.Remove(Entities.Find(x => x.Id == message.ObjectId));
+
+                UpdateMapControl();
             }
         }
 
@@ -442,6 +444,8 @@ namespace Cookie.Game.Map
                 IEntity entity = new Entity.Entity(message.Informations.ContextualId,
                     message.Informations.Disposition.CellId);
                 Entities.Add(entity);
+
+                UpdateMapControl();
             }
         }
 
