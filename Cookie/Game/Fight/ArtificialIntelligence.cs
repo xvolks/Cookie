@@ -27,7 +27,6 @@ namespace Cookie.Game.Fight
         private void FightEnd(GameFightEndMessage msg)
         {
             Logger.Default.Log($"Durée du combat: {msg.Duration}");
-            Logger.Default.Log($"Résultat: {msg.Results}");
         }
 
         private void StartFight()
@@ -59,8 +58,8 @@ namespace Cookie.Game.Fight
                             _account.Character.Fight.LaunchSpell(spell.SpellId, fighter.CellId);
                             break;
                         default:
-                            _account.Character.Fight.MoveToCell(useSpell);
-                            _account.Character.Fight.LaunchSpell(spell.SpellId, fighter.CellId);
+                            if(_account.Character.Fight.MoveToCell(useSpell))
+                                _account.Character.Fight.LaunchSpell(spell.SpellId, fighter.CellId);
                             break;
                     }
                 }

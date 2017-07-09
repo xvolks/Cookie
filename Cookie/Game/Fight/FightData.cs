@@ -81,6 +81,12 @@ namespace Cookie.Game.Fight
                 MessagePriority.VeryHigh);
             Account.Network.RegisterPacket<GameActionFightSpellCastMessage>(HandleGameActionFightSpellCastMessage,
                 MessagePriority.VeryHigh);
+            Account.Network.RegisterPacket<GameFightStartingMessage>(HandleGameFightStartingMessage,
+                MessagePriority.VeryHigh);
+            Account.Network.RegisterPacket<GameFightTurnReadyRequestMessage>(HandleGameFightTurnReadyRequestMessage,
+                MessagePriority.VeryHigh);
+            Account.Network.RegisterPacket<GameFightTurnStartPlayingMessage>(HandleGameFightTurnStartPlayingMessage,
+                MessagePriority.VeryHigh);
 
             CheckLock = new object();
         }
@@ -138,6 +144,15 @@ namespace Cookie.Game.Fight
             var fighter = (Fighter) GetFighter(message.TargetId);
             if (fighter != null)
                 fighter.CellId = message.EndCellId;
+        }
+
+        private void HandleGameFightTurnReadyRequestMessage(IAccount account, GameFightTurnReadyRequestMessage message)
+        {
+            account.Network.SendToServer(new GameFightTurnReadyMessage(true));
+        }
+        private void HandleGameFightTurnStartPlayingMessage(IAccount account, GameFightTurnStartPlayingMessage message)
+        {
+            TurnStarted?.Invoke();
         }
 
         private void HandleGameActionFightDispellableEffectMessage(IAccount account,
@@ -292,7 +307,6 @@ namespace Cookie.Game.Fight
             {
                 IsFighterTurn = true;
                 Account.Character.Status = CharacterStatus.Fighting;
-                TurnStarted?.Invoke();
             }
             else
             {
@@ -396,6 +410,10 @@ namespace Cookie.Game.Fight
         {
             WaitForReady = false;
             IsFightStarted = true;
+        }
+
+        private void HandleGameFightStartingMessage(IAccount account, GameFightStartingMessage message)
+        {
             FightStarted?.Invoke();
             Account.Character.Status = CharacterStatus.Fighting;
             Logger.Default.Log("Début du combat");
@@ -523,7 +541,7 @@ namespace Cookie.Game.Fight
         private int GetInvokationNumber()
         {
             var num = 0;
-            foreach (var informations in Fighters)
+            foreach (var informations in Monsters)
                 if (informations.Stats.Summoner == Fighter.Id)
                     num += 1;
             return num;
