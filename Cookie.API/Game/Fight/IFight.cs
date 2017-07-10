@@ -1,4 +1,6 @@
-﻿namespace Cookie.API.Game.Fight
+﻿using Cookie.API.Game.Map;
+
+namespace Cookie.API.Game.Fight
 {
     public interface IFight : IFightData
     {
@@ -30,6 +32,6 @@
         /// <summary>
         ///     Aller à une cellule
         /// </summary>
-        bool MoveToCell(int cellId);
+        ICellMovement MoveToCell(int cellId);
     }
 }
