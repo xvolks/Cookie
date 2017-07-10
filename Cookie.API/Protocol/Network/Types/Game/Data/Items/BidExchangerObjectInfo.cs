@@ -83,6 +83,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Data.Items
         
         public override void Serialize(IDataWriter writer)
         {
+            writer.WriteVarUhInt(m_objectUID);
             writer.WriteShort(((short)(m_effects.Count)));
             int effectsIndex;
             for (effectsIndex = 0; (effectsIndex < m_effects.Count); effectsIndex = (effectsIndex + 1))
@@ -97,11 +98,12 @@ namespace Cookie.API.Protocol.Network.Types.Game.Data.Items
             {
                 writer.WriteVarUhLong(m_prices[pricesIndex]);
             }
-            writer.WriteVarUhInt(m_objectUID);
+            
         }
         
         public override void Deserialize(IDataReader reader)
         {
+            m_objectUID = reader.ReadVarUhInt();
             int effectsCount = reader.ReadUShort();
             int effectsIndex;
             m_effects = new System.Collections.Generic.List<ObjectEffect>();
@@ -118,7 +120,6 @@ namespace Cookie.API.Protocol.Network.Types.Game.Data.Items
             {
                 m_prices.Add(reader.ReadVarUhLong());
             }
-            m_objectUID = reader.ReadVarUhInt();
         }
     }
 }
