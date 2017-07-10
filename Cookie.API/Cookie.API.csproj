@@ -102,6 +102,8 @@
     <Compile Include="Game\Entity\INpc.cs" />
     <Compile Include="Game\Entity\IPlayer.cs" />
     <Compile Include="Game\Fight\SpellInabilityReason.cs" />
+    <Compile Include="Game\Fight\Spells\ISpellCast.cs" />
+    <Compile Include="Game\Fight\Spells\SpellEvent.cs" />
     <Compile Include="Game\Friend\IFriend.cs" />
     <Compile Include="Game\Guild\IGuild.cs" />
     <Compile Include="Game\Inventory\IInventory.cs" />

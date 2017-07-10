@@ -92,6 +92,7 @@
     <Compile Include="Game\Entity\MonsterGroup.cs" />
     <Compile Include="Game\Entity\Npc.cs" />
     <Compile Include="Game\Entity\Player.cs" />
+    <Compile Include="Game\Fight\Spell\SpellCast.cs" />
     <Compile Include="Game\Friend\Friend.cs" />
     <Compile Include="Game\Guild\Guild.cs" />
     <Compile Include="Game\Inventory\Inventory.cs" />
