@@ -1,4 +1,6 @@
 ﻿using Cookie.API.Game.Map;
+using Cookie.API.Protocol.Network.Messages.Game.Actions.Fight;
+using System;
 
 namespace Cookie.API.Game.Fight
 {
@@ -33,5 +35,7 @@ namespace Cookie.API.Game.Fight
         ///     Aller à une cellule
         /// </summary>
         ICellMovement MoveToCell(int cellId);
+
+        event Action<GameActionFightCastOnTargetRequestMessage> SpellCasted;
     }
 }

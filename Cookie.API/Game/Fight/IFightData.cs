@@ -18,6 +18,7 @@ namespace Cookie.API.Game.Fight
         /// </summary>
 
         event Action TurnStarted;
+
         /// <summary>
         ///     Indique dès que le combat fini
         /// </summary>
@@ -62,5 +63,7 @@ namespace Cookie.API.Game.Fight
         ///     Test si le sort peut être utiliser
         /// </summary>
         int CanUseSpell(int spellId, IFighter target);
+
+        List<IMonster> GetMonsters();
     }
 }

@@ -10,6 +10,10 @@ using Cookie.API.Protocol.Network.Messages.Game.Context.Fight;
 using Cookie.API.Game.Map;
 using Cookie.Game.Map;
 using Cookie.API.Utils;
+using System;
+using Cookie.Game.Fight.Spell;
+using System.Collections.Generic;
+using Cookie.API.Game.Fight.Fighters;
 
 namespace Cookie.Game.Fight
 {
@@ -17,7 +21,10 @@ namespace Cookie.Game.Fight
     {
         public Fight(IAccount account) : base(account)
         {
+            Account.Network.RegisterPacket<GameActionFightCastOnTargetRequestMessage>(HandleGameActionFightCastOnTargetRequestMessage, API.Messages.MessagePriority.VeryHigh);
         }
+
+        public List<IMonster> GetMonsters() => base.GetMonsters();
 
         public void EndTurn()
         {
@@ -132,15 +139,29 @@ namespace Cookie.Game.Fight
         {
             lock (CheckLock)
             {
-                foreach (var fighter in Fighters)
+                /*foreach (var fighter in Fighters)
                     if (fighter.CellId == cellId)
                     {
                         Account.Network.SendToServer(
                             new GameActionFightCastOnTargetRequestMessage((ushort)spellId, fighter.Id));
                         return;
-                    }
+                    }*/
+                var spell = new SpellCast(Account, spellId, cellId);
+                spell.SpellCasted += (sender, e) =>
+                {
+                    Logger.Default.Log($"Lancement du sort {e.SpellId} {e.Sucess}");
+                    //LaunchSpell(spellId, cellId);
+                };
+                spell.PerformCast();
             }
-            Account.Network.SendToServer(new GameActionFightCastRequestMessage((ushort)spellId, (short)cellId));
+            //Account.Network.SendToServer(new GameActionFightCastRequestMessage((ushort)spellId, (short)cellId));
+        }
+
+        public event Action<GameActionFightCastOnTargetRequestMessage> SpellCasted;
+
+        private void HandleGameActionFightCastOnTargetRequestMessage(IAccount account, GameActionFightCastOnTargetRequestMessage message)
+        {
+            SpellCasted?.Invoke(message);
         }
     }
 }
