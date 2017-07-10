@@ -121,10 +121,6 @@ namespace Cookie.Game.Fight
                 var path = pathfinder.FindPath(Fighter.CellId, cellId);
                 if (path != null)
                 {
-                    /*var serverMovement = MapMovementAdapter.GetServerMovement(path);
-                    Account.Network.SendToServer(
-                        new GameMapMovementRequestMessage(serverMovement.ToList().Select(ui => (short)ui).ToList(),
-                            Account.Character.Map.Id));*/
                     toReturn = new CellMovement(Account, path);
                     return toReturn;
                 }
