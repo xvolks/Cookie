@@ -31,7 +31,6 @@ namespace Cookie.Game.Fight
                     _spells.Remove(spellTmp);
             }
 
-
             foreach (var spell in _spells)
             {
                 Logger.Default.Log(spell.SpellId.ToString());
@@ -60,7 +59,7 @@ namespace Cookie.Game.Fight
             Logger.Default.Log($"Attaque {monster.Name}");
             foreach (var spell in _spells)
             {
-                var fighter = (IFighter) monster;
+                var fighter = (IFighter)monster;
                 if (spell.Target == SpellTarget.Self)
                     fighter = _account.Character.Fight.Fighter;
                 var useSpell = _account.Character.Fight.CanUseSpell(spell.SpellId, fighter);
@@ -72,12 +71,23 @@ namespace Cookie.Game.Fight
                     {
                         case -1:
                             break;
+
                         case 0:
                             _account.Character.Fight.LaunchSpell(spell.SpellId, fighter.CellId);
                             break;
+
                         default:
-                            if (_account.Character.Fight.MoveToCell(useSpell))
-                                _account.Character.Fight.LaunchSpell(spell.SpellId, fighter.CellId);
+                            //if (_account.Character.Fight.MoveToCell(useSpell))
+                            // _account.Character.Fight.LaunchSpell(spell.SpellId, fighter.CellId);
+                            var movement = _account.Character.Fight.MoveToCell(useSpell);
+                            movement.MovementFinished += (sender, e) =>
+                            {
+                                if (e.Sucess)
+                                    _account.Character.Fight.LaunchSpell(spell.SpellId, fighter.CellId);
+                                else
+                                    Logger.Default.Log($"Erreur lors du lancement du spell {spell.SpellId} sur la cell {fighter.CellId}", API.Utils.Enums.LogMessageType.Public);
+                            };
+                            movement.PerformMovement();
                             break;
                     }
                 }

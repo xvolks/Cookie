@@ -7,6 +7,9 @@ using Cookie.API.Protocol.Enums;
 using Cookie.API.Protocol.Network.Messages.Game.Actions.Fight;
 using Cookie.API.Protocol.Network.Messages.Game.Context;
 using Cookie.API.Protocol.Network.Messages.Game.Context.Fight;
+using Cookie.API.Game.Map;
+using Cookie.Game.Map;
+using Cookie.API.Utils;
 
 namespace Cookie.Game.Fight
 {
@@ -18,14 +21,55 @@ namespace Cookie.Game.Fight
 
         public void EndTurn()
         {
-            Account.Network.SendToServer(new GameFightTurnFinishMessage());
-            IsFighterTurn = false;
+            if (Account.Character.Fight.Fighter.MovementPoints > 0)
+            {
+                var fighter = NearestMonster();
+                var reachableCells = GetReachableCells();
+                var cellId = -1;
+                var savDistance = -1;
+                foreach (var cell in reachableCells)
+                {
+                    var reachableCellPoint = new MapPoint(cell);
+                    var distance = 0;
+                    distance = (distance + reachableCellPoint.DistanceToCell(new MapPoint(fighter.CellId)));
+                    if (((savDistance == -1) || (distance < savDistance)))
+                    {
+                        cellId = cell;
+                        savDistance = distance;
+                    }
+                }
+                var movement = MoveToCell(cellId);
+                movement.MovementFinished += (sender, e) =>
+                {
+                    if (e.Sucess)
+                    {
+                        Logger.Default.Log($"Déplacement sur la cellId {movement.EndCell} réussi ");
+                        Account.Network.SendToServer(new GameFightTurnFinishMessage());
+                        IsFighterTurn = false;
+                    }
+                    else
+                    {
+                        Logger.Default.Log($"Déplacement sur la cellId {movement.EndCell} échoué ");
+                        Account.Network.SendToServer(new GameFightTurnFinishMessage());
+                        IsFighterTurn = false;
+                    }
+                };
+                movement.PerformMovement();
+            }
+            else
+            {
+                Account.Network.SendToServer(new GameFightTurnFinishMessage());
+                IsFighterTurn = false;
+            }
+
+            //Account.Network.SendToServer(new GameFightTurnFinishMessage());
+            //IsFighterTurn = false;
         }
 
         public void LockFight()
         {
             Account.Network.SendToServer(
-                new GameFightOptionToggleMessage((byte) FightOptionsEnum.FIGHT_OPTION_SET_CLOSED));
+                new GameFightOptionToggleMessage((byte)FightOptionsEnum.FIGHT_OPTION_SET_CLOSED));
         }
 
         public void SetReady()
@@ -38,8 +82,9 @@ namespace Cookie.Game.Fight
             Account.Network.SendToServer(new GameContextKickMessage(id));
         }
 
-        public bool MoveToCell(int cellId)
+        public ICellMovement MoveToCell(int cellId)
         {
+            ICellMovement toReturn;
             if (cellId != Fighter.CellId)
             {
                 if (!IsCellWalkable(cellId))
@@ -65,24 +110,25 @@ namespace Cookie.Game.Fight
                         if (direction > 7)
                         {
                             if (num == -1)
-                                return false;
+                                return null;
                             cellId = num;
                             break;
                         }
                     }
                 }
-                var pathfinder = new SimplePathfinder((API.Gamedata.D2p.Map) Account.Character.Map.Data);
+                var pathfinder = new SimplePathfinder((API.Gamedata.D2p.Map)Account.Character.Map.Data);
                 var path = pathfinder.FindPath(Fighter.CellId, cellId);
                 if (path != null)
                 {
-                    var serverMovement = MapMovementAdapter.GetServerMovement(path);
+                    /*var serverMovement = MapMovementAdapter.GetServerMovement(path);
                     Account.Network.SendToServer(
-                        new GameMapMovementRequestMessage(serverMovement.ToList().Select(ui => (short) ui).ToList(),
-                            Account.Character.Map.Id));
-                    return true;
+                        new GameMapMovementRequestMessage(serverMovement.ToList().Select(ui => (short)ui).ToList(),
+                            Account.Character.Map.Id));*/
+                    toReturn = new CellMovement(Account, path);
+                    return toReturn;
                 }
             }
-            return false;
+            return null;
         }
 
         public void LaunchSpell(int spellId, int cellId)
@@ -93,11 +139,11 @@ namespace Cookie.Game.Fight
                     if (fighter.CellId == cellId)
                     {
                         Account.Network.SendToServer(
-                            new GameActionFightCastOnTargetRequestMessage((ushort) spellId, fighter.Id));
+                            new GameActionFightCastOnTargetRequestMessage((ushort)spellId, fighter.Id));
                         return;
                     }
             }
-            Account.Network.SendToServer(new GameActionFightCastRequestMessage((ushort) spellId, (short) cellId));
+            Account.Network.SendToServer(new GameActionFightCastRequestMessage((ushort)spellId, (short)cellId));
         }
     }
 }
