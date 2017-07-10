@@ -117,6 +117,7 @@ namespace Cookie.Game.Fight
                     }
                 }
                 var pathfinder = new SimplePathfinder((API.Gamedata.D2p.Map)Account.Character.Map.Data);
+                pathfinder.SetFight(Fighters, Fighter.MovementPoints);
                 var path = pathfinder.FindPath(Fighter.CellId, cellId);
                 if (path != null)
                 {
