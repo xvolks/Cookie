@@ -21,7 +21,8 @@ namespace Cookie.Game.Fight
     {
         public Fight(IAccount account) : base(account)
         {
-            Account.Network.RegisterPacket<GameActionFightCastOnTargetRequestMessage>(HandleGameActionFightCastOnTargetRequestMessage, API.Messages.MessagePriority.VeryHigh);
+            Account.Network.RegisterPacket<GameActionFightSpellCastMessage>(HandleGameActionFightSpellCastMessage, API.Messages.MessagePriority.VeryHigh);
+            Account.Network.RegisterPacket<GameFightJoinMessage>(HandleGameFightJoinMessage, API.Messages.MessagePriority.High);
         }
 
         public List<IMonster> GetMonsters() => base.GetMonsters();
@@ -30,47 +31,35 @@ namespace Cookie.Game.Fight
         {
             if (Account.Character.Fight.Fighter.MovementPoints > 0)
             {
-                var fighter = NearestMonster();
-                var reachableCells = GetReachableCells();
+                var monster = Account.Character.Fight.NearestMonster();
+                var reachableCells = Account.Character.Fight.GetReachableCells();
                 var cellId = -1;
                 var savDistance = -1;
                 foreach (var cell in reachableCells)
                 {
                     var reachableCellPoint = new MapPoint(cell);
                     var distance = 0;
-                    distance = (distance + reachableCellPoint.DistanceToCell(new MapPoint(fighter.CellId)));
+                    distance = (distance + reachableCellPoint.DistanceToCell(new MapPoint(monster.CellId)));
                     if (((savDistance == -1) || (distance < savDistance)))
                     {
                         cellId = cell;
                         savDistance = distance;
                     }
                 }
-                var movement = MoveToCell(cellId);
-                movement.MovementFinished += (sender, e) =>
+                var movementt = Account.Character.Fight.MoveToCell(cellId);
+                movementt.MovementFinished += (sender, e) =>
                 {
-                    if (e.Sucess)
-                    {
-                        Logger.Default.Log($"Déplacement sur la cellId {movement.EndCell} réussi ");
-                        Account.Network.SendToServer(new GameFightTurnFinishMessage());
-                        IsFighterTurn = false;
-                    }
-                    else
-                    {
-                        Logger.Default.Log($"Déplacement sur la cellId {movement.EndCell} échoué ");
-                        Account.Network.SendToServer(new GameFightTurnFinishMessage());
-                        IsFighterTurn = false;
-                    }
+                    Logger.Default.Log("Fin du tour");
+                    Account.Network.SendToServer(new GameFightTurnFinishMessage());
+                    IsFighterTurn = false;
                 };
-                movement.PerformMovement();
+                movementt.PerformMovement();
             }
             else
             {
                 Account.Network.SendToServer(new GameFightTurnFinishMessage());
                 IsFighterTurn = false;
             }
-
-            //Account.Network.SendToServer(new GameFightTurnFinishMessage());
-            //IsFighterTurn = false;
         }
 
         public void LockFight()
@@ -157,11 +146,16 @@ namespace Cookie.Game.Fight
             //Account.Network.SendToServer(new GameActionFightCastRequestMessage((ushort)spellId, (short)cellId));
         }
 
-        public event Action<GameActionFightCastOnTargetRequestMessage> SpellCasted;
+        public event Action<GameActionFightSpellCastMessage> SpellCasted;
 
-        private void HandleGameActionFightCastOnTargetRequestMessage(IAccount account, GameActionFightCastOnTargetRequestMessage message)
+        private void HandleGameActionFightSpellCastMessage(IAccount account, GameActionFightSpellCastMessage message)
         {
             SpellCasted?.Invoke(message);
+        }
+
+        private void HandleGameFightJoinMessage(IAccount account, GameFightJoinMessage message)
+        {
+            Account.Network.SendToServer(new GameFightOptionToggleMessage(2));
         }
     }
 }

@@ -24,6 +24,8 @@ using Cookie.Game.Fight.Fighters;
 using Companion = Cookie.Game.Fight.Fighters.Companion;
 using Monster = Cookie.Game.Fight.Fighters.Monster;
 using Cookie.API.Protocol.Network.Types.Game.Data.Items;
+using Cookie.API.Protocol.Network.Messages.Game.Actions.Sequence;
+using Cookie.API.Protocol.Network.Messages.Game.Actions;
 
 namespace Cookie.Game.Fight
 {
@@ -88,6 +90,7 @@ namespace Cookie.Game.Fight
                 MessagePriority.VeryHigh);
             Account.Network.RegisterPacket<GameFightTurnStartPlayingMessage>(HandleGameFightTurnStartPlayingMessage,
                 MessagePriority.VeryHigh);
+            Account.Network.RegisterPacket<SequenceEndMessage>(HandleSequenceEndMessage, MessagePriority.VeryHigh);
 
             CheckLock = new object();
         }
@@ -449,6 +452,12 @@ namespace Cookie.Game.Fight
             RemoveFighter(message.TargetId);
         }
 
+        private void HandleSequenceEndMessage(IAccount account, SequenceEndMessage message)
+        {
+            if (message.AuthorId != account.Character.Id) return;
+            account.Network.SendToServer(new GameActionAcknowledgementMessage(true, (byte)message.ActionId));
+        }
+
         #endregion Handle
 
         #region Public Fonction
@@ -614,7 +623,21 @@ namespace Cookie.Game.Fight
                 if (canLaunchSpell != SpellInabilityReason.None)
                     return canLaunchSpell;
             }
-            var spellLevelsData = ObjectDataManager.Instance.Get<SpellLevel>(spellId);
+            short spellLevel;
+            try
+            {
+                spellLevel = Account.Character.Spells.First(s => s.SpellId == spellId).SpellLevel;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return SpellInabilityReason.UnknownSpell;
+            }
+
+            var spell = ObjectDataManager.Instance.Get<API.Datacenter.Spell>(spellId);
+            var id = Convert.ToInt32(spell.SpellLevels[spellLevel - 1]);
+
+            var spellLevelsData = ObjectDataManager.Instance.Get<SpellLevel>(/*spellId */ id);
             if (spellLevelsData == null)
                 return SpellInabilityReason.Unknown;
             if (spellId == 0)
