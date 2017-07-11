@@ -36,6 +36,6 @@ namespace Cookie.API.Game.Fight
         /// </summary>
         ICellMovement MoveToCell(int cellId);
 
-        event Action<GameActionFightCastOnTargetRequestMessage> SpellCasted;
+        event Action<GameActionFightSpellCastMessage> SpellCasted;
     }
 }

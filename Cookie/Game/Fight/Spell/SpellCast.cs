@@ -69,9 +69,10 @@ namespace Cookie.Game.Fight.Spell
             Timeout?.Invoke();
         }
 
-        private void Spell_Casted(GameActionFightCastOnTargetRequestMessage message)
+        private void Spell_Casted(GameActionFightSpellCastMessage message)
         {
-            OnSpellCasted(true);
+            if (message.SourceId == _account.Character.Id)
+                OnSpellCasted(true);
         }
 
         private void OnSpellCasted(bool s)
