@@ -153,10 +153,10 @@ namespace Cookie.Core
 
         public BreedEnum Breed { get; set; }
 
-        public int LifePercentage => (int) (Stats.LifePoints / (double) Stats.MaxLifePoints * 100);
-        public int WeightPercentage => (int) (Weight / (double) MaxWeight * 100);
-        public int EnergyPercentage => (int) (Stats.EnergyPoints / (double) Stats.MaxEnergyPoints * 100);
-        public int ExperiencePercentage => (int) (Stats.Experience / (double) Stats.ExperienceNextLevelFloor * 100);
+        public int LifePercentage => (int)(Stats.LifePoints / (double)Stats.MaxLifePoints * 100);
+        public int WeightPercentage => (int)(Weight / (double)MaxWeight * 100);
+        public int EnergyPercentage => (int)(Stats.EnergyPoints / (double)Stats.MaxEnergyPoints * 100);
+        public int ExperiencePercentage => (int)(Stats.Experience / (double)Stats.ExperienceNextLevelFloor * 100);
 
         public int CellId { get; set; }
         public int MapId { get; set; }
@@ -178,6 +178,8 @@ namespace Cookie.Core
         public List<JobExperience> Jobs { get; set; }
         public IGatherManager GatherManager { get; set; }
         public IPathManager PathManager { get; set; }
+
+        public ArtificialIntelligence IA { get; set; }
 
         public string GetSkinUrl(string mode, int orientation, int width, int height, int zoom)
         {
@@ -371,7 +373,7 @@ namespace Cookie.Core
             account.Character.Name = message.Infos.Name;
             account.Character.Sex = message.Infos.Sex;
             account.Character.Look = message.Infos.EntityLook;
-            account.Character.Breed = (BreedEnum) message.Infos.Breed;
+            account.Character.Breed = (BreedEnum)message.Infos.Breed;
         }
 
         #endregion Choice
@@ -384,11 +386,11 @@ namespace Cookie.Core
             // Si nous ne pouvons pas créer de personnages, nous arrêtons la fonction
             if (!message.YesYouCan) return;
             // Sinon, nous choisissons une classe au hasard
-            var breedId = (byte) Randomize.GetRandomNumber(1, 18);
+            var breedId = (byte)Randomize.GetRandomNumber(1, 18);
             // Nous récupérons les informations de la classe avec les D2O
             var breed = ObjectDataManager.Instance.Get<Breed>(breedId);
             // Nous récupérons la couleur de base de la classe, et nous faisons un léger random sur la couleur
-            var breedColors = breed.MaleColors.Select(i => Randomize.GetRandomNumber((int) i - 80000, (int) i + 80000))
+            var breedColors = breed.MaleColors.Select(i => Randomize.GetRandomNumber((int)i - 80000, (int)i + 80000))
                 .ToList();
             // On récupère la liste des cosmetics disponibles pour cette classe et ce sexe
             var headsList = ObjectDataManager.Instance.EnumerateObjects<Head>().ToList()
@@ -397,13 +399,13 @@ namespace Cookie.Core
             var head = headsList[Randomize.GetRandomNumber(0, 7)];
             //// Nous envoyons la requête pour créer le personnage
             var test = new CharacterCreationRequestMessage(account.Character.Name, breedId, false, breedColors,
-                (ushort) head.Id);
+                (ushort)head.Id);
             account.Network.SendToServer(test);
         }
 
         private void HandleCharacterCreationResultMessage(IAccount account, CharacterCreationResultMessage message)
         {
-            switch ((CharacterCreationResultEnum) message.Result)
+            switch ((CharacterCreationResultEnum)message.Result)
             {
                 case CharacterCreationResultEnum.OK:
                     account.Character.IsFirstConnection = true;

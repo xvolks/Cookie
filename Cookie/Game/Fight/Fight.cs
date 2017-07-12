@@ -21,6 +21,12 @@ namespace Cookie.Game.Fight
     {
         public Fight(IAccount account) : base(account)
         {
+            Attach();
+        }
+
+        private void Attach()
+        {
+            Logger.Default.Log("Register Fight Packet");
             Account.Network.RegisterPacket<GameActionFightSpellCastMessage>(HandleGameActionFightSpellCastMessage, API.Messages.MessagePriority.VeryHigh);
             Account.Network.RegisterPacket<GameFightJoinMessage>(HandleGameFightJoinMessage, API.Messages.MessagePriority.High);
         }
@@ -29,7 +35,7 @@ namespace Cookie.Game.Fight
 
         public void EndTurn()
         {
-            if (Account.Character.Fight.Fighter.MovementPoints > 0)
+            if (Account.Character.Fight.Fighter.MovementPoints > 0 && Account.Character.Fight.Fighter.Stats.DodgePALostProbability == 0)
             {
                 var monster = Account.Character.Fight.NearestMonster();
                 var reachableCells = Account.Character.Fight.GetReachableCells();

@@ -1,6 +1,7 @@
 ﻿using Cookie.API.Commands;
 using Cookie.API.Core;
 using Cookie.API.Utils;
+using Cookie.Core;
 using Cookie.Game.Fight;
 
 namespace Cookie.Commands.Commands
@@ -17,8 +18,17 @@ namespace Cookie.Commands.Commands
                 Logger.Default.Log("Erreur argument command ." + CommandName + ", LogMessageType.Public");
                 return;
             }
+            if (!(account.Character.Map.Monsters.Count > 0))
+            {
+                Logger.Default.Log("Aucun monstre sur la map.");
+                return;
+            }
 
-            new ArtificialIntelligence().Load(account, args[0]);
+            if (((Character)account.Character).IA == null)
+            {
+                ((Character)account.Character).IA = new ArtificialIntelligence();
+            }
+            ((Character)account.Character).IA.Load(account, args[0]);
             account.Character.Map.LaunchAttack();
         }
     }
