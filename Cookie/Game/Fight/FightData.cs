@@ -429,6 +429,13 @@ namespace Cookie.Game.Fight
 
         private void HandleGameFightEndMessage(IAccount account, GameFightEndMessage message)
         {
+            Fighters.Clear();
+            Options.Clear();
+            TotalLaunchBySpell.Clear();
+            LastTurnLaunchBySpell.Clear();
+            TotalLaunchByCellBySpell.Clear();
+            DurationByEffect.Clear();
+
             WaitForReady = false;
             IsFighterTurn = false;
             IsFightStarted = false;

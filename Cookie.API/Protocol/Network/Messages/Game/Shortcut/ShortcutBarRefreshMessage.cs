@@ -74,9 +74,9 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Shortcut
         
         public override void Deserialize(IDataReader reader)
         {
-            m_shortcut = ProtocolTypeManager.GetInstance<Shortcut>((short)reader.ReadUShort());
-            m_shortcut.Deserialize(reader);
             m_barType = reader.ReadByte();
+            m_shortcut = ProtocolTypeManager.GetInstance<Shortcut>((short)reader.ReadUShort());
+            m_shortcut.Deserialize(reader);            
         }
     }
 }
