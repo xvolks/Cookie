@@ -157,6 +157,9 @@ namespace Cookie
                     case LogMessageType.Divers:
                         LogTextBox.SelectionColor = ColorTranslator.FromHtml("#3498db");
                         break;
+                    case LogMessageType.Error:
+                        LogTextBox.SelectionColor = ColorTranslator.FromHtml("#FF0033");
+                        break;
                     default:
                         LogTextBox.SelectionColor = ColorTranslator.FromHtml("#E8890D");
                         break;

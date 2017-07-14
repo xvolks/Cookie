@@ -19,6 +19,7 @@
         Community,
         Sender,
         Divers,
+        Error,
         Default
     }
 }
