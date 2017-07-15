@@ -11,17 +11,15 @@ namespace Cookie.Game.Map
     {
         private readonly IAccount _account;
         private readonly int _oId;
-        private int _cellId;
         private ICellMovement _cellMovement;
         private Timer _timeoutTimer;
 
-        public MapChangement(IAccount account, ICellMovement cm, int nid, int cell)
+        public MapChangement(IAccount account, ICellMovement cm, int nid)
         {
             _account = account;
             _oId = account.Character.MapId;
             NewMap = nid;
             _cellMovement = cm;
-            _cellId = cell;
             _timeoutTimer = new Timer(20000);
             _timeoutTimer.Elapsed += _timeoutTimer_Elapsed;
         }

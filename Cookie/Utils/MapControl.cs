@@ -252,10 +252,12 @@ namespace DofusMapControl
                     cell.DrawForeground(this, g, DrawMode);
                 }
 
-            if (ViewGrid)
+            if (!ViewGrid) return;
+            {
                 foreach (var cell in Cells)
                     if (cell.IsInRectange(g.ClipBounds))
                         cell.DrawBorder(g, pen);
+            }
         }
 
         protected override void OnPaint(PaintEventArgs e)
