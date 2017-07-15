@@ -65,30 +65,20 @@ namespace Cookie.Game.Map
             if (message.ActorId != _account.Character.Id || message.KeyMovements[0] != _path.CellStart.CellId) return;
             _account.Character.Map.MapMovement -= Map_MapMovement;
             _account.Character.Status = CharacterStatus.Moving;
-
-            MovementVelocity.MovementTypeEnum type;
-            if (_path.Cells.Count >= 4) // Need check pods
-                type = MovementVelocity.MovementTypeEnum.WALKING;
-            else
-                type = MovementVelocity.MovementTypeEnum.RUNNING;
-
-            var time = MovementVelocity.GetPathVelocity(_path, type);
             _account.PerformAction(() =>
-            {
-                _account.Network.SendToServer(new GameMapMovementConfirmMessage());
-                OnMovementFinished(true);
-            }, (int) time);
+                {
+                    _account.Network.SendToServer(new GameMapMovementConfirmMessage());
+                    OnMovementFinished(true);
+                },
+                (int) MovementVelocity.GetPathVelocity(_path,
+                    _path.Cells.Count >= 4
+                        ? MovementVelocity.MovementTypeEnum.WALKING
+                        : MovementVelocity.MovementTypeEnum.RUNNING));
         }
 
-        private void Map_MovementConfirmed(object sender, EventArgs e)
-        {
-            OnMovementFinished(true);
-        }
+        private void Map_MovementConfirmed(object sender, EventArgs e) => OnMovementFinished(true);
 
-        private void Map_MovementFailed(object sender, EventArgs e)
-        {
-            OnMovementFinished(false);
-        }
+        private void Map_MovementFailed(object sender, EventArgs e) => OnMovementFinished(false);
 
         private void OnTimeOut()
         {

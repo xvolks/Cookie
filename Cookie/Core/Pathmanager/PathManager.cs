@@ -149,9 +149,7 @@ namespace Cookie.Core.Pathmanager
                             Logger.Default.Log($"Erreur syntaxe {tempDirection} - direction défini sur bas");
                             break;
                     }
-
-                    var tuple = Tuple.Create(direction, action);
-                    PathData.Add(mapId, tuple);
+                    PathData.Add(mapId, Tuple.Create(direction, action));
                 }
             }
             catch (Exception e)

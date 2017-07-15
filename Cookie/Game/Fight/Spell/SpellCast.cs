@@ -3,10 +3,6 @@ using Cookie.API.Game.Fight.Spells;
 using Cookie.API.Protocol.Network.Messages.Game.Actions.Fight;
 using Cookie.API.Utils.Enums;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Timers;
 
 namespace Cookie.Game.Fight.Spell
@@ -14,37 +10,30 @@ namespace Cookie.Game.Fight.Spell
     public class SpellCast : ISpellCast
     {
         private readonly IAccount _account;
-        private readonly int _spellId;
-        private readonly int _cellId;
         private Timer _timeoutTimer;
 
         public SpellCast(IAccount account, int spellId, int cellId)
         {
             _account = account;
-            _spellId = spellId;
-            _cellId = cellId;
+            SpellId = spellId;
+            CellId = cellId;
             _timeoutTimer = new Timer(20000);
             _timeoutTimer.Elapsed += _timeoutTimer_Elapsed;
         }
 
-        public int SpellId => _spellId;
-        public int CellId => _cellId;
+        public int SpellId { get; }
+
+        public int CellId { get; }
 
         public void PerformCast()
         {
-            if (SpellId == null || CellId == null)
-            {
-                OnSpellCasted(false);
-            }
             _account.Character.Fight.SpellCasted += Spell_Casted;
 
             foreach (var fighter in _account.Character.Fight.GetMonsters())
             {
-                if (fighter.CellId == CellId)
-                {
-                    _account.Network.SendToServer(new GameActionFightCastOnTargetRequestMessage((ushort)SpellId, fighter.Id));
-                    break;
-                }
+                if (fighter.CellId != CellId) continue;
+                _account.Network.SendToServer(new GameActionFightCastOnTargetRequestMessage((ushort)SpellId, fighter.Id));
+                break;
             }
             _timeoutTimer.Start();
         }

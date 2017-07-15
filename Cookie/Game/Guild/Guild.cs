@@ -80,8 +80,6 @@ namespace Cookie.Game.Guild
                 case FighterRefusedReasonEnum.RESTRICTED_ACCOUNT:
                     Logger.Default.Log("Le mode restreint est actif pour la session, cette action est impossible");
                     break;
-                default:
-                    break;
             }
         }
     }

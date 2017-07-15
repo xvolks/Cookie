@@ -69,10 +69,7 @@ namespace Cookie.Game.Jobs
 
         public void DoAutoGather(bool arg)
         {
-            if (!arg)
-                AutoGather = true;
-            else
-                AutoGather = false;
+            AutoGather = !arg;
         }
 
         public void Gather(List<int> @params, bool autoGather)
@@ -243,11 +240,9 @@ namespace Cookie.Game.Jobs
         private void HandleMapComplementaryInformationsDataMessage(IAccount account,
             MapComplementaryInformationsDataMessage message)
         {
-            if (AutoGather)
-            {
-                Launched = true;
-                account.PerformAction(() => Gather(), 1000);
-            }
+            if (!AutoGather) return;
+            Launched = true;
+            account.PerformAction(Gather, 1000);
         }
 
         private void HandleGameMapMovementCancelMessage(IAccount account, GameMapMovementCancelMessage message)
@@ -263,20 +258,16 @@ namespace Cookie.Game.Jobs
 
         private void HandleInteractiveElementUpdatedMessage(IAccount account, InteractiveElementUpdatedMessage message)
         {
-            if (AutoGather && message.InteractiveElement.OnCurrentMap)
-            {
-                Launched = true;
-                account.PerformAction(() => Gather(), 1000);
-            }
+            if (!AutoGather || !message.InteractiveElement.OnCurrentMap) return;
+            Launched = true;
+            account.PerformAction(Gather, 1000);
         }
 
         private void HandleInteractiveMapUpdateMessage(IAccount account, InteractiveMapUpdateMessage message)
         {
-            if (message.InteractiveElements.Any(element => Launched && element.OnCurrentMap) && AutoGather)
-            {
-                Launched = true;
-                account.PerformAction(() => Gather(), 1000);
-            }
+            if (!message.InteractiveElements.Any(element => Launched && element.OnCurrentMap) || !AutoGather) return;
+            Launched = true;
+            account.PerformAction(Gather, 1000);
         }
     }
 }

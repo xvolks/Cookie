@@ -67,7 +67,7 @@ namespace Cookie.API.Protocol
             var num = ComputeTypeLen(data.Length);
             var num1 = SubComputeStaticHeader(MessageID, num);
             writer.WriteShort((short) num1);
-            writer.WriteUInt(MessageUtils._instanceId++);
+            writer.WriteUInt(MessageUtils.InstanceId++);
             switch (num)
             {
                 case 0:

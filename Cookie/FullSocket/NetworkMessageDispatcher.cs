@@ -10,15 +10,13 @@ namespace Cookie.FullSocket
 {
     public class NetworkMessageDispatcher : MessageDispatcher
     {
-        private readonly List<Message> _mLogs = new List<Message>();
-
         public IClient Server { get; set; }
 
         protected override void Dispatch(Message message, object token)
         {
             if (message == null) throw new ArgumentNullException(nameof(message));
-            if (message is NetworkMessage)
-                Dispatch((NetworkMessage) message, token);
+            if (message is NetworkMessage nMessage)
+                Dispatch(nMessage, token);
             else
                 base.Dispatch(message, token);
         }

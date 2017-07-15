@@ -19,13 +19,11 @@ namespace Cookie.Utils.Configurations
 
         private void BtnConfirm_Click(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(txtUsername.Text) && !string.IsNullOrEmpty(txtPassword.Text))
-            {
-                Username = txtUsername.Text;
-                Password = txtPassword.Text;
-                DialogResult = DialogResult.OK;
-                Close();
-            }
+            if (string.IsNullOrEmpty(txtUsername.Text) || string.IsNullOrEmpty(txtPassword.Text)) return;
+            Username = txtUsername.Text;
+            Password = txtPassword.Text;
+            DialogResult = DialogResult.OK;
+            Close();
         }
 
         private void CloseButton_Click(object sender, EventArgs e)

@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Cookie.API.Core;
+﻿using Cookie.API.Core;
 using Cookie.API.Game.Fight;
 using Cookie.API.Game.World.Pathfinding;
 using Cookie.API.Game.World.Pathfinding.Positions;
@@ -12,8 +11,6 @@ using Cookie.Game.Map;
 using Cookie.API.Utils;
 using System;
 using Cookie.Game.Fight.Spell;
-using System.Collections.Generic;
-using Cookie.API.Game.Fight.Fighters;
 
 namespace Cookie.Game.Fight
 {
@@ -30,9 +27,7 @@ namespace Cookie.Game.Fight
             Account.Network.RegisterPacket<GameActionFightSpellCastMessage>(HandleGameActionFightSpellCastMessage, API.Messages.MessagePriority.VeryHigh);
             Account.Network.RegisterPacket<GameFightJoinMessage>(HandleGameFightJoinMessage, API.Messages.MessagePriority.High);
         }
-
-        public List<IMonster> GetMonsters() => base.GetMonsters();
-
+        
         public void EndTurn()
         {
             if (Account.Character.Fight.Fighter.MovementPoints > 0 && Account.Character.Fight.Fighter.Stats.DodgePALostProbability == 0)
@@ -46,11 +41,9 @@ namespace Cookie.Game.Fight
                     var reachableCellPoint = new MapPoint(cell);
                     var distance = 0;
                     distance = (distance + reachableCellPoint.DistanceToCell(new MapPoint(monster.CellId)));
-                    if (((savDistance == -1) || (distance < savDistance)))
-                    {
-                        cellId = cell;
-                        savDistance = distance;
-                    }
+                    if (((savDistance != -1) && (distance >= savDistance))) continue;
+                    cellId = cell;
+                    savDistance = distance;
                 }
                 var movementt = Account.Character.Fight.MoveToCell(cellId);
                 movementt.MovementFinished += (sender, e) =>
@@ -86,48 +79,38 @@ namespace Cookie.Game.Fight
 
         public ICellMovement MoveToCell(int cellId)
         {
-            ICellMovement toReturn;
-            if (cellId != Fighter.CellId)
+            if (cellId == Fighter.CellId) return null;
+            if (!IsCellWalkable(cellId))
             {
-                if (!IsCellWalkable(cellId))
+                var num = -1;
+                var num2 = 5000;
+                var point = new MapPoint(Fighter.CellId);
+                var point2 = new MapPoint(cellId);
+                var direction = 1;
+                while (true)
                 {
-                    var num = -1;
-                    var num2 = 5000;
-                    var point = new MapPoint(Fighter.CellId);
-                    var point2 = new MapPoint(cellId);
-                    var direction = 1;
-                    while (true)
+                    var nearestCellInDirection = point2.GetNearestCellInDirection(direction, 1);
+                    if (IsCellWalkable(nearestCellInDirection.CellId))
                     {
-                        var nearestCellInDirection = point2.GetNearestCellInDirection(direction, 1);
-                        if (IsCellWalkable(nearestCellInDirection.CellId))
+                        var num4 = point.DistanceToCell(nearestCellInDirection);
+                        if (num4 < num2)
                         {
-                            var num4 = point.DistanceToCell(nearestCellInDirection);
-                            if (num4 < num2)
-                            {
-                                num2 = num4;
-                                num = nearestCellInDirection.CellId;
-                            }
-                        }
-                        direction = direction + 2;
-                        if (direction > 7)
-                        {
-                            if (num == -1)
-                                return null;
-                            cellId = num;
-                            break;
+                            num2 = num4;
+                            num = nearestCellInDirection.CellId;
                         }
                     }
-                }
-                var pathfinder = new SimplePathfinder((API.Gamedata.D2p.Map)Account.Character.Map.Data);
-                pathfinder.SetFight(Fighters, Fighter.MovementPoints);
-                var path = pathfinder.FindPath(Fighter.CellId, cellId);
-                if (path != null)
-                {
-                    toReturn = new CellMovement(Account, path);
-                    return toReturn;
+                    direction = direction + 2;
+                    if (direction <= 7) continue;
+                    if (num == -1)
+                        return null;
+                    cellId = num;
+                    break;
                 }
             }
-            return null;
+            var pathfinder = new SimplePathfinder((API.Gamedata.D2p.Map)Account.Character.Map.Data);
+            pathfinder.SetFight(Fighters, Fighter.MovementPoints);
+            var path = pathfinder.FindPath(Fighter.CellId, cellId);
+            return path == null ? null : new CellMovement(Account, path);
         }
 
         public void LaunchSpell(int spellId, int cellId)

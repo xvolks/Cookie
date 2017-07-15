@@ -1,12 +1,6 @@
 ﻿using Cookie.API.Commands;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Cookie.API.Core;
 using Cookie.API.Utils;
-using Cookie.API.Utils.Enums;
 using Cookie.Core.Scripts;
 
 namespace Cookie.Commands.Commands

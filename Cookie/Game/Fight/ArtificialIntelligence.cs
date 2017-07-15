@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Cookie.API.Core;
 using Cookie.API.Game.Fight;
@@ -9,7 +8,6 @@ using Cookie.API.Protocol.Network.Messages.Game.Context.Fight;
 using Cookie.API.Utils;
 using Cookie.Core.Scripts;
 using Cookie.Game.Fight.Spell;
-using Cookie.API.Game.World.Pathfinding.Positions;
 using System;
 using Cookie.API.Game.Fight.Spells;
 
@@ -19,14 +17,14 @@ namespace Cookie.Game.Fight
     {
         private IAccount _account;
         private List<IASpell> _spells;
-        private int TotalSpellLauch;
-        private ISpellCast SpellEvent;
+        private int _totalSpellLauch;
+        private ISpellCast _spellEvent;
 
-        private IASpell CurrentSpell;
+        private IASpell _currentSpell;
 
         public void Load(IAccount account, string path)
         {
-            TotalSpellLauch = 0;
+            _totalSpellLauch = 0;
             _account = account;
             _spells = ScriptsManager.LoadSpellsFromIA($"{path}.lua");
 
@@ -70,13 +68,13 @@ namespace Cookie.Game.Fight
             //foreach (var spell in _spells)
             //{
             var spell = _spells[0];
-            CurrentSpell = spell;
+            _currentSpell = spell;
             var fighter = (IFighter)monster;
             if (spell.Target == SpellTarget.Self)
                 fighter = _account.Character.Fight.Fighter;
             var useSpell = _account.Character.Fight.CanUseSpell(spell.SpellId, fighter);
             var nameSpell = D2OParsing.GetSpellName(spell.SpellId);
-            if (TotalSpellLauch <= spell.Relaunchs)
+            if (_totalSpellLauch <= spell.Relaunchs)
             {
                 Logger.Default.Log($"Attaque {monster.Name}");
                 switch (useSpell)
@@ -87,9 +85,9 @@ namespace Cookie.Game.Fight
 
                     case 0:
                         Logger.Default.Log($"Lancement de {nameSpell}");
-                        SpellEvent = new SpellCast(_account, spell.SpellId, fighter.CellId);
-                        SpellEvent.SpellCasted += OnSpellCasted;
-                        SpellEvent.PerformCast();
+                        _spellEvent = new SpellCast(_account, spell.SpellId, fighter.CellId);
+                        _spellEvent.SpellCasted += OnSpellCasted;
+                        _spellEvent.PerformCast();
                         break;
 
                     default:
@@ -100,9 +98,9 @@ namespace Cookie.Game.Fight
                             if (e.Sucess)
                             {
                                 Logger.Default.Log($"Lancement de {nameSpell}");
-                                SpellEvent = new SpellCast(_account, spell.SpellId, fighter.CellId);
-                                SpellEvent.SpellCasted += OnSpellCasted;
-                                SpellEvent.PerformCast();
+                                _spellEvent = new SpellCast(_account, spell.SpellId, fighter.CellId);
+                                _spellEvent.SpellCasted += OnSpellCasted;
+                                _spellEvent.PerformCast();
                             }
                             else
                                 Logger.Default.Log($"Erreur lors du lancement du spell {spell.SpellId} sur la cell {fighter.CellId}", API.Utils.Enums.LogMessageType.Public);
@@ -113,28 +111,28 @@ namespace Cookie.Game.Fight
             }
             else
             {
-                TotalSpellLauch = 0;
+                _totalSpellLauch = 0;
                 _account.Character.Fight.EndTurn();
             }
         }
 
         private void OnSpellCasted(object sender, SpellCastEvent e)
         {
-            SpellEvent.SpellCasted -= OnSpellCasted;
+            _spellEvent.SpellCasted -= OnSpellCasted;
             if (e.Sucess)
             {
-                TotalSpellLauch++;
-                if (TotalSpellLauch < CurrentSpell.Relaunchs)
+                _totalSpellLauch++;
+                if (_totalSpellLauch < _currentSpell.Relaunchs)
                     ExecuteSpell();
                 else
                 {
-                    TotalSpellLauch = 0;
+                    _totalSpellLauch = 0;
                     _account.Character.Fight.EndTurn();
                 }
             }
             else
             {
-                TotalSpellLauch = 0;
+                _totalSpellLauch = 0;
                 _account.Character.Fight.EndTurn();
             }
         }
