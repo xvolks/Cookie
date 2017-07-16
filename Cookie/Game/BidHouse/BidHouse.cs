@@ -62,6 +62,9 @@ namespace Cookie.Game.BidHouse
             account.Network.RegisterPacket<ExchangeTypesItemsExchangerDescriptionForUserMessage>(HandleExchangeTypesItemsExchangerDescriptionForUserMessage, MessagePriority.VeryHigh);
             account.Network.RegisterPacket<ExchangeBidPriceMessage>(HandleExchangeBidPriceMessage, MessagePriority.VeryHigh);
             account.Network.RegisterPacket<ExchangeLeaveMessage>(HandleExchangeLeaveMessage, MessagePriority.VeryHigh);
+            account.Network.RegisterPacket<ExchangeBidHouseInListUpdatedMessage>(HandleExchangeBidHouseInListUpdatedMessage, MessagePriority.VeryHigh);
+            account.Network.RegisterPacket<ExchangeBidHouseInListAddedMessage>(HandleExchangeBidHouseInListAddedMessage, MessagePriority.VeryHigh);
+            account.Network.RegisterPacket<ExchangeBidHouseInListRemovedMessage>(HandleExchangeBidHouseInListRemovedMessage, MessagePriority.VeryHigh);
         }
 
         #endregion
@@ -237,6 +240,21 @@ namespace Cookie.Game.BidHouse
             _BidHouseItemTypeIsLoaded = false;
             _BidHouseItemQuantityPriceIsLoaded = false;
             _BidHouseItemMeanPriceIsLoaded = false;
+        }
+
+        private void HandleExchangeBidHouseInListUpdatedMessage(IAccount account, ExchangeBidHouseInListUpdatedMessage message)
+        {
+            
+        }
+
+        private void HandleExchangeBidHouseInListAddedMessage(IAccount account, ExchangeBidHouseInListAddedMessage message)
+        {
+
+        }
+
+        private void HandleExchangeBidHouseInListRemovedMessage(IAccount account, ExchangeBidHouseInListRemovedMessage message)
+        {
+            
         }
 
         #endregion
