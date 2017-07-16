@@ -93,6 +93,7 @@
     <Compile Include="Game\BidHouse\IBidHouse.cs" />
     <Compile Include="Game\Chat\IChat.cs" />
     <Compile Include="Game\Entity\IEntity.cs" />
+    <Compile Include="Game\Entity\IMerchant.cs" />
     <Compile Include="Game\Fight\Fighters\ICompanion.cs" />
     <Compile Include="Game\Fight\IArtificialIntelligence.cs" />
     <Compile Include="Game\Fight\IFight.cs" />

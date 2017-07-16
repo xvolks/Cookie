@@ -85,16 +85,7 @@ namespace Cookie.Utils.Configurations
 
         private static GlobalConfiguration configuration;
 
-        public static GlobalConfiguration Instance
-        {
-            get
-            {
-                if (configuration == null)
-                    configuration = new GlobalConfiguration();
-
-                return configuration;
-            }
-        }
+        public static GlobalConfiguration Instance => configuration ?? (configuration = new GlobalConfiguration());
 
         #endregion
     }

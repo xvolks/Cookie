@@ -44,6 +44,7 @@ namespace Cookie.Game.Map
             Monsters = new List<IMonsterGroup>();
             Npcs = new List<INpc>();
             Players = new List<IPlayer>();
+            Merchants = new List<IMerchant>();
             InteractiveElements = new Dictionary<int, IInteractiveElement>();
             StatedElements = new Dictionary<int, IStatedElement>();
             SubAreaId = 0;
@@ -56,17 +57,15 @@ namespace Cookie.Game.Map
 
         private void MapControl_CellClicked(MapControl control, MapCell cell, MouseButtons buttons, bool hold)
         {
-            if (buttons == MouseButtons.Left)
+            if (buttons != MouseButtons.Left) return;
+            var mov = MoveToCell(cell.Id);
+            mov.MovementFinished += (sender, e) =>
             {
-                var mov = MoveToCell(cell.Id);
-                mov.MovementFinished += (sender, e) =>
-                {
-                    if (e.Sucess)
-                        Logger.Default.Log($"Déplacement réussi sur la cell: {cell.Id}");
-                };
-                mov.PerformMovement();
-                control.Invalidate(cell);
-            }
+                if (e.Sucess)
+                    Logger.Default.Log($"Déplacement réussi sur la cell: {cell.Id}");
+            };
+            mov.PerformMovement();
+            control.Invalidate(cell);
         }
 
         public object CheckLock { get; set; }
@@ -79,6 +78,7 @@ namespace Cookie.Game.Map
         public List<IMonsterGroup> Monsters { get; }
         public List<INpc> Npcs { get; }
         public List<IPlayer> Players { get; }
+        public List<IMerchant> Merchants { get; }
 
         public Dictionary<int, IInteractiveElement> Doors { get; }
         public Dictionary<int, IStatedElement> StatedElements { get; }
@@ -167,56 +167,44 @@ namespace Cookie.Game.Map
 
         public IMapChangement ChangeMap(MapDirectionEnum direction)
         {
-            IMapChangement toReturn = null;
             var neighbourId = -1;
             var num2 = -1;
-            if (direction == MapDirectionEnum.North)
+            switch (direction)
             {
-                neighbourId = ((API.Gamedata.D2p.Map)Data).TopNeighbourId;
-                num2 = 64;
-            }
-            else if (direction == MapDirectionEnum.South)
-            {
-                neighbourId = ((API.Gamedata.D2p.Map)Data).BottomNeighbourId;
-                num2 = 4;
-            }
-            else if (direction == MapDirectionEnum.East)
-            {
-                neighbourId = ((API.Gamedata.D2p.Map)Data).RightNeighbourId;
-                num2 = 1;
-            }
-            else if (direction == MapDirectionEnum.West)
-            {
-                neighbourId = ((API.Gamedata.D2p.Map)Data).LeftNeighbourId;
-                num2 = 16;
+                case MapDirectionEnum.North:
+                    neighbourId = ((API.Gamedata.D2p.Map)Data).TopNeighbourId;
+                    num2 = 64;
+                    break;
+                case MapDirectionEnum.South:
+                    neighbourId = ((API.Gamedata.D2p.Map)Data).BottomNeighbourId;
+                    num2 = 4;
+                    break;
+                case MapDirectionEnum.East:
+                    neighbourId = ((API.Gamedata.D2p.Map)Data).RightNeighbourId;
+                    num2 = 1;
+                    break;
+                case MapDirectionEnum.West:
+                    neighbourId = ((API.Gamedata.D2p.Map)Data).LeftNeighbourId;
+                    num2 = 16;
+                    break;
             }
 
-            if (num2 != -1 && neighbourId >= 0)
-            {
-                var list = new List<int>();
-                var num4 = ((API.Gamedata.D2p.Map)Data).Cells.Count - 1;
+            if (num2 == -1 || neighbourId < 0) return null;
+            var list = new List<int>();
+            var num4 = ((API.Gamedata.D2p.Map)Data).Cells.Count - 1;
 
-                for (var i = 0; i < num4; i++)
-                    if ((((API.Gamedata.D2p.Map)Data).Cells[i].MapChangeData & num2) > 0 && NothingOnCell(i))
-                        list.Add(i);
-                var randomCellId = list[Randomize.GetRandomNumber(0, list.Count)];
-                var move = MoveToCell(randomCellId);
-                toReturn = new MapChangement(_account, move, neighbourId, _account.Character.CellId);
-                return toReturn;
-            }
-            return toReturn;
+            for (var i = 0; i < num4; i++)
+                if ((((API.Gamedata.D2p.Map)Data).Cells[i].MapChangeData & num2) > 0 && NothingOnCell(i))
+                    list.Add(i);
+            var randomCellId = list[Randomize.GetRandomNumber(0, list.Count)];
+            var move = MoveToCell(randomCellId);
+            return new MapChangement(_account, move, neighbourId);
         }
 
-        public ICellMovement MoveToCell(int cellId)
-        {
-            var path = new Pathfinder(_account.Character.Map).FindPath(_account.Character.CellId, cellId);
-            return new CellMovement(_account, path);
-        }
+        public ICellMovement MoveToCell(int cellId) => new CellMovement(_account,
+            new Pathfinder(_account.Character.Map).FindPath(_account.Character.CellId, cellId));
 
-        public ICellMovement MoveToDoor(int cellId)
-        {
-            return MoveToCellWithDistance(cellId, 1, true);
-        }
+        public ICellMovement MoveToDoor(int cellId) => MoveToCellWithDistance(cellId, 1, true);
 
         public ICellMovement MoveToElement(int id, int maxDistance)
         {
@@ -230,10 +218,7 @@ namespace Cookie.Game.Map
             return element != null ? MoveToCellWithDistance((int)element.CellId, 1, true) : null;
         }
 
-        public void PlayerFightRequest(string playerName)
-        {
-            Logger.Default.Log("Appel de fonction fight!");
-        }
+        public void PlayerFightRequest(string playerName) => Logger.Default.Log("Appel de fonction fight!");
 
         public bool NoEntitiesOnCell(int cellId)
         {
@@ -244,16 +229,10 @@ namespace Cookie.Game.Map
             }
         }
 
-        public bool NothingOnCell(int cellId)
-        {
-            return Data.IsWalkable(cellId) && NoEntitiesOnCell(cellId);
-        }
+        public bool NothingOnCell(int cellId) => Data.IsWalkable(cellId) && NoEntitiesOnCell(cellId);
 
-        public void UseElement(int id, int skillId)
-        {
-            _account.PerformAction(
-                () => _account.Network.SendToServer(new InteractiveUseRequestMessage((uint)id, (uint)skillId)), 500);
-        }
+        public void UseElement(int id, int skillId) => _account.PerformAction(
+            () => _account.Network.SendToServer(new InteractiveUseRequestMessage((uint)id, (uint)skillId)), 500);
 
         public ICellMovement MoveToCellWithDistance(int cellId, int maxDistance, bool bool1)
         {
@@ -330,12 +309,6 @@ namespace Cookie.Game.Map
                 MessagePriority.VeryHigh);
         }
 
-        public void ConfirmMove(int time)
-        {
-            Randomize.RunBetween(
-                () => _account.Network.SendToServer(new GameMapMovementConfirmMessage()), time * 2, time * 2 + 500);
-        }
-
         private IEnumerable<MapPoint> GetListPointAtGoodDistance(MapPoint characterPoint, MapPoint elementPoint,
             int weaponRange)
         {
@@ -367,10 +340,7 @@ namespace Cookie.Game.Map
             }
         }
 
-        private void LaunchChangeMap(int mapId)
-        {
-            _account.Network.SendToServer(new ChangeMapMessage(mapId));
-        }
+        private void LaunchChangeMap(int mapId) => _account.Network.SendToServer(new ChangeMapMessage(mapId));
 
         private void HandleCurrentMapMessage(IAccount account, CurrentMapMessage message)
         {
@@ -412,7 +382,7 @@ namespace Cookie.Game.Map
                             neighbourId = ((API.Gamedata.D2p.Map)Data).RightNeighbourId;
                     }
                     if (neighbourId >= 0)
-                        Randomize.RunBetween(() => LaunchChangeMap(neighbourId), 100, 200);
+                        LaunchChangeMap(neighbourId);
                 }
             }
             OnMovementConfirmed();
@@ -446,9 +416,6 @@ namespace Cookie.Game.Map
             lock (CheckLock)
             {
                 AddActors(new List<GameRolePlayActorInformations> { message.Informations });
-                IEntity entity = new Entity.Entity(message.Informations.ContextualId,
-                    message.Informations.Disposition.CellId);
-                Entities.Add(entity);
 
                 UpdateMapControl();
             }
@@ -488,10 +455,7 @@ namespace Cookie.Game.Map
         }
 
         private void HandleMapComplementaryInformationsDataInHouseMessage(IAccount account,
-            MapComplementaryInformationsDataInHouseMessage message)
-        {
-            HandleMapComplementaryInformationsDataMessage(account, message);
-        }
+            MapComplementaryInformationsDataInHouseMessage message) => HandleMapComplementaryInformationsDataMessage(account, message);
 
         private void HandleMapComplementaryInformationsDataMessage(IAccount account,
             MapComplementaryInformationsDataMessage message)
@@ -529,18 +493,18 @@ namespace Cookie.Game.Map
                     var interactiveElement = element;
                     var listDoorSkillId = new List<int>(new[] { 184, 183, 187, 198, 114 });
                     var listDoorTypeId = new List<int>(new[] { -1, 128, 168, 16 });
-                    if (listDoorTypeId.Contains(interactiveElement.ElementTypeId) &&
-                        interactiveElement.EnabledSkills.Count > 0 &&
-                        listDoorSkillId.Contains((int)interactiveElement.EnabledSkills[0].SkillId))
-                        foreach (var layer in ((API.Gamedata.D2p.Map)Data).Layers)
-                            foreach (var cell in layer.Cells)
-                                foreach (var layerElement in cell.Elements)
-                                    if (layerElement is GraphicalElement graphicalElement)
-                                        if (graphicalElement.Identifier == interactiveElement.ElementId &&
-                                            !Doors.ContainsKey(cell.CellId))
-                                            Doors.Add(cell.CellId,
-                                                new InteractiveElement((uint)element.ElementId, element.ElementTypeId,
-                                                    element.EnabledSkills.ToList(), element.DisabledSkills.ToList()));
+                    if (!listDoorTypeId.Contains(interactiveElement.ElementTypeId) ||
+                        interactiveElement.EnabledSkills.Count <= 0 ||
+                        !listDoorSkillId.Contains((int) interactiveElement.EnabledSkills[0].SkillId)) continue;
+                    foreach (var layer in ((API.Gamedata.D2p.Map)Data).Layers)
+                    foreach (var cell in layer.Cells)
+                    foreach (var layerElement in cell.Elements)
+                        if (layerElement is GraphicalElement graphicalElement)
+                            if (graphicalElement.Identifier == interactiveElement.ElementId &&
+                                !Doors.ContainsKey(cell.CellId))
+                                Doors.Add(cell.CellId,
+                                    new InteractiveElement((uint)element.ElementId, element.ElementTypeId,
+                                        element.EnabledSkills.ToList(), element.DisabledSkills.ToList()));
                 }
             }
 
@@ -588,25 +552,37 @@ namespace Cookie.Game.Map
             /////// MAPCONTROL ///////
         }
 
-        private void AddActors(List<GameRolePlayActorInformations> actors)
+        private void AddActors(IEnumerable<GameRolePlayActorInformations> actors)
         {
             foreach (var actor in actors)
+            {
                 if (actor is GameRolePlayGroupMonsterInformations monster)
+                {
                     Monsters.Add(new MonsterGroup(monster.StaticInfos,
                         monster.ContextualId, monster.Disposition.CellId));
-                else if (actor is GameRolePlayNpcInformations npc)
+                    continue;
+                }
+                if (actor is GameRolePlayNpcInformations npc)
+                {
                     Npcs.Add(new Npc(npc.Disposition.CellId, npc.ContextualId, npc.NpcId));
-                else if (actor is GameRolePlayCharacterInformations player)
+                    continue;
+                }
+                if (actor is GameRolePlayCharacterInformations player)
+                {
                     Players.Add(new Player(actor.Disposition.CellId, player.ContextualId, player.Name));
-                else
+                    continue;
+                }
+                if (actor is GameRolePlayMerchantInformations merchant)
+                {
+                    Merchants.Add(new Merchant(merchant.Disposition.CellId, merchant.ContextualId, merchant.SellType, merchant.Name));
+                    continue;
+                }
                     Entities.Add(new Entity.Entity(actor.ContextualId, actor.Disposition.CellId));
+            }
         }
 
         private void HandleMapComplementaryInformationsWithCoordsMessage(IAccount account,
-            MapComplementaryInformationsWithCoordsMessage message)
-        {
-            HandleMapComplementaryInformationsDataMessage(account, message);
-        }
+            MapComplementaryInformationsWithCoordsMessage message) => HandleMapComplementaryInformationsDataMessage(account, message);
 
         private void HandleStatedElementUpdatedMessage(IAccount account, StatedElementUpdatedMessage message)
         {
@@ -655,24 +631,12 @@ namespace Cookie.Game.Map
             OnMovementFailed();
         }
 
-        private void OnMapMovement(GameMapMovementMessage message)
-        {
-            MapMovement?.Invoke(message);
-        }
+        private void OnMapMovement(GameMapMovementMessage message) => MapMovement?.Invoke(message);
 
-        private void OnMovementConfirmed()
-        {
-            MovementConfirmed?.Invoke(_account, null);
-        }
+        private void OnMovementConfirmed() => MovementConfirmed?.Invoke(_account, null);
 
-        private void OnMovementFailed()
-        {
-            MovementFailed?.Invoke(_account, null);
-        }
+        private void OnMovementFailed() => MovementFailed?.Invoke(_account, null);
 
-        private void OnMapChanged()
-        {
-            MapChanged?.Invoke(_account, new MapChangedEventArgs(Id));
-        }
+        private void OnMapChanged() => MapChanged?.Invoke(_account, new MapChangedEventArgs(Id));
     }
 }

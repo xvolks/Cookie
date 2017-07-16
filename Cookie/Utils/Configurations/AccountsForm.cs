@@ -41,11 +41,9 @@ namespace Cookie.Utils.Configurations
         {
             using (var aaf = new AddAccountForm())
             {
-                if (aaf.ShowDialog() == DialogResult.OK)
-                {
-                    GlobalConfiguration.Instance.AddAccount(aaf.Username, aaf.Password);
-                    RefreshAccounts();
-                }
+                if (aaf.ShowDialog() != DialogResult.OK) return;
+                GlobalConfiguration.Instance.AddAccount(aaf.Username, aaf.Password);
+                RefreshAccounts();
             }
         }
 

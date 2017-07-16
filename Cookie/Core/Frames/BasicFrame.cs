@@ -96,13 +96,11 @@ namespace Cookie.Core.Frames
 
         private void HandleSystemMessageDisplayMessage(IAccount account, SystemMessageDisplayMessage message)
         {
-            if (message.MsgId == 13)
-            {
-                Logger.Default.Log(
-                    "Le serveur est actuellement en maintenance. Vous pouvez consulter la rubrique Etats des serveurs du forum officiel, ou sur le site du Support pour plus d'informations. Merci de votre compréhension.",
-                    LogMessageType.Public);
-                account.Network.Stop();
-            }
+            if (message.MsgId != 13) return;
+            Logger.Default.Log(
+                "Le serveur est actuellement en maintenance. Vous pouvez consulter la rubrique Etats des serveurs du forum officiel, ou sur le site du Support pour plus d'informations. Merci de votre compréhension.",
+                LogMessageType.Public);
+            account.Network.Stop();
         }
 
         private void HandleMailStatusMessage(IAccount account, MailStatusMessage message)

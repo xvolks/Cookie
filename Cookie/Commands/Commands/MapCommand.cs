@@ -8,7 +8,7 @@ namespace Cookie.Commands.Commands
 {
     public class MapCommand : ICommand
     {
-        private readonly string CommandSuffix = "[Map]";
+        private const string CommandSuffix = "[Map]";
         public string CommandName => "map";
 
         public void OnCommand(IAccount account, string[] args)
@@ -44,6 +44,8 @@ namespace Cookie.Commands.Commands
                 Logger.Default.Log($"Npc ({n.Name}) sur la cellId {n.CellId}");
             foreach (var p in account.Character.Map.Players)
                 Logger.Default.Log($"Joueur ({p.Name}) sur la cellId {p.CellId}");
+            foreach(var me in account.Character.Map.Merchants)
+                Logger.Default.Log($"Marchand ({me.Name}) sur la cellId {me.CellId}");
             foreach (var e in account.Character.Map.Entities)
                 Logger.Default.Log($"Entitée sur la cellId {e.CellId}");
         }

@@ -20,11 +20,9 @@ namespace Cookie.Utils.Configurations
         {
             using (var fbd = new FolderBrowserDialog())
             {
-                if (fbd.ShowDialog() == DialogResult.OK)
-                {
-                    var path = fbd.SelectedPath;
-                    txtPath.Text = path;
-                }
+                if (fbd.ShowDialog() != DialogResult.OK) return;
+                var path = fbd.SelectedPath;
+                txtPath.Text = path;
             }
         }
 

@@ -151,11 +151,11 @@ namespace Cookie.FullSocket
                 throw new ArgumentException("client is not of type ConnectionFullSocket");
 
             var fs = (ConnectionFullSocket) client;
-            if (message is IdentificationSuccessMessage)
-                HandleIdentificationSuccessMessage(fs, (IdentificationSuccessMessage) message);
-            if (message is SelectedServerDataMessage)
+            if (message is IdentificationSuccessMessage ism)
+                HandleIdentificationSuccessMessage(fs, ism);
+            if (message is SelectedServerDataMessage ssdm)
             {
-                var msg = (SelectedServerDataMessage) message;
+                var msg = ssdm;
 
                 Logger.Default.Log("Sélection du serveur " + D2OParsing.GetServerName(msg.ServerId));
                 var ticket = AES.DecodeWithAES(msg.Ticket);

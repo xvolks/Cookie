@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using Cookie.API.Core;
 using Cookie.API.Datacenter;
@@ -23,7 +22,6 @@ using Cookie.API.Utils.Enums;
 using Cookie.Game.Fight.Fighters;
 using Companion = Cookie.Game.Fight.Fighters.Companion;
 using Monster = Cookie.Game.Fight.Fighters.Monster;
-using Cookie.API.Protocol.Network.Types.Game.Data.Items;
 using Cookie.API.Protocol.Network.Messages.Game.Actions.Sequence;
 using Cookie.API.Protocol.Network.Messages.Game.Actions;
 
@@ -129,21 +127,21 @@ namespace Cookie.Game.Fight
             GameActionFightPointsVariationMessage message)
         {
             var fighter = (Fighter)GetFighter(message.TargetId);
-            if (fighter != null)
-                switch (message.ActionId)
-                {
-                    case 101:
-                    case 102:
-                    case 120:
-                        fighter.ActionPoints = (short)(fighter.ActionPoints + message.Delta);
-                        break;
+            if (fighter == null) return;
+            switch (message.ActionId)
+            {
+                case 101:
+                case 102:
+                case 120:
+                    fighter.ActionPoints = (short)(fighter.ActionPoints + message.Delta);
+                    break;
 
-                    case 78:
-                    case 127:
-                    case 129:
-                        fighter.MovementPoints = (short)(fighter.MovementPoints + message.Delta);
-                        break;
-                }
+                case 78:
+                case 127:
+                case 129:
+                    fighter.MovementPoints = (short)(fighter.MovementPoints + message.Delta);
+                    break;
+            }
         }
 
         private void HandleGameActionFightSlideMessage(IAccount account, GameActionFightSlideMessage message)
@@ -166,83 +164,73 @@ namespace Cookie.Game.Fight
         private void HandleGameActionFightDispellableEffectMessage(IAccount account,
             GameActionFightDispellableEffectMessage message)
         {
-            if (message.Effect is FightTemporaryBoostStateEffect)
+            if (message.Effect is FightTemporaryBoostStateEffect ftbse)
             {
-                var effect = (FightTemporaryBoostStateEffect)message.Effect;
-                if (effect.TargetId == Fighter.Id)
-                {
-                    if (DurationByEffect.ContainsKey(effect.StateId))
-                        DurationByEffect.Remove(effect.StateId);
+                if (ftbse.TargetId != Fighter.Id) return;
+                if (DurationByEffect.ContainsKey(ftbse.StateId))
+                    DurationByEffect.Remove(ftbse.StateId);
 
-                    DurationByEffect.Add(effect.StateId, effect.TurnDuration);
-                }
+                DurationByEffect.Add(ftbse.StateId, ftbse.TurnDuration);
             }
-            else if (message.Effect is FightTemporaryBoostEffect)
+            else if (message.Effect is FightTemporaryBoostEffect ftbe)
             {
-                var effect = (FightTemporaryBoostEffect)message.Effect;
-                if (message.ActionId == 168)
-                    ((Fighter)Fighter).ActionPoints = (short)(Fighter.ActionPoints - effect.Delta);
-                else if (message.ActionId == 169)
-                    ((Fighter)Fighter).MovementPoints = (short)(Fighter.MovementPoints - effect.Delta);
+                switch (message.ActionId)
+                {
+                    case 168:
+                        ((Fighter)Fighter).ActionPoints = (short)(Fighter.ActionPoints - ftbe.Delta);
+                        break;
+                    case 169:
+                        ((Fighter)Fighter).MovementPoints = (short)(Fighter.MovementPoints - ftbe.Delta);
+                        break;
+                }
             }
         }
 
         private void HandleGameMapMovementMessage(IAccount account, GameMapMovementMessage message)
         {
-            if (Account.Character.Status == CharacterStatus.Fighting)
-            {
-                var clientMovement =
-                    MapMovementAdapter.GetClientMovement(message.KeyMovements.Select(k => (uint)k).ToList());
-                var fighter = (Fighter)GetFighter(message.ActorId);
-                if (fighter != null)
-                    fighter.CellId = clientMovement.CellEnd.CellId;
-            }
+            if (Account.Character.Status != CharacterStatus.Fighting) return;
+            var clientMovement =
+                MapMovementAdapter.GetClientMovement(message.KeyMovements.Select(k => (uint)k).ToList());
+            var fighter = (Fighter)GetFighter(message.ActorId);
+            if (fighter != null)
+                fighter.CellId = clientMovement.CellEnd.CellId;
         }
 
         private void HandleGameActionFightSpellCastMessage(IAccount account, GameActionFightSpellCastMessage message)
         {
             var fighter = (Fighter)GetFighter(message.SourceId);
-            if (fighter != null && Fighter != null && fighter.Id == Fighter.Id)
+            if (fighter == null || Fighter == null || fighter.Id != Fighter.Id) return;
+            var spellLevel = -1;
+            var spell = Account.Character.Spells.FirstOrDefault(s => s.SpellId == message.SpellId);
+            if (spell != null)
+                spellLevel = spell.SpellLevel;
+
+            if (spellLevel == -1) return;
+            var spellData = ObjectDataManager.Instance.Get<API.Datacenter.Spell>(message.SpellId);
+            if (spellData == null) return;
+            var spellLevelId = spellData.SpellLevels[spellLevel - 1];
+            var spellLevelData = ObjectDataManager.Instance.Get<SpellLevel>(spellLevelId);
+            if (spellLevelData == null) return;
+            if (spellLevelData.MinCastInterval > 0 &&
+                !LastTurnLaunchBySpell.ContainsKey(message.SpellId))
+                LastTurnLaunchBySpell.Add(message.SpellId, (int)spellLevelData.MinCastInterval);
+
+            if (TotalLaunchBySpell.ContainsKey(message.SpellId))
+                TotalLaunchBySpell[message.SpellId] += 1;
+            else
+                TotalLaunchBySpell.Add(message.SpellId, 1);
+
+            if (TotalLaunchByCellBySpell.ContainsKey(message.SpellId))
             {
-                var spellLevel = -1;
-                var spell = Account.Character.Spells.FirstOrDefault(s => s.SpellId == message.SpellId);
-                if (spell != null)
-                    spellLevel = spell.SpellLevel;
-
-                if (spellLevel != -1)
-                {
-                    var spellData = ObjectDataManager.Instance.Get<API.Datacenter.Spell>(message.SpellId);
-                    if (spellData != null)
-                    {
-                        var spellLevelId = spellData.SpellLevels[spellLevel - 1];
-                        var spellLevelData = ObjectDataManager.Instance.Get<SpellLevel>(spellLevelId);
-                        if (spellLevelData != null)
-                        {
-                            if (spellLevelData.MinCastInterval > 0 &&
-                                !LastTurnLaunchBySpell.ContainsKey(message.SpellId))
-                                LastTurnLaunchBySpell.Add(message.SpellId, (int)spellLevelData.MinCastInterval);
-
-                            if (TotalLaunchBySpell.ContainsKey(message.SpellId))
-                                TotalLaunchBySpell[message.SpellId] += 1;
-                            else
-                                TotalLaunchBySpell.Add(message.SpellId, 1);
-
-                            if (TotalLaunchByCellBySpell.ContainsKey(message.SpellId))
-                            {
-                                if (TotalLaunchByCellBySpell[message.SpellId].ContainsKey(message.DestinationCellId))
-                                    TotalLaunchByCellBySpell[message.SpellId][message.DestinationCellId] += 1;
-                                else
-                                    TotalLaunchByCellBySpell[message.SpellId].Add(message.DestinationCellId, 1);
-                            }
-                            else
-                            {
-                                var tempdico = new Dictionary<int, int>();
-                                tempdico.Add(message.DestinationCellId, 1);
-                                TotalLaunchByCellBySpell.Add(message.SpellId, tempdico);
-                            }
-                        }
-                    }
-                }
+                if (TotalLaunchByCellBySpell[message.SpellId].ContainsKey(message.DestinationCellId))
+                    TotalLaunchByCellBySpell[message.SpellId][message.DestinationCellId] += 1;
+                else
+                    TotalLaunchByCellBySpell[message.SpellId].Add(message.DestinationCellId, 1);
+            }
+            else
+            {
+                var tempdico = new Dictionary<int, int> {{message.DestinationCellId, 1}};
+                TotalLaunchByCellBySpell.Add(message.SpellId, tempdico);
             }
         }
 
@@ -407,11 +395,9 @@ namespace Cookie.Game.Fight
                 }
             }
             var fighter = (Fighter)GetFighter(message.ObjectId);
-            if (fighter != null)
-            {
-                fighter.ActionPoints = fighter.Stats.MaxActionPoints;
-                fighter.MovementPoints = fighter.Stats.MaxMovementPoints;
-            }
+            if (fighter == null) return;
+            fighter.ActionPoints = fighter.Stats.MaxActionPoints;
+            fighter.MovementPoints = fighter.Stats.MaxMovementPoints;
         }
 
         private void HandleGameFightStartMessage(IAccount account, GameFightStartMessage message)
@@ -481,28 +467,24 @@ namespace Cookie.Game.Fight
                 return 0;
             }
 
-            int moveCell = -1;
-            int distance = -1;
-            foreach (int cell in GetReachableCells())
+            var moveCell = -1;
+            var distance = -1;
+            foreach (var cell in GetReachableCells())
             {
-                if (CanLaunchSpellOn(spellId, cell, target.CellId, true) == SpellInabilityReason.None)
-                {
-                    MapPoint characterPoint = new MapPoint(cell);
-                    int tempDistance = characterPoint.DistanceToCell(new MapPoint(target.CellId));
+                if (CanLaunchSpellOn(spellId, cell, target.CellId, true) != SpellInabilityReason.None) continue;
+                var characterPoint = new MapPoint(cell);
+                var tempDistance = characterPoint.DistanceToCell(new MapPoint(target.CellId));
 
-                    if (tempDistance > distance || distance == -1)
-                    {
-                        distance = tempDistance;
-                        moveCell = cell;
-                    }
-                }
+                if (tempDistance <= distance && distance != -1) continue;
+                distance = tempDistance;
+                moveCell = cell;
             }
             return moveCell;
         }
 
         public IMonster NearestMonster()
         {
-            MapPoint charMp = new MapPoint(Fighter.CellId);
+            var charMp = new MapPoint(Fighter.CellId);
             var distance = -1;
             IMonster rMonster = null;
 
@@ -532,10 +514,7 @@ namespace Cookie.Game.Fight
             var characterPoint = new MapPoint(Fighter.CellId);
             var targetPoint = new MapPoint(NearestMonster().CellId);
 
-            if (characterPoint.DistanceToCell(targetPoint) <= 1)
-                return true;
-
-            return false;
+            return characterPoint.DistanceToCell(targetPoint) <= 1;
         }
 
         public List<int> GetReachableCells()
@@ -564,11 +543,7 @@ namespace Cookie.Game.Fight
 
         private int GetInvokationNumber()
         {
-            var num = 0;
-            foreach (var informations in Monsters)
-                if (informations.Stats.Summoner == Fighter.Id)
-                    num += 1;
-            return num;
+            return Monsters.Count(informations => informations.Stats.Summoner == Fighter.Id);
         }
 
         protected SpellInabilityReason CanLaunchSpell(int spellId)
@@ -611,13 +586,15 @@ namespace Cookie.Game.Fight
             lock (CheckLock)
             {
                 var listOfStates = spellLevelsData.StatesRequired;
-                foreach (var state in listOfStates)
-                    if (!DurationByEffect.ContainsKey(state))
-                        return SpellInabilityReason.RequiredState;
+                if (listOfStates.Any(state => !DurationByEffect.ContainsKey(state)))
+                {
+                    return SpellInabilityReason.RequiredState;
+                }
                 listOfStates = spellLevelsData.StatesForbidden;
-                foreach (var state in listOfStates)
-                    if (DurationByEffect.ContainsKey(state))
-                        return SpellInabilityReason.ForbiddenState;
+                if (listOfStates.Any(state => DurationByEffect.ContainsKey(state)))
+                {
+                    return SpellInabilityReason.ForbiddenState;
+                }
             }
             return SpellInabilityReason.None;
         }
@@ -626,7 +603,7 @@ namespace Cookie.Game.Fight
         {
             if (!withMove)
             {
-                SpellInabilityReason canLaunchSpell = CanLaunchSpell(spellId);
+                var canLaunchSpell = CanLaunchSpell(spellId);
                 if (canLaunchSpell != SpellInabilityReason.None)
                     return canLaunchSpell;
             }
@@ -758,11 +735,11 @@ namespace Cookie.Game.Fight
 
         protected IFighter GetFighter(double fighterId)
         {
-            if (Monsters.Find(x => x.Id == fighterId) != null)
-                return Monsters.FirstOrDefault(m => m.Id == fighterId);
-            if (Companions.Find(x => x.Id == fighterId) != null)
-                return Companions.FirstOrDefault(c => c.Id == fighterId);
-            return Fighters.FirstOrDefault(f => f.Id == fighterId);
+            return Monsters.Find(x => x.Id == fighterId) != null
+                ? Monsters.FirstOrDefault(m => m.Id == fighterId)
+                : (Companions.Find(x => x.Id == fighterId) != null
+                    ? Companions.FirstOrDefault(c => c.Id == fighterId)
+                    : Fighters.FirstOrDefault(f => f.Id == fighterId));
         }
 
         protected bool IsFreeCell(int cellId)

@@ -52,25 +52,25 @@ namespace Cookie.Core
     {
         public Character(IAccount account)
         {
-            _account = account;
+            Account = account;
             Stats = new CharacterCharacteristicsInformations();
             Look = new EntityLook();
             Restrictions = new ActorRestrictionsInformations();
             Spells = new List<SpellItem>();
             Status = CharacterStatus.Disconnected;
             Jobs = new List<JobExperience>();
-            GatherManager = new GatherManager(_account);
-            PathManager = new PathManager(_account);
+            GatherManager = new GatherManager(Account);
+            PathManager = new PathManager(Account);
 
-            Achievement = new Achievement(_account);
-            Alliance = new Alliance(_account);
-            Chat = new Chat(_account);
-            Map = new Map(_account);
-            Fight = new Fight(_account);
-            Friend = new Friend(_account);
-            Guild = new Guild(_account);
-            Inventory = new Inventory(_account);
-            Party = new Party(_account);
+            Achievement = new Achievement(Account);
+            Alliance = new Alliance(Account);
+            Chat = new Chat(Account);
+            Map = new Map(Account);
+            Fight = new Fight(Account);
+            Friend = new Friend(Account);
+            Guild = new Guild(Account);
+            Inventory = new Inventory(Account);
+            Party = new Party(Account);
 
             #region Choice Handler
 
@@ -131,13 +131,13 @@ namespace Cookie.Core
 
             #endregion Initialization Handler
 
-            _account.Network.RegisterPacket<MapComplementaryInformationsDataMessage>(
+            Account.Network.RegisterPacket<MapComplementaryInformationsDataMessage>(
                 HandleMapComplementaryInformationsDataMessage, MessagePriority.Normal);
-            _account.Network.RegisterPacket<GameContextRefreshEntityLookMessage>(
+            Account.Network.RegisterPacket<GameContextRefreshEntityLookMessage>(
                 HandleGameContextRefreshEntityLookMessage, MessagePriority.Normal);
         }
 
-        private IAccount _account { get; }
+        private IAccount Account { get; }
         public IFight Fight { get; set; }
 
         public bool IsFirstConnection { get; set; }
@@ -179,7 +179,7 @@ namespace Cookie.Core
         public IGatherManager GatherManager { get; set; }
         public IPathManager PathManager { get; set; }
 
-        public ArtificialIntelligence IA { get; set; }
+        public ArtificialIntelligence Ia { get; set; }
 
         public string GetSkinUrl(string mode, int orientation, int width, int height, int zoom)
         {

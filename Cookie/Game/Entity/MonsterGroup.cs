@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Cookie.API.Datacenter;
 using Cookie.API.Game.Entity;
 using Cookie.API.Gamedata.D2i;
@@ -24,13 +25,11 @@ namespace Cookie.Game.Entity
         {
             get
             {
-                var groupLevel = 0;
-                foreach (var monster in StaticInfos.Underlings)
-                {
-                    var monsterGrade = ObjectDataManager.Instance.Get<Monster>(monster.CreatureGenericId).Grades;
-                    var monsterGradeData = monsterGrade[monster.Grade - 1];
-                    groupLevel += (int) monsterGradeData.Level;
-                }
+                var groupLevel = (from monster in StaticInfos.Underlings
+                    let monsterGrade = ObjectDataManager.Instance.Get<Monster>(monster.CreatureGenericId).Grades
+                    select monsterGrade[monster.Grade - 1]
+                    into monsterGradeData
+                    select (int) monsterGradeData.Level).Sum();
                 var mainMonsterGrade = ObjectDataManager.Instance
                     .Get<Monster>(StaticInfos.MainCreatureLightInfos.CreatureGenericId).Grades;
                 var mainMonsterGradeData = mainMonsterGrade[StaticInfos.MainCreatureLightInfos.Grade - 1];
@@ -51,9 +50,8 @@ namespace Cookie.Game.Entity
                     FastD2IReader.Instance.GetText(ObjectDataManager.Instance
                         .Get<Monster>(StaticInfos.MainCreatureLightInfos.CreatureGenericId).NameId)
                 };
-                foreach (var monster in StaticInfos.Underlings)
-                    names.Add(FastD2IReader.Instance.GetText(ObjectDataManager.Instance
-                        .Get<Monster>(monster.CreatureGenericId).NameId));
+                names.AddRange(StaticInfos.Underlings.Select(monster => FastD2IReader.Instance.GetText(ObjectDataManager
+                    .Instance.Get<Monster>(monster.CreatureGenericId).NameId)));
                 var name = string.Empty;
                 foreach (var n in names)
                 {

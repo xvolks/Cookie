@@ -2,6 +2,6 @@
 {
     public class MessageUtils
     {
-        public static uint _instanceId { get; set; } = 0;
+        public static uint InstanceId { get; set; } = 0;
     }
 }

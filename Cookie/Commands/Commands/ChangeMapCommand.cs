@@ -39,11 +39,9 @@ namespace Cookie.Commands.Commands
                         break;
                 }
 
-                if (move != null)
-                {
-                    move.ChangementFinished += OnChangementFinished;
-                    move.PerformChangement();
-                }
+                if (move == null) return;
+                move.ChangementFinished += OnChangementFinished;
+                move.PerformChangement();
             }
         }
 
