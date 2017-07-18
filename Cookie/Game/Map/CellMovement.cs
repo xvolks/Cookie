@@ -76,9 +76,15 @@ namespace Cookie.Game.Map
                         : MovementVelocity.MovementTypeEnum.RUNNING));
         }
 
-        private void Map_MovementConfirmed(object sender, EventArgs e) => OnMovementFinished(true);
+        private void Map_MovementConfirmed(object sender, EventArgs e)
+        {
+            OnMovementFinished(true);
+        }
 
-        private void Map_MovementFailed(object sender, EventArgs e) => OnMovementFinished(false);
+        private void Map_MovementFailed(object sender, EventArgs e)
+        {
+            OnMovementFinished(false);
+        }
 
         private void OnTimeOut()
         {

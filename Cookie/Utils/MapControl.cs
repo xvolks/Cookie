@@ -146,7 +146,10 @@ namespace DofusMapControl
 
         public event CellClickedHandler CellClicked;
 
-        private void OnCellClicked(MapCell cell, MouseButtons buttons, bool hold) => CellClicked?.Invoke(this, cell, buttons, hold);
+        private void OnCellClicked(MapCell cell, MouseButtons buttons, bool hold)
+        {
+            CellClicked?.Invoke(this, cell, buttons, hold);
+        }
 
         public event Action<MapControl, MapCell, MapCell> CellOver;
 
@@ -255,9 +258,12 @@ namespace DofusMapControl
                 }
             foreach (var entity in Entities)
             {
-                var rect = GetCell(entity.CellId).Rectangle;
-                rect.Size = new Size(15, 15);
-                rect.Location = new Point(rect.X + 20, rect.Y + 5);
+                const int pointWidth = 20;
+                const int pointHeight = 20;
+                var cell = GetCell(entity.CellId);
+                var rect = cell.Rectangle;
+                rect.Size = new Size(pointWidth, pointHeight);
+                rect.Location = new Point(cell.Center.X - pointWidth / 2, cell.Center.Y - pointHeight / 2);
                 g.FillEllipse(new SolidBrush(entity.Color), rect);
             }
             if (!ViewGrid) return;
@@ -355,6 +361,7 @@ namespace DofusMapControl
 
             base.OnMouseUp(e);
         }
+
         public MapCell GetCell(Point p)
         {
             var searchRect = new Rectangle(p.X - RealCellWidth, p.Y - RealCellHeight, RealCellWidth, RealCellHeight);
@@ -362,9 +369,15 @@ namespace DofusMapControl
             return Cells.FirstOrDefault(cell => cell.IsInRectange(searchRect) && PointInPoly(p, cell.Points));
         }
 
-        public MapCell GetCell(int id) => Cells.FirstOrDefault(cell => cell.Id == id);
+        public MapCell GetCell(int id)
+        {
+            return Cells.FirstOrDefault(cell => cell.Id == id);
+        }
 
-        public void Invalidate(MapCell cell) => Invalidate(cell.Rectangle);
+        public void Invalidate(MapCell cell)
+        {
+            Invalidate(cell.Rectangle);
+        }
 
         public void Invalidate(params MapCell[] cells)
         {
@@ -374,7 +387,10 @@ namespace DofusMapControl
                 Invalidate(cells as IEnumerable<MapCell>);
         }
 
-        public void Invalidate(IEnumerable<MapCell> cells) => Invalidate(cells.Select(entry => entry.Rectangle).Aggregate(Rectangle.Union));
+        public void Invalidate(IEnumerable<MapCell> cells)
+        {
+            Invalidate(cells.Select(entry => entry.Rectangle).Aggregate(Rectangle.Union));
+        }
 
         public static bool PointInPoly(Point p, Point[] poly)
         {
@@ -427,6 +443,7 @@ namespace DofusMapControl
             CellId = cellId;
             Color = color;
         }
+
         public double ID { get; set; }
         public int CellId { get; set; }
         public Color Color { get; set; }
@@ -436,11 +453,11 @@ namespace DofusMapControl
     {
         public static CellState HighestState = Enum.GetValues(typeof(CellState)).Cast<CellState>().Max();
 
-        public int Id;
-
         private List<Image> _mOverlayImages = new List<Image>();
 
         private Point[] _mPoints;
+
+        public int Id;
 
         public MapCell(int id)
         {
@@ -566,10 +583,19 @@ namespace DofusMapControl
             return state.HasFlag(CellState.Road) && mode.HasFlag(DrawMode.Others);
         }
 
-        public virtual Brush GetDefaultBrush(MapControl parent) => new SolidBrush(Active ? parent.ActiveCellColor : parent.InactiveCellColor);
+        public virtual Brush GetDefaultBrush(MapControl parent)
+        {
+            return new SolidBrush(Active ? parent.ActiveCellColor : parent.InactiveCellColor);
+        }
 
-        public bool IsInRectange(Rectangle rect) => Rectangle.IntersectsWith(rect);
+        public bool IsInRectange(Rectangle rect)
+        {
+            return Rectangle.IntersectsWith(rect);
+        }
 
-        public bool IsInRectange(RectangleF rect) => Rectangle.IntersectsWith(Rectangle.Ceiling(rect));
+        public bool IsInRectange(RectangleF rect)
+        {
+            return Rectangle.IntersectsWith(Rectangle.Ceiling(rect));
+        }
     }
 }

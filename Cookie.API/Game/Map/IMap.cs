@@ -14,7 +14,7 @@ namespace Cookie.API.Game.Map
         List<IPlayer> Players { get; }
         List<IMerchant> Merchants { get; }
 
-            /// <summary>Récupère le dictionnaire des portes de la carte</summary>
+        /// <summary>Récupère le dictionnaire des portes de la carte</summary>
         /// <returns>Dictionnaire (cellId, element) contenant les portes</returns>
         Dictionary<int, IInteractiveElement> Doors { get; }
 

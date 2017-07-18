@@ -3,6 +3,7 @@ using Cookie.API.Core.Pathmanager;
 using Cookie.API.Game.Achievement;
 using Cookie.API.Game.Alliance;
 using Cookie.API.Game.Chat;
+using Cookie.API.Game.Fight;
 using Cookie.API.Game.Friend;
 using Cookie.API.Game.Guild;
 using Cookie.API.Game.Inventory;
@@ -16,7 +17,6 @@ using Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Job;
 using Cookie.API.Protocol.Network.Types.Game.Data.Items;
 using Cookie.API.Protocol.Network.Types.Game.Look;
 using Cookie.API.Utils.Enums;
-using Cookie.API.Game.Fight;
 
 namespace Cookie.API.Core
 {

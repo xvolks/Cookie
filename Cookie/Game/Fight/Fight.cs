@@ -1,16 +1,17 @@
-﻿using Cookie.API.Core;
+﻿using System;
+using Cookie.API.Core;
 using Cookie.API.Game.Fight;
+using Cookie.API.Game.Map;
 using Cookie.API.Game.World.Pathfinding;
 using Cookie.API.Game.World.Pathfinding.Positions;
+using Cookie.API.Messages;
 using Cookie.API.Protocol.Enums;
 using Cookie.API.Protocol.Network.Messages.Game.Actions.Fight;
 using Cookie.API.Protocol.Network.Messages.Game.Context;
 using Cookie.API.Protocol.Network.Messages.Game.Context.Fight;
-using Cookie.API.Game.Map;
-using Cookie.Game.Map;
 using Cookie.API.Utils;
-using System;
 using Cookie.Game.Fight.Spell;
+using Cookie.Game.Map;
 
 namespace Cookie.Game.Fight
 {
@@ -21,16 +22,10 @@ namespace Cookie.Game.Fight
             Attach();
         }
 
-        private void Attach()
-        {
-            Logger.Default.Log("Register Fight Packet");
-            Account.Network.RegisterPacket<GameActionFightSpellCastMessage>(HandleGameActionFightSpellCastMessage, API.Messages.MessagePriority.VeryHigh);
-            Account.Network.RegisterPacket<GameFightJoinMessage>(HandleGameFightJoinMessage, API.Messages.MessagePriority.High);
-        }
-        
         public void EndTurn()
         {
-            if (Account.Character.Fight.Fighter.MovementPoints > 0 && Account.Character.Fight.Fighter.Stats.DodgePALostProbability == 0)
+            if (Account.Character.Fight.Fighter.MovementPoints > 0 &&
+                Account.Character.Fight.Fighter.Stats.DodgePALostProbability == 0)
             {
                 var monster = Account.Character.Fight.NearestMonster();
                 var reachableCells = Account.Character.Fight.GetReachableCells();
@@ -40,8 +35,8 @@ namespace Cookie.Game.Fight
                 {
                     var reachableCellPoint = new MapPoint(cell);
                     var distance = 0;
-                    distance = (distance + reachableCellPoint.DistanceToCell(new MapPoint(monster.CellId)));
-                    if (((savDistance != -1) && (distance >= savDistance))) continue;
+                    distance = distance + reachableCellPoint.DistanceToCell(new MapPoint(monster.CellId));
+                    if (savDistance != -1 && distance >= savDistance) continue;
                     cellId = cell;
                     savDistance = distance;
                 }
@@ -64,7 +59,7 @@ namespace Cookie.Game.Fight
         public void LockFight()
         {
             Account.Network.SendToServer(
-                new GameFightOptionToggleMessage((byte)FightOptionsEnum.FIGHT_OPTION_SET_CLOSED));
+                new GameFightOptionToggleMessage((byte) FightOptionsEnum.FIGHT_OPTION_SET_CLOSED));
         }
 
         public void SetReady()
@@ -107,7 +102,7 @@ namespace Cookie.Game.Fight
                     break;
                 }
             }
-            var pathfinder = new SimplePathfinder((API.Gamedata.D2p.Map)Account.Character.Map.Data);
+            var pathfinder = new SimplePathfinder((API.Gamedata.D2p.Map) Account.Character.Map.Data);
             pathfinder.SetFight(Fighters, Fighter.MovementPoints);
             var path = pathfinder.FindPath(Fighter.CellId, cellId);
             return path == null ? null : new CellMovement(Account, path);
@@ -136,6 +131,14 @@ namespace Cookie.Game.Fight
         }
 
         public event Action<GameActionFightSpellCastMessage> SpellCasted;
+
+        private void Attach()
+        {
+            Logger.Default.Log("Register Fight Packet");
+            Account.Network.RegisterPacket<GameActionFightSpellCastMessage>(HandleGameActionFightSpellCastMessage,
+                MessagePriority.VeryHigh);
+            Account.Network.RegisterPacket<GameFightJoinMessage>(HandleGameFightJoinMessage, MessagePriority.High);
+        }
 
         private void HandleGameActionFightSpellCastMessage(IAccount account, GameActionFightSpellCastMessage message)
         {

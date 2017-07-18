@@ -1,5 +1,4 @@
-﻿using System;
-using Cookie.API.Utils.IO;
+﻿using Cookie.API.Utils.IO;
 
 namespace Cookie.API.Gamedata.D2p
 {
