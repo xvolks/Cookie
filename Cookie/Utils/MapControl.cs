@@ -50,6 +50,7 @@ namespace DofusMapControl
 
         public MapControl()
         {
+            Entities = new List<MapEntity>();
             DoubleBuffered = true;
             SetStyle(ControlStyles.DoubleBuffer | ControlStyles.AllPaintingInWmPaint |
                      ControlStyles.UserPaint, true);
@@ -64,12 +65,12 @@ namespace DofusMapControl
             ActiveCellColor = Color.Transparent;
             StatesColors = new Dictionary<CellState, Color>
             {
-                {CellState.Walkable, Color.LimeGreen},
-                {CellState.NonWalkable, Color.Maroon},
-                {CellState.BluePlacement, Color.DodgerBlue},
-                {CellState.RedPlacement, Color.Red},
-                {CellState.Trigger, Color.Orange},
-                {CellState.Road, Color.LightGoldenrodYellow}
+                [CellState.Walkable] = Color.DarkGray,
+                [CellState.NonWalkable] = Color.Black,
+                [CellState.BluePlacement] = Color.DodgerBlue,
+                [CellState.RedPlacement] = Color.Red,
+                [CellState.Trigger] = Color.Orange,
+                [CellState.Road] = Color.LightGoldenrodYellow
             };
             SetCellNumber();
             BuildMap();
@@ -127,6 +128,10 @@ namespace DofusMapControl
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [Browsable(false)]
+        public List<MapEntity> Entities { get; set; }
+
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [Browsable(false)]
         public MapCell[] Cells { get; set; }
 
         public bool LesserQuality
@@ -141,10 +146,7 @@ namespace DofusMapControl
 
         public event CellClickedHandler CellClicked;
 
-        private void OnCellClicked(MapCell cell, MouseButtons buttons, bool hold)
-        {
-            CellClicked?.Invoke(this, cell, buttons, hold);
-        }
+        private void OnCellClicked(MapCell cell, MouseButtons buttons, bool hold) => CellClicked?.Invoke(this, cell, buttons, hold);
 
         public event Action<MapControl, MapCell, MapCell> CellOver;
 
@@ -251,7 +253,13 @@ namespace DofusMapControl
                     cell.DrawBackground(this, g, DrawMode);
                     cell.DrawForeground(this, g, DrawMode);
                 }
-
+            foreach (var entity in Entities)
+            {
+                var rect = GetCell(entity.CellId).Rectangle;
+                rect.Size = new Size(15, 15);
+                rect.Location = new Point(rect.X + 20, rect.Y + 5);
+                g.FillEllipse(new SolidBrush(entity.Color), rect);
+            }
             if (!ViewGrid) return;
             {
                 foreach (var cell in Cells)
@@ -347,7 +355,6 @@ namespace DofusMapControl
 
             base.OnMouseUp(e);
         }
-
         public MapCell GetCell(Point p)
         {
             var searchRect = new Rectangle(p.X - RealCellWidth, p.Y - RealCellHeight, RealCellWidth, RealCellHeight);
@@ -355,15 +362,9 @@ namespace DofusMapControl
             return Cells.FirstOrDefault(cell => cell.IsInRectange(searchRect) && PointInPoly(p, cell.Points));
         }
 
-        public MapCell GetCell(int id)
-        {
-            return Cells.FirstOrDefault(cell => cell.Id == id);
-        }
+        public MapCell GetCell(int id) => Cells.FirstOrDefault(cell => cell.Id == id);
 
-        public void Invalidate(MapCell cell)
-        {
-            Invalidate(cell.Rectangle);
-        }
+        public void Invalidate(MapCell cell) => Invalidate(cell.Rectangle);
 
         public void Invalidate(params MapCell[] cells)
         {
@@ -373,10 +374,7 @@ namespace DofusMapControl
                 Invalidate(cells as IEnumerable<MapCell>);
         }
 
-        public void Invalidate(IEnumerable<MapCell> cells)
-        {
-            Invalidate(cells.Select(entry => entry.Rectangle).Aggregate(Rectangle.Union));
-        }
+        public void Invalidate(IEnumerable<MapCell> cells) => Invalidate(cells.Select(entry => entry.Rectangle).Aggregate(Rectangle.Union));
 
         public static bool PointInPoly(Point p, Point[] poly)
         {
@@ -419,6 +417,19 @@ namespace DofusMapControl
             }
             return inside;
         }
+    }
+
+    public class MapEntity
+    {
+        public MapEntity(double id, int cellId, Color color)
+        {
+            ID = id;
+            CellId = cellId;
+            Color = color;
+        }
+        public double ID { get; set; }
+        public int CellId { get; set; }
+        public Color Color { get; set; }
     }
 
     public class MapCell
@@ -555,19 +566,10 @@ namespace DofusMapControl
             return state.HasFlag(CellState.Road) && mode.HasFlag(DrawMode.Others);
         }
 
-        public virtual Brush GetDefaultBrush(MapControl parent)
-        {
-            return new SolidBrush(Active ? parent.ActiveCellColor : parent.InactiveCellColor);
-        }
+        public virtual Brush GetDefaultBrush(MapControl parent) => new SolidBrush(Active ? parent.ActiveCellColor : parent.InactiveCellColor);
 
-        public bool IsInRectange(Rectangle rect)
-        {
-            return Rectangle.IntersectsWith(rect);
-        }
+        public bool IsInRectange(Rectangle rect) => Rectangle.IntersectsWith(rect);
 
-        public bool IsInRectange(RectangleF rect)
-        {
-            return Rectangle.IntersectsWith(Rectangle.Ceiling(rect));
-        }
+        public bool IsInRectange(RectangleF rect) => Rectangle.IntersectsWith(Rectangle.Ceiling(rect));
     }
 }
