@@ -24,6 +24,7 @@ using Cookie.Game.Map.Elements;
 using DofusMapControl;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using IMap = Cookie.API.Game.Map.IMap;
@@ -529,23 +530,20 @@ namespace Cookie.Game.Map
 
             foreach (var npc in Npcs)
             {
-                var cell = ((Account)_account).MainForm.mapControl.GetCell(npc.CellId);
-                cell.Text += $"\nNPC: {npc.Name}";
-                cell.State = CellState.Trigger;
+                ((Account)_account).MainForm.mapControl.Entities.Remove(((Account)_account).MainForm.mapControl.Entities.Find(m => m.ID == npc.Id));
+                ((Account)_account).MainForm.mapControl.Entities.Add(new MapEntity(npc.Id, npc.CellId, Color.Yellow));
             }
 
             foreach (var g in Monsters)
             {
-                var cell = ((Account)_account).MainForm.mapControl.GetCell(g.CellId);
-                cell.Text += $"\n{g.GroupName} | Level: {g.GroupLevel}";
-                cell.State = CellState.RedPlacement;
+                ((Account)_account).MainForm.mapControl.Entities.Remove(((Account)_account).MainForm.mapControl.Entities.Find(m => m.ID == g.Id));
+                ((Account)_account).MainForm.mapControl.Entities.Add(new MapEntity(g.Id, g.CellId, Color.Red));
             }
 
             foreach (var p in Players)
             {
-                var cell = ((Account)_account).MainForm.mapControl.GetCell(p.CellId);
-                cell.Text += $"\n{p.Name}";
-                cell.State = CellState.Road;
+                ((Account)_account).MainForm.mapControl.Entities.Remove(((Account)_account).MainForm.mapControl.Entities.Find(m => m.ID == p.Id));
+                ((Account)_account).MainForm.mapControl.Entities.Add(new MapEntity(p.Id, p.CellId, Color.Blue));
             }
 
             ((Account)_account).MainForm.mapControl.Invalidate();
