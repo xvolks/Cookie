@@ -10,6 +10,7 @@ using Cookie.API.Messages;
 using Cookie.API.Gamedata;
 using Cookie.API.Gamedata.D2i;
 using Cookie.API.Gamedata.D2o;
+using Cookie.API.Protocol.Enums;
 using Cookie.API.Protocol.Network.Messages.Game.Dialog;
 using Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Npc;
 using Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges;
@@ -19,6 +20,12 @@ using Cookie.API.Utils.Enums;
 
 namespace Cookie.Game.BidHouse
 {
+    public enum BidHouseNpcActionId
+    {
+        BID_HOUSE_SELL = 5,
+        BID_HOUSE_BUY = 6
+    }
+
     public class BidHouse : IBidHouse
     {
 
@@ -58,6 +65,7 @@ namespace Cookie.Game.BidHouse
             MeanPrice = 0;
 
             account.Network.RegisterPacket<ExchangeStartedBidBuyerMessage>(HandleExchangeStartedBidBuyerMessage, MessagePriority.VeryHigh);
+            account.Network.RegisterPacket<ExchangeStartedBidSellerMessage>(HandleExchangeStartedBidSellerMessage, MessagePriority.VeryHigh);
             account.Network.RegisterPacket<ExchangeTypesExchangerDescriptionForUserMessage>(HandleExchangeTypesExchangerDescriptionForUserMessage, MessagePriority.VeryHigh);
             account.Network.RegisterPacket<ExchangeTypesItemsExchangerDescriptionForUserMessage>(HandleExchangeTypesItemsExchangerDescriptionForUserMessage, MessagePriority.VeryHigh);
             account.Network.RegisterPacket<ExchangeBidPriceMessage>(HandleExchangeBidPriceMessage, MessagePriority.VeryHigh);
@@ -72,8 +80,9 @@ namespace Cookie.Game.BidHouse
 
         #region "Public Functions"
 
-        public async Task<bool> StartBidHouseDialog()
+        public async Task<bool> StartBidHouseDialog(BidHouseNpcActionId ActionId)
         {
+
             /* Check if BidHouse Dialog is open */
             if (_bidHouseDialogIsLoaded) return true;
 
@@ -89,13 +98,15 @@ namespace Cookie.Game.BidHouse
             }
 
             /* Get Npc data */
-            var npcId = Convert.ToInt32(_account.Character.Map.Npcs.Find(npc => npc.Name.StartsWith("Vendeur ")).Id);
-            var npcName = _account.Character.Map.Npcs.Find(npc => npc.Name.StartsWith("Vendeur ")).Name;
-            var npcActionId = (byte)6; /*TODO : Change 6 with its enum*/
+            var Npc = _account.Character.Map.Npcs.Find(npc => npc.Name.StartsWith("Vendeur "));
+            var npcUId = Convert.ToInt32(Npc.NpcId);
+            var npcMapId = Convert.ToInt32(Npc.Id);
+            var npcName = Npc.Name;
+            var npcActionId = (byte)ActionId;
 
             var message = new NpcGenericActionRequestMessage()
             {
-                NpcId = npcId,
+                NpcId = npcMapId,
                 NpcActionId = npcActionId,
                 NpcMapId = _account.Character.MapId
             };
@@ -103,7 +114,7 @@ namespace Cookie.Game.BidHouse
             _account.Network.SendToServer(message);
 
 
-            Logger.Default.Log($"Ouverture de la fenêtre HDV du PNJ {npcName}({npcId})", LogMessageType.Info);
+            Logger.Default.Log($"Ouverture de la fenêtre HDV du PNJ {npcName}({npcMapId})", LogMessageType.Info);
 
             /* Wait for Bid House dialog to open */
             var source = new CancellationTokenSource();
@@ -154,6 +165,32 @@ namespace Cookie.Game.BidHouse
             source.Cancel();
             ExitBidHouseDialog();
             throw new Exception("La liste des prix de l'item n'a pas pu être chargée.");
+
+        }
+
+        public void SellItem(uint itemUId, int quantity, ulong price)
+        {
+            
+            /* Check if BidHouse Dialog is open */
+            if (!_bidHouseDialogIsLoaded) throw new Exception("La fenêtre HDV n'est pas ouverte.");
+
+            /* Check quantity */
+            /* We can use log10(|quantity|)%1 */
+            if (quantity != 1 & quantity != 10 & quantity != 100) throw new Exception("La quantité doit être l'une des suivantes : 1, 10, 100.");
+
+            _account.Character.Inventory.Objects.ForEach(item => Logger.Default.Log($"{D2OParsing.GetItemName(item.ObjectGID)} - {item.ObjectUID} - {item.Position} - {item.Quantity} - {item.TypeID}"));
+
+            /* Check if item exists in inventory */
+            bool item_exists = _account.Character.Inventory.Objects.Any(item => (item.ObjectUID == itemUId) & (item.Position == (sbyte)CharacterInventoryPositionEnum.INVENTORY_POSITION_NOT_EQUIPED) & (item.Quantity >= quantity));
+            if(!item_exists) throw new Exception("Aucun item n'a été trouvé.");
+
+            /* Sell item */
+            var SellItemMessage = new ExchangeObjectMovePricedMessage()
+            {
+                Price = price,
+                ObjectUID = itemUId,
+                Quantity = quantity
+            };
 
         }
 
@@ -209,6 +246,11 @@ namespace Cookie.Game.BidHouse
 
             _bidHouseDialogIsLoaded = true;
 
+        }
+
+        private void HandleExchangeStartedBidSellerMessage(IAccount account, ExchangeStartedBidSellerMessage message)
+        {
+            
         }
 
         private void HandleExchangeTypesExchangerDescriptionForUserMessage(IAccount account, ExchangeTypesExchangerDescriptionForUserMessage message)

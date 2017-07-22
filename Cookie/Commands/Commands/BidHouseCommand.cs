@@ -28,11 +28,13 @@ namespace Cookie.Commands.Commands
                     var itemid = Convert.ToUInt32(args[0]);
 
                     var hdv = new BidHouse(account);
-                    if (!await hdv.StartBidHouseDialog()) return;
-                    if (!await hdv.LoadItemData(itemid)) return;
+                    if (!await hdv.StartBidHouseDialog(BidHouseNpcActionId.BID_HOUSE_BUY)) return;
+                    //if (!await hdv.LoadItemData(itemid)) return;
 
-                    var prices = hdv.ItemPricesList.FirstOrDefault();
-                    Logger.Default.Log($" Prix de {API.Gamedata.D2OParsing.GetItemName(itemid)} => 1:{prices[0]}-  10:{prices[1]} - 100:{prices[2]} - Mean:{hdv.MeanPrice}");
+                    //var prices = hdv.ItemPricesList.FirstOrDefault();
+                    //Logger.Default.Log($" Prix de {API.Gamedata.D2OParsing.GetItemName(itemid)} => 1:{prices[0]}-  10:{prices[1]} - 100:{prices[2]} - Mean:{hdv.MeanPrice}");
+
+                    hdv.SellItem(itemid, 10, 42);
 
                     hdv.ExitBidHouseDialog();
 
