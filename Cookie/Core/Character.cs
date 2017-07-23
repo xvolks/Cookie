@@ -5,6 +5,7 @@ using Cookie.API.Core.Pathmanager;
 using Cookie.API.Datacenter;
 using Cookie.API.Game.Achievement;
 using Cookie.API.Game.Alliance;
+using Cookie.API.Game.BidHouse;
 using Cookie.API.Game.Chat;
 using Cookie.API.Game.Fight;
 using Cookie.API.Game.Friend;
@@ -36,6 +37,7 @@ using Cookie.API.Utils;
 using Cookie.API.Utils.Enums;
 using Cookie.Core.Pathmanager;
 using Cookie.Game.Alliance;
+using Cookie.Game.BidHouse;
 using Cookie.Game.Chat;
 using Cookie.Game.Fight;
 using Cookie.Game.Friend;
@@ -64,6 +66,7 @@ namespace Cookie.Core
 
             Achievement = new Achievement(Account);
             Alliance = new Alliance(Account);
+            BidHouse = new BidHouse(Account);
             Chat = new Chat(Account);
             Map = new Map(Account);
             Fight = new Fight(Account);
@@ -170,6 +173,7 @@ namespace Cookie.Core
 
         public IAchievement Achievement { get; set; }
         public IAlliance Alliance { get; set; }
+        public IBidHouse BidHouse { get; set; }
         public IChat Chat { get; set; }
         public IMap Map { get; set; }
         public IFriend Friend { get; set; }

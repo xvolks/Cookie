@@ -1,8 +1,4 @@
-﻿using System;
-using System.Drawing;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Cookie.API.Core;
+﻿using Cookie.API.Core;
 using Cookie.API.Gamedata.D2i;
 using Cookie.API.Gamedata.D2o;
 using Cookie.API.Gamedata.D2p;
@@ -18,6 +14,11 @@ using Cookie.FullSocket;
 using Cookie.Properties;
 using Cookie.Utils.Configurations;
 using MoonSharp.Interpreter;
+using System;
+using System.Drawing;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using DofusMapControl;
 
 namespace Cookie
 {

@@ -2,6 +2,7 @@
 using Cookie.API.Core.Pathmanager;
 using Cookie.API.Game.Achievement;
 using Cookie.API.Game.Alliance;
+using Cookie.API.Game.BidHouse;
 using Cookie.API.Game.Chat;
 using Cookie.API.Game.Fight;
 using Cookie.API.Game.Friend;
@@ -132,6 +133,8 @@ namespace Cookie.API.Core
         IAchievement Achievement { get; set; }
 
         IAlliance Alliance { get; set; }
+
+        IBidHouse BidHouse { get; set; }
 
         IChat Chat { get; set; }
 
