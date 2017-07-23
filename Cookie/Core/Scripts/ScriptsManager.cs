@@ -1,7 +1,7 @@
-﻿using MoonSharp.Interpreter;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using MoonSharp.Interpreter;
 
 namespace Cookie.Core.Scripts
 {
@@ -13,14 +13,14 @@ namespace Cookie.Core.Scripts
 
             var script = new Script();
 
-            script.Globals["Character"] = new ScriptCharacter { LifePointsPercentage = 55 };
-            script.Globals["Enemy"] = new ScriptEnemy { LifePointsPercentage = 30 };
+            script.Globals["Character"] = new ScriptCharacter {LifePointsPercentage = 55};
+            script.Globals["Enemy"] = new ScriptEnemy {LifePointsPercentage = 30};
 
             if (string.IsNullOrEmpty(path) ||
                 !File.Exists(path))
                 return null;
 
-                script.DoFile(path);
+            script.DoFile(path);
 
             var test = script.Globals.Get("Spells");
             foreach (var elem in test.Table.Pairs)

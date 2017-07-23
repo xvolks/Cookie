@@ -1,22 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using Cookie.API.Game.World.Pathfinding.Positions;
 using Cookie.API.Game.Fight.Fighters;
+using Cookie.API.Game.World.Pathfinding.Positions;
 
 namespace Cookie.API.Game.World.Pathfinding
 {
     public class SimplePathfinder
     {
-        private bool IsInFight = false;
-
         private readonly List<SimpleCellInfo> list_0 = new List<SimpleCellInfo>();
         private readonly List<SimpleCellInfo> list_1 = new List<SimpleCellInfo>();
         private readonly List<int> ListCellIdFighters = new List<int>();
         private readonly Gamedata.D2p.Map MapData;
-
-        private int v_MouvementPoints = -1;
+        private bool IsInFight;
         private MapPoint MapPoint_FromCell;
         private MapPoint MapPoint_ToCell;
+
+        private int v_MouvementPoints = -1;
 
         public SimplePathfinder(Gamedata.D2p.Map Map)
         {
@@ -92,12 +91,12 @@ namespace Cookie.API.Game.World.Pathfinding
             range.Add(class13_0.v_OriginPoint);
             if (v_MouvementPoints != -1)
                 range = range.GetRange(0, v_MouvementPoints + 1 > range.Count ? range.Count : v_MouvementPoints + 1);
-            var path = new MovementPath { CellStart = MapPoint_FromCell, CellEnd = range[range.Count - 1] };
+            var path = new MovementPath {CellStart = MapPoint_FromCell, CellEnd = range[range.Count - 1]};
             var num = range.Count - 2;
             var i = 0;
             while (i <= num)
             {
-                var item = new PathElement { Cell = range[i], Orientation = range[i].OrientationTo(range[i + 1]) };
+                var item = new PathElement {Cell = range[i], Orientation = range[i].OrientationTo(range[i + 1])};
                 path.Cells.Add(item);
                 i += 1;
             }
@@ -108,10 +107,8 @@ namespace Cookie.API.Game.World.Pathfinding
         public void SetFight(List<IFighter> Fighters, int movementPoints)
         {
             foreach (var figher in Fighters)
-            {
                 if (figher.IsAlive)
                     ListCellIdFighters.Add(figher.CellId);
-            }
             v_MouvementPoints = movementPoints;
             IsInFight = true;
         }

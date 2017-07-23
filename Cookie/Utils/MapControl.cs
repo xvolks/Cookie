@@ -50,6 +50,7 @@ namespace DofusMapControl
 
         public MapControl()
         {
+            Entities = new List<MapEntity>();
             DoubleBuffered = true;
             SetStyle(ControlStyles.DoubleBuffer | ControlStyles.AllPaintingInWmPaint |
                      ControlStyles.UserPaint, true);
@@ -64,12 +65,12 @@ namespace DofusMapControl
             ActiveCellColor = Color.Transparent;
             StatesColors = new Dictionary<CellState, Color>
             {
-                {CellState.Walkable, Color.LimeGreen},
-                {CellState.NonWalkable, Color.Maroon},
-                {CellState.BluePlacement, Color.DodgerBlue},
-                {CellState.RedPlacement, Color.Red},
-                {CellState.Trigger, Color.Orange},
-                {CellState.Road, Color.LightGoldenrodYellow}
+                [CellState.Walkable] = Color.DarkGray,
+                [CellState.NonWalkable] = Color.Black,
+                [CellState.BluePlacement] = Color.DodgerBlue,
+                [CellState.RedPlacement] = Color.Red,
+                [CellState.Trigger] = Color.Orange,
+                [CellState.Road] = Color.LightGoldenrodYellow
             };
             SetCellNumber();
             BuildMap();
@@ -124,6 +125,10 @@ namespace DofusMapControl
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [Browsable(false)]
         public Dictionary<CellState, Color> StatesColors { get; set; }
+
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        [Browsable(false)]
+        public List<MapEntity> Entities { get; set; }
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         [Browsable(false)]
@@ -251,7 +256,16 @@ namespace DofusMapControl
                     cell.DrawBackground(this, g, DrawMode);
                     cell.DrawForeground(this, g, DrawMode);
                 }
-
+            foreach (var entity in Entities)
+            {
+                const int pointWidth = 20;
+                const int pointHeight = 20;
+                var cell = GetCell(entity.CellId);
+                var rect = cell.Rectangle;
+                rect.Size = new Size(pointWidth, pointHeight);
+                rect.Location = new Point(cell.Center.X - pointWidth / 2, cell.Center.Y - pointHeight / 2);
+                g.FillEllipse(new SolidBrush(entity.Color), rect);
+            }
             if (!ViewGrid) return;
             {
                 foreach (var cell in Cells)
@@ -421,15 +435,29 @@ namespace DofusMapControl
         }
     }
 
+    public class MapEntity
+    {
+        public MapEntity(double id, int cellId, Color color)
+        {
+            ID = id;
+            CellId = cellId;
+            Color = color;
+        }
+
+        public double ID { get; set; }
+        public int CellId { get; set; }
+        public Color Color { get; set; }
+    }
+
     public class MapCell
     {
         public static CellState HighestState = Enum.GetValues(typeof(CellState)).Cast<CellState>().Max();
 
-        public int Id;
-
         private List<Image> _mOverlayImages = new List<Image>();
 
         private Point[] _mPoints;
+
+        public int Id;
 
         public MapCell(int id)
         {

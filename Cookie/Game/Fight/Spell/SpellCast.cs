@@ -1,9 +1,9 @@
-﻿using Cookie.API.Core;
+﻿using System;
+using System.Timers;
+using Cookie.API.Core;
 using Cookie.API.Game.Fight.Spells;
 using Cookie.API.Protocol.Network.Messages.Game.Actions.Fight;
 using Cookie.API.Utils.Enums;
-using System;
-using System.Timers;
 
 namespace Cookie.Game.Fight.Spell
 {
@@ -32,7 +32,8 @@ namespace Cookie.Game.Fight.Spell
             foreach (var fighter in _account.Character.Fight.GetMonsters())
             {
                 if (fighter.CellId != CellId) continue;
-                _account.Network.SendToServer(new GameActionFightCastOnTargetRequestMessage((ushort)SpellId, fighter.Id));
+                _account.Network.SendToServer(
+                    new GameActionFightCastOnTargetRequestMessage((ushort) SpellId, fighter.Id));
                 break;
             }
             _timeoutTimer.Start();

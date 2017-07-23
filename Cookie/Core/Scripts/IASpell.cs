@@ -1,12 +1,18 @@
 ﻿namespace Cookie.Core.Scripts
 {
-    public enum SpellTarget { Self, Enemy, Ally }
+    public enum SpellTarget
+    {
+        Self,
+        Enemy,
+        Ally
+    }
+
     public class IASpell
     {
-        public SpellTarget Target;
-        public int SpellId;
-        public int Relaunchs;
         public bool Condition;
+        public int Relaunchs;
+        public int SpellId;
+        public SpellTarget Target;
 
         public IASpell(int spellId, int relaunchs, SpellTarget target = SpellTarget.Enemy, bool condition = true)
         {

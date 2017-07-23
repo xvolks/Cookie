@@ -1,26 +1,27 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Cookie.API.Core;
 using Cookie.API.Game.Fight;
 using Cookie.API.Game.Fight.Fighters;
+using Cookie.API.Game.Fight.Spells;
 using Cookie.API.Gamedata;
 using Cookie.API.Protocol.Network.Messages.Game.Context.Fight;
 using Cookie.API.Utils;
+using Cookie.API.Utils.Enums;
 using Cookie.Core.Scripts;
 using Cookie.Game.Fight.Spell;
-using System;
-using Cookie.API.Game.Fight.Spells;
 
 namespace Cookie.Game.Fight
 {
     public class ArtificialIntelligence : IArtificialIntelligence
     {
         private IAccount _account;
-        private List<IASpell> _spells;
-        private int _totalSpellLauch;
-        private ISpellCast _spellEvent;
 
         private IASpell _currentSpell;
+        private ISpellCast _spellEvent;
+        private List<IASpell> _spells;
+        private int _totalSpellLauch;
 
         public void Load(IAccount account, string path)
         {
@@ -69,7 +70,7 @@ namespace Cookie.Game.Fight
             //{
             var spell = _spells[0];
             _currentSpell = spell;
-            var fighter = (IFighter)monster;
+            var fighter = (IFighter) monster;
             if (spell.Target == SpellTarget.Self)
                 fighter = _account.Character.Fight.Fighter;
             var useSpell = _account.Character.Fight.CanUseSpell(spell.SpellId, fighter);
@@ -103,7 +104,11 @@ namespace Cookie.Game.Fight
                                 _spellEvent.PerformCast();
                             }
                             else
-                                Logger.Default.Log($"Erreur lors du lancement du spell {spell.SpellId} sur la cell {fighter.CellId}", API.Utils.Enums.LogMessageType.Public);
+                            {
+                                Logger.Default.Log(
+                                    $"Erreur lors du lancement du spell {spell.SpellId} sur la cell {fighter.CellId}",
+                                    LogMessageType.Public);
+                            }
                         };
                         movement.PerformMovement();
                         break;
@@ -123,7 +128,9 @@ namespace Cookie.Game.Fight
             {
                 _totalSpellLauch++;
                 if (_totalSpellLauch < _currentSpell.Relaunchs)
+                {
                     ExecuteSpell();
+                }
                 else
                 {
                     _totalSpellLauch = 0;

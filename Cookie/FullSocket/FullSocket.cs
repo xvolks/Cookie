@@ -282,9 +282,10 @@ namespace Cookie.FullSocket
                 Logger.Default.Log("Vous êtes en position " + message.Position + " sur " + message.Total +
                                    " dans la file d'attente.");
         }
+
         private void HandleSelectedServerRefusedMessage(IAccount account, SelectedServerRefusedMessage message)
         {
-            switch((ServerStatusEnum)message.ServerStatus)
+            switch ((ServerStatusEnum) message.ServerStatus)
             {
                 case ServerStatusEnum.SAVING:
                     Logger.Default.Log($"Le serveur séléctionné est en cours de sauvegarde.");
@@ -293,8 +294,6 @@ namespace Cookie.FullSocket
                     Logger.Default.Log($"Le serveur séléctionné est plein.");
                     break;
             }
-                
-
         }
     }
 }

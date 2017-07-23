@@ -1,6 +1,6 @@
-﻿using Cookie.API.Game.Map;
+﻿using System;
+using Cookie.API.Game.Map;
 using Cookie.API.Protocol.Network.Messages.Game.Actions.Fight;
-using System;
 
 namespace Cookie.API.Game.Fight
 {

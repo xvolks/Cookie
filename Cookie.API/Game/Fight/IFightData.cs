@@ -1,29 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Cookie.API.Game.Fight.Fighters;
-using Cookie.API.Protocol.Network.Types.Game.Data.Items;
-using System;
 using Cookie.API.Protocol.Network.Messages.Game.Context.Fight;
 
 namespace Cookie.API.Game.Fight
 {
     public interface IFightData
     {
-        /// <summary>
-        ///     Indique dès que le combat démarre
-        /// </summary>
-        event Action FightStarted;
-
-        /// <summary>
-        ///     Indique dès que c'est le tour du bot
-        /// </summary>
-
-        event Action TurnStarted;
-
-        /// <summary>
-        ///     Indique dès que le combat fini
-        /// </summary>
-        event Action<GameFightEndMessage> FightEnded;
-
         /// <summary>
         ///     Liste des combattants
         /// </summary>
@@ -38,6 +21,21 @@ namespace Cookie.API.Game.Fight
         ///     Id du fighter au moment du tour
         /// </summary>
         int TurnId { get; }
+
+        /// <summary>
+        ///     Indique dès que le combat démarre
+        /// </summary>
+        event Action FightStarted;
+
+        /// <summary>
+        ///     Indique dès que c'est le tour du bot
+        /// </summary>
+        event Action TurnStarted;
+
+        /// <summary>
+        ///     Indique dès que le combat fini
+        /// </summary>
+        event Action<GameFightEndMessage> FightEnded;
 
         /// <summary>
         ///     Récupère les cellules disponibles

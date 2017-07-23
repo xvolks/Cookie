@@ -24,11 +24,9 @@ namespace Cookie.Commands.Commands
                 return;
             }
 
-            if (((Character)account.Character).Ia == null)
-            {
-                ((Character)account.Character).Ia = new ArtificialIntelligence();
-            }
-            ((Character)account.Character).Ia.Load(account, args[0]);
+            if (((Character) account.Character).Ia == null)
+                ((Character) account.Character).Ia = new ArtificialIntelligence();
+            ((Character) account.Character).Ia.Load(account, args[0]);
             account.Character.Map.LaunchAttack();
         }
     }
