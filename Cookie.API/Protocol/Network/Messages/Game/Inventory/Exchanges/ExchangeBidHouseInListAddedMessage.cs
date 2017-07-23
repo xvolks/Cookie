@@ -118,6 +118,8 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
         
         public override void Deserialize(IDataReader reader)
         {
+            m_itemUID = reader.ReadInt();
+            m_objGenericId = reader.ReadInt();
             int effectsCount = reader.ReadUShort();
             int effectsIndex;
             m_effects = new System.Collections.Generic.List<ObjectEffect>();
@@ -133,9 +135,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
             for (pricesIndex = 0; (pricesIndex < pricesCount); pricesIndex = (pricesIndex + 1))
             {
                 m_prices.Add(reader.ReadVarUhLong());
-            }
-            m_itemUID = reader.ReadInt();
-            m_objGenericId = reader.ReadInt();
+            } 
         }
     }
 }

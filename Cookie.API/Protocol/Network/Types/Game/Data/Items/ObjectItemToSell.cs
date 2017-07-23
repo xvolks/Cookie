@@ -130,6 +130,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Data.Items
         public override void Deserialize(IDataReader reader)
         {
             base.Deserialize(reader);
+            m_objectGID = reader.ReadVarUhShort();
             int effectsCount = reader.ReadUShort();
             int effectsIndex;
             m_effects = new System.Collections.Generic.List<ObjectEffect>();
@@ -138,8 +139,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Data.Items
                 ObjectEffect objectToAdd = ProtocolTypeManager.GetInstance<ObjectEffect>((short)reader.ReadUShort());
                 objectToAdd.Deserialize(reader);
                 m_effects.Add(objectToAdd);
-            }
-            m_objectGID = reader.ReadVarUhShort();
+            }         
             m_objectUID = reader.ReadVarUhInt();
             m_quantity = reader.ReadVarUhInt();
             m_objectPrice = reader.ReadVarUhLong();
