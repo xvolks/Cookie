@@ -1,7 +1,5 @@
 ﻿TODO (Par ordre de priorité):
-- Revoir les D2O (et améliorer les D2I quand le fichier est déjà utilisé par un autre processus)
+- Revoir les D2O
 - Créer un Protocol Builder
-- MapComplementaryInformationsDataMessage : Ajouter la variable "Map" et supprimer MapId, et CellId dans la classe Character
 - Améliorer la gestion du "Disconnect" dans le client.
-- Ajouter les méthodes Start et Stop dans le client dans le but de pouvoir déconnecté/connecté le client plus librement. Du coup ajouter le message de connexion au serveur d'authentification.
-- Ajouté un maximum de Handlers (en utilisant la bonne structure du bot)
+- Ajouter les méthodes Start et Stop dans le client dans le but de pouvoir déconnecté/connecté le client plus librement
