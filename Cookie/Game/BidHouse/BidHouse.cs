@@ -34,11 +34,11 @@ namespace Cookie.Game.BidHouse
         private bool _bidHouseSellDialogIsLoaded;
 
         /* Content of ItemPricesList :
-         * Prices[i][0] = Price of 1 item in position i
-         * Prices[i][1] = Price of 10 items in position i
-         * Prices[i][2] = Price of 100 items in position i
+         * Prices[uid][0] = Price of 1 item uid
+         * Prices[uid][1] = Price of 10 items uid
+         * Prices[uid][2] = Price of 100 items uid
          */
-        public List<List<ulong>> ItemPricesList { get; }
+        public Dictionary<uint, List<ulong>> ItemPricesList { get; private set; }
         public long MeanPrice { get; private set; }
 
         public bool BidHouseNpcOnMapExists() => _account.Character.Map.Npcs.Any(npc => npc.Name.StartsWith("Vendeur "));
@@ -54,19 +54,21 @@ namespace Cookie.Game.BidHouse
             _bidHouseBuyDialogIsLoaded = false;
             _bidHouseSellDialogIsLoaded = false;
 
-            ItemPricesList = new List<List<ulong>>();
+            ItemPricesList = new Dictionary<uint, List<ulong>>();
             MeanPrice = 0;
 
             account.Network.RegisterPacket<ExchangeStartedBidBuyerMessage>(HandleExchangeStartedBidBuyerMessage, MessagePriority.VeryHigh);
             account.Network.RegisterPacket<ExchangeStartedBidSellerMessage>(HandleExchangeStartedBidSellerMessage, MessagePriority.VeryHigh);
+            account.Network.RegisterPacket<ExchangeLeaveMessage>(HandleExchangeLeaveMessage, MessagePriority.VeryHigh);
+
             account.Network.RegisterPacket<ExchangeTypesExchangerDescriptionForUserMessage>(HandleExchangeTypesExchangerDescriptionForUserMessage, MessagePriority.VeryHigh);
             account.Network.RegisterPacket<ExchangeTypesItemsExchangerDescriptionForUserMessage>(HandleExchangeTypesItemsExchangerDescriptionForUserMessage, MessagePriority.VeryHigh);
-            account.Network.RegisterPacket<ExchangeBidPriceMessage>(HandleExchangeBidPriceMessage, MessagePriority.VeryHigh);
-            account.Network.RegisterPacket<ExchangeLeaveMessage>(HandleExchangeLeaveMessage, MessagePriority.VeryHigh);
+            account.Network.RegisterPacket<ExchangeBidPriceMessage>(HandleExchangeBidPriceMessage, MessagePriority.VeryHigh);         
             account.Network.RegisterPacket<ExchangeBidHouseInListUpdatedMessage>(HandleExchangeBidHouseInListUpdatedMessage, MessagePriority.VeryHigh);
             account.Network.RegisterPacket<ExchangeBidHouseInListAddedMessage>(HandleExchangeBidHouseInListAddedMessage, MessagePriority.VeryHigh);
             account.Network.RegisterPacket<ExchangeBidHouseInListRemovedMessage>(HandleExchangeBidHouseInListRemovedMessage, MessagePriority.VeryHigh);
             account.Network.RegisterPacket<ExchangeBidHouseItemAddOkMessage>(HandleExchangeBidHouseItemAddOkMessage, MessagePriority.VeryHigh);
+            account.Network.RegisterPacket<ExchangeBidHouseBuyResultMessage>(HandleExchangeBidHouseBuyResultMessage, MessagePriority.VeryHigh);
         }
 
         #endregion
@@ -164,6 +166,40 @@ namespace Cookie.Game.BidHouse
             throw new Exception("L'item n'a pas pu être mis en vente.");
         }
 
+        public async Task<bool> BuyItem(uint itemUId, uint quantity)
+        {
+            /* Check if BidHouse Dialog is open */
+            if (!_bidHouseBuyDialogIsLoaded) throw new Exception("La fenêtre HDV n'est pas ouverte.");
+
+            /* Check quantity */
+            /* We can use log10(|quantity|)%1 */
+            if (quantity != 1 & quantity != 10 & quantity != 100) throw new Exception("La quantité doit être l'une des suivantes : 1, 10, 100.");
+
+            /* Check if item exists in bid house */
+            List<ulong> Prices = new List<ulong>();
+            if (!ItemPricesList.TryGetValue(itemUId, out Prices)) throw new Exception($"Cet identifiant ({itemUId}) n'existe pas dans la liste des prix ou cette dernière n'a pas été chargée.");
+
+            /* Check if requested quantity exists */
+            ulong Price = Prices[Convert.ToInt32(Math.Log10(quantity))];
+            if (!(Price > 0)) throw new Exception($"Cette quantité ({quantity}) n'existe pas pour l'item demandé.");
+
+            Logger.Default.Log($"Achat de {quantity} de l'item portant l'uid {itemUId} au prix de {Price}", LogMessageType.Info);
+            /* All good, we pay */
+
+            ExchangeBidHouseBuyMessage message = new ExchangeBidHouseBuyMessage()
+            {
+                Uid = itemUId,
+                Qty = quantity,
+                Price = Price
+            };
+
+            /* Check if item was successfully bought */
+            if (await SendAndWait(message, 3000)) return true;
+
+            throw new Exception("L'item n'a pas pu être acheté.");
+
+        }
+
         #endregion
 
         #region "Private Functions"
@@ -181,13 +217,10 @@ namespace Cookie.Game.BidHouse
 
         private async Task<bool> RequestItemType(uint itemId)
         {
+
             /* Check if item exists in Bid House */
             var itemType = ObjectDataManager.Instance.Get<API.Datacenter.Item>(itemId).TypeId;
-            if (!_itemTypesInBidHouse.Contains(itemType))
-            {
-                ExitBidHouseDialog();
-                throw new Exception($"L'item {D2OParsing.GetItemName(itemId)} ({itemId}) n'existe pas dans cet hôtel de vente.");
-            }
+            if (!_itemTypesInBidHouse.Contains(itemType)) throw new Exception($"L'item {D2OParsing.GetItemName(itemId)} ({itemId}) n'existe pas dans cet hôtel de vente.");
 
             var itemsTypeMessage = new ExchangeBidHouseTypeMessage()
             {
@@ -229,6 +262,7 @@ namespace Cookie.Game.BidHouse
 
         private void HandleExchangeStartedBidBuyerMessage(IAccount account, ExchangeStartedBidBuyerMessage message)
         {
+            _itemListInBidHouse.Clear();
             _itemTypesInBidHouse.Clear();
             _itemTypesInBidHouse.AddRange(message.BuyerDescriptor.Types);
 
@@ -257,7 +291,7 @@ namespace Cookie.Game.BidHouse
         private void HandleExchangeTypesItemsExchangerDescriptionForUserMessage(IAccount account, ExchangeTypesItemsExchangerDescriptionForUserMessage message)
         {
             ItemPricesList.Clear();
-            message.ItemTypeDescriptions.ForEach(item => ItemPricesList.Add(item.Prices));
+            message.ItemTypeDescriptions.ForEach(item => ItemPricesList.Add(item.ObjectUID, item.Prices));
 
             _bidHouseActionEvent.Set();
         }
@@ -300,6 +334,11 @@ namespace Cookie.Game.BidHouse
             Logger.Default.Log($"{quantity}x{objectName} mis vente en HDV pour {objectPrice} kamas et pour une durée de {unsoldDelayHours}h");
 
             _bidHouseActionEvent.Set();
+        }
+
+        private void HandleExchangeBidHouseBuyResultMessage(IAccount account, ExchangeBidHouseBuyResultMessage message)
+        {
+            if (message.Bought) _bidHouseActionEvent.Set();
         }
 
         #endregion

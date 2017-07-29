@@ -38,15 +38,27 @@ namespace Cookie.Commands.Commands
                     if (!await account.Character.BidHouse.LoadItemData(itemid)) return;
 
                     var prices = account.Character.BidHouse.ItemPricesList.FirstOrDefault();
-                    Logger.Default.Log($" Prix de {API.Gamedata.D2OParsing.GetItemName(itemid)} => 1:{prices[0]}-  10:{prices[1]} - 100:{prices[2]} - Mean:{account.Character.BidHouse.MeanPrice}");
+                    Logger.Default.Log($" Prix de {API.Gamedata.D2OParsing.GetItemName(itemid)} ({itemid}, {prices.Key}) => (1:{prices.Value[0]}k 10:{prices.Value[1]}k 100:{prices.Value[2]}k) - ~{account.Character.BidHouse.MeanPrice}k");
                 }
                 else if (args[0] == "sell")
                 {
                     var itemid = Convert.ToUInt32(args[1]);
+                    var quantity = Convert.ToInt32(args[2]);
+                    var price = Convert.ToUInt32(args[3]);
 
                     if (!await account.Character.BidHouse.StartBidHouseDialog(NpcActionId.BID_HOUSE_SELL)) return;
 
-                    if(! await account.Character.BidHouse.SellItem(itemid, 10, 42)) return;
+                    if(! await account.Character.BidHouse.SellItem(itemid, quantity, price)) return;
+
+                }
+                else if (args[0] == "buy")
+                {
+                    var itemuid = Convert.ToUInt32(args[1]);
+                    var quantity = Convert.ToUInt32(args[2]);
+
+                    if (!await account.Character.BidHouse.StartBidHouseDialog(NpcActionId.BID_HOUSE_BUY)) return;
+
+                    if (!await account.Character.BidHouse.BuyItem(itemuid, quantity)) return;
 
                 }
                 else
