@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-
 using Cookie.API.Utils.Enums;
 
 namespace Cookie.API.Game.BidHouse
@@ -11,7 +10,7 @@ namespace Cookie.API.Game.BidHouse
         long MeanPrice { get; }
 
         /// <summary>
-        /// Talks to Bid House NPC
+        ///     Talks to Bid House NPC
         /// </summary>
         /// <param name="NpcActionId"></param>
         /// <returns></returns>
