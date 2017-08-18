@@ -82,6 +82,7 @@ namespace Cookie
                     _fullSocket = new FullSocket.FullSocket(fullSocketConfiguration, messageReceiver);
                     var dispatcherTask = new DispatcherTask(new MessageDispatcher(), _fullSocket);
                     _account = _fullSocket.Connect(accountToConnect.Username, accountToConnect.Password, this);
+                    LogWelcomeMessage();
                 });
             }
             catch (Exception exception)
@@ -91,6 +92,14 @@ namespace Cookie
             }
         }
 
+        private void LogWelcomeMessage()
+        {
+            Logger.Default.Log("===============================", LogMessageType.Help);
+            Logger.Default.Log("||                                                                              ||", LogMessageType.Help);
+            Logger.Default.Log("||    Type '.help' to see all available commands !     ||", LogMessageType.Help);
+            Logger.Default.Log("||                                                                              ||", LogMessageType.Help);
+            Logger.Default.Log("===============================", LogMessageType.Help);
+        }
         private void Logger_OnLog(string log, LogMessageType logType)
         {
             Console.WriteLine(log);
@@ -158,6 +167,9 @@ namespace Cookie
                         break;
                     case LogMessageType.Error:
                         LogTextBox.SelectionColor = ColorTranslator.FromHtml("#FF0033");
+                        break;
+                    case LogMessageType.Help:
+                        LogTextBox.SelectionColor = ColorTranslator.FromHtml("#2DB796");
                         break;
                     default:
                         LogTextBox.SelectionColor = ColorTranslator.FromHtml("#E8890D");

@@ -10,6 +10,7 @@ namespace Cookie.Commands.Commands
     public class GoCellCommand : ICommand
     {
         public string CommandName => "gocell";
+        public string ArgsName => "uint [1..559]";
 
         public void OnCommand(IAccount account, string[] args)
         {

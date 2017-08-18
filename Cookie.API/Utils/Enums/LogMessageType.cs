@@ -20,6 +20,7 @@
         Sender,
         Divers,
         Error,
-        Default
+        Default,
+        Help
     }
 }

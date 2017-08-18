@@ -9,6 +9,7 @@ namespace Cookie.Commands.Commands
     {
         private const string CommandSufix = "[Duel]";
         public string CommandName => "duel";
+        public string ArgsName => "string <playerName>";
 
         public void OnCommand(IAccount account, string[] args)
         {

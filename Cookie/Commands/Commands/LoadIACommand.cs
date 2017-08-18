@@ -8,6 +8,8 @@ namespace Cookie.Commands.Commands
     public class LoadIACommand : ICommand
     {
         public string CommandName => "loadia";
+        public string ArgsName => "string <spellsPath>";
+
 
         public void OnCommand(IAccount account, string[] args)
         {

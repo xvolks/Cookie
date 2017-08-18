@@ -10,6 +10,8 @@ namespace Cookie.Commands.Commands
     {
         private readonly string _commandSufix = "[Fight]";
         public string CommandName => "fight";
+        public string ArgsName => "string <spellPath>";
+
 
         public void OnCommand(IAccount account, string[] args)
         {
