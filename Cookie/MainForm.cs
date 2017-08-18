@@ -96,7 +96,7 @@ namespace Cookie
         {
             Logger.Default.Log("===============================", LogMessageType.Help);
             Logger.Default.Log("||                                                                              ||", LogMessageType.Help);
-            Logger.Default.Log("||    Type '.help' to see all availables commands !      ||", LogMessageType.Info);
+            Logger.Default.Log("||    Type '.help' to see all available commands !     ||", LogMessageType.Help);
             Logger.Default.Log("||                                                                              ||", LogMessageType.Help);
             Logger.Default.Log("===============================", LogMessageType.Help);
         }
