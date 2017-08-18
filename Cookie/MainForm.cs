@@ -94,11 +94,11 @@ namespace Cookie
 
         private void LogWelcomeMessage()
         {
-            Logger.Default.Log("===============================", LogMessageType.Info);
-            Logger.Default.Log("||                                                                              ||", LogMessageType.Info);
-            Logger.Default.Log("||    Type '.list' to see all availables commands !      ||", LogMessageType.Info);
-            Logger.Default.Log("||                                                                              ||", LogMessageType.Info);
-            Logger.Default.Log("===============================", LogMessageType.Info);
+            Logger.Default.Log("===============================", LogMessageType.Help);
+            Logger.Default.Log("||                                                                              ||", LogMessageType.Help);
+            Logger.Default.Log("||    Type '.help' to see all availables commands !      ||", LogMessageType.Info);
+            Logger.Default.Log("||                                                                              ||", LogMessageType.Help);
+            Logger.Default.Log("===============================", LogMessageType.Help);
         }
         private void Logger_OnLog(string log, LogMessageType logType)
         {
@@ -167,6 +167,9 @@ namespace Cookie
                         break;
                     case LogMessageType.Error:
                         LogTextBox.SelectionColor = ColorTranslator.FromHtml("#FF0033");
+                        break;
+                    case LogMessageType.Help:
+                        LogTextBox.SelectionColor = ColorTranslator.FromHtml("#2DB796");
                         break;
                     default:
                         LogTextBox.SelectionColor = ColorTranslator.FromHtml("#E8890D");

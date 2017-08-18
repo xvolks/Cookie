@@ -10,7 +10,7 @@ namespace Cookie.Commands.Commands
     public class GatherCommand : ICommand
     {
         public string CommandName => "gather";
-        public string ArgsName => "string [stop|start]";
+        public string ArgsName => "string [stop|start], <resourceId>...";
 
         public void OnCommand(IAccount account, string[] args)
         {

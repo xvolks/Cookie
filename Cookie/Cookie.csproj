@@ -60,6 +60,7 @@
     <Compile Include="Commands\Commands\FightCommand.cs" />
     <Compile Include="Commands\Commands\GatherCommand.cs" />
     <Compile Include="Commands\Commands\GoCellCommand.cs" />
+    <Compile Include="Commands\Commands\HelpCommand.cs" />
     <Compile Include="Commands\Commands\JobsCommand.cs" />
     <Compile Include="Commands\Commands\KamasCommand.cs" />
     <Compile Include="Commands\Commands\LevelCommand.cs" />
