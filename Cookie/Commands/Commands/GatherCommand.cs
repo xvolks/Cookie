@@ -10,6 +10,7 @@ namespace Cookie.Commands.Commands
     public class GatherCommand : ICommand
     {
         public string CommandName => "gather";
+        public string ArgsName => "string [stop|start]";
 
         public void OnCommand(IAccount account, string[] args)
         {
@@ -38,7 +39,7 @@ namespace Cookie.Commands.Commands
                 else
                 {
                     Logger.Default.Log("[GATHER] On commence la Récolte !", LogMessageType.Default);
-                    var autogather = args[0] == "true";
+                    var autogather = args[0] == "start";
                     var list = new List<int>();
                     for (var i = 1; i < args.Length; i++)
                         list.Add(Convert.ToInt32(args[i]));

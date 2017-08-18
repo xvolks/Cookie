@@ -82,6 +82,7 @@ namespace Cookie
                     _fullSocket = new FullSocket.FullSocket(fullSocketConfiguration, messageReceiver);
                     var dispatcherTask = new DispatcherTask(new MessageDispatcher(), _fullSocket);
                     _account = _fullSocket.Connect(accountToConnect.Username, accountToConnect.Password, this);
+                    LogWelcomeMessage();
                 });
             }
             catch (Exception exception)
@@ -91,6 +92,14 @@ namespace Cookie
             }
         }
 
+        private void LogWelcomeMessage()
+        {
+            Logger.Default.Log("===============================", LogMessageType.Info);
+            Logger.Default.Log("||                                                                              ||", LogMessageType.Info);
+            Logger.Default.Log("||    Type '.list' to see all availables commands !      ||", LogMessageType.Info);
+            Logger.Default.Log("||                                                                              ||", LogMessageType.Info);
+            Logger.Default.Log("===============================", LogMessageType.Info);
+        }
         private void Logger_OnLog(string log, LogMessageType logType)
         {
             Console.WriteLine(log);

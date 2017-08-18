@@ -8,6 +8,7 @@ namespace Cookie.Commands.Commands
     public class PathCommand : ICommand
     {
         public string CommandName => "path";
+        public string ArgsName => "string [on|off], <pathPath>";
 
         public void OnCommand(IAccount account, string[] args)
         {

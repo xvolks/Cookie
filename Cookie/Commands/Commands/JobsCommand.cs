@@ -9,6 +9,7 @@ namespace Cookie.Commands.Commands
     public class JobsCommands : ICommand
     {
         public string CommandName => "jobs";
+        public string ArgsName => "void";
 
         public void OnCommand(IAccount account, string[] args)
         {

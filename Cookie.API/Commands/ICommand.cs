@@ -10,6 +10,11 @@ namespace Cookie.API.Commands
         string CommandName { get; }
 
         /// <summary>
+        ///     The name of arguments wich should be used with .CommandName
+        /// </summary>
+        string ArgsName { get; }
+
+        /// <summary>
         ///     This function will be called when we trigger this command
         /// </summary>
         /// <param name="client"></param>
