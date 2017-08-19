@@ -52,7 +52,7 @@ namespace Cookie.Utils.Configurations
             if (lvAccounts.FocusedItem == null)
                 return;
 
-            GlobalConfiguration.Instance.Accounts.RemoveAt(lvAccounts.FocusedItem.Index);
+            GlobalConfiguration.Instance.Accounts.RemoveAt(lvAccounts.SelectedIndex);
             RefreshAccounts();
         }
 

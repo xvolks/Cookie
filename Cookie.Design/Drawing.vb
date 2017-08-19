@@ -61,6 +61,16 @@ Public Class BTextBox
         End Set
     End Property
 
+    Public Property SelectionStart As Integer
+        Get
+            Return T.SelectionStart
+        End Get
+        Set
+            T.SelectionStart = Value
+            T.Invalidate()
+        End Set
+    End Property
+
     Public Property MultiLine As Boolean
         Get
             Return T.Multiline

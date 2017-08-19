@@ -27,6 +27,8 @@ namespace Cookie
 
         private FullSocket.FullSocket _fullSocket;
 
+        private Cookie.Game.Chat.History _chatHistory = new Cookie.Game.Chat.History();
+
         public MainForm()
         {
             InitializeComponent();
@@ -108,6 +110,7 @@ namespace Cookie
             {
                 LogTextBox.SelectionStart = LogTextBox.Text.Length;
                 LogTextBox.SelectionLength = 0;
+                var text = $"[{DateTime.Now.ToLongTimeString()}] {log}";
 
                 switch (logType)
                 {
@@ -171,12 +174,15 @@ namespace Cookie
                     case LogMessageType.Help:
                         LogTextBox.SelectionColor = ColorTranslator.FromHtml("#2DB796");
                         break;
+                    case LogMessageType.Command:
+                        LogTextBox.SelectionColor = ColorTranslator.FromHtml("#969696");
+                        text = $"$-> [{_chatHistory.Total()}] {log}";
+                        break;
                     default:
                         LogTextBox.SelectionColor = ColorTranslator.FromHtml("#E8890D");
                         break;
                 }
 
-                var text = $"[{DateTime.Now.ToLongTimeString()}] {log}";
                 LogTextBox.SelectedText = text + "\r\n";
                 LogTextBox.SelectionColor = LogTextBox.ForeColor;
                 LogTextBox.ScrollToCaret();
@@ -207,6 +213,18 @@ namespace Cookie
                 e.SuppressKeyPress = true;
                 HandleSendChatMessage();
             }
+            else if (e.KeyCode == Keys.Up)
+            {
+                e.SuppressKeyPress = true;
+                ChatTextBox.Text = _chatHistory.Prev();
+                ChatTextBox.SelectionStart = ChatTextBox.Text.Length;
+            }
+            else if (e.KeyCode == Keys.Down)
+            {
+                e.SuppressKeyPress = true;
+                ChatTextBox.Text = _chatHistory.Next();
+                ChatTextBox.SelectionStart = ChatTextBox.Text.Length;
+            }
         }
 
         private void HandleSendChatMessage()
@@ -218,6 +236,8 @@ namespace Cookie
             }
             else
             {
+                _chatHistory.Add(ChatTextBox.Text);
+                Logger.Default.Log(ChatTextBox.Text, LogMessageType.Command);
                 if (ChatTextBox.Text.Length > 2 && ChatTextBox.Text[0] == '.')
                 {
                     var txt = ChatTextBox.Text.Substring(1);
