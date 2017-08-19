@@ -21,6 +21,7 @@
         Divers,
         Error,
         Default,
-        Help
+        Help,
+        Command
     }
 }

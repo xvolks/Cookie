@@ -85,6 +85,7 @@
     <Compile Include="Game\Alliance\Alliance.cs" />
     <Compile Include="Game\BidHouse\BidHouse.cs" />
     <Compile Include="Game\Chat\Chat.cs" />
+    <Compile Include="Game\Chat\History.cs" />
     <Compile Include="Game\Entity\Entity.cs" />
     <Compile Include="Game\Entity\Merchant.cs" />
     <Compile Include="Game\Fight\ArtificialIntelligence.cs" />
