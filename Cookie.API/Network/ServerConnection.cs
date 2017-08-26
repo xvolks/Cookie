@@ -10,7 +10,7 @@ namespace Cookie.API.Network
     {
         private readonly byte[] _buffer = new byte[8192];
         private readonly object _recvLocker = new object();
-        private readonly BigEndianReader buffer = new BigEndianReader();
+        private BigEndianReader buffer = new BigEndianReader();
         private MessagePart _currentMessage;
 
         public ServerConnection(IMessageBuilder messageBuilder)
@@ -108,6 +108,7 @@ namespace Cookie.API.Network
 
                     _currentMessage = null;
                 }
+                buffer = new BigEndianReader();
             }
         }
 
