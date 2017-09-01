@@ -4,17 +4,13 @@ namespace Cookie.API.Protocol.Network.Types.Connection
 {
     public class GameServerInformations : NetworkType
     {
-        public const short ProtocolId = 25;
+        public const ushort ProtocolId = 25;
 
-        public GameServerInformations()
-        {
-        }
-
-        public GameServerInformations(ushort objectId, byte serverType, byte status, byte completion, bool isSelectable,
+        public GameServerInformations(ushort objectId, sbyte type, byte status, byte completion, bool isSelectable,
             byte charactersCount, byte charactersSlots, double date)
         {
-            ObjectID = objectId;
-            ServerType = serverType;
+            ObjectId = objectId;
+            Type = type;
             Status = status;
             Completion = completion;
             IsSelectable = isSelectable;
@@ -23,10 +19,13 @@ namespace Cookie.API.Protocol.Network.Types.Connection
             Date = date;
         }
 
-        public override short TypeID => ProtocolId;
+        public GameServerInformations()
+        {
+        }
 
-        public ushort ObjectID { get; set; }
-        public byte ServerType { get; set; }
+        public override ushort TypeID => ProtocolId;
+        public ushort ObjectId { get; set; }
+        public sbyte Type { get; set; }
         public byte Status { get; set; }
         public byte Completion { get; set; }
         public bool IsSelectable { get; set; }
@@ -36,8 +35,8 @@ namespace Cookie.API.Protocol.Network.Types.Connection
 
         public override void Serialize(IDataWriter writer)
         {
-            writer.WriteVarUhShort(ObjectID);
-            writer.WriteByte(ServerType);
+            writer.WriteVarUhShort(ObjectId);
+            writer.WriteSByte(Type);
             writer.WriteByte(Status);
             writer.WriteByte(Completion);
             writer.WriteBoolean(IsSelectable);
@@ -48,8 +47,8 @@ namespace Cookie.API.Protocol.Network.Types.Connection
 
         public override void Deserialize(IDataReader reader)
         {
-            ObjectID = reader.ReadVarUhShort();
-            ServerType = reader.ReadByte();
+            ObjectId = reader.ReadVarUhShort();
+            Type = reader.ReadSByte();
             Status = reader.ReadByte();
             Completion = reader.ReadByte();
             IsSelectable = reader.ReadBoolean();

@@ -4,7 +4,7 @@ namespace Cookie.API.Protocol.Network.Messages.Security
 {
     public class RawDataMessage : NetworkMessage
     {
-        public const uint ProtocolId = 6253;
+        public const ushort ProtocolId = 6253;
 
         public RawDataMessage()
         {
@@ -15,8 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Security
             Content = content;
         }
 
-        public override uint MessageID => ProtocolId;
-
+        public override ushort MessageID => ProtocolId;
         public byte[] Content { get; set; }
 
         public override void Serialize(IDataWriter writer)

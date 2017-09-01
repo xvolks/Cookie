@@ -6,41 +6,38 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Character.Choice
 {
     public class BasicCharactersListMessage : NetworkMessage
     {
-        public const uint ProtocolId = 6475;
-
-        public List<CharacterBaseInformations> Characters;
-
-        public BasicCharactersListMessage()
-        {
-        }
+        public const ushort ProtocolId = 6475;
 
         public BasicCharactersListMessage(List<CharacterBaseInformations> characters)
         {
             Characters = characters;
         }
 
-        public override uint MessageID => ProtocolId;
+        public BasicCharactersListMessage()
+        {
+        }
+
+        public override ushort MessageID => ProtocolId;
+        public List<CharacterBaseInformations> Characters { get; set; }
 
         public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort((short) Characters.Count);
-            int charactersIndex;
-            for (charactersIndex = 0; charactersIndex < Characters.Count; charactersIndex = charactersIndex + 1)
+            for (var charactersIndex = 0; charactersIndex < Characters.Count; charactersIndex++)
             {
                 var objectToSend = Characters[charactersIndex];
-                writer.WriteUShort((ushort) objectToSend.TypeID);
+                writer.WriteUShort(objectToSend.TypeID);
                 objectToSend.Serialize(writer);
             }
         }
 
         public override void Deserialize(IDataReader reader)
         {
-            int charactersCount = reader.ReadUShort();
+            var charactersCount = reader.ReadUShort();
             Characters = new List<CharacterBaseInformations>();
-            for (var i = 0; i < charactersCount; i++)
+            for (var charactersIndex = 0; charactersIndex < charactersCount; charactersIndex++)
             {
-                var objectToAdd =
-                    ProtocolTypeManager.GetInstance<CharacterBaseInformations>((short) reader.ReadUShort());
+                var objectToAdd = ProtocolTypeManager.GetInstance<CharacterBaseInformations>(reader.ReadUShort());
                 objectToAdd.Deserialize(reader);
                 Characters.Add(objectToAdd);
             }

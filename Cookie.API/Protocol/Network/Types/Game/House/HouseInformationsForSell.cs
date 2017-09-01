@@ -1,184 +1,87 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Cookie.API.Utils.IO;
 
 namespace Cookie.API.Protocol.Network.Types.Game.House
 {
     public class HouseInformationsForSell : NetworkType
     {
-        public const short ProtocolId = 221;
+        public const ushort ProtocolId = 221;
 
-        private int m_instanceId;
-
-        private bool m_isLocked;
-
-        private uint m_modelId;
-
-        private byte m_nbChest;
-
-        private byte m_nbRoom;
-
-        private bool m_ownerConnected;
-
-        private string m_ownerName;
-
-        private ulong m_price;
-
-        private bool m_secondHand;
-
-        private List<int> m_skillListIds;
-
-        private ushort m_subAreaId;
-
-        private short m_worldX;
-
-        private short m_worldY;
-
-        public HouseInformationsForSell(List<int> skillListIds, int instanceId, bool secondHand, uint modelId,
-            string ownerName, bool ownerConnected, short worldX, short worldY, ushort subAreaId, byte nbRoom,
-            byte nbChest, bool isLocked, ulong price)
+        public HouseInformationsForSell(int instanceId, bool secondHand, uint modelId, string ownerName,
+            bool ownerConnected, short worldX, short worldY, ushort subAreaId, sbyte nbRoom, sbyte nbChest,
+            List<int> skillListIds, bool isLocked, ulong price)
         {
-            m_skillListIds = skillListIds;
-            m_instanceId = instanceId;
-            m_secondHand = secondHand;
-            m_modelId = modelId;
-            m_ownerName = ownerName;
-            m_ownerConnected = ownerConnected;
-            m_worldX = worldX;
-            m_worldY = worldY;
-            m_subAreaId = subAreaId;
-            m_nbRoom = nbRoom;
-            m_nbChest = nbChest;
-            m_isLocked = isLocked;
-            m_price = price;
+            InstanceId = instanceId;
+            SecondHand = secondHand;
+            ModelId = modelId;
+            OwnerName = ownerName;
+            OwnerConnected = ownerConnected;
+            WorldX = worldX;
+            WorldY = worldY;
+            SubAreaId = subAreaId;
+            NbRoom = nbRoom;
+            NbChest = nbChest;
+            SkillListIds = skillListIds;
+            IsLocked = isLocked;
+            Price = price;
         }
 
         public HouseInformationsForSell()
         {
         }
 
-        public override short TypeID => ProtocolId;
-
-        public virtual int InstanceId
-        {
-            get => m_instanceId;
-            set => m_instanceId = value;
-        }
-
-        public virtual bool SecondHand
-        {
-            get => m_secondHand;
-            set => m_secondHand = value;
-        }
-
-        public virtual uint ModelId
-        {
-            get => m_modelId;
-            set => m_modelId = value;
-        }
-
-        public virtual string OwnerName
-        {
-            get => m_ownerName;
-            set => m_ownerName = value;
-        }
-
-        public virtual bool OwnerConnected
-        {
-            get => m_ownerConnected;
-            set => m_ownerConnected = value;
-        }
-
-        public virtual short WorldX
-        {
-            get => m_worldX;
-            set => m_worldX = value;
-        }
-
-        public virtual short WorldY
-        {
-            get => m_worldY;
-            set => m_worldY = value;
-        }
-
-        public virtual ushort SubAreaId
-        {
-            get => m_subAreaId;
-            set => m_subAreaId = value;
-        }
-
-        public virtual byte NbRoom
-        {
-            get => m_nbRoom;
-            set => m_nbRoom = value;
-        }
-
-        public virtual byte NbChest
-        {
-            get => m_nbChest;
-            set => m_nbChest = value;
-        }
-
-        public virtual List<int> SkillListIds
-        {
-            get => m_skillListIds;
-            set => m_skillListIds = value;
-        }
-
-        public virtual bool IsLocked
-        {
-            get => m_isLocked;
-            set => m_isLocked = value;
-        }
-
-        public virtual ulong Price
-        {
-            get => m_price;
-            set => m_price = value;
-        }
+        public override ushort TypeID => ProtocolId;
+        public int InstanceId { get; set; }
+        public bool SecondHand { get; set; }
+        public uint ModelId { get; set; }
+        public string OwnerName { get; set; }
+        public bool OwnerConnected { get; set; }
+        public short WorldX { get; set; }
+        public short WorldY { get; set; }
+        public ushort SubAreaId { get; set; }
+        public sbyte NbRoom { get; set; }
+        public sbyte NbChest { get; set; }
+        public List<int> SkillListIds { get; set; }
+        public bool IsLocked { get; set; }
+        public ulong Price { get; set; }
 
         public override void Serialize(IDataWriter writer)
         {
-            writer.WriteInt(m_instanceId);
-            writer.WriteBoolean(m_secondHand);
-            writer.WriteVarUhInt(m_modelId);
-            writer.WriteUTF(m_ownerName);
-            writer.WriteBoolean(m_ownerConnected);
-            writer.WriteShort(m_worldX);
-            writer.WriteShort(m_worldY);
-            writer.WriteVarUhShort(m_subAreaId);
-            writer.WriteByte(m_nbRoom);
-            writer.WriteByte(m_nbChest);
-            writer.WriteShort((short) m_skillListIds.Count);
-            int skillListIdsIndex;
-            for (skillListIdsIndex = 0;
-                skillListIdsIndex < m_skillListIds.Count;
-                skillListIdsIndex = skillListIdsIndex + 1)
-                writer.WriteInt(m_skillListIds[skillListIdsIndex]);
-            writer.WriteBoolean(m_isLocked);
-            writer.WriteVarUhLong(m_price);
+            writer.WriteInt(InstanceId);
+            writer.WriteBoolean(SecondHand);
+            writer.WriteVarUhInt(ModelId);
+            writer.WriteUTF(OwnerName);
+            writer.WriteBoolean(OwnerConnected);
+            writer.WriteShort(WorldX);
+            writer.WriteShort(WorldY);
+            writer.WriteVarUhShort(SubAreaId);
+            writer.WriteSByte(NbRoom);
+            writer.WriteSByte(NbChest);
+            writer.WriteShort((short) SkillListIds.Count);
+            for (var skillListIdsIndex = 0; skillListIdsIndex < SkillListIds.Count; skillListIdsIndex++)
+                writer.WriteInt(SkillListIds[skillListIdsIndex]);
+            writer.WriteBoolean(IsLocked);
+            writer.WriteVarUhLong(Price);
         }
 
         public override void Deserialize(IDataReader reader)
         {
-            m_instanceId = reader.ReadInt();
-            m_secondHand = reader.ReadBoolean();
-            m_modelId = reader.ReadVarUhInt();
-            m_ownerName = reader.ReadUTF();
-            m_ownerConnected = reader.ReadBoolean();
-            m_worldX = reader.ReadShort();
-            m_worldY = reader.ReadShort();
-            m_subAreaId = reader.ReadVarUhShort();
-            m_nbRoom = reader.ReadByte();
-            m_nbChest = reader.ReadByte();
-            int skillListIdsCount = reader.ReadUShort();
-            int skillListIdsIndex;
-            m_skillListIds = new List<int>();
-            for (skillListIdsIndex = 0;
-                skillListIdsIndex < skillListIdsCount;
-                skillListIdsIndex = skillListIdsIndex + 1)
-                m_skillListIds.Add(reader.ReadInt());
-            m_isLocked = reader.ReadBoolean();
-            m_price = reader.ReadVarUhLong();
+            InstanceId = reader.ReadInt();
+            SecondHand = reader.ReadBoolean();
+            ModelId = reader.ReadVarUhInt();
+            OwnerName = reader.ReadUTF();
+            OwnerConnected = reader.ReadBoolean();
+            WorldX = reader.ReadShort();
+            WorldY = reader.ReadShort();
+            SubAreaId = reader.ReadVarUhShort();
+            NbRoom = reader.ReadSByte();
+            NbChest = reader.ReadSByte();
+            var skillListIdsCount = reader.ReadUShort();
+            SkillListIds = new List<int>();
+            for (var skillListIdsIndex = 0; skillListIdsIndex < skillListIdsCount; skillListIdsIndex++)
+                SkillListIds.Add(reader.ReadInt());
+            IsLocked = reader.ReadBoolean();
+            Price = reader.ReadVarUhLong();
         }
     }
 }

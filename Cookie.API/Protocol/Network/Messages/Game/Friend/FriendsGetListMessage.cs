@@ -4,18 +4,16 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Friend
 {
     public class FriendsGetListMessage : NetworkMessage
     {
-        public const uint ProtocolId = 4001;
+        public const ushort ProtocolId = 4001;
 
-        public override uint MessageID => ProtocolId;
+        public override ushort MessageID => ProtocolId;
 
         public override void Serialize(IDataWriter writer)
         {
-            //
         }
 
         public override void Deserialize(IDataReader reader)
         {
-            //
         }
     }
 }

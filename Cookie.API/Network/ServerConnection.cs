@@ -10,8 +10,8 @@ namespace Cookie.API.Network
     {
         private readonly byte[] _buffer = new byte[8192];
         private readonly object _recvLocker = new object();
-        private BigEndianReader buffer = new BigEndianReader();
         private MessagePart _currentMessage;
+        private BigEndianReader buffer = new BigEndianReader();
 
         public ServerConnection(IMessageBuilder messageBuilder)
         {
@@ -100,7 +100,7 @@ namespace Cookie.API.Network
                     if (_currentMessage.MessageId != null)
                     {
                         var message =
-                            MessageBuilder.BuildMessage((uint) _currentMessage.MessageId.Value, messageDataReader);
+                            MessageBuilder.BuildMessage((ushort) _currentMessage.MessageId.Value, messageDataReader);
 
                         LastActivity = DateTime.Now;
                         OnMessageReceived(message);

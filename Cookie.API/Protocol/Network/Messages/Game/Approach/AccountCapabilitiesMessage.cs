@@ -4,42 +4,41 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Approach
 {
     public class AccountCapabilitiesMessage : NetworkMessage
     {
-        public const uint ProtocolId = 6216;
+        public const ushort ProtocolId = 6216;
 
-        public int AccountId;
-        public uint BreedsAvailable;
-        public uint BreedsVisible;
-        public bool CanCreateNewCharacter;
-        public byte Status;
-        public bool TutorialAvailable;
+        public AccountCapabilitiesMessage(bool tutorialAvailable, bool canCreateNewCharacter, int accountId,
+            uint breedsVisible, uint breedsAvailable, sbyte status)
+        {
+            TutorialAvailable = tutorialAvailable;
+            CanCreateNewCharacter = canCreateNewCharacter;
+            AccountId = accountId;
+            BreedsVisible = breedsVisible;
+            BreedsAvailable = breedsAvailable;
+            Status = status;
+        }
 
         public AccountCapabilitiesMessage()
         {
         }
 
-        public AccountCapabilitiesMessage(int accountId, bool tutorialAvailable, uint breedsVisible,
-            uint breedsAvailable, byte status, bool canCreateNewCharacter)
-        {
-            AccountId = accountId;
-            TutorialAvailable = tutorialAvailable;
-            BreedsVisible = breedsVisible;
-            BreedsAvailable = breedsAvailable;
-            Status = status;
-            CanCreateNewCharacter = canCreateNewCharacter;
-        }
-
-        public override uint MessageID => ProtocolId;
+        public override ushort MessageID => ProtocolId;
+        public bool TutorialAvailable { get; set; }
+        public bool CanCreateNewCharacter { get; set; }
+        public int AccountId { get; set; }
+        public uint BreedsVisible { get; set; }
+        public uint BreedsAvailable { get; set; }
+        public sbyte Status { get; set; }
 
         public override void Serialize(IDataWriter writer)
         {
             var flag = new byte();
-            BooleanByteWrapper.SetFlag(0, flag, TutorialAvailable);
-            BooleanByteWrapper.SetFlag(1, flag, CanCreateNewCharacter);
+            flag = BooleanByteWrapper.SetFlag(0, flag, TutorialAvailable);
+            flag = BooleanByteWrapper.SetFlag(1, flag, CanCreateNewCharacter);
             writer.WriteByte(flag);
             writer.WriteInt(AccountId);
             writer.WriteVarUhInt(BreedsVisible);
             writer.WriteVarUhInt(BreedsAvailable);
-            writer.WriteByte(Status);
+            writer.WriteSByte(Status);
         }
 
         public override void Deserialize(IDataReader reader)
@@ -50,7 +49,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Approach
             AccountId = reader.ReadInt();
             BreedsVisible = reader.ReadVarUhInt();
             BreedsAvailable = reader.ReadVarUhInt();
-            Status = reader.ReadByte();
+            Status = reader.ReadSByte();
         }
     }
 }

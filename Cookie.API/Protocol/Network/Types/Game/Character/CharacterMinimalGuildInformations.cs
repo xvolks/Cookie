@@ -5,19 +5,18 @@ namespace Cookie.API.Protocol.Network.Types.Game.Character
 {
     public class CharacterMinimalGuildInformations : CharacterMinimalPlusLookInformations
     {
-        public new const short ProtocolId = 445;
-
-        public CharacterMinimalGuildInformations()
-        {
-        }
+        public new const ushort ProtocolId = 445;
 
         public CharacterMinimalGuildInformations(BasicGuildInformations guild)
         {
             Guild = guild;
         }
 
-        public override short TypeID => ProtocolId;
+        public CharacterMinimalGuildInformations()
+        {
+        }
 
+        public override ushort TypeID => ProtocolId;
         public BasicGuildInformations Guild { get; set; }
 
         public override void Serialize(IDataWriter writer)

@@ -1,40 +1,47 @@
 ﻿using System.Collections.Generic;
+using Cookie.API.Protocol.Network.Types.Connection;
 using Cookie.API.Utils.IO;
 
 namespace Cookie.API.Protocol.Network.Messages.Connection
 {
     public class SelectedServerDataExtendedMessage : SelectedServerDataMessage
     {
-        public new const uint ProtocolId = 6469;
+        public new const ushort ProtocolId = 6469;
 
-        public List<ushort> ServerIds;
+        public SelectedServerDataExtendedMessage(List<GameServerInformations> servers)
+        {
+            Servers = servers;
+        }
 
         public SelectedServerDataExtendedMessage()
         {
         }
 
-        public SelectedServerDataExtendedMessage(List<ushort> serverIds)
-        {
-            ServerIds = serverIds;
-        }
-
-        public override uint MessageID => ProtocolId;
+        public override ushort MessageID => ProtocolId;
+        public List<GameServerInformations> Servers { get; set; }
 
         public override void Serialize(IDataWriter writer)
         {
             base.Serialize(writer);
-            writer.WriteShort((short) ServerIds.Count);
-            for (var i = 0; i < ServerIds.Count; i++)
-                writer.WriteVarUhShort(ServerIds[i]);
+            writer.WriteShort((short) Servers.Count);
+            for (var serversIndex = 0; serversIndex < Servers.Count; serversIndex++)
+            {
+                var objectToSend = Servers[serversIndex];
+                objectToSend.Serialize(writer);
+            }
         }
 
         public override void Deserialize(IDataReader reader)
         {
             base.Deserialize(reader);
-            var length = reader.ReadUShort();
-            ServerIds = new List<ushort>();
-            for (var i = 0; i < length; i++)
-                ServerIds.Add(reader.ReadVarUhShort());
+            var serversCount = reader.ReadUShort();
+            Servers = new List<GameServerInformations>();
+            for (var serversIndex = 0; serversIndex < serversCount; serversIndex++)
+            {
+                var objectToAdd = new GameServerInformations();
+                objectToAdd.Deserialize(reader);
+                Servers.Add(objectToAdd);
+            }
         }
     }
 }

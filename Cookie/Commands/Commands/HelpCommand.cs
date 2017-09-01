@@ -1,10 +1,10 @@
+using System;
+using System.Linq;
+using System.Reflection;
 using Cookie.API.Commands;
 using Cookie.API.Core;
 using Cookie.API.Utils;
 using Cookie.API.Utils.Enums;
-using System.Reflection;
-using System.Linq;
-using System;
 
 namespace Cookie.Commands.Commands
 {
@@ -16,19 +16,19 @@ namespace Cookie.Commands.Commands
         public void OnCommand(IAccount account, string[] args)
         {
             var commands = from type in Assembly.GetExecutingAssembly().GetTypes()
-                           where type.Namespace == "Cookie.Commands.Commands"
-                           select (type);
-            foreach (Type cmd in commands)
-            {
+                where type.Namespace == "Cookie.Commands.Commands"
+                select type;
+            foreach (var cmd in commands)
                 try
                 {
-                    ICommand cmdInstance = Activator.CreateInstance(cmd) as ICommand;
-                    string cmdName = cmdInstance.CommandName;
-                    string cmdArgs = cmdInstance.ArgsName;
+                    var cmdInstance = Activator.CreateInstance(cmd) as ICommand;
+                    var cmdName = cmdInstance.CommandName;
+                    var cmdArgs = cmdInstance.ArgsName;
                     Logger.Default.Log($".{cmdName}({cmdArgs})", LogMessageType.Help);
                 }
-                catch (Exception) { }
-            }
+                catch (Exception)
+                {
+                }
         }
     }
 }

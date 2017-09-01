@@ -4,14 +4,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Basic
 {
     public class BasicTimeMessage : NetworkMessage
     {
-        public const uint ProtocolId = 175;
-
-        public double Timestamp;
-        public short TimezoneOffset;
-
-        public BasicTimeMessage()
-        {
-        }
+        public const ushort ProtocolId = 175;
 
         public BasicTimeMessage(double timestamp, short timezoneOffset)
         {
@@ -19,7 +12,13 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Basic
             TimezoneOffset = timezoneOffset;
         }
 
-        public override uint MessageID => ProtocolId;
+        public BasicTimeMessage()
+        {
+        }
+
+        public override ushort MessageID => ProtocolId;
+        public double Timestamp { get; set; }
+        public short TimezoneOffset { get; set; }
 
         public override void Serialize(IDataWriter writer)
         {

@@ -11,10 +11,10 @@ namespace Cookie.API.Messages
 {
     public class MessageReceiver : IMessageBuilder
     {
-        private readonly Dictionary<uint, Func<NetworkMessage>> _constructors =
-            new Dictionary<uint, Func<NetworkMessage>>(800);
+        private readonly Dictionary<ushort, Func<NetworkMessage>> _constructors =
+            new Dictionary<ushort, Func<NetworkMessage>>(800);
 
-        private readonly Dictionary<uint, Type> _messages = new Dictionary<uint, Type>(800);
+        private readonly Dictionary<ushort, Type> _messages = new Dictionary<ushort, Type>(800);
 
         #region IMessageBuilder Members
 
@@ -23,7 +23,7 @@ namespace Cookie.API.Messages
         /// </summary>
         /// <param name="id">id.</param>
         /// <returns></returns>
-        public NetworkMessage BuildMessage(uint id, IDataReader reader)
+        public NetworkMessage BuildMessage(ushort id, IDataReader reader)
         {
             if (!_messages.ContainsKey(id))
                 throw new MessageNotFoundException($"NetworkMessage <id:{id}> doesn't exist");
@@ -55,7 +55,7 @@ namespace Cookie.API.Messages
                 var fieldId = type.GetField("ProtocolId");
 
                 if (fieldId == null) continue;
-                var id = (uint) fieldId.GetValue(type);
+                var id = (ushort) fieldId.GetValue(type);
                 if (_messages.ContainsKey(id))
                     throw new AmbiguousMatchException(
                         $"MessageReceiver() => {id} item is already in the dictionary, old type is : {_messages[id]}, new type is  {type}");
@@ -72,7 +72,7 @@ namespace Cookie.API.Messages
             }
         }
 
-        public Type GetMessageType(uint id)
+        public Type GetMessageType(ushort id)
         {
             if (!_messages.ContainsKey(id))
                 throw new MessageNotFoundException($"NetworkMessage <id:{id}> doesn't exist");

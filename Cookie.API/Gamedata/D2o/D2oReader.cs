@@ -355,7 +355,7 @@ namespace Cookie.API.Gamedata.D2o
             if (!IsTypeDefined(typeof(T)))
                 throw new Exception("The file doesn't contain this class"); // Serious error, exception always thrown
 
-            if (!Indexes.TryGetValue(index, out int offset))
+            if (!Indexes.TryGetValue(index, out var offset))
             {
                 if (noExceptionThrown) return null;
                 throw new Exception(string.Format("Can't find Index {0} in {1}", index, FileName));

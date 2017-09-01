@@ -453,7 +453,7 @@ namespace Cookie.Game.Fight
         private void HandleSequenceEndMessage(IAccount account, SequenceEndMessage message)
         {
             if (message.AuthorId != account.Character.Id) return;
-            account.Network.SendToServer(new GameActionAcknowledgementMessage(true, (byte) message.ActionId));
+            account.Network.SendToServer(new GameActionAcknowledgementMessage(true, (sbyte) message.ActionId));
         }
 
         #endregion Handle

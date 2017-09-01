@@ -126,7 +126,7 @@ namespace Cookie.API.Network
             var messageDataReader = new BigEndianReader(_currentMessage.Data);
             if (_currentMessage.MessageId != null)
             {
-                var message = MessageBuilder.BuildMessage((uint) _currentMessage.MessageId.Value, messageDataReader);
+                var message = MessageBuilder.BuildMessage((ushort) _currentMessage.MessageId.Value, messageDataReader);
 
                 LastActivity = DateTime.Now;
                 OnMessageReceived(message);

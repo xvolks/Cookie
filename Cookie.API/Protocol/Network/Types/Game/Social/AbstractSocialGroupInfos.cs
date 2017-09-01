@@ -4,18 +4,16 @@ namespace Cookie.API.Protocol.Network.Types.Game.Social
 {
     public class AbstractSocialGroupInfos : NetworkType
     {
-        public const short ProtocolId = 416;
+        public const ushort ProtocolId = 416;
 
-        public override short TypeID => ProtocolId;
+        public override ushort TypeID => ProtocolId;
 
         public override void Serialize(IDataWriter writer)
         {
-            //
         }
 
         public override void Deserialize(IDataReader reader)
         {
-            //
         }
     }
 }

@@ -15,6 +15,7 @@ using Cookie.API.Utils;
 using Cookie.API.Utils.Enums;
 using Cookie.Commands.Managers;
 using Cookie.FullSocket;
+using Cookie.Game.Chat;
 using Cookie.Properties;
 using Cookie.Utils.Configurations;
 using MoonSharp.Interpreter;
@@ -25,9 +26,9 @@ namespace Cookie
     {
         private IAccount _account;
 
-        private FullSocket.FullSocket _fullSocket;
+        private readonly History _chatHistory = new History();
 
-        private Cookie.Game.Chat.History _chatHistory = new Cookie.Game.Chat.History();
+        private FullSocket.FullSocket _fullSocket;
 
         public MainForm()
         {
@@ -97,11 +98,14 @@ namespace Cookie
         private void LogWelcomeMessage()
         {
             Logger.Default.Log("===============================", LogMessageType.Help);
-            Logger.Default.Log("||                                                                              ||", LogMessageType.Help);
+            Logger.Default.Log("||                                                                              ||",
+                LogMessageType.Help);
             Logger.Default.Log("||    Type '.help' to see all available commands !     ||", LogMessageType.Help);
-            Logger.Default.Log("||                                                                              ||", LogMessageType.Help);
+            Logger.Default.Log("||                                                                              ||",
+                LogMessageType.Help);
             Logger.Default.Log("===============================", LogMessageType.Help);
         }
+
         private void Logger_OnLog(string log, LogMessageType logType)
         {
             Console.WriteLine(log);
@@ -258,70 +262,64 @@ namespace Cookie
 
                 if (ChatTextBox.Text.Length < 2)
                 {
-                    _account.Network.SendToServer(new ChatClientMultiMessage(
-                        (byte) ChatChannelsMultiEnum.CHANNEL_GLOBAL,
-                        ChatTextBox.Text));
+                    var ccmm = new ChatClientMultiMessage
+                    {
+                        Channel = (byte) ChatChannelsMultiEnum.CHANNEL_GLOBAL,
+                        Content = ChatTextBox.Text
+                    };
+
+                    _account.Network.SendToServer(ccmm);
                 }
                 else
                 {
                     var txt = ChatTextBox.Text.Substring(0, 2);
                     var chattxt = ChatTextBox.Text.Replace(txt, "");
+
+                    var ccmm = new ChatClientMultiMessage
+                    {
+                        Channel = (byte) ChatChannelsMultiEnum.CHANNEL_GLOBAL,
+                        Content = chattxt
+                    };
+
                     switch (txt)
                     {
                         case "/g":
                             if (string.IsNullOrWhiteSpace(chattxt))
-                                _account.Network.SendToServer(new ChatClientMultiMessage(
-                                    (byte) ChatChannelsMultiEnum.CHANNEL_GUILD,
-                                    chattxt));
+                                ccmm.Channel = (byte) ChatChannelsMultiEnum.CHANNEL_GUILD;
                             break;
                         case "/s":
                             if (string.IsNullOrWhiteSpace(chattxt))
-                                _account.Network.SendToServer(new ChatClientMultiMessage(
-                                    (byte) ChatChannelsMultiEnum.CHANNEL_GLOBAL,
-                                    chattxt));
+                                ccmm.Channel = (byte) ChatChannelsMultiEnum.CHANNEL_GLOBAL;
                             break;
                         case "/t":
                             if (string.IsNullOrWhiteSpace(chattxt))
-                                _account.Network.SendToServer(new ChatClientMultiMessage(
-                                    (byte) ChatChannelsMultiEnum.CHANNEL_TEAM,
-                                    chattxt));
+                                ccmm.Channel = (byte) ChatChannelsMultiEnum.CHANNEL_TEAM;
                             break;
                         case "/a":
                             if (string.IsNullOrWhiteSpace(chattxt))
-                                _account.Network.SendToServer(new ChatClientMultiMessage(
-                                    (byte) ChatChannelsMultiEnum.CHANNEL_ALLIANCE,
-                                    chattxt));
+                                ccmm.Channel = (byte) ChatChannelsMultiEnum.CHANNEL_ALLIANCE;
                             break;
                         case "/p":
                             if (string.IsNullOrWhiteSpace(chattxt))
-                                _account.Network.SendToServer(new ChatClientMultiMessage(
-                                    (byte) ChatChannelsMultiEnum.CHANNEL_PARTY,
-                                    chattxt));
+                                ccmm.Channel = (byte) ChatChannelsMultiEnum.CHANNEL_PARTY;
                             break;
                         case "/k":
                             if (string.IsNullOrWhiteSpace(chattxt))
-                                _account.Network.SendToServer(new ChatClientMultiMessage(
-                                    (byte) ChatChannelsMultiEnum.CHANNEL_ARENA,
-                                    chattxt));
+                                ccmm.Channel = (byte) ChatChannelsMultiEnum.CHANNEL_ARENA;
                             break;
                         case "/b":
                             if (string.IsNullOrWhiteSpace(chattxt))
-                                _account.Network.SendToServer(new ChatClientMultiMessage(
-                                    (byte) ChatChannelsMultiEnum.CHANNEL_SALES,
-                                    chattxt));
+                                ccmm.Channel = (byte) ChatChannelsMultiEnum.CHANNEL_SALES;
                             break;
                         case "/r":
                             if (string.IsNullOrWhiteSpace(chattxt))
-                                _account.Network.SendToServer(new ChatClientMultiMessage(
-                                    (byte) ChatChannelsMultiEnum.CHANNEL_SEEK,
-                                    chattxt));
+                                ccmm.Channel = (byte) ChatChannelsMultiEnum.CHANNEL_SEEK;
                             break;
                         default:
-                            _account.Network.SendToServer(new ChatClientMultiMessage(
-                                (byte) ChatChannelsMultiEnum.CHANNEL_GLOBAL,
-                                ChatTextBox.Text));
+                            ccmm.Channel = (byte) ChatChannelsMultiEnum.CHANNEL_GLOBAL;
                             break;
                     }
+                    _account.Network.SendToServer(ccmm);
                     ChatTextBox.BeginInvoke(new Action(() => ChatTextBox.Text = ""));
                 }
             }

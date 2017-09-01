@@ -4,19 +4,18 @@ namespace Cookie.API.Protocol.Network.Types.Game.Character
 {
     public class CharacterMinimalPlusLookAndGradeInformations : CharacterMinimalPlusLookInformations
     {
-        public new const short ProtocolId = 193;
-
-        public CharacterMinimalPlusLookAndGradeInformations()
-        {
-        }
+        public new const ushort ProtocolId = 193;
 
         public CharacterMinimalPlusLookAndGradeInformations(uint grade)
         {
             Grade = grade;
         }
 
-        public override short TypeID => ProtocolId;
+        public CharacterMinimalPlusLookAndGradeInformations()
+        {
+        }
 
+        public override ushort TypeID => ProtocolId;
         public uint Grade { get; set; }
 
         public override void Serialize(IDataWriter writer)

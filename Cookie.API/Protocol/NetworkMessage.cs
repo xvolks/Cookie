@@ -7,7 +7,7 @@ namespace Cookie.API.Protocol
 {
     public abstract class NetworkMessage : Message
     {
-        public abstract uint MessageID { get; }
+        public abstract ushort MessageID { get; }
 
         public ListenerEntry Destinations { get; set; }
 

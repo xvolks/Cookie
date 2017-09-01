@@ -4,18 +4,16 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context
 {
     public class GameContextCreateRequestMessage : NetworkMessage
     {
-        public const uint ProtocolId = 250;
+        public const ushort ProtocolId = 250;
 
-        public override uint MessageID => ProtocolId;
+        public override ushort MessageID => ProtocolId;
 
         public override void Serialize(IDataWriter writer)
         {
-            //
         }
 
         public override void Deserialize(IDataReader reader)
         {
-            //
         }
     }
 }

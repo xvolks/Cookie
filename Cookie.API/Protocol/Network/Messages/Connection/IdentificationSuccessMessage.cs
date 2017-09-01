@@ -4,48 +4,47 @@ namespace Cookie.API.Protocol.Network.Messages.Connection
 {
     public class IdentificationSuccessMessage : NetworkMessage
     {
-        public const uint ProtocolId = 22;
-        public double AccountCreation;
-        public int AccountId;
-        public byte CommunityId;
-        public bool HasRights;
-        public uint HavenbagAvailableRoom;
+        public const ushort ProtocolId = 22;
 
-        public string Login;
-        public string Nickname;
-        public string SecretQuestion;
-        public double SubscriptionElapsedDuration;
-        public double SubscriptionEndDate;
-        public bool WasAlreadyConnected;
+        public IdentificationSuccessMessage(bool hasRights, bool wasAlreadyConnected, string login, string nickname,
+            int accountId, byte communityId, string secretQuestion, double accountCreation,
+            double subscriptionElapsedDuration, double subscriptionEndDate, byte havenbagAvailableRoom)
+        {
+            HasRights = hasRights;
+            WasAlreadyConnected = wasAlreadyConnected;
+            Login = login;
+            Nickname = nickname;
+            AccountId = accountId;
+            CommunityId = communityId;
+            SecretQuestion = secretQuestion;
+            AccountCreation = accountCreation;
+            SubscriptionElapsedDuration = subscriptionElapsedDuration;
+            SubscriptionEndDate = subscriptionEndDate;
+            HavenbagAvailableRoom = havenbagAvailableRoom;
+        }
 
         public IdentificationSuccessMessage()
         {
         }
 
-        public IdentificationSuccessMessage(string login, string nickname, int accountId, byte communityId,
-            bool hasRights, string secretQuestion, double accountCreation, double subscriptionElapsedDuration,
-            double subscriptionEndDate, bool wasAlreadyConnected, uint havenbagAvailableRoom)
-        {
-            Login = login;
-            Nickname = nickname;
-            AccountId = accountId;
-            CommunityId = communityId;
-            HasRights = hasRights;
-            SecretQuestion = secretQuestion;
-            AccountCreation = accountCreation;
-            SubscriptionElapsedDuration = subscriptionElapsedDuration;
-            SubscriptionEndDate = subscriptionEndDate;
-            WasAlreadyConnected = wasAlreadyConnected;
-            HavenbagAvailableRoom = havenbagAvailableRoom;
-        }
-
-        public override uint MessageID => ProtocolId;
+        public override ushort MessageID => ProtocolId;
+        public bool HasRights { get; set; }
+        public bool WasAlreadyConnected { get; set; }
+        public string Login { get; set; }
+        public string Nickname { get; set; }
+        public int AccountId { get; set; }
+        public byte CommunityId { get; set; }
+        public string SecretQuestion { get; set; }
+        public double AccountCreation { get; set; }
+        public double SubscriptionElapsedDuration { get; set; }
+        public double SubscriptionEndDate { get; set; }
+        public byte HavenbagAvailableRoom { get; set; }
 
         public override void Serialize(IDataWriter writer)
         {
             var flag = new byte();
-            BooleanByteWrapper.SetFlag(0, flag, HasRights);
-            BooleanByteWrapper.SetFlag(1, flag, WasAlreadyConnected);
+            flag = BooleanByteWrapper.SetFlag(0, flag, HasRights);
+            flag = BooleanByteWrapper.SetFlag(1, flag, WasAlreadyConnected);
             writer.WriteByte(flag);
             writer.WriteUTF(Login);
             writer.WriteUTF(Nickname);
@@ -55,6 +54,7 @@ namespace Cookie.API.Protocol.Network.Messages.Connection
             writer.WriteDouble(AccountCreation);
             writer.WriteDouble(SubscriptionElapsedDuration);
             writer.WriteDouble(SubscriptionEndDate);
+            writer.WriteByte(HavenbagAvailableRoom);
         }
 
         public override void Deserialize(IDataReader reader)
@@ -70,6 +70,7 @@ namespace Cookie.API.Protocol.Network.Messages.Connection
             AccountCreation = reader.ReadDouble();
             SubscriptionElapsedDuration = reader.ReadDouble();
             SubscriptionEndDate = reader.ReadDouble();
+            HavenbagAvailableRoom = reader.ReadByte();
         }
     }
 }

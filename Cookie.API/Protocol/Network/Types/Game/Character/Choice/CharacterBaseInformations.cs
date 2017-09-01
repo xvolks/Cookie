@@ -4,11 +4,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Character.Choice
 {
     public class CharacterBaseInformations : CharacterMinimalPlusLookInformations
     {
-        public new const short ProtocolId = 45;
-
-        public CharacterBaseInformations()
-        {
-        }
+        public new const ushort ProtocolId = 45;
 
         public CharacterBaseInformations(sbyte breed, bool sex)
         {
@@ -16,8 +12,11 @@ namespace Cookie.API.Protocol.Network.Types.Game.Character.Choice
             Sex = sex;
         }
 
-        public override short TypeID => ProtocolId;
+        public CharacterBaseInformations()
+        {
+        }
 
+        public override ushort TypeID => ProtocolId;
         public sbyte Breed { get; set; }
         public bool Sex { get; set; }
 

@@ -1,41 +1,41 @@
-﻿using Cookie.API.Utils.IO;
+﻿using System.Collections.Generic;
+using Cookie.API.Utils.IO;
 
 namespace Cookie.API.Protocol.Network.Messages.Connection
 {
     public class HelloConnectMessage : NetworkMessage
     {
-        public const uint ProtocolId = 3;
-        public sbyte[] Key;
+        public const ushort ProtocolId = 3;
 
-        public string Salt;
-
-        public HelloConnectMessage()
-        {
-        }
-
-        public HelloConnectMessage(string salt, sbyte[] key)
+        public HelloConnectMessage(string salt, List<sbyte> key)
         {
             Salt = salt;
             Key = key;
         }
 
-        public override uint MessageID => ProtocolId;
+        public HelloConnectMessage()
+        {
+        }
+
+        public override ushort MessageID => ProtocolId;
+        public string Salt { get; set; }
+        public List<sbyte> Key { get; set; }
 
         public override void Serialize(IDataWriter writer)
         {
             writer.WriteUTF(Salt);
-            writer.WriteVarInt((ushort) Key.Length);
-            foreach (var @byte in Key)
-                writer.WriteSByte(@byte);
+            writer.WriteVarInt(Key.Count);
+            for (var keyIndex = 0; keyIndex < Key.Count; keyIndex++)
+                writer.WriteSByte(Key[keyIndex]);
         }
 
         public override void Deserialize(IDataReader reader)
         {
             Salt = reader.ReadUTF();
-            var num = (ushort) reader.ReadVarInt();
-            Key = new sbyte[num];
-            for (var index = 0; index < num; ++index)
-                Key[index] = reader.ReadSByte();
+            var keyCount = reader.ReadVarInt();
+            Key = new List<sbyte>();
+            for (var keyIndex = 0; keyIndex < keyCount; keyIndex++)
+                Key.Add(reader.ReadSByte());
         }
     }
 }
