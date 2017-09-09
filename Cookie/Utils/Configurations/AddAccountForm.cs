@@ -28,7 +28,8 @@ namespace Cookie.Utils.Configurations
 
         private void CloseButton_Click(object sender, EventArgs e)
         {
-            Environment.Exit(0);
+            DialogResult = DialogResult.Cancel;
+            Close();
         }
     }
 }
