@@ -166,6 +166,15 @@ namespace Cookie.FullSocket
                             msg.Ticket)));
                 fs.Account.Ticket = ticket;
             }
+            if (message is SelectedServerRefusedMessage ssrm)
+            {
+                var msg = ssrm;
+
+                Logger.Default.Log("Impossible de se connecter au serveur " + D2OParsing.GetServerName(msg.ServerId) + " status " + msg.ServerStatus.ToString() + " erreur " + msg.Error.ToString());
+
+                fs.Disconnect();
+            }
+
             if (fs.Account.Network == null)
                 throw new NullReferenceException("fs.Bot");
             fs.Account.Network.Dispatcher.Enqueue(message, fs.Account);
