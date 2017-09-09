@@ -100,6 +100,7 @@ namespace Cookie.FullSocket
         private void OnAuthClientDisconnected(Client client)
         {
             var fs = client as ConnectionFullSocket;
+            Logger.Default.Log("Déconnecté.");
             fs.Account.Network.AddMessage(() =>
             {
                 if (fs.Account.Network.ExpectedDisconnection)

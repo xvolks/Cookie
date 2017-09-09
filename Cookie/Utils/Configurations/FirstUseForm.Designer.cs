@@ -30,11 +30,11 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FirstUseForm));
             this.bForm1 = new Cookie.Design.BForm();
+            this.CloseButton = new Cookie.Design.BButton();
             this.btnConfirm = new Cookie.Design.BButton();
             this.btnChoosePath = new Cookie.Design.BButton();
             this.txtPath = new Cookie.Design.BTextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.CloseButton = new Cookie.Design.BButton();
             this.bForm1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -54,6 +54,19 @@
             this.bForm1.Size = new System.Drawing.Size(433, 130);
             this.bForm1.TabIndex = 0;
             this.bForm1.Text = "Cookie - Première utilisation";
+            // 
+            // CloseButton
+            // 
+            this.CloseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.CloseButton.DisplayImage = global::Cookie.Properties.Resources.cross_remove_sign;
+            this.CloseButton.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.CloseButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.CloseButton.Location = new System.Drawing.Point(399, 3);
+            this.CloseButton.Name = "CloseButton";
+            this.CloseButton.Size = new System.Drawing.Size(22, 23);
+            this.CloseButton.TabIndex = 11;
+            this.CloseButton.UseVisualStyleBackColor = true;
+            this.CloseButton.Click += new System.EventHandler(this.CloseButton_Click);
             // 
             // btnConfirm
             // 
@@ -87,6 +100,7 @@
             this.txtPath.MultiLine = false;
             this.txtPath.Name = "txtPath";
             this.txtPath.ReadOnly = false;
+            this.txtPath.SelectionStart = 0;
             this.txtPath.Size = new System.Drawing.Size(273, 22);
             this.txtPath.TabIndex = 8;
             this.txtPath.UseSystemPasswordChar = false;
@@ -97,22 +111,9 @@
             this.label1.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(12, 49);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(91, 16);
+            this.label1.Size = new System.Drawing.Size(95, 16);
             this.label1.TabIndex = 4;
-            this.label1.Text = "Dossier Dofus:";
-            // 
-            // CloseButton
-            // 
-            this.CloseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.CloseButton.DisplayImage = global::Cookie.Properties.Resources.cross_remove_sign;
-            this.CloseButton.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.CloseButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
-            this.CloseButton.Location = new System.Drawing.Point(399, 3);
-            this.CloseButton.Name = "CloseButton";
-            this.CloseButton.Size = new System.Drawing.Size(22, 23);
-            this.CloseButton.TabIndex = 11;
-            this.CloseButton.UseVisualStyleBackColor = true;
-            this.CloseButton.Click += new System.EventHandler(this.CloseButton_Click);
+            this.label1.Text = "Dossier Dofus :";
             // 
             // FirstUseForm
             // 

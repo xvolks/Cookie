@@ -54,6 +54,12 @@ namespace Cookie.Utils.Configurations
             SaveConfiguration();
         }
 
+        public void removeAccount(int index)
+        {
+            Accounts.RemoveAt(index);
+            SaveConfiguration();
+        }
+
         private void SaveConfiguration()
         {
             if (!_initialized)
