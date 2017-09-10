@@ -42,12 +42,12 @@
             this.columnHeaderId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.mapControl = new DofusMapControl.MapControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.TabPlugin = new Cookie.Design.BTabControl();
             this.MinimizeButton = new Cookie.Design.BButton();
             this.MaximizeButton = new Cookie.Design.BButton();
             this.CloseButton = new Cookie.Design.BButton();
-            this.mapControl = new DofusMapControl.MapControl();
             this.bForm1.SuspendLayout();
             this.bTabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -143,7 +143,6 @@
             this.ChatTextBox.MultiLine = false;
             this.ChatTextBox.Name = "ChatTextBox";
             this.ChatTextBox.ReadOnly = false;
-            this.ChatTextBox.SelectionStart = 0;
             this.ChatTextBox.Size = new System.Drawing.Size(895, 25);
             this.ChatTextBox.TabIndex = 5;
             this.ChatTextBox.UseSystemPasswordChar = false;
@@ -211,6 +210,27 @@
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Map";
             // 
+            // mapControl
+            // 
+            this.mapControl.ActiveCellColor = System.Drawing.Color.Transparent;
+            this.mapControl.BorderColorOnOver = System.Drawing.Color.Empty;
+            this.mapControl.CommonCellHeight = 43D;
+            this.mapControl.CommonCellWidth = 86D;
+            this.mapControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mapControl.DrawMode = ((DofusMapControl.DrawMode)((((DofusMapControl.DrawMode.Movements | DofusMapControl.DrawMode.Fights) 
+            | DofusMapControl.DrawMode.Triggers) 
+            | DofusMapControl.DrawMode.Others)));
+            this.mapControl.InactiveCellColor = System.Drawing.Color.DarkGray;
+            this.mapControl.LesserQuality = false;
+            this.mapControl.Location = new System.Drawing.Point(3, 3);
+            this.mapControl.MapHeight = 20;
+            this.mapControl.MapWidth = 14;
+            this.mapControl.Name = "mapControl";
+            this.mapControl.Size = new System.Drawing.Size(901, 568);
+            this.mapControl.TabIndex = 0;
+            this.mapControl.TraceOnOver = false;
+            this.mapControl.ViewGrid = true;
+            // 
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
@@ -276,27 +296,6 @@
             this.CloseButton.TabIndex = 7;
             this.CloseButton.UseVisualStyleBackColor = true;
             this.CloseButton.Click += new System.EventHandler(this.CloseButton_Click);
-            // 
-            // mapControl
-            // 
-            this.mapControl.ActiveCellColor = System.Drawing.Color.Transparent;
-            this.mapControl.BorderColorOnOver = System.Drawing.Color.Empty;
-            this.mapControl.CommonCellHeight = 43D;
-            this.mapControl.CommonCellWidth = 86D;
-            this.mapControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mapControl.DrawMode = ((DofusMapControl.DrawMode)((((DofusMapControl.DrawMode.Movements | DofusMapControl.DrawMode.Fights) 
-            | DofusMapControl.DrawMode.Triggers) 
-            | DofusMapControl.DrawMode.Others)));
-            this.mapControl.InactiveCellColor = System.Drawing.Color.DarkGray;
-            this.mapControl.LesserQuality = false;
-            this.mapControl.Location = new System.Drawing.Point(3, 3);
-            this.mapControl.MapHeight = 20;
-            this.mapControl.MapWidth = 14;
-            this.mapControl.Name = "mapControl";
-            this.mapControl.Size = new System.Drawing.Size(901, 568);
-            this.mapControl.TabIndex = 0;
-            this.mapControl.TraceOnOver = false;
-            this.mapControl.ViewGrid = true;
             // 
             // MainForm
             // 
