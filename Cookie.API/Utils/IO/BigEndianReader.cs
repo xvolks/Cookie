@@ -5,45 +5,45 @@ using Cookie.API.Utils.IO.Types;
 
 namespace Cookie.API.Utils.IO
 {
-    public class BigEndianReader : IDisposable, IDataReader
+    public class BigEndianReader : IDataReader
     {
-        private static readonly int INT_SIZE = 32;
+        private const int IntSize = 32;
 
-        private static readonly int SHORT_SIZE = 16;
+        private const int ShortSize = 16;
 
-        private static readonly int SHORT_MAX_VALUE = 32767;
+        private const int ShortMaxValue = 32767;
 
-        private static readonly int UNSIGNED_SHORT_MAX_VALUE = 65536;
+        private const int UnsignedShortMaxValue = 65536;
 
-        private static readonly int CHUNCK_BIT_SIZE = 7;
+        private const int ChunckBitSize = 7;
 
-        private static int MAX_ENCODING_LENGTH = (int) Math.Ceiling((double) INT_SIZE / CHUNCK_BIT_SIZE);
+        private static int _maxEncodingLength = (int) Math.Ceiling((double) IntSize / ChunckBitSize);
 
-        private static readonly int MASK_10000000 = 128;
+        private const int Mask10000000 = 128;
 
-        private static readonly int MASK_01111111 = 127;
-        private BinaryReader m_reader;
+        private const int Mask01111111 = 127;
+        private BinaryReader _mReader;
 
         public BigEndianReader()
         {
-            m_reader = new BinaryReader(new MemoryStream(), Encoding.UTF8);
+            _mReader = new BinaryReader(new MemoryStream(), Encoding.UTF8);
         }
 
         public BigEndianReader(Stream stream)
         {
-            m_reader = new BinaryReader(stream, Encoding.UTF8);
+            _mReader = new BinaryReader(stream, Encoding.UTF8);
         }
 
         public BigEndianReader(byte[] tab)
         {
-            m_reader = new BinaryReader(new MemoryStream(tab), Encoding.UTF8);
+            _mReader = new BinaryReader(new MemoryStream(tab), Encoding.UTF8);
         }
 
-        public Stream BaseStream => m_reader.BaseStream;
+        public Stream BaseStream => _mReader.BaseStream;
 
-        public long BytesAvailable => (int) (m_reader.BaseStream.Length - m_reader.BaseStream.Position);
+        public long BytesAvailable => (int) (_mReader.BaseStream.Length - _mReader.BaseStream.Position);
 
-        public long Position => (int) m_reader.BaseStream.Position;
+        public long Position => (int) _mReader.BaseStream.Position;
 
         public byte[] Data
         {
@@ -98,22 +98,22 @@ namespace Cookie.API.Utils.IO
 
         public byte ReadByte()
         {
-            return m_reader.ReadByte();
+            return _mReader.ReadByte();
         }
 
         public sbyte ReadSByte()
         {
-            return m_reader.ReadSByte();
+            return _mReader.ReadSByte();
         }
 
         public byte[] ReadBytes(int n)
         {
-            return m_reader.ReadBytes(n);
+            return _mReader.ReadBytes(n);
         }
 
         public bool ReadBoolean()
         {
-            return m_reader.ReadByte() == 1;
+            return _mReader.ReadByte() == 1;
         }
 
         public char ReadChar()
@@ -142,29 +142,27 @@ namespace Cookie.API.Utils.IO
         public void SkipBytes(int n)
         {
             for (var i = 0; i < n; i++)
-                m_reader.ReadByte();
+                _mReader.ReadByte();
         }
 
         public void Seek(int offset, SeekOrigin seekOrigin = SeekOrigin.Begin)
         {
-            m_reader.BaseStream.Seek(offset, seekOrigin);
+            _mReader.BaseStream.Seek(offset, seekOrigin);
         }
 
         public int ReadVarInt()
         {
-            var b = 0;
             var value = 0;
             var offset = 0;
-            var hasNext = false;
-            while (offset < INT_SIZE)
+            while (offset < IntSize)
             {
-                b = ReadByte();
-                hasNext = (b & MASK_10000000) == MASK_10000000;
+                int b = ReadByte();
+                var hasNext = (b & Mask10000000) == Mask10000000;
                 if (offset > 0)
-                    value = value + ((b & MASK_01111111) << offset);
+                    value = value + ((b & Mask01111111) << offset);
                 else
-                    value = value + (b & MASK_01111111);
-                offset = offset + CHUNCK_BIT_SIZE;
+                    value = value + (b & Mask01111111);
+                offset = offset + ChunckBitSize;
                 if (!hasNext)
                     return value;
             }
@@ -173,19 +171,17 @@ namespace Cookie.API.Utils.IO
 
         public uint ReadVarUhInt()
         {
-            var b = 0;
             uint value = 0;
             var offset = 0;
-            var hasNext = false;
-            while (offset < INT_SIZE)
+            while (offset < IntSize)
             {
-                b = ReadByte();
-                hasNext = (b & MASK_10000000) == MASK_10000000;
+                int b = ReadByte();
+                var hasNext = (b & Mask10000000) == Mask10000000;
                 if (offset > 0)
-                    value = (uint) (value + ((b & MASK_01111111) << offset));
+                    value = (uint) (value + ((b & Mask01111111) << offset));
                 else
-                    value = (uint) (value + (b & MASK_01111111));
-                offset = offset + CHUNCK_BIT_SIZE;
+                    value = (uint) (value + (b & Mask01111111));
+                offset = offset + ChunckBitSize;
                 if (!hasNext)
                     return value;
             }
@@ -194,68 +190,60 @@ namespace Cookie.API.Utils.IO
 
         public short ReadVarShort()
         {
-            var b = 0;
             short value = 0;
             var offset = 0;
-            var hasNext = false;
-            while (offset < SHORT_SIZE)
+            while (offset < ShortSize)
             {
-                b = ReadByte();
-                hasNext = (b & MASK_10000000) == MASK_10000000;
+                int b = ReadByte();
+                var hasNext = (b & Mask10000000) == Mask10000000;
                 if (offset > 0)
-                    value = (short) (value + ((b & MASK_01111111) << offset));
+                    value = (short) (value + ((b & Mask01111111) << offset));
                 else
-                    value = (short) (value + (b & MASK_01111111));
-                offset = offset + CHUNCK_BIT_SIZE;
-                if (!hasNext)
-                {
-                    if (value > SHORT_MAX_VALUE)
-                        value = (short) (value - UNSIGNED_SHORT_MAX_VALUE);
-                    return value;
-                }
+                    value = (short) (value + (b & Mask01111111));
+                offset = offset + ChunckBitSize;
+                if (hasNext) continue;
+                if (value > ShortMaxValue)
+                    value = (short) (value - UnsignedShortMaxValue);
+                return value;
             }
             throw new Exception("Too much data");
         }
 
         public ushort ReadVarUhShort()
         {
-            var b = 0;
             ushort value = 0;
             var offset = 0;
-            var hasNext = false;
-            while (offset < SHORT_SIZE)
+            while (offset < ShortSize)
             {
-                b = ReadByte();
-                hasNext = (b & MASK_10000000) == MASK_10000000;
+                int b = ReadByte();
+                var hasNext = (b & Mask10000000) == Mask10000000;
                 if (offset > 0)
-                    value = (ushort) (value + ((b & MASK_01111111) << offset));
+                    value = (ushort) (value + ((b & Mask01111111) << offset));
                 else
-                    value = (ushort) (value + (b & MASK_01111111));
-                offset = offset + CHUNCK_BIT_SIZE;
-                if (!hasNext)
-                {
-                    if (value > SHORT_MAX_VALUE)
-                        value = (ushort) (value - UNSIGNED_SHORT_MAX_VALUE);
-                    return value;
-                }
+                    value = (ushort) (value + (b & Mask01111111));
+                offset = offset + ChunckBitSize;
+                if (hasNext) continue;
+                if (value > ShortMaxValue)
+                    value = (ushort) (value - UnsignedShortMaxValue);
+                return value;
             }
             throw new Exception("Too much data");
         }
 
         public long ReadVarLong()
         {
-            return readInt64().toNumber();
+            return ReadInt64().toNumber();
         }
 
         public ulong ReadVarUhLong()
         {
-            return readUInt64().toNumber();
+            return ReadUInt64().toNumber();
         }
 
         public void Dispose()
         {
-            m_reader.Dispose();
-            m_reader = null;
+            _mReader.Dispose();
+            _mReader = null;
         }
 
         private byte[] ReadBigEndianBytes(int count)
@@ -268,7 +256,7 @@ namespace Cookie.API.Utils.IO
 
         public BigEndianReader ReadBytesInNewBigEndianReader(int n)
         {
-            return new BigEndianReader(m_reader.ReadBytes(n));
+            return new BigEndianReader(_mReader.ReadBytes(n));
         }
 
         public float ReadSingle()
@@ -276,7 +264,7 @@ namespace Cookie.API.Utils.IO
             return BitConverter.ToSingle(ReadBigEndianBytes(4), 0);
         }
 
-        public string ReadUTF7BitLength()
+        public string ReadUtf7BitLength()
         {
             var n = ReadInt();
             var bytes = ReadBytes(n);
@@ -285,15 +273,15 @@ namespace Cookie.API.Utils.IO
 
         public void Add(byte[] data, int offset, int count)
         {
-            var position = m_reader.BaseStream.Position;
-            m_reader.BaseStream.Position = m_reader.BaseStream.Length;
-            m_reader.BaseStream.Write(data, offset, count);
-            m_reader.BaseStream.Position = position;
+            var position = _mReader.BaseStream.Position;
+            _mReader.BaseStream.Position = _mReader.BaseStream.Length;
+            _mReader.BaseStream.Write(data, offset, count);
+            _mReader.BaseStream.Position = position;
         }
 
-        private CustomInt64 readInt64()
+        private CustomInt64 ReadInt64()
         {
-            uint b = 0;
+            uint b;
             var result = new CustomInt64();
             var i = 0;
             while (true)
@@ -336,9 +324,9 @@ namespace Cookie.API.Utils.IO
             return result;
         }
 
-        private CustomUInt64 readUInt64()
+        private CustomUInt64 ReadUInt64()
         {
-            uint b = 0;
+            uint b;
             var result = new CustomUInt64();
             var i = 0;
             while (true)

@@ -1513,7 +1513,8 @@ Public Class BListView
 
         Dim Selection As Integer = GetSelectedFromLocation(e.Location)
 
-        If Selection = -1 OrElse Not (e.Button = MouseButtons.Left OrElse e.Button = MouseButtons.Right) Then MyBase.OnMouseUp(e) : Return
+        If Selection = - 1 OrElse Not (e.Button = MouseButtons.Left OrElse e.Button = MouseButtons.Right) Then _
+            MyBase.OnMouseUp(e) : Return
 
         If Multiselect AndAlso My.Computer.Keyboard.CtrlKeyDown Then
 
@@ -1573,7 +1574,7 @@ Public Class BListView
 
                 Else
 
-                    If New Rectangle(1, 27 + I * 16, Width - 2, 16).Contains(Location) Then
+                    If New Rectangle(1, 27 + I*16, Width - 2, 16).Contains(Location) Then
                         Return I
                     End If
 
@@ -1583,6 +1584,6 @@ Public Class BListView
 
         End If
 
-        Return -1
+        Return - 1
     End Function
 End Class

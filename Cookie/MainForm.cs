@@ -24,9 +24,8 @@ namespace Cookie
 {
     public partial class MainForm : Form
     {
-        private IAccount _account;
-
         private readonly History _chatHistory = new History();
+        private IAccount _account;
 
         private FullSocket.FullSocket _fullSocket;
 

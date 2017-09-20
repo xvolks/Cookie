@@ -171,7 +171,8 @@ namespace Cookie.FullSocket
             {
                 var msg = ssrm;
 
-                Logger.Default.Log("Impossible de se connecter au serveur " + D2OParsing.GetServerName(msg.ServerId) + " status " + msg.ServerStatus.ToString() + " erreur " + msg.Error.ToString());
+                Logger.Default.Log("Impossible de se connecter au serveur " + D2OParsing.GetServerName(msg.ServerId) +
+                                   " status " + msg.ServerStatus + " erreur " + msg.Error);
 
                 fs.Disconnect();
             }
