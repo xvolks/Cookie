@@ -70,6 +70,7 @@ namespace Cookie.FullSocket
                 HandleIdentificationFailedBannedMessage, MessagePriority.VeryHigh);
             server.Account.Network.RegisterPacket<IdentificationFailedMessage>(HandleIdentificationFailedMessage,
                 MessagePriority.VeryHigh);
+            server.Account.Network.RegisterPacket<IdentificationFailedForBadVersionMessage>(HandleIdentificationFailedForBadVersionMessage, MessagePriority.VeryHigh);
             server.Account.Network.RegisterPacket<SelectedServerRefusedMessage>(HandleSelectedServerRefusedMessage,
                 MessagePriority.VeryHigh);
             server.Account.Network.RegisterPacket<LoginQueueStatusMessage>(HandleLoginQueueStatusMessage,
@@ -288,6 +289,12 @@ namespace Cookie.FullSocket
         private void HandleIdentificationFailedMessage(IAccount account, IdentificationFailedMessage message)
         {
             Logger.Default.Log($"Identification Fail -> {(IdentificationFailureReasonEnum) message.Reason}");
+        }
+
+        private void HandleIdentificationFailedForBadVersionMessage(IAccount account,
+            IdentificationFailedForBadVersionMessage message)
+        {
+            Logger.Default.Log($"Wrong Dofus version. -> {message.RequiredVersion}");
         }
 
         private void HandleLoginQueueStatusMessage(IAccount account, LoginQueueStatusMessage message)

@@ -47,5 +47,10 @@ namespace Cookie.API.Protocol.Network.Types.Version
             Patch = reader.ReadByte();
             BuildType = reader.ReadByte();
         }
+
+        public override string ToString()
+        {
+            return $"{Major}.{Minor}.{Release}.{Revision}.{Patch}.{BuildType}";
+        }
     }
 }
