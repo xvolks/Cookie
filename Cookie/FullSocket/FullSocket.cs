@@ -70,7 +70,8 @@ namespace Cookie.FullSocket
                 HandleIdentificationFailedBannedMessage, MessagePriority.VeryHigh);
             server.Account.Network.RegisterPacket<IdentificationFailedMessage>(HandleIdentificationFailedMessage,
                 MessagePriority.VeryHigh);
-            server.Account.Network.RegisterPacket<IdentificationFailedForBadVersionMessage>(HandleIdentificationFailedForBadVersionMessage, MessagePriority.VeryHigh);
+            server.Account.Network.RegisterPacket<IdentificationFailedForBadVersionMessage>(
+                HandleIdentificationFailedForBadVersionMessage, MessagePriority.VeryHigh);
             server.Account.Network.RegisterPacket<SelectedServerRefusedMessage>(HandleSelectedServerRefusedMessage,
                 MessagePriority.VeryHigh);
             server.Account.Network.RegisterPacket<LoginQueueStatusMessage>(HandleLoginQueueStatusMessage,

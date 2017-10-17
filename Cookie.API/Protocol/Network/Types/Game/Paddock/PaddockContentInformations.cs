@@ -7,7 +7,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Paddock
     {
         public new const ushort ProtocolId = 183;
 
-        public PaddockContentInformations(int paddockId, short worldX, short worldY, int mapId, ushort subAreaId,
+        public PaddockContentInformations(double paddockId, short worldX, short worldY, double mapId, ushort subAreaId,
             bool abandonned, List<MountInformationsForPaddock> mountsInformations)
         {
             PaddockId = paddockId;
@@ -24,10 +24,10 @@ namespace Cookie.API.Protocol.Network.Types.Game.Paddock
         }
 
         public override ushort TypeID => ProtocolId;
-        public int PaddockId { get; set; }
+        public double PaddockId { get; set; }
         public short WorldX { get; set; }
         public short WorldY { get; set; }
-        public int MapId { get; set; }
+        public double MapId { get; set; }
         public ushort SubAreaId { get; set; }
         public bool Abandonned { get; set; }
         public List<MountInformationsForPaddock> MountsInformations { get; set; }
@@ -35,10 +35,10 @@ namespace Cookie.API.Protocol.Network.Types.Game.Paddock
         public override void Serialize(IDataWriter writer)
         {
             base.Serialize(writer);
-            writer.WriteInt(PaddockId);
+            writer.WriteDouble(PaddockId);
             writer.WriteShort(WorldX);
             writer.WriteShort(WorldY);
-            writer.WriteInt(MapId);
+            writer.WriteDouble(MapId);
             writer.WriteVarUhShort(SubAreaId);
             writer.WriteBoolean(Abandonned);
             writer.WriteShort((short) MountsInformations.Count);
@@ -54,10 +54,10 @@ namespace Cookie.API.Protocol.Network.Types.Game.Paddock
         public override void Deserialize(IDataReader reader)
         {
             base.Deserialize(reader);
-            PaddockId = reader.ReadInt();
+            PaddockId = reader.ReadDouble();
             WorldX = reader.ReadShort();
             WorldY = reader.ReadShort();
-            MapId = reader.ReadInt();
+            MapId = reader.ReadDouble();
             SubAreaId = reader.ReadVarUhShort();
             Abandonned = reader.ReadBoolean();
             var mountsInformationsCount = reader.ReadUShort();

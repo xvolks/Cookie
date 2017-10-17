@@ -7,7 +7,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Interactive.Zaap
     {
         public const ushort ProtocolId = 5960;
 
-        public TeleportDestinationsListMessage(byte teleporterType, List<int> mapIds, List<ushort> subAreaIds,
+        public TeleportDestinationsListMessage(byte teleporterType, List<double> mapIds, List<ushort> subAreaIds,
             List<ushort> costs, List<byte> destTeleporterType)
         {
             TeleporterType = teleporterType;
@@ -23,7 +23,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Interactive.Zaap
 
         public override ushort MessageID => ProtocolId;
         public byte TeleporterType { get; set; }
-        public List<int> MapIds { get; set; }
+        public List<double> MapIds { get; set; }
         public List<ushort> SubAreaIds { get; set; }
         public List<ushort> Costs { get; set; }
         public List<byte> DestTeleporterType { get; set; }
@@ -33,7 +33,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Interactive.Zaap
             writer.WriteByte(TeleporterType);
             writer.WriteShort((short) MapIds.Count);
             for (var mapIdsIndex = 0; mapIdsIndex < MapIds.Count; mapIdsIndex++)
-                writer.WriteInt(MapIds[mapIdsIndex]);
+                writer.WriteDouble(MapIds[mapIdsIndex]);
             writer.WriteShort((short) SubAreaIds.Count);
             for (var subAreaIdsIndex = 0; subAreaIdsIndex < SubAreaIds.Count; subAreaIdsIndex++)
                 writer.WriteVarUhShort(SubAreaIds[subAreaIdsIndex]);
@@ -51,9 +51,9 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Interactive.Zaap
         {
             TeleporterType = reader.ReadByte();
             var mapIdsCount = reader.ReadUShort();
-            MapIds = new List<int>();
+            MapIds = new List<double>();
             for (var mapIdsIndex = 0; mapIdsIndex < mapIdsCount; mapIdsIndex++)
-                MapIds.Add(reader.ReadInt());
+                MapIds.Add(reader.ReadDouble());
             var subAreaIdsCount = reader.ReadUShort();
             SubAreaIds = new List<ushort>();
             for (var subAreaIdsIndex = 0; subAreaIdsIndex < subAreaIdsCount; subAreaIdsIndex++)

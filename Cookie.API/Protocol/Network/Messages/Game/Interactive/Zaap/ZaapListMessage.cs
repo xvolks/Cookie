@@ -6,7 +6,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Interactive.Zaap
     {
         public new const ushort ProtocolId = 1604;
 
-        public ZaapListMessage(int spawnMapId)
+        public ZaapListMessage(double spawnMapId)
         {
             SpawnMapId = spawnMapId;
         }
@@ -16,18 +16,18 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Interactive.Zaap
         }
 
         public override ushort MessageID => ProtocolId;
-        public int SpawnMapId { get; set; }
+        public double SpawnMapId { get; set; }
 
         public override void Serialize(IDataWriter writer)
         {
             base.Serialize(writer);
-            writer.WriteInt(SpawnMapId);
+            writer.WriteDouble(SpawnMapId);
         }
 
         public override void Deserialize(IDataReader reader)
         {
             base.Deserialize(reader);
-            SpawnMapId = reader.ReadInt();
+            SpawnMapId = reader.ReadDouble();
         }
     }
 }

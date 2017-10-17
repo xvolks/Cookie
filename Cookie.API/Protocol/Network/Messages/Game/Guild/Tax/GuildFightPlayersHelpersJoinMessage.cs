@@ -7,7 +7,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild.Tax
     {
         public const ushort ProtocolId = 5720;
 
-        public GuildFightPlayersHelpersJoinMessage(int fightId, CharacterMinimalPlusLookInformations playerInfo)
+        public GuildFightPlayersHelpersJoinMessage(double fightId, CharacterMinimalPlusLookInformations playerInfo)
         {
             FightId = fightId;
             PlayerInfo = playerInfo;
@@ -18,18 +18,18 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild.Tax
         }
 
         public override ushort MessageID => ProtocolId;
-        public int FightId { get; set; }
+        public double FightId { get; set; }
         public CharacterMinimalPlusLookInformations PlayerInfo { get; set; }
 
         public override void Serialize(IDataWriter writer)
         {
-            writer.WriteInt(FightId);
+            writer.WriteDouble(FightId);
             PlayerInfo.Serialize(writer);
         }
 
         public override void Deserialize(IDataReader reader)
         {
-            FightId = reader.ReadInt();
+            FightId = reader.ReadDouble();
             PlayerInfo = new CharacterMinimalPlusLookInformations();
             PlayerInfo.Deserialize(reader);
         }

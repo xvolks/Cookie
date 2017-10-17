@@ -7,7 +7,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Guild.Tax
         public const ushort ProtocolId = 96;
 
         public TaxCollectorBasicInformations(ushort firstNameId, ushort lastNameId, short worldX, short worldY,
-            int mapId, ushort subAreaId)
+            double mapId, ushort subAreaId)
         {
             FirstNameId = firstNameId;
             LastNameId = lastNameId;
@@ -26,7 +26,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Guild.Tax
         public ushort LastNameId { get; set; }
         public short WorldX { get; set; }
         public short WorldY { get; set; }
-        public int MapId { get; set; }
+        public double MapId { get; set; }
         public ushort SubAreaId { get; set; }
 
         public override void Serialize(IDataWriter writer)
@@ -35,7 +35,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Guild.Tax
             writer.WriteVarUhShort(LastNameId);
             writer.WriteShort(WorldX);
             writer.WriteShort(WorldY);
-            writer.WriteInt(MapId);
+            writer.WriteDouble(MapId);
             writer.WriteVarUhShort(SubAreaId);
         }
 
@@ -45,7 +45,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Guild.Tax
             LastNameId = reader.ReadVarUhShort();
             WorldX = reader.ReadShort();
             WorldY = reader.ReadShort();
-            MapId = reader.ReadInt();
+            MapId = reader.ReadDouble();
             SubAreaId = reader.ReadVarUhShort();
         }
     }

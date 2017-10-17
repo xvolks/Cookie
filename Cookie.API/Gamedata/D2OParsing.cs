@@ -11,9 +11,9 @@ namespace Cookie.API.Gamedata
 {
     public class D2OParsing
     {
-        public static Point GetMapCoordinates(int mapId)
+        public static Point GetMapCoordinates(double mapId)
         {
-            var value = ObjectDataManager.Instance.Get<MapPosition>(mapId);
+            var value = ObjectDataManager.Instance.Get<MapPosition>(Convert.ToInt32(mapId));
             return new Point(value.PosX, value.PosY);
         }
 

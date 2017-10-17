@@ -6,7 +6,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Friend
     {
         public new const ushort ProtocolId = 93;
 
-        public FriendSpouseOnlineInformations(bool inFight, bool followSpouse, int mapId, ushort subAreaId)
+        public FriendSpouseOnlineInformations(bool inFight, bool followSpouse, double mapId, ushort subAreaId)
         {
             InFight = inFight;
             FollowSpouse = followSpouse;
@@ -21,7 +21,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Friend
         public override ushort TypeID => ProtocolId;
         public bool InFight { get; set; }
         public bool FollowSpouse { get; set; }
-        public int MapId { get; set; }
+        public double MapId { get; set; }
         public ushort SubAreaId { get; set; }
 
         public override void Serialize(IDataWriter writer)
@@ -31,7 +31,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Friend
             flag = BooleanByteWrapper.SetFlag(0, flag, InFight);
             flag = BooleanByteWrapper.SetFlag(1, flag, FollowSpouse);
             writer.WriteByte(flag);
-            writer.WriteInt(MapId);
+            writer.WriteDouble(MapId);
             writer.WriteVarUhShort(SubAreaId);
         }
 
@@ -41,7 +41,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Friend
             var flag = reader.ReadByte();
             InFight = BooleanByteWrapper.GetFlag(flag, 0);
             FollowSpouse = BooleanByteWrapper.GetFlag(flag, 1);
-            MapId = reader.ReadInt();
+            MapId = reader.ReadDouble();
             SubAreaId = reader.ReadVarUhShort();
         }
     }

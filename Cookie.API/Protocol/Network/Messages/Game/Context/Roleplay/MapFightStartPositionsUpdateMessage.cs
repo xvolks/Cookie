@@ -7,7 +7,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
     {
         public const ushort ProtocolId = 6716;
 
-        public MapFightStartPositionsUpdateMessage(int mapId, FightStartingPositions fightStartPositions)
+        public MapFightStartPositionsUpdateMessage(double mapId, FightStartingPositions fightStartPositions)
         {
             MapId = mapId;
             FightStartPositions = fightStartPositions;
@@ -18,18 +18,18 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
         }
 
         public override ushort MessageID => ProtocolId;
-        public int MapId { get; set; }
+        public double MapId { get; set; }
         public FightStartingPositions FightStartPositions { get; set; }
 
         public override void Serialize(IDataWriter writer)
         {
-            writer.WriteInt(MapId);
+            writer.WriteDouble(MapId);
             FightStartPositions.Serialize(writer);
         }
 
         public override void Deserialize(IDataReader reader)
         {
-            MapId = reader.ReadInt();
+            MapId = reader.ReadDouble();
             FightStartPositions = new FightStartingPositions();
             FightStartPositions.Deserialize(reader);
         }

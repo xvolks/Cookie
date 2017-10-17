@@ -8,7 +8,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Npc
     {
         public const ushort ProtocolId = 5642;
 
-        public MapNpcsQuestStatusUpdateMessage(int mapId, List<int> npcsIdsWithQuest,
+        public MapNpcsQuestStatusUpdateMessage(double mapId, List<int> npcsIdsWithQuest,
             List<GameRolePlayNpcQuestFlag> questFlags, List<int> npcsIdsWithoutQuest)
         {
             MapId = mapId;
@@ -22,14 +22,14 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Npc
         }
 
         public override ushort MessageID => ProtocolId;
-        public int MapId { get; set; }
+        public double MapId { get; set; }
         public List<int> NpcsIdsWithQuest { get; set; }
         public List<GameRolePlayNpcQuestFlag> QuestFlags { get; set; }
         public List<int> NpcsIdsWithoutQuest { get; set; }
 
         public override void Serialize(IDataWriter writer)
         {
-            writer.WriteInt(MapId);
+            writer.WriteDouble(MapId);
             writer.WriteShort((short) NpcsIdsWithQuest.Count);
             for (var npcsIdsWithQuestIndex = 0; npcsIdsWithQuestIndex < NpcsIdsWithQuest.Count; npcsIdsWithQuestIndex++)
                 writer.WriteInt(NpcsIdsWithQuest[npcsIdsWithQuestIndex]);
@@ -48,7 +48,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Npc
 
         public override void Deserialize(IDataReader reader)
         {
-            MapId = reader.ReadInt();
+            MapId = reader.ReadDouble();
             var npcsIdsWithQuestCount = reader.ReadUShort();
             NpcsIdsWithQuest = new List<int>();
             for (var npcsIdsWithQuestIndex = 0; npcsIdsWithQuestIndex < npcsIdsWithQuestCount; npcsIdsWithQuestIndex++)

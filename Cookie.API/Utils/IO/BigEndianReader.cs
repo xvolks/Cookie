@@ -17,11 +17,11 @@ namespace Cookie.API.Utils.IO
 
         private const int ChunckBitSize = 7;
 
-        private static int _maxEncodingLength = (int) Math.Ceiling((double) IntSize / ChunckBitSize);
-
         private const int Mask10000000 = 128;
 
         private const int Mask01111111 = 127;
+
+        private static int _maxEncodingLength = (int) Math.Ceiling((double) IntSize / ChunckBitSize);
         private BinaryReader _mReader;
 
         public BigEndianReader()

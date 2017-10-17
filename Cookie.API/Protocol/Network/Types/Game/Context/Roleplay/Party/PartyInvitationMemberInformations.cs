@@ -9,7 +9,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Party
     {
         public new const ushort ProtocolId = 376;
 
-        public PartyInvitationMemberInformations(short worldX, short worldY, int mapId, ushort subAreaId,
+        public PartyInvitationMemberInformations(short worldX, short worldY, double mapId, ushort subAreaId,
             List<PartyCompanionBaseInformations> companions)
         {
             WorldX = worldX;
@@ -26,7 +26,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Party
         public override ushort TypeID => ProtocolId;
         public short WorldX { get; set; }
         public short WorldY { get; set; }
-        public int MapId { get; set; }
+        public double MapId { get; set; }
         public ushort SubAreaId { get; set; }
         public List<PartyCompanionBaseInformations> Companions { get; set; }
 
@@ -35,7 +35,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Party
             base.Serialize(writer);
             writer.WriteShort(WorldX);
             writer.WriteShort(WorldY);
-            writer.WriteInt(MapId);
+            writer.WriteDouble(MapId);
             writer.WriteVarUhShort(SubAreaId);
             writer.WriteShort((short) Companions.Count);
             for (var companionsIndex = 0; companionsIndex < Companions.Count; companionsIndex++)
@@ -50,7 +50,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Party
             base.Deserialize(reader);
             WorldX = reader.ReadShort();
             WorldY = reader.ReadShort();
-            MapId = reader.ReadInt();
+            MapId = reader.ReadDouble();
             SubAreaId = reader.ReadVarUhShort();
             var companionsCount = reader.ReadUShort();
             Companions = new List<PartyCompanionBaseInformations>();

@@ -6,7 +6,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild.Tax
     {
         public const ushort ProtocolId = 5929;
 
-        public GuildFightPlayersEnemyRemoveMessage(int fightId, ulong playerId)
+        public GuildFightPlayersEnemyRemoveMessage(double fightId, ulong playerId)
         {
             FightId = fightId;
             PlayerId = playerId;
@@ -17,18 +17,18 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild.Tax
         }
 
         public override ushort MessageID => ProtocolId;
-        public int FightId { get; set; }
+        public double FightId { get; set; }
         public ulong PlayerId { get; set; }
 
         public override void Serialize(IDataWriter writer)
         {
-            writer.WriteInt(FightId);
+            writer.WriteDouble(FightId);
             writer.WriteVarUhLong(PlayerId);
         }
 
         public override void Deserialize(IDataReader reader)
         {
-            FightId = reader.ReadInt();
+            FightId = reader.ReadDouble();
             PlayerId = reader.ReadVarUhLong();
         }
     }

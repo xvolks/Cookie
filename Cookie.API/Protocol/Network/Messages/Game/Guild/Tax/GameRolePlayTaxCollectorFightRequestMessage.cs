@@ -6,7 +6,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild.Tax
     {
         public const ushort ProtocolId = 5954;
 
-        public GameRolePlayTaxCollectorFightRequestMessage(int taxCollectorId)
+        public GameRolePlayTaxCollectorFightRequestMessage(double taxCollectorId)
         {
             TaxCollectorId = taxCollectorId;
         }
@@ -16,16 +16,16 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild.Tax
         }
 
         public override ushort MessageID => ProtocolId;
-        public int TaxCollectorId { get; set; }
+        public double TaxCollectorId { get; set; }
 
         public override void Serialize(IDataWriter writer)
         {
-            writer.WriteInt(TaxCollectorId);
+            writer.WriteDouble(TaxCollectorId);
         }
 
         public override void Deserialize(IDataReader reader)
         {
-            TaxCollectorId = reader.ReadInt();
+            TaxCollectorId = reader.ReadDouble();
         }
     }
 }

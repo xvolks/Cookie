@@ -10,7 +10,7 @@ namespace Cookie.Game.Map
     public class MapChangement : IMapChangement
     {
         private readonly IAccount _account;
-        private readonly int _oId;
+        private readonly double _oId;
         private ICellMovement _cellMovement;
         private Timer _timeoutTimer;
 

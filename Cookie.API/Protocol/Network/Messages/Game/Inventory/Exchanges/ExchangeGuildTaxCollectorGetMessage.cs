@@ -8,7 +8,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
     {
         public const ushort ProtocolId = 5762;
 
-        public ExchangeGuildTaxCollectorGetMessage(string collectorName, short worldX, short worldY, int mapId,
+        public ExchangeGuildTaxCollectorGetMessage(string collectorName, short worldX, short worldY, double mapId,
             ushort subAreaId, string userName, ulong callerId, string callerName, double experience, ushort pods,
             List<ObjectItemGenericQuantity> objectsInfos)
         {
@@ -33,7 +33,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
         public string CollectorName { get; set; }
         public short WorldX { get; set; }
         public short WorldY { get; set; }
-        public int MapId { get; set; }
+        public double MapId { get; set; }
         public ushort SubAreaId { get; set; }
         public string UserName { get; set; }
         public ulong CallerId { get; set; }
@@ -47,7 +47,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
             writer.WriteUTF(CollectorName);
             writer.WriteShort(WorldX);
             writer.WriteShort(WorldY);
-            writer.WriteInt(MapId);
+            writer.WriteDouble(MapId);
             writer.WriteVarUhShort(SubAreaId);
             writer.WriteUTF(UserName);
             writer.WriteVarUhLong(CallerId);
@@ -67,7 +67,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
             CollectorName = reader.ReadUTF();
             WorldX = reader.ReadShort();
             WorldY = reader.ReadShort();
-            MapId = reader.ReadInt();
+            MapId = reader.ReadDouble();
             SubAreaId = reader.ReadVarUhShort();
             UserName = reader.ReadUTF();
             CallerId = reader.ReadVarUhLong();

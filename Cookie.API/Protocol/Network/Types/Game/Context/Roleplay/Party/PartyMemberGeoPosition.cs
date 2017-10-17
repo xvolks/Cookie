@@ -6,7 +6,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Party
     {
         public const ushort ProtocolId = 378;
 
-        public PartyMemberGeoPosition(int memberId, short worldX, short worldY, int mapId, ushort subAreaId)
+        public PartyMemberGeoPosition(int memberId, short worldX, short worldY, double mapId, ushort subAreaId)
         {
             MemberId = memberId;
             WorldX = worldX;
@@ -23,7 +23,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Party
         public int MemberId { get; set; }
         public short WorldX { get; set; }
         public short WorldY { get; set; }
-        public int MapId { get; set; }
+        public double MapId { get; set; }
         public ushort SubAreaId { get; set; }
 
         public override void Serialize(IDataWriter writer)
@@ -31,7 +31,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Party
             writer.WriteInt(MemberId);
             writer.WriteShort(WorldX);
             writer.WriteShort(WorldY);
-            writer.WriteInt(MapId);
+            writer.WriteDouble(MapId);
             writer.WriteVarUhShort(SubAreaId);
         }
 
@@ -40,7 +40,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Party
             MemberId = reader.ReadInt();
             WorldX = reader.ReadShort();
             WorldY = reader.ReadShort();
-            MapId = reader.ReadInt();
+            MapId = reader.ReadDouble();
             SubAreaId = reader.ReadVarUhShort();
         }
     }

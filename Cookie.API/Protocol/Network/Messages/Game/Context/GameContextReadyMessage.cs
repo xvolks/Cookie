@@ -6,7 +6,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context
     {
         public const ushort ProtocolId = 6071;
 
-        public GameContextReadyMessage(int mapId)
+        public GameContextReadyMessage(double mapId)
         {
             MapId = mapId;
         }
@@ -16,16 +16,16 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context
         }
 
         public override ushort MessageID => ProtocolId;
-        public int MapId { get; set; }
+        public double MapId { get; set; }
 
         public override void Serialize(IDataWriter writer)
         {
-            writer.WriteInt(MapId);
+            writer.WriteDouble(MapId);
         }
 
         public override void Deserialize(IDataReader reader)
         {
-            MapId = reader.ReadInt();
+            MapId = reader.ReadDouble();
         }
     }
 }

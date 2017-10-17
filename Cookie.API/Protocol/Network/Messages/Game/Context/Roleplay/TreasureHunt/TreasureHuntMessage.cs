@@ -8,7 +8,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.TreasureHun
     {
         public const ushort ProtocolId = 6486;
 
-        public TreasureHuntMessage(byte questType, int startMapId, List<TreasureHuntStep> knownStepsList,
+        public TreasureHuntMessage(byte questType, double startMapId, List<TreasureHuntStep> knownStepsList,
             byte totalStepCount, uint checkPointCurrent, uint checkPointTotal, int availableRetryCount,
             List<TreasureHuntFlag> flags)
         {
@@ -28,7 +28,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.TreasureHun
 
         public override ushort MessageID => ProtocolId;
         public byte QuestType { get; set; }
-        public int StartMapId { get; set; }
+        public double StartMapId { get; set; }
         public List<TreasureHuntStep> KnownStepsList { get; set; }
         public byte TotalStepCount { get; set; }
         public uint CheckPointCurrent { get; set; }
@@ -39,7 +39,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.TreasureHun
         public override void Serialize(IDataWriter writer)
         {
             writer.WriteByte(QuestType);
-            writer.WriteInt(StartMapId);
+            writer.WriteDouble(StartMapId);
             writer.WriteShort((short) KnownStepsList.Count);
             for (var knownStepsListIndex = 0; knownStepsListIndex < KnownStepsList.Count; knownStepsListIndex++)
             {
@@ -62,7 +62,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.TreasureHun
         public override void Deserialize(IDataReader reader)
         {
             QuestType = reader.ReadByte();
-            StartMapId = reader.ReadInt();
+            StartMapId = reader.ReadDouble();
             var knownStepsListCount = reader.ReadUShort();
             KnownStepsList = new List<TreasureHuntStep>();
             for (var knownStepsListIndex = 0; knownStepsListIndex < knownStepsListCount; knownStepsListIndex++)

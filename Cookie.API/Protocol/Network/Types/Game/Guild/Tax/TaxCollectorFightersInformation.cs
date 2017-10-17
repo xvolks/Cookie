@@ -8,7 +8,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Guild.Tax
     {
         public const ushort ProtocolId = 169;
 
-        public TaxCollectorFightersInformation(int collectorId,
+        public TaxCollectorFightersInformation(double collectorId,
             List<CharacterMinimalPlusLookInformations> allyCharactersInformations,
             List<CharacterMinimalPlusLookInformations> enemyCharactersInformations)
         {
@@ -22,13 +22,13 @@ namespace Cookie.API.Protocol.Network.Types.Game.Guild.Tax
         }
 
         public override ushort TypeID => ProtocolId;
-        public int CollectorId { get; set; }
+        public double CollectorId { get; set; }
         public List<CharacterMinimalPlusLookInformations> AllyCharactersInformations { get; set; }
         public List<CharacterMinimalPlusLookInformations> EnemyCharactersInformations { get; set; }
 
         public override void Serialize(IDataWriter writer)
         {
-            writer.WriteInt(CollectorId);
+            writer.WriteDouble(CollectorId);
             writer.WriteShort((short) AllyCharactersInformations.Count);
             for (var allyCharactersInformationsIndex = 0;
                 allyCharactersInformationsIndex < AllyCharactersInformations.Count;
@@ -51,7 +51,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Guild.Tax
 
         public override void Deserialize(IDataReader reader)
         {
-            CollectorId = reader.ReadInt();
+            CollectorId = reader.ReadDouble();
             var allyCharactersInformationsCount = reader.ReadUShort();
             AllyCharactersInformations = new List<CharacterMinimalPlusLookInformations>();
             for (var allyCharactersInformationsIndex = 0;

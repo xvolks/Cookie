@@ -6,8 +6,8 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Purchasable
     {
         public const ushort ProtocolId = 5739;
 
-        public PurchasableDialogMessage(bool buyOrSell, bool secondHand, uint purchasableId, int purchasableInstanceId,
-            ulong price)
+        public PurchasableDialogMessage(bool buyOrSell, bool secondHand, double purchasableId,
+            int purchasableInstanceId, ulong price)
         {
             BuyOrSell = buyOrSell;
             SecondHand = secondHand;
@@ -23,7 +23,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Purchasable
         public override ushort MessageID => ProtocolId;
         public bool BuyOrSell { get; set; }
         public bool SecondHand { get; set; }
-        public uint PurchasableId { get; set; }
+        public double PurchasableId { get; set; }
         public int PurchasableInstanceId { get; set; }
         public ulong Price { get; set; }
 
@@ -33,7 +33,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Purchasable
             flag = BooleanByteWrapper.SetFlag(0, flag, BuyOrSell);
             flag = BooleanByteWrapper.SetFlag(1, flag, SecondHand);
             writer.WriteByte(flag);
-            writer.WriteVarUhInt(PurchasableId);
+            writer.WriteDouble(PurchasableId);
             writer.WriteInt(PurchasableInstanceId);
             writer.WriteVarUhLong(Price);
         }
@@ -43,7 +43,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Purchasable
             var flag = reader.ReadByte();
             BuyOrSell = BooleanByteWrapper.GetFlag(flag, 0);
             SecondHand = BooleanByteWrapper.GetFlag(flag, 1);
-            PurchasableId = reader.ReadVarUhInt();
+            PurchasableId = reader.ReadDouble();
             PurchasableInstanceId = reader.ReadInt();
             Price = reader.ReadVarUhLong();
         }

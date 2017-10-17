@@ -12,12 +12,12 @@ namespace Cookie.API.Gamedata.D2p
         // Fields
         private static D2pFileManager D2pFileManager;
 
-        private static Dictionary<int, Map> MapId_Map;
+        private static Dictionary<double, Map> MapId_Map;
 
         private static object CheckLock;
 
         // Methods
-        public static Map FromId(int id)
+        public static Map FromId(double id)
         {
             lock (CheckLock)
             {
@@ -53,7 +53,7 @@ namespace Cookie.API.Gamedata.D2p
 
         public static void Init(string directory)
         {
-            MapId_Map = new Dictionary<int, Map>();
+            MapId_Map = new Dictionary<double, Map>();
             D2pFileManager = new D2pFileManager(directory);
             CheckLock = new object();
         }

@@ -70,11 +70,11 @@ namespace Cookie.Game.Map
 
         public Dictionary<int, IInteractiveElement> Doors { get; }
         public Dictionary<int, IStatedElement> StatedElements { get; }
-        public int WorldId => ObjectDataManager.Instance.Get<MapPosition>(Id).WorldMap;
+        public int WorldId => ObjectDataManager.Instance.Get<MapPosition>(Convert.ToUInt32(Id)).WorldMap;
         public IMapData Data { get; private set; }
-        public int Id => ((API.Gamedata.D2p.Map) Data).Id;
-        public int X => ObjectDataManager.Instance.Get<MapPosition>(Id).PosX;
-        public int Y => ObjectDataManager.Instance.Get<MapPosition>(Id).PosY;
+        public double Id => ((API.Gamedata.D2p.Map) Data).Id;
+        public int X => ObjectDataManager.Instance.Get<MapPosition>(Convert.ToUInt32(Id)).PosX;
+        public int Y => ObjectDataManager.Instance.Get<MapPosition>(Convert.ToUInt32(Id)).PosY;
         public Dictionary<int, IInteractiveElement> InteractiveElements { get; }
         public int SubAreaId { get; private set; }
         public int MapChange { get; set; }

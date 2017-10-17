@@ -38,7 +38,7 @@ namespace Cookie.API.Game.Map
         IMapData Data { get; }
 
         /// <summary>Identifiant de la carte</summary>
-        int Id { get; }
+        double Id { get; }
 
         /// <summary>Position en X de la carte</summary>
         int X { get; }

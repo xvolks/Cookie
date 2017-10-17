@@ -11,7 +11,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
     {
         public const ushort ProtocolId = 226;
 
-        public MapComplementaryInformationsDataMessage(ushort subAreaId, int mapId, List<HouseInformations> houses,
+        public MapComplementaryInformationsDataMessage(ushort subAreaId, double mapId, List<HouseInformations> houses,
             List<GameRolePlayActorInformations> actors, List<InteractiveElement> interactiveElements,
             List<StatedElement> statedElements, List<MapObstacle> obstacles, List<FightCommonInformations> fights,
             bool hasAggressiveMonsters, FightStartingPositions fightStartPositions)
@@ -34,7 +34,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
 
         public override ushort MessageID => ProtocolId;
         public ushort SubAreaId { get; set; }
-        public int MapId { get; set; }
+        public double MapId { get; set; }
         public List<HouseInformations> Houses { get; set; }
         public List<GameRolePlayActorInformations> Actors { get; set; }
         public List<InteractiveElement> InteractiveElements { get; set; }
@@ -47,7 +47,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
         public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarUhShort(SubAreaId);
-            writer.WriteInt(MapId);
+            writer.WriteDouble(MapId);
             writer.WriteShort((short) Houses.Count);
             for (var housesIndex = 0; housesIndex < Houses.Count; housesIndex++)
             {
@@ -96,7 +96,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
         public override void Deserialize(IDataReader reader)
         {
             SubAreaId = reader.ReadVarUhShort();
-            MapId = reader.ReadInt();
+            MapId = reader.ReadDouble();
             var housesCount = reader.ReadUShort();
             Houses = new List<HouseInformations>();
             for (var housesIndex = 0; housesIndex < housesCount; housesIndex++)

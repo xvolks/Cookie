@@ -164,7 +164,7 @@ namespace Cookie.Core
         public int ExperiencePercentage => (int) (Stats.Experience / (double) Stats.ExperienceNextLevelFloor * 100);
 
         public int CellId { get; set; }
-        public int MapId { get; set; }
+        public double MapId { get; set; }
 
         public uint Weight { get; set; }
         public uint MaxWeight { get; set; }

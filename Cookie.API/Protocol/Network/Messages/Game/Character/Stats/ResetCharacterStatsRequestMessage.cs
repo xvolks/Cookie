@@ -1,10 +1,10 @@
 ﻿using Cookie.API.Utils.IO;
 
-namespace Cookie.API.Protocol.Network.Messages.Web.Krosmaster
+namespace Cookie.API.Protocol.Network.Messages.Game.Character.Stats
 {
-    public class KrosmasterInventoryRequestMessage : NetworkMessage
+    public class ResetCharacterStatsRequestMessage : NetworkMessage
     {
-        public const ushort ProtocolId = 6344;
+        public const ushort ProtocolId = 6739;
 
         public override ushort MessageID => ProtocolId;
 

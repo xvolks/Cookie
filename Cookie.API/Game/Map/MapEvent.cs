@@ -18,25 +18,25 @@ namespace Cookie.API.Game.Map
 
     public class MapChangementFinishedEventArgs : EventArgs
     {
-        public MapChangementFinishedEventArgs(int om, int nm, bool s)
+        public MapChangementFinishedEventArgs(double om, double nm, bool s)
         {
             OldMap = om;
             NewMap = nm;
             Success = s;
         }
 
-        public int OldMap { get; }
-        public int NewMap { get; }
+        public double OldMap { get; }
+        public double NewMap { get; }
         public bool Success { get; }
     }
 
     public class MapChangedEventArgs : EventArgs
     {
-        public MapChangedEventArgs(int id)
+        public MapChangedEventArgs(double id)
         {
             NewMapId = id;
         }
 
-        public int NewMapId { get; }
+        public double NewMapId { get; }
     }
 }

@@ -6,7 +6,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild.Tax
     {
         public const ushort ProtocolId = 6455;
 
-        public TaxCollectorStateUpdateMessage(int uniqueId, sbyte state)
+        public TaxCollectorStateUpdateMessage(double uniqueId, sbyte state)
         {
             UniqueId = uniqueId;
             State = state;
@@ -17,18 +17,18 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild.Tax
         }
 
         public override ushort MessageID => ProtocolId;
-        public int UniqueId { get; set; }
+        public double UniqueId { get; set; }
         public sbyte State { get; set; }
 
         public override void Serialize(IDataWriter writer)
         {
-            writer.WriteInt(UniqueId);
+            writer.WriteDouble(UniqueId);
             writer.WriteSByte(State);
         }
 
         public override void Deserialize(IDataReader reader)
         {
-            UniqueId = reader.ReadInt();
+            UniqueId = reader.ReadDouble();
             State = reader.ReadSByte();
         }
     }

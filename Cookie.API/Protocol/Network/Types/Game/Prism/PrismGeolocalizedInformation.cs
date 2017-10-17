@@ -6,7 +6,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Prism
     {
         public new const ushort ProtocolId = 434;
 
-        public PrismGeolocalizedInformation(short worldX, short worldY, int mapId, PrismInformation prism)
+        public PrismGeolocalizedInformation(short worldX, short worldY, double mapId, PrismInformation prism)
         {
             WorldX = worldX;
             WorldY = worldY;
@@ -21,7 +21,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Prism
         public override ushort TypeID => ProtocolId;
         public short WorldX { get; set; }
         public short WorldY { get; set; }
-        public int MapId { get; set; }
+        public double MapId { get; set; }
         public PrismInformation Prism { get; set; }
 
         public override void Serialize(IDataWriter writer)
@@ -29,7 +29,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Prism
             base.Serialize(writer);
             writer.WriteShort(WorldX);
             writer.WriteShort(WorldY);
-            writer.WriteInt(MapId);
+            writer.WriteDouble(MapId);
             writer.WriteUShort(Prism.TypeID);
             Prism.Serialize(writer);
         }
@@ -39,7 +39,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Prism
             base.Deserialize(reader);
             WorldX = reader.ReadShort();
             WorldY = reader.ReadShort();
-            MapId = reader.ReadInt();
+            MapId = reader.ReadDouble();
             Prism = ProtocolTypeManager.GetInstance<PrismInformation>(reader.ReadUShort());
             Prism.Deserialize(reader);
         }
