@@ -6,8 +6,8 @@ namespace Cookie.API.Utils
     {
         public const byte Major = 2;
         public const byte Minor = 44;
-        public const byte Release = 0;
-        public const int Revision = 0;
+        public const byte Release = 5;
+        public const int Revision = 2;
         public const byte Patch = 0;
         public const byte BuildType = (byte) BuildTypeEnum.RELEASE;
         public const byte Install = (byte) ClientInstallTypeEnum.CLIENT_BUNDLE;
