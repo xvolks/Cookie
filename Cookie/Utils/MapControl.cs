@@ -148,7 +148,14 @@ namespace DofusMapControl
 
         private void OnCellClicked(MapCell cell, MouseButtons buttons, bool hold)
         {
-            CellClicked?.Invoke(this, cell, buttons, hold);
+            try
+            {
+                CellClicked?.Invoke(this, cell, buttons, hold);
+            } 
+            catch
+            {
+                MessageBox.Show("Une erreur est survenue... Le bot est-il bien lancé ?");
+            }
         }
 
         public event Action<MapControl, MapCell, MapCell> CellOver;
