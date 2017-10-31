@@ -1,23 +1,21 @@
-﻿using Cookie.API.Protocol.Network.Types.Game.Actions.Fight;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Actions.Fight
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Actions.Fight
 {
+    using Messages.Game.Actions;
+    using Types.Game.Actions.Fight;
+    using Utils.IO;
+
     public class GameActionFightMarkCellsMessage : AbstractGameActionMessage
     {
         public new const ushort ProtocolId = 5540;
+        public override ushort MessageID => ProtocolId;
+        public GameActionMark Mark { get; set; }
 
         public GameActionFightMarkCellsMessage(GameActionMark mark)
         {
             Mark = mark;
         }
 
-        public GameActionFightMarkCellsMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public GameActionMark Mark { get; set; }
+        public GameActionFightMarkCellsMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +29,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Actions.Fight
             Mark = new GameActionMark();
             Mark.Deserialize(reader);
         }
+
     }
 }

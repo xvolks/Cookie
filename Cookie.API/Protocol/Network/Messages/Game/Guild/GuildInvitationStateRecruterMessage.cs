@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Guild
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Guild
 {
+    using Utils.IO;
+
     public class GuildInvitationStateRecruterMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5563;
+        public override ushort MessageID => ProtocolId;
+        public string RecrutedName { get; set; }
+        public byte InvitationState { get; set; }
 
         public GuildInvitationStateRecruterMessage(string recrutedName, byte invitationState)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild
             InvitationState = invitationState;
         }
 
-        public GuildInvitationStateRecruterMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public string RecrutedName { get; set; }
-        public byte InvitationState { get; set; }
+        public GuildInvitationStateRecruterMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild
             RecrutedName = reader.ReadUTF();
             InvitationState = reader.ReadByte();
         }
+
     }
 }

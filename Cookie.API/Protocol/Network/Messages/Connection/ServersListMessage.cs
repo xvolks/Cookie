@@ -1,33 +1,29 @@
-﻿using System.Collections.Generic;
-using Cookie.API.Protocol.Network.Types.Connection;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Connection
+﻿namespace Cookie.API.Protocol.Network.Messages.Connection
 {
+    using Types.Connection;
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class ServersListMessage : NetworkMessage
     {
         public const ushort ProtocolId = 30;
+        public override ushort MessageID => ProtocolId;
+        public List<GameServerInformations> Servers { get; set; }
+        public ushort AlreadyConnectedToServerId { get; set; }
+        public bool CanCreateNewCharacter { get; set; }
 
-        public ServersListMessage(List<GameServerInformations> servers, ushort alreadyConnectedToServerId,
-            bool canCreateNewCharacter)
+        public ServersListMessage(List<GameServerInformations> servers, ushort alreadyConnectedToServerId, bool canCreateNewCharacter)
         {
             Servers = servers;
             AlreadyConnectedToServerId = alreadyConnectedToServerId;
             CanCreateNewCharacter = canCreateNewCharacter;
         }
 
-        public ServersListMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public List<GameServerInformations> Servers { get; set; }
-        public ushort AlreadyConnectedToServerId { get; set; }
-        public bool CanCreateNewCharacter { get; set; }
+        public ServersListMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
-            writer.WriteShort((short) Servers.Count);
+            writer.WriteShort((short)Servers.Count);
             for (var serversIndex = 0; serversIndex < Servers.Count; serversIndex++)
             {
                 var objectToSend = Servers[serversIndex];
@@ -50,5 +46,6 @@ namespace Cookie.API.Protocol.Network.Messages.Connection
             AlreadyConnectedToServerId = reader.ReadVarUhShort();
             CanCreateNewCharacter = reader.ReadBoolean();
         }
+
     }
 }

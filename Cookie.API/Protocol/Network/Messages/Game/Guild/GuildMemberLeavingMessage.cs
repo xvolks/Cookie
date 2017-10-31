@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Guild
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Guild
 {
+    using Utils.IO;
+
     public class GuildMemberLeavingMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5923;
+        public override ushort MessageID => ProtocolId;
+        public bool Kicked { get; set; }
+        public ulong MemberId { get; set; }
 
         public GuildMemberLeavingMessage(bool kicked, ulong memberId)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild
             MemberId = memberId;
         }
 
-        public GuildMemberLeavingMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public bool Kicked { get; set; }
-        public ulong MemberId { get; set; }
+        public GuildMemberLeavingMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild
             Kicked = reader.ReadBoolean();
             MemberId = reader.ReadVarUhLong();
         }
+
     }
 }

@@ -1,12 +1,15 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
 {
+    using Types.Game.Data.Items.Effects;
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class ExchangeBidHouseInListUpdatedMessage : ExchangeBidHouseInListAddedMessage
     {
         public new const ushort ProtocolId = 6337;
-
         public override ushort MessageID => ProtocolId;
+
+        public ExchangeBidHouseInListUpdatedMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -17,5 +20,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
         {
             base.Deserialize(reader);
         }
+
     }
 }

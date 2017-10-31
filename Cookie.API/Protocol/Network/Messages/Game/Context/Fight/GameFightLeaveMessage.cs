@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
 {
+    using Utils.IO;
+
     public class GameFightLeaveMessage : NetworkMessage
     {
         public const ushort ProtocolId = 721;
+        public override ushort MessageID => ProtocolId;
+        public double CharId { get; set; }
 
         public GameFightLeaveMessage(double charId)
         {
             CharId = charId;
         }
 
-        public GameFightLeaveMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public double CharId { get; set; }
+        public GameFightLeaveMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
         {
             CharId = reader.ReadDouble();
         }
+
     }
 }

@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Connection
+﻿namespace Cookie.API.Protocol.Network.Messages.Connection
 {
+    using Utils.IO;
+
     public class IdentificationFailedMessage : NetworkMessage
     {
         public const ushort ProtocolId = 20;
+        public override ushort MessageID => ProtocolId;
+        public byte Reason { get; set; }
 
         public IdentificationFailedMessage(byte reason)
         {
             Reason = reason;
         }
 
-        public IdentificationFailedMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public byte Reason { get; set; }
+        public IdentificationFailedMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Connection
         {
             Reason = reader.ReadByte();
         }
+
     }
 }

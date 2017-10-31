@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Chat
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Chat
 {
+    using Utils.IO;
+
     public class ChatServerCopyMessage : ChatAbstractServerMessage
     {
         public new const ushort ProtocolId = 882;
+        public override ushort MessageID => ProtocolId;
+        public ulong ReceiverId { get; set; }
+        public string ReceiverName { get; set; }
 
         public ChatServerCopyMessage(ulong receiverId, string receiverName)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Chat
             ReceiverName = receiverName;
         }
 
-        public ChatServerCopyMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ulong ReceiverId { get; set; }
-        public string ReceiverName { get; set; }
+        public ChatServerCopyMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -33,5 +30,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Chat
             ReceiverId = reader.ReadVarUhLong();
             ReceiverName = reader.ReadUTF();
         }
+
     }
 }

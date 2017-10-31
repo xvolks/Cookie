@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.House
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.House
 {
+    using Utils.IO;
+
     public class HouseTeleportRequestMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6726;
+        public override ushort MessageID => ProtocolId;
+        public uint HouseId { get; set; }
+        public int HouseInstanceId { get; set; }
 
         public HouseTeleportRequestMessage(uint houseId, int houseInstanceId)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.House
             HouseInstanceId = houseInstanceId;
         }
 
-        public HouseTeleportRequestMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public uint HouseId { get; set; }
-        public int HouseInstanceId { get; set; }
+        public HouseTeleportRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.House
             HouseId = reader.ReadVarUhInt();
             HouseInstanceId = reader.ReadInt();
         }
+
     }
 }

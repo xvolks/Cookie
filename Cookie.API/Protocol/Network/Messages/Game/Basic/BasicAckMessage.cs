@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Basic
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Basic
 {
+    using Utils.IO;
+
     public class BasicAckMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6362;
+        public override ushort MessageID => ProtocolId;
+        public uint Seq { get; set; }
+        public ushort LastPacketId { get; set; }
 
         public BasicAckMessage(uint seq, ushort lastPacketId)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Basic
             LastPacketId = lastPacketId;
         }
 
-        public BasicAckMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public uint Seq { get; set; }
-        public ushort LastPacketId { get; set; }
+        public BasicAckMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Basic
             Seq = reader.ReadVarUhInt();
             LastPacketId = reader.ReadVarUhShort();
         }
+
     }
 }

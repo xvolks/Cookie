@@ -1,12 +1,16 @@
-﻿using System.Collections.Generic;
-using Cookie.API.Protocol.Network.Types.Game.Data.Items.Effects;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
 {
+    using Types.Game.Data.Items.Effects;
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class SetUpdateMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5503;
+        public override ushort MessageID => ProtocolId;
+        public ushort SetId { get; set; }
+        public List<ushort> SetObjects { get; set; }
+        public List<ObjectEffect> SetEffects { get; set; }
 
         public SetUpdateMessage(ushort setId, List<ushort> setObjects, List<ObjectEffect> setEffects)
         {
@@ -15,22 +19,17 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
             SetEffects = setEffects;
         }
 
-        public SetUpdateMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ushort SetId { get; set; }
-        public List<ushort> SetObjects { get; set; }
-        public List<ObjectEffect> SetEffects { get; set; }
+        public SetUpdateMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarUhShort(SetId);
-            writer.WriteShort((short) SetObjects.Count);
+            writer.WriteShort((short)SetObjects.Count);
             for (var setObjectsIndex = 0; setObjectsIndex < SetObjects.Count; setObjectsIndex++)
+            {
                 writer.WriteVarUhShort(SetObjects[setObjectsIndex]);
-            writer.WriteShort((short) SetEffects.Count);
+            }
+            writer.WriteShort((short)SetEffects.Count);
             for (var setEffectsIndex = 0; setEffectsIndex < SetEffects.Count; setEffectsIndex++)
             {
                 var objectToSend = SetEffects[setEffectsIndex];
@@ -45,7 +44,9 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
             var setObjectsCount = reader.ReadUShort();
             SetObjects = new List<ushort>();
             for (var setObjectsIndex = 0; setObjectsIndex < setObjectsCount; setObjectsIndex++)
+            {
                 SetObjects.Add(reader.ReadVarUhShort());
+            }
             var setEffectsCount = reader.ReadUShort();
             SetEffects = new List<ObjectEffect>();
             for (var setEffectsIndex = 0; setEffectsIndex < setEffectsCount; setEffectsIndex++)
@@ -55,5 +56,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
                 SetEffects.Add(objectToAdd);
             }
         }
+
     }
 }

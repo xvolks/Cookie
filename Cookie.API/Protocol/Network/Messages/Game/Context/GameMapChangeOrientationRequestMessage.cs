@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context
 {
+    using Utils.IO;
+
     public class GameMapChangeOrientationRequestMessage : NetworkMessage
     {
         public const ushort ProtocolId = 945;
+        public override ushort MessageID => ProtocolId;
+        public byte Direction { get; set; }
 
         public GameMapChangeOrientationRequestMessage(byte direction)
         {
             Direction = direction;
         }
 
-        public GameMapChangeOrientationRequestMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public byte Direction { get; set; }
+        public GameMapChangeOrientationRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context
         {
             Direction = reader.ReadByte();
         }
+
     }
 }

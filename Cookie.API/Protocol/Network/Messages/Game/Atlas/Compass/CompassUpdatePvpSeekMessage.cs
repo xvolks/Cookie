@@ -1,10 +1,14 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Atlas.Compass
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Atlas.Compass
 {
+    using Types.Game.Context;
+    using Utils.IO;
+
     public class CompassUpdatePvpSeekMessage : CompassUpdateMessage
     {
         public new const ushort ProtocolId = 6013;
+        public override ushort MessageID => ProtocolId;
+        public ulong MemberId { get; set; }
+        public string MemberName { get; set; }
 
         public CompassUpdatePvpSeekMessage(ulong memberId, string memberName)
         {
@@ -12,13 +16,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Atlas.Compass
             MemberName = memberName;
         }
 
-        public CompassUpdatePvpSeekMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ulong MemberId { get; set; }
-        public string MemberName { get; set; }
+        public CompassUpdatePvpSeekMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -33,5 +31,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Atlas.Compass
             MemberId = reader.ReadVarUhLong();
             MemberName = reader.ReadUTF();
         }
+
     }
 }

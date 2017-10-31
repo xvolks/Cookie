@@ -1,28 +1,25 @@
-﻿using System.Collections.Generic;
-using Cookie.API.Protocol.Network.Types.Game.Context;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context
 {
+    using Types.Game.Context;
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class GameEntitiesDispositionMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5696;
+        public override ushort MessageID => ProtocolId;
+        public List<IdentifiedEntityDispositionInformations> Dispositions { get; set; }
 
         public GameEntitiesDispositionMessage(List<IdentifiedEntityDispositionInformations> dispositions)
         {
             Dispositions = dispositions;
         }
 
-        public GameEntitiesDispositionMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public List<IdentifiedEntityDispositionInformations> Dispositions { get; set; }
+        public GameEntitiesDispositionMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
-            writer.WriteShort((short) Dispositions.Count);
+            writer.WriteShort((short)Dispositions.Count);
             for (var dispositionsIndex = 0; dispositionsIndex < Dispositions.Count; dispositionsIndex++)
             {
                 var objectToSend = Dispositions[dispositionsIndex];
@@ -41,5 +38,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context
                 Dispositions.Add(objectToAdd);
             }
         }
+
     }
 }

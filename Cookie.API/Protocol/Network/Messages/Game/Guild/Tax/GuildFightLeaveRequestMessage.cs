@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Guild.Tax
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Guild.Tax
 {
+    using Utils.IO;
+
     public class GuildFightLeaveRequestMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5715;
+        public override ushort MessageID => ProtocolId;
+        public double TaxCollectorId { get; set; }
+        public ulong CharacterId { get; set; }
 
         public GuildFightLeaveRequestMessage(double taxCollectorId, ulong characterId)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild.Tax
             CharacterId = characterId;
         }
 
-        public GuildFightLeaveRequestMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public double TaxCollectorId { get; set; }
-        public ulong CharacterId { get; set; }
+        public GuildFightLeaveRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild.Tax
             TaxCollectorId = reader.ReadDouble();
             CharacterId = reader.ReadVarUhLong();
         }
+
     }
 }

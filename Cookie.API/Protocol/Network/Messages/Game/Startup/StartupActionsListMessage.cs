@@ -1,28 +1,25 @@
-﻿using System.Collections.Generic;
-using Cookie.API.Protocol.Network.Types.Game.Startup;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Startup
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Startup
 {
+    using Types.Game.Startup;
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class StartupActionsListMessage : NetworkMessage
     {
         public const ushort ProtocolId = 1301;
+        public override ushort MessageID => ProtocolId;
+        public List<StartupActionAddObject> Actions { get; set; }
 
         public StartupActionsListMessage(List<StartupActionAddObject> actions)
         {
             Actions = actions;
         }
 
-        public StartupActionsListMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public List<StartupActionAddObject> Actions { get; set; }
+        public StartupActionsListMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
-            writer.WriteShort((short) Actions.Count);
+            writer.WriteShort((short)Actions.Count);
             for (var actionsIndex = 0; actionsIndex < Actions.Count; actionsIndex++)
             {
                 var objectToSend = Actions[actionsIndex];
@@ -41,5 +38,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Startup
                 Actions.Add(objectToAdd);
             }
         }
+
     }
 }

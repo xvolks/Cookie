@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Friend
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Friend
 {
+    using Utils.IO;
+
     public class FriendSetWarnOnLevelGainMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6077;
+        public override ushort MessageID => ProtocolId;
+        public bool Enable { get; set; }
 
         public FriendSetWarnOnLevelGainMessage(bool enable)
         {
             Enable = enable;
         }
 
-        public FriendSetWarnOnLevelGainMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public bool Enable { get; set; }
+        public FriendSetWarnOnLevelGainMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Friend
         {
             Enable = reader.ReadBoolean();
         }
+
     }
 }

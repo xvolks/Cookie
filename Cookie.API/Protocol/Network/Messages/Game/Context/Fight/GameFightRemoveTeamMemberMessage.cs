@@ -1,10 +1,14 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
 {
+    using Utils.IO;
+
     public class GameFightRemoveTeamMemberMessage : NetworkMessage
     {
         public const ushort ProtocolId = 711;
+        public override ushort MessageID => ProtocolId;
+        public short FightId { get; set; }
+        public byte TeamId { get; set; }
+        public double CharId { get; set; }
 
         public GameFightRemoveTeamMemberMessage(short fightId, byte teamId, double charId)
         {
@@ -13,14 +17,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
             CharId = charId;
         }
 
-        public GameFightRemoveTeamMemberMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public short FightId { get; set; }
-        public byte TeamId { get; set; }
-        public double CharId { get; set; }
+        public GameFightRemoveTeamMemberMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -35,5 +32,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
             TeamId = reader.ReadByte();
             CharId = reader.ReadDouble();
         }
+
     }
 }

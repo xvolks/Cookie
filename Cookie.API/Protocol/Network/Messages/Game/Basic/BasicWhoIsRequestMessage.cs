@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Basic
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Basic
 {
+    using Utils.IO;
+
     public class BasicWhoIsRequestMessage : NetworkMessage
     {
         public const ushort ProtocolId = 181;
+        public override ushort MessageID => ProtocolId;
+        public bool Verbose { get; set; }
+        public string Search { get; set; }
 
         public BasicWhoIsRequestMessage(bool verbose, string search)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Basic
             Search = search;
         }
 
-        public BasicWhoIsRequestMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public bool Verbose { get; set; }
-        public string Search { get; set; }
+        public BasicWhoIsRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Basic
             Verbose = reader.ReadBoolean();
             Search = reader.ReadUTF();
         }
+
     }
 }

@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Alliance
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Alliance
 {
+    using Utils.IO;
+
     public class AllianceInvitationStateRecrutedMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6392;
+        public override ushort MessageID => ProtocolId;
+        public byte InvitationState { get; set; }
 
         public AllianceInvitationStateRecrutedMessage(byte invitationState)
         {
             InvitationState = invitationState;
         }
 
-        public AllianceInvitationStateRecrutedMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public byte InvitationState { get; set; }
+        public AllianceInvitationStateRecrutedMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Alliance
         {
             InvitationState = reader.ReadByte();
         }
+
     }
 }

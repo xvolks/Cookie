@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Shortcut
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Shortcut
 {
+    using Utils.IO;
+
     public class ShortcutBarAddErrorMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6227;
+        public override ushort MessageID => ProtocolId;
+        public byte Error { get; set; }
 
         public ShortcutBarAddErrorMessage(byte error)
         {
             Error = error;
         }
 
-        public ShortcutBarAddErrorMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public byte Error { get; set; }
+        public ShortcutBarAddErrorMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Shortcut
         {
             Error = reader.ReadByte();
         }
+
     }
 }

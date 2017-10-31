@@ -1,11 +1,15 @@
-﻿using Cookie.API.Protocol.Network.Types.Game.Context.Roleplay;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Guild
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Guild
 {
+    using Types.Game.Context.Roleplay;
+    using Utils.IO;
+
     public class GuildInvitedMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5552;
+        public override ushort MessageID => ProtocolId;
+        public ulong RecruterId { get; set; }
+        public string RecruterName { get; set; }
+        public BasicGuildInformations GuildInfo { get; set; }
 
         public GuildInvitedMessage(ulong recruterId, string recruterName, BasicGuildInformations guildInfo)
         {
@@ -14,14 +18,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild
             GuildInfo = guildInfo;
         }
 
-        public GuildInvitedMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ulong RecruterId { get; set; }
-        public string RecruterName { get; set; }
-        public BasicGuildInformations GuildInfo { get; set; }
+        public GuildInvitedMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -37,5 +34,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild
             GuildInfo = new BasicGuildInformations();
             GuildInfo.Deserialize(reader);
         }
+
     }
 }

@@ -1,10 +1,16 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Interactive
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Interactive
 {
+    using Utils.IO;
+
     public class InteractiveUsedMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5745;
+        public override ushort MessageID => ProtocolId;
+        public ulong EntityId { get; set; }
+        public uint ElemId { get; set; }
+        public ushort SkillId { get; set; }
+        public ushort Duration { get; set; }
+        public bool CanMove { get; set; }
 
         public InteractiveUsedMessage(ulong entityId, uint elemId, ushort skillId, ushort duration, bool canMove)
         {
@@ -15,16 +21,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Interactive
             CanMove = canMove;
         }
 
-        public InteractiveUsedMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ulong EntityId { get; set; }
-        public uint ElemId { get; set; }
-        public ushort SkillId { get; set; }
-        public ushort Duration { get; set; }
-        public bool CanMove { get; set; }
+        public InteractiveUsedMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -43,5 +40,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Interactive
             Duration = reader.ReadVarUhShort();
             CanMove = reader.ReadBoolean();
         }
+
     }
 }

@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
 {
+    using Utils.IO;
+
     public class ExchangeOnHumanVendorRequestMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5772;
+        public override ushort MessageID => ProtocolId;
+        public ulong HumanVendorId { get; set; }
+        public ushort HumanVendorCell { get; set; }
 
         public ExchangeOnHumanVendorRequestMessage(ulong humanVendorId, ushort humanVendorCell)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
             HumanVendorCell = humanVendorCell;
         }
 
-        public ExchangeOnHumanVendorRequestMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ulong HumanVendorId { get; set; }
-        public ushort HumanVendorCell { get; set; }
+        public ExchangeOnHumanVendorRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
             HumanVendorId = reader.ReadVarUhLong();
             HumanVendorCell = reader.ReadVarUhShort();
         }
+
     }
 }

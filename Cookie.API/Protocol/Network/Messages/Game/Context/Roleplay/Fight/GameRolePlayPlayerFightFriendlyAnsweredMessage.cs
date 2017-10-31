@@ -1,10 +1,15 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Fight
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Fight
 {
+    using Utils.IO;
+
     public class GameRolePlayPlayerFightFriendlyAnsweredMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5733;
+        public override ushort MessageID => ProtocolId;
+        public int FightId { get; set; }
+        public ulong SourceId { get; set; }
+        public ulong TargetId { get; set; }
+        public bool Accept { get; set; }
 
         public GameRolePlayPlayerFightFriendlyAnsweredMessage(int fightId, ulong sourceId, ulong targetId, bool accept)
         {
@@ -14,15 +19,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Fight
             Accept = accept;
         }
 
-        public GameRolePlayPlayerFightFriendlyAnsweredMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public int FightId { get; set; }
-        public ulong SourceId { get; set; }
-        public ulong TargetId { get; set; }
-        public bool Accept { get; set; }
+        public GameRolePlayPlayerFightFriendlyAnsweredMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -39,5 +36,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Fight
             TargetId = reader.ReadVarUhLong();
             Accept = reader.ReadBoolean();
         }
+
     }
 }

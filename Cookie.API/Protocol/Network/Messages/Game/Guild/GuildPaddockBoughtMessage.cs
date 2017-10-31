@@ -1,23 +1,20 @@
-﻿using Cookie.API.Protocol.Network.Types.Game.Paddock;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Guild
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Guild
 {
+    using Types.Game.Paddock;
+    using Utils.IO;
+
     public class GuildPaddockBoughtMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5952;
+        public override ushort MessageID => ProtocolId;
+        public PaddockContentInformations PaddockInfo { get; set; }
 
         public GuildPaddockBoughtMessage(PaddockContentInformations paddockInfo)
         {
             PaddockInfo = paddockInfo;
         }
 
-        public GuildPaddockBoughtMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public PaddockContentInformations PaddockInfo { get; set; }
+        public GuildPaddockBoughtMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -29,5 +26,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild
             PaddockInfo = new PaddockContentInformations();
             PaddockInfo.Deserialize(reader);
         }
+
     }
 }

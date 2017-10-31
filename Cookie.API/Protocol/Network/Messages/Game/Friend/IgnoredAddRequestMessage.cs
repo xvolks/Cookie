@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Friend
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Friend
 {
+    using Utils.IO;
+
     public class IgnoredAddRequestMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5673;
+        public override ushort MessageID => ProtocolId;
+        public string Name { get; set; }
+        public bool Session { get; set; }
 
         public IgnoredAddRequestMessage(string name, bool session)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Friend
             Session = session;
         }
 
-        public IgnoredAddRequestMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public string Name { get; set; }
-        public bool Session { get; set; }
+        public IgnoredAddRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Friend
             Name = reader.ReadUTF();
             Session = reader.ReadBoolean();
         }
+
     }
 }

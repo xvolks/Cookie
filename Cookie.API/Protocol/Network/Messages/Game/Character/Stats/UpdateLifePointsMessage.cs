@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Character.Stats
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Character.Stats
 {
+    using Utils.IO;
+
     public class UpdateLifePointsMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5658;
+        public override ushort MessageID => ProtocolId;
+        public uint LifePoints { get; set; }
+        public uint MaxLifePoints { get; set; }
 
         public UpdateLifePointsMessage(uint lifePoints, uint maxLifePoints)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Character.Stats
             MaxLifePoints = maxLifePoints;
         }
 
-        public UpdateLifePointsMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public uint LifePoints { get; set; }
-        public uint MaxLifePoints { get; set; }
+        public UpdateLifePointsMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Character.Stats
             LifePoints = reader.ReadVarUhInt();
             MaxLifePoints = reader.ReadVarUhInt();
         }
+
     }
 }

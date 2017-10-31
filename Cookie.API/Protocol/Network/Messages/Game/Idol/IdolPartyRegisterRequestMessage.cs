@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Idol
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Idol
 {
+    using Utils.IO;
+
     public class IdolPartyRegisterRequestMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6582;
+        public override ushort MessageID => ProtocolId;
+        public bool Register { get; set; }
 
         public IdolPartyRegisterRequestMessage(bool register)
         {
             Register = register;
         }
 
-        public IdolPartyRegisterRequestMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public bool Register { get; set; }
+        public IdolPartyRegisterRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Idol
         {
             Register = reader.ReadBoolean();
         }
+
     }
 }

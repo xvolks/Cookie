@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Report
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Report
 {
+    using Utils.IO;
+
     public class CharacterReportMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6079;
+        public override ushort MessageID => ProtocolId;
+        public ulong ReportedId { get; set; }
+        public byte Reason { get; set; }
 
         public CharacterReportMessage(ulong reportedId, byte reason)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Report
             Reason = reason;
         }
 
-        public CharacterReportMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ulong ReportedId { get; set; }
-        public byte Reason { get; set; }
+        public CharacterReportMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Report
             ReportedId = reader.ReadVarUhLong();
             Reason = reader.ReadByte();
         }
+
     }
 }

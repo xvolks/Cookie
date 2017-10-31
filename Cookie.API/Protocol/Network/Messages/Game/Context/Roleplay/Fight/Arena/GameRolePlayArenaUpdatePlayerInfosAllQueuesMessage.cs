@@ -1,11 +1,14 @@
-﻿using Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Fight.Arena;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Fight.Arena
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Fight.Arena
 {
+    using Types.Game.Context.Roleplay.Fight.Arena;
+    using Utils.IO;
+
     public class GameRolePlayArenaUpdatePlayerInfosAllQueuesMessage : GameRolePlayArenaUpdatePlayerInfosMessage
     {
         public new const ushort ProtocolId = 6728;
+        public override ushort MessageID => ProtocolId;
+        public ArenaRankInfos Team { get; set; }
+        public ArenaRankInfos Duel { get; set; }
 
         public GameRolePlayArenaUpdatePlayerInfosAllQueuesMessage(ArenaRankInfos team, ArenaRankInfos duel)
         {
@@ -13,13 +16,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Fight.Arena
             Duel = duel;
         }
 
-        public GameRolePlayArenaUpdatePlayerInfosAllQueuesMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ArenaRankInfos Team { get; set; }
-        public ArenaRankInfos Duel { get; set; }
+        public GameRolePlayArenaUpdatePlayerInfosAllQueuesMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -36,5 +33,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Fight.Arena
             Duel = new ArenaRankInfos();
             Duel.Deserialize(reader);
         }
+
     }
 }

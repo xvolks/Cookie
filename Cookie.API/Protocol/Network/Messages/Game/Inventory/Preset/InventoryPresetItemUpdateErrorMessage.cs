@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Preset
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Preset
 {
+    using Utils.IO;
+
     public class InventoryPresetItemUpdateErrorMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6211;
+        public override ushort MessageID => ProtocolId;
+        public byte Code { get; set; }
 
         public InventoryPresetItemUpdateErrorMessage(byte code)
         {
             Code = code;
         }
 
-        public InventoryPresetItemUpdateErrorMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public byte Code { get; set; }
+        public InventoryPresetItemUpdateErrorMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Preset
         {
             Code = reader.ReadByte();
         }
+
     }
 }

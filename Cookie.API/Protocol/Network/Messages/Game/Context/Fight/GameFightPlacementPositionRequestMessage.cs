@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
 {
+    using Utils.IO;
+
     public class GameFightPlacementPositionRequestMessage : NetworkMessage
     {
         public const ushort ProtocolId = 704;
+        public override ushort MessageID => ProtocolId;
+        public ushort CellId { get; set; }
 
         public GameFightPlacementPositionRequestMessage(ushort cellId)
         {
             CellId = cellId;
         }
 
-        public GameFightPlacementPositionRequestMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ushort CellId { get; set; }
+        public GameFightPlacementPositionRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
         {
             CellId = reader.ReadVarUhShort();
         }
+
     }
 }

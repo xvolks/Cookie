@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Lockable
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Lockable
 {
+    using Utils.IO;
+
     public class LockableStateUpdateAbstractMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5671;
+        public override ushort MessageID => ProtocolId;
+        public bool Locked { get; set; }
 
         public LockableStateUpdateAbstractMessage(bool locked)
         {
             Locked = locked;
         }
 
-        public LockableStateUpdateAbstractMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public bool Locked { get; set; }
+        public LockableStateUpdateAbstractMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Lockable
         {
             Locked = reader.ReadBoolean();
         }
+
     }
 }

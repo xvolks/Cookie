@@ -1,28 +1,25 @@
-﻿using System.Collections.Generic;
-using Cookie.API.Protocol.Network.Types.Game.Context.Roleplay;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
 {
+    using Types.Game.Context.Roleplay;
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class GameRolePlayShowMultipleActorsMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6712;
+        public override ushort MessageID => ProtocolId;
+        public List<GameRolePlayActorInformations> InformationsList { get; set; }
 
         public GameRolePlayShowMultipleActorsMessage(List<GameRolePlayActorInformations> informationsList)
         {
             InformationsList = informationsList;
         }
 
-        public GameRolePlayShowMultipleActorsMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public List<GameRolePlayActorInformations> InformationsList { get; set; }
+        public GameRolePlayShowMultipleActorsMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
-            writer.WriteShort((short) InformationsList.Count);
+            writer.WriteShort((short)InformationsList.Count);
             for (var informationsListIndex = 0; informationsListIndex < InformationsList.Count; informationsListIndex++)
             {
                 var objectToSend = InformationsList[informationsListIndex];
@@ -42,5 +39,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
                 InformationsList.Add(objectToAdd);
             }
         }
+
     }
 }

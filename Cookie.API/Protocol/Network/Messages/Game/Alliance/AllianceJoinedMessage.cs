@@ -1,11 +1,15 @@
-﻿using Cookie.API.Protocol.Network.Types.Game.Context.Roleplay;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Alliance
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Alliance
 {
+    using Types.Game.Context.Roleplay;
+    using Utils.IO;
+
     public class AllianceJoinedMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6402;
+        public override ushort MessageID => ProtocolId;
+        public AllianceInformations AllianceInfo { get; set; }
+        public bool Enabled { get; set; }
+        public uint LeadingGuildId { get; set; }
 
         public AllianceJoinedMessage(AllianceInformations allianceInfo, bool enabled, uint leadingGuildId)
         {
@@ -14,14 +18,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Alliance
             LeadingGuildId = leadingGuildId;
         }
 
-        public AllianceJoinedMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public AllianceInformations AllianceInfo { get; set; }
-        public bool Enabled { get; set; }
-        public uint LeadingGuildId { get; set; }
+        public AllianceJoinedMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -37,5 +34,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Alliance
             Enabled = reader.ReadBoolean();
             LeadingGuildId = reader.ReadVarUhInt();
         }
+
     }
 }

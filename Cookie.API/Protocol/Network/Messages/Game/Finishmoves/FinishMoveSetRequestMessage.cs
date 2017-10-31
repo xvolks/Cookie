@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Finishmoves
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Finishmoves
 {
+    using Utils.IO;
+
     public class FinishMoveSetRequestMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6703;
+        public override ushort MessageID => ProtocolId;
+        public int FinishMoveId { get; set; }
+        public bool FinishMoveState { get; set; }
 
         public FinishMoveSetRequestMessage(int finishMoveId, bool finishMoveState)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Finishmoves
             FinishMoveState = finishMoveState;
         }
 
-        public FinishMoveSetRequestMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public int FinishMoveId { get; set; }
-        public bool FinishMoveState { get; set; }
+        public FinishMoveSetRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Finishmoves
             FinishMoveId = reader.ReadInt();
             FinishMoveState = reader.ReadBoolean();
         }
+
     }
 }

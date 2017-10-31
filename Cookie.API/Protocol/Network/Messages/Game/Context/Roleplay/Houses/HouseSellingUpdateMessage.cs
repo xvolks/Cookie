@@ -1,13 +1,18 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Houses
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Houses
 {
+    using Utils.IO;
+
     public class HouseSellingUpdateMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6727;
+        public override ushort MessageID => ProtocolId;
+        public uint HouseId { get; set; }
+        public int InstanceId { get; set; }
+        public bool SecondHand { get; set; }
+        public ulong RealPrice { get; set; }
+        public string BuyerName { get; set; }
 
-        public HouseSellingUpdateMessage(uint houseId, int instanceId, bool secondHand, ulong realPrice,
-            string buyerName)
+        public HouseSellingUpdateMessage(uint houseId, int instanceId, bool secondHand, ulong realPrice, string buyerName)
         {
             HouseId = houseId;
             InstanceId = instanceId;
@@ -16,16 +21,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Houses
             BuyerName = buyerName;
         }
 
-        public HouseSellingUpdateMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public uint HouseId { get; set; }
-        public int InstanceId { get; set; }
-        public bool SecondHand { get; set; }
-        public ulong RealPrice { get; set; }
-        public string BuyerName { get; set; }
+        public HouseSellingUpdateMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -44,5 +40,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Houses
             RealPrice = reader.ReadVarUhLong();
             BuyerName = reader.ReadUTF();
         }
+
     }
 }

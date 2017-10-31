@@ -1,10 +1,14 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Basic
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Basic
 {
+    using Utils.IO;
+
     public class BasicDateMessage : NetworkMessage
     {
         public const ushort ProtocolId = 177;
+        public override ushort MessageID => ProtocolId;
+        public byte Day { get; set; }
+        public byte Month { get; set; }
+        public short Year { get; set; }
 
         public BasicDateMessage(byte day, byte month, short year)
         {
@@ -13,14 +17,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Basic
             Year = year;
         }
 
-        public BasicDateMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public byte Day { get; set; }
-        public byte Month { get; set; }
-        public short Year { get; set; }
+        public BasicDateMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -35,5 +32,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Basic
             Month = reader.ReadByte();
             Year = reader.ReadShort();
         }
+
     }
 }

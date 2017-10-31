@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
 {
+    using Utils.IO;
+
     public class ExchangePlayerMultiCraftRequestMessage : ExchangeRequestMessage
     {
         public new const ushort ProtocolId = 5784;
+        public override ushort MessageID => ProtocolId;
+        public ulong Target { get; set; }
+        public uint SkillId { get; set; }
 
         public ExchangePlayerMultiCraftRequestMessage(ulong target, uint skillId)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
             SkillId = skillId;
         }
 
-        public ExchangePlayerMultiCraftRequestMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ulong Target { get; set; }
-        public uint SkillId { get; set; }
+        public ExchangePlayerMultiCraftRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -33,5 +30,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
             Target = reader.ReadVarUhLong();
             SkillId = reader.ReadVarUhInt();
         }
+
     }
 }

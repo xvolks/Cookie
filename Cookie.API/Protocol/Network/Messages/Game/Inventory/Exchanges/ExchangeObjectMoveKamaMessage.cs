@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
 {
+    using Utils.IO;
+
     public class ExchangeObjectMoveKamaMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5520;
+        public override ushort MessageID => ProtocolId;
+        public long Quantity { get; set; }
 
         public ExchangeObjectMoveKamaMessage(long quantity)
         {
             Quantity = quantity;
         }
 
-        public ExchangeObjectMoveKamaMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public long Quantity { get; set; }
+        public ExchangeObjectMoveKamaMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
         {
             Quantity = reader.ReadVarLong();
         }
+
     }
 }

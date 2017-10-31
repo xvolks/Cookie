@@ -300,6 +300,7 @@ namespace Cookie.Game.Map
         private void Attach()
         {
             _account.Network.RegisterPacket<CurrentMapMessage>(HandleCurrentMapMessage, MessagePriority.VeryHigh);
+            _account.Network.RegisterPacket<CurrentMapInstanceMessage>(HandleCurrentMapInstanceMessage, MessagePriority.VeryHigh);
             _account.Network.RegisterPacket<MapComplementaryInformationsDataMessage>(
                 HandleMapComplementaryInformationsDataMessage, MessagePriority.VeryHigh);
             _account.Network.RegisterPacket<MapComplementaryInformationsDataInHouseMessage>(
@@ -370,6 +371,11 @@ namespace Cookie.Game.Map
             _account.Character.MapId = message.MapId;
             _account.Network.SendToServer(new MapInformationsRequestMessage(message.MapId));
             MapChange = -1;
+        }
+
+        private void HandleCurrentMapInstanceMessage(IAccount account, CurrentMapInstanceMessage message)
+        {
+            HandleCurrentMapMessage(account, message);
         }
 
         private void HandleGameContextRemoveElementMessage(IAccount account, GameContextRemoveElementMessage message)

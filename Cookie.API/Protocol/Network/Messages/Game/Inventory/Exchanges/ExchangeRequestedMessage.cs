@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
 {
+    using Utils.IO;
+
     public class ExchangeRequestedMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5522;
+        public override ushort MessageID => ProtocolId;
+        public sbyte ExchangeType { get; set; }
 
         public ExchangeRequestedMessage(sbyte exchangeType)
         {
             ExchangeType = exchangeType;
         }
 
-        public ExchangeRequestedMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public sbyte ExchangeType { get; set; }
+        public ExchangeRequestedMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
         {
             ExchangeType = reader.ReadSByte();
         }
+
     }
 }

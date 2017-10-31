@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Dialog
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Dialog
 {
+    using Utils.IO;
+
     public class PauseDialogMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6012;
+        public override ushort MessageID => ProtocolId;
+        public byte DialogType { get; set; }
 
         public PauseDialogMessage(byte dialogType)
         {
             DialogType = dialogType;
         }
 
-        public PauseDialogMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public byte DialogType { get; set; }
+        public PauseDialogMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Dialog
         {
             DialogType = reader.ReadByte();
         }
+
     }
 }

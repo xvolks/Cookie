@@ -1,28 +1,25 @@
-﻿using System.Collections.Generic;
-using Cookie.API.Protocol.Network.Types.Game.Friend;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Friend
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Friend
 {
+    using Types.Game.Friend;
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class IgnoredListMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5674;
+        public override ushort MessageID => ProtocolId;
+        public List<IgnoredInformations> IgnoredList { get; set; }
 
         public IgnoredListMessage(List<IgnoredInformations> ignoredList)
         {
             IgnoredList = ignoredList;
         }
 
-        public IgnoredListMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public List<IgnoredInformations> IgnoredList { get; set; }
+        public IgnoredListMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
-            writer.WriteShort((short) IgnoredList.Count);
+            writer.WriteShort((short)IgnoredList.Count);
             for (var ignoredListIndex = 0; ignoredListIndex < IgnoredList.Count; ignoredListIndex++)
             {
                 var objectToSend = IgnoredList[ignoredListIndex];
@@ -42,5 +39,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Friend
                 IgnoredList.Add(objectToAdd);
             }
         }
+
     }
 }

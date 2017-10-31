@@ -1,16 +1,21 @@
-﻿using System.Collections.Generic;
-using Cookie.API.Protocol.Network.Types.Game.Context.Roleplay;
-using Cookie.API.Protocol.Network.Types.Game.Social;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Alliance
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Alliance
 {
+    using Types.Game.Social;
+    using Types.Game.Context.Roleplay;
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class AllianceFactsMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6414;
+        public override ushort MessageID => ProtocolId;
+        public AllianceFactSheetInformations Infos { get; set; }
+        public List<GuildInAllianceInformations> Guilds { get; set; }
+        public List<ushort> ControlledSubareaIds { get; set; }
+        public ulong LeaderCharacterId { get; set; }
+        public string LeaderCharacterName { get; set; }
 
-        public AllianceFactsMessage(AllianceFactSheetInformations infos, List<GuildInAllianceInformations> guilds,
-            List<ushort> controlledSubareaIds, ulong leaderCharacterId, string leaderCharacterName)
+        public AllianceFactsMessage(AllianceFactSheetInformations infos, List<GuildInAllianceInformations> guilds, List<ushort> controlledSubareaIds, ulong leaderCharacterId, string leaderCharacterName)
         {
             Infos = infos;
             Guilds = guilds;
@@ -19,32 +24,23 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Alliance
             LeaderCharacterName = leaderCharacterName;
         }
 
-        public AllianceFactsMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public AllianceFactSheetInformations Infos { get; set; }
-        public List<GuildInAllianceInformations> Guilds { get; set; }
-        public List<ushort> ControlledSubareaIds { get; set; }
-        public ulong LeaderCharacterId { get; set; }
-        public string LeaderCharacterName { get; set; }
+        public AllianceFactsMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
             writer.WriteUShort(Infos.TypeID);
             Infos.Serialize(writer);
-            writer.WriteShort((short) Guilds.Count);
+            writer.WriteShort((short)Guilds.Count);
             for (var guildsIndex = 0; guildsIndex < Guilds.Count; guildsIndex++)
             {
                 var objectToSend = Guilds[guildsIndex];
                 objectToSend.Serialize(writer);
             }
-            writer.WriteShort((short) ControlledSubareaIds.Count);
-            for (var controlledSubareaIdsIndex = 0;
-                controlledSubareaIdsIndex < ControlledSubareaIds.Count;
-                controlledSubareaIdsIndex++)
+            writer.WriteShort((short)ControlledSubareaIds.Count);
+            for (var controlledSubareaIdsIndex = 0; controlledSubareaIdsIndex < ControlledSubareaIds.Count; controlledSubareaIdsIndex++)
+            {
                 writer.WriteVarUhShort(ControlledSubareaIds[controlledSubareaIdsIndex]);
+            }
             writer.WriteVarUhLong(LeaderCharacterId);
             writer.WriteUTF(LeaderCharacterName);
         }
@@ -63,12 +59,13 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Alliance
             }
             var controlledSubareaIdsCount = reader.ReadUShort();
             ControlledSubareaIds = new List<ushort>();
-            for (var controlledSubareaIdsIndex = 0;
-                controlledSubareaIdsIndex < controlledSubareaIdsCount;
-                controlledSubareaIdsIndex++)
+            for (var controlledSubareaIdsIndex = 0; controlledSubareaIdsIndex < controlledSubareaIdsCount; controlledSubareaIdsIndex++)
+            {
                 ControlledSubareaIds.Add(reader.ReadVarUhShort());
+            }
             LeaderCharacterId = reader.ReadVarUhLong();
             LeaderCharacterName = reader.ReadUTF();
         }
+
     }
 }

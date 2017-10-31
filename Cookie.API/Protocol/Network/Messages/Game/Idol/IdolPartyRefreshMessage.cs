@@ -1,23 +1,20 @@
-﻿using Cookie.API.Protocol.Network.Types.Game.Idol;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Idol
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Idol
 {
+    using Types.Game.Idol;
+    using Utils.IO;
+
     public class IdolPartyRefreshMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6583;
+        public override ushort MessageID => ProtocolId;
+        public PartyIdol PartyIdol { get; set; }
 
         public IdolPartyRefreshMessage(PartyIdol partyIdol)
         {
             PartyIdol = partyIdol;
         }
 
-        public IdolPartyRefreshMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public PartyIdol PartyIdol { get; set; }
+        public IdolPartyRefreshMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -29,5 +26,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Idol
             PartyIdol = new PartyIdol();
             PartyIdol.Deserialize(reader);
         }
+
     }
 }

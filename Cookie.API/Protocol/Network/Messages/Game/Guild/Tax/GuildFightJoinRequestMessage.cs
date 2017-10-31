@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Guild.Tax
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Guild.Tax
 {
+    using Utils.IO;
+
     public class GuildFightJoinRequestMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5717;
+        public override ushort MessageID => ProtocolId;
+        public double TaxCollectorId { get; set; }
 
         public GuildFightJoinRequestMessage(double taxCollectorId)
         {
             TaxCollectorId = taxCollectorId;
         }
 
-        public GuildFightJoinRequestMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public double TaxCollectorId { get; set; }
+        public GuildFightJoinRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild.Tax
         {
             TaxCollectorId = reader.ReadDouble();
         }
+
     }
 }

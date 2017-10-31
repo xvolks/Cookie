@@ -1,10 +1,15 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
 {
+    using Utils.IO;
+
     public class LivingObjectMessageMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6065;
+        public override ushort MessageID => ProtocolId;
+        public ushort MsgId { get; set; }
+        public int TimeStamp { get; set; }
+        public string Owner { get; set; }
+        public ushort ObjectGenericId { get; set; }
 
         public LivingObjectMessageMessage(ushort msgId, int timeStamp, string owner, ushort objectGenericId)
         {
@@ -14,15 +19,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
             ObjectGenericId = objectGenericId;
         }
 
-        public LivingObjectMessageMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ushort MsgId { get; set; }
-        public int TimeStamp { get; set; }
-        public string Owner { get; set; }
-        public ushort ObjectGenericId { get; set; }
+        public LivingObjectMessageMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -39,5 +36,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
             Owner = reader.ReadUTF();
             ObjectGenericId = reader.ReadVarUhShort();
         }
+
     }
 }

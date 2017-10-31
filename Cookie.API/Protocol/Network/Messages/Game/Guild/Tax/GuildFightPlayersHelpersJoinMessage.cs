@@ -1,11 +1,14 @@
-﻿using Cookie.API.Protocol.Network.Types.Game.Character;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Guild.Tax
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Guild.Tax
 {
+    using Types.Game.Character;
+    using Utils.IO;
+
     public class GuildFightPlayersHelpersJoinMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5720;
+        public override ushort MessageID => ProtocolId;
+        public double FightId { get; set; }
+        public CharacterMinimalPlusLookInformations PlayerInfo { get; set; }
 
         public GuildFightPlayersHelpersJoinMessage(double fightId, CharacterMinimalPlusLookInformations playerInfo)
         {
@@ -13,13 +16,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild.Tax
             PlayerInfo = playerInfo;
         }
 
-        public GuildFightPlayersHelpersJoinMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public double FightId { get; set; }
-        public CharacterMinimalPlusLookInformations PlayerInfo { get; set; }
+        public GuildFightPlayersHelpersJoinMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -33,5 +30,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild.Tax
             PlayerInfo = new CharacterMinimalPlusLookInformations();
             PlayerInfo.Deserialize(reader);
         }
+
     }
 }

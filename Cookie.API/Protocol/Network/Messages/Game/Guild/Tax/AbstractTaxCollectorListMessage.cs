@@ -1,28 +1,25 @@
-﻿using System.Collections.Generic;
-using Cookie.API.Protocol.Network.Types.Game.Guild.Tax;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Guild.Tax
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Guild.Tax
 {
+    using Types.Game.Guild.Tax;
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class AbstractTaxCollectorListMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6568;
+        public override ushort MessageID => ProtocolId;
+        public List<TaxCollectorInformations> Informations { get; set; }
 
         public AbstractTaxCollectorListMessage(List<TaxCollectorInformations> informations)
         {
             Informations = informations;
         }
 
-        public AbstractTaxCollectorListMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public List<TaxCollectorInformations> Informations { get; set; }
+        public AbstractTaxCollectorListMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
-            writer.WriteShort((short) Informations.Count);
+            writer.WriteShort((short)Informations.Count);
             for (var informationsIndex = 0; informationsIndex < Informations.Count; informationsIndex++)
             {
                 var objectToSend = Informations[informationsIndex];
@@ -42,5 +39,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild.Tax
                 Informations.Add(objectToAdd);
             }
         }
+
     }
 }

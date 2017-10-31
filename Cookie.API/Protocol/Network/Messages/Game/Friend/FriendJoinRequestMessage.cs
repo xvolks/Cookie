@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Friend
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Friend
 {
+    using Utils.IO;
+
     public class FriendJoinRequestMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5605;
+        public override ushort MessageID => ProtocolId;
+        public string Name { get; set; }
 
         public FriendJoinRequestMessage(string name)
         {
             Name = name;
         }
 
-        public FriendJoinRequestMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public string Name { get; set; }
+        public FriendJoinRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Friend
         {
             Name = reader.ReadUTF();
         }
+
     }
 }

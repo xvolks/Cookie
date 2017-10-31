@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Basic
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Basic
 {
+    using Utils.IO;
+
     public class SequenceNumberMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6317;
+        public override ushort MessageID => ProtocolId;
+        public ushort Number { get; set; }
 
         public SequenceNumberMessage(ushort number)
         {
             Number = number;
         }
 
-        public SequenceNumberMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ushort Number { get; set; }
+        public SequenceNumberMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Basic
         {
             Number = reader.ReadUShort();
         }
+
     }
 }

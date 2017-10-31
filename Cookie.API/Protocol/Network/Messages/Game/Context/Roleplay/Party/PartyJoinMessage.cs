@@ -1,16 +1,23 @@
-﻿using System.Collections.Generic;
-using Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Party;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Party
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Party
 {
+    using Types.Game.Context.Roleplay.Party;
+    using Types.Game.Context.Roleplay.Party;
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class PartyJoinMessage : AbstractPartyMessage
     {
         public new const ushort ProtocolId = 5576;
+        public override ushort MessageID => ProtocolId;
+        public byte PartyType { get; set; }
+        public ulong PartyLeaderId { get; set; }
+        public byte MaxParticipants { get; set; }
+        public List<PartyMemberInformations> Members { get; set; }
+        public List<PartyGuestInformations> Guests { get; set; }
+        public bool Restricted { get; set; }
+        public string PartyName { get; set; }
 
-        public PartyJoinMessage(byte partyType, ulong partyLeaderId, byte maxParticipants,
-            List<PartyMemberInformations> members, List<PartyGuestInformations> guests, bool restricted,
-            string partyName)
+        public PartyJoinMessage(byte partyType, ulong partyLeaderId, byte maxParticipants, List<PartyMemberInformations> members, List<PartyGuestInformations> guests, bool restricted, string partyName)
         {
             PartyType = partyType;
             PartyLeaderId = partyLeaderId;
@@ -21,18 +28,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Party
             PartyName = partyName;
         }
 
-        public PartyJoinMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public byte PartyType { get; set; }
-        public ulong PartyLeaderId { get; set; }
-        public byte MaxParticipants { get; set; }
-        public List<PartyMemberInformations> Members { get; set; }
-        public List<PartyGuestInformations> Guests { get; set; }
-        public bool Restricted { get; set; }
-        public string PartyName { get; set; }
+        public PartyJoinMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -40,14 +36,14 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Party
             writer.WriteByte(PartyType);
             writer.WriteVarUhLong(PartyLeaderId);
             writer.WriteByte(MaxParticipants);
-            writer.WriteShort((short) Members.Count);
+            writer.WriteShort((short)Members.Count);
             for (var membersIndex = 0; membersIndex < Members.Count; membersIndex++)
             {
                 var objectToSend = Members[membersIndex];
                 writer.WriteUShort(objectToSend.TypeID);
                 objectToSend.Serialize(writer);
             }
-            writer.WriteShort((short) Guests.Count);
+            writer.WriteShort((short)Guests.Count);
             for (var guestsIndex = 0; guestsIndex < Guests.Count; guestsIndex++)
             {
                 var objectToSend = Guests[guestsIndex];
@@ -82,5 +78,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Party
             Restricted = reader.ReadBoolean();
             PartyName = reader.ReadUTF();
         }
+
     }
 }

@@ -1,12 +1,15 @@
-﻿using System.Collections.Generic;
-using Cookie.API.Protocol.Network.Types.Game.Context.Roleplay;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context
 {
+    using Types.Game.Context.Roleplay;
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class GameRefreshMonsterBoostsMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6618;
+        public override ushort MessageID => ProtocolId;
+        public List<MonsterBoosts> MonsterBoosts { get; set; }
+        public List<MonsterBoosts> FamilyBoosts { get; set; }
 
         public GameRefreshMonsterBoostsMessage(List<MonsterBoosts> monsterBoosts, List<MonsterBoosts> familyBoosts)
         {
@@ -14,23 +17,17 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context
             FamilyBoosts = familyBoosts;
         }
 
-        public GameRefreshMonsterBoostsMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public List<MonsterBoosts> MonsterBoosts { get; set; }
-        public List<MonsterBoosts> FamilyBoosts { get; set; }
+        public GameRefreshMonsterBoostsMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
-            writer.WriteShort((short) MonsterBoosts.Count);
+            writer.WriteShort((short)MonsterBoosts.Count);
             for (var monsterBoostsIndex = 0; monsterBoostsIndex < MonsterBoosts.Count; monsterBoostsIndex++)
             {
                 var objectToSend = MonsterBoosts[monsterBoostsIndex];
                 objectToSend.Serialize(writer);
             }
-            writer.WriteShort((short) FamilyBoosts.Count);
+            writer.WriteShort((short)FamilyBoosts.Count);
             for (var familyBoostsIndex = 0; familyBoostsIndex < FamilyBoosts.Count; familyBoostsIndex++)
             {
                 var objectToSend = FamilyBoosts[familyBoostsIndex];
@@ -57,5 +54,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context
                 FamilyBoosts.Add(objectToAdd);
             }
         }
+
     }
 }

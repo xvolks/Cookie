@@ -1,10 +1,14 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Delay
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Delay
 {
+    using Utils.IO;
+
     public class GameRolePlayDelayedActionMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6153;
+        public override ushort MessageID => ProtocolId;
+        public double DelayedCharacterId { get; set; }
+        public byte DelayTypeId { get; set; }
+        public double DelayEndTime { get; set; }
 
         public GameRolePlayDelayedActionMessage(double delayedCharacterId, byte delayTypeId, double delayEndTime)
         {
@@ -13,14 +17,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Delay
             DelayEndTime = delayEndTime;
         }
 
-        public GameRolePlayDelayedActionMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public double DelayedCharacterId { get; set; }
-        public byte DelayTypeId { get; set; }
-        public double DelayEndTime { get; set; }
+        public GameRolePlayDelayedActionMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -35,5 +32,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Delay
             DelayTypeId = reader.ReadByte();
             DelayEndTime = reader.ReadDouble();
         }
+
     }
 }

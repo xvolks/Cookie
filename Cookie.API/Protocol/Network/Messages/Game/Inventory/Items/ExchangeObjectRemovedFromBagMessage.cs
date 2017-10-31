@@ -1,23 +1,20 @@
-﻿using Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
 {
+    using Messages.Game.Inventory.Exchanges;
+    using Utils.IO;
+
     public class ExchangeObjectRemovedFromBagMessage : ExchangeObjectMessage
     {
         public new const ushort ProtocolId = 6010;
+        public override ushort MessageID => ProtocolId;
+        public uint ObjectUID { get; set; }
 
         public ExchangeObjectRemovedFromBagMessage(uint objectUID)
         {
             ObjectUID = objectUID;
         }
 
-        public ExchangeObjectRemovedFromBagMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public uint ObjectUID { get; set; }
+        public ExchangeObjectRemovedFromBagMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -30,5 +27,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
             base.Deserialize(reader);
             ObjectUID = reader.ReadVarUhInt();
         }
+
     }
 }

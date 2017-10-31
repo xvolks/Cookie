@@ -1,16 +1,27 @@
-﻿using System.Collections.Generic;
-using Cookie.API.Protocol.Network.Types.Game.Social;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Basic
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Basic
 {
+    using Types.Game.Social;
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class BasicWhoIsMessage : NetworkMessage
     {
         public const ushort ProtocolId = 180;
+        public override ushort MessageID => ProtocolId;
+        public bool Self { get; set; }
+        public bool Verbose { get; set; }
+        public sbyte Position { get; set; }
+        public string AccountNickname { get; set; }
+        public int AccountId { get; set; }
+        public string PlayerName { get; set; }
+        public ulong PlayerId { get; set; }
+        public short AreaId { get; set; }
+        public short ServerId { get; set; }
+        public short OriginServerId { get; set; }
+        public List<AbstractSocialGroupInfos> SocialGroups { get; set; }
+        public byte PlayerState { get; set; }
 
-        public BasicWhoIsMessage(bool self, bool verbose, sbyte position, string accountNickname, int accountId,
-            string playerName, ulong playerId, short areaId, short serverId, short originServerId,
-            List<AbstractSocialGroupInfos> socialGroups, byte playerState)
+        public BasicWhoIsMessage(bool self, bool verbose, sbyte position, string accountNickname, int accountId, string playerName, ulong playerId, short areaId, short serverId, short originServerId, List<AbstractSocialGroupInfos> socialGroups, byte playerState)
         {
             Self = self;
             Verbose = verbose;
@@ -26,23 +37,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Basic
             PlayerState = playerState;
         }
 
-        public BasicWhoIsMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public bool Self { get; set; }
-        public bool Verbose { get; set; }
-        public sbyte Position { get; set; }
-        public string AccountNickname { get; set; }
-        public int AccountId { get; set; }
-        public string PlayerName { get; set; }
-        public ulong PlayerId { get; set; }
-        public short AreaId { get; set; }
-        public short ServerId { get; set; }
-        public short OriginServerId { get; set; }
-        public List<AbstractSocialGroupInfos> SocialGroups { get; set; }
-        public byte PlayerState { get; set; }
+        public BasicWhoIsMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -58,7 +53,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Basic
             writer.WriteShort(AreaId);
             writer.WriteShort(ServerId);
             writer.WriteShort(OriginServerId);
-            writer.WriteShort((short) SocialGroups.Count);
+            writer.WriteShort((short)SocialGroups.Count);
             for (var socialGroupsIndex = 0; socialGroupsIndex < SocialGroups.Count; socialGroupsIndex++)
             {
                 var objectToSend = SocialGroups[socialGroupsIndex];
@@ -91,5 +86,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Basic
             }
             PlayerState = reader.ReadByte();
         }
+
     }
 }

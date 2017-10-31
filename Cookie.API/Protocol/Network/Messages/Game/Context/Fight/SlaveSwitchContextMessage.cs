@@ -1,16 +1,22 @@
-﻿using System.Collections.Generic;
-using Cookie.API.Protocol.Network.Types.Game.Character.Characteristic;
-using Cookie.API.Protocol.Network.Types.Game.Data.Items;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
 {
+    using Types.Game.Data.Items;
+    using Types.Game.Character.Characteristic;
+    using Types.Game.Shortcut;
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class SlaveSwitchContextMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6214;
+        public override ushort MessageID => ProtocolId;
+        public double MasterId { get; set; }
+        public double SlaveId { get; set; }
+        public List<SpellItem> SlaveSpells { get; set; }
+        public CharacterCharacteristicsInformations SlaveStats { get; set; }
+        public List<Shortcut> Shortcuts { get; set; }
 
-        public SlaveSwitchContextMessage(double masterId, double slaveId, List<SpellItem> slaveSpells,
-            CharacterCharacteristicsInformations slaveStats, List<Types.Game.Shortcut.Shortcut> shortcuts)
+        public SlaveSwitchContextMessage(double masterId, double slaveId, List<SpellItem> slaveSpells, CharacterCharacteristicsInformations slaveStats, List<Shortcut> shortcuts)
         {
             MasterId = masterId;
             SlaveId = slaveId;
@@ -19,29 +25,20 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
             Shortcuts = shortcuts;
         }
 
-        public SlaveSwitchContextMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public double MasterId { get; set; }
-        public double SlaveId { get; set; }
-        public List<SpellItem> SlaveSpells { get; set; }
-        public CharacterCharacteristicsInformations SlaveStats { get; set; }
-        public List<Types.Game.Shortcut.Shortcut> Shortcuts { get; set; }
+        public SlaveSwitchContextMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
             writer.WriteDouble(MasterId);
             writer.WriteDouble(SlaveId);
-            writer.WriteShort((short) SlaveSpells.Count);
+            writer.WriteShort((short)SlaveSpells.Count);
             for (var slaveSpellsIndex = 0; slaveSpellsIndex < SlaveSpells.Count; slaveSpellsIndex++)
             {
                 var objectToSend = SlaveSpells[slaveSpellsIndex];
                 objectToSend.Serialize(writer);
             }
             SlaveStats.Serialize(writer);
-            writer.WriteShort((short) Shortcuts.Count);
+            writer.WriteShort((short)Shortcuts.Count);
             for (var shortcutsIndex = 0; shortcutsIndex < Shortcuts.Count; shortcutsIndex++)
             {
                 var objectToSend = Shortcuts[shortcutsIndex];
@@ -65,13 +62,14 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
             SlaveStats = new CharacterCharacteristicsInformations();
             SlaveStats.Deserialize(reader);
             var shortcutsCount = reader.ReadUShort();
-            Shortcuts = new List<Types.Game.Shortcut.Shortcut>();
+            Shortcuts = new List<Shortcut>();
             for (var shortcutsIndex = 0; shortcutsIndex < shortcutsCount; shortcutsIndex++)
             {
-                var objectToAdd = ProtocolTypeManager.GetInstance<Types.Game.Shortcut.Shortcut>(reader.ReadUShort());
+                var objectToAdd = ProtocolTypeManager.GetInstance<Shortcut>(reader.ReadUShort());
                 objectToAdd.Deserialize(reader);
                 Shortcuts.Add(objectToAdd);
             }
         }
+
     }
 }

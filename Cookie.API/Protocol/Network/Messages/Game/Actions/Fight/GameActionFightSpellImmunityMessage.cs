@@ -1,10 +1,14 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Actions.Fight
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Actions.Fight
 {
+    using Messages.Game.Actions;
+    using Utils.IO;
+
     public class GameActionFightSpellImmunityMessage : AbstractGameActionMessage
     {
         public new const ushort ProtocolId = 6221;
+        public override ushort MessageID => ProtocolId;
+        public double TargetId { get; set; }
+        public ushort SpellId { get; set; }
 
         public GameActionFightSpellImmunityMessage(double targetId, ushort spellId)
         {
@@ -12,13 +16,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Actions.Fight
             SpellId = spellId;
         }
 
-        public GameActionFightSpellImmunityMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public double TargetId { get; set; }
-        public ushort SpellId { get; set; }
+        public GameActionFightSpellImmunityMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -33,5 +31,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Actions.Fight
             TargetId = reader.ReadDouble();
             SpellId = reader.ReadVarUhShort();
         }
+
     }
 }

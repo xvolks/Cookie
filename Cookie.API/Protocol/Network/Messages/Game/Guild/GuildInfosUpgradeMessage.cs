@@ -1,16 +1,24 @@
-﻿using System.Collections.Generic;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Guild
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Guild
 {
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class GuildInfosUpgradeMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5636;
+        public override ushort MessageID => ProtocolId;
+        public byte MaxTaxCollectorsCount { get; set; }
+        public byte TaxCollectorsCount { get; set; }
+        public ushort TaxCollectorLifePoints { get; set; }
+        public ushort TaxCollectorDamagesBonuses { get; set; }
+        public ushort TaxCollectorPods { get; set; }
+        public ushort TaxCollectorProspecting { get; set; }
+        public ushort TaxCollectorWisdom { get; set; }
+        public ushort BoostPoints { get; set; }
+        public List<ushort> SpellId { get; set; }
+        public List<short> SpellLevel { get; set; }
 
-        public GuildInfosUpgradeMessage(byte maxTaxCollectorsCount, byte taxCollectorsCount,
-            ushort taxCollectorLifePoints, ushort taxCollectorDamagesBonuses, ushort taxCollectorPods,
-            ushort taxCollectorProspecting, ushort taxCollectorWisdom, ushort boostPoints, List<ushort> spellId,
-            List<short> spellLevel)
+        public GuildInfosUpgradeMessage(byte maxTaxCollectorsCount, byte taxCollectorsCount, ushort taxCollectorLifePoints, ushort taxCollectorDamagesBonuses, ushort taxCollectorPods, ushort taxCollectorProspecting, ushort taxCollectorWisdom, ushort boostPoints, List<ushort> spellId, List<short> spellLevel)
         {
             MaxTaxCollectorsCount = maxTaxCollectorsCount;
             TaxCollectorsCount = taxCollectorsCount;
@@ -24,21 +32,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild
             SpellLevel = spellLevel;
         }
 
-        public GuildInfosUpgradeMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public byte MaxTaxCollectorsCount { get; set; }
-        public byte TaxCollectorsCount { get; set; }
-        public ushort TaxCollectorLifePoints { get; set; }
-        public ushort TaxCollectorDamagesBonuses { get; set; }
-        public ushort TaxCollectorPods { get; set; }
-        public ushort TaxCollectorProspecting { get; set; }
-        public ushort TaxCollectorWisdom { get; set; }
-        public ushort BoostPoints { get; set; }
-        public List<ushort> SpellId { get; set; }
-        public List<short> SpellLevel { get; set; }
+        public GuildInfosUpgradeMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -50,12 +44,16 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild
             writer.WriteVarUhShort(TaxCollectorProspecting);
             writer.WriteVarUhShort(TaxCollectorWisdom);
             writer.WriteVarUhShort(BoostPoints);
-            writer.WriteShort((short) SpellId.Count);
+            writer.WriteShort((short)SpellId.Count);
             for (var spellIdIndex = 0; spellIdIndex < SpellId.Count; spellIdIndex++)
+            {
                 writer.WriteVarUhShort(SpellId[spellIdIndex]);
-            writer.WriteShort((short) SpellLevel.Count);
+            }
+            writer.WriteShort((short)SpellLevel.Count);
             for (var spellLevelIndex = 0; spellLevelIndex < SpellLevel.Count; spellLevelIndex++)
+            {
                 writer.WriteShort(SpellLevel[spellLevelIndex]);
+            }
         }
 
         public override void Deserialize(IDataReader reader)
@@ -71,11 +69,16 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild
             var spellIdCount = reader.ReadUShort();
             SpellId = new List<ushort>();
             for (var spellIdIndex = 0; spellIdIndex < spellIdCount; spellIdIndex++)
+            {
                 SpellId.Add(reader.ReadVarUhShort());
+            }
             var spellLevelCount = reader.ReadUShort();
             SpellLevel = new List<short>();
             for (var spellLevelIndex = 0; spellLevelIndex < spellLevelCount; spellLevelIndex++)
+            {
                 SpellLevel.Add(reader.ReadShort());
+            }
         }
+
     }
 }

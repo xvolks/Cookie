@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Guild
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Guild
 {
+    using Utils.IO;
+
     public class GuildSpellUpgradeRequestMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5699;
+        public override ushort MessageID => ProtocolId;
+        public int SpellId { get; set; }
 
         public GuildSpellUpgradeRequestMessage(int spellId)
         {
             SpellId = spellId;
         }
 
-        public GuildSpellUpgradeRequestMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public int SpellId { get; set; }
+        public GuildSpellUpgradeRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild
         {
             SpellId = reader.ReadInt();
         }
+
     }
 }

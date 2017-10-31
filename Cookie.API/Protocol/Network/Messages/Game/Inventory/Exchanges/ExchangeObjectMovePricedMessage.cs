@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
 {
+    using Utils.IO;
+
     public class ExchangeObjectMovePricedMessage : ExchangeObjectMoveMessage
     {
         public new const ushort ProtocolId = 5514;
+        public override ushort MessageID => ProtocolId;
+        public ulong Price { get; set; }
 
         public ExchangeObjectMovePricedMessage(ulong price)
         {
             Price = price;
         }
 
-        public ExchangeObjectMovePricedMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ulong Price { get; set; }
+        public ExchangeObjectMovePricedMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -29,5 +26,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
             base.Deserialize(reader);
             Price = reader.ReadVarUhLong();
         }
+
     }
 }

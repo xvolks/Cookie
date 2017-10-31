@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
 {
+    using Utils.IO;
+
     public class ExchangePlayerRequestMessage : ExchangeRequestMessage
     {
         public new const ushort ProtocolId = 5773;
+        public override ushort MessageID => ProtocolId;
+        public ulong Target { get; set; }
 
         public ExchangePlayerRequestMessage(ulong target)
         {
             Target = target;
         }
 
-        public ExchangePlayerRequestMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ulong Target { get; set; }
+        public ExchangePlayerRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -29,5 +26,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
             base.Deserialize(reader);
             Target = reader.ReadVarUhLong();
         }
+
     }
 }

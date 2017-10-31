@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.TreasureHunt
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.TreasureHunt
 {
+    using Utils.IO;
+
     public class TreasureHuntRequestAnswerMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6489;
+        public override ushort MessageID => ProtocolId;
+        public byte QuestType { get; set; }
+        public byte Result { get; set; }
 
         public TreasureHuntRequestAnswerMessage(byte questType, byte result)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.TreasureHun
             Result = result;
         }
 
-        public TreasureHuntRequestAnswerMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public byte QuestType { get; set; }
-        public byte Result { get; set; }
+        public TreasureHuntRequestAnswerMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.TreasureHun
             QuestType = reader.ReadByte();
             Result = reader.ReadByte();
         }
+
     }
 }

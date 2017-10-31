@@ -1,16 +1,26 @@
-﻿using System.Collections.Generic;
-using Cookie.API.Protocol.Network.Types.Game.Data.Items;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
 {
+    using Types.Game.Data.Items;
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class ExchangeGuildTaxCollectorGetMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5762;
+        public override ushort MessageID => ProtocolId;
+        public string CollectorName { get; set; }
+        public short WorldX { get; set; }
+        public short WorldY { get; set; }
+        public double MapId { get; set; }
+        public ushort SubAreaId { get; set; }
+        public string UserName { get; set; }
+        public ulong CallerId { get; set; }
+        public string CallerName { get; set; }
+        public double Experience { get; set; }
+        public ushort Pods { get; set; }
+        public List<ObjectItemGenericQuantity> ObjectsInfos { get; set; }
 
-        public ExchangeGuildTaxCollectorGetMessage(string collectorName, short worldX, short worldY, double mapId,
-            ushort subAreaId, string userName, ulong callerId, string callerName, double experience, ushort pods,
-            List<ObjectItemGenericQuantity> objectsInfos)
+        public ExchangeGuildTaxCollectorGetMessage(string collectorName, short worldX, short worldY, double mapId, ushort subAreaId, string userName, ulong callerId, string callerName, double experience, ushort pods, List<ObjectItemGenericQuantity> objectsInfos)
         {
             CollectorName = collectorName;
             WorldX = worldX;
@@ -25,22 +35,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
             ObjectsInfos = objectsInfos;
         }
 
-        public ExchangeGuildTaxCollectorGetMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public string CollectorName { get; set; }
-        public short WorldX { get; set; }
-        public short WorldY { get; set; }
-        public double MapId { get; set; }
-        public ushort SubAreaId { get; set; }
-        public string UserName { get; set; }
-        public ulong CallerId { get; set; }
-        public string CallerName { get; set; }
-        public double Experience { get; set; }
-        public ushort Pods { get; set; }
-        public List<ObjectItemGenericQuantity> ObjectsInfos { get; set; }
+        public ExchangeGuildTaxCollectorGetMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -54,7 +49,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
             writer.WriteUTF(CallerName);
             writer.WriteDouble(Experience);
             writer.WriteVarUhShort(Pods);
-            writer.WriteShort((short) ObjectsInfos.Count);
+            writer.WriteShort((short)ObjectsInfos.Count);
             for (var objectsInfosIndex = 0; objectsInfosIndex < ObjectsInfos.Count; objectsInfosIndex++)
             {
                 var objectToSend = ObjectsInfos[objectsInfosIndex];
@@ -83,5 +78,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
                 ObjectsInfos.Add(objectToAdd);
             }
         }
+
     }
 }

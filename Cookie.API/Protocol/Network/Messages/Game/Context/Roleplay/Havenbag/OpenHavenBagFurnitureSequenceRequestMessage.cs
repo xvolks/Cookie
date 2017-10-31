@@ -1,12 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Havenbag
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Havenbag
 {
+    using Utils.IO;
+
     public class OpenHavenBagFurnitureSequenceRequestMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6635;
-
         public override ushort MessageID => ProtocolId;
+
+        public OpenHavenBagFurnitureSequenceRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -15,5 +16,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Havenbag
         public override void Deserialize(IDataReader reader)
         {
         }
+
     }
 }

@@ -1,12 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Startup
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Startup
 {
+    using Utils.IO;
+
     public class StartupActionsExecuteMessage : NetworkMessage
     {
         public const ushort ProtocolId = 1302;
-
         public override ushort MessageID => ProtocolId;
+
+        public StartupActionsExecuteMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -15,5 +16,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Startup
         public override void Deserialize(IDataReader reader)
         {
         }
+
     }
 }

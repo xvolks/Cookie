@@ -1,28 +1,25 @@
-﻿using System.Collections.Generic;
-using Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Job;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Job
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Job
 {
+    using Types.Game.Context.Roleplay.Job;
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class JobCrafterDirectoryListMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6046;
+        public override ushort MessageID => ProtocolId;
+        public List<JobCrafterDirectoryListEntry> ListEntries { get; set; }
 
         public JobCrafterDirectoryListMessage(List<JobCrafterDirectoryListEntry> listEntries)
         {
             ListEntries = listEntries;
         }
 
-        public JobCrafterDirectoryListMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public List<JobCrafterDirectoryListEntry> ListEntries { get; set; }
+        public JobCrafterDirectoryListMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
-            writer.WriteShort((short) ListEntries.Count);
+            writer.WriteShort((short)ListEntries.Count);
             for (var listEntriesIndex = 0; listEntriesIndex < ListEntries.Count; listEntriesIndex++)
             {
                 var objectToSend = ListEntries[listEntriesIndex];
@@ -41,5 +38,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Job
                 ListEntries.Add(objectToAdd);
             }
         }
+
     }
 }

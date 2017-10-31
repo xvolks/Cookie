@@ -1,11 +1,14 @@
-﻿using Cookie.API.Protocol.Network.Messages.Game.Social;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Alliance
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Alliance
 {
+    using Messages.Game.Social;
+    using Utils.IO;
+
     public class AllianceBulletinSetRequestMessage : SocialNoticeSetRequestMessage
     {
         public new const ushort ProtocolId = 6693;
+        public override ushort MessageID => ProtocolId;
+        public string Content { get; set; }
+        public bool NotifyMembers { get; set; }
 
         public AllianceBulletinSetRequestMessage(string content, bool notifyMembers)
         {
@@ -13,13 +16,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Alliance
             NotifyMembers = notifyMembers;
         }
 
-        public AllianceBulletinSetRequestMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public string Content { get; set; }
-        public bool NotifyMembers { get; set; }
+        public AllianceBulletinSetRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -34,5 +31,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Alliance
             Content = reader.ReadUTF();
             NotifyMembers = reader.ReadBoolean();
         }
+
     }
 }

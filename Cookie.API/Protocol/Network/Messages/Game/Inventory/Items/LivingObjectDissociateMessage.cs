@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
 {
+    using Utils.IO;
+
     public class LivingObjectDissociateMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5723;
+        public override ushort MessageID => ProtocolId;
+        public uint LivingUID { get; set; }
+        public byte LivingPosition { get; set; }
 
         public LivingObjectDissociateMessage(uint livingUID, byte livingPosition)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
             LivingPosition = livingPosition;
         }
 
-        public LivingObjectDissociateMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public uint LivingUID { get; set; }
-        public byte LivingPosition { get; set; }
+        public LivingObjectDissociateMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
             LivingUID = reader.ReadVarUhInt();
             LivingPosition = reader.ReadByte();
         }
+
     }
 }

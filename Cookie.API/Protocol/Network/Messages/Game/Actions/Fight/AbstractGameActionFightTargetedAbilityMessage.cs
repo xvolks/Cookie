@@ -1,13 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Actions.Fight
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Actions.Fight
 {
+    using Messages.Game.Actions;
+    using Utils.IO;
+
     public class AbstractGameActionFightTargetedAbilityMessage : AbstractGameActionMessage
     {
         public new const ushort ProtocolId = 6118;
+        public override ushort MessageID => ProtocolId;
+        public bool SilentCast { get; set; }
+        public bool VerboseCast { get; set; }
+        public double TargetId { get; set; }
+        public short DestinationCellId { get; set; }
+        public byte Critical { get; set; }
 
-        public AbstractGameActionFightTargetedAbilityMessage(bool silentCast, bool verboseCast, double targetId,
-            short destinationCellId, byte critical)
+        public AbstractGameActionFightTargetedAbilityMessage(bool silentCast, bool verboseCast, double targetId, short destinationCellId, byte critical)
         {
             SilentCast = silentCast;
             VerboseCast = verboseCast;
@@ -16,16 +22,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Actions.Fight
             Critical = critical;
         }
 
-        public AbstractGameActionFightTargetedAbilityMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public bool SilentCast { get; set; }
-        public bool VerboseCast { get; set; }
-        public double TargetId { get; set; }
-        public short DestinationCellId { get; set; }
-        public byte Critical { get; set; }
+        public AbstractGameActionFightTargetedAbilityMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -49,5 +46,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Actions.Fight
             DestinationCellId = reader.ReadShort();
             Critical = reader.ReadByte();
         }
+
     }
 }

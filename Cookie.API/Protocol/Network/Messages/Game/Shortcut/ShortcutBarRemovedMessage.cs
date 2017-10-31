@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Shortcut
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Shortcut
 {
+    using Utils.IO;
+
     public class ShortcutBarRemovedMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6224;
+        public override ushort MessageID => ProtocolId;
+        public byte BarType { get; set; }
+        public byte Slot { get; set; }
 
         public ShortcutBarRemovedMessage(byte barType, byte slot)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Shortcut
             Slot = slot;
         }
 
-        public ShortcutBarRemovedMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public byte BarType { get; set; }
-        public byte Slot { get; set; }
+        public ShortcutBarRemovedMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Shortcut
             BarType = reader.ReadByte();
             Slot = reader.ReadByte();
         }
+
     }
 }

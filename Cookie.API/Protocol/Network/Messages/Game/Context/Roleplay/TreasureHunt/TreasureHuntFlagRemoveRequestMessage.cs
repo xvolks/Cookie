@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.TreasureHunt
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.TreasureHunt
 {
+    using Utils.IO;
+
     public class TreasureHuntFlagRemoveRequestMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6510;
+        public override ushort MessageID => ProtocolId;
+        public byte QuestType { get; set; }
+        public byte Index { get; set; }
 
         public TreasureHuntFlagRemoveRequestMessage(byte questType, byte index)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.TreasureHun
             Index = index;
         }
 
-        public TreasureHuntFlagRemoveRequestMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public byte QuestType { get; set; }
-        public byte Index { get; set; }
+        public TreasureHuntFlagRemoveRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.TreasureHun
             QuestType = reader.ReadByte();
             Index = reader.ReadByte();
         }
+
     }
 }

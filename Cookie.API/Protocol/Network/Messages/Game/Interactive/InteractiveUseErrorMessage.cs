@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Interactive
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Interactive
 {
+    using Utils.IO;
+
     public class InteractiveUseErrorMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6384;
+        public override ushort MessageID => ProtocolId;
+        public uint ElemId { get; set; }
+        public uint SkillInstanceUid { get; set; }
 
         public InteractiveUseErrorMessage(uint elemId, uint skillInstanceUid)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Interactive
             SkillInstanceUid = skillInstanceUid;
         }
 
-        public InteractiveUseErrorMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public uint ElemId { get; set; }
-        public uint SkillInstanceUid { get; set; }
+        public InteractiveUseErrorMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Interactive
             ElemId = reader.ReadVarUhInt();
             SkillInstanceUid = reader.ReadVarUhInt();
         }
+
     }
 }

@@ -1,28 +1,25 @@
-﻿using System.Collections.Generic;
-using Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Job;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
 {
+    using Types.Game.Context.Roleplay.Job;
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class DecraftResultMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6569;
+        public override ushort MessageID => ProtocolId;
+        public List<DecraftedItemStackInfo> Results { get; set; }
 
         public DecraftResultMessage(List<DecraftedItemStackInfo> results)
         {
             Results = results;
         }
 
-        public DecraftResultMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public List<DecraftedItemStackInfo> Results { get; set; }
+        public DecraftResultMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
-            writer.WriteShort((short) Results.Count);
+            writer.WriteShort((short)Results.Count);
             for (var resultsIndex = 0; resultsIndex < Results.Count; resultsIndex++)
             {
                 var objectToSend = Results[resultsIndex];
@@ -41,5 +38,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
                 Results.Add(objectToAdd);
             }
         }
+
     }
 }

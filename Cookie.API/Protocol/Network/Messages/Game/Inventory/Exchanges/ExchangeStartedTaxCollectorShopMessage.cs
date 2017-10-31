@@ -1,12 +1,15 @@
-﻿using System.Collections.Generic;
-using Cookie.API.Protocol.Network.Types.Game.Data.Items;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
 {
+    using Types.Game.Data.Items;
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class ExchangeStartedTaxCollectorShopMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6664;
+        public override ushort MessageID => ProtocolId;
+        public List<ObjectItem> Objects { get; set; }
+        public ulong Kamas { get; set; }
 
         public ExchangeStartedTaxCollectorShopMessage(List<ObjectItem> objects, ulong kamas)
         {
@@ -14,17 +17,11 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
             Kamas = kamas;
         }
 
-        public ExchangeStartedTaxCollectorShopMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public List<ObjectItem> Objects { get; set; }
-        public ulong Kamas { get; set; }
+        public ExchangeStartedTaxCollectorShopMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
-            writer.WriteShort((short) Objects.Count);
+            writer.WriteShort((short)Objects.Count);
             for (var objectsIndex = 0; objectsIndex < Objects.Count; objectsIndex++)
             {
                 var objectToSend = Objects[objectsIndex];
@@ -45,5 +42,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
             }
             Kamas = reader.ReadVarUhLong();
         }
+
     }
 }

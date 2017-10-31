@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
 {
+    using Utils.IO;
+
     public class GameFightTurnFinishMessage : NetworkMessage
     {
         public const ushort ProtocolId = 718;
+        public override ushort MessageID => ProtocolId;
+        public bool IsAfk { get; set; }
 
         public GameFightTurnFinishMessage(bool isAfk)
         {
             IsAfk = isAfk;
         }
 
-        public GameFightTurnFinishMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public bool IsAfk { get; set; }
+        public GameFightTurnFinishMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
         {
             IsAfk = reader.ReadBoolean();
         }
+
     }
 }

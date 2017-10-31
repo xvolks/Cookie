@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
 {
+    using Utils.IO;
+
     public class ObjectDeletedMessage : NetworkMessage
     {
         public const ushort ProtocolId = 3024;
+        public override ushort MessageID => ProtocolId;
+        public uint ObjectUID { get; set; }
 
         public ObjectDeletedMessage(uint objectUID)
         {
             ObjectUID = objectUID;
         }
 
-        public ObjectDeletedMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public uint ObjectUID { get; set; }
+        public ObjectDeletedMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
         {
             ObjectUID = reader.ReadVarUhInt();
         }
+
     }
 }

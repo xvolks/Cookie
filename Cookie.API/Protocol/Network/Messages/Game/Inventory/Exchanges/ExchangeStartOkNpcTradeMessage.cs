@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
 {
+    using Utils.IO;
+
     public class ExchangeStartOkNpcTradeMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5785;
+        public override ushort MessageID => ProtocolId;
+        public double NpcId { get; set; }
 
         public ExchangeStartOkNpcTradeMessage(double npcId)
         {
             NpcId = npcId;
         }
 
-        public ExchangeStartOkNpcTradeMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public double NpcId { get; set; }
+        public ExchangeStartOkNpcTradeMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
         {
             NpcId = reader.ReadDouble();
         }
+
     }
 }

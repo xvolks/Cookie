@@ -1,10 +1,14 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
 {
+    using Utils.IO;
+
     public class LivingObjectChangeSkinRequestMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5725;
+        public override ushort MessageID => ProtocolId;
+        public uint LivingUID { get; set; }
+        public byte LivingPosition { get; set; }
+        public uint SkinId { get; set; }
 
         public LivingObjectChangeSkinRequestMessage(uint livingUID, byte livingPosition, uint skinId)
         {
@@ -13,14 +17,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
             SkinId = skinId;
         }
 
-        public LivingObjectChangeSkinRequestMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public uint LivingUID { get; set; }
-        public byte LivingPosition { get; set; }
-        public uint SkinId { get; set; }
+        public LivingObjectChangeSkinRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -35,5 +32,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
             LivingPosition = reader.ReadByte();
             SkinId = reader.ReadVarUhInt();
         }
+
     }
 }

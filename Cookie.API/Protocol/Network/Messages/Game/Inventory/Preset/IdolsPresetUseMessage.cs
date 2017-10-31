@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Preset
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Preset
 {
+    using Utils.IO;
+
     public class IdolsPresetUseMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6615;
+        public override ushort MessageID => ProtocolId;
+        public byte PresetId { get; set; }
+        public bool Party { get; set; }
 
         public IdolsPresetUseMessage(byte presetId, bool party)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Preset
             Party = party;
         }
 
-        public IdolsPresetUseMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public byte PresetId { get; set; }
-        public bool Party { get; set; }
+        public IdolsPresetUseMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Preset
             PresetId = reader.ReadByte();
             Party = reader.ReadBoolean();
         }
+
     }
 }

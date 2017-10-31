@@ -1,13 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Party
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Party
 {
+    using Utils.IO;
+
     public class PartyInvitationMessage : AbstractPartyMessage
     {
         public new const ushort ProtocolId = 5586;
+        public override ushort MessageID => ProtocolId;
+        public byte PartyType { get; set; }
+        public string PartyName { get; set; }
+        public byte MaxParticipants { get; set; }
+        public ulong FromId { get; set; }
+        public string FromName { get; set; }
+        public ulong ToId { get; set; }
 
-        public PartyInvitationMessage(byte partyType, string partyName, byte maxParticipants, ulong fromId,
-            string fromName, ulong toId)
+        public PartyInvitationMessage(byte partyType, string partyName, byte maxParticipants, ulong fromId, string fromName, ulong toId)
         {
             PartyType = partyType;
             PartyName = partyName;
@@ -17,17 +23,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Party
             ToId = toId;
         }
 
-        public PartyInvitationMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public byte PartyType { get; set; }
-        public string PartyName { get; set; }
-        public byte MaxParticipants { get; set; }
-        public ulong FromId { get; set; }
-        public string FromName { get; set; }
-        public ulong ToId { get; set; }
+        public PartyInvitationMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -50,5 +46,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Party
             FromName = reader.ReadUTF();
             ToId = reader.ReadVarUhLong();
         }
+
     }
 }

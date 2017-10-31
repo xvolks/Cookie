@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
 {
+    using Utils.IO;
+
     public class ExchangeSellMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5778;
+        public override ushort MessageID => ProtocolId;
+        public uint ObjectToSellId { get; set; }
+        public uint Quantity { get; set; }
 
         public ExchangeSellMessage(uint objectToSellId, uint quantity)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
             Quantity = quantity;
         }
 
-        public ExchangeSellMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public uint ObjectToSellId { get; set; }
-        public uint Quantity { get; set; }
+        public ExchangeSellMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
             ObjectToSellId = reader.ReadVarUhInt();
             Quantity = reader.ReadVarUhInt();
         }
+
     }
 }

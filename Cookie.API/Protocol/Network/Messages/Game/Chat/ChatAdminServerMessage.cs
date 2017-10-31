@@ -1,12 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Chat
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Chat
 {
+    using Utils.IO;
+
     public class ChatAdminServerMessage : ChatServerMessage
     {
         public new const ushort ProtocolId = 6135;
-
         public override ushort MessageID => ProtocolId;
+
+        public ChatAdminServerMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -17,5 +18,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Chat
         {
             base.Deserialize(reader);
         }
+
     }
 }

@@ -1,10 +1,14 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Updater.Parts
+﻿namespace Cookie.API.Protocol.Network.Messages.Updater.Parts
 {
+    using Utils.IO;
+
     public class DownloadErrorMessage : NetworkMessage
     {
         public const ushort ProtocolId = 1513;
+        public override ushort MessageID => ProtocolId;
+        public byte ErrorId { get; set; }
+        public string Message { get; set; }
+        public string HelpUrl { get; set; }
 
         public DownloadErrorMessage(byte errorId, string message, string helpUrl)
         {
@@ -13,14 +17,7 @@ namespace Cookie.API.Protocol.Network.Messages.Updater.Parts
             HelpUrl = helpUrl;
         }
 
-        public DownloadErrorMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public byte ErrorId { get; set; }
-        public string Message { get; set; }
-        public string HelpUrl { get; set; }
+        public DownloadErrorMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -35,5 +32,6 @@ namespace Cookie.API.Protocol.Network.Messages.Updater.Parts
             Message = reader.ReadUTF();
             HelpUrl = reader.ReadUTF();
         }
+
     }
 }

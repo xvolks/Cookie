@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Interactive.Zaap
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Interactive.Zaap
 {
+    using Utils.IO;
+
     public class TeleportRequestMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5961;
+        public override ushort MessageID => ProtocolId;
+        public byte TeleporterType { get; set; }
+        public double MapId { get; set; }
 
         public TeleportRequestMessage(byte teleporterType, double mapId)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Interactive.Zaap
             MapId = mapId;
         }
 
-        public TeleportRequestMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public byte TeleporterType { get; set; }
-        public double MapId { get; set; }
+        public TeleportRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Interactive.Zaap
             TeleporterType = reader.ReadByte();
             MapId = reader.ReadDouble();
         }
+
     }
 }

@@ -1,12 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
 {
+    using Utils.IO;
+
     public class ExchangeObjectModifyPricedMessage : ExchangeObjectMovePricedMessage
     {
         public new const ushort ProtocolId = 6238;
-
         public override ushort MessageID => ProtocolId;
+
+        public ExchangeObjectModifyPricedMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -17,5 +18,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
         {
             base.Deserialize(reader);
         }
+
     }
 }

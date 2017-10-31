@@ -1,12 +1,14 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context
 {
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class GameCautiousMapMovementRequestMessage : GameMapMovementRequestMessage
     {
         public new const ushort ProtocolId = 6496;
-
         public override ushort MessageID => ProtocolId;
+
+        public GameCautiousMapMovementRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -17,5 +19,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context
         {
             base.Deserialize(reader);
         }
+
     }
 }

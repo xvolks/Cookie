@@ -1,10 +1,14 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Idol
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Idol
 {
+    using Utils.IO;
+
     public class IdolSelectedMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6581;
+        public override ushort MessageID => ProtocolId;
+        public bool Activate { get; set; }
+        public bool Party { get; set; }
+        public ushort IdolId { get; set; }
 
         public IdolSelectedMessage(bool activate, bool party, ushort idolId)
         {
@@ -13,14 +17,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Idol
             IdolId = idolId;
         }
 
-        public IdolSelectedMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public bool Activate { get; set; }
-        public bool Party { get; set; }
-        public ushort IdolId { get; set; }
+        public IdolSelectedMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -38,5 +35,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Idol
             Party = BooleanByteWrapper.GetFlag(flag, 1);
             IdolId = reader.ReadVarUhShort();
         }
+
     }
 }

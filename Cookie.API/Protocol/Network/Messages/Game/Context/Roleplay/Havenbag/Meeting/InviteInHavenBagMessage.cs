@@ -1,11 +1,14 @@
-﻿using Cookie.API.Protocol.Network.Types.Game.Character;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Havenbag.Meeting
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Havenbag.Meeting
 {
+    using Types.Game.Character;
+    using Utils.IO;
+
     public class InviteInHavenBagMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6642;
+        public override ushort MessageID => ProtocolId;
+        public CharacterMinimalInformations GuestInformations { get; set; }
+        public bool Accept { get; set; }
 
         public InviteInHavenBagMessage(CharacterMinimalInformations guestInformations, bool accept)
         {
@@ -13,13 +16,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Havenbag.Me
             Accept = accept;
         }
 
-        public InviteInHavenBagMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public CharacterMinimalInformations GuestInformations { get; set; }
-        public bool Accept { get; set; }
+        public InviteInHavenBagMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -33,5 +30,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Havenbag.Me
             GuestInformations.Deserialize(reader);
             Accept = reader.ReadBoolean();
         }
+
     }
 }

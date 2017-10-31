@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
 {
+    using Utils.IO;
+
     public class ExchangeStartOkCraftWithInformationMessage : ExchangeStartOkCraftMessage
     {
         public new const ushort ProtocolId = 5941;
+        public override ushort MessageID => ProtocolId;
+        public uint SkillId { get; set; }
 
         public ExchangeStartOkCraftWithInformationMessage(uint skillId)
         {
             SkillId = skillId;
         }
 
-        public ExchangeStartOkCraftWithInformationMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public uint SkillId { get; set; }
+        public ExchangeStartOkCraftWithInformationMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -29,5 +26,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
             base.Deserialize(reader);
             SkillId = reader.ReadVarUhInt();
         }
+
     }
 }

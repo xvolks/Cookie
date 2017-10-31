@@ -1,16 +1,25 @@
-﻿using System.Collections.Generic;
-using Cookie.API.Protocol.Network.Types.Game.Dare;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Dare
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Dare
 {
+    using Types.Game.Dare;
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class DareCreationRequestMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6665;
+        public override ushort MessageID => ProtocolId;
+        public bool IsPrivate { get; set; }
+        public bool IsForGuild { get; set; }
+        public bool IsForAlliance { get; set; }
+        public bool NeedNotifications { get; set; }
+        public ulong SubscriptionFee { get; set; }
+        public ulong Jackpot { get; set; }
+        public ushort MaxCountWinners { get; set; }
+        public uint DelayBeforeStart { get; set; }
+        public uint Duration { get; set; }
+        public List<DareCriteria> Criterions { get; set; }
 
-        public DareCreationRequestMessage(bool isPrivate, bool isForGuild, bool isForAlliance, bool needNotifications,
-            ulong subscriptionFee, ulong jackpot, ushort maxCountWinners, uint delayBeforeStart, uint duration,
-            List<DareCriteria> criterions)
+        public DareCreationRequestMessage(bool isPrivate, bool isForGuild, bool isForAlliance, bool needNotifications, ulong subscriptionFee, ulong jackpot, ushort maxCountWinners, uint delayBeforeStart, uint duration, List<DareCriteria> criterions)
         {
             IsPrivate = isPrivate;
             IsForGuild = isForGuild;
@@ -24,21 +33,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Dare
             Criterions = criterions;
         }
 
-        public DareCreationRequestMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public bool IsPrivate { get; set; }
-        public bool IsForGuild { get; set; }
-        public bool IsForAlliance { get; set; }
-        public bool NeedNotifications { get; set; }
-        public ulong SubscriptionFee { get; set; }
-        public ulong Jackpot { get; set; }
-        public ushort MaxCountWinners { get; set; }
-        public uint DelayBeforeStart { get; set; }
-        public uint Duration { get; set; }
-        public List<DareCriteria> Criterions { get; set; }
+        public DareCreationRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -53,7 +48,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Dare
             writer.WriteUShort(MaxCountWinners);
             writer.WriteUInt(DelayBeforeStart);
             writer.WriteUInt(Duration);
-            writer.WriteShort((short) Criterions.Count);
+            writer.WriteShort((short)Criterions.Count);
             for (var criterionsIndex = 0; criterionsIndex < Criterions.Count; criterionsIndex++)
             {
                 var objectToSend = Criterions[criterionsIndex];
@@ -82,5 +77,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Dare
                 Criterions.Add(objectToAdd);
             }
         }
+
     }
 }

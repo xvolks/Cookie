@@ -1,11 +1,14 @@
-﻿using Cookie.API.Protocol.Network.Types.Game.Character.Choice;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Character.Choice
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Character.Choice
 {
+    using Types.Game.Character.Choice;
+    using Utils.IO;
+
     public class CharacterSelectedSuccessMessage : NetworkMessage
     {
         public const ushort ProtocolId = 153;
+        public override ushort MessageID => ProtocolId;
+        public CharacterBaseInformations Infos { get; set; }
+        public bool IsCollectingStats { get; set; }
 
         public CharacterSelectedSuccessMessage(CharacterBaseInformations infos, bool isCollectingStats)
         {
@@ -13,13 +16,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Character.Choice
             IsCollectingStats = isCollectingStats;
         }
 
-        public CharacterSelectedSuccessMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public CharacterBaseInformations Infos { get; set; }
-        public bool IsCollectingStats { get; set; }
+        public CharacterSelectedSuccessMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -33,5 +30,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Character.Choice
             Infos.Deserialize(reader);
             IsCollectingStats = reader.ReadBoolean();
         }
+
     }
 }

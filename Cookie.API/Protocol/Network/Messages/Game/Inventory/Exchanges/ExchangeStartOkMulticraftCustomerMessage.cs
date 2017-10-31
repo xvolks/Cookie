@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
 {
+    using Utils.IO;
+
     public class ExchangeStartOkMulticraftCustomerMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5817;
+        public override ushort MessageID => ProtocolId;
+        public uint SkillId { get; set; }
+        public byte CrafterJobLevel { get; set; }
 
         public ExchangeStartOkMulticraftCustomerMessage(uint skillId, byte crafterJobLevel)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
             CrafterJobLevel = crafterJobLevel;
         }
 
-        public ExchangeStartOkMulticraftCustomerMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public uint SkillId { get; set; }
-        public byte CrafterJobLevel { get; set; }
+        public ExchangeStartOkMulticraftCustomerMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
             SkillId = reader.ReadVarUhInt();
             CrafterJobLevel = reader.ReadByte();
         }
+
     }
 }

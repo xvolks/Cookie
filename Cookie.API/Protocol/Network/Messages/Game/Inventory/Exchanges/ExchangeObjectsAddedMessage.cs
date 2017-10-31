@@ -1,29 +1,26 @@
-﻿using System.Collections.Generic;
-using Cookie.API.Protocol.Network.Types.Game.Data.Items;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
 {
+    using Types.Game.Data.Items;
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class ExchangeObjectsAddedMessage : ExchangeObjectMessage
     {
         public new const ushort ProtocolId = 6535;
+        public override ushort MessageID => ProtocolId;
+        public List<ObjectItem> Object { get; set; }
 
         public ExchangeObjectsAddedMessage(List<ObjectItem> @object)
         {
             Object = @object;
         }
 
-        public ExchangeObjectsAddedMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public List<ObjectItem> Object { get; set; }
+        public ExchangeObjectsAddedMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
             base.Serialize(writer);
-            writer.WriteShort((short) Object.Count);
+            writer.WriteShort((short)Object.Count);
             for (var objectIndex = 0; objectIndex < Object.Count; objectIndex++)
             {
                 var objectToSend = Object[objectIndex];
@@ -43,5 +40,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
                 Object.Add(objectToAdd);
             }
         }
+
     }
 }

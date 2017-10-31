@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
 {
+    using Utils.IO;
+
     public class ExchangeBidHouseGenericItemAddedMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5947;
+        public override ushort MessageID => ProtocolId;
+        public ushort ObjGenericId { get; set; }
 
         public ExchangeBidHouseGenericItemAddedMessage(ushort objGenericId)
         {
             ObjGenericId = objGenericId;
         }
 
-        public ExchangeBidHouseGenericItemAddedMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ushort ObjGenericId { get; set; }
+        public ExchangeBidHouseGenericItemAddedMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
         {
             ObjGenericId = reader.ReadVarUhShort();
         }
+
     }
 }

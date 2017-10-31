@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory
 {
+    using Utils.IO;
+
     public class AbstractPresetDeleteMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6735;
+        public override ushort MessageID => ProtocolId;
+        public byte PresetId { get; set; }
 
         public AbstractPresetDeleteMessage(byte presetId)
         {
             PresetId = presetId;
         }
 
-        public AbstractPresetDeleteMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public byte PresetId { get; set; }
+        public AbstractPresetDeleteMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory
         {
             PresetId = reader.ReadByte();
         }
+
     }
 }

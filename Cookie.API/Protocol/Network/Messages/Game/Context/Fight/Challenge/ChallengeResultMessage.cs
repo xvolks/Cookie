@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight.Challenge
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight.Challenge
 {
+    using Utils.IO;
+
     public class ChallengeResultMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6019;
+        public override ushort MessageID => ProtocolId;
+        public ushort ChallengeId { get; set; }
+        public bool Success { get; set; }
 
         public ChallengeResultMessage(ushort challengeId, bool success)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight.Challenge
             Success = success;
         }
 
-        public ChallengeResultMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ushort ChallengeId { get; set; }
-        public bool Success { get; set; }
+        public ChallengeResultMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight.Challenge
             ChallengeId = reader.ReadVarUhShort();
             Success = reader.ReadBoolean();
         }
+
     }
 }

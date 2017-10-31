@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
 {
+    using Utils.IO;
+
     public class GameFightSpectatePlayerRequestMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6474;
+        public override ushort MessageID => ProtocolId;
+        public ulong PlayerId { get; set; }
 
         public GameFightSpectatePlayerRequestMessage(ulong playerId)
         {
             PlayerId = playerId;
         }
 
-        public GameFightSpectatePlayerRequestMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ulong PlayerId { get; set; }
+        public GameFightSpectatePlayerRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
         {
             PlayerId = reader.ReadVarUhLong();
         }
+
     }
 }

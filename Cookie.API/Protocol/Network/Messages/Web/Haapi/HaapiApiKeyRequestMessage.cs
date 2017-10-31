@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Web.Haapi
+﻿namespace Cookie.API.Protocol.Network.Messages.Web.Haapi
 {
+    using Utils.IO;
+
     public class HaapiApiKeyRequestMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6648;
+        public override ushort MessageID => ProtocolId;
+        public byte KeyType { get; set; }
 
         public HaapiApiKeyRequestMessage(byte keyType)
         {
             KeyType = keyType;
         }
 
-        public HaapiApiKeyRequestMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public byte KeyType { get; set; }
+        public HaapiApiKeyRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Web.Haapi
         {
             KeyType = reader.ReadByte();
         }
+
     }
 }

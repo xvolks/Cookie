@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Social
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Social
 {
+    using Utils.IO;
+
     public class ContactLookRequestMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5932;
+        public override ushort MessageID => ProtocolId;
+        public byte RequestId { get; set; }
+        public byte ContactType { get; set; }
 
         public ContactLookRequestMessage(byte requestId, byte contactType)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Social
             ContactType = contactType;
         }
 
-        public ContactLookRequestMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public byte RequestId { get; set; }
-        public byte ContactType { get; set; }
+        public ContactLookRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Social
             RequestId = reader.ReadByte();
             ContactType = reader.ReadByte();
         }
+
     }
 }

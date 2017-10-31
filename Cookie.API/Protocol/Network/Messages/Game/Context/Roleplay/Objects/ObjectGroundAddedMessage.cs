@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Objects
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Objects
 {
+    using Utils.IO;
+
     public class ObjectGroundAddedMessage : NetworkMessage
     {
         public const ushort ProtocolId = 3017;
+        public override ushort MessageID => ProtocolId;
+        public ushort CellId { get; set; }
+        public ushort ObjectGID { get; set; }
 
         public ObjectGroundAddedMessage(ushort cellId, ushort objectGID)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Objects
             ObjectGID = objectGID;
         }
 
-        public ObjectGroundAddedMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ushort CellId { get; set; }
-        public ushort ObjectGID { get; set; }
+        public ObjectGroundAddedMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Objects
             CellId = reader.ReadVarUhShort();
             ObjectGID = reader.ReadVarUhShort();
         }
+
     }
 }

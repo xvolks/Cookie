@@ -1,23 +1,20 @@
-﻿using Cookie.API.Protocol.Network.Types.Game.Context.Roleplay;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Atlas
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Atlas
 {
+    using Types.Game.Context.Roleplay;
+    using Utils.IO;
+
     public class AtlasPointInformationsMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5956;
+        public override ushort MessageID => ProtocolId;
+        public AtlasPointsInformations Type { get; set; }
 
         public AtlasPointInformationsMessage(AtlasPointsInformations type)
         {
             Type = type;
         }
 
-        public AtlasPointInformationsMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public AtlasPointsInformations Type { get; set; }
+        public AtlasPointInformationsMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -29,5 +26,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Atlas
             Type = new AtlasPointsInformations();
             Type.Deserialize(reader);
         }
+
     }
 }

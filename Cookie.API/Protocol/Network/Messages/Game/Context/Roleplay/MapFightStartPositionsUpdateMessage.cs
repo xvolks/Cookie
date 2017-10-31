@@ -1,11 +1,14 @@
-﻿using Cookie.API.Protocol.Network.Types.Game.Context.Fight;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
 {
+    using Types.Game.Context.Fight;
+    using Utils.IO;
+
     public class MapFightStartPositionsUpdateMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6716;
+        public override ushort MessageID => ProtocolId;
+        public double MapId { get; set; }
+        public FightStartingPositions FightStartPositions { get; set; }
 
         public MapFightStartPositionsUpdateMessage(double mapId, FightStartingPositions fightStartPositions)
         {
@@ -13,13 +16,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
             FightStartPositions = fightStartPositions;
         }
 
-        public MapFightStartPositionsUpdateMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public double MapId { get; set; }
-        public FightStartingPositions FightStartPositions { get; set; }
+        public MapFightStartPositionsUpdateMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -33,5 +30,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
             FightStartPositions = new FightStartingPositions();
             FightStartPositions.Deserialize(reader);
         }
+
     }
 }

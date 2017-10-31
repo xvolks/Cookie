@@ -1,28 +1,24 @@
-﻿using Cookie.API.Protocol.Network.Types.Game.Context.Roleplay;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Alliance
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Alliance
 {
+    using Types.Game.Context.Roleplay;
+    using Utils.IO;
+
     public class AllianceInvitedMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6397;
+        public override ushort MessageID => ProtocolId;
+        public ulong RecruterId { get; set; }
+        public string RecruterName { get; set; }
+        public BasicNamedAllianceInformations AllianceInfo { get; set; }
 
-        public AllianceInvitedMessage(ulong recruterId, string recruterName,
-            BasicNamedAllianceInformations allianceInfo)
+        public AllianceInvitedMessage(ulong recruterId, string recruterName, BasicNamedAllianceInformations allianceInfo)
         {
             RecruterId = recruterId;
             RecruterName = recruterName;
             AllianceInfo = allianceInfo;
         }
 
-        public AllianceInvitedMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ulong RecruterId { get; set; }
-        public string RecruterName { get; set; }
-        public BasicNamedAllianceInformations AllianceInfo { get; set; }
+        public AllianceInvitedMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -38,5 +34,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Alliance
             AllianceInfo = new BasicNamedAllianceInformations();
             AllianceInfo.Deserialize(reader);
         }
+
     }
 }

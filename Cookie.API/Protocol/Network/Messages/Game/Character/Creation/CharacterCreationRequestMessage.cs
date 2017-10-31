@@ -1,11 +1,18 @@
-﻿using System.Collections.Generic;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Character.Creation
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Character.Creation
 {
+    using Enums;
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class CharacterCreationRequestMessage : NetworkMessage
     {
         public const ushort ProtocolId = 160;
+        public override ushort MessageID => ProtocolId;
+        public string Name { get; set; }
+        public sbyte Breed { get; set; }
+        public bool Sex { get; set; }
+        public List<int> Colors { get; set; }
+        public ushort CosmeticId { get; set; }
 
         public CharacterCreationRequestMessage(string name, sbyte breed, bool sex, List<int> colors, ushort cosmeticId)
         {
@@ -16,16 +23,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Character.Creation
             CosmeticId = cosmeticId;
         }
 
-        public CharacterCreationRequestMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public string Name { get; set; }
-        public sbyte Breed { get; set; }
-        public bool Sex { get; set; }
-        public List<int> Colors { get; set; }
-        public ushort CosmeticId { get; set; }
+        public CharacterCreationRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -46,5 +44,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Character.Creation
                 Colors[i] = reader.ReadInt();
             CosmeticId = reader.ReadVarUhShort();
         }
+
     }
 }

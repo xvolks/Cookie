@@ -1,23 +1,20 @@
-﻿using Cookie.API.Protocol.Network.Types.Game.Guild;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Guild
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Guild
 {
+    using Types.Game.Guild;
+    using Utils.IO;
+
     public class GuildInformationsMemberUpdateMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5597;
+        public override ushort MessageID => ProtocolId;
+        public GuildMember Member { get; set; }
 
         public GuildInformationsMemberUpdateMessage(GuildMember member)
         {
             Member = member;
         }
 
-        public GuildInformationsMemberUpdateMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public GuildMember Member { get; set; }
+        public GuildInformationsMemberUpdateMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -29,5 +26,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild
             Member = new GuildMember();
             Member.Deserialize(reader);
         }
+
     }
 }

@@ -1,10 +1,15 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Actions.Fight
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Actions.Fight
 {
+    using Messages.Game.Actions;
+    using Utils.IO;
+
     public class GameActionFightSlideMessage : AbstractGameActionMessage
     {
         public new const ushort ProtocolId = 5525;
+        public override ushort MessageID => ProtocolId;
+        public double TargetId { get; set; }
+        public short StartCellId { get; set; }
+        public short EndCellId { get; set; }
 
         public GameActionFightSlideMessage(double targetId, short startCellId, short endCellId)
         {
@@ -13,14 +18,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Actions.Fight
             EndCellId = endCellId;
         }
 
-        public GameActionFightSlideMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public double TargetId { get; set; }
-        public short StartCellId { get; set; }
-        public short EndCellId { get; set; }
+        public GameActionFightSlideMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -37,5 +35,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Actions.Fight
             StartCellId = reader.ReadShort();
             EndCellId = reader.ReadShort();
         }
+
     }
 }

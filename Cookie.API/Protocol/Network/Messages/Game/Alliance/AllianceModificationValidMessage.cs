@@ -1,11 +1,15 @@
-﻿using Cookie.API.Protocol.Network.Types.Game.Guild;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Alliance
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Alliance
 {
+    using Types.Game.Guild;
+    using Utils.IO;
+
     public class AllianceModificationValidMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6450;
+        public override ushort MessageID => ProtocolId;
+        public string AllianceName { get; set; }
+        public string AllianceTag { get; set; }
+        public GuildEmblem Alliancemblem { get; set; }
 
         public AllianceModificationValidMessage(string allianceName, string allianceTag, GuildEmblem alliancemblem)
         {
@@ -14,14 +18,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Alliance
             Alliancemblem = alliancemblem;
         }
 
-        public AllianceModificationValidMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public string AllianceName { get; set; }
-        public string AllianceTag { get; set; }
-        public GuildEmblem Alliancemblem { get; set; }
+        public AllianceModificationValidMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -37,5 +34,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Alliance
             Alliancemblem = new GuildEmblem();
             Alliancemblem.Deserialize(reader);
         }
+
     }
 }

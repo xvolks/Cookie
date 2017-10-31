@@ -1,13 +1,14 @@
-﻿using Cookie.API.Protocol.Network.Messages.Game.Social;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Alliance
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Alliance
 {
+    using Messages.Game.Social;
+    using Utils.IO;
+
     public class AllianceMotdSetErrorMessage : SocialNoticeSetErrorMessage
     {
         public new const ushort ProtocolId = 6683;
-
         public override ushort MessageID => ProtocolId;
+
+        public AllianceMotdSetErrorMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -18,5 +19,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Alliance
         {
             base.Deserialize(reader);
         }
+
     }
 }

@@ -1,10 +1,15 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Approach
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Approach
 {
+    using Utils.IO;
+
     public class ServerSettingsMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6340;
+        public override ushort MessageID => ProtocolId;
+        public string Lang { get; set; }
+        public byte Community { get; set; }
+        public sbyte GameType { get; set; }
+        public ushort ArenaLeaveBanTime { get; set; }
 
         public ServerSettingsMessage(string lang, byte community, sbyte gameType, ushort arenaLeaveBanTime)
         {
@@ -14,15 +19,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Approach
             ArenaLeaveBanTime = arenaLeaveBanTime;
         }
 
-        public ServerSettingsMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public string Lang { get; set; }
-        public byte Community { get; set; }
-        public sbyte GameType { get; set; }
-        public ushort ArenaLeaveBanTime { get; set; }
+        public ServerSettingsMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -39,5 +36,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Approach
             GameType = reader.ReadSByte();
             ArenaLeaveBanTime = reader.ReadVarUhShort();
         }
+
     }
 }

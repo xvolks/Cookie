@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Party
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Party
 {
+    using Utils.IO;
+
     public class AbstractPartyMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6274;
+        public override ushort MessageID => ProtocolId;
+        public uint PartyId { get; set; }
 
         public AbstractPartyMessage(uint partyId)
         {
             PartyId = partyId;
         }
 
-        public AbstractPartyMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public uint PartyId { get; set; }
+        public AbstractPartyMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Party
         {
             PartyId = reader.ReadVarUhInt();
         }
+
     }
 }

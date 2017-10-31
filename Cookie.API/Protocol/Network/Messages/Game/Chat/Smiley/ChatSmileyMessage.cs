@@ -1,10 +1,14 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Chat.Smiley
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Chat.Smiley
 {
+    using Utils.IO;
+
     public class ChatSmileyMessage : NetworkMessage
     {
         public const ushort ProtocolId = 801;
+        public override ushort MessageID => ProtocolId;
+        public double EntityId { get; set; }
+        public ushort SmileyId { get; set; }
+        public int AccountId { get; set; }
 
         public ChatSmileyMessage(double entityId, ushort smileyId, int accountId)
         {
@@ -13,14 +17,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Chat.Smiley
             AccountId = accountId;
         }
 
-        public ChatSmileyMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public double EntityId { get; set; }
-        public ushort SmileyId { get; set; }
-        public int AccountId { get; set; }
+        public ChatSmileyMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -35,5 +32,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Chat.Smiley
             SmileyId = reader.ReadVarUhShort();
             AccountId = reader.ReadInt();
         }
+
     }
 }

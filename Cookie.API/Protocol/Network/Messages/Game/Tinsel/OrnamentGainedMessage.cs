@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Tinsel
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Tinsel
 {
+    using Utils.IO;
+
     public class OrnamentGainedMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6368;
+        public override ushort MessageID => ProtocolId;
+        public short OrnamentId { get; set; }
 
         public OrnamentGainedMessage(short ornamentId)
         {
             OrnamentId = ornamentId;
         }
 
-        public OrnamentGainedMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public short OrnamentId { get; set; }
+        public OrnamentGainedMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Tinsel
         {
             OrnamentId = reader.ReadShort();
         }
+
     }
 }

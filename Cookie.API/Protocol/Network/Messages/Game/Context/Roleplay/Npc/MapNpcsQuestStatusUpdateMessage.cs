@@ -1,15 +1,19 @@
-﻿using System.Collections.Generic;
-using Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Quest;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Npc
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Npc
 {
+    using Types.Game.Context.Roleplay.Quest;
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class MapNpcsQuestStatusUpdateMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5642;
+        public override ushort MessageID => ProtocolId;
+        public double MapId { get; set; }
+        public List<int> NpcsIdsWithQuest { get; set; }
+        public List<GameRolePlayNpcQuestFlag> QuestFlags { get; set; }
+        public List<int> NpcsIdsWithoutQuest { get; set; }
 
-        public MapNpcsQuestStatusUpdateMessage(double mapId, List<int> npcsIdsWithQuest,
-            List<GameRolePlayNpcQuestFlag> questFlags, List<int> npcsIdsWithoutQuest)
+        public MapNpcsQuestStatusUpdateMessage(double mapId, List<int> npcsIdsWithQuest, List<GameRolePlayNpcQuestFlag> questFlags, List<int> npcsIdsWithoutQuest)
         {
             MapId = mapId;
             NpcsIdsWithQuest = npcsIdsWithQuest;
@@ -17,33 +21,27 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Npc
             NpcsIdsWithoutQuest = npcsIdsWithoutQuest;
         }
 
-        public MapNpcsQuestStatusUpdateMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public double MapId { get; set; }
-        public List<int> NpcsIdsWithQuest { get; set; }
-        public List<GameRolePlayNpcQuestFlag> QuestFlags { get; set; }
-        public List<int> NpcsIdsWithoutQuest { get; set; }
+        public MapNpcsQuestStatusUpdateMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
             writer.WriteDouble(MapId);
-            writer.WriteShort((short) NpcsIdsWithQuest.Count);
+            writer.WriteShort((short)NpcsIdsWithQuest.Count);
             for (var npcsIdsWithQuestIndex = 0; npcsIdsWithQuestIndex < NpcsIdsWithQuest.Count; npcsIdsWithQuestIndex++)
+            {
                 writer.WriteInt(NpcsIdsWithQuest[npcsIdsWithQuestIndex]);
-            writer.WriteShort((short) QuestFlags.Count);
+            }
+            writer.WriteShort((short)QuestFlags.Count);
             for (var questFlagsIndex = 0; questFlagsIndex < QuestFlags.Count; questFlagsIndex++)
             {
                 var objectToSend = QuestFlags[questFlagsIndex];
                 objectToSend.Serialize(writer);
             }
-            writer.WriteShort((short) NpcsIdsWithoutQuest.Count);
-            for (var npcsIdsWithoutQuestIndex = 0;
-                npcsIdsWithoutQuestIndex < NpcsIdsWithoutQuest.Count;
-                npcsIdsWithoutQuestIndex++)
+            writer.WriteShort((short)NpcsIdsWithoutQuest.Count);
+            for (var npcsIdsWithoutQuestIndex = 0; npcsIdsWithoutQuestIndex < NpcsIdsWithoutQuest.Count; npcsIdsWithoutQuestIndex++)
+            {
                 writer.WriteInt(NpcsIdsWithoutQuest[npcsIdsWithoutQuestIndex]);
+            }
         }
 
         public override void Deserialize(IDataReader reader)
@@ -52,7 +50,9 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Npc
             var npcsIdsWithQuestCount = reader.ReadUShort();
             NpcsIdsWithQuest = new List<int>();
             for (var npcsIdsWithQuestIndex = 0; npcsIdsWithQuestIndex < npcsIdsWithQuestCount; npcsIdsWithQuestIndex++)
+            {
                 NpcsIdsWithQuest.Add(reader.ReadInt());
+            }
             var questFlagsCount = reader.ReadUShort();
             QuestFlags = new List<GameRolePlayNpcQuestFlag>();
             for (var questFlagsIndex = 0; questFlagsIndex < questFlagsCount; questFlagsIndex++)
@@ -63,10 +63,11 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Npc
             }
             var npcsIdsWithoutQuestCount = reader.ReadUShort();
             NpcsIdsWithoutQuest = new List<int>();
-            for (var npcsIdsWithoutQuestIndex = 0;
-                npcsIdsWithoutQuestIndex < npcsIdsWithoutQuestCount;
-                npcsIdsWithoutQuestIndex++)
+            for (var npcsIdsWithoutQuestIndex = 0; npcsIdsWithoutQuestIndex < npcsIdsWithoutQuestCount; npcsIdsWithoutQuestIndex++)
+            {
                 NpcsIdsWithoutQuest.Add(reader.ReadInt());
+            }
         }
+
     }
 }

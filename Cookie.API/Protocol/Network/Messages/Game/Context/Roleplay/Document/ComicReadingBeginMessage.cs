@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Document
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Document
 {
+    using Utils.IO;
+
     public class ComicReadingBeginMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6536;
+        public override ushort MessageID => ProtocolId;
+        public ushort ComicId { get; set; }
 
         public ComicReadingBeginMessage(ushort comicId)
         {
             ComicId = comicId;
         }
 
-        public ComicReadingBeginMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ushort ComicId { get; set; }
+        public ComicReadingBeginMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Document
         {
             ComicId = reader.ReadVarUhShort();
         }
+
     }
 }

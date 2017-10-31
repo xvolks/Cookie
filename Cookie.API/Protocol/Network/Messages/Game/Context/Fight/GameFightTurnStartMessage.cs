@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
 {
+    using Utils.IO;
+
     public class GameFightTurnStartMessage : NetworkMessage
     {
         public const ushort ProtocolId = 714;
+        public override ushort MessageID => ProtocolId;
+        public double ObjectId { get; set; }
+        public uint WaitTime { get; set; }
 
         public GameFightTurnStartMessage(double objectId, uint waitTime)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
             WaitTime = waitTime;
         }
 
-        public GameFightTurnStartMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public double ObjectId { get; set; }
-        public uint WaitTime { get; set; }
+        public GameFightTurnStartMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
             ObjectId = reader.ReadDouble();
             WaitTime = reader.ReadVarUhInt();
         }
+
     }
 }

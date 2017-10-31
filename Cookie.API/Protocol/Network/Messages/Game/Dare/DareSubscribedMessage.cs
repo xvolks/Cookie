@@ -1,14 +1,18 @@
-﻿using Cookie.API.Protocol.Network.Types.Game.Dare;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Dare
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Dare
 {
+    using Types.Game.Dare;
+    using Utils.IO;
+
     public class DareSubscribedMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6660;
+        public override ushort MessageID => ProtocolId;
+        public bool Success { get; set; }
+        public bool Subscribe { get; set; }
+        public double DareId { get; set; }
+        public DareVersatileInformations DareVersatilesInfos { get; set; }
 
-        public DareSubscribedMessage(bool success, bool subscribe, double dareId,
-            DareVersatileInformations dareVersatilesInfos)
+        public DareSubscribedMessage(bool success, bool subscribe, double dareId, DareVersatileInformations dareVersatilesInfos)
         {
             Success = success;
             Subscribe = subscribe;
@@ -16,15 +20,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Dare
             DareVersatilesInfos = dareVersatilesInfos;
         }
 
-        public DareSubscribedMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public bool Success { get; set; }
-        public bool Subscribe { get; set; }
-        public double DareId { get; set; }
-        public DareVersatileInformations DareVersatilesInfos { get; set; }
+        public DareSubscribedMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -45,5 +41,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Dare
             DareVersatilesInfos = new DareVersatileInformations();
             DareVersatilesInfos.Deserialize(reader);
         }
+
     }
 }

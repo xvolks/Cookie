@@ -1,13 +1,23 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Npc
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Npc
 {
+    using Types.Game.Context.Roleplay;
+    using Utils.IO;
+
     public class TaxCollectorDialogQuestionExtendedMessage : TaxCollectorDialogQuestionBasicMessage
     {
         public new const ushort ProtocolId = 5615;
+        public override ushort MessageID => ProtocolId;
+        public ushort MaxPods { get; set; }
+        public ushort Prospecting { get; set; }
+        public ushort Wisdom { get; set; }
+        public byte TaxCollectorsCount { get; set; }
+        public int TaxCollectorAttack { get; set; }
+        public ulong Kamas { get; set; }
+        public ulong Experience { get; set; }
+        public uint Pods { get; set; }
+        public ulong ItemsValue { get; set; }
 
-        public TaxCollectorDialogQuestionExtendedMessage(ushort maxPods, ushort prospecting, ushort wisdom,
-            byte taxCollectorsCount, int taxCollectorAttack, ulong kamas, ulong experience, uint pods, ulong itemsValue)
+        public TaxCollectorDialogQuestionExtendedMessage(ushort maxPods, ushort prospecting, ushort wisdom, byte taxCollectorsCount, int taxCollectorAttack, ulong kamas, ulong experience, uint pods, ulong itemsValue)
         {
             MaxPods = maxPods;
             Prospecting = prospecting;
@@ -20,20 +30,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Npc
             ItemsValue = itemsValue;
         }
 
-        public TaxCollectorDialogQuestionExtendedMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ushort MaxPods { get; set; }
-        public ushort Prospecting { get; set; }
-        public ushort Wisdom { get; set; }
-        public byte TaxCollectorsCount { get; set; }
-        public int TaxCollectorAttack { get; set; }
-        public ulong Kamas { get; set; }
-        public ulong Experience { get; set; }
-        public uint Pods { get; set; }
-        public ulong ItemsValue { get; set; }
+        public TaxCollectorDialogQuestionExtendedMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -62,5 +59,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Npc
             Pods = reader.ReadVarUhInt();
             ItemsValue = reader.ReadVarUhLong();
         }
+
     }
 }

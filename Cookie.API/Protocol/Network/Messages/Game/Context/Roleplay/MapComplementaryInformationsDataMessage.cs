@@ -1,20 +1,31 @@
-﻿using System.Collections.Generic;
-using Cookie.API.Protocol.Network.Types.Game.Context.Fight;
-using Cookie.API.Protocol.Network.Types.Game.Context.Roleplay;
-using Cookie.API.Protocol.Network.Types.Game.House;
-using Cookie.API.Protocol.Network.Types.Game.Interactive;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
 {
+    using Types.Game.House;
+    using Types.Game.Context.Roleplay;
+    using Types.Game.Interactive;
+    using Types.Game.Interactive;
+    using Types.Game.Interactive;
+    using Types.Game.Context.Fight;
+    using Types.Game.Context.Fight;
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class MapComplementaryInformationsDataMessage : NetworkMessage
     {
         public const ushort ProtocolId = 226;
+        public override ushort MessageID => ProtocolId;
+        public ushort SubAreaId { get; set; }
+        public double MapId { get; set; }
+        public List<HouseInformations> Houses { get; set; }
+        public List<GameRolePlayActorInformations> Actors { get; set; }
+        public List<InteractiveElement> InteractiveElements { get; set; }
+        public List<StatedElement> StatedElements { get; set; }
+        public List<MapObstacle> Obstacles { get; set; }
+        public List<FightCommonInformations> Fights { get; set; }
+        public bool HasAggressiveMonsters { get; set; }
+        public FightStartingPositions FightStartPositions { get; set; }
 
-        public MapComplementaryInformationsDataMessage(ushort subAreaId, double mapId, List<HouseInformations> houses,
-            List<GameRolePlayActorInformations> actors, List<InteractiveElement> interactiveElements,
-            List<StatedElement> statedElements, List<MapObstacle> obstacles, List<FightCommonInformations> fights,
-            bool hasAggressiveMonsters, FightStartingPositions fightStartPositions)
+        public MapComplementaryInformationsDataMessage(ushort subAreaId, double mapId, List<HouseInformations> houses, List<GameRolePlayActorInformations> actors, List<InteractiveElement> interactiveElements, List<StatedElement> statedElements, List<MapObstacle> obstacles, List<FightCommonInformations> fights, bool hasAggressiveMonsters, FightStartingPositions fightStartPositions)
         {
             SubAreaId = subAreaId;
             MapId = mapId;
@@ -28,62 +39,46 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
             FightStartPositions = fightStartPositions;
         }
 
-        public MapComplementaryInformationsDataMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ushort SubAreaId { get; set; }
-        public double MapId { get; set; }
-        public List<HouseInformations> Houses { get; set; }
-        public List<GameRolePlayActorInformations> Actors { get; set; }
-        public List<InteractiveElement> InteractiveElements { get; set; }
-        public List<StatedElement> StatedElements { get; set; }
-        public List<MapObstacle> Obstacles { get; set; }
-        public List<FightCommonInformations> Fights { get; set; }
-        public bool HasAggressiveMonsters { get; set; }
-        public FightStartingPositions FightStartPositions { get; set; }
+        public MapComplementaryInformationsDataMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarUhShort(SubAreaId);
             writer.WriteDouble(MapId);
-            writer.WriteShort((short) Houses.Count);
+            writer.WriteShort((short)Houses.Count);
             for (var housesIndex = 0; housesIndex < Houses.Count; housesIndex++)
             {
                 var objectToSend = Houses[housesIndex];
                 writer.WriteUShort(objectToSend.TypeID);
                 objectToSend.Serialize(writer);
             }
-            writer.WriteShort((short) Actors.Count);
+            writer.WriteShort((short)Actors.Count);
             for (var actorsIndex = 0; actorsIndex < Actors.Count; actorsIndex++)
             {
                 var objectToSend = Actors[actorsIndex];
                 writer.WriteUShort(objectToSend.TypeID);
                 objectToSend.Serialize(writer);
             }
-            writer.WriteShort((short) InteractiveElements.Count);
-            for (var interactiveElementsIndex = 0;
-                interactiveElementsIndex < InteractiveElements.Count;
-                interactiveElementsIndex++)
+            writer.WriteShort((short)InteractiveElements.Count);
+            for (var interactiveElementsIndex = 0; interactiveElementsIndex < InteractiveElements.Count; interactiveElementsIndex++)
             {
                 var objectToSend = InteractiveElements[interactiveElementsIndex];
                 writer.WriteUShort(objectToSend.TypeID);
                 objectToSend.Serialize(writer);
             }
-            writer.WriteShort((short) StatedElements.Count);
+            writer.WriteShort((short)StatedElements.Count);
             for (var statedElementsIndex = 0; statedElementsIndex < StatedElements.Count; statedElementsIndex++)
             {
                 var objectToSend = StatedElements[statedElementsIndex];
                 objectToSend.Serialize(writer);
             }
-            writer.WriteShort((short) Obstacles.Count);
+            writer.WriteShort((short)Obstacles.Count);
             for (var obstaclesIndex = 0; obstaclesIndex < Obstacles.Count; obstaclesIndex++)
             {
                 var objectToSend = Obstacles[obstaclesIndex];
                 objectToSend.Serialize(writer);
             }
-            writer.WriteShort((short) Fights.Count);
+            writer.WriteShort((short)Fights.Count);
             for (var fightsIndex = 0; fightsIndex < Fights.Count; fightsIndex++)
             {
                 var objectToSend = Fights[fightsIndex];
@@ -115,9 +110,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
             }
             var interactiveElementsCount = reader.ReadUShort();
             InteractiveElements = new List<InteractiveElement>();
-            for (var interactiveElementsIndex = 0;
-                interactiveElementsIndex < interactiveElementsCount;
-                interactiveElementsIndex++)
+            for (var interactiveElementsIndex = 0; interactiveElementsIndex < interactiveElementsCount; interactiveElementsIndex++)
             {
                 var objectToAdd = ProtocolTypeManager.GetInstance<InteractiveElement>(reader.ReadUShort());
                 objectToAdd.Deserialize(reader);
@@ -151,5 +144,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
             FightStartPositions = new FightStartingPositions();
             FightStartPositions.Deserialize(reader);
         }
+
     }
 }

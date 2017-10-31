@@ -1,28 +1,25 @@
-﻿using System.Collections.Generic;
-using Cookie.API.Protocol.Network.Types.Game.Dare;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Dare
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Dare
 {
+    using Types.Game.Dare;
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class DareListMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6661;
+        public override ushort MessageID => ProtocolId;
+        public List<DareInformations> Dares { get; set; }
 
         public DareListMessage(List<DareInformations> dares)
         {
             Dares = dares;
         }
 
-        public DareListMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public List<DareInformations> Dares { get; set; }
+        public DareListMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
-            writer.WriteShort((short) Dares.Count);
+            writer.WriteShort((short)Dares.Count);
             for (var daresIndex = 0; daresIndex < Dares.Count; daresIndex++)
             {
                 var objectToSend = Dares[daresIndex];
@@ -41,5 +38,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Dare
                 Dares.Add(objectToAdd);
             }
         }
+
     }
 }

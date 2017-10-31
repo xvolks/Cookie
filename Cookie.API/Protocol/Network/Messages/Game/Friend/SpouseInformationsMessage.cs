@@ -1,23 +1,20 @@
-﻿using Cookie.API.Protocol.Network.Types.Game.Friend;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Friend
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Friend
 {
+    using Types.Game.Friend;
+    using Utils.IO;
+
     public class SpouseInformationsMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6356;
+        public override ushort MessageID => ProtocolId;
+        public FriendSpouseInformations Spouse { get; set; }
 
         public SpouseInformationsMessage(FriendSpouseInformations spouse)
         {
             Spouse = spouse;
         }
 
-        public SpouseInformationsMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public FriendSpouseInformations Spouse { get; set; }
+        public SpouseInformationsMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -30,5 +27,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Friend
             Spouse = ProtocolTypeManager.GetInstance<FriendSpouseInformations>(reader.ReadUShort());
             Spouse.Deserialize(reader);
         }
+
     }
 }

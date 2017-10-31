@@ -1,11 +1,14 @@
-﻿using Cookie.API.Protocol.Network.Types.Game.Context;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Atlas.Compass
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Atlas.Compass
 {
+    using Types.Game.Context;
+    using Utils.IO;
+
     public class CompassUpdateMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5591;
+        public override ushort MessageID => ProtocolId;
+        public byte Type { get; set; }
+        public MapCoordinates Coords { get; set; }
 
         public CompassUpdateMessage(byte type, MapCoordinates coords)
         {
@@ -13,13 +16,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Atlas.Compass
             Coords = coords;
         }
 
-        public CompassUpdateMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public byte Type { get; set; }
-        public MapCoordinates Coords { get; set; }
+        public CompassUpdateMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -34,5 +31,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Atlas.Compass
             Coords = ProtocolTypeManager.GetInstance<MapCoordinates>(reader.ReadUShort());
             Coords.Deserialize(reader);
         }
+
     }
 }

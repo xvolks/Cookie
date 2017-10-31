@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
 {
+    using Utils.IO;
+
     public class ObtainedItemWithBonusMessage : ObtainedItemMessage
     {
         public new const ushort ProtocolId = 6520;
+        public override ushort MessageID => ProtocolId;
+        public uint BonusQuantity { get; set; }
 
         public ObtainedItemWithBonusMessage(uint bonusQuantity)
         {
             BonusQuantity = bonusQuantity;
         }
 
-        public ObtainedItemWithBonusMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public uint BonusQuantity { get; set; }
+        public ObtainedItemWithBonusMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -29,5 +26,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
             base.Deserialize(reader);
             BonusQuantity = reader.ReadVarUhInt();
         }
+
     }
 }

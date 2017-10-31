@@ -1,23 +1,20 @@
-﻿using Cookie.API.Protocol.Network.Types.Game.Character.Characteristic;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Character.Stats
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Character.Stats
 {
+    using Types.Game.Character.Characteristic;
+    using Utils.IO;
+
     public class CharacterStatsListMessage : NetworkMessage
     {
         public const ushort ProtocolId = 500;
+        public override ushort MessageID => ProtocolId;
+        public CharacterCharacteristicsInformations Stats { get; set; }
 
         public CharacterStatsListMessage(CharacterCharacteristicsInformations stats)
         {
             Stats = stats;
         }
 
-        public CharacterStatsListMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public CharacterCharacteristicsInformations Stats { get; set; }
+        public CharacterStatsListMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -29,5 +26,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Character.Stats
             Stats = new CharacterCharacteristicsInformations();
             Stats.Deserialize(reader);
         }
+
     }
 }

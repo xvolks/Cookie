@@ -1,12 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Connection.Register
+﻿namespace Cookie.API.Protocol.Network.Messages.Connection.Register
 {
+    using Utils.IO;
+
     public class NicknameAcceptedMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5641;
-
         public override ushort MessageID => ProtocolId;
+
+        public NicknameAcceptedMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -15,5 +16,6 @@ namespace Cookie.API.Protocol.Network.Messages.Connection.Register
         public override void Deserialize(IDataReader reader)
         {
         }
+
     }
 }

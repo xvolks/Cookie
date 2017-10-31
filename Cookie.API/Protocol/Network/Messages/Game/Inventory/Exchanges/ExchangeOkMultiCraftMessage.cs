@@ -1,10 +1,14 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
 {
+    using Utils.IO;
+
     public class ExchangeOkMultiCraftMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5768;
+        public override ushort MessageID => ProtocolId;
+        public ulong InitiatorId { get; set; }
+        public ulong OtherId { get; set; }
+        public sbyte Role { get; set; }
 
         public ExchangeOkMultiCraftMessage(ulong initiatorId, ulong otherId, sbyte role)
         {
@@ -13,14 +17,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
             Role = role;
         }
 
-        public ExchangeOkMultiCraftMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ulong InitiatorId { get; set; }
-        public ulong OtherId { get; set; }
-        public sbyte Role { get; set; }
+        public ExchangeOkMultiCraftMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -35,5 +32,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
             OtherId = reader.ReadVarUhLong();
             Role = reader.ReadSByte();
         }
+
     }
 }

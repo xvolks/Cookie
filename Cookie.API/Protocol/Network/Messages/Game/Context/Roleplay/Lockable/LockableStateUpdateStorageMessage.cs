@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Lockable
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Lockable
 {
+    using Utils.IO;
+
     public class LockableStateUpdateStorageMessage : LockableStateUpdateAbstractMessage
     {
         public new const ushort ProtocolId = 5669;
+        public override ushort MessageID => ProtocolId;
+        public double MapId { get; set; }
+        public uint ElementId { get; set; }
 
         public LockableStateUpdateStorageMessage(double mapId, uint elementId)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Lockable
             ElementId = elementId;
         }
 
-        public LockableStateUpdateStorageMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public double MapId { get; set; }
-        public uint ElementId { get; set; }
+        public LockableStateUpdateStorageMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -33,5 +30,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Lockable
             MapId = reader.ReadDouble();
             ElementId = reader.ReadVarUhInt();
         }
+
     }
 }

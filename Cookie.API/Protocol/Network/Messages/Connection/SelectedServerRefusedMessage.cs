@@ -1,10 +1,14 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Connection
+﻿namespace Cookie.API.Protocol.Network.Messages.Connection
 {
+    using Utils.IO;
+
     public class SelectedServerRefusedMessage : NetworkMessage
     {
         public const ushort ProtocolId = 41;
+        public override ushort MessageID => ProtocolId;
+        public ushort ServerId { get; set; }
+        public byte Error { get; set; }
+        public byte ServerStatus { get; set; }
 
         public SelectedServerRefusedMessage(ushort serverId, byte error, byte serverStatus)
         {
@@ -13,14 +17,7 @@ namespace Cookie.API.Protocol.Network.Messages.Connection
             ServerStatus = serverStatus;
         }
 
-        public SelectedServerRefusedMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ushort ServerId { get; set; }
-        public byte Error { get; set; }
-        public byte ServerStatus { get; set; }
+        public SelectedServerRefusedMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -35,5 +32,6 @@ namespace Cookie.API.Protocol.Network.Messages.Connection
             Error = reader.ReadByte();
             ServerStatus = reader.ReadByte();
         }
+
     }
 }

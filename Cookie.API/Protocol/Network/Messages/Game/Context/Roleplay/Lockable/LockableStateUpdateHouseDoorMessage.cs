@@ -1,10 +1,14 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Lockable
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Lockable
 {
+    using Utils.IO;
+
     public class LockableStateUpdateHouseDoorMessage : LockableStateUpdateAbstractMessage
     {
         public new const ushort ProtocolId = 5668;
+        public override ushort MessageID => ProtocolId;
+        public uint HouseId { get; set; }
+        public int InstanceId { get; set; }
+        public bool SecondHand { get; set; }
 
         public LockableStateUpdateHouseDoorMessage(uint houseId, int instanceId, bool secondHand)
         {
@@ -13,14 +17,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Lockable
             SecondHand = secondHand;
         }
 
-        public LockableStateUpdateHouseDoorMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public uint HouseId { get; set; }
-        public int InstanceId { get; set; }
-        public bool SecondHand { get; set; }
+        public LockableStateUpdateHouseDoorMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -37,5 +34,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Lockable
             InstanceId = reader.ReadInt();
             SecondHand = reader.ReadBoolean();
         }
+
     }
 }

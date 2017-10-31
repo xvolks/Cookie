@@ -1,10 +1,14 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Houses
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Houses
 {
+    using Utils.IO;
+
     public class HouseSellRequestMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5697;
+        public override ushort MessageID => ProtocolId;
+        public int InstanceId { get; set; }
+        public ulong Amount { get; set; }
+        public bool ForSale { get; set; }
 
         public HouseSellRequestMessage(int instanceId, ulong amount, bool forSale)
         {
@@ -13,14 +17,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Houses
             ForSale = forSale;
         }
 
-        public HouseSellRequestMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public int InstanceId { get; set; }
-        public ulong Amount { get; set; }
-        public bool ForSale { get; set; }
+        public HouseSellRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -35,5 +32,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Houses
             Amount = reader.ReadVarUhLong();
             ForSale = reader.ReadBoolean();
         }
+
     }
 }

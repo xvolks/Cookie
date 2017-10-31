@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Prism
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Prism
 {
+    using Utils.IO;
+
     public class PrismSetSabotagedRefusedMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6466;
+        public override ushort MessageID => ProtocolId;
+        public ushort SubAreaId { get; set; }
+        public sbyte Reason { get; set; }
 
         public PrismSetSabotagedRefusedMessage(ushort subAreaId, sbyte reason)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Prism
             Reason = reason;
         }
 
-        public PrismSetSabotagedRefusedMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ushort SubAreaId { get; set; }
-        public sbyte Reason { get; set; }
+        public PrismSetSabotagedRefusedMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Prism
             SubAreaId = reader.ReadVarUhShort();
             Reason = reader.ReadSByte();
         }
+
     }
 }

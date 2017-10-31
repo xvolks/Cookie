@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Death
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Death
 {
+    using Utils.IO;
+
     public class GameRolePlayPlayerLifeStatusMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5996;
+        public override ushort MessageID => ProtocolId;
+        public byte State { get; set; }
+        public double PhenixMapId { get; set; }
 
         public GameRolePlayPlayerLifeStatusMessage(byte state, double phenixMapId)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Death
             PhenixMapId = phenixMapId;
         }
 
-        public GameRolePlayPlayerLifeStatusMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public byte State { get; set; }
-        public double PhenixMapId { get; set; }
+        public GameRolePlayPlayerLifeStatusMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Death
             State = reader.ReadByte();
             PhenixMapId = reader.ReadDouble();
         }
+
     }
 }

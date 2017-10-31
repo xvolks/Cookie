@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Security
+﻿namespace Cookie.API.Protocol.Network.Messages.Security
 {
+    using Utils.IO;
+
     public class CheckFileRequestMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6154;
+        public override ushort MessageID => ProtocolId;
+        public string Filename { get; set; }
+        public byte Type { get; set; }
 
         public CheckFileRequestMessage(string filename, byte type)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Security
             Type = type;
         }
 
-        public CheckFileRequestMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public string Filename { get; set; }
-        public byte Type { get; set; }
+        public CheckFileRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Security
             Filename = reader.ReadUTF();
             Type = reader.ReadByte();
         }
+
     }
 }

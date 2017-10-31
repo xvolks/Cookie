@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Chat
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Chat
 {
+    using Utils.IO;
+
     public class ChatClientPrivateMessage : ChatAbstractClientMessage
     {
         public new const ushort ProtocolId = 851;
+        public override ushort MessageID => ProtocolId;
+        public string Receiver { get; set; }
 
         public ChatClientPrivateMessage(string receiver)
         {
             Receiver = receiver;
         }
 
-        public ChatClientPrivateMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public string Receiver { get; set; }
+        public ChatClientPrivateMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -29,5 +26,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Chat
             base.Deserialize(reader);
             Receiver = reader.ReadUTF();
         }
+
     }
 }

@@ -1,28 +1,25 @@
-﻿using System.Collections.Generic;
-using Cookie.API.Protocol.Network.Types.Game.Context.Fight;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
 {
+    using Types.Game.Context.Fight;
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class MapRunningFightListMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5743;
+        public override ushort MessageID => ProtocolId;
+        public List<FightExternalInformations> Fights { get; set; }
 
         public MapRunningFightListMessage(List<FightExternalInformations> fights)
         {
             Fights = fights;
         }
 
-        public MapRunningFightListMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public List<FightExternalInformations> Fights { get; set; }
+        public MapRunningFightListMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
-            writer.WriteShort((short) Fights.Count);
+            writer.WriteShort((short)Fights.Count);
             for (var fightsIndex = 0; fightsIndex < Fights.Count; fightsIndex++)
             {
                 var objectToSend = Fights[fightsIndex];
@@ -41,5 +38,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
                 Fights.Add(objectToAdd);
             }
         }
+
     }
 }

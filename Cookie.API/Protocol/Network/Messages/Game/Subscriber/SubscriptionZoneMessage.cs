@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Subscriber
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Subscriber
 {
+    using Utils.IO;
+
     public class SubscriptionZoneMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5573;
+        public override ushort MessageID => ProtocolId;
+        public bool Active { get; set; }
 
         public SubscriptionZoneMessage(bool active)
         {
             Active = active;
         }
 
-        public SubscriptionZoneMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public bool Active { get; set; }
+        public SubscriptionZoneMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Subscriber
         {
             Active = reader.ReadBoolean();
         }
+
     }
 }

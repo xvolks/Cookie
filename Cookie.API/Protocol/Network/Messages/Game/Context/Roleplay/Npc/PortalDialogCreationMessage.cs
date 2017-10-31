@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Npc
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Npc
 {
+    using Utils.IO;
+
     public class PortalDialogCreationMessage : NpcDialogCreationMessage
     {
         public new const ushort ProtocolId = 6737;
+        public override ushort MessageID => ProtocolId;
+        public int Type { get; set; }
 
         public PortalDialogCreationMessage(int type)
         {
             Type = type;
         }
 
-        public PortalDialogCreationMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public int Type { get; set; }
+        public PortalDialogCreationMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -29,5 +26,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Npc
             base.Deserialize(reader);
             Type = reader.ReadInt();
         }
+
     }
 }

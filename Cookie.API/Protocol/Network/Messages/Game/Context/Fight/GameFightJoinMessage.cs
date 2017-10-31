@@ -1,13 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
 {
+    using Utils.IO;
+
     public class GameFightJoinMessage : NetworkMessage
     {
         public const ushort ProtocolId = 702;
+        public override ushort MessageID => ProtocolId;
+        public bool IsTeamPhase { get; set; }
+        public bool CanBeCancelled { get; set; }
+        public bool CanSayReady { get; set; }
+        public bool IsFightStarted { get; set; }
+        public short TimeMaxBeforeFightStart { get; set; }
+        public byte FightType { get; set; }
 
-        public GameFightJoinMessage(bool isTeamPhase, bool canBeCancelled, bool canSayReady, bool isFightStarted,
-            short timeMaxBeforeFightStart, byte fightType)
+        public GameFightJoinMessage(bool isTeamPhase, bool canBeCancelled, bool canSayReady, bool isFightStarted, short timeMaxBeforeFightStart, byte fightType)
         {
             IsTeamPhase = isTeamPhase;
             CanBeCancelled = canBeCancelled;
@@ -17,17 +23,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
             FightType = fightType;
         }
 
-        public GameFightJoinMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public bool IsTeamPhase { get; set; }
-        public bool CanBeCancelled { get; set; }
-        public bool CanSayReady { get; set; }
-        public bool IsFightStarted { get; set; }
-        public short TimeMaxBeforeFightStart { get; set; }
-        public byte FightType { get; set; }
+        public GameFightJoinMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -51,5 +47,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
             TimeMaxBeforeFightStart = reader.ReadShort();
             FightType = reader.ReadByte();
         }
+
     }
 }

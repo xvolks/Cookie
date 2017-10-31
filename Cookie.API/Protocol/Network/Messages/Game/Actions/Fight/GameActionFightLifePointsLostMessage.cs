@@ -1,10 +1,15 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Actions.Fight
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Actions.Fight
 {
+    using Messages.Game.Actions;
+    using Utils.IO;
+
     public class GameActionFightLifePointsLostMessage : AbstractGameActionMessage
     {
         public new const ushort ProtocolId = 6312;
+        public override ushort MessageID => ProtocolId;
+        public double TargetId { get; set; }
+        public uint Loss { get; set; }
+        public uint PermanentDamages { get; set; }
 
         public GameActionFightLifePointsLostMessage(double targetId, uint loss, uint permanentDamages)
         {
@@ -13,14 +18,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Actions.Fight
             PermanentDamages = permanentDamages;
         }
 
-        public GameActionFightLifePointsLostMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public double TargetId { get; set; }
-        public uint Loss { get; set; }
-        public uint PermanentDamages { get; set; }
+        public GameActionFightLifePointsLostMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -37,5 +35,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Actions.Fight
             Loss = reader.ReadVarUhInt();
             PermanentDamages = reader.ReadVarUhInt();
         }
+
     }
 }

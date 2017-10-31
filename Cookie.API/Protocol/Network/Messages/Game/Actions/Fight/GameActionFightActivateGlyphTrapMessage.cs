@@ -1,10 +1,14 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Actions.Fight
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Actions.Fight
 {
+    using Messages.Game.Actions;
+    using Utils.IO;
+
     public class GameActionFightActivateGlyphTrapMessage : AbstractGameActionMessage
     {
         public new const ushort ProtocolId = 6545;
+        public override ushort MessageID => ProtocolId;
+        public short MarkId { get; set; }
+        public bool Active { get; set; }
 
         public GameActionFightActivateGlyphTrapMessage(short markId, bool active)
         {
@@ -12,13 +16,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Actions.Fight
             Active = active;
         }
 
-        public GameActionFightActivateGlyphTrapMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public short MarkId { get; set; }
-        public bool Active { get; set; }
+        public GameActionFightActivateGlyphTrapMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -33,5 +31,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Actions.Fight
             MarkId = reader.ReadShort();
             Active = reader.ReadBoolean();
         }
+
     }
 }

@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Mount
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Mount
 {
+    using Utils.IO;
+
     public class MountHarnessColorsUpdateRequestMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6697;
+        public override ushort MessageID => ProtocolId;
+        public bool UseHarnessColors { get; set; }
 
         public MountHarnessColorsUpdateRequestMessage(bool useHarnessColors)
         {
             UseHarnessColors = useHarnessColors;
         }
 
-        public MountHarnessColorsUpdateRequestMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public bool UseHarnessColors { get; set; }
+        public MountHarnessColorsUpdateRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Mount
         {
             UseHarnessColors = reader.ReadBoolean();
         }
+
     }
 }

@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
 {
+    using Utils.IO;
+
     public class ExchangeReadyMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5511;
+        public override ushort MessageID => ProtocolId;
+        public bool Ready { get; set; }
+        public ushort Step { get; set; }
 
         public ExchangeReadyMessage(bool ready, ushort step)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
             Step = step;
         }
 
-        public ExchangeReadyMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public bool Ready { get; set; }
-        public ushort Step { get; set; }
+        public ExchangeReadyMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
             Ready = reader.ReadBoolean();
             Step = reader.ReadVarUhShort();
         }
+
     }
 }
