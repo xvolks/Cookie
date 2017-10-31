@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Windows.Forms;
+using Cookie.Core;
 
 namespace DofusMapControl
 {
@@ -152,9 +153,9 @@ namespace DofusMapControl
             {
                 CellClicked?.Invoke(this, cell, buttons, hold);
             } 
-            catch
+            catch(BotNotRunningException)
             {
-                MessageBox.Show("Une erreur est survenue... Le bot est-il bien lancé ?");
+                MessageBox.Show("Veillez à lancer le bot avant d'utiliser la map.", "Erreur");
             }
         }
 

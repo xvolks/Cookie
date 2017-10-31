@@ -284,6 +284,9 @@ namespace Cookie.Game.Map
         private void MapControl_CellClicked(MapControl control, MapCell cell, MouseButtons buttons, bool hold)
         {
             if (buttons != MouseButtons.Left) return;
+            // If data is null, no map have been entered, the bot is not running.
+            if (Data is null) throw new BotNotRunningException();
+
             var mov = MoveToCell(cell.Id);
             mov.MovementFinished += (sender, e) =>
             {

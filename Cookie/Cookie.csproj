@@ -71,6 +71,7 @@
     <Compile Include="Commands\Exceptions\NoCommandException.cs" />
     <Compile Include="Commands\Managers\CommandManager.cs" />
     <Compile Include="Core\Account.cs" />
+    <Compile Include="Core\BotNotRunningException.cs" />
     <Compile Include="Core\Frames\BasicFrame.cs" />
     <Compile Include="Core\Frames\LatencyFrame.cs" />
     <Compile Include="Core\Network\Network.cs" />
