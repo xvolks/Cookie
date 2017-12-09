@@ -34,5 +34,6 @@ namespace Cookie.API.Datacenter
         public List<List<int>> Playlists;
         public List<List<int>> Quests;
         public List<int> Shape;
+        public bool MountAutoTripAllowed;
     }
 }

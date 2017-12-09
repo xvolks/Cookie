@@ -153,6 +153,8 @@
     <Compile Include="Network\ServerConnection.cs" />
     <Compile Include="Network\SocketAsyncEventArgsPool.cs" />
     <Compile Include="Plugins\IPlugin.cs" />
+    <Compile Include="Protocol\Datacenter\spells\SpellVariant.cs" />
+    <Compile Include="Protocol\Datacenter\world\Subhints.cs" />
     <Compile Include="Protocol\Enums\AccessoryPreviewErrorEnum.cs" />
     <Compile Include="Protocol\Enums\AggressableStatusEnum.cs" />
     <Compile Include="Protocol\Enums\AlignmentSideEnum.cs" />
