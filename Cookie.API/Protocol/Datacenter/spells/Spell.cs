@@ -25,6 +25,5 @@ namespace Cookie.API.Datacenter
         public bool UseSpellLevelScaling;
         public List<int> Variants;
         public bool Verbosecast;
-        public string Defaultzone;
     }
 }

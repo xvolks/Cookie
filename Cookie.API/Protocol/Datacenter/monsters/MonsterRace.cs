@@ -13,9 +13,5 @@ namespace Cookie.API.Datacenter
         public List<uint> Monsters;
         public uint NameId;
         public int SuperRaceId;
-        public int AggressiveZoneSize;
-        public int AggressiveLevelDiff;
-        public string AggressiveImmunityCriterion;
-        public int AggressiveAttackDelay;
     }
 }

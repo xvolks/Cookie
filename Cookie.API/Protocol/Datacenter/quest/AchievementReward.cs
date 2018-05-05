@@ -19,9 +19,5 @@ namespace Cookie.API.Datacenter
         public List<uint> OrnamentsReward;
         public List<uint> SpellsReward;
         public List<uint> TitlesReward;
-		public string Criteria;
-        public double KamasRatio;
-        public double ExperienceRatio;
-        public bool KamasScaleWithPlayerLevel;
     }
 }

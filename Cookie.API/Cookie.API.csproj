@@ -153,8 +153,6 @@
     <Compile Include="Network\ServerConnection.cs" />
     <Compile Include="Network\SocketAsyncEventArgsPool.cs" />
     <Compile Include="Plugins\IPlugin.cs" />
-    <Compile Include="Protocol\Datacenter\spells\SpellVariant.cs" />
-    <Compile Include="Protocol\Datacenter\world\Subhints.cs" />
     <Compile Include="Protocol\Enums\AccessoryPreviewErrorEnum.cs" />
     <Compile Include="Protocol\Enums\AggressableStatusEnum.cs" />
     <Compile Include="Protocol\Enums\AlignmentSideEnum.cs" />
@@ -1284,6 +1282,7 @@
     <Compile Include="Protocol\Network\Messages\Web\Ankabox\NewMailMessage.cs" />
     <Compile Include="Protocol\Network\Messages\Web\Haapi\HaapiApiKeyMessage.cs" />
     <Compile Include="Protocol\Network\Messages\Web\Haapi\HaapiApiKeyRequestMessage.cs" />
+    <Compile Include="Protocol\Network\Messages\Web\Haapi\HaapiSessionMessage.cs" />
     <Compile Include="Protocol\Network\Messages\Web\Krosmaster\KrosmasterAuthTokenErrorMessage.cs" />
     <Compile Include="Protocol\Network\Messages\Web\Krosmaster\KrosmasterAuthTokenMessage.cs" />
     <Compile Include="Protocol\Network\Messages\Web\Krosmaster\KrosmasterAuthTokenRequestMessage.cs" />
@@ -1296,6 +1295,7 @@
     <Compile Include="Protocol\Network\Types\Common\Basic\StatisticDataString.cs" />
     <Compile Include="Protocol\Network\Types\Connection\GameServerInformations.cs" />
     <Compile Include="Protocol\Network\Types\Game\Achievement\Achievement.cs" />
+    <Compile Include="Protocol\Network\Types\Game\Achievement\AchievementAchieved.cs" />
     <Compile Include="Protocol\Network\Types\Game\Achievement\AchievementObjective.cs" />
     <Compile Include="Protocol\Network\Types\Game\Achievement\AchievementRewardable.cs" />
     <Compile Include="Protocol\Network\Types\Game\Achievement\AchievementStartedObjective.cs" />
@@ -1783,7 +1783,7 @@
     <Compile Include="Protocol\Datacenter\quest\treasureHunt\LegendaryTreasureHunt.cs" />
     <Compile Include="Protocol\Datacenter\quest\treasureHunt\PointOfInterest.cs" />
     <Compile Include="Protocol\Datacenter\quest\treasureHunt\PointOfInterestCategory.cs" />
-    <Compile Include="Protocol\Datacenter\servers\Server.cs" />
+    <Compile Include="Protocol\Datacenter\servers\Servers.cs" />
     <Compile Include="Protocol\Datacenter\servers\ServerCommunity.cs" />
     <Compile Include="Protocol\Datacenter\servers\ServerGameType.cs" />
     <Compile Include="Protocol\Datacenter\servers\ServerLang.cs" />

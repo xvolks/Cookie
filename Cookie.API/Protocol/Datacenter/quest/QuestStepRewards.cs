@@ -17,8 +17,5 @@ namespace Cookie.API.Datacenter
         public int LevelMin;
         public List<uint> SpellsReward;
         public uint StepId;
-        public double KamasRatio;
-        public double ExperienceRatio;
-        public bool KamasScaleWithPlayerLevel;
     }
 }

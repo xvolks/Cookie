@@ -25,7 +25,7 @@ namespace Cookie.API.Gamedata
 
         public static string GetServerName(ushort id)
         {
-            var objectValue = RuntimeHelpers.GetObjectValue(ObjectDataManager.Instance.Get<Server>(id).NameId);
+            var objectValue = RuntimeHelpers.GetObjectValue(ObjectDataManager.Instance.Get<Servers>(id).NameId);
             return FastD2IReader.Instance.GetText(Convert.ToInt32(objectValue));
         }
 

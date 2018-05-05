@@ -22,7 +22,5 @@ namespace Cookie.API.Datacenter
         public uint Order;
         public uint Points;
         public List<int> RewardIds;
-        public bool AccountLinked;
-
     }
 }
