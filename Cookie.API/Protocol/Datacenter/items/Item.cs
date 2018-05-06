@@ -53,5 +53,9 @@ namespace Cookie.API.Datacenter
         public bool Usable;
         public int UseAnimationId;
         public uint Weight;
+        public bool ObjectIsDisplayOnWeb;
+        public bool IsSaleable;
+        public string CraftVisible;
+        public string CraftFeasible;
     }
 }

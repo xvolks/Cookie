@@ -5,8 +5,8 @@ namespace Cookie.API.Utils
     public static class GameConstant
     {
         public const byte Major = 2;
-        public const byte Minor = 45;
-        public const byte Release = 7;
+        public const byte Minor = 46;
+        public const byte Release = 14;
         public const int Revision = 3;
         public const byte Patch = 0;
         public const byte BuildType = (byte) BuildTypeEnum.RELEASE;

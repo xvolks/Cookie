@@ -160,7 +160,7 @@ namespace Cookie.FullSocket
             if (message is SelectedServerDataMessage ssdm)
             {
                 var msg = ssdm;
-
+                //Logger.Default.Log(msg.ServerId.ToString());
                 Logger.Default.Log("Sélection du serveur " + D2OParsing.GetServerName(msg.ServerId));
                 var ticket = AES.DecodeWithAES(msg.Ticket);
                 _mTickets.Add(ticket,
@@ -173,7 +173,7 @@ namespace Cookie.FullSocket
             {
                 var msg = ssrm;
 
-                Logger.Default.Log("Impossible de se connecter au serveur " + D2OParsing.GetServerName(msg.ServerId) +
+                Logger.Default.Log("Impossible de se connecter au serveur "  + D2OParsing.GetServerName(msg.ServerId) + 
                                    " status " + msg.ServerStatus + " erreur " + msg.Error);
 
                 fs.Disconnect();
@@ -261,6 +261,7 @@ namespace Cookie.FullSocket
             account.Network.SendToServer(server == null
                 ? new ServerSelectionMessage(11)
                 : new ServerSelectionMessage(server.ObjectId));
+            Logger.Default.Log("Connecté au serveur de jeu !");
         }
 
         private void HandleSelectedServerDataMessage(IAccount account, SelectedServerDataMessage message)

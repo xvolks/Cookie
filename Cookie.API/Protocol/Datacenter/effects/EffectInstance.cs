@@ -30,5 +30,6 @@ namespace Cookie.API.Datacenter
         public uint ZoneShape;
         public object ZoneSize;
         public object ZoneStopAtTarget;
+        public int SpellId;
     }
 }

@@ -18,5 +18,6 @@ namespace Cookie.API.Protocol.Datacenter
         public float OpeningDate;
         public int PopulationId;
         public List<string> RestrictedToLanguages;
+        public bool MonoAccount;
     }
 }

@@ -24,5 +24,6 @@ namespace Cookie.API.Datacenter
         public int WorldMap;
         public bool IsTransition;
         public int TacticalModeTemplateId;
+        public bool AllowPrism;
     }
 }
