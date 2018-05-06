@@ -25,5 +25,9 @@ namespace Cookie.API.Datacenter
         public int Vitality;
         public int WaterResistance;
         public int Wisdom;
+        public int Strength;
+        public int Intelligence;
+        public int Chance;
+        public int Agility;
     }
 }

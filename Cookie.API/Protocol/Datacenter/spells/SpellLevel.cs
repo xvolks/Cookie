@@ -38,5 +38,7 @@ namespace Cookie.API.Datacenter
         public uint SpellId;
         public List<int> StatesForbidden;
         public List<int> StatesRequired;
+        public List<int> StatesAuthorized;
+        public List<int> AdditionalEffectsZones;
     }
 }

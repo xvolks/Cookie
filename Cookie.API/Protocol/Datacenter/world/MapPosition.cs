@@ -22,5 +22,8 @@ namespace Cookie.API.Datacenter
         public List<AmbientSound> Sounds;
         public int SubAreaId;
         public int WorldMap;
+        public bool IsTransition;
+        public int TacticalModeTemplateId;
+        public bool AllowPrism;
     }
 }

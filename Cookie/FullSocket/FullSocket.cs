@@ -161,7 +161,7 @@ namespace Cookie.FullSocket
             {
                 var msg = ssdm;
                 //Logger.Default.Log(msg.ServerId.ToString());
-                Logger.Default.Log("Sélection du serveur " + D2OParsing.GetServerName(msg.ServerId));
+                //Logger.Default.Log("Sélection du serveur " + D2OParsing.GetServerName(msg.ServerId));
                 var ticket = AES.DecodeWithAES(msg.Ticket);
                 _mTickets.Add(ticket,
                     Tuple.Create(fs.Account,

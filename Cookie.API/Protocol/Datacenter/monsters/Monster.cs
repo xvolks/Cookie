@@ -37,5 +37,10 @@ namespace Cookie.API.Datacenter
         public List<uint> Subareas;
         public bool UseBombSlot;
         public bool UseSummonSlot;
+        public bool UseRaceValues;
+        public int AggressiveZoneSize;
+        public int AggressiveLevelDiff;
+        public string AggressiveImmunityCriterion;
+        public int AggressiveAttackDelay;
     }
 }

@@ -153,6 +153,11 @@
     <Compile Include="Network\ServerConnection.cs" />
     <Compile Include="Network\SocketAsyncEventArgsPool.cs" />
     <Compile Include="Plugins\IPlugin.cs" />
+    <Compile Include="Protocol\Datacenter\interactives\Sign.cs" />
+    <Compile Include="Protocol\Datacenter\misc\Subhint.cs" />
+    <Compile Include="Protocol\Datacenter\servers\Server.cs" />
+    <Compile Include="Protocol\Datacenter\spells\SpellVariant.cs" />
+    <Compile Include="Protocol\Datacenter\world\Subhints.cs" />
     <Compile Include="Protocol\Enums\AccessoryPreviewErrorEnum.cs" />
     <Compile Include="Protocol\Enums\AggressableStatusEnum.cs" />
     <Compile Include="Protocol\Enums\AlignmentSideEnum.cs" />
@@ -1783,7 +1788,6 @@
     <Compile Include="Protocol\Datacenter\quest\treasureHunt\LegendaryTreasureHunt.cs" />
     <Compile Include="Protocol\Datacenter\quest\treasureHunt\PointOfInterest.cs" />
     <Compile Include="Protocol\Datacenter\quest\treasureHunt\PointOfInterestCategory.cs" />
-    <Compile Include="Protocol\Datacenter\servers\Servers.cs" />
     <Compile Include="Protocol\Datacenter\servers\ServerCommunity.cs" />
     <Compile Include="Protocol\Datacenter\servers\ServerGameType.cs" />
     <Compile Include="Protocol\Datacenter\servers\ServerLang.cs" />

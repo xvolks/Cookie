@@ -23,5 +23,7 @@ namespace Cookie.API.Datacenter
         public uint NameId;
         public int ParentJobId;
         public string UseAnimation;
+        public int Range;
+        public bool UseRangeInClient;
     }
 }
