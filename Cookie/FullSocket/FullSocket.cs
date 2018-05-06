@@ -161,7 +161,7 @@ namespace Cookie.FullSocket
             {
                 var msg = ssdm;
                 //Logger.Default.Log(msg.ServerId.ToString());
-                //Logger.Default.Log("Sélection du serveur " + D2OParsing.GetServerName(msg.ServerId));
+                Logger.Default.Log("Sélection du serveur " + D2OParsing.GetServerName(msg.ServerId));
                 var ticket = AES.DecodeWithAES(msg.Ticket);
                 _mTickets.Add(ticket,
                     Tuple.Create(fs.Account,
@@ -173,7 +173,7 @@ namespace Cookie.FullSocket
             {
                 var msg = ssrm;
 
-                Logger.Default.Log("Impossible de se connecter au serveur " + (msg.ServerId) +//D2OParsing.GetServerName
+                Logger.Default.Log("Impossible de se connecter au serveur "  + D2OParsing.GetServerName(msg.ServerId) + 
                                    " status " + msg.ServerStatus + " erreur " + msg.Error);
 
                 fs.Disconnect();
