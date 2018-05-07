@@ -1301,8 +1301,8 @@
     <Compile Include="Protocol\Network\Types\Connection\GameServerInformations.cs" />
     <Compile Include="Protocol\Network\Types\Game\Achievement\Achievement.cs" />
     <Compile Include="Protocol\Network\Types\Game\Achievement\AchievementAchieved.cs" />
+    <Compile Include="Protocol\Network\Types\Game\Achievement\AchievementAchievedRewardable.cs" />
     <Compile Include="Protocol\Network\Types\Game\Achievement\AchievementObjective.cs" />
-    <Compile Include="Protocol\Network\Types\Game\Achievement\AchievementRewardable.cs" />
     <Compile Include="Protocol\Network\Types\Game\Achievement\AchievementStartedObjective.cs" />
     <Compile Include="Protocol\Network\Types\Game\Actions\Fight\AbstractFightDispellableEffect.cs" />
     <Compile Include="Protocol\Network\Types\Game\Actions\Fight\FightTemporaryBoostEffect.cs" />

@@ -11,8 +11,17 @@ namespace Cookie.API.Protocol.Network.Types.Game.Achievement
     {
         public const ushort ProtocolId = 514;
         public override ushort TypeID => ProtocolId;
-        public ushort id;
-        public ulong achievedby;
+        public ushort id { get; set; }
+        public ulong achievedby { get; set; }
+        public AchievementAchieved(ushort Id, ulong Achievedby)
+        {
+            id = Id;
+            achievedby = Achievedby;
+        }
+        public AchievementAchieved()
+        {
+           
+        }
         public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarUhShort(id);

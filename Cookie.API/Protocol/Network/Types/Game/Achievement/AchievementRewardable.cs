@@ -1,10 +1,10 @@
-﻿using Cookie.API.Utils.IO;
+﻿/*using Cookie.API.Utils.IO;
 
 namespace Cookie.API.Protocol.Network.Types.Game.Achievement
 {
     public class AchievementRewardable : NetworkType
     {
-        public const ushort ProtocolId = 412;
+        
 
         public AchievementRewardable(ushort objectId, byte finishedlevel)
         {
@@ -15,7 +15,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Achievement
         public AchievementRewardable()
         {
         }
-
+        public const ushort ProtocolId = 412;
         public override ushort TypeID => ProtocolId;
         public ushort ObjectId { get; set; }
         public byte Finishedlevel { get; set; }
@@ -32,4 +32,4 @@ namespace Cookie.API.Protocol.Network.Types.Game.Achievement
             Finishedlevel = reader.ReadByte();
         }
     }
-}
+}*/

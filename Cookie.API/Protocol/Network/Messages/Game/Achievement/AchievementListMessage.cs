@@ -10,15 +10,16 @@
         public override ushort MessageID => ProtocolId;
         public List<AchievementAchieved> FinishedAchievementsIds { get; set; }
         
-
+        
         public AchievementListMessage(List<AchievementAchieved> finishedAchievementsIds)
         {
             FinishedAchievementsIds = finishedAchievementsIds;
             
         }
 
-        public AchievementListMessage() {
+        public AchievementListMessage()  {
             FinishedAchievementsIds = new List<AchievementAchieved>();
+            
         }
 
         public override void Serialize(IDataWriter writer)
@@ -33,13 +34,13 @@
         }
         public override void Deserialize(IDataReader reader)
         {
-            ushort id = 0;
-            var achievement = new AchievementAchieved();
+            ushort Id = 0;
+            AchievementAchieved achievement;
             var finishedAchievementsIdsCount = reader.ReadUShort();
             for (var finishedAchievementsIdsIndex = 0; finishedAchievementsIdsIndex < finishedAchievementsIdsCount; finishedAchievementsIdsIndex++)
             {
-                id = reader.ReadUShort();
-                achievement = ProtocolTypeManager.GetInstance<AchievementAchieved>(id);
+                Id = reader.ReadUShort();
+                achievement = ProtocolTypeManager.GetInstance<AchievementAchieved>(Id);
                 achievement.Deserialize(reader);
                 FinishedAchievementsIds.Add(achievement);
             }

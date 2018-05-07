@@ -30,7 +30,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Fight
 
         public override void Serialize(IDataWriter writer)
         {
-            writer.WriteInt(FightId);
+            writer.WriteVarShort((short)FightId);
             writer.WriteByte(FightType);
             writer.WriteShort((short) FightTeams.Count);
             for (var fightTeamsIndex = 0; fightTeamsIndex < FightTeams.Count; fightTeamsIndex++)
@@ -56,7 +56,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Fight
 
         public override void Deserialize(IDataReader reader)
         {
-            FightId = reader.ReadInt();
+            FightId = reader.ReadVarUhShort();
             FightType = reader.ReadByte();
             var fightTeamsCount = reader.ReadUShort();
             FightTeams = new List<FightTeamInformations>();
