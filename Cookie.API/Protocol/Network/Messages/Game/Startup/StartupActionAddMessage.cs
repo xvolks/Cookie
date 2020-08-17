@@ -1,23 +1,20 @@
-﻿using Cookie.API.Protocol.Network.Types.Game.Startup;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Startup
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Startup
 {
+    using Types.Game.Startup;
+    using Utils.IO;
+
     public class StartupActionAddMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6538;
+        public override ushort MessageID => ProtocolId;
+        public StartupActionAddObject NewAction { get; set; }
 
         public StartupActionAddMessage(StartupActionAddObject newAction)
         {
             NewAction = newAction;
         }
 
-        public StartupActionAddMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public StartupActionAddObject NewAction { get; set; }
+        public StartupActionAddMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -29,5 +26,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Startup
             NewAction = new StartupActionAddObject();
             NewAction.Deserialize(reader);
         }
+
     }
 }

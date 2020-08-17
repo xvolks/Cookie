@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Alliance
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Alliance
 {
+    using Utils.IO;
+
     public class AllianceModificationNameAndTagValidMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6449;
+        public override ushort MessageID => ProtocolId;
+        public string AllianceName { get; set; }
+        public string AllianceTag { get; set; }
 
         public AllianceModificationNameAndTagValidMessage(string allianceName, string allianceTag)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Alliance
             AllianceTag = allianceTag;
         }
 
-        public AllianceModificationNameAndTagValidMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public string AllianceName { get; set; }
-        public string AllianceTag { get; set; }
+        public AllianceModificationNameAndTagValidMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Alliance
             AllianceName = reader.ReadUTF();
             AllianceTag = reader.ReadUTF();
         }
+
     }
 }

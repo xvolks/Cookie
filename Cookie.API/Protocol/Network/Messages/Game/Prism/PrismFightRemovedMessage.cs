@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Prism
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Prism
 {
+    using Utils.IO;
+
     public class PrismFightRemovedMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6453;
+        public override ushort MessageID => ProtocolId;
+        public ushort SubAreaId { get; set; }
 
         public PrismFightRemovedMessage(ushort subAreaId)
         {
             SubAreaId = subAreaId;
         }
 
-        public PrismFightRemovedMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ushort SubAreaId { get; set; }
+        public PrismFightRemovedMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Prism
         {
             SubAreaId = reader.ReadVarUhShort();
         }
+
     }
 }

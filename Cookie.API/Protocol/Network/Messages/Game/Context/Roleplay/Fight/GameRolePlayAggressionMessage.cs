@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Fight
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Fight
 {
+    using Utils.IO;
+
     public class GameRolePlayAggressionMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6073;
+        public override ushort MessageID => ProtocolId;
+        public ulong AttackerId { get; set; }
+        public ulong DefenderId { get; set; }
 
         public GameRolePlayAggressionMessage(ulong attackerId, ulong defenderId)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Fight
             DefenderId = defenderId;
         }
 
-        public GameRolePlayAggressionMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ulong AttackerId { get; set; }
-        public ulong DefenderId { get; set; }
+        public GameRolePlayAggressionMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Fight
             AttackerId = reader.ReadVarUhLong();
             DefenderId = reader.ReadVarUhLong();
         }
+
     }
 }

@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Windows.Forms;
+using Cookie.Core;
 
 namespace DofusMapControl
 {
@@ -148,7 +149,14 @@ namespace DofusMapControl
 
         private void OnCellClicked(MapCell cell, MouseButtons buttons, bool hold)
         {
-            CellClicked?.Invoke(this, cell, buttons, hold);
+            try
+            {
+                CellClicked?.Invoke(this, cell, buttons, hold);
+            } 
+            catch(BotNotRunningException)
+            {
+                MessageBox.Show("Veillez à lancer le bot avant d'utiliser la map.", "Erreur");
+            }
         }
 
         public event Action<MapControl, MapCell, MapCell> CellOver;

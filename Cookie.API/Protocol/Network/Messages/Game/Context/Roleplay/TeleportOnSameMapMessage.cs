@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
 {
+    using Utils.IO;
+
     public class TeleportOnSameMapMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6048;
+        public override ushort MessageID => ProtocolId;
+        public double TargetId { get; set; }
+        public ushort CellId { get; set; }
 
         public TeleportOnSameMapMessage(double targetId, ushort cellId)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
             CellId = cellId;
         }
 
-        public TeleportOnSameMapMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public double TargetId { get; set; }
-        public ushort CellId { get; set; }
+        public TeleportOnSameMapMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
             TargetId = reader.ReadDouble();
             CellId = reader.ReadVarUhShort();
         }
+
     }
 }

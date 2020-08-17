@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
 {
+    using Utils.IO;
+
     public class MimicryObjectEraseRequestMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6457;
+        public override ushort MessageID => ProtocolId;
+        public uint HostUID { get; set; }
+        public byte HostPos { get; set; }
 
         public MimicryObjectEraseRequestMessage(uint hostUID, byte hostPos)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
             HostPos = hostPos;
         }
 
-        public MimicryObjectEraseRequestMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public uint HostUID { get; set; }
-        public byte HostPos { get; set; }
+        public MimicryObjectEraseRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
             HostUID = reader.ReadVarUhInt();
             HostPos = reader.ReadByte();
         }
+
     }
 }

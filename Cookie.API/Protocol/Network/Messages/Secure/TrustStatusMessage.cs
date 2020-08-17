@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Secure
+﻿namespace Cookie.API.Protocol.Network.Messages.Secure
 {
+    using Utils.IO;
+
     public class TrustStatusMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6267;
+        public override ushort MessageID => ProtocolId;
+        public bool Trusted { get; set; }
+        public bool Certified { get; set; }
 
         public TrustStatusMessage(bool trusted, bool certified)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Secure
             Certified = certified;
         }
 
-        public TrustStatusMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public bool Trusted { get; set; }
-        public bool Certified { get; set; }
+        public TrustStatusMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -34,5 +31,6 @@ namespace Cookie.API.Protocol.Network.Messages.Secure
             Trusted = BooleanByteWrapper.GetFlag(flag, 0);
             Certified = BooleanByteWrapper.GetFlag(flag, 1);
         }
+
     }
 }

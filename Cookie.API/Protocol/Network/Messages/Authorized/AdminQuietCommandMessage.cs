@@ -1,12 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Authorized
+﻿namespace Cookie.API.Protocol.Network.Messages.Authorized
 {
+    using Utils.IO;
+
     public class AdminQuietCommandMessage : AdminCommandMessage
     {
         public new const ushort ProtocolId = 5662;
-
         public override ushort MessageID => ProtocolId;
+
+        public AdminQuietCommandMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -17,5 +18,6 @@ namespace Cookie.API.Protocol.Network.Messages.Authorized
         {
             base.Deserialize(reader);
         }
+
     }
 }

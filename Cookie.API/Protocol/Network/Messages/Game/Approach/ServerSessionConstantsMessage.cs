@@ -1,28 +1,25 @@
-﻿using System.Collections.Generic;
-using Cookie.API.Protocol.Network.Types.Game.Approach;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Approach
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Approach
 {
+    using Types.Game.Approach;
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class ServerSessionConstantsMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6434;
+        public override ushort MessageID => ProtocolId;
+        public List<ServerSessionConstant> Variables { get; set; }
 
         public ServerSessionConstantsMessage(List<ServerSessionConstant> variables)
         {
             Variables = variables;
         }
 
-        public ServerSessionConstantsMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public List<ServerSessionConstant> Variables { get; set; }
+        public ServerSessionConstantsMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
-            writer.WriteShort((short) Variables.Count);
+            writer.WriteShort((short)Variables.Count);
             for (var variablesIndex = 0; variablesIndex < Variables.Count; variablesIndex++)
             {
                 var objectToSend = Variables[variablesIndex];
@@ -42,5 +39,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Approach
                 Variables.Add(objectToAdd);
             }
         }
+
     }
 }

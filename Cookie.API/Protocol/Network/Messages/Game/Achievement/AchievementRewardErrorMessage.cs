@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Achievement
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Achievement
 {
+    using Utils.IO;
+
     public class AchievementRewardErrorMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6375;
+        public override ushort MessageID => ProtocolId;
+        public short AchievementId { get; set; }
 
         public AchievementRewardErrorMessage(short achievementId)
         {
             AchievementId = achievementId;
         }
 
-        public AchievementRewardErrorMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public short AchievementId { get; set; }
+        public AchievementRewardErrorMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Achievement
         {
             AchievementId = reader.ReadShort();
         }
+
     }
 }

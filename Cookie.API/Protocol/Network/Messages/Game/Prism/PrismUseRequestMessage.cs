@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Prism
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Prism
 {
+    using Utils.IO;
+
     public class PrismUseRequestMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6041;
+        public override ushort MessageID => ProtocolId;
+        public byte ModuleToUse { get; set; }
 
         public PrismUseRequestMessage(byte moduleToUse)
         {
             ModuleToUse = moduleToUse;
         }
 
-        public PrismUseRequestMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public byte ModuleToUse { get; set; }
+        public PrismUseRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Prism
         {
             ModuleToUse = reader.ReadByte();
         }
+
     }
 }

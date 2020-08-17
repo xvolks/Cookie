@@ -1,15 +1,24 @@
-﻿using System.Collections.Generic;
-using Cookie.API.Protocol.Network.Types.Version;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Connection
+﻿namespace Cookie.API.Protocol.Network.Messages.Connection
 {
+    using Types.Version;
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class IdentificationMessage : NetworkMessage
     {
         public const ushort ProtocolId = 4;
+        public override ushort MessageID => ProtocolId;
+        public bool Autoconnect { get; set; }
+        public bool UseCertificate { get; set; }
+        public bool UseLoginToken { get; set; }
+        public VersionExtended Version { get; set; }
+        public string Lang { get; set; }
+        public List<sbyte> Credentials { get; set; }
+        public short ServerId { get; set; }
+        public long SessionOptionalSalt { get; set; }
+        public List<ushort> FailedAttempts { get; set; }
 
-        public IdentificationMessage(bool autoconnect, bool useCertificate, bool useLoginToken, VersionExtended version,
-            string lang, List<sbyte> credentials, short serverId, long sessionOptionalSalt, List<ushort> failedAttempts)
+        public IdentificationMessage(bool autoconnect, bool useCertificate, bool useLoginToken, VersionExtended version, string lang, List<sbyte> credentials, short serverId, long sessionOptionalSalt, List<ushort> failedAttempts)
         {
             Autoconnect = autoconnect;
             UseCertificate = useCertificate;
@@ -22,20 +31,7 @@ namespace Cookie.API.Protocol.Network.Messages.Connection
             FailedAttempts = failedAttempts;
         }
 
-        public IdentificationMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public bool Autoconnect { get; set; }
-        public bool UseCertificate { get; set; }
-        public bool UseLoginToken { get; set; }
-        public VersionExtended Version { get; set; }
-        public string Lang { get; set; }
-        public List<sbyte> Credentials { get; set; }
-        public short ServerId { get; set; }
-        public long SessionOptionalSalt { get; set; }
-        public List<ushort> FailedAttempts { get; set; }
+        public IdentificationMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -48,12 +44,16 @@ namespace Cookie.API.Protocol.Network.Messages.Connection
             writer.WriteUTF(Lang);
             writer.WriteVarInt(Credentials.Count);
             for (var credentialsIndex = 0; credentialsIndex < Credentials.Count; credentialsIndex++)
+            {
                 writer.WriteSByte(Credentials[credentialsIndex]);
+            }
             writer.WriteShort(ServerId);
             writer.WriteVarLong(SessionOptionalSalt);
-            writer.WriteShort((short) FailedAttempts.Count);
+            writer.WriteShort((short)FailedAttempts.Count);
             for (var failedAttemptsIndex = 0; failedAttemptsIndex < FailedAttempts.Count; failedAttemptsIndex++)
+            {
                 writer.WriteVarUhShort(FailedAttempts[failedAttemptsIndex]);
+            }
         }
 
         public override void Deserialize(IDataReader reader)
@@ -68,13 +68,18 @@ namespace Cookie.API.Protocol.Network.Messages.Connection
             var credentialsCount = reader.ReadVarInt();
             Credentials = new List<sbyte>();
             for (var credentialsIndex = 0; credentialsIndex < credentialsCount; credentialsIndex++)
+            {
                 Credentials.Add(reader.ReadSByte());
+            }
             ServerId = reader.ReadShort();
             SessionOptionalSalt = reader.ReadVarLong();
             var failedAttemptsCount = reader.ReadUShort();
             FailedAttempts = new List<ushort>();
             for (var failedAttemptsIndex = 0; failedAttemptsIndex < failedAttemptsCount; failedAttemptsIndex++)
+            {
                 FailedAttempts.Add(reader.ReadVarUhShort());
+            }
         }
+
     }
 }

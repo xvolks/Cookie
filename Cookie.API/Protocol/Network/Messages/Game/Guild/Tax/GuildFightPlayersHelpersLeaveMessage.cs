@@ -1,35 +1,33 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Guild.Tax
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Guild.Tax
 {
+    using Utils.IO;
+
     public class GuildFightPlayersHelpersLeaveMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5719;
+        public override ushort MessageID => ProtocolId;
+        public double FightId { get; set; }
+        public ulong PlayerId { get; set; }
 
-        public GuildFightPlayersHelpersLeaveMessage(int fightId, ulong playerId)
+        public GuildFightPlayersHelpersLeaveMessage(double fightId, ulong playerId)
         {
             FightId = fightId;
             PlayerId = playerId;
         }
 
-        public GuildFightPlayersHelpersLeaveMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public int FightId { get; set; }
-        public ulong PlayerId { get; set; }
+        public GuildFightPlayersHelpersLeaveMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
-            writer.WriteInt(FightId);
+            writer.WriteDouble(FightId);
             writer.WriteVarUhLong(PlayerId);
         }
 
         public override void Deserialize(IDataReader reader)
         {
-            FightId = reader.ReadInt();
+            FightId = reader.ReadDouble();
             PlayerId = reader.ReadVarUhLong();
         }
+
     }
 }

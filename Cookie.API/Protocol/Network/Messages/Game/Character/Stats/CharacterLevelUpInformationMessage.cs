@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Character.Stats
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Character.Stats
 {
+    using Utils.IO;
+
     public class CharacterLevelUpInformationMessage : CharacterLevelUpMessage
     {
         public new const ushort ProtocolId = 6076;
+        public override ushort MessageID => ProtocolId;
+        public string Name { get; set; }
+        public ulong ObjectId { get; set; }
 
         public CharacterLevelUpInformationMessage(string name, ulong objectId)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Character.Stats
             ObjectId = objectId;
         }
 
-        public CharacterLevelUpInformationMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public string Name { get; set; }
-        public ulong ObjectId { get; set; }
+        public CharacterLevelUpInformationMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -33,5 +30,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Character.Stats
             Name = reader.ReadUTF();
             ObjectId = reader.ReadVarUhLong();
         }
+
     }
 }

@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Tinsel
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Tinsel
 {
+    using Utils.IO;
+
     public class TitleSelectErrorMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6373;
+        public override ushort MessageID => ProtocolId;
+        public byte Reason { get; set; }
 
         public TitleSelectErrorMessage(byte reason)
         {
             Reason = reason;
         }
 
-        public TitleSelectErrorMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public byte Reason { get; set; }
+        public TitleSelectErrorMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Tinsel
         {
             Reason = reader.ReadByte();
         }
+
     }
 }

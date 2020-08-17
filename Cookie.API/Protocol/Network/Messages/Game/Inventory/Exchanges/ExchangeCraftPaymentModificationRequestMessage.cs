@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
 {
+    using Utils.IO;
+
     public class ExchangeCraftPaymentModificationRequestMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6579;
+        public override ushort MessageID => ProtocolId;
+        public ulong Quantity { get; set; }
 
         public ExchangeCraftPaymentModificationRequestMessage(ulong quantity)
         {
             Quantity = quantity;
         }
 
-        public ExchangeCraftPaymentModificationRequestMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ulong Quantity { get; set; }
+        public ExchangeCraftPaymentModificationRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
         {
             Quantity = reader.ReadVarUhLong();
         }
+
     }
 }

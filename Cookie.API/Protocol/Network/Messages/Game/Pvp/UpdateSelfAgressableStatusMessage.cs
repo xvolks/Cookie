@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Pvp
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Pvp
 {
+    using Utils.IO;
+
     public class UpdateSelfAgressableStatusMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6456;
+        public override ushort MessageID => ProtocolId;
+        public byte Status { get; set; }
+        public int ProbationTime { get; set; }
 
         public UpdateSelfAgressableStatusMessage(byte status, int probationTime)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Pvp
             ProbationTime = probationTime;
         }
 
-        public UpdateSelfAgressableStatusMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public byte Status { get; set; }
-        public int ProbationTime { get; set; }
+        public UpdateSelfAgressableStatusMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Pvp
             Status = reader.ReadByte();
             ProbationTime = reader.ReadInt();
         }
+
     }
 }

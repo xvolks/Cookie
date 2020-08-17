@@ -8,7 +8,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Guild.Tax
     {
         public const ushort ProtocolId = 167;
 
-        public TaxCollectorInformations(int uniqueId, ushort firtNameId, ushort lastNameId,
+        public TaxCollectorInformations(double uniqueId, ushort firtNameId, ushort lastNameId,
             AdditionalTaxCollectorInformations additionalInfos, short worldX, short worldY, ushort subAreaId,
             byte state, EntityLook look, List<TaxCollectorComplementaryInformations> complements)
         {
@@ -29,7 +29,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Guild.Tax
         }
 
         public override ushort TypeID => ProtocolId;
-        public int UniqueId { get; set; }
+        public double UniqueId { get; set; }
         public ushort FirtNameId { get; set; }
         public ushort LastNameId { get; set; }
         public AdditionalTaxCollectorInformations AdditionalInfos { get; set; }
@@ -42,7 +42,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Guild.Tax
 
         public override void Serialize(IDataWriter writer)
         {
-            writer.WriteInt(UniqueId);
+            writer.WriteDouble(UniqueId);
             writer.WriteVarUhShort(FirtNameId);
             writer.WriteVarUhShort(LastNameId);
             AdditionalInfos.Serialize(writer);
@@ -62,7 +62,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Guild.Tax
 
         public override void Deserialize(IDataReader reader)
         {
-            UniqueId = reader.ReadInt();
+            UniqueId = reader.ReadDouble();
             FirtNameId = reader.ReadVarUhShort();
             LastNameId = reader.ReadVarUhShort();
             AdditionalInfos = new AdditionalTaxCollectorInformations();

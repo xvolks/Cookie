@@ -1,14 +1,26 @@
-﻿using Cookie.API.Protocol.Network.Types.Game.Character;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
 {
+    using Types.Game.Character;
+    using Types.Game.House;
+    using Types.Game.Context.Roleplay;
+    using Types.Game.Interactive;
+    using Types.Game.Interactive;
+    using Types.Game.Interactive;
+    using Types.Game.Context.Fight;
+    using Types.Game.Context.Fight;
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class MapComplementaryInformationsDataInHavenBagMessage : MapComplementaryInformationsDataMessage
     {
         public new const ushort ProtocolId = 6622;
+        public override ushort MessageID => ProtocolId;
+        public CharacterMinimalInformations OwnerInformations { get; set; }
+        public sbyte Theme { get; set; }
+        public byte RoomId { get; set; }
+        public byte MaxRoomId { get; set; }
 
-        public MapComplementaryInformationsDataInHavenBagMessage(CharacterMinimalInformations ownerInformations,
-            sbyte theme, byte roomId, byte maxRoomId)
+        public MapComplementaryInformationsDataInHavenBagMessage(CharacterMinimalInformations ownerInformations, sbyte theme, byte roomId, byte maxRoomId)
         {
             OwnerInformations = ownerInformations;
             Theme = theme;
@@ -16,15 +28,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
             MaxRoomId = maxRoomId;
         }
 
-        public MapComplementaryInformationsDataInHavenBagMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public CharacterMinimalInformations OwnerInformations { get; set; }
-        public sbyte Theme { get; set; }
-        public byte RoomId { get; set; }
-        public byte MaxRoomId { get; set; }
+        public MapComplementaryInformationsDataInHavenBagMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -44,5 +48,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
             RoomId = reader.ReadByte();
             MaxRoomId = reader.ReadByte();
         }
+
     }
 }

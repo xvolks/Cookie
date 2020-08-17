@@ -1,22 +1,20 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Preset
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Preset
 {
+    using Types.Game.Inventory.Preset;
+    using Utils.IO;
+
     public class InventoryPresetUpdateMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6171;
+        public override ushort MessageID => ProtocolId;
+        public Preset Preset { get; set; }
 
-        public InventoryPresetUpdateMessage(Types.Game.Inventory.Preset.Preset preset)
+        public InventoryPresetUpdateMessage(Preset preset)
         {
             Preset = preset;
         }
 
-        public InventoryPresetUpdateMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public Types.Game.Inventory.Preset.Preset Preset { get; set; }
+        public InventoryPresetUpdateMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -25,8 +23,9 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Preset
 
         public override void Deserialize(IDataReader reader)
         {
-            Preset = new Types.Game.Inventory.Preset.Preset();
+            Preset = new Preset();
             Preset.Deserialize(reader);
         }
+
     }
 }

@@ -1,29 +1,25 @@
-﻿using Cookie.API.Protocol.Network.Types.Game.Context.Roleplay;
-using Cookie.API.Protocol.Network.Types.Game.Guild.Tax;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Guild.Tax
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Guild.Tax
 {
+    using Types.Game.Guild.Tax;
+    using Types.Game.Context.Roleplay;
+    using Utils.IO;
+
     public class TaxCollectorAttackedResultMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5635;
+        public override ushort MessageID => ProtocolId;
+        public bool DeadOrAlive { get; set; }
+        public TaxCollectorBasicInformations BasicInfos { get; set; }
+        public BasicGuildInformations Guild { get; set; }
 
-        public TaxCollectorAttackedResultMessage(bool deadOrAlive, TaxCollectorBasicInformations basicInfos,
-            BasicGuildInformations guild)
+        public TaxCollectorAttackedResultMessage(bool deadOrAlive, TaxCollectorBasicInformations basicInfos, BasicGuildInformations guild)
         {
             DeadOrAlive = deadOrAlive;
             BasicInfos = basicInfos;
             Guild = guild;
         }
 
-        public TaxCollectorAttackedResultMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public bool DeadOrAlive { get; set; }
-        public TaxCollectorBasicInformations BasicInfos { get; set; }
-        public BasicGuildInformations Guild { get; set; }
+        public TaxCollectorAttackedResultMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -40,5 +36,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild.Tax
             Guild = new BasicGuildInformations();
             Guild.Deserialize(reader);
         }
+
     }
 }

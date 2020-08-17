@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory
 {
+    using Utils.IO;
+
     public class AbstractPresetSaveResultMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6734;
+        public override ushort MessageID => ProtocolId;
+        public byte PresetId { get; set; }
+        public byte Code { get; set; }
 
         public AbstractPresetSaveResultMessage(byte presetId, byte code)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory
             Code = code;
         }
 
-        public AbstractPresetSaveResultMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public byte PresetId { get; set; }
-        public byte Code { get; set; }
+        public AbstractPresetSaveResultMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory
             PresetId = reader.ReadByte();
             Code = reader.ReadByte();
         }
+
     }
 }

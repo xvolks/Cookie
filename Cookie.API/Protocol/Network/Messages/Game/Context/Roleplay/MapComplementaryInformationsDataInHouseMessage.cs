@@ -1,23 +1,28 @@
-﻿using Cookie.API.Protocol.Network.Types.Game.House;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
 {
+    using Types.Game.House;
+    using Types.Game.House;
+    using Types.Game.Context.Roleplay;
+    using Types.Game.Interactive;
+    using Types.Game.Interactive;
+    using Types.Game.Interactive;
+    using Types.Game.Context.Fight;
+    using Types.Game.Context.Fight;
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class MapComplementaryInformationsDataInHouseMessage : MapComplementaryInformationsDataMessage
     {
         public new const ushort ProtocolId = 6130;
+        public override ushort MessageID => ProtocolId;
+        public HouseInformationsInside CurrentHouse { get; set; }
 
         public MapComplementaryInformationsDataInHouseMessage(HouseInformationsInside currentHouse)
         {
             CurrentHouse = currentHouse;
         }
 
-        public MapComplementaryInformationsDataInHouseMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public HouseInformationsInside CurrentHouse { get; set; }
+        public MapComplementaryInformationsDataInHouseMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +36,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
             CurrentHouse = new HouseInformationsInside();
             CurrentHouse.Deserialize(reader);
         }
+
     }
 }

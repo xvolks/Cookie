@@ -1,10 +1,14 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Fight.Arena
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Fight.Arena
 {
+    using Utils.IO;
+
     public class GameRolePlayArenaFighterStatusMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6281;
+        public override ushort MessageID => ProtocolId;
+        public int FightId { get; set; }
+        public int PlayerId { get; set; }
+        public bool Accepted { get; set; }
 
         public GameRolePlayArenaFighterStatusMessage(int fightId, int playerId, bool accepted)
         {
@@ -13,14 +17,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Fight.Arena
             Accepted = accepted;
         }
 
-        public GameRolePlayArenaFighterStatusMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public int FightId { get; set; }
-        public int PlayerId { get; set; }
-        public bool Accepted { get; set; }
+        public GameRolePlayArenaFighterStatusMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -35,5 +32,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Fight.Arena
             PlayerId = reader.ReadInt();
             Accepted = reader.ReadBoolean();
         }
+
     }
 }

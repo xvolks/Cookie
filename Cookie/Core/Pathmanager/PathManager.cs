@@ -27,7 +27,7 @@ namespace Cookie.Core.Pathmanager
 
             Launched = false;
             Account = account;
-            PathData = new Dictionary<int, Tuple<MapDirectionEnum, string>>();
+            PathData = new Dictionary<double, Tuple<MapDirectionEnum, string>>();
 
             Account.Network.RegisterPacket<MapComplementaryInformationsDataMessage>(
                 HandleMapComplementaryInformationsDataMessage, MessagePriority.Normal);
@@ -37,7 +37,7 @@ namespace Cookie.Core.Pathmanager
                 HandleGameMapNoMovementMessage, MessagePriority.Normal);
         }
 
-        private Dictionary<int, Tuple<MapDirectionEnum, string>> PathData { get; set; }
+        private Dictionary<double, Tuple<MapDirectionEnum, string>> PathData { get; set; }
         private List<int> RessourcesToGather { get; set; }
 
         public bool Launched { get; set; }
@@ -97,7 +97,7 @@ namespace Cookie.Core.Pathmanager
 
         private void ParseTrajet(string path)
         {
-            PathData = new Dictionary<int, Tuple<MapDirectionEnum, string>>();
+            PathData = new Dictionary<double, Tuple<MapDirectionEnum, string>>();
             try
             {
                 var trajet = File.ReadAllLines(path);

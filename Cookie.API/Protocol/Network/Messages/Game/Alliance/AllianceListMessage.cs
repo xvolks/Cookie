@@ -1,28 +1,25 @@
-﻿using System.Collections.Generic;
-using Cookie.API.Protocol.Network.Types.Game.Social;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Alliance
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Alliance
 {
+    using Types.Game.Social;
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class AllianceListMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6408;
+        public override ushort MessageID => ProtocolId;
+        public List<AllianceFactSheetInformations> Alliances { get; set; }
 
         public AllianceListMessage(List<AllianceFactSheetInformations> alliances)
         {
             Alliances = alliances;
         }
 
-        public AllianceListMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public List<AllianceFactSheetInformations> Alliances { get; set; }
+        public AllianceListMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
-            writer.WriteShort((short) Alliances.Count);
+            writer.WriteShort((short)Alliances.Count);
             for (var alliancesIndex = 0; alliancesIndex < Alliances.Count; alliancesIndex++)
             {
                 var objectToSend = Alliances[alliancesIndex];
@@ -41,5 +38,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Alliance
                 Alliances.Add(objectToAdd);
             }
         }
+
     }
 }

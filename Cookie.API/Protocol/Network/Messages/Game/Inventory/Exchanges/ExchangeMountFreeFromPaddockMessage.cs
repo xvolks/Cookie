@@ -1,10 +1,15 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
 {
+    using Utils.IO;
+
     public class ExchangeMountFreeFromPaddockMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6055;
+        public override ushort MessageID => ProtocolId;
+        public string Name { get; set; }
+        public short WorldX { get; set; }
+        public short WorldY { get; set; }
+        public string Liberator { get; set; }
 
         public ExchangeMountFreeFromPaddockMessage(string name, short worldX, short worldY, string liberator)
         {
@@ -14,15 +19,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
             Liberator = liberator;
         }
 
-        public ExchangeMountFreeFromPaddockMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public string Name { get; set; }
-        public short WorldX { get; set; }
-        public short WorldY { get; set; }
-        public string Liberator { get; set; }
+        public ExchangeMountFreeFromPaddockMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -39,5 +36,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
             WorldY = reader.ReadShort();
             Liberator = reader.ReadUTF();
         }
+
     }
 }

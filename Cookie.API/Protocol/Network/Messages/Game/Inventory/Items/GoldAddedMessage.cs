@@ -1,23 +1,20 @@
-﻿using Cookie.API.Protocol.Network.Types.Game.Data.Items;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
 {
+    using Types.Game.Data.Items;
+    using Utils.IO;
+
     public class GoldAddedMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6030;
+        public override ushort MessageID => ProtocolId;
+        public GoldItem Gold { get; set; }
 
         public GoldAddedMessage(GoldItem gold)
         {
             Gold = gold;
         }
 
-        public GoldAddedMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public GoldItem Gold { get; set; }
+        public GoldAddedMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -29,5 +26,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
             Gold = new GoldItem();
             Gold.Deserialize(reader);
         }
+
     }
 }

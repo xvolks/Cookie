@@ -8,7 +8,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.House
         public new const ushort ProtocolId = 170;
 
         public HouseInformationsForGuild(int instanceId, bool secondHand, string ownerName, short worldX, short worldY,
-            int mapId, ushort subAreaId, List<int> skillListIds, uint guildshareParams)
+            double mapId, ushort subAreaId, List<int> skillListIds, uint guildshareParams)
         {
             InstanceId = instanceId;
             SecondHand = secondHand;
@@ -31,7 +31,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.House
         public string OwnerName { get; set; }
         public short WorldX { get; set; }
         public short WorldY { get; set; }
-        public int MapId { get; set; }
+        public double MapId { get; set; }
         public ushort SubAreaId { get; set; }
         public List<int> SkillListIds { get; set; }
         public uint GuildshareParams { get; set; }
@@ -44,7 +44,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.House
             writer.WriteUTF(OwnerName);
             writer.WriteShort(WorldX);
             writer.WriteShort(WorldY);
-            writer.WriteInt(MapId);
+            writer.WriteDouble(MapId);
             writer.WriteVarUhShort(SubAreaId);
             writer.WriteShort((short) SkillListIds.Count);
             for (var skillListIdsIndex = 0; skillListIdsIndex < SkillListIds.Count; skillListIdsIndex++)
@@ -60,7 +60,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.House
             OwnerName = reader.ReadUTF();
             WorldX = reader.ReadShort();
             WorldY = reader.ReadShort();
-            MapId = reader.ReadInt();
+            MapId = reader.ReadDouble();
             SubAreaId = reader.ReadVarUhShort();
             var skillListIdsCount = reader.ReadUShort();
             SkillListIds = new List<int>();

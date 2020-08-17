@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Storage
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Storage
 {
+    using Utils.IO;
+
     public class StorageKamasUpdateMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5645;
+        public override ushort MessageID => ProtocolId;
+        public ulong KamasTotal { get; set; }
 
         public StorageKamasUpdateMessage(ulong kamasTotal)
         {
             KamasTotal = kamasTotal;
         }
 
-        public StorageKamasUpdateMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ulong KamasTotal { get; set; }
+        public StorageKamasUpdateMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Storage
         {
             KamasTotal = reader.ReadVarUhLong();
         }
+
     }
 }

@@ -1,22 +1,20 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
 {
+    using Types.Game.Data.Items;
+    using Utils.IO;
+
     public class ExchangeCraftResultMagicWithObjectDescMessage : ExchangeCraftResultWithObjectDescMessage
     {
         public new const ushort ProtocolId = 6188;
+        public override ushort MessageID => ProtocolId;
+        public sbyte MagicPoolStatus { get; set; }
 
         public ExchangeCraftResultMagicWithObjectDescMessage(sbyte magicPoolStatus)
         {
             MagicPoolStatus = magicPoolStatus;
         }
 
-        public ExchangeCraftResultMagicWithObjectDescMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public sbyte MagicPoolStatus { get; set; }
+        public ExchangeCraftResultMagicWithObjectDescMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -29,5 +27,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
             base.Deserialize(reader);
             MagicPoolStatus = reader.ReadSByte();
         }
+
     }
 }

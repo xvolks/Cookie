@@ -1,10 +1,14 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Startup
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Startup
 {
+    using Utils.IO;
+
     public class StartupActionFinishedMessage : NetworkMessage
     {
         public const ushort ProtocolId = 1304;
+        public override ushort MessageID => ProtocolId;
+        public bool Success { get; set; }
+        public bool AutomaticAction { get; set; }
+        public int ActionId { get; set; }
 
         public StartupActionFinishedMessage(bool success, bool automaticAction, int actionId)
         {
@@ -13,14 +17,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Startup
             ActionId = actionId;
         }
 
-        public StartupActionFinishedMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public bool Success { get; set; }
-        public bool AutomaticAction { get; set; }
-        public int ActionId { get; set; }
+        public StartupActionFinishedMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -38,5 +35,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Startup
             AutomaticAction = BooleanByteWrapper.GetFlag(flag, 1);
             ActionId = reader.ReadInt();
         }
+
     }
 }

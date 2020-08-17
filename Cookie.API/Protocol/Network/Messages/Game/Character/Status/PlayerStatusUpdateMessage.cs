@@ -1,11 +1,15 @@
-﻿using Cookie.API.Protocol.Network.Types.Game.Character.Status;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Character.Status
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Character.Status
 {
+    using Types.Game.Character.Status;
+    using Utils.IO;
+
     public class PlayerStatusUpdateMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6386;
+        public override ushort MessageID => ProtocolId;
+        public int AccountId { get; set; }
+        public ulong PlayerId { get; set; }
+        public PlayerStatus Status { get; set; }
 
         public PlayerStatusUpdateMessage(int accountId, ulong playerId, PlayerStatus status)
         {
@@ -14,14 +18,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Character.Status
             Status = status;
         }
 
-        public PlayerStatusUpdateMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public int AccountId { get; set; }
-        public ulong PlayerId { get; set; }
-        public PlayerStatus Status { get; set; }
+        public PlayerStatusUpdateMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -38,5 +35,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Character.Status
             Status = ProtocolTypeManager.GetInstance<PlayerStatus>(reader.ReadUShort());
             Status.Deserialize(reader);
         }
+
     }
 }

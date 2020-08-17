@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Web.Ankabox
+﻿namespace Cookie.API.Protocol.Network.Messages.Web.Ankabox
 {
+    using Utils.IO;
+
     public class MailStatusMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6275;
+        public override ushort MessageID => ProtocolId;
+        public ushort Unread { get; set; }
+        public ushort Total { get; set; }
 
         public MailStatusMessage(ushort unread, ushort total)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Web.Ankabox
             Total = total;
         }
 
-        public MailStatusMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ushort Unread { get; set; }
-        public ushort Total { get; set; }
+        public MailStatusMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Web.Ankabox
             Unread = reader.ReadVarUhShort();
             Total = reader.ReadVarUhShort();
         }
+
     }
 }

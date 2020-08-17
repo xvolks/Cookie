@@ -1,10 +1,15 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
 {
+    using Utils.IO;
+
     public class SymbioticObjectAssociateRequestMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6522;
+        public override ushort MessageID => ProtocolId;
+        public uint SymbioteUID { get; set; }
+        public byte SymbiotePos { get; set; }
+        public uint HostUID { get; set; }
+        public byte HostPos { get; set; }
 
         public SymbioticObjectAssociateRequestMessage(uint symbioteUID, byte symbiotePos, uint hostUID, byte hostPos)
         {
@@ -14,15 +19,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
             HostPos = hostPos;
         }
 
-        public SymbioticObjectAssociateRequestMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public uint SymbioteUID { get; set; }
-        public byte SymbiotePos { get; set; }
-        public uint HostUID { get; set; }
-        public byte HostPos { get; set; }
+        public SymbioticObjectAssociateRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -39,5 +36,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
             HostUID = reader.ReadVarUhInt();
             HostPos = reader.ReadByte();
         }
+
     }
 }

@@ -1,11 +1,14 @@
-﻿using Cookie.API.Protocol.Network.Types.Game.Character.Restriction;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Initialization
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Initialization
 {
+    using Types.Game.Character.Restriction;
+    using Utils.IO;
+
     public class SetCharacterRestrictionsMessage : NetworkMessage
     {
         public const ushort ProtocolId = 170;
+        public override ushort MessageID => ProtocolId;
+        public double ActorId { get; set; }
+        public ActorRestrictionsInformations Restrictions { get; set; }
 
         public SetCharacterRestrictionsMessage(double actorId, ActorRestrictionsInformations restrictions)
         {
@@ -13,13 +16,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Initialization
             Restrictions = restrictions;
         }
 
-        public SetCharacterRestrictionsMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public double ActorId { get; set; }
-        public ActorRestrictionsInformations Restrictions { get; set; }
+        public SetCharacterRestrictionsMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -33,5 +30,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Initialization
             Restrictions = new ActorRestrictionsInformations();
             Restrictions.Deserialize(reader);
         }
+
     }
 }

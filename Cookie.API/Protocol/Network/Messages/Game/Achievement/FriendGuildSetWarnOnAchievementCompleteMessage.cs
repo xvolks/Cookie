@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Achievement
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Achievement
 {
+    using Utils.IO;
+
     public class FriendGuildSetWarnOnAchievementCompleteMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6382;
+        public override ushort MessageID => ProtocolId;
+        public bool Enable { get; set; }
 
         public FriendGuildSetWarnOnAchievementCompleteMessage(bool enable)
         {
             Enable = enable;
         }
 
-        public FriendGuildSetWarnOnAchievementCompleteMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public bool Enable { get; set; }
+        public FriendGuildSetWarnOnAchievementCompleteMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Achievement
         {
             Enable = reader.ReadBoolean();
         }
+
     }
 }

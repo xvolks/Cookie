@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Emote
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Emote
 {
+    using Utils.IO;
+
     public class EmoteRemoveMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5687;
+        public override ushort MessageID => ProtocolId;
+        public byte EmoteId { get; set; }
 
         public EmoteRemoveMessage(byte emoteId)
         {
             EmoteId = emoteId;
         }
 
-        public EmoteRemoveMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public byte EmoteId { get; set; }
+        public EmoteRemoveMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Emote
         {
             EmoteId = reader.ReadByte();
         }
+
     }
 }

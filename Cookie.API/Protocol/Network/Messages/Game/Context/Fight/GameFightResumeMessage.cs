@@ -1,12 +1,19 @@
-﻿using System.Collections.Generic;
-using Cookie.API.Protocol.Network.Types.Game.Context.Fight;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
 {
+    using Types.Game.Context.Fight;
+    using Types.Game.Action.Fight;
+    using Types.Game.Actions.Fight;
+    using Types.Game.Idol;
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class GameFightResumeMessage : GameFightSpectateMessage
     {
         public new const ushort ProtocolId = 6067;
+        public override ushort MessageID => ProtocolId;
+        public List<GameFightSpellCooldown> SpellCooldowns { get; set; }
+        public byte SummonCount { get; set; }
+        public byte BombCount { get; set; }
 
         public GameFightResumeMessage(List<GameFightSpellCooldown> spellCooldowns, byte summonCount, byte bombCount)
         {
@@ -15,19 +22,12 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
             BombCount = bombCount;
         }
 
-        public GameFightResumeMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public List<GameFightSpellCooldown> SpellCooldowns { get; set; }
-        public byte SummonCount { get; set; }
-        public byte BombCount { get; set; }
+        public GameFightResumeMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
             base.Serialize(writer);
-            writer.WriteShort((short) SpellCooldowns.Count);
+            writer.WriteShort((short)SpellCooldowns.Count);
             for (var spellCooldownsIndex = 0; spellCooldownsIndex < SpellCooldowns.Count; spellCooldownsIndex++)
             {
                 var objectToSend = SpellCooldowns[spellCooldownsIndex];
@@ -51,5 +51,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
             SummonCount = reader.ReadByte();
             BombCount = reader.ReadByte();
         }
+
     }
 }

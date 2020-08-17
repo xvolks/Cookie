@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Mount
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Mount
 {
+    using Utils.IO;
+
     public class MountSetXpRatioRequestMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5989;
+        public override ushort MessageID => ProtocolId;
+        public byte XpRatio { get; set; }
 
         public MountSetXpRatioRequestMessage(byte xpRatio)
         {
             XpRatio = xpRatio;
         }
 
-        public MountSetXpRatioRequestMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public byte XpRatio { get; set; }
+        public MountSetXpRatioRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Mount
         {
             XpRatio = reader.ReadByte();
         }
+
     }
 }

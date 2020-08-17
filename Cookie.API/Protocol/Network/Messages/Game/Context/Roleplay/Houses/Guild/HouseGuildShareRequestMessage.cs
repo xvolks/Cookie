@@ -1,10 +1,15 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Houses.Guild
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Houses.Guild
 {
+    using Utils.IO;
+
     public class HouseGuildShareRequestMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5704;
+        public override ushort MessageID => ProtocolId;
+        public uint HouseId { get; set; }
+        public int InstanceId { get; set; }
+        public bool Enable { get; set; }
+        public uint Rights { get; set; }
 
         public HouseGuildShareRequestMessage(uint houseId, int instanceId, bool enable, uint rights)
         {
@@ -14,15 +19,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Houses.Guil
             Rights = rights;
         }
 
-        public HouseGuildShareRequestMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public uint HouseId { get; set; }
-        public int InstanceId { get; set; }
-        public bool Enable { get; set; }
-        public uint Rights { get; set; }
+        public HouseGuildShareRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -39,5 +36,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Houses.Guil
             Enable = reader.ReadBoolean();
             Rights = reader.ReadVarUhInt();
         }
+
     }
 }

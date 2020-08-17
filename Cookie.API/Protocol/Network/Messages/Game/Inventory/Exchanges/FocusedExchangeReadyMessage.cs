@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
 {
+    using Utils.IO;
+
     public class FocusedExchangeReadyMessage : ExchangeReadyMessage
     {
         public new const ushort ProtocolId = 6701;
+        public override ushort MessageID => ProtocolId;
+        public uint FocusActionId { get; set; }
 
         public FocusedExchangeReadyMessage(uint focusActionId)
         {
             FocusActionId = focusActionId;
         }
 
-        public FocusedExchangeReadyMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public uint FocusActionId { get; set; }
+        public FocusedExchangeReadyMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -29,5 +26,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
             base.Deserialize(reader);
             FocusActionId = reader.ReadVarUhInt();
         }
+
     }
 }

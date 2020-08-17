@@ -1,13 +1,18 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
 {
+    using Utils.IO;
+
     public class GameFightPlacementSwapPositionsOfferMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6542;
+        public override ushort MessageID => ProtocolId;
+        public int RequestId { get; set; }
+        public double RequesterId { get; set; }
+        public ushort RequesterCellId { get; set; }
+        public double RequestedId { get; set; }
+        public ushort RequestedCellId { get; set; }
 
-        public GameFightPlacementSwapPositionsOfferMessage(int requestId, double requesterId, ushort requesterCellId,
-            double requestedId, ushort requestedCellId)
+        public GameFightPlacementSwapPositionsOfferMessage(int requestId, double requesterId, ushort requesterCellId, double requestedId, ushort requestedCellId)
         {
             RequestId = requestId;
             RequesterId = requesterId;
@@ -16,16 +21,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
             RequestedCellId = requestedCellId;
         }
 
-        public GameFightPlacementSwapPositionsOfferMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public int RequestId { get; set; }
-        public double RequesterId { get; set; }
-        public ushort RequesterCellId { get; set; }
-        public double RequestedId { get; set; }
-        public ushort RequestedCellId { get; set; }
+        public GameFightPlacementSwapPositionsOfferMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -44,5 +40,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
             RequestedId = reader.ReadDouble();
             RequestedCellId = reader.ReadVarUhShort();
         }
+
     }
 }

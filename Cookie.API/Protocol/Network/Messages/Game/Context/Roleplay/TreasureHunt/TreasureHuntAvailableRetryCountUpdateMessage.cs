@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.TreasureHunt
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.TreasureHunt
 {
+    using Utils.IO;
+
     public class TreasureHuntAvailableRetryCountUpdateMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6491;
+        public override ushort MessageID => ProtocolId;
+        public byte QuestType { get; set; }
+        public int AvailableRetryCount { get; set; }
 
         public TreasureHuntAvailableRetryCountUpdateMessage(byte questType, int availableRetryCount)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.TreasureHun
             AvailableRetryCount = availableRetryCount;
         }
 
-        public TreasureHuntAvailableRetryCountUpdateMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public byte QuestType { get; set; }
-        public int AvailableRetryCount { get; set; }
+        public TreasureHuntAvailableRetryCountUpdateMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.TreasureHun
             QuestType = reader.ReadByte();
             AvailableRetryCount = reader.ReadInt();
         }
+
     }
 }

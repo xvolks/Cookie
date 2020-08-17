@@ -1,35 +1,31 @@
-﻿using System.Collections.Generic;
-using Cookie.API.Protocol.Network.Types.Game.Paddock;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Paddock
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Paddock
 {
+    using Types.Game.Paddock;
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class PaddockToSellListMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6138;
+        public override ushort MessageID => ProtocolId;
+        public ushort PageIndex { get; set; }
+        public ushort TotalPage { get; set; }
+        public List<PaddockInformationsForSell> PaddockList { get; set; }
 
-        public PaddockToSellListMessage(ushort pageIndex, ushort totalPage,
-            List<PaddockInformationsForSell> paddockList)
+        public PaddockToSellListMessage(ushort pageIndex, ushort totalPage, List<PaddockInformationsForSell> paddockList)
         {
             PageIndex = pageIndex;
             TotalPage = totalPage;
             PaddockList = paddockList;
         }
 
-        public PaddockToSellListMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ushort PageIndex { get; set; }
-        public ushort TotalPage { get; set; }
-        public List<PaddockInformationsForSell> PaddockList { get; set; }
+        public PaddockToSellListMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarUhShort(PageIndex);
             writer.WriteVarUhShort(TotalPage);
-            writer.WriteShort((short) PaddockList.Count);
+            writer.WriteShort((short)PaddockList.Count);
             for (var paddockListIndex = 0; paddockListIndex < PaddockList.Count; paddockListIndex++)
             {
                 var objectToSend = PaddockList[paddockListIndex];
@@ -50,5 +46,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Paddock
                 PaddockList.Add(objectToAdd);
             }
         }
+
     }
 }

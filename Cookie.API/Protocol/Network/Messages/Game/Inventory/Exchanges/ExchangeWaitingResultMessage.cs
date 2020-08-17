@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
 {
+    using Utils.IO;
+
     public class ExchangeWaitingResultMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5786;
+        public override ushort MessageID => ProtocolId;
+        public bool Bwait { get; set; }
 
         public ExchangeWaitingResultMessage(bool bwait)
         {
             Bwait = bwait;
         }
 
-        public ExchangeWaitingResultMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public bool Bwait { get; set; }
+        public ExchangeWaitingResultMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
         {
             Bwait = reader.ReadBoolean();
         }
+
     }
 }

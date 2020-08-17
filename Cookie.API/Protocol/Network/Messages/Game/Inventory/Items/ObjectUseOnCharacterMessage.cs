@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
 {
+    using Utils.IO;
+
     public class ObjectUseOnCharacterMessage : ObjectUseMessage
     {
         public new const ushort ProtocolId = 3003;
+        public override ushort MessageID => ProtocolId;
+        public ulong CharacterId { get; set; }
 
         public ObjectUseOnCharacterMessage(ulong characterId)
         {
             CharacterId = characterId;
         }
 
-        public ObjectUseOnCharacterMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ulong CharacterId { get; set; }
+        public ObjectUseOnCharacterMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -29,5 +26,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
             base.Deserialize(reader);
             CharacterId = reader.ReadVarUhLong();
         }
+
     }
 }

@@ -1,24 +1,22 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Shortcut
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Shortcut
 {
+    using Types.Game.Shortcut;
+    using Utils.IO;
+
     public class ShortcutBarReplacedMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6706;
+        public override ushort MessageID => ProtocolId;
+        public byte BarType { get; set; }
+        public Shortcut Shortcut { get; set; }
 
-        public ShortcutBarReplacedMessage(byte barType, Types.Game.Shortcut.Shortcut shortcut)
+        public ShortcutBarReplacedMessage(byte barType, Shortcut shortcut)
         {
             BarType = barType;
             Shortcut = shortcut;
         }
 
-        public ShortcutBarReplacedMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public byte BarType { get; set; }
-        public Types.Game.Shortcut.Shortcut Shortcut { get; set; }
+        public ShortcutBarReplacedMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -30,8 +28,9 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Shortcut
         public override void Deserialize(IDataReader reader)
         {
             BarType = reader.ReadByte();
-            Shortcut = ProtocolTypeManager.GetInstance<Types.Game.Shortcut.Shortcut>(reader.ReadUShort());
+            Shortcut = ProtocolTypeManager.GetInstance<Shortcut>(reader.ReadUShort());
             Shortcut.Deserialize(reader);
         }
+
     }
 }

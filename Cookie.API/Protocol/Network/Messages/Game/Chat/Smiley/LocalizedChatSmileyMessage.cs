@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Chat.Smiley
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Chat.Smiley
 {
+    using Utils.IO;
+
     public class LocalizedChatSmileyMessage : ChatSmileyMessage
     {
         public new const ushort ProtocolId = 6185;
+        public override ushort MessageID => ProtocolId;
+        public ushort CellId { get; set; }
 
         public LocalizedChatSmileyMessage(ushort cellId)
         {
             CellId = cellId;
         }
 
-        public LocalizedChatSmileyMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ushort CellId { get; set; }
+        public LocalizedChatSmileyMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -29,5 +26,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Chat.Smiley
             base.Deserialize(reader);
             CellId = reader.ReadVarUhShort();
         }
+
     }
 }

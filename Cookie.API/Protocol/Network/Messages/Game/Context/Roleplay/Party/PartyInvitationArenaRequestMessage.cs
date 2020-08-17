@@ -1,12 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Party
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Party
 {
+    using Utils.IO;
+
     public class PartyInvitationArenaRequestMessage : PartyInvitationRequestMessage
     {
         public new const ushort ProtocolId = 6283;
-
         public override ushort MessageID => ProtocolId;
+
+        public PartyInvitationArenaRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -17,5 +18,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Party
         {
             base.Deserialize(reader);
         }
+
     }
 }

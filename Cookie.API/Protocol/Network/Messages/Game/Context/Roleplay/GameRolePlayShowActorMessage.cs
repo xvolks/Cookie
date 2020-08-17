@@ -1,23 +1,20 @@
-﻿using Cookie.API.Protocol.Network.Types.Game.Context.Roleplay;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
 {
+    using Types.Game.Context.Roleplay;
+    using Utils.IO;
+
     public class GameRolePlayShowActorMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5632;
+        public override ushort MessageID => ProtocolId;
+        public GameRolePlayActorInformations Informations { get; set; }
 
         public GameRolePlayShowActorMessage(GameRolePlayActorInformations informations)
         {
             Informations = informations;
         }
 
-        public GameRolePlayShowActorMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public GameRolePlayActorInformations Informations { get; set; }
+        public GameRolePlayShowActorMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -30,5 +27,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
             Informations = ProtocolTypeManager.GetInstance<GameRolePlayActorInformations>(reader.ReadUShort());
             Informations.Deserialize(reader);
         }
+
     }
 }

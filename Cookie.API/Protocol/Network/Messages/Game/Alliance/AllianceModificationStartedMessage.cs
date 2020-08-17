@@ -1,10 +1,14 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Alliance
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Alliance
 {
+    using Utils.IO;
+
     public class AllianceModificationStartedMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6444;
+        public override ushort MessageID => ProtocolId;
+        public bool CanChangeName { get; set; }
+        public bool CanChangeTag { get; set; }
+        public bool CanChangeEmblem { get; set; }
 
         public AllianceModificationStartedMessage(bool canChangeName, bool canChangeTag, bool canChangeEmblem)
         {
@@ -13,14 +17,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Alliance
             CanChangeEmblem = canChangeEmblem;
         }
 
-        public AllianceModificationStartedMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public bool CanChangeName { get; set; }
-        public bool CanChangeTag { get; set; }
-        public bool CanChangeEmblem { get; set; }
+        public AllianceModificationStartedMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -38,5 +35,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Alliance
             CanChangeTag = BooleanByteWrapper.GetFlag(flag, 1);
             CanChangeEmblem = BooleanByteWrapper.GetFlag(flag, 2);
         }
+
     }
 }

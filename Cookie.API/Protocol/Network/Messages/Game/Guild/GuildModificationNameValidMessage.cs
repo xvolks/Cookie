@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Guild
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Guild
 {
+    using Utils.IO;
+
     public class GuildModificationNameValidMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6327;
+        public override ushort MessageID => ProtocolId;
+        public string GuildName { get; set; }
 
         public GuildModificationNameValidMessage(string guildName)
         {
             GuildName = guildName;
         }
 
-        public GuildModificationNameValidMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public string GuildName { get; set; }
+        public GuildModificationNameValidMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild
         {
             GuildName = reader.ReadUTF();
         }
+
     }
 }

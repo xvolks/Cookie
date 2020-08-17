@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Prism
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Prism
 {
+    using Utils.IO;
+
     public class PrismInfoJoinLeaveRequestMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5844;
+        public override ushort MessageID => ProtocolId;
+        public bool Join { get; set; }
 
         public PrismInfoJoinLeaveRequestMessage(bool join)
         {
             Join = join;
         }
 
-        public PrismInfoJoinLeaveRequestMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public bool Join { get; set; }
+        public PrismInfoJoinLeaveRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Prism
         {
             Join = reader.ReadBoolean();
         }
+
     }
 }

@@ -1,28 +1,25 @@
-﻿using System.Collections.Generic;
-using Cookie.API.Protocol.Network.Types.Game.Interactive;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Interactive
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Interactive
 {
+    using Types.Game.Interactive;
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class StatedMapUpdateMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5716;
+        public override ushort MessageID => ProtocolId;
+        public List<StatedElement> StatedElements { get; set; }
 
         public StatedMapUpdateMessage(List<StatedElement> statedElements)
         {
             StatedElements = statedElements;
         }
 
-        public StatedMapUpdateMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public List<StatedElement> StatedElements { get; set; }
+        public StatedMapUpdateMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
-            writer.WriteShort((short) StatedElements.Count);
+            writer.WriteShort((short)StatedElements.Count);
             for (var statedElementsIndex = 0; statedElementsIndex < StatedElements.Count; statedElementsIndex++)
             {
                 var objectToSend = StatedElements[statedElementsIndex];
@@ -41,5 +38,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Interactive
                 StatedElements.Add(objectToAdd);
             }
         }
+
     }
 }

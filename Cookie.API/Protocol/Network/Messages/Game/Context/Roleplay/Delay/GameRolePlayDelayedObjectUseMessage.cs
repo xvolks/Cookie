@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Delay
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Delay
 {
+    using Utils.IO;
+
     public class GameRolePlayDelayedObjectUseMessage : GameRolePlayDelayedActionMessage
     {
         public new const ushort ProtocolId = 6425;
+        public override ushort MessageID => ProtocolId;
+        public ushort ObjectGID { get; set; }
 
         public GameRolePlayDelayedObjectUseMessage(ushort objectGID)
         {
             ObjectGID = objectGID;
         }
 
-        public GameRolePlayDelayedObjectUseMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ushort ObjectGID { get; set; }
+        public GameRolePlayDelayedObjectUseMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -29,5 +26,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Delay
             base.Deserialize(reader);
             ObjectGID = reader.ReadVarUhShort();
         }
+
     }
 }

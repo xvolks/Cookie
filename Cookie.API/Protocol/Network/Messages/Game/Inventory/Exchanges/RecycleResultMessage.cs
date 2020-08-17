@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
 {
+    using Utils.IO;
+
     public class RecycleResultMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6601;
+        public override ushort MessageID => ProtocolId;
+        public uint NuggetsForPrism { get; set; }
+        public uint NuggetsForPlayer { get; set; }
 
         public RecycleResultMessage(uint nuggetsForPrism, uint nuggetsForPlayer)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
             NuggetsForPlayer = nuggetsForPlayer;
         }
 
-        public RecycleResultMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public uint NuggetsForPrism { get; set; }
-        public uint NuggetsForPlayer { get; set; }
+        public RecycleResultMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
             NuggetsForPrism = reader.ReadVarUhInt();
             NuggetsForPlayer = reader.ReadVarUhInt();
         }
+
     }
 }

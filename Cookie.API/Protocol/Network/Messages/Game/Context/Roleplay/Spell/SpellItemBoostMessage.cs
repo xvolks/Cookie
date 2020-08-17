@@ -1,10 +1,14 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Spell
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Spell
 {
+    using Utils.IO;
+
     public class SpellItemBoostMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6011;
+        public override ushort MessageID => ProtocolId;
+        public uint StatId { get; set; }
+        public ushort SpellId { get; set; }
+        public short Value { get; set; }
 
         public SpellItemBoostMessage(uint statId, ushort spellId, short value)
         {
@@ -13,14 +17,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Spell
             Value = value;
         }
 
-        public SpellItemBoostMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public uint StatId { get; set; }
-        public ushort SpellId { get; set; }
-        public short Value { get; set; }
+        public SpellItemBoostMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -35,5 +32,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Spell
             SpellId = reader.ReadVarUhShort();
             Value = reader.ReadVarShort();
         }
+
     }
 }

@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Subscription
+﻿namespace Cookie.API.Protocol.Network.Messages.Subscription
 {
+    using Utils.IO;
+
     public class SubscriptionUpdateMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6616;
+        public override ushort MessageID => ProtocolId;
+        public double Timestamp { get; set; }
 
         public SubscriptionUpdateMessage(double timestamp)
         {
             Timestamp = timestamp;
         }
 
-        public SubscriptionUpdateMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public double Timestamp { get; set; }
+        public SubscriptionUpdateMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Subscription
         {
             Timestamp = reader.ReadDouble();
         }
+
     }
 }

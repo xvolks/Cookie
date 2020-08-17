@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Ui
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Ui
 {
+    using Utils.IO;
+
     public class ClientUIOpenedMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6459;
+        public override ushort MessageID => ProtocolId;
+        public byte Type { get; set; }
 
         public ClientUIOpenedMessage(byte type)
         {
             Type = type;
         }
 
-        public ClientUIOpenedMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public byte Type { get; set; }
+        public ClientUIOpenedMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Ui
         {
             Type = reader.ReadByte();
         }
+
     }
 }

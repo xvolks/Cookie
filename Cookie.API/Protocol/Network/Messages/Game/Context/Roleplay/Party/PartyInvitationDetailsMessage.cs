@@ -1,15 +1,23 @@
-﻿using System.Collections.Generic;
-using Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Party;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Party
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Party
 {
+    using Types.Game.Context.Roleplay.Party;
+    using Types.Game.Context.Roleplay.Party;
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class PartyInvitationDetailsMessage : AbstractPartyMessage
     {
         public new const ushort ProtocolId = 6263;
+        public override ushort MessageID => ProtocolId;
+        public byte PartyType { get; set; }
+        public string PartyName { get; set; }
+        public ulong FromId { get; set; }
+        public string FromName { get; set; }
+        public ulong LeaderId { get; set; }
+        public List<PartyInvitationMemberInformations> Members { get; set; }
+        public List<PartyGuestInformations> Guests { get; set; }
 
-        public PartyInvitationDetailsMessage(byte partyType, string partyName, ulong fromId, string fromName,
-            ulong leaderId, List<PartyInvitationMemberInformations> members, List<PartyGuestInformations> guests)
+        public PartyInvitationDetailsMessage(byte partyType, string partyName, ulong fromId, string fromName, ulong leaderId, List<PartyInvitationMemberInformations> members, List<PartyGuestInformations> guests)
         {
             PartyType = partyType;
             PartyName = partyName;
@@ -20,18 +28,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Party
             Guests = guests;
         }
 
-        public PartyInvitationDetailsMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public byte PartyType { get; set; }
-        public string PartyName { get; set; }
-        public ulong FromId { get; set; }
-        public string FromName { get; set; }
-        public ulong LeaderId { get; set; }
-        public List<PartyInvitationMemberInformations> Members { get; set; }
-        public List<PartyGuestInformations> Guests { get; set; }
+        public PartyInvitationDetailsMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -41,13 +38,13 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Party
             writer.WriteVarUhLong(FromId);
             writer.WriteUTF(FromName);
             writer.WriteVarUhLong(LeaderId);
-            writer.WriteShort((short) Members.Count);
+            writer.WriteShort((short)Members.Count);
             for (var membersIndex = 0; membersIndex < Members.Count; membersIndex++)
             {
                 var objectToSend = Members[membersIndex];
                 objectToSend.Serialize(writer);
             }
-            writer.WriteShort((short) Guests.Count);
+            writer.WriteShort((short)Guests.Count);
             for (var guestsIndex = 0; guestsIndex < Guests.Count; guestsIndex++)
             {
                 var objectToSend = Guests[guestsIndex];
@@ -80,5 +77,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Party
                 Guests.Add(objectToAdd);
             }
         }
+
     }
 }

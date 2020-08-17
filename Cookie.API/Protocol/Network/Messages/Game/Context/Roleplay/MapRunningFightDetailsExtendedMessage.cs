@@ -1,29 +1,27 @@
-﻿using System.Collections.Generic;
-using Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Party;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
 {
+    using Types.Game.Context.Roleplay.Party;
+    using Types.Game.Context.Fight;
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class MapRunningFightDetailsExtendedMessage : MapRunningFightDetailsMessage
     {
         public new const ushort ProtocolId = 6500;
+        public override ushort MessageID => ProtocolId;
+        public List<NamedPartyTeam> NamedPartyTeams { get; set; }
 
         public MapRunningFightDetailsExtendedMessage(List<NamedPartyTeam> namedPartyTeams)
         {
             NamedPartyTeams = namedPartyTeams;
         }
 
-        public MapRunningFightDetailsExtendedMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public List<NamedPartyTeam> NamedPartyTeams { get; set; }
+        public MapRunningFightDetailsExtendedMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
             base.Serialize(writer);
-            writer.WriteShort((short) NamedPartyTeams.Count);
+            writer.WriteShort((short)NamedPartyTeams.Count);
             for (var namedPartyTeamsIndex = 0; namedPartyTeamsIndex < NamedPartyTeams.Count; namedPartyTeamsIndex++)
             {
                 var objectToSend = NamedPartyTeams[namedPartyTeamsIndex];
@@ -43,5 +41,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
                 NamedPartyTeams.Add(objectToAdd);
             }
         }
+
     }
 }

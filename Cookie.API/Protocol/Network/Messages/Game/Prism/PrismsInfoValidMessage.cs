@@ -1,28 +1,25 @@
-﻿using System.Collections.Generic;
-using Cookie.API.Protocol.Network.Types.Game.Prism;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Prism
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Prism
 {
+    using Types.Game.Prism;
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class PrismsInfoValidMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6451;
+        public override ushort MessageID => ProtocolId;
+        public List<PrismFightersInformation> Fights { get; set; }
 
         public PrismsInfoValidMessage(List<PrismFightersInformation> fights)
         {
             Fights = fights;
         }
 
-        public PrismsInfoValidMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public List<PrismFightersInformation> Fights { get; set; }
+        public PrismsInfoValidMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
-            writer.WriteShort((short) Fights.Count);
+            writer.WriteShort((short)Fights.Count);
             for (var fightsIndex = 0; fightsIndex < Fights.Count; fightsIndex++)
             {
                 var objectToSend = Fights[fightsIndex];
@@ -41,5 +38,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Prism
                 Fights.Add(objectToAdd);
             }
         }
+
     }
 }

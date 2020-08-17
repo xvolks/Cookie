@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Mount
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Mount
 {
+    using Utils.IO;
+
     public class MountInformationRequestMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5972;
+        public override ushort MessageID => ProtocolId;
+        public double ObjectId { get; set; }
+        public double Time { get; set; }
 
         public MountInformationRequestMessage(double objectId, double time)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Mount
             Time = time;
         }
 
-        public MountInformationRequestMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public double ObjectId { get; set; }
-        public double Time { get; set; }
+        public MountInformationRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Mount
             ObjectId = reader.ReadDouble();
             Time = reader.ReadDouble();
         }
+
     }
 }

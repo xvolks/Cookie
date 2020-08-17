@@ -1,35 +1,33 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Npc
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Npc
 {
+    using Utils.IO;
+
     public class NpcDialogCreationMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5618;
+        public override ushort MessageID => ProtocolId;
+        public double MapId { get; set; }
+        public int NpcId { get; set; }
 
-        public NpcDialogCreationMessage(int mapId, int npcId)
+        public NpcDialogCreationMessage(double mapId, int npcId)
         {
             MapId = mapId;
             NpcId = npcId;
         }
 
-        public NpcDialogCreationMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public int MapId { get; set; }
-        public int NpcId { get; set; }
+        public NpcDialogCreationMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
-            writer.WriteInt(MapId);
+            writer.WriteDouble(MapId);
             writer.WriteInt(NpcId);
         }
 
         public override void Deserialize(IDataReader reader)
         {
-            MapId = reader.ReadInt();
+            MapId = reader.ReadDouble();
             NpcId = reader.ReadInt();
         }
+
     }
 }

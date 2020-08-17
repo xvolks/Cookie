@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Updater.Parts
+﻿namespace Cookie.API.Protocol.Network.Messages.Updater.Parts
 {
+    using Utils.IO;
+
     public class DownloadPartMessage : NetworkMessage
     {
         public const ushort ProtocolId = 1503;
+        public override ushort MessageID => ProtocolId;
+        public string ObjectId { get; set; }
 
         public DownloadPartMessage(string objectId)
         {
             ObjectId = objectId;
         }
 
-        public DownloadPartMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public string ObjectId { get; set; }
+        public DownloadPartMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Updater.Parts
         {
             ObjectId = reader.ReadUTF();
         }
+
     }
 }

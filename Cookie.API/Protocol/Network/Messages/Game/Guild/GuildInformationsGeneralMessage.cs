@@ -1,14 +1,21 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Guild
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Guild
 {
+    using Utils.IO;
+
     public class GuildInformationsGeneralMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5557;
+        public override ushort MessageID => ProtocolId;
+        public bool AbandonnedPaddock { get; set; }
+        public byte Level { get; set; }
+        public ulong ExpLevelFloor { get; set; }
+        public ulong Experience { get; set; }
+        public ulong ExpNextLevelFloor { get; set; }
+        public int CreationDate { get; set; }
+        public ushort NbTotalMembers { get; set; }
+        public ushort NbConnectedMembers { get; set; }
 
-        public GuildInformationsGeneralMessage(bool abandonnedPaddock, byte level, ulong expLevelFloor,
-            ulong experience, ulong expNextLevelFloor, int creationDate, ushort nbTotalMembers,
-            ushort nbConnectedMembers)
+        public GuildInformationsGeneralMessage(bool abandonnedPaddock, byte level, ulong expLevelFloor, ulong experience, ulong expNextLevelFloor, int creationDate, ushort nbTotalMembers, ushort nbConnectedMembers)
         {
             AbandonnedPaddock = abandonnedPaddock;
             Level = level;
@@ -20,19 +27,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild
             NbConnectedMembers = nbConnectedMembers;
         }
 
-        public GuildInformationsGeneralMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public bool AbandonnedPaddock { get; set; }
-        public byte Level { get; set; }
-        public ulong ExpLevelFloor { get; set; }
-        public ulong Experience { get; set; }
-        public ulong ExpNextLevelFloor { get; set; }
-        public int CreationDate { get; set; }
-        public ushort NbTotalMembers { get; set; }
-        public ushort NbConnectedMembers { get; set; }
+        public GuildInformationsGeneralMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -57,5 +52,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild
             NbTotalMembers = reader.ReadVarUhShort();
             NbConnectedMembers = reader.ReadVarUhShort();
         }
+
     }
 }

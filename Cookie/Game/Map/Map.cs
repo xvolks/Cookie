@@ -70,11 +70,11 @@ namespace Cookie.Game.Map
 
         public Dictionary<int, IInteractiveElement> Doors { get; }
         public Dictionary<int, IStatedElement> StatedElements { get; }
-        public int WorldId => ObjectDataManager.Instance.Get<MapPosition>(Id).WorldMap;
+        public int WorldId => ObjectDataManager.Instance.Get<MapPosition>(Convert.ToUInt32(Id)).WorldMap;
         public IMapData Data { get; private set; }
-        public int Id => ((API.Gamedata.D2p.Map) Data).Id;
-        public int X => ObjectDataManager.Instance.Get<MapPosition>(Id).PosX;
-        public int Y => ObjectDataManager.Instance.Get<MapPosition>(Id).PosY;
+        public double Id => ((API.Gamedata.D2p.Map) Data).Id;
+        public int X => ObjectDataManager.Instance.Get<MapPosition>(Convert.ToUInt32(Id)).PosX;
+        public int Y => ObjectDataManager.Instance.Get<MapPosition>(Convert.ToUInt32(Id)).PosY;
         public Dictionary<int, IInteractiveElement> InteractiveElements { get; }
         public int SubAreaId { get; private set; }
         public int MapChange { get; set; }
@@ -284,6 +284,9 @@ namespace Cookie.Game.Map
         private void MapControl_CellClicked(MapControl control, MapCell cell, MouseButtons buttons, bool hold)
         {
             if (buttons != MouseButtons.Left) return;
+            // If data is null, no map have been entered, the bot is not running.
+            if (Data is null) throw new BotNotRunningException();
+
             var mov = MoveToCell(cell.Id);
             mov.MovementFinished += (sender, e) =>
             {
@@ -297,6 +300,7 @@ namespace Cookie.Game.Map
         private void Attach()
         {
             _account.Network.RegisterPacket<CurrentMapMessage>(HandleCurrentMapMessage, MessagePriority.VeryHigh);
+            _account.Network.RegisterPacket<CurrentMapInstanceMessage>(HandleCurrentMapInstanceMessage, MessagePriority.VeryHigh);
             _account.Network.RegisterPacket<MapComplementaryInformationsDataMessage>(
                 HandleMapComplementaryInformationsDataMessage, MessagePriority.VeryHigh);
             _account.Network.RegisterPacket<MapComplementaryInformationsDataInHouseMessage>(
@@ -367,6 +371,11 @@ namespace Cookie.Game.Map
             _account.Character.MapId = message.MapId;
             _account.Network.SendToServer(new MapInformationsRequestMessage(message.MapId));
             MapChange = -1;
+        }
+
+        private void HandleCurrentMapInstanceMessage(IAccount account, CurrentMapInstanceMessage message)
+        {
+            HandleCurrentMapMessage(account, message);
         }
 
         private void HandleGameContextRemoveElementMessage(IAccount account, GameContextRemoveElementMessage message)

@@ -1,11 +1,14 @@
-﻿using Cookie.API.Protocol.Network.Types.Updater;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Updater.Parts
+﻿namespace Cookie.API.Protocol.Network.Messages.Updater.Parts
 {
+    using Types.Updater;
+    using Utils.IO;
+
     public class PartInfoMessage : NetworkMessage
     {
         public const ushort ProtocolId = 1508;
+        public override ushort MessageID => ProtocolId;
+        public ContentPart Part { get; set; }
+        public float InstallationPercent { get; set; }
 
         public PartInfoMessage(ContentPart part, float installationPercent)
         {
@@ -13,13 +16,7 @@ namespace Cookie.API.Protocol.Network.Messages.Updater.Parts
             InstallationPercent = installationPercent;
         }
 
-        public PartInfoMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ContentPart Part { get; set; }
-        public float InstallationPercent { get; set; }
+        public PartInfoMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -33,5 +30,6 @@ namespace Cookie.API.Protocol.Network.Messages.Updater.Parts
             Part.Deserialize(reader);
             InstallationPercent = reader.ReadFloat();
         }
+
     }
 }

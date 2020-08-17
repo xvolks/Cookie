@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Quest
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Quest
 {
+    using Utils.IO;
+
     public class QuestObjectiveValidatedMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6098;
+        public override ushort MessageID => ProtocolId;
+        public ushort QuestId { get; set; }
+        public ushort ObjectiveId { get; set; }
 
         public QuestObjectiveValidatedMessage(ushort questId, ushort objectiveId)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Quest
             ObjectiveId = objectiveId;
         }
 
-        public QuestObjectiveValidatedMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ushort QuestId { get; set; }
-        public ushort ObjectiveId { get; set; }
+        public QuestObjectiveValidatedMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Quest
             QuestId = reader.ReadVarUhShort();
             ObjectiveId = reader.ReadVarUhShort();
         }
+
     }
 }

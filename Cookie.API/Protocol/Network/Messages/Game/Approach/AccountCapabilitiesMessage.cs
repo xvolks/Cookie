@@ -1,13 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Approach
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Approach
 {
+    using Utils.IO;
+
     public class AccountCapabilitiesMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6216;
+        public override ushort MessageID => ProtocolId;
+        public bool TutorialAvailable { get; set; }
+        public bool CanCreateNewCharacter { get; set; }
+        public int AccountId { get; set; }
+        public uint BreedsVisible { get; set; }
+        public uint BreedsAvailable { get; set; }
+        public sbyte Status { get; set; }
 
-        public AccountCapabilitiesMessage(bool tutorialAvailable, bool canCreateNewCharacter, int accountId,
-            uint breedsVisible, uint breedsAvailable, sbyte status)
+        public AccountCapabilitiesMessage(bool tutorialAvailable, bool canCreateNewCharacter, int accountId, uint breedsVisible, uint breedsAvailable, sbyte status)
         {
             TutorialAvailable = tutorialAvailable;
             CanCreateNewCharacter = canCreateNewCharacter;
@@ -17,17 +23,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Approach
             Status = status;
         }
 
-        public AccountCapabilitiesMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public bool TutorialAvailable { get; set; }
-        public bool CanCreateNewCharacter { get; set; }
-        public int AccountId { get; set; }
-        public uint BreedsVisible { get; set; }
-        public uint BreedsAvailable { get; set; }
-        public sbyte Status { get; set; }
+        public AccountCapabilitiesMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -51,5 +47,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Approach
             BreedsAvailable = reader.ReadVarUhInt();
             Status = reader.ReadSByte();
         }
+
     }
 }

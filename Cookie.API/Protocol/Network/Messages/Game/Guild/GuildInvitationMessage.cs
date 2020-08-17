@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Guild
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Guild
 {
+    using Utils.IO;
+
     public class GuildInvitationMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5551;
+        public override ushort MessageID => ProtocolId;
+        public ulong TargetId { get; set; }
 
         public GuildInvitationMessage(ulong targetId)
         {
             TargetId = targetId;
         }
 
-        public GuildInvitationMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ulong TargetId { get; set; }
+        public GuildInvitationMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild
         {
             TargetId = reader.ReadVarUhLong();
         }
+
     }
 }

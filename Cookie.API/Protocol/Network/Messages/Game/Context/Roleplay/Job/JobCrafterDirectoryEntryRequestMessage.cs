@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Job
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Job
 {
+    using Utils.IO;
+
     public class JobCrafterDirectoryEntryRequestMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6043;
+        public override ushort MessageID => ProtocolId;
+        public ulong PlayerId { get; set; }
 
         public JobCrafterDirectoryEntryRequestMessage(ulong playerId)
         {
             PlayerId = playerId;
         }
 
-        public JobCrafterDirectoryEntryRequestMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ulong PlayerId { get; set; }
+        public JobCrafterDirectoryEntryRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Job
         {
             PlayerId = reader.ReadVarUhLong();
         }
+
     }
 }

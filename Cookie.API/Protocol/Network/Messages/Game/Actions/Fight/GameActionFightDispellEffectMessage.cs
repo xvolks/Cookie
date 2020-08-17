@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Actions.Fight
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Actions.Fight
 {
+    using Utils.IO;
+
     public class GameActionFightDispellEffectMessage : GameActionFightDispellMessage
     {
         public new const ushort ProtocolId = 6113;
+        public override ushort MessageID => ProtocolId;
+        public int BoostUID { get; set; }
 
         public GameActionFightDispellEffectMessage(int boostUID)
         {
             BoostUID = boostUID;
         }
 
-        public GameActionFightDispellEffectMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public int BoostUID { get; set; }
+        public GameActionFightDispellEffectMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -29,5 +26,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Actions.Fight
             base.Deserialize(reader);
             BoostUID = reader.ReadInt();
         }
+
     }
 }

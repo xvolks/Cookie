@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Objects
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Objects
 {
+    using Utils.IO;
+
     public class ObjectGroundRemovedMessage : NetworkMessage
     {
         public const ushort ProtocolId = 3014;
+        public override ushort MessageID => ProtocolId;
+        public ushort Cell { get; set; }
 
         public ObjectGroundRemovedMessage(ushort cell)
         {
             Cell = cell;
         }
 
-        public ObjectGroundRemovedMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ushort Cell { get; set; }
+        public ObjectGroundRemovedMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Objects
         {
             Cell = reader.ReadVarUhShort();
         }
+
     }
 }

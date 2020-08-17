@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Mount
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Mount
 {
+    using Utils.IO;
+
     public class PaddockBuyRequestMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5951;
+        public override ushort MessageID => ProtocolId;
+        public ulong ProposedPrice { get; set; }
 
         public PaddockBuyRequestMessage(ulong proposedPrice)
         {
             ProposedPrice = proposedPrice;
         }
 
-        public PaddockBuyRequestMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ulong ProposedPrice { get; set; }
+        public PaddockBuyRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Mount
         {
             ProposedPrice = reader.ReadVarUhLong();
         }
+
     }
 }

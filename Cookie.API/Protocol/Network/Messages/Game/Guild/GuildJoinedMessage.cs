@@ -1,11 +1,14 @@
-﻿using Cookie.API.Protocol.Network.Types.Game.Context.Roleplay;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Guild
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Guild
 {
+    using Types.Game.Context.Roleplay;
+    using Utils.IO;
+
     public class GuildJoinedMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5564;
+        public override ushort MessageID => ProtocolId;
+        public GuildInformations GuildInfo { get; set; }
+        public uint MemberRights { get; set; }
 
         public GuildJoinedMessage(GuildInformations guildInfo, uint memberRights)
         {
@@ -13,13 +16,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild
             MemberRights = memberRights;
         }
 
-        public GuildJoinedMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public GuildInformations GuildInfo { get; set; }
-        public uint MemberRights { get; set; }
+        public GuildJoinedMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -33,5 +30,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild
             GuildInfo.Deserialize(reader);
             MemberRights = reader.ReadVarUhInt();
         }
+
     }
 }

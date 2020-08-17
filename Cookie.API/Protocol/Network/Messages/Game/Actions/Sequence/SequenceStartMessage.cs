@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Actions.Sequence
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Actions.Sequence
 {
+    using Utils.IO;
+
     public class SequenceStartMessage : NetworkMessage
     {
         public const ushort ProtocolId = 955;
+        public override ushort MessageID => ProtocolId;
+        public sbyte SequenceType { get; set; }
+        public double AuthorId { get; set; }
 
         public SequenceStartMessage(sbyte sequenceType, double authorId)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Actions.Sequence
             AuthorId = authorId;
         }
 
-        public SequenceStartMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public sbyte SequenceType { get; set; }
-        public double AuthorId { get; set; }
+        public SequenceStartMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Actions.Sequence
             SequenceType = reader.ReadSByte();
             AuthorId = reader.ReadDouble();
         }
+
     }
 }

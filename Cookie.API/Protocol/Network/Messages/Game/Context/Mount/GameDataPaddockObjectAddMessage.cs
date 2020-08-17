@@ -1,23 +1,20 @@
-﻿using Cookie.API.Protocol.Network.Types.Game.Paddock;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Mount
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Mount
 {
+    using Types.Game.Paddock;
+    using Utils.IO;
+
     public class GameDataPaddockObjectAddMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5990;
+        public override ushort MessageID => ProtocolId;
+        public PaddockItem PaddockItemDescription { get; set; }
 
         public GameDataPaddockObjectAddMessage(PaddockItem paddockItemDescription)
         {
             PaddockItemDescription = paddockItemDescription;
         }
 
-        public GameDataPaddockObjectAddMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public PaddockItem PaddockItemDescription { get; set; }
+        public GameDataPaddockObjectAddMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -29,5 +26,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Mount
             PaddockItemDescription = new PaddockItem();
             PaddockItemDescription.Deserialize(reader);
         }
+
     }
 }

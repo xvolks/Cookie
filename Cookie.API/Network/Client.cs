@@ -48,7 +48,7 @@ namespace Cookie.API.Network
 
             if (!Socket.SendAsync(args))
             {
-                OnMessageSended(message);
+                OnMessageSent(message);
                 args.Dispose();
             }
 
@@ -95,7 +95,7 @@ namespace Cookie.API.Network
             handler?.Invoke(this, message);
         }
 
-        protected virtual void OnMessageSended(NetworkMessage message)
+        protected virtual void OnMessageSent(NetworkMessage message)
         {
             var handler = MessageSent;
             handler?.Invoke(this, message);
@@ -109,7 +109,7 @@ namespace Cookie.API.Network
 
         private void OnSendCompleted(object sender, SocketAsyncEventArgs e)
         {
-            OnMessageSended((NetworkMessage) e.UserToken);
+            OnMessageSent((NetworkMessage) e.UserToken);
             e.Dispose();
         }
 

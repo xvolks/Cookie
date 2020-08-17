@@ -1,10 +1,14 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Stats
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Stats
 {
+    using Utils.IO;
+
     public class StatsUpgradeRequestMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5610;
+        public override ushort MessageID => ProtocolId;
+        public bool UseAdditionnal { get; set; }
+        public byte StatId { get; set; }
+        public ushort BoostPoint { get; set; }
 
         public StatsUpgradeRequestMessage(bool useAdditionnal, byte statId, ushort boostPoint)
         {
@@ -13,14 +17,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Stats
             BoostPoint = boostPoint;
         }
 
-        public StatsUpgradeRequestMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public bool UseAdditionnal { get; set; }
-        public byte StatId { get; set; }
-        public ushort BoostPoint { get; set; }
+        public StatsUpgradeRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -35,5 +32,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Stats
             StatId = reader.ReadByte();
             BoostPoint = reader.ReadVarUhShort();
         }
+
     }
 }

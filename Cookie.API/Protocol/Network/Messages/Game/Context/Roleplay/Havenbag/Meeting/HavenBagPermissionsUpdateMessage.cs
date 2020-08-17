@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Havenbag.Meeting
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Havenbag.Meeting
 {
+    using Utils.IO;
+
     public class HavenBagPermissionsUpdateMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6713;
+        public override ushort MessageID => ProtocolId;
+        public int Permissions { get; set; }
 
         public HavenBagPermissionsUpdateMessage(int permissions)
         {
             Permissions = permissions;
         }
 
-        public HavenBagPermissionsUpdateMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public int Permissions { get; set; }
+        public HavenBagPermissionsUpdateMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Havenbag.Me
         {
             Permissions = reader.ReadInt();
         }
+
     }
 }

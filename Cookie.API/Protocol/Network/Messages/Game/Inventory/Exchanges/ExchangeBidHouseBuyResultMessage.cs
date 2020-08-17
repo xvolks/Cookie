@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
 {
+    using Utils.IO;
+
     public class ExchangeBidHouseBuyResultMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6272;
+        public override ushort MessageID => ProtocolId;
+        public uint Uid { get; set; }
+        public bool Bought { get; set; }
 
         public ExchangeBidHouseBuyResultMessage(uint uid, bool bought)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
             Bought = bought;
         }
 
-        public ExchangeBidHouseBuyResultMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public uint Uid { get; set; }
-        public bool Bought { get; set; }
+        public ExchangeBidHouseBuyResultMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
             Uid = reader.ReadVarUhInt();
             Bought = reader.ReadBoolean();
         }
+
     }
 }

@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Common.Basic
+﻿namespace Cookie.API.Protocol.Network.Messages.Common.Basic
 {
+    using Utils.IO;
+
     public class BasicStatMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6530;
+        public override ushort MessageID => ProtocolId;
+        public double TimeSpent { get; set; }
+        public ushort StatId { get; set; }
 
         public BasicStatMessage(double timeSpent, ushort statId)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Common.Basic
             StatId = statId;
         }
 
-        public BasicStatMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public double TimeSpent { get; set; }
-        public ushort StatId { get; set; }
+        public BasicStatMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Common.Basic
             TimeSpent = reader.ReadDouble();
             StatId = reader.ReadVarUhShort();
         }
+
     }
 }

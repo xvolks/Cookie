@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
 {
+    using Utils.IO;
+
     public class MapFightCountMessage : NetworkMessage
     {
         public const ushort ProtocolId = 210;
+        public override ushort MessageID => ProtocolId;
+        public ushort FightCount { get; set; }
 
         public MapFightCountMessage(ushort fightCount)
         {
             FightCount = fightCount;
         }
 
-        public MapFightCountMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ushort FightCount { get; set; }
+        public MapFightCountMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
         {
             FightCount = reader.ReadVarUhShort();
         }
+
     }
 }

@@ -1,23 +1,20 @@
-﻿using Cookie.API.Protocol.Network.Types.Game.Data.Items;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Storage
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Storage
 {
+    using Types.Game.Data.Items;
+    using Utils.IO;
+
     public class StorageObjectUpdateMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5647;
+        public override ushort MessageID => ProtocolId;
+        public ObjectItem Object { get; set; }
 
         public StorageObjectUpdateMessage(ObjectItem @object)
         {
             Object = @object;
         }
 
-        public StorageObjectUpdateMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ObjectItem Object { get; set; }
+        public StorageObjectUpdateMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -29,5 +26,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Storage
             Object = new ObjectItem();
             Object.Deserialize(reader);
         }
+
     }
 }

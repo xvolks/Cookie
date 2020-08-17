@@ -1,11 +1,15 @@
-﻿using System.Collections.Generic;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Basic
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Basic
 {
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class TextInformationMessage : NetworkMessage
     {
         public const ushort ProtocolId = 780;
+        public override ushort MessageID => ProtocolId;
+        public byte MsgType { get; set; }
+        public ushort MsgId { get; set; }
+        public List<string> Parameters { get; set; }
 
         public TextInformationMessage(byte msgType, ushort msgId, List<string> parameters)
         {
@@ -14,22 +18,17 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Basic
             Parameters = parameters;
         }
 
-        public TextInformationMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public byte MsgType { get; set; }
-        public ushort MsgId { get; set; }
-        public List<string> Parameters { get; set; }
+        public TextInformationMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
             writer.WriteByte(MsgType);
             writer.WriteVarUhShort(MsgId);
-            writer.WriteShort((short) Parameters.Count);
+            writer.WriteShort((short)Parameters.Count);
             for (var parametersIndex = 0; parametersIndex < Parameters.Count; parametersIndex++)
+            {
                 writer.WriteUTF(Parameters[parametersIndex]);
+            }
         }
 
         public override void Deserialize(IDataReader reader)
@@ -39,7 +38,10 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Basic
             var parametersCount = reader.ReadUShort();
             Parameters = new List<string>();
             for (var parametersIndex = 0; parametersIndex < parametersCount; parametersIndex++)
+            {
                 Parameters.Add(reader.ReadUTF());
+            }
         }
+
     }
 }

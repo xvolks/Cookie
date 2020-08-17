@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Party
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Party
 {
+    using Utils.IO;
+
     public class PartyRestrictedMessage : AbstractPartyMessage
     {
         public new const ushort ProtocolId = 6175;
+        public override ushort MessageID => ProtocolId;
+        public bool Restricted { get; set; }
 
         public PartyRestrictedMessage(bool restricted)
         {
             Restricted = restricted;
         }
 
-        public PartyRestrictedMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public bool Restricted { get; set; }
+        public PartyRestrictedMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -29,5 +26,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Party
             base.Deserialize(reader);
             Restricted = reader.ReadBoolean();
         }
+
     }
 }

@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Guild
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Guild
 {
+    using Utils.IO;
+
     public class ChallengeFightJoinRefusedMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5908;
+        public override ushort MessageID => ProtocolId;
+        public ulong PlayerId { get; set; }
+        public sbyte Reason { get; set; }
 
         public ChallengeFightJoinRefusedMessage(ulong playerId, sbyte reason)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild
             Reason = reason;
         }
 
-        public ChallengeFightJoinRefusedMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ulong PlayerId { get; set; }
-        public sbyte Reason { get; set; }
+        public ChallengeFightJoinRefusedMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild
             PlayerId = reader.ReadVarUhLong();
             Reason = reader.ReadSByte();
         }
+
     }
 }

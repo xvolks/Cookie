@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Document
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Document
 {
+    using Utils.IO;
+
     public class DocumentReadingBeginMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5675;
+        public override ushort MessageID => ProtocolId;
+        public ushort DocumentId { get; set; }
 
         public DocumentReadingBeginMessage(ushort documentId)
         {
             DocumentId = documentId;
         }
 
-        public DocumentReadingBeginMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ushort DocumentId { get; set; }
+        public DocumentReadingBeginMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Document
         {
             DocumentId = reader.ReadVarUhShort();
         }
+
     }
 }

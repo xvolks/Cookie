@@ -1,15 +1,19 @@
-﻿using System.Collections.Generic;
-using Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Quest;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Quest
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Quest
 {
+    using Types.Game.Context.Roleplay.Quest;
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class QuestListMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5626;
+        public override ushort MessageID => ProtocolId;
+        public List<ushort> FinishedQuestsIds { get; set; }
+        public List<ushort> FinishedQuestsCounts { get; set; }
+        public List<QuestActiveInformations> ActiveQuests { get; set; }
+        public List<ushort> ReinitDoneQuestsIds { get; set; }
 
-        public QuestListMessage(List<ushort> finishedQuestsIds, List<ushort> finishedQuestsCounts,
-            List<QuestActiveInformations> activeQuests, List<ushort> reinitDoneQuestsIds)
+        public QuestListMessage(List<ushort> finishedQuestsIds, List<ushort> finishedQuestsCounts, List<QuestActiveInformations> activeQuests, List<ushort> reinitDoneQuestsIds)
         {
             FinishedQuestsIds = finishedQuestsIds;
             FinishedQuestsCounts = finishedQuestsCounts;
@@ -17,56 +21,48 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Quest
             ReinitDoneQuestsIds = reinitDoneQuestsIds;
         }
 
-        public QuestListMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public List<ushort> FinishedQuestsIds { get; set; }
-        public List<ushort> FinishedQuestsCounts { get; set; }
-        public List<QuestActiveInformations> ActiveQuests { get; set; }
-        public List<ushort> ReinitDoneQuestsIds { get; set; }
+        public QuestListMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
-            writer.WriteShort((short) FinishedQuestsIds.Count);
-            for (var finishedQuestsIdsIndex = 0;
-                finishedQuestsIdsIndex < FinishedQuestsIds.Count;
-                finishedQuestsIdsIndex++)
+            writer.WriteShort((short)FinishedQuestsIds.Count);
+            for (var finishedQuestsIdsIndex = 0; finishedQuestsIdsIndex < FinishedQuestsIds.Count; finishedQuestsIdsIndex++)
+            {
                 writer.WriteVarUhShort(FinishedQuestsIds[finishedQuestsIdsIndex]);
-            writer.WriteShort((short) FinishedQuestsCounts.Count);
-            for (var finishedQuestsCountsIndex = 0;
-                finishedQuestsCountsIndex < FinishedQuestsCounts.Count;
-                finishedQuestsCountsIndex++)
+            }
+            writer.WriteShort((short)FinishedQuestsCounts.Count);
+            for (var finishedQuestsCountsIndex = 0; finishedQuestsCountsIndex < FinishedQuestsCounts.Count; finishedQuestsCountsIndex++)
+            {
                 writer.WriteVarUhShort(FinishedQuestsCounts[finishedQuestsCountsIndex]);
-            writer.WriteShort((short) ActiveQuests.Count);
+            }
+            writer.WriteShort((short)ActiveQuests.Count);
             for (var activeQuestsIndex = 0; activeQuestsIndex < ActiveQuests.Count; activeQuestsIndex++)
             {
                 var objectToSend = ActiveQuests[activeQuestsIndex];
                 writer.WriteUShort(objectToSend.TypeID);
                 objectToSend.Serialize(writer);
             }
-            writer.WriteShort((short) ReinitDoneQuestsIds.Count);
-            for (var reinitDoneQuestsIdsIndex = 0;
-                reinitDoneQuestsIdsIndex < ReinitDoneQuestsIds.Count;
-                reinitDoneQuestsIdsIndex++)
+            writer.WriteShort((short)ReinitDoneQuestsIds.Count);
+            for (var reinitDoneQuestsIdsIndex = 0; reinitDoneQuestsIdsIndex < ReinitDoneQuestsIds.Count; reinitDoneQuestsIdsIndex++)
+            {
                 writer.WriteVarUhShort(ReinitDoneQuestsIds[reinitDoneQuestsIdsIndex]);
+            }
         }
 
         public override void Deserialize(IDataReader reader)
         {
             var finishedQuestsIdsCount = reader.ReadUShort();
             FinishedQuestsIds = new List<ushort>();
-            for (var finishedQuestsIdsIndex = 0;
-                finishedQuestsIdsIndex < finishedQuestsIdsCount;
-                finishedQuestsIdsIndex++)
+            for (var finishedQuestsIdsIndex = 0; finishedQuestsIdsIndex < finishedQuestsIdsCount; finishedQuestsIdsIndex++)
+            {
                 FinishedQuestsIds.Add(reader.ReadVarUhShort());
+            }
             var finishedQuestsCountsCount = reader.ReadUShort();
             FinishedQuestsCounts = new List<ushort>();
-            for (var finishedQuestsCountsIndex = 0;
-                finishedQuestsCountsIndex < finishedQuestsCountsCount;
-                finishedQuestsCountsIndex++)
+            for (var finishedQuestsCountsIndex = 0; finishedQuestsCountsIndex < finishedQuestsCountsCount; finishedQuestsCountsIndex++)
+            {
                 FinishedQuestsCounts.Add(reader.ReadVarUhShort());
+            }
             var activeQuestsCount = reader.ReadUShort();
             ActiveQuests = new List<QuestActiveInformations>();
             for (var activeQuestsIndex = 0; activeQuestsIndex < activeQuestsCount; activeQuestsIndex++)
@@ -77,10 +73,11 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Quest
             }
             var reinitDoneQuestsIdsCount = reader.ReadUShort();
             ReinitDoneQuestsIds = new List<ushort>();
-            for (var reinitDoneQuestsIdsIndex = 0;
-                reinitDoneQuestsIdsIndex < reinitDoneQuestsIdsCount;
-                reinitDoneQuestsIdsIndex++)
+            for (var reinitDoneQuestsIdsIndex = 0; reinitDoneQuestsIdsIndex < reinitDoneQuestsIdsCount; reinitDoneQuestsIdsIndex++)
+            {
                 ReinitDoneQuestsIds.Add(reader.ReadVarUhShort());
+            }
         }
+
     }
 }

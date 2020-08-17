@@ -1,37 +1,33 @@
-﻿using System.Collections.Generic;
-using Cookie.API.Protocol.Network.Types.Game.Data.Items;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
 {
+    using Types.Game.Data.Items;
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class ExchangeOfflineSoldItemsMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6613;
+        public override ushort MessageID => ProtocolId;
+        public List<ObjectItemGenericQuantityPrice> BidHouseItems { get; set; }
+        public List<ObjectItemGenericQuantityPrice> MerchantItems { get; set; }
 
-        public ExchangeOfflineSoldItemsMessage(List<ObjectItemGenericQuantityPrice> bidHouseItems,
-            List<ObjectItemGenericQuantityPrice> merchantItems)
+        public ExchangeOfflineSoldItemsMessage(List<ObjectItemGenericQuantityPrice> bidHouseItems, List<ObjectItemGenericQuantityPrice> merchantItems)
         {
             BidHouseItems = bidHouseItems;
             MerchantItems = merchantItems;
         }
 
-        public ExchangeOfflineSoldItemsMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public List<ObjectItemGenericQuantityPrice> BidHouseItems { get; set; }
-        public List<ObjectItemGenericQuantityPrice> MerchantItems { get; set; }
+        public ExchangeOfflineSoldItemsMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
-            writer.WriteShort((short) BidHouseItems.Count);
+            writer.WriteShort((short)BidHouseItems.Count);
             for (var bidHouseItemsIndex = 0; bidHouseItemsIndex < BidHouseItems.Count; bidHouseItemsIndex++)
             {
                 var objectToSend = BidHouseItems[bidHouseItemsIndex];
                 objectToSend.Serialize(writer);
             }
-            writer.WriteShort((short) MerchantItems.Count);
+            writer.WriteShort((short)MerchantItems.Count);
             for (var merchantItemsIndex = 0; merchantItemsIndex < MerchantItems.Count; merchantItemsIndex++)
             {
                 var objectToSend = MerchantItems[merchantItemsIndex];
@@ -58,5 +54,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
                 MerchantItems.Add(objectToAdd);
             }
         }
+
     }
 }

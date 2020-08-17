@@ -11,8 +11,10 @@ namespace Cookie.API.Datacenter
         public const string MODULE = "SpellStates";
         public bool CantBeMoved;
         public bool CantBePushed;
+        public bool CantBeTackled;
         public bool CantDealDamage;
         public bool CantSwitchPosition;
+        public bool CantTackle;
         public List<int> EffectsIds;
         public string Icon = "";
         public int IconVisibilityMask;

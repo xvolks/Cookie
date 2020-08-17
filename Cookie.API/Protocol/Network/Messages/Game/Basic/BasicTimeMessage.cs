@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Basic
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Basic
 {
+    using Utils.IO;
+
     public class BasicTimeMessage : NetworkMessage
     {
         public const ushort ProtocolId = 175;
+        public override ushort MessageID => ProtocolId;
+        public double Timestamp { get; set; }
+        public short TimezoneOffset { get; set; }
 
         public BasicTimeMessage(double timestamp, short timezoneOffset)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Basic
             TimezoneOffset = timezoneOffset;
         }
 
-        public BasicTimeMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public double Timestamp { get; set; }
-        public short TimezoneOffset { get; set; }
+        public BasicTimeMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Basic
             Timestamp = reader.ReadDouble();
             TimezoneOffset = reader.ReadShort();
         }
+
     }
 }

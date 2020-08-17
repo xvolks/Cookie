@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Security
+﻿namespace Cookie.API.Protocol.Network.Messages.Security
 {
+    using Utils.IO;
+
     public class ClientKeyMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5607;
+        public override ushort MessageID => ProtocolId;
+        public string Key { get; set; }
 
         public ClientKeyMessage(string key)
         {
             Key = key;
         }
 
-        public ClientKeyMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public string Key { get; set; }
+        public ClientKeyMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Security
         {
             Key = reader.ReadUTF();
         }
+
     }
 }

@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight.Challenge
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight.Challenge
 {
+    using Utils.IO;
+
     public class ChallengeTargetsListRequestMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5614;
+        public override ushort MessageID => ProtocolId;
+        public ushort ChallengeId { get; set; }
 
         public ChallengeTargetsListRequestMessage(ushort challengeId)
         {
             ChallengeId = challengeId;
         }
 
-        public ChallengeTargetsListRequestMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ushort ChallengeId { get; set; }
+        public ChallengeTargetsListRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight.Challenge
         {
             ChallengeId = reader.ReadVarUhShort();
         }
+
     }
 }

@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Party
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Party
 {
+    using Utils.IO;
+
     public class PartyCancelInvitationNotificationMessage : AbstractPartyEventMessage
     {
         public new const ushort ProtocolId = 6251;
+        public override ushort MessageID => ProtocolId;
+        public ulong CancelerId { get; set; }
+        public ulong GuestId { get; set; }
 
         public PartyCancelInvitationNotificationMessage(ulong cancelerId, ulong guestId)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Party
             GuestId = guestId;
         }
 
-        public PartyCancelInvitationNotificationMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ulong CancelerId { get; set; }
-        public ulong GuestId { get; set; }
+        public PartyCancelInvitationNotificationMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -33,5 +30,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Party
             CancelerId = reader.ReadVarUhLong();
             GuestId = reader.ReadVarUhLong();
         }
+
     }
 }

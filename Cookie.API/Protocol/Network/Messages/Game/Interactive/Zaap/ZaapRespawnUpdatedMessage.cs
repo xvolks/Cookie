@@ -1,31 +1,29 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Interactive.Zaap
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Interactive.Zaap
 {
+    using Utils.IO;
+
     public class ZaapRespawnUpdatedMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6571;
+        public override ushort MessageID => ProtocolId;
+        public double MapId { get; set; }
 
-        public ZaapRespawnUpdatedMessage(int mapId)
+        public ZaapRespawnUpdatedMessage(double mapId)
         {
             MapId = mapId;
         }
 
-        public ZaapRespawnUpdatedMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public int MapId { get; set; }
+        public ZaapRespawnUpdatedMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
-            writer.WriteInt(MapId);
+            writer.WriteDouble(MapId);
         }
 
         public override void Deserialize(IDataReader reader)
         {
-            MapId = reader.ReadInt();
+            MapId = reader.ReadDouble();
         }
+
     }
 }

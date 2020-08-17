@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Actions
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Actions
 {
+    using Utils.IO;
+
     public class GameActionAcknowledgementMessage : NetworkMessage
     {
         public const ushort ProtocolId = 957;
+        public override ushort MessageID => ProtocolId;
+        public bool Valid { get; set; }
+        public sbyte ActionId { get; set; }
 
         public GameActionAcknowledgementMessage(bool valid, sbyte actionId)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Actions
             ActionId = actionId;
         }
 
-        public GameActionAcknowledgementMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public bool Valid { get; set; }
-        public sbyte ActionId { get; set; }
+        public GameActionAcknowledgementMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Actions
             Valid = reader.ReadBoolean();
             ActionId = reader.ReadSByte();
         }
+
     }
 }

@@ -1,12 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Houses
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Houses
 {
+    using Utils.IO;
+
     public class HouseSellFromInsideRequestMessage : HouseSellRequestMessage
     {
         public new const ushort ProtocolId = 5884;
-
         public override ushort MessageID => ProtocolId;
+
+        public HouseSellFromInsideRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -17,5 +18,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Houses
         {
             base.Deserialize(reader);
         }
+
     }
 }

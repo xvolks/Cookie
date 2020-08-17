@@ -1,10 +1,14 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
 {
+    using Utils.IO;
+
     public class ObjectSetPositionMessage : NetworkMessage
     {
         public const ushort ProtocolId = 3021;
+        public override ushort MessageID => ProtocolId;
+        public uint ObjectUID { get; set; }
+        public byte Position { get; set; }
+        public uint Quantity { get; set; }
 
         public ObjectSetPositionMessage(uint objectUID, byte position, uint quantity)
         {
@@ -13,14 +17,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
             Quantity = quantity;
         }
 
-        public ObjectSetPositionMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public uint ObjectUID { get; set; }
-        public byte Position { get; set; }
-        public uint Quantity { get; set; }
+        public ObjectSetPositionMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -35,5 +32,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
             Position = reader.ReadByte();
             Quantity = reader.ReadVarUhInt();
         }
+
     }
 }

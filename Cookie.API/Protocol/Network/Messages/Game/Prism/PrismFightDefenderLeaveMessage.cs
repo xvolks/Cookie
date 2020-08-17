@@ -1,10 +1,14 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Prism
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Prism
 {
+    using Utils.IO;
+
     public class PrismFightDefenderLeaveMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5892;
+        public override ushort MessageID => ProtocolId;
+        public ushort SubAreaId { get; set; }
+        public ushort FightId { get; set; }
+        public ulong FighterToRemoveId { get; set; }
 
         public PrismFightDefenderLeaveMessage(ushort subAreaId, ushort fightId, ulong fighterToRemoveId)
         {
@@ -13,14 +17,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Prism
             FighterToRemoveId = fighterToRemoveId;
         }
 
-        public PrismFightDefenderLeaveMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ushort SubAreaId { get; set; }
-        public ushort FightId { get; set; }
-        public ulong FighterToRemoveId { get; set; }
+        public PrismFightDefenderLeaveMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -35,5 +32,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Prism
             FightId = reader.ReadVarUhShort();
             FighterToRemoveId = reader.ReadVarUhLong();
         }
+
     }
 }

@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Houses
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Houses
 {
+    using Utils.IO;
+
     public class HouseToSellListRequestMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6139;
+        public override ushort MessageID => ProtocolId;
+        public ushort PageIndex { get; set; }
 
         public HouseToSellListRequestMessage(ushort pageIndex)
         {
             PageIndex = pageIndex;
         }
 
-        public HouseToSellListRequestMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ushort PageIndex { get; set; }
+        public HouseToSellListRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Houses
         {
             PageIndex = reader.ReadVarUhShort();
         }
+
     }
 }

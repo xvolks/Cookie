@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Handshake
+﻿namespace Cookie.API.Protocol.Network.Messages.Handshake
 {
+    using Utils.IO;
+
     public class ProtocolRequired : NetworkMessage
     {
         public const ushort ProtocolId = 1;
+        public override ushort MessageID => ProtocolId;
+        public int RequiredVersion { get; set; }
+        public int CurrentVersion { get; set; }
 
         public ProtocolRequired(int requiredVersion, int currentVersion)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Handshake
             CurrentVersion = currentVersion;
         }
 
-        public ProtocolRequired()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public int RequiredVersion { get; set; }
-        public int CurrentVersion { get; set; }
+        public ProtocolRequired() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Handshake
             RequiredVersion = reader.ReadInt();
             CurrentVersion = reader.ReadInt();
         }
+
     }
 }

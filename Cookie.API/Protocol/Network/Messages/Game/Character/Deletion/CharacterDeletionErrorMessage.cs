@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Character.Deletion
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Character.Deletion
 {
+    using Utils.IO;
+
     public class CharacterDeletionErrorMessage : NetworkMessage
     {
         public const ushort ProtocolId = 166;
+        public override ushort MessageID => ProtocolId;
+        public byte Reason { get; set; }
 
         public CharacterDeletionErrorMessage(byte reason)
         {
             Reason = reason;
         }
 
-        public CharacterDeletionErrorMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public byte Reason { get; set; }
+        public CharacterDeletionErrorMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Character.Deletion
         {
             Reason = reader.ReadByte();
         }
+
     }
 }

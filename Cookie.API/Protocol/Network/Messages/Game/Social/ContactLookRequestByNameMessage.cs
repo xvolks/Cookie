@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Social
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Social
 {
+    using Utils.IO;
+
     public class ContactLookRequestByNameMessage : ContactLookRequestMessage
     {
         public new const ushort ProtocolId = 5933;
+        public override ushort MessageID => ProtocolId;
+        public string PlayerName { get; set; }
 
         public ContactLookRequestByNameMessage(string playerName)
         {
             PlayerName = playerName;
         }
 
-        public ContactLookRequestByNameMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public string PlayerName { get; set; }
+        public ContactLookRequestByNameMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -29,5 +26,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Social
             base.Deserialize(reader);
             PlayerName = reader.ReadUTF();
         }
+
     }
 }

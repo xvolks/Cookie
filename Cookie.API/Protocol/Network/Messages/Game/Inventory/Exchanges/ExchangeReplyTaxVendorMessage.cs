@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
 {
+    using Utils.IO;
+
     public class ExchangeReplyTaxVendorMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5787;
+        public override ushort MessageID => ProtocolId;
+        public ulong ObjectValue { get; set; }
+        public ulong TotalTaxValue { get; set; }
 
         public ExchangeReplyTaxVendorMessage(ulong objectValue, ulong totalTaxValue)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
             TotalTaxValue = totalTaxValue;
         }
 
-        public ExchangeReplyTaxVendorMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ulong ObjectValue { get; set; }
-        public ulong TotalTaxValue { get; set; }
+        public ExchangeReplyTaxVendorMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
             ObjectValue = reader.ReadVarUhLong();
             TotalTaxValue = reader.ReadVarUhLong();
         }
+
     }
 }

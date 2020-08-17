@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
 {
+    using Utils.IO;
+
     public class ExchangeCraftCountRequestMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6597;
+        public override ushort MessageID => ProtocolId;
+        public int Count { get; set; }
 
         public ExchangeCraftCountRequestMessage(int count)
         {
             Count = count;
         }
 
-        public ExchangeCraftCountRequestMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public int Count { get; set; }
+        public ExchangeCraftCountRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
         {
             Count = reader.ReadVarInt();
         }
+
     }
 }

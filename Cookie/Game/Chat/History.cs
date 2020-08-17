@@ -6,8 +6,8 @@ namespace Cookie.Game.Chat
     internal class History
     {
         private readonly List<string> _cmdHistory = new List<string>();
-        private short _currentPosition;
         private readonly short _historyMaxSize = 50;
+        private short _currentPosition;
         private uint _total;
 
         public short CurrentPosition()

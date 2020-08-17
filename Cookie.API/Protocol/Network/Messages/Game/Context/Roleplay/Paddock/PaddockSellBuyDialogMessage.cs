@@ -1,10 +1,14 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Paddock
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Paddock
 {
+    using Utils.IO;
+
     public class PaddockSellBuyDialogMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6018;
+        public override ushort MessageID => ProtocolId;
+        public bool Bsell { get; set; }
+        public uint OwnerId { get; set; }
+        public ulong Price { get; set; }
 
         public PaddockSellBuyDialogMessage(bool bsell, uint ownerId, ulong price)
         {
@@ -13,14 +17,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Paddock
             Price = price;
         }
 
-        public PaddockSellBuyDialogMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public bool Bsell { get; set; }
-        public uint OwnerId { get; set; }
-        public ulong Price { get; set; }
+        public PaddockSellBuyDialogMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -35,5 +32,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Paddock
             OwnerId = reader.ReadVarUhInt();
             Price = reader.ReadVarUhLong();
         }
+
     }
 }

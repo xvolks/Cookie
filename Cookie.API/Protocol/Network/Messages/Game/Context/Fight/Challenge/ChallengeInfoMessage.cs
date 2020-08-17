@@ -1,10 +1,15 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight.Challenge
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight.Challenge
 {
+    using Utils.IO;
+
     public class ChallengeInfoMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6022;
+        public override ushort MessageID => ProtocolId;
+        public ushort ChallengeId { get; set; }
+        public double TargetId { get; set; }
+        public uint XpBonus { get; set; }
+        public uint DropBonus { get; set; }
 
         public ChallengeInfoMessage(ushort challengeId, double targetId, uint xpBonus, uint dropBonus)
         {
@@ -14,15 +19,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight.Challenge
             DropBonus = dropBonus;
         }
 
-        public ChallengeInfoMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ushort ChallengeId { get; set; }
-        public double TargetId { get; set; }
-        public uint XpBonus { get; set; }
-        public uint DropBonus { get; set; }
+        public ChallengeInfoMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -39,5 +36,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight.Challenge
             XpBonus = reader.ReadVarUhInt();
             DropBonus = reader.ReadVarUhInt();
         }
+
     }
 }

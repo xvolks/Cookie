@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Guest
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Guest
 {
+    using Utils.IO;
+
     public class GuestLimitationMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6506;
+        public override ushort MessageID => ProtocolId;
+        public byte Reason { get; set; }
 
         public GuestLimitationMessage(byte reason)
         {
             Reason = reason;
         }
 
-        public GuestLimitationMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public byte Reason { get; set; }
+        public GuestLimitationMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guest
         {
             Reason = reader.ReadByte();
         }
+
     }
 }

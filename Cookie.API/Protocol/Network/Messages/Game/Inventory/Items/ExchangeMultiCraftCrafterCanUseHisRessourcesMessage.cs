@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
 {
+    using Utils.IO;
+
     public class ExchangeMultiCraftCrafterCanUseHisRessourcesMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6020;
+        public override ushort MessageID => ProtocolId;
+        public bool Allowed { get; set; }
 
         public ExchangeMultiCraftCrafterCanUseHisRessourcesMessage(bool allowed)
         {
             Allowed = allowed;
         }
 
-        public ExchangeMultiCraftCrafterCanUseHisRessourcesMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public bool Allowed { get; set; }
+        public ExchangeMultiCraftCrafterCanUseHisRessourcesMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
         {
             Allowed = reader.ReadBoolean();
         }
+
     }
 }

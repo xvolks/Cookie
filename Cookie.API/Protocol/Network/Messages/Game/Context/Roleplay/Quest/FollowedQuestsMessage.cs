@@ -1,28 +1,25 @@
-﻿using System.Collections.Generic;
-using Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Quest;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Quest
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Quest
 {
+    using Types.Game.Context.Roleplay.Quest;
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class FollowedQuestsMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6717;
+        public override ushort MessageID => ProtocolId;
+        public List<QuestActiveDetailedInformations> Quests { get; set; }
 
         public FollowedQuestsMessage(List<QuestActiveDetailedInformations> quests)
         {
             Quests = quests;
         }
 
-        public FollowedQuestsMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public List<QuestActiveDetailedInformations> Quests { get; set; }
+        public FollowedQuestsMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
-            writer.WriteShort((short) Quests.Count);
+            writer.WriteShort((short)Quests.Count);
             for (var questsIndex = 0; questsIndex < Quests.Count; questsIndex++)
             {
                 var objectToSend = Quests[questsIndex];
@@ -41,5 +38,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Quest
                 Quests.Add(objectToAdd);
             }
         }
+
     }
 }

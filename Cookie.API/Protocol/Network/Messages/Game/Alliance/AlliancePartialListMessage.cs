@@ -1,12 +1,15 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Alliance
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Alliance
 {
+    using Types.Game.Social;
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class AlliancePartialListMessage : AllianceListMessage
     {
         public new const ushort ProtocolId = 6427;
-
         public override ushort MessageID => ProtocolId;
+
+        public AlliancePartialListMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -17,5 +20,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Alliance
         {
             base.Deserialize(reader);
         }
+
     }
 }

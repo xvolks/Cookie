@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
 {
+    using Utils.IO;
+
     public class ExchangeSetCraftRecipeMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6389;
+        public override ushort MessageID => ProtocolId;
+        public ushort ObjectGID { get; set; }
 
         public ExchangeSetCraftRecipeMessage(ushort objectGID)
         {
             ObjectGID = objectGID;
         }
 
-        public ExchangeSetCraftRecipeMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ushort ObjectGID { get; set; }
+        public ExchangeSetCraftRecipeMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
         {
             ObjectGID = reader.ReadVarUhShort();
         }
+
     }
 }

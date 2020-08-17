@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context
 {
+    using Utils.IO;
+
     public class GameMapMovementCancelMessage : NetworkMessage
     {
         public const ushort ProtocolId = 953;
+        public override ushort MessageID => ProtocolId;
+        public ushort CellId { get; set; }
 
         public GameMapMovementCancelMessage(ushort cellId)
         {
             CellId = cellId;
         }
 
-        public GameMapMovementCancelMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ushort CellId { get; set; }
+        public GameMapMovementCancelMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context
         {
             CellId = reader.ReadVarUhShort();
         }
+
     }
 }

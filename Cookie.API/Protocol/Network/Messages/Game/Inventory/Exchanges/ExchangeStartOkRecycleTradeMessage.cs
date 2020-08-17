@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
 {
+    using Utils.IO;
+
     public class ExchangeStartOkRecycleTradeMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6600;
+        public override ushort MessageID => ProtocolId;
+        public short PercentToPrism { get; set; }
+        public short PercentToPlayer { get; set; }
 
         public ExchangeStartOkRecycleTradeMessage(short percentToPrism, short percentToPlayer)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
             PercentToPlayer = percentToPlayer;
         }
 
-        public ExchangeStartOkRecycleTradeMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public short PercentToPrism { get; set; }
-        public short PercentToPlayer { get; set; }
+        public ExchangeStartOkRecycleTradeMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
             PercentToPrism = reader.ReadShort();
             PercentToPlayer = reader.ReadShort();
         }
+
     }
 }

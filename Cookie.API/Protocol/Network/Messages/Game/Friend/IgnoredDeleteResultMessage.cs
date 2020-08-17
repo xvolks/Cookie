@@ -1,10 +1,14 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Friend
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Friend
 {
+    using Utils.IO;
+
     public class IgnoredDeleteResultMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5677;
+        public override ushort MessageID => ProtocolId;
+        public bool Success { get; set; }
+        public bool Session { get; set; }
+        public string Name { get; set; }
 
         public IgnoredDeleteResultMessage(bool success, bool session, string name)
         {
@@ -13,14 +17,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Friend
             Name = name;
         }
 
-        public IgnoredDeleteResultMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public bool Success { get; set; }
-        public bool Session { get; set; }
-        public string Name { get; set; }
+        public IgnoredDeleteResultMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -38,5 +35,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Friend
             Session = BooleanByteWrapper.GetFlag(flag, 1);
             Name = reader.ReadUTF();
         }
+
     }
 }

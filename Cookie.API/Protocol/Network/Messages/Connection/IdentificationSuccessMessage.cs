@@ -1,14 +1,24 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Connection
+﻿namespace Cookie.API.Protocol.Network.Messages.Connection
 {
+    using Utils.IO;
+
     public class IdentificationSuccessMessage : NetworkMessage
     {
         public const ushort ProtocolId = 22;
+        public override ushort MessageID => ProtocolId;
+        public bool HasRights { get; set; }
+        public bool WasAlreadyConnected { get; set; }
+        public string Login { get; set; }
+        public string Nickname { get; set; }
+        public int AccountId { get; set; }
+        public byte CommunityId { get; set; }
+        public string SecretQuestion { get; set; }
+        public double AccountCreation { get; set; }
+        public double SubscriptionElapsedDuration { get; set; }
+        public double SubscriptionEndDate { get; set; }
+        public byte HavenbagAvailableRoom { get; set; }
 
-        public IdentificationSuccessMessage(bool hasRights, bool wasAlreadyConnected, string login, string nickname,
-            int accountId, byte communityId, string secretQuestion, double accountCreation,
-            double subscriptionElapsedDuration, double subscriptionEndDate, byte havenbagAvailableRoom)
+        public IdentificationSuccessMessage(bool hasRights, bool wasAlreadyConnected, string login, string nickname, int accountId, byte communityId, string secretQuestion, double accountCreation, double subscriptionElapsedDuration, double subscriptionEndDate, byte havenbagAvailableRoom)
         {
             HasRights = hasRights;
             WasAlreadyConnected = wasAlreadyConnected;
@@ -23,22 +33,7 @@ namespace Cookie.API.Protocol.Network.Messages.Connection
             HavenbagAvailableRoom = havenbagAvailableRoom;
         }
 
-        public IdentificationSuccessMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public bool HasRights { get; set; }
-        public bool WasAlreadyConnected { get; set; }
-        public string Login { get; set; }
-        public string Nickname { get; set; }
-        public int AccountId { get; set; }
-        public byte CommunityId { get; set; }
-        public string SecretQuestion { get; set; }
-        public double AccountCreation { get; set; }
-        public double SubscriptionElapsedDuration { get; set; }
-        public double SubscriptionEndDate { get; set; }
-        public byte HavenbagAvailableRoom { get; set; }
+        public IdentificationSuccessMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -72,5 +67,6 @@ namespace Cookie.API.Protocol.Network.Messages.Connection
             SubscriptionEndDate = reader.ReadDouble();
             HavenbagAvailableRoom = reader.ReadByte();
         }
+
     }
 }

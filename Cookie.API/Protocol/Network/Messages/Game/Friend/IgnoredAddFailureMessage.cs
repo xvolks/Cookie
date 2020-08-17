@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Friend
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Friend
 {
+    using Utils.IO;
+
     public class IgnoredAddFailureMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5679;
+        public override ushort MessageID => ProtocolId;
+        public byte Reason { get; set; }
 
         public IgnoredAddFailureMessage(byte reason)
         {
             Reason = reason;
         }
 
-        public IgnoredAddFailureMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public byte Reason { get; set; }
+        public IgnoredAddFailureMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Friend
         {
             Reason = reader.ReadByte();
         }
+
     }
 }

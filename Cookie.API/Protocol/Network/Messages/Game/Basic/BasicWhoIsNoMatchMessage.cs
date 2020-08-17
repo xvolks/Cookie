@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Basic
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Basic
 {
+    using Utils.IO;
+
     public class BasicWhoIsNoMatchMessage : NetworkMessage
     {
         public const ushort ProtocolId = 179;
+        public override ushort MessageID => ProtocolId;
+        public string Search { get; set; }
 
         public BasicWhoIsNoMatchMessage(string search)
         {
             Search = search;
         }
 
-        public BasicWhoIsNoMatchMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public string Search { get; set; }
+        public BasicWhoIsNoMatchMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Basic
         {
             Search = reader.ReadUTF();
         }
+
     }
 }

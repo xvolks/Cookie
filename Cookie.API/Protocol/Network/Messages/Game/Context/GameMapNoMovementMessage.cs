@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context
 {
+    using Utils.IO;
+
     public class GameMapNoMovementMessage : NetworkMessage
     {
         public const ushort ProtocolId = 954;
+        public override ushort MessageID => ProtocolId;
+        public short CellX { get; set; }
+        public short CellY { get; set; }
 
         public GameMapNoMovementMessage(short cellX, short cellY)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context
             CellY = cellY;
         }
 
-        public GameMapNoMovementMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public short CellX { get; set; }
-        public short CellY { get; set; }
+        public GameMapNoMovementMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context
             CellX = reader.ReadShort();
             CellY = reader.ReadShort();
         }
+
     }
 }

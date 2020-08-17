@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Authorized
+﻿namespace Cookie.API.Protocol.Network.Messages.Authorized
 {
+    using Utils.IO;
+
     public class AdminCommandMessage : NetworkMessage
     {
         public const ushort ProtocolId = 76;
+        public override ushort MessageID => ProtocolId;
+        public string Content { get; set; }
 
         public AdminCommandMessage(string content)
         {
             Content = content;
         }
 
-        public AdminCommandMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public string Content { get; set; }
+        public AdminCommandMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Authorized
         {
             Content = reader.ReadUTF();
         }
+
     }
 }

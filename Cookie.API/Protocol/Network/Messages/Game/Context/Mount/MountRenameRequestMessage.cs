@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Mount
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Mount
 {
+    using Utils.IO;
+
     public class MountRenameRequestMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5987;
+        public override ushort MessageID => ProtocolId;
+        public string Name { get; set; }
+        public int MountId { get; set; }
 
         public MountRenameRequestMessage(string name, int mountId)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Mount
             MountId = mountId;
         }
 
-        public MountRenameRequestMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public string Name { get; set; }
-        public int MountId { get; set; }
+        public MountRenameRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Mount
             Name = reader.ReadUTF();
             MountId = reader.ReadVarInt();
         }
+
     }
 }

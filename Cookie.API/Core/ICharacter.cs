@@ -96,7 +96,7 @@ namespace Cookie.API.Core
         /// <summary>
         ///     The character actual map id
         /// </summary>
-        int MapId { get; set; }
+        double MapId { get; set; }
 
         /// <summary>
         ///     The current weight of the character

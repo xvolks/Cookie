@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Actions
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Actions
 {
+    using Utils.IO;
+
     public class AbstractGameActionWithAckMessage : AbstractGameActionMessage
     {
         public new const ushort ProtocolId = 1001;
+        public override ushort MessageID => ProtocolId;
+        public short WaitAckId { get; set; }
 
         public AbstractGameActionWithAckMessage(short waitAckId)
         {
             WaitAckId = waitAckId;
         }
 
-        public AbstractGameActionWithAckMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public short WaitAckId { get; set; }
+        public AbstractGameActionWithAckMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -29,5 +26,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Actions
             base.Deserialize(reader);
             WaitAckId = reader.ReadShort();
         }
+
     }
 }

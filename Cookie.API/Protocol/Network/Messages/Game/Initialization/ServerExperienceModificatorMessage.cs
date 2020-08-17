@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Initialization
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Initialization
 {
+    using Utils.IO;
+
     public class ServerExperienceModificatorMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6237;
+        public override ushort MessageID => ProtocolId;
+        public ushort ExperiencePercent { get; set; }
 
         public ServerExperienceModificatorMessage(ushort experiencePercent)
         {
             ExperiencePercent = experiencePercent;
         }
 
-        public ServerExperienceModificatorMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ushort ExperiencePercent { get; set; }
+        public ServerExperienceModificatorMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Initialization
         {
             ExperiencePercent = reader.ReadVarUhShort();
         }
+
     }
 }

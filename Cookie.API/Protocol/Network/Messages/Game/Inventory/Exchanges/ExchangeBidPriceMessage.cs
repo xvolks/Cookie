@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
 {
+    using Utils.IO;
+
     public class ExchangeBidPriceMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5755;
+        public override ushort MessageID => ProtocolId;
+        public ushort GenericId { get; set; }
+        public long AveragePrice { get; set; }
 
         public ExchangeBidPriceMessage(ushort genericId, long averagePrice)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
             AveragePrice = averagePrice;
         }
 
-        public ExchangeBidPriceMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ushort GenericId { get; set; }
-        public long AveragePrice { get; set; }
+        public ExchangeBidPriceMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
             GenericId = reader.ReadVarUhShort();
             AveragePrice = reader.ReadVarLong();
         }
+
     }
 }

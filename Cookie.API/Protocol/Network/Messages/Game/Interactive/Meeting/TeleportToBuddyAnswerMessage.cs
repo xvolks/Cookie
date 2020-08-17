@@ -1,10 +1,14 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Interactive.Meeting
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Interactive.Meeting
 {
+    using Utils.IO;
+
     public class TeleportToBuddyAnswerMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6293;
+        public override ushort MessageID => ProtocolId;
+        public ushort DungeonId { get; set; }
+        public ulong BuddyId { get; set; }
+        public bool Accept { get; set; }
 
         public TeleportToBuddyAnswerMessage(ushort dungeonId, ulong buddyId, bool accept)
         {
@@ -13,14 +17,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Interactive.Meeting
             Accept = accept;
         }
 
-        public TeleportToBuddyAnswerMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ushort DungeonId { get; set; }
-        public ulong BuddyId { get; set; }
-        public bool Accept { get; set; }
+        public TeleportToBuddyAnswerMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -35,5 +32,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Interactive.Meeting
             BuddyId = reader.ReadVarUhLong();
             Accept = reader.ReadBoolean();
         }
+
     }
 }

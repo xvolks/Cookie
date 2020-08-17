@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Debug
+﻿namespace Cookie.API.Protocol.Network.Messages.Debug
 {
+    using Utils.IO;
+
     public class DebugInClientMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6028;
+        public override ushort MessageID => ProtocolId;
+        public byte Level { get; set; }
+        public string Message { get; set; }
 
         public DebugInClientMessage(byte level, string message)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Debug
             Message = message;
         }
 
-        public DebugInClientMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public byte Level { get; set; }
-        public string Message { get; set; }
+        public DebugInClientMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Debug
             Level = reader.ReadByte();
             Message = reader.ReadUTF();
         }
+
     }
 }

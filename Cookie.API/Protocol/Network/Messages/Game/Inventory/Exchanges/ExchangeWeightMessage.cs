@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
 {
+    using Utils.IO;
+
     public class ExchangeWeightMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5793;
+        public override ushort MessageID => ProtocolId;
+        public uint CurrentWeight { get; set; }
+        public uint MaxWeight { get; set; }
 
         public ExchangeWeightMessage(uint currentWeight, uint maxWeight)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
             MaxWeight = maxWeight;
         }
 
-        public ExchangeWeightMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public uint CurrentWeight { get; set; }
-        public uint MaxWeight { get; set; }
+        public ExchangeWeightMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
             CurrentWeight = reader.ReadVarUhInt();
             MaxWeight = reader.ReadVarUhInt();
         }
+
     }
 }

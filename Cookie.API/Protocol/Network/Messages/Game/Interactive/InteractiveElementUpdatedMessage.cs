@@ -1,23 +1,20 @@
-﻿using Cookie.API.Protocol.Network.Types.Game.Interactive;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Interactive
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Interactive
 {
+    using Types.Game.Interactive;
+    using Utils.IO;
+
     public class InteractiveElementUpdatedMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5708;
+        public override ushort MessageID => ProtocolId;
+        public InteractiveElement InteractiveElement { get; set; }
 
         public InteractiveElementUpdatedMessage(InteractiveElement interactiveElement)
         {
             InteractiveElement = interactiveElement;
         }
 
-        public InteractiveElementUpdatedMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public InteractiveElement InteractiveElement { get; set; }
+        public InteractiveElementUpdatedMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -29,5 +26,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Interactive
             InteractiveElement = new InteractiveElement();
             InteractiveElement.Deserialize(reader);
         }
+
     }
 }

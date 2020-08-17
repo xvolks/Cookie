@@ -1,10 +1,15 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
 {
+    using Utils.IO;
+
     public class GameFightOptionStateUpdateMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5927;
+        public override ushort MessageID => ProtocolId;
+        public short FightId { get; set; }
+        public byte TeamId { get; set; }
+        public byte Option { get; set; }
+        public bool State { get; set; }
 
         public GameFightOptionStateUpdateMessage(short fightId, byte teamId, byte option, bool state)
         {
@@ -14,15 +19,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
             State = state;
         }
 
-        public GameFightOptionStateUpdateMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public short FightId { get; set; }
-        public byte TeamId { get; set; }
-        public byte Option { get; set; }
-        public bool State { get; set; }
+        public GameFightOptionStateUpdateMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -39,5 +36,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
             Option = reader.ReadByte();
             State = reader.ReadBoolean();
         }
+
     }
 }

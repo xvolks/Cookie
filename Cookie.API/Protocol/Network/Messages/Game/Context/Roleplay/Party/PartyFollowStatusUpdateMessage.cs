@@ -1,10 +1,14 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Party
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Party
 {
+    using Utils.IO;
+
     public class PartyFollowStatusUpdateMessage : AbstractPartyMessage
     {
         public new const ushort ProtocolId = 5581;
+        public override ushort MessageID => ProtocolId;
+        public bool Success { get; set; }
+        public bool IsFollowed { get; set; }
+        public ulong FollowedId { get; set; }
 
         public PartyFollowStatusUpdateMessage(bool success, bool isFollowed, ulong followedId)
         {
@@ -13,14 +17,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Party
             FollowedId = followedId;
         }
 
-        public PartyFollowStatusUpdateMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public bool Success { get; set; }
-        public bool IsFollowed { get; set; }
-        public ulong FollowedId { get; set; }
+        public PartyFollowStatusUpdateMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -40,5 +37,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Party
             IsFollowed = BooleanByteWrapper.GetFlag(flag, 1);
             FollowedId = reader.ReadVarUhLong();
         }
+
     }
 }

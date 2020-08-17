@@ -1,10 +1,14 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
 {
+    using Utils.IO;
+
     public class MimicryObjectFeedAndAssociateRequestMessage : SymbioticObjectAssociateRequestMessage
     {
         public new const ushort ProtocolId = 6460;
+        public override ushort MessageID => ProtocolId;
+        public uint FoodUID { get; set; }
+        public byte FoodPos { get; set; }
+        public bool Preview { get; set; }
 
         public MimicryObjectFeedAndAssociateRequestMessage(uint foodUID, byte foodPos, bool preview)
         {
@@ -13,14 +17,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
             Preview = preview;
         }
 
-        public MimicryObjectFeedAndAssociateRequestMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public uint FoodUID { get; set; }
-        public byte FoodPos { get; set; }
-        public bool Preview { get; set; }
+        public MimicryObjectFeedAndAssociateRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -37,5 +34,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Items
             FoodPos = reader.ReadByte();
             Preview = reader.ReadBoolean();
         }
+
     }
 }

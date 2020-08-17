@@ -1,16 +1,20 @@
-﻿using System.Collections.Generic;
-using Cookie.API.Protocol.Network.Types.Game.Character;
-using Cookie.API.Protocol.Network.Types.Game.Social;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Guild
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Guild
 {
+    using Types.Game.Social;
+    using Types.Game.Character;
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class GuildFactsMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6415;
+        public override ushort MessageID => ProtocolId;
+        public GuildFactSheetInformations Infos { get; set; }
+        public int CreationDate { get; set; }
+        public ushort NbTaxCollectors { get; set; }
+        public List<CharacterMinimalInformations> Members { get; set; }
 
-        public GuildFactsMessage(GuildFactSheetInformations infos, int creationDate, ushort nbTaxCollectors,
-            List<CharacterMinimalInformations> members)
+        public GuildFactsMessage(GuildFactSheetInformations infos, int creationDate, ushort nbTaxCollectors, List<CharacterMinimalInformations> members)
         {
             Infos = infos;
             CreationDate = creationDate;
@@ -18,15 +22,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild
             Members = members;
         }
 
-        public GuildFactsMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public GuildFactSheetInformations Infos { get; set; }
-        public int CreationDate { get; set; }
-        public ushort NbTaxCollectors { get; set; }
-        public List<CharacterMinimalInformations> Members { get; set; }
+        public GuildFactsMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -34,7 +30,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild
             Infos.Serialize(writer);
             writer.WriteInt(CreationDate);
             writer.WriteVarUhShort(NbTaxCollectors);
-            writer.WriteShort((short) Members.Count);
+            writer.WriteShort((short)Members.Count);
             for (var membersIndex = 0; membersIndex < Members.Count; membersIndex++)
             {
                 var objectToSend = Members[membersIndex];
@@ -57,5 +53,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild
                 Members.Add(objectToAdd);
             }
         }
+
     }
 }

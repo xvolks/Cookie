@@ -1,11 +1,15 @@
-﻿using System.Collections.Generic;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Preset
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Preset
 {
+    using Messages.Game.Inventory;
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class InventoryPresetSaveCustomMessage : AbstractPresetSaveMessage
     {
         public new const ushort ProtocolId = 6329;
+        public override ushort MessageID => ProtocolId;
+        public List<byte> ItemsPositions { get; set; }
+        public List<uint> ItemsUids { get; set; }
 
         public InventoryPresetSaveCustomMessage(List<byte> itemsPositions, List<uint> itemsUids)
         {
@@ -13,23 +17,21 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Preset
             ItemsUids = itemsUids;
         }
 
-        public InventoryPresetSaveCustomMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public List<byte> ItemsPositions { get; set; }
-        public List<uint> ItemsUids { get; set; }
+        public InventoryPresetSaveCustomMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
             base.Serialize(writer);
-            writer.WriteShort((short) ItemsPositions.Count);
+            writer.WriteShort((short)ItemsPositions.Count);
             for (var itemsPositionsIndex = 0; itemsPositionsIndex < ItemsPositions.Count; itemsPositionsIndex++)
+            {
                 writer.WriteByte(ItemsPositions[itemsPositionsIndex]);
-            writer.WriteShort((short) ItemsUids.Count);
+            }
+            writer.WriteShort((short)ItemsUids.Count);
             for (var itemsUidsIndex = 0; itemsUidsIndex < ItemsUids.Count; itemsUidsIndex++)
+            {
                 writer.WriteVarUhInt(ItemsUids[itemsUidsIndex]);
+            }
         }
 
         public override void Deserialize(IDataReader reader)
@@ -38,11 +40,16 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Preset
             var itemsPositionsCount = reader.ReadUShort();
             ItemsPositions = new List<byte>();
             for (var itemsPositionsIndex = 0; itemsPositionsIndex < itemsPositionsCount; itemsPositionsIndex++)
+            {
                 ItemsPositions.Add(reader.ReadByte());
+            }
             var itemsUidsCount = reader.ReadUShort();
             ItemsUids = new List<uint>();
             for (var itemsUidsIndex = 0; itemsUidsIndex < itemsUidsCount; itemsUidsIndex++)
+            {
                 ItemsUids.Add(reader.ReadVarUhInt());
+            }
         }
+
     }
 }

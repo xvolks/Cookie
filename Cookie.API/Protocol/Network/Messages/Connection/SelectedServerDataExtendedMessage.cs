@@ -1,29 +1,26 @@
-﻿using System.Collections.Generic;
-using Cookie.API.Protocol.Network.Types.Connection;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Connection
+﻿namespace Cookie.API.Protocol.Network.Messages.Connection
 {
+    using Types.Connection;
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class SelectedServerDataExtendedMessage : SelectedServerDataMessage
     {
         public new const ushort ProtocolId = 6469;
+        public override ushort MessageID => ProtocolId;
+        public List<GameServerInformations> Servers { get; set; }
 
         public SelectedServerDataExtendedMessage(List<GameServerInformations> servers)
         {
             Servers = servers;
         }
 
-        public SelectedServerDataExtendedMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public List<GameServerInformations> Servers { get; set; }
+        public SelectedServerDataExtendedMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
             base.Serialize(writer);
-            writer.WriteShort((short) Servers.Count);
+            writer.WriteShort((short)Servers.Count);
             for (var serversIndex = 0; serversIndex < Servers.Count; serversIndex++)
             {
                 var objectToSend = Servers[serversIndex];
@@ -43,5 +40,6 @@ namespace Cookie.API.Protocol.Network.Messages.Connection
                 Servers.Add(objectToAdd);
             }
         }
+
     }
 }

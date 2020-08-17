@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Lockable
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Lockable
 {
+    using Utils.IO;
+
     public class LockableShowCodeDialogMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5740;
+        public override ushort MessageID => ProtocolId;
+        public bool ChangeOrUse { get; set; }
+        public byte CodeSize { get; set; }
 
         public LockableShowCodeDialogMessage(bool changeOrUse, byte codeSize)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Lockable
             CodeSize = codeSize;
         }
 
-        public LockableShowCodeDialogMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public bool ChangeOrUse { get; set; }
-        public byte CodeSize { get; set; }
+        public LockableShowCodeDialogMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Lockable
             ChangeOrUse = reader.ReadBoolean();
             CodeSize = reader.ReadByte();
         }
+
     }
 }

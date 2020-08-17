@@ -1,28 +1,25 @@
-﻿using System.Collections.Generic;
-using Cookie.API.Protocol.Network.Types.Game.Social;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Guild
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Guild
 {
+    using Types.Game.Social;
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class GuildVersatileInfoListMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6435;
+        public override ushort MessageID => ProtocolId;
+        public List<GuildVersatileInformations> Guilds { get; set; }
 
         public GuildVersatileInfoListMessage(List<GuildVersatileInformations> guilds)
         {
             Guilds = guilds;
         }
 
-        public GuildVersatileInfoListMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public List<GuildVersatileInformations> Guilds { get; set; }
+        public GuildVersatileInfoListMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
-            writer.WriteShort((short) Guilds.Count);
+            writer.WriteShort((short)Guilds.Count);
             for (var guildsIndex = 0; guildsIndex < Guilds.Count; guildsIndex++)
             {
                 var objectToSend = Guilds[guildsIndex];
@@ -42,5 +39,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild
                 Guilds.Add(objectToAdd);
             }
         }
+
     }
 }

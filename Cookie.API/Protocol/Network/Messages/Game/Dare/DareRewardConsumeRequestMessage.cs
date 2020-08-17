@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Dare
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Dare
 {
+    using Utils.IO;
+
     public class DareRewardConsumeRequestMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6676;
+        public override ushort MessageID => ProtocolId;
+        public double DareId { get; set; }
+        public byte Type { get; set; }
 
         public DareRewardConsumeRequestMessage(double dareId, byte type)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Dare
             Type = type;
         }
 
-        public DareRewardConsumeRequestMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public double DareId { get; set; }
-        public byte Type { get; set; }
+        public DareRewardConsumeRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Dare
             DareId = reader.ReadDouble();
             Type = reader.ReadByte();
         }
+
     }
 }

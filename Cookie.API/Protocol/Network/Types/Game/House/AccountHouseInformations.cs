@@ -6,7 +6,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.House
     {
         public new const ushort ProtocolId = 390;
 
-        public AccountHouseInformations(HouseInstanceInformations houseInfos, short worldX, short worldY, int mapId,
+        public AccountHouseInformations(HouseInstanceInformations houseInfos, short worldX, short worldY, double mapId,
             ushort subAreaId)
         {
             HouseInfos = houseInfos;
@@ -24,7 +24,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.House
         public HouseInstanceInformations HouseInfos { get; set; }
         public short WorldX { get; set; }
         public short WorldY { get; set; }
-        public int MapId { get; set; }
+        public double MapId { get; set; }
         public ushort SubAreaId { get; set; }
 
         public override void Serialize(IDataWriter writer)
@@ -34,7 +34,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.House
             HouseInfos.Serialize(writer);
             writer.WriteShort(WorldX);
             writer.WriteShort(WorldY);
-            writer.WriteInt(MapId);
+            writer.WriteDouble(MapId);
             writer.WriteVarUhShort(SubAreaId);
         }
 
@@ -45,7 +45,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.House
             HouseInfos.Deserialize(reader);
             WorldX = reader.ReadShort();
             WorldY = reader.ReadShort();
-            MapId = reader.ReadInt();
+            MapId = reader.ReadDouble();
             SubAreaId = reader.ReadVarUhShort();
         }
     }

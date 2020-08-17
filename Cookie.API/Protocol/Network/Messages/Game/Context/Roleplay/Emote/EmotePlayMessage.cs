@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Emote
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Emote
 {
+    using Utils.IO;
+
     public class EmotePlayMessage : EmotePlayAbstractMessage
     {
         public new const ushort ProtocolId = 5683;
+        public override ushort MessageID => ProtocolId;
+        public double ActorId { get; set; }
+        public int AccountId { get; set; }
 
         public EmotePlayMessage(double actorId, int accountId)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Emote
             AccountId = accountId;
         }
 
-        public EmotePlayMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public double ActorId { get; set; }
-        public int AccountId { get; set; }
+        public EmotePlayMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -33,5 +30,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Emote
             ActorId = reader.ReadDouble();
             AccountId = reader.ReadInt();
         }
+
     }
 }

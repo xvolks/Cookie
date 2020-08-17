@@ -1,10 +1,15 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
 {
+    using Utils.IO;
+
     public class ExchangeMountSterilizeFromPaddockMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6056;
+        public override ushort MessageID => ProtocolId;
+        public string Name { get; set; }
+        public short WorldX { get; set; }
+        public short WorldY { get; set; }
+        public string Sterilizator { get; set; }
 
         public ExchangeMountSterilizeFromPaddockMessage(string name, short worldX, short worldY, string sterilizator)
         {
@@ -14,15 +19,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
             Sterilizator = sterilizator;
         }
 
-        public ExchangeMountSterilizeFromPaddockMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public string Name { get; set; }
-        public short WorldX { get; set; }
-        public short WorldY { get; set; }
-        public string Sterilizator { get; set; }
+        public ExchangeMountSterilizeFromPaddockMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -39,5 +36,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
             WorldY = reader.ReadShort();
             Sterilizator = reader.ReadUTF();
         }
+
     }
 }

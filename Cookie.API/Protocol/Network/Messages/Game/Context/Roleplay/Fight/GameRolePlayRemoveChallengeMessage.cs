@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Fight
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Fight
 {
+    using Utils.IO;
+
     public class GameRolePlayRemoveChallengeMessage : NetworkMessage
     {
         public const ushort ProtocolId = 300;
+        public override ushort MessageID => ProtocolId;
+        public int FightId { get; set; }
 
         public GameRolePlayRemoveChallengeMessage(int fightId)
         {
             FightId = fightId;
         }
 
-        public GameRolePlayRemoveChallengeMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public int FightId { get; set; }
+        public GameRolePlayRemoveChallengeMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Fight
         {
             FightId = reader.ReadInt();
         }
+
     }
 }

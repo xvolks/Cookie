@@ -6,7 +6,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.TreasureHunt
     {
         public const ushort ProtocolId = 473;
 
-        public TreasureHuntFlag(int mapId, byte state)
+        public TreasureHuntFlag(double mapId, byte state)
         {
             MapId = mapId;
             State = state;
@@ -17,18 +17,18 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.TreasureHunt
         }
 
         public override ushort TypeID => ProtocolId;
-        public int MapId { get; set; }
+        public double MapId { get; set; }
         public byte State { get; set; }
 
         public override void Serialize(IDataWriter writer)
         {
-            writer.WriteInt(MapId);
+            writer.WriteDouble(MapId);
             writer.WriteByte(State);
         }
 
         public override void Deserialize(IDataReader reader)
         {
-            MapId = reader.ReadInt();
+            MapId = reader.ReadDouble();
             State = reader.ReadByte();
         }
     }

@@ -1,12 +1,15 @@
-﻿using System.Collections.Generic;
-using Cookie.API.Protocol.Network.Types.Game.Data.Items;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Spells
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Spells
 {
+    using Types.Game.Data.Items;
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class SpellListMessage : NetworkMessage
     {
         public const ushort ProtocolId = 1200;
+        public override ushort MessageID => ProtocolId;
+        public bool SpellPrevisualization { get; set; }
+        public List<SpellItem> Spells { get; set; }
 
         public SpellListMessage(bool spellPrevisualization, List<SpellItem> spells)
         {
@@ -14,18 +17,12 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Spells
             Spells = spells;
         }
 
-        public SpellListMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public bool SpellPrevisualization { get; set; }
-        public List<SpellItem> Spells { get; set; }
+        public SpellListMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
             writer.WriteBoolean(SpellPrevisualization);
-            writer.WriteShort((short) Spells.Count);
+            writer.WriteShort((short)Spells.Count);
             for (var spellsIndex = 0; spellsIndex < Spells.Count; spellsIndex++)
             {
                 var objectToSend = Spells[spellsIndex];
@@ -45,5 +42,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Spells
                 Spells.Add(objectToAdd);
             }
         }
+
     }
 }

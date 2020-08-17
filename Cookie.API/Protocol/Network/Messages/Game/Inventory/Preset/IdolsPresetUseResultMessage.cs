@@ -1,11 +1,15 @@
-﻿using System.Collections.Generic;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Preset
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Preset
 {
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class IdolsPresetUseResultMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6614;
+        public override ushort MessageID => ProtocolId;
+        public byte PresetId { get; set; }
+        public byte Code { get; set; }
+        public List<ushort> MissingIdols { get; set; }
 
         public IdolsPresetUseResultMessage(byte presetId, byte code, List<ushort> missingIdols)
         {
@@ -14,22 +18,17 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Preset
             MissingIdols = missingIdols;
         }
 
-        public IdolsPresetUseResultMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public byte PresetId { get; set; }
-        public byte Code { get; set; }
-        public List<ushort> MissingIdols { get; set; }
+        public IdolsPresetUseResultMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
             writer.WriteByte(PresetId);
             writer.WriteByte(Code);
-            writer.WriteShort((short) MissingIdols.Count);
+            writer.WriteShort((short)MissingIdols.Count);
             for (var missingIdolsIndex = 0; missingIdolsIndex < MissingIdols.Count; missingIdolsIndex++)
+            {
                 writer.WriteVarUhShort(MissingIdols[missingIdolsIndex]);
+            }
         }
 
         public override void Deserialize(IDataReader reader)
@@ -39,7 +38,10 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Preset
             var missingIdolsCount = reader.ReadUShort();
             MissingIdols = new List<ushort>();
             for (var missingIdolsIndex = 0; missingIdolsIndex < missingIdolsCount; missingIdolsIndex++)
+            {
                 MissingIdols.Add(reader.ReadVarUhShort());
+            }
         }
+
     }
 }

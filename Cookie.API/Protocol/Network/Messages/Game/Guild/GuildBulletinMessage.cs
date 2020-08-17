@@ -1,13 +1,14 @@
-﻿using Cookie.API.Protocol.Network.Messages.Game.Social;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Guild
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Guild
 {
+    using Messages.Game.Social;
+    using Utils.IO;
+
     public class GuildBulletinMessage : BulletinMessage
     {
         public new const ushort ProtocolId = 6689;
-
         public override ushort MessageID => ProtocolId;
+
+        public GuildBulletinMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -18,5 +19,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild
         {
             base.Deserialize(reader);
         }
+
     }
 }

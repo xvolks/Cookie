@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Job
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Job
 {
+    using Utils.IO;
+
     public class JobAllowMultiCraftRequestMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5748;
+        public override ushort MessageID => ProtocolId;
+        public bool Enabled { get; set; }
 
         public JobAllowMultiCraftRequestMessage(bool enabled)
         {
             Enabled = enabled;
         }
 
-        public JobAllowMultiCraftRequestMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public bool Enabled { get; set; }
+        public JobAllowMultiCraftRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Job
         {
             Enabled = reader.ReadBoolean();
         }
+
     }
 }

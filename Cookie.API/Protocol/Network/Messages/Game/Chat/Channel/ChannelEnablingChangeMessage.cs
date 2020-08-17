@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Chat.Channel
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Chat.Channel
 {
+    using Utils.IO;
+
     public class ChannelEnablingChangeMessage : NetworkMessage
     {
         public const ushort ProtocolId = 891;
+        public override ushort MessageID => ProtocolId;
+        public byte Channel { get; set; }
+        public bool Enable { get; set; }
 
         public ChannelEnablingChangeMessage(byte channel, bool enable)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Chat.Channel
             Enable = enable;
         }
 
-        public ChannelEnablingChangeMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public byte Channel { get; set; }
-        public bool Enable { get; set; }
+        public ChannelEnablingChangeMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Chat.Channel
             Channel = reader.ReadByte();
             Enable = reader.ReadBoolean();
         }
+
     }
 }

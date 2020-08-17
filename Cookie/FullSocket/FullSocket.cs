@@ -70,6 +70,8 @@ namespace Cookie.FullSocket
                 HandleIdentificationFailedBannedMessage, MessagePriority.VeryHigh);
             server.Account.Network.RegisterPacket<IdentificationFailedMessage>(HandleIdentificationFailedMessage,
                 MessagePriority.VeryHigh);
+            server.Account.Network.RegisterPacket<IdentificationFailedForBadVersionMessage>(
+                HandleIdentificationFailedForBadVersionMessage, MessagePriority.VeryHigh);
             server.Account.Network.RegisterPacket<SelectedServerRefusedMessage>(HandleSelectedServerRefusedMessage,
                 MessagePriority.VeryHigh);
             server.Account.Network.RegisterPacket<LoginQueueStatusMessage>(HandleLoginQueueStatusMessage,
@@ -100,6 +102,7 @@ namespace Cookie.FullSocket
         private void OnAuthClientDisconnected(Client client)
         {
             var fs = client as ConnectionFullSocket;
+            Logger.Default.Log("Déconnecté.");
             fs.Account.Network.AddMessage(() =>
             {
                 if (fs.Account.Network.ExpectedDisconnection)
@@ -166,6 +169,16 @@ namespace Cookie.FullSocket
                             msg.Ticket)));
                 fs.Account.Ticket = ticket;
             }
+            if (message is SelectedServerRefusedMessage ssrm)
+            {
+                var msg = ssrm;
+
+                Logger.Default.Log("Impossible de se connecter au serveur " + D2OParsing.GetServerName(msg.ServerId) +
+                                   " status " + msg.ServerStatus + " erreur " + msg.Error);
+
+                fs.Disconnect();
+            }
+
             if (fs.Account.Network == null)
                 throw new NullReferenceException("fs.Bot");
             fs.Account.Network.Dispatcher.Enqueue(message, fs.Account);
@@ -277,6 +290,12 @@ namespace Cookie.FullSocket
         private void HandleIdentificationFailedMessage(IAccount account, IdentificationFailedMessage message)
         {
             Logger.Default.Log($"Identification Fail -> {(IdentificationFailureReasonEnum) message.Reason}");
+        }
+
+        private void HandleIdentificationFailedForBadVersionMessage(IAccount account,
+            IdentificationFailedForBadVersionMessage message)
+        {
+            Logger.Default.Log($"Wrong Dofus version. -> {message.RequiredVersion}");
         }
 
         private void HandleLoginQueueStatusMessage(IAccount account, LoginQueueStatusMessage message)

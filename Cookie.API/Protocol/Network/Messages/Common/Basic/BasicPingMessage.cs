@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Common.Basic
+﻿namespace Cookie.API.Protocol.Network.Messages.Common.Basic
 {
+    using Utils.IO;
+
     public class BasicPingMessage : NetworkMessage
     {
         public const ushort ProtocolId = 182;
+        public override ushort MessageID => ProtocolId;
+        public bool Quiet { get; set; }
 
         public BasicPingMessage(bool quiet)
         {
             Quiet = quiet;
         }
 
-        public BasicPingMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public bool Quiet { get; set; }
+        public BasicPingMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Common.Basic
         {
             Quiet = reader.ReadBoolean();
         }
+
     }
 }

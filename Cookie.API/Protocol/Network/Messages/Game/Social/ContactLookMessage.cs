@@ -1,11 +1,16 @@
-﻿using Cookie.API.Protocol.Network.Types.Game.Look;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Social
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Social
 {
+    using Types.Game.Look;
+    using Utils.IO;
+
     public class ContactLookMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5934;
+        public override ushort MessageID => ProtocolId;
+        public uint RequestId { get; set; }
+        public string PlayerName { get; set; }
+        public ulong PlayerId { get; set; }
+        public EntityLook Look { get; set; }
 
         public ContactLookMessage(uint requestId, string playerName, ulong playerId, EntityLook look)
         {
@@ -15,15 +20,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Social
             Look = look;
         }
 
-        public ContactLookMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public uint RequestId { get; set; }
-        public string PlayerName { get; set; }
-        public ulong PlayerId { get; set; }
-        public EntityLook Look { get; set; }
+        public ContactLookMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -41,5 +38,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Social
             Look = new EntityLook();
             Look.Deserialize(reader);
         }
+
     }
 }

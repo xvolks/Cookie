@@ -1,23 +1,20 @@
-﻿using Cookie.API.Protocol.Network.Types.Connection;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Connection
+﻿namespace Cookie.API.Protocol.Network.Messages.Connection
 {
+    using Types.Connection;
+    using Utils.IO;
+
     public class ServerStatusUpdateMessage : NetworkMessage
     {
         public const ushort ProtocolId = 50;
+        public override ushort MessageID => ProtocolId;
+        public GameServerInformations Server { get; set; }
 
         public ServerStatusUpdateMessage(GameServerInformations server)
         {
             Server = server;
         }
 
-        public ServerStatusUpdateMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public GameServerInformations Server { get; set; }
+        public ServerStatusUpdateMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -29,5 +26,6 @@ namespace Cookie.API.Protocol.Network.Messages.Connection
             Server = new GameServerInformations();
             Server.Deserialize(reader);
         }
+
     }
 }

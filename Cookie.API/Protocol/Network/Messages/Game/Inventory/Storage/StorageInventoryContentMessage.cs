@@ -1,13 +1,16 @@
-﻿using Cookie.API.Protocol.Network.Messages.Game.Inventory.Items;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Storage
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Storage
 {
+    using Messages.Game.Inventory.Items;
+    using Types.Game.Data.Items;
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class StorageInventoryContentMessage : InventoryContentMessage
     {
         public new const ushort ProtocolId = 5646;
-
         public override ushort MessageID => ProtocolId;
+
+        public StorageInventoryContentMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -18,5 +21,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Storage
         {
             base.Deserialize(reader);
         }
+
     }
 }

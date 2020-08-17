@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Mount
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Mount
 {
+    using Utils.IO;
+
     public class MountDataErrorMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6172;
+        public override ushort MessageID => ProtocolId;
+        public byte Reason { get; set; }
 
         public MountDataErrorMessage(byte reason)
         {
             Reason = reason;
         }
 
-        public MountDataErrorMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public byte Reason { get; set; }
+        public MountDataErrorMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Mount
         {
             Reason = reader.ReadByte();
         }
+
     }
 }

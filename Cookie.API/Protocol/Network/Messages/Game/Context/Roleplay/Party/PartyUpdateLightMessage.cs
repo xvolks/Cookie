@@ -1,13 +1,18 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Party
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Party
 {
+    using Utils.IO;
+
     public class PartyUpdateLightMessage : AbstractPartyEventMessage
     {
         public new const ushort ProtocolId = 6054;
+        public override ushort MessageID => ProtocolId;
+        public ulong ObjectId { get; set; }
+        public uint LifePoints { get; set; }
+        public uint MaxLifePoints { get; set; }
+        public ushort Prospecting { get; set; }
+        public byte RegenRate { get; set; }
 
-        public PartyUpdateLightMessage(ulong objectId, uint lifePoints, uint maxLifePoints, ushort prospecting,
-            byte regenRate)
+        public PartyUpdateLightMessage(ulong objectId, uint lifePoints, uint maxLifePoints, ushort prospecting, byte regenRate)
         {
             ObjectId = objectId;
             LifePoints = lifePoints;
@@ -16,16 +21,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Party
             RegenRate = regenRate;
         }
 
-        public PartyUpdateLightMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ulong ObjectId { get; set; }
-        public uint LifePoints { get; set; }
-        public uint MaxLifePoints { get; set; }
-        public ushort Prospecting { get; set; }
-        public byte RegenRate { get; set; }
+        public PartyUpdateLightMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -46,5 +42,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Party
             Prospecting = reader.ReadVarUhShort();
             RegenRate = reader.ReadByte();
         }
+
     }
 }

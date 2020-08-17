@@ -1,23 +1,20 @@
-﻿using Cookie.API.Protocol.Network.Types.Game.Data.Items;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
 {
+    using Types.Game.Data.Items;
+    using Utils.IO;
+
     public class ExchangeStartedBidBuyerMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5904;
+        public override ushort MessageID => ProtocolId;
+        public SellerBuyerDescriptor BuyerDescriptor { get; set; }
 
         public ExchangeStartedBidBuyerMessage(SellerBuyerDescriptor buyerDescriptor)
         {
             BuyerDescriptor = buyerDescriptor;
         }
 
-        public ExchangeStartedBidBuyerMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public SellerBuyerDescriptor BuyerDescriptor { get; set; }
+        public ExchangeStartedBidBuyerMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -29,5 +26,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
             BuyerDescriptor = new SellerBuyerDescriptor();
             BuyerDescriptor.Deserialize(reader);
         }
+
     }
 }

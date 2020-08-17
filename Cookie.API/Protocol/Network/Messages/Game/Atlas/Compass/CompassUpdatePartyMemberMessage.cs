@@ -1,10 +1,14 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Atlas.Compass
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Atlas.Compass
 {
+    using Types.Game.Context;
+    using Utils.IO;
+
     public class CompassUpdatePartyMemberMessage : CompassUpdateMessage
     {
         public new const ushort ProtocolId = 5589;
+        public override ushort MessageID => ProtocolId;
+        public ulong MemberId { get; set; }
+        public bool Active { get; set; }
 
         public CompassUpdatePartyMemberMessage(ulong memberId, bool active)
         {
@@ -12,13 +16,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Atlas.Compass
             Active = active;
         }
 
-        public CompassUpdatePartyMemberMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ulong MemberId { get; set; }
-        public bool Active { get; set; }
+        public CompassUpdatePartyMemberMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -33,5 +31,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Atlas.Compass
             MemberId = reader.ReadVarUhLong();
             Active = reader.ReadBoolean();
         }
+
     }
 }

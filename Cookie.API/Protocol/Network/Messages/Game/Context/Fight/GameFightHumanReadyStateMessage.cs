@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
 {
+    using Utils.IO;
+
     public class GameFightHumanReadyStateMessage : NetworkMessage
     {
         public const ushort ProtocolId = 740;
+        public override ushort MessageID => ProtocolId;
+        public ulong CharacterId { get; set; }
+        public bool IsReady { get; set; }
 
         public GameFightHumanReadyStateMessage(ulong characterId, bool isReady)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
             IsReady = isReady;
         }
 
-        public GameFightHumanReadyStateMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ulong CharacterId { get; set; }
-        public bool IsReady { get; set; }
+        public GameFightHumanReadyStateMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
             CharacterId = reader.ReadVarUhLong();
             IsReady = reader.ReadBoolean();
         }
+
     }
 }

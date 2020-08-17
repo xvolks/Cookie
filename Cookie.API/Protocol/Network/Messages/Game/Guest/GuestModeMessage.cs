@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Guest
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Guest
 {
+    using Utils.IO;
+
     public class GuestModeMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6505;
+        public override ushort MessageID => ProtocolId;
+        public bool Active { get; set; }
 
         public GuestModeMessage(bool active)
         {
             Active = active;
         }
 
-        public GuestModeMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public bool Active { get; set; }
+        public GuestModeMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guest
         {
             Active = reader.ReadBoolean();
         }
+
     }
 }

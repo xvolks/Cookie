@@ -1,10 +1,14 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Approach
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Approach
 {
+    using Utils.IO;
+
     public class AccountLoggingKickedMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6029;
+        public override ushort MessageID => ProtocolId;
+        public ushort Days { get; set; }
+        public byte Hours { get; set; }
+        public byte Minutes { get; set; }
 
         public AccountLoggingKickedMessage(ushort days, byte hours, byte minutes)
         {
@@ -13,14 +17,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Approach
             Minutes = minutes;
         }
 
-        public AccountLoggingKickedMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ushort Days { get; set; }
-        public byte Hours { get; set; }
-        public byte Minutes { get; set; }
+        public AccountLoggingKickedMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -35,5 +32,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Approach
             Hours = reader.ReadByte();
             Minutes = reader.ReadByte();
         }
+
     }
 }

@@ -11,7 +11,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Party
         public new const ushort ProtocolId = 90;
 
         public PartyMemberInformations(uint lifePoints, uint maxLifePoints, ushort prospecting, byte regenRate,
-            ushort initiative, sbyte alignmentSide, short worldX, short worldY, int mapId, ushort subAreaId,
+            ushort initiative, sbyte alignmentSide, short worldX, short worldY, double mapId, ushort subAreaId,
             PlayerStatus status, List<PartyCompanionMemberInformations> companions)
         {
             LifePoints = lifePoints;
@@ -41,7 +41,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Party
         public sbyte AlignmentSide { get; set; }
         public short WorldX { get; set; }
         public short WorldY { get; set; }
-        public int MapId { get; set; }
+        public double MapId { get; set; }
         public ushort SubAreaId { get; set; }
         public PlayerStatus Status { get; set; }
         public List<PartyCompanionMemberInformations> Companions { get; set; }
@@ -57,7 +57,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Party
             writer.WriteSByte(AlignmentSide);
             writer.WriteShort(WorldX);
             writer.WriteShort(WorldY);
-            writer.WriteInt(MapId);
+            writer.WriteDouble(MapId);
             writer.WriteVarUhShort(SubAreaId);
             writer.WriteUShort(Status.TypeID);
             Status.Serialize(writer);
@@ -80,7 +80,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Party
             AlignmentSide = reader.ReadSByte();
             WorldX = reader.ReadShort();
             WorldY = reader.ReadShort();
-            MapId = reader.ReadInt();
+            MapId = reader.ReadDouble();
             SubAreaId = reader.ReadVarUhShort();
             Status = ProtocolTypeManager.GetInstance<PlayerStatus>(reader.ReadUShort());
             Status.Deserialize(reader);

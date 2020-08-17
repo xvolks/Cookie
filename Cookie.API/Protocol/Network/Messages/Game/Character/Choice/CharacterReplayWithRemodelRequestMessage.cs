@@ -1,24 +1,21 @@
-﻿using Cookie.API.Protocol.Network.Messages.Game.Character.Replay;
-using Cookie.API.Protocol.Network.Types.Game.Character.Choice;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Character.Choice
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Character.Choice
 {
+    using Messages.Game.Character.Replay;
+    using Types.Game.Character.Choice;
+    using Utils.IO;
+
     public class CharacterReplayWithRemodelRequestMessage : CharacterReplayRequestMessage
     {
         public new const ushort ProtocolId = 6551;
+        public override ushort MessageID => ProtocolId;
+        public RemodelingInformation Remodel { get; set; }
 
         public CharacterReplayWithRemodelRequestMessage(RemodelingInformation remodel)
         {
             Remodel = remodel;
         }
 
-        public CharacterReplayWithRemodelRequestMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public RemodelingInformation Remodel { get; set; }
+        public CharacterReplayWithRemodelRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -32,5 +29,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Character.Choice
             Remodel = new RemodelingInformation();
             Remodel.Deserialize(reader);
         }
+
     }
 }

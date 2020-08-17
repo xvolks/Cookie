@@ -1,10 +1,14 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Fight
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Fight
 {
+    using Utils.IO;
+
     public class GameRolePlayFightRequestCanceledMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5822;
+        public override ushort MessageID => ProtocolId;
+        public int FightId { get; set; }
+        public double SourceId { get; set; }
+        public double TargetId { get; set; }
 
         public GameRolePlayFightRequestCanceledMessage(int fightId, double sourceId, double targetId)
         {
@@ -13,14 +17,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Fight
             TargetId = targetId;
         }
 
-        public GameRolePlayFightRequestCanceledMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public int FightId { get; set; }
-        public double SourceId { get; set; }
-        public double TargetId { get; set; }
+        public GameRolePlayFightRequestCanceledMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -35,5 +32,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Fight
             SourceId = reader.ReadDouble();
             TargetId = reader.ReadDouble();
         }
+
     }
 }

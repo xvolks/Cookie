@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Party
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Party
 {
+    using Utils.IO;
+
     public class PartyInvitationDungeonMessage : PartyInvitationMessage
     {
         public new const ushort ProtocolId = 6244;
+        public override ushort MessageID => ProtocolId;
+        public ushort DungeonId { get; set; }
 
         public PartyInvitationDungeonMessage(ushort dungeonId)
         {
             DungeonId = dungeonId;
         }
 
-        public PartyInvitationDungeonMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ushort DungeonId { get; set; }
+        public PartyInvitationDungeonMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -29,5 +26,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Party
             base.Deserialize(reader);
             DungeonId = reader.ReadVarUhShort();
         }
+
     }
 }

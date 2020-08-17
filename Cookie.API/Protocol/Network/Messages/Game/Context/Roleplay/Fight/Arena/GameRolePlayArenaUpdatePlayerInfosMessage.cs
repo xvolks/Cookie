@@ -1,23 +1,20 @@
-﻿using Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Fight.Arena;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Fight.Arena
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Fight.Arena
 {
+    using Types.Game.Context.Roleplay.Fight.Arena;
+    using Utils.IO;
+
     public class GameRolePlayArenaUpdatePlayerInfosMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6301;
+        public override ushort MessageID => ProtocolId;
+        public ArenaRankInfos Solo { get; set; }
 
         public GameRolePlayArenaUpdatePlayerInfosMessage(ArenaRankInfos solo)
         {
             Solo = solo;
         }
 
-        public GameRolePlayArenaUpdatePlayerInfosMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ArenaRankInfos Solo { get; set; }
+        public GameRolePlayArenaUpdatePlayerInfosMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -29,5 +26,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Fight.Arena
             Solo = new ArenaRankInfos();
             Solo.Deserialize(reader);
         }
+
     }
 }

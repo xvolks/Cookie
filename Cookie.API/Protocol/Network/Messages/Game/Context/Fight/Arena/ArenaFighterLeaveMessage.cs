@@ -1,23 +1,20 @@
-﻿using Cookie.API.Protocol.Network.Types.Game.Character;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight.Arena
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight.Arena
 {
+    using Types.Game.Character;
+    using Utils.IO;
+
     public class ArenaFighterLeaveMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6700;
+        public override ushort MessageID => ProtocolId;
+        public CharacterBasicMinimalInformations Leaver { get; set; }
 
         public ArenaFighterLeaveMessage(CharacterBasicMinimalInformations leaver)
         {
             Leaver = leaver;
         }
 
-        public ArenaFighterLeaveMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public CharacterBasicMinimalInformations Leaver { get; set; }
+        public ArenaFighterLeaveMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -29,5 +26,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight.Arena
             Leaver = new CharacterBasicMinimalInformations();
             Leaver.Deserialize(reader);
         }
+
     }
 }

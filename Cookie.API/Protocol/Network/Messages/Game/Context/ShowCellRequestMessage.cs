@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context
 {
+    using Utils.IO;
+
     public class ShowCellRequestMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5611;
+        public override ushort MessageID => ProtocolId;
+        public ushort CellId { get; set; }
 
         public ShowCellRequestMessage(ushort cellId)
         {
             CellId = cellId;
         }
 
-        public ShowCellRequestMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ushort CellId { get; set; }
+        public ShowCellRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context
         {
             CellId = reader.ReadVarUhShort();
         }
+
     }
 }

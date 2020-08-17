@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
 {
+    using Utils.IO;
+
     public class GameFightPlacementSwapPositionsCancelledMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6546;
+        public override ushort MessageID => ProtocolId;
+        public int RequestId { get; set; }
+        public double CancellerId { get; set; }
 
         public GameFightPlacementSwapPositionsCancelledMessage(int requestId, double cancellerId)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
             CancellerId = cancellerId;
         }
 
-        public GameFightPlacementSwapPositionsCancelledMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public int RequestId { get; set; }
-        public double CancellerId { get; set; }
+        public GameFightPlacementSwapPositionsCancelledMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Fight
             RequestId = reader.ReadInt();
             CancellerId = reader.ReadDouble();
         }
+
     }
 }

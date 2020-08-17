@@ -1,11 +1,15 @@
-﻿using System.Collections.Generic;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Server.Basic
+﻿namespace Cookie.API.Protocol.Network.Messages.Server.Basic
 {
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class SystemMessageDisplayMessage : NetworkMessage
     {
         public const ushort ProtocolId = 189;
+        public override ushort MessageID => ProtocolId;
+        public bool HangUp { get; set; }
+        public ushort MsgId { get; set; }
+        public List<string> Parameters { get; set; }
 
         public SystemMessageDisplayMessage(bool hangUp, ushort msgId, List<string> parameters)
         {
@@ -14,22 +18,17 @@ namespace Cookie.API.Protocol.Network.Messages.Server.Basic
             Parameters = parameters;
         }
 
-        public SystemMessageDisplayMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public bool HangUp { get; set; }
-        public ushort MsgId { get; set; }
-        public List<string> Parameters { get; set; }
+        public SystemMessageDisplayMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
             writer.WriteBoolean(HangUp);
             writer.WriteVarUhShort(MsgId);
-            writer.WriteShort((short) Parameters.Count);
+            writer.WriteShort((short)Parameters.Count);
             for (var parametersIndex = 0; parametersIndex < Parameters.Count; parametersIndex++)
+            {
                 writer.WriteUTF(Parameters[parametersIndex]);
+            }
         }
 
         public override void Deserialize(IDataReader reader)
@@ -39,7 +38,10 @@ namespace Cookie.API.Protocol.Network.Messages.Server.Basic
             var parametersCount = reader.ReadUShort();
             Parameters = new List<string>();
             for (var parametersIndex = 0; parametersIndex < parametersCount; parametersIndex++)
+            {
                 Parameters.Add(reader.ReadUTF());
+            }
         }
+
     }
 }

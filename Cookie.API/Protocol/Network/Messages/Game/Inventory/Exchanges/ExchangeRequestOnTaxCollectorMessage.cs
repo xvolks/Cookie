@@ -1,31 +1,29 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
 {
+    using Utils.IO;
+
     public class ExchangeRequestOnTaxCollectorMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5779;
+        public override ushort MessageID => ProtocolId;
+        public double TaxCollectorId { get; set; }
 
-        public ExchangeRequestOnTaxCollectorMessage(int taxCollectorId)
+        public ExchangeRequestOnTaxCollectorMessage(double taxCollectorId)
         {
             TaxCollectorId = taxCollectorId;
         }
 
-        public ExchangeRequestOnTaxCollectorMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public int TaxCollectorId { get; set; }
+        public ExchangeRequestOnTaxCollectorMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
-            writer.WriteInt(TaxCollectorId);
+            writer.WriteDouble(TaxCollectorId);
         }
 
         public override void Deserialize(IDataReader reader)
         {
-            TaxCollectorId = reader.ReadInt();
+            TaxCollectorId = reader.ReadDouble();
         }
+
     }
 }

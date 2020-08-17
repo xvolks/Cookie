@@ -7,7 +7,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Fight
         public new const ushort ProtocolId = 177;
 
         public FightTeamMemberTaxCollectorInformations(ushort firstNameId, ushort lastNameId, byte level, uint guildId,
-            uint uid)
+            double uid)
         {
             FirstNameId = firstNameId;
             LastNameId = lastNameId;
@@ -25,7 +25,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Fight
         public ushort LastNameId { get; set; }
         public byte Level { get; set; }
         public uint GuildId { get; set; }
-        public uint Uid { get; set; }
+        public double Uid { get; set; }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -34,7 +34,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Fight
             writer.WriteVarUhShort(LastNameId);
             writer.WriteByte(Level);
             writer.WriteVarUhInt(GuildId);
-            writer.WriteVarUhInt(Uid);
+            writer.WriteDouble(Uid);
         }
 
         public override void Deserialize(IDataReader reader)
@@ -44,7 +44,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Fight
             LastNameId = reader.ReadVarUhShort();
             Level = reader.ReadByte();
             GuildId = reader.ReadVarUhInt();
-            Uid = reader.ReadVarUhInt();
+            Uid = reader.ReadDouble();
         }
     }
 }

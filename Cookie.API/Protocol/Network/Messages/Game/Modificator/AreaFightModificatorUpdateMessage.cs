@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Modificator
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Modificator
 {
+    using Utils.IO;
+
     public class AreaFightModificatorUpdateMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6493;
+        public override ushort MessageID => ProtocolId;
+        public int SpellPairId { get; set; }
 
         public AreaFightModificatorUpdateMessage(int spellPairId)
         {
             SpellPairId = spellPairId;
         }
 
-        public AreaFightModificatorUpdateMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public int SpellPairId { get; set; }
+        public AreaFightModificatorUpdateMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Modificator
         {
             SpellPairId = reader.ReadInt();
         }
+
     }
 }

@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Authorized
+﻿namespace Cookie.API.Protocol.Network.Messages.Authorized
 {
+    using Utils.IO;
+
     public class ConsoleMessage : NetworkMessage
     {
         public const ushort ProtocolId = 75;
+        public override ushort MessageID => ProtocolId;
+        public byte Type { get; set; }
+        public string Content { get; set; }
 
         public ConsoleMessage(byte type, string content)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Authorized
             Content = content;
         }
 
-        public ConsoleMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public byte Type { get; set; }
-        public string Content { get; set; }
+        public ConsoleMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Authorized
             Type = reader.ReadByte();
             Content = reader.ReadUTF();
         }
+
     }
 }

@@ -8,7 +8,8 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Job
         public const ushort ProtocolId = 194;
 
         public JobCrafterDirectoryEntryPlayerInfo(ulong playerId, string playerName, sbyte alignmentSide, sbyte breed,
-            bool sex, bool isInWorkshop, short worldX, short worldY, int mapId, ushort subAreaId, PlayerStatus status)
+            bool sex, bool isInWorkshop, short worldX, short worldY, double mapId, ushort subAreaId,
+            PlayerStatus status)
         {
             PlayerId = playerId;
             PlayerName = playerName;
@@ -36,7 +37,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Job
         public bool IsInWorkshop { get; set; }
         public short WorldX { get; set; }
         public short WorldY { get; set; }
-        public int MapId { get; set; }
+        public double MapId { get; set; }
         public ushort SubAreaId { get; set; }
         public PlayerStatus Status { get; set; }
 
@@ -50,7 +51,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Job
             writer.WriteBoolean(IsInWorkshop);
             writer.WriteShort(WorldX);
             writer.WriteShort(WorldY);
-            writer.WriteInt(MapId);
+            writer.WriteDouble(MapId);
             writer.WriteVarUhShort(SubAreaId);
             writer.WriteUShort(Status.TypeID);
             Status.Serialize(writer);
@@ -66,7 +67,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Job
             IsInWorkshop = reader.ReadBoolean();
             WorldX = reader.ReadShort();
             WorldY = reader.ReadShort();
-            MapId = reader.ReadInt();
+            MapId = reader.ReadDouble();
             SubAreaId = reader.ReadVarUhShort();
             Status = ProtocolTypeManager.GetInstance<PlayerStatus>(reader.ReadUShort());
             Status.Deserialize(reader);

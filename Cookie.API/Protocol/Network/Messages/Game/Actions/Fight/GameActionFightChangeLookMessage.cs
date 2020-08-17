@@ -1,11 +1,15 @@
-﻿using Cookie.API.Protocol.Network.Types.Game.Look;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Actions.Fight
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Actions.Fight
 {
+    using Messages.Game.Actions;
+    using Types.Game.Look;
+    using Utils.IO;
+
     public class GameActionFightChangeLookMessage : AbstractGameActionMessage
     {
         public new const ushort ProtocolId = 5532;
+        public override ushort MessageID => ProtocolId;
+        public double TargetId { get; set; }
+        public EntityLook EntityLook { get; set; }
 
         public GameActionFightChangeLookMessage(double targetId, EntityLook entityLook)
         {
@@ -13,13 +17,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Actions.Fight
             EntityLook = entityLook;
         }
 
-        public GameActionFightChangeLookMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public double TargetId { get; set; }
-        public EntityLook EntityLook { get; set; }
+        public GameActionFightChangeLookMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -35,5 +33,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Actions.Fight
             EntityLook = new EntityLook();
             EntityLook.Deserialize(reader);
         }
+
     }
 }

@@ -1,10 +1,15 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Guild
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Guild
 {
+    using Utils.IO;
+
     public class GuildChangeMemberParametersMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5549;
+        public override ushort MessageID => ProtocolId;
+        public ulong MemberId { get; set; }
+        public ushort Rank { get; set; }
+        public byte ExperienceGivenPercent { get; set; }
+        public uint Rights { get; set; }
 
         public GuildChangeMemberParametersMessage(ulong memberId, ushort rank, byte experienceGivenPercent, uint rights)
         {
@@ -14,15 +19,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild
             Rights = rights;
         }
 
-        public GuildChangeMemberParametersMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ulong MemberId { get; set; }
-        public ushort Rank { get; set; }
-        public byte ExperienceGivenPercent { get; set; }
-        public uint Rights { get; set; }
+        public GuildChangeMemberParametersMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -39,5 +36,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Guild
             ExperienceGivenPercent = reader.ReadByte();
             Rights = reader.ReadVarUhInt();
         }
+
     }
 }

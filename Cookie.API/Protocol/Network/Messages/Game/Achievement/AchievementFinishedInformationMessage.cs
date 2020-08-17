@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Achievement
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Achievement
 {
+    using Utils.IO;
+
     public class AchievementFinishedInformationMessage : AchievementFinishedMessage
     {
         public new const ushort ProtocolId = 6381;
+        public override ushort MessageID => ProtocolId;
+        public string Name { get; set; }
+        public ulong PlayerId { get; set; }
 
         public AchievementFinishedInformationMessage(string name, ulong playerId)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Achievement
             PlayerId = playerId;
         }
 
-        public AchievementFinishedInformationMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public string Name { get; set; }
-        public ulong PlayerId { get; set; }
+        public AchievementFinishedInformationMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -33,5 +30,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Achievement
             Name = reader.ReadUTF();
             PlayerId = reader.ReadVarUhLong();
         }
+
     }
 }

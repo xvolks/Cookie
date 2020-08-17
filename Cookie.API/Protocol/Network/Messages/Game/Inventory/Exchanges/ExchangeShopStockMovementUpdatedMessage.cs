@@ -1,23 +1,20 @@
-﻿using Cookie.API.Protocol.Network.Types.Game.Data.Items;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
 {
+    using Types.Game.Data.Items;
+    using Utils.IO;
+
     public class ExchangeShopStockMovementUpdatedMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5909;
+        public override ushort MessageID => ProtocolId;
+        public ObjectItemToSell ObjectInfo { get; set; }
 
         public ExchangeShopStockMovementUpdatedMessage(ObjectItemToSell objectInfo)
         {
             ObjectInfo = objectInfo;
         }
 
-        public ExchangeShopStockMovementUpdatedMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ObjectItemToSell ObjectInfo { get; set; }
+        public ExchangeShopStockMovementUpdatedMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -29,5 +26,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges
             ObjectInfo = new ObjectItemToSell();
             ObjectInfo.Deserialize(reader);
         }
+
     }
 }

@@ -196,7 +196,7 @@ Public Class BRichTextBox
             Return T.SelectionColor
         End Get
         Set
-            T.SelectionColor = value
+            T.SelectionColor = Value
             T.Invalidate()
         End Set
     End Property
@@ -206,8 +206,10 @@ Public Class BRichTextBox
             Return T.SelectedText
         End Get
         Set
-            T.SelectedText = value
-            T.Invalidate()
+            If Value IsNot "" Then
+                T.SelectedText = Value
+                T.Invalidate()
+            End If
         End Set
     End Property
 
@@ -1511,7 +1513,8 @@ Public Class BListView
 
         Dim Selection As Integer = GetSelectedFromLocation(e.Location)
 
-        If Selection = - 1 OrElse Not e.Button = MouseButtons.Left Then MyBase.OnMouseUp(e) : Return
+        If Selection = - 1 OrElse Not (e.Button = MouseButtons.Left OrElse e.Button = MouseButtons.Right) Then _
+            MyBase.OnMouseUp(e) : Return
 
         If Multiselect AndAlso My.Computer.Keyboard.CtrlKeyDown Then
 

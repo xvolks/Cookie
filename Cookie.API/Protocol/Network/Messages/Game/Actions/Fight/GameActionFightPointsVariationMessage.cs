@@ -1,10 +1,14 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Actions.Fight
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Actions.Fight
 {
+    using Messages.Game.Actions;
+    using Utils.IO;
+
     public class GameActionFightPointsVariationMessage : AbstractGameActionMessage
     {
         public new const ushort ProtocolId = 1030;
+        public override ushort MessageID => ProtocolId;
+        public double TargetId { get; set; }
+        public short Delta { get; set; }
 
         public GameActionFightPointsVariationMessage(double targetId, short delta)
         {
@@ -12,13 +16,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Actions.Fight
             Delta = delta;
         }
 
-        public GameActionFightPointsVariationMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public double TargetId { get; set; }
-        public short Delta { get; set; }
+        public GameActionFightPointsVariationMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -33,5 +31,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Actions.Fight
             TargetId = reader.ReadDouble();
             Delta = reader.ReadShort();
         }
+
     }
 }

@@ -1,23 +1,20 @@
-﻿using Cookie.API.Protocol.Network.Types.Game.Context.Fight;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Fight
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Fight
 {
+    using Types.Game.Context.Fight;
+    using Utils.IO;
+
     public class GameRolePlayShowChallengeMessage : NetworkMessage
     {
         public const ushort ProtocolId = 301;
+        public override ushort MessageID => ProtocolId;
+        public FightCommonInformations CommonsInfos { get; set; }
 
         public GameRolePlayShowChallengeMessage(FightCommonInformations commonsInfos)
         {
             CommonsInfos = commonsInfos;
         }
 
-        public GameRolePlayShowChallengeMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public FightCommonInformations CommonsInfos { get; set; }
+        public GameRolePlayShowChallengeMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -29,5 +26,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Fight
             CommonsInfos = new FightCommonInformations();
             CommonsInfos.Deserialize(reader);
         }
+
     }
 }

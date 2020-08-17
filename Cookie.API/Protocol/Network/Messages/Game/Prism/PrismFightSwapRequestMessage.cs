@@ -1,10 +1,13 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Prism
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Prism
 {
+    using Utils.IO;
+
     public class PrismFightSwapRequestMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5901;
+        public override ushort MessageID => ProtocolId;
+        public ushort SubAreaId { get; set; }
+        public ulong TargetId { get; set; }
 
         public PrismFightSwapRequestMessage(ushort subAreaId, ulong targetId)
         {
@@ -12,13 +15,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Prism
             TargetId = targetId;
         }
 
-        public PrismFightSwapRequestMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ushort SubAreaId { get; set; }
-        public ulong TargetId { get; set; }
+        public PrismFightSwapRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -31,5 +28,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Prism
             SubAreaId = reader.ReadVarUhShort();
             TargetId = reader.ReadVarUhLong();
         }
+
     }
 }

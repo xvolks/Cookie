@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Context.Mount
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Context.Mount
 {
+    using Utils.IO;
+
     public class GameDataPaddockObjectRemoveMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5993;
+        public override ushort MessageID => ProtocolId;
+        public ushort CellId { get; set; }
 
         public GameDataPaddockObjectRemoveMessage(ushort cellId)
         {
             CellId = cellId;
         }
 
-        public GameDataPaddockObjectRemoveMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ushort CellId { get; set; }
+        public GameDataPaddockObjectRemoveMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Mount
         {
             CellId = reader.ReadVarUhShort();
         }
+
     }
 }

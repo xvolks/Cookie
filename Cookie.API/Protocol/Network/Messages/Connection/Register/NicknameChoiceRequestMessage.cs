@@ -1,22 +1,19 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Connection.Register
+﻿namespace Cookie.API.Protocol.Network.Messages.Connection.Register
 {
+    using Utils.IO;
+
     public class NicknameChoiceRequestMessage : NetworkMessage
     {
         public const ushort ProtocolId = 5639;
+        public override ushort MessageID => ProtocolId;
+        public string Nickname { get; set; }
 
         public NicknameChoiceRequestMessage(string nickname)
         {
             Nickname = nickname;
         }
 
-        public NicknameChoiceRequestMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public string Nickname { get; set; }
+        public NicknameChoiceRequestMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -27,5 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Connection.Register
         {
             Nickname = reader.ReadUTF();
         }
+
     }
 }

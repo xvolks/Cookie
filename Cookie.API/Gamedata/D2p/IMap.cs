@@ -24,7 +24,7 @@ namespace Cookie.API.Gamedata.D2p
         uint GridGreen { get; set; }
         uint GridRed { get; set; }
         string GroundCRC { get; set; }
-        int Id { get; set; }
+        double Id { get; set; }
         bool IsUsingNewMovementSystem { get; set; }
         List<Layer> Layers { get; set; }
         int LayersCount { get; set; }

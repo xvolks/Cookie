@@ -1,10 +1,14 @@
-﻿using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Interactive.Meeting
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Interactive.Meeting
 {
+    using Utils.IO;
+
     public class TeleportToBuddyOfferMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6287;
+        public override ushort MessageID => ProtocolId;
+        public ushort DungeonId { get; set; }
+        public ulong BuddyId { get; set; }
+        public uint TimeLeft { get; set; }
 
         public TeleportToBuddyOfferMessage(ushort dungeonId, ulong buddyId, uint timeLeft)
         {
@@ -13,14 +17,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Interactive.Meeting
             TimeLeft = timeLeft;
         }
 
-        public TeleportToBuddyOfferMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public ushort DungeonId { get; set; }
-        public ulong BuddyId { get; set; }
-        public uint TimeLeft { get; set; }
+        public TeleportToBuddyOfferMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -35,5 +32,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Interactive.Meeting
             BuddyId = reader.ReadVarUhLong();
             TimeLeft = reader.ReadVarUhInt();
         }
+
     }
 }

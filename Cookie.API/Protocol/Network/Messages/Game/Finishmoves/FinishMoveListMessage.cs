@@ -1,28 +1,25 @@
-﻿using System.Collections.Generic;
-using Cookie.API.Protocol.Network.Types.Game.Finishmoves;
-using Cookie.API.Utils.IO;
-
-namespace Cookie.API.Protocol.Network.Messages.Game.Finishmoves
+﻿namespace Cookie.API.Protocol.Network.Messages.Game.Finishmoves
 {
+    using Types.Game.Finishmoves;
+    using System.Collections.Generic;
+    using Utils.IO;
+
     public class FinishMoveListMessage : NetworkMessage
     {
         public const ushort ProtocolId = 6704;
+        public override ushort MessageID => ProtocolId;
+        public List<FinishMoveInformations> FinishMoves { get; set; }
 
         public FinishMoveListMessage(List<FinishMoveInformations> finishMoves)
         {
             FinishMoves = finishMoves;
         }
 
-        public FinishMoveListMessage()
-        {
-        }
-
-        public override ushort MessageID => ProtocolId;
-        public List<FinishMoveInformations> FinishMoves { get; set; }
+        public FinishMoveListMessage() { }
 
         public override void Serialize(IDataWriter writer)
         {
-            writer.WriteShort((short) FinishMoves.Count);
+            writer.WriteShort((short)FinishMoves.Count);
             for (var finishMovesIndex = 0; finishMovesIndex < FinishMoves.Count; finishMovesIndex++)
             {
                 var objectToSend = FinishMoves[finishMovesIndex];
@@ -41,5 +38,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Finishmoves
                 FinishMoves.Add(objectToAdd);
             }
         }
+
     }
 }
