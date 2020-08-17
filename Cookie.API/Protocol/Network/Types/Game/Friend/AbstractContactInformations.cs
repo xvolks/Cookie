@@ -1,49 +1,35 @@
-using Cookie.API.Utils.IO;
+﻿using Cookie.API.Utils.IO;
 
 namespace Cookie.API.Protocol.Network.Types.Game.Friend
 {
     public class AbstractContactInformations : NetworkType
     {
-        public const short ProtocolId = 380;
-
-        private int m_accountId;
-
-        private string m_accountName;
+        public const ushort ProtocolId = 380;
 
         public AbstractContactInformations(int accountId, string accountName)
         {
-            m_accountId = accountId;
-            m_accountName = accountName;
+            AccountId = accountId;
+            AccountName = accountName;
         }
 
         public AbstractContactInformations()
         {
         }
 
-        public override short TypeID => ProtocolId;
-
-        public virtual int AccountId
-        {
-            get => m_accountId;
-            set => m_accountId = value;
-        }
-
-        public virtual string AccountName
-        {
-            get => m_accountName;
-            set => m_accountName = value;
-        }
+        public override ushort TypeID => ProtocolId;
+        public int AccountId { get; set; }
+        public string AccountName { get; set; }
 
         public override void Serialize(IDataWriter writer)
         {
-            writer.WriteInt(m_accountId);
-            writer.WriteUTF(m_accountName);
+            writer.WriteInt(AccountId);
+            writer.WriteUTF(AccountName);
         }
 
         public override void Deserialize(IDataReader reader)
         {
-            m_accountId = reader.ReadInt();
-            m_accountName = reader.ReadUTF();
+            AccountId = reader.ReadInt();
+            AccountName = reader.ReadUTF();
         }
     }
 }

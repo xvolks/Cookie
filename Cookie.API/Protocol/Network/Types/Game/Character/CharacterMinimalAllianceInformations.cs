@@ -3,21 +3,20 @@ using Cookie.API.Utils.IO;
 
 namespace Cookie.API.Protocol.Network.Types.Game.Character
 {
-    public class CharacterMinimalAllianceInformations : CharacterMinimalPlusLookInformations
+    public class CharacterMinimalAllianceInformations : CharacterMinimalGuildInformations
     {
-        public new const short ProtocolId = 444;
-
-        public CharacterMinimalAllianceInformations()
-        {
-        }
+        public new const ushort ProtocolId = 444;
 
         public CharacterMinimalAllianceInformations(BasicAllianceInformations alliance)
         {
             Alliance = alliance;
         }
 
-        public override short TypeID => ProtocolId;
+        public CharacterMinimalAllianceInformations()
+        {
+        }
 
+        public override ushort TypeID => ProtocolId;
         public BasicAllianceInformations Alliance { get; set; }
 
         public override void Serialize(IDataWriter writer)

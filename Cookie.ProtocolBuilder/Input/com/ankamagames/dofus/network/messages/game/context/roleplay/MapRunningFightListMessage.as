@@ -1,0 +1,137 @@
+package com.ankamagames.dofus.network.messages.game.context.roleplay
+{
+   import com.ankamagames.dofus.network.types.game.context.fight.FightExternalInformations;
+   import com.ankamagames.jerakine.network.CustomDataWrapper;
+   import com.ankamagames.jerakine.network.ICustomDataInput;
+   import com.ankamagames.jerakine.network.ICustomDataOutput;
+   import com.ankamagames.jerakine.network.INetworkMessage;
+   import com.ankamagames.jerakine.network.NetworkMessage;
+   import com.ankamagames.jerakine.network.utils.FuncTree;
+   import flash.utils.ByteArray;
+   
+   [Trusted]
+   public class MapRunningFightListMessage extends NetworkMessage implements INetworkMessage
+   {
+      
+      public static const protocolId:uint = 5743;
+       
+      
+      private var _isInitialized:Boolean = false;
+      
+      public var fights:Vector.<FightExternalInformations>;
+      
+      private var _fightstree:FuncTree;
+      
+      public function MapRunningFightListMessage()
+      {
+         this.fights = new Vector.<FightExternalInformations>();
+         super();
+      }
+      
+      override public function get isInitialized() : Boolean
+      {
+         return this._isInitialized;
+      }
+      
+      override public function getMessageId() : uint
+      {
+         return 5743;
+      }
+      
+      public function initMapRunningFightListMessage(param1:Vector.<FightExternalInformations> = null) : MapRunningFightListMessage
+      {
+         this.fights = param1;
+         this._isInitialized = true;
+         return this;
+      }
+      
+      override public function reset() : void
+      {
+         this.fights = new Vector.<FightExternalInformations>();
+         this._isInitialized = false;
+      }
+      
+      override public function pack(param1:ICustomDataOutput) : void
+      {
+         var _loc2_:ByteArray = new ByteArray();
+         this.serialize(new CustomDataWrapper(_loc2_));
+         writePacket(param1,this.getMessageId(),_loc2_);
+      }
+      
+      override public function unpack(param1:ICustomDataInput, param2:uint) : void
+      {
+         this.deserialize(param1);
+      }
+      
+      override public function unpackAsync(param1:ICustomDataInput, param2:uint) : FuncTree
+      {
+         var _loc3_:FuncTree = new FuncTree();
+         _loc3_.setRoot(param1);
+         this.deserializeAsync(_loc3_);
+         return _loc3_;
+      }
+      
+      public function serialize(param1:ICustomDataOutput) : void
+      {
+         this.serializeAs_MapRunningFightListMessage(param1);
+      }
+      
+      public function serializeAs_MapRunningFightListMessage(param1:ICustomDataOutput) : void
+      {
+         param1.writeShort(this.fights.length);
+         var _loc2_:uint = 0;
+         while(_loc2_ < this.fights.length)
+         {
+            (this.fights[_loc2_] as FightExternalInformations).serializeAs_FightExternalInformations(param1);
+            _loc2_++;
+         }
+      }
+      
+      public function deserialize(param1:ICustomDataInput) : void
+      {
+         this.deserializeAs_MapRunningFightListMessage(param1);
+      }
+      
+      public function deserializeAs_MapRunningFightListMessage(param1:ICustomDataInput) : void
+      {
+         var _loc4_:FightExternalInformations = null;
+         var _loc2_:uint = param1.readUnsignedShort();
+         var _loc3_:uint = 0;
+         while(_loc3_ < _loc2_)
+         {
+            _loc4_ = new FightExternalInformations();
+            _loc4_.deserialize(param1);
+            this.fights.push(_loc4_);
+            _loc3_++;
+         }
+      }
+      
+      public function deserializeAsync(param1:FuncTree) : void
+      {
+         this.deserializeAsyncAs_MapRunningFightListMessage(param1);
+      }
+      
+      public function deserializeAsyncAs_MapRunningFightListMessage(param1:FuncTree) : void
+      {
+         this._fightstree = param1.addChild(this._fightstreeFunc);
+      }
+      
+      private function _fightstreeFunc(param1:ICustomDataInput) : void
+      {
+         var _loc2_:uint = param1.readUnsignedShort();
+         var _loc3_:uint = 0;
+         while(_loc3_ < _loc2_)
+         {
+            this._fightstree.addChild(this._fightsFunc);
+            _loc3_++;
+         }
+      }
+      
+      private function _fightsFunc(param1:ICustomDataInput) : void
+      {
+         var _loc2_:FightExternalInformations = new FightExternalInformations();
+         _loc2_.deserialize(param1);
+         this.fights.push(_loc2_);
+      }
+   }
+}

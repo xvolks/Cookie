@@ -4,11 +4,7 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Approach
 {
     public class AuthenticationTicketMessage : NetworkMessage
     {
-        public const uint ProtocolId = 110;
-
-        public AuthenticationTicketMessage()
-        {
-        }
+        public const ushort ProtocolId = 110;
 
         public AuthenticationTicketMessage(string lang, string ticket)
         {
@@ -16,8 +12,11 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Approach
             Ticket = ticket;
         }
 
-        public override uint MessageID => ProtocolId;
+        public AuthenticationTicketMessage()
+        {
+        }
 
+        public override ushort MessageID => ProtocolId;
         public string Lang { get; set; }
         public string Ticket { get; set; }
 

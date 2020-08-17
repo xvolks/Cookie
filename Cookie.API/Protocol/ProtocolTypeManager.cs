@@ -8,10 +8,10 @@ namespace Cookie.API.Protocol
 {
     public static class ProtocolTypeManager
     {
-        private static readonly Dictionary<short, Type> Types = new Dictionary<short, Type>(200);
+        private static readonly Dictionary<ushort, Type> Types = new Dictionary<ushort, Type>(200);
 
-        private static readonly Dictionary<short, Func<object>> TypesConstructors =
-            new Dictionary<short, Func<object>>(200);
+        private static readonly Dictionary<ushort, Func<object>> TypesConstructors =
+            new Dictionary<ushort, Func<object>>(200);
 
         public static void Initialize()
         {
@@ -25,7 +25,7 @@ namespace Cookie.API.Protocol
                 var field = type.GetField("ProtocolId");
 
                 if (field == null) continue;
-                var id = (short) field.GetValue(type);
+                var id = (ushort) field.GetValue(type);
 
                 Types.Add(id, type);
 
@@ -40,7 +40,7 @@ namespace Cookie.API.Protocol
             Console.WriteLine($@"<{Types.Count}> type(s) loaded.");
         }
 
-        public static T GetInstance<T>(short id) where T : class
+        public static T GetInstance<T>(ushort id) where T : class
         {
             if (!Types.ContainsKey(id))
                 Console.WriteLine($@"Type <id:{id}> doesn't exist");

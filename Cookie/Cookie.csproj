@@ -60,6 +60,7 @@
     <Compile Include="Commands\Commands\FightCommand.cs" />
     <Compile Include="Commands\Commands\GatherCommand.cs" />
     <Compile Include="Commands\Commands\GoCellCommand.cs" />
+    <Compile Include="Commands\Commands\HelpCommand.cs" />
     <Compile Include="Commands\Commands\JobsCommand.cs" />
     <Compile Include="Commands\Commands\KamasCommand.cs" />
     <Compile Include="Commands\Commands\LevelCommand.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="Game\Alliance\Alliance.cs" />
     <Compile Include="Game\BidHouse\BidHouse.cs" />
     <Compile Include="Game\Chat\Chat.cs" />
+    <Compile Include="Game\Chat\History.cs" />
     <Compile Include="Game\Entity\Entity.cs" />
     <Compile Include="Game\Entity\Merchant.cs" />
     <Compile Include="Game\Fight\ArtificialIntelligence.cs" />

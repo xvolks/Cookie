@@ -5,20 +5,10 @@ namespace Cookie.API.Protocol.Network.Messages.Connection
 {
     public class SelectedServerDataMessage : NetworkMessage
     {
-        public const uint ProtocolId = 42;
-        public string Address;
-        public bool CanCreateNewCharacter;
-        public ushort Port;
-
-        public ushort ServerId;
-        public List<int> Ticket;
-
-        public SelectedServerDataMessage()
-        {
-        }
+        public const ushort ProtocolId = 42;
 
         public SelectedServerDataMessage(ushort serverId, string address, ushort port, bool canCreateNewCharacter,
-            List<int> ticket)
+            List<sbyte> ticket)
         {
             ServerId = serverId;
             Address = address;
@@ -27,7 +17,16 @@ namespace Cookie.API.Protocol.Network.Messages.Connection
             Ticket = ticket;
         }
 
-        public override uint MessageID => ProtocolId;
+        public SelectedServerDataMessage()
+        {
+        }
+
+        public override ushort MessageID => ProtocolId;
+        public ushort ServerId { get; set; }
+        public string Address { get; set; }
+        public ushort Port { get; set; }
+        public bool CanCreateNewCharacter { get; set; }
+        public List<sbyte> Ticket { get; set; }
 
         public override void Serialize(IDataWriter writer)
         {
@@ -35,8 +34,9 @@ namespace Cookie.API.Protocol.Network.Messages.Connection
             writer.WriteUTF(Address);
             writer.WriteUShort(Port);
             writer.WriteBoolean(CanCreateNewCharacter);
-            for (var i = 0; i < Ticket.Count; i++)
-                writer.WriteByte((byte) Ticket[i]);
+            writer.WriteVarInt(Ticket.Count);
+            for (var ticketIndex = 0; ticketIndex < Ticket.Count; ticketIndex++)
+                writer.WriteSByte(Ticket[ticketIndex]);
         }
 
         public override void Deserialize(IDataReader reader)
@@ -45,10 +45,10 @@ namespace Cookie.API.Protocol.Network.Messages.Connection
             Address = reader.ReadUTF();
             Port = reader.ReadUShort();
             CanCreateNewCharacter = reader.ReadBoolean();
-            var size = reader.ReadVarInt();
-            Ticket = new List<int>();
-            for (var i = 0; i < size; i++)
-                Ticket.Add(reader.ReadByte());
+            var ticketCount = reader.ReadVarInt();
+            Ticket = new List<sbyte>();
+            for (var ticketIndex = 0; ticketIndex < ticketCount; ticketIndex++)
+                Ticket.Add(reader.ReadSByte());
         }
     }
 }

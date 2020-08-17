@@ -68,7 +68,7 @@ namespace Cookie.API.Utils.Cryptography
             return Decrypt<AesManaged>(value, password);
         }
 
-        public static string DecodeWithAES(List<int> ticket)
+        public static string DecodeWithAES(List<sbyte> ticket)
         {
             var dr = new BigEndianReader(new byte[32]);
             var aesAlg = new AesManaged();

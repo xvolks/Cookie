@@ -7,6 +7,8 @@ namespace Cookie.Commands.Commands
     public class LevelCommand : ICommand
     {
         public string CommandName => "level";
+        public string ArgsName => "void";
+
 
         public void OnCommand(IAccount account, string[] args)
         {

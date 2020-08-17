@@ -4,29 +4,28 @@ namespace Cookie.API.Protocol.Network.Types.Game.Approach
 {
     public class ServerSessionConstant : NetworkType
     {
-        public const short ProtocolId = 430;
+        public const ushort ProtocolId = 430;
+
+        public ServerSessionConstant(ushort objectId)
+        {
+            ObjectId = objectId;
+        }
 
         public ServerSessionConstant()
         {
         }
 
-        public ServerSessionConstant(ushort objectId)
-        {
-            ObjectID = objectId;
-        }
-
-        public override short TypeID => ProtocolId;
-
-        public ushort ObjectID { get; set; }
+        public override ushort TypeID => ProtocolId;
+        public ushort ObjectId { get; set; }
 
         public override void Serialize(IDataWriter writer)
         {
-            writer.WriteVarUhShort(ObjectID);
+            writer.WriteVarUhShort(ObjectId);
         }
 
         public override void Deserialize(IDataReader reader)
         {
-            ObjectID = reader.ReadVarUhShort();
+            ObjectId = reader.ReadVarUhShort();
         }
     }
 }

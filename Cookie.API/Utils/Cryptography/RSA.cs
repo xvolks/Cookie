@@ -14,7 +14,8 @@ namespace Cookie.API.Utils.Cryptography
                 "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA9XpbSNEUoM6niz3XTESWJI3h3J+YseUIdEShxyp0nMfX8xUHUktKQFYV4Q3fVpdn1PxOaxKEA8SYGNAncuIal9ZGHqkbFcNF7CNp0MUFecQi5gGYpg4JPlC0onfmn6R2shSAl7M+UCVgFpICVrtXxocosjg0OP2gWFZU8AjKDo4JJPapvubjUgufCGNXEWynRkOclMBXpAw2IBAO6KjRdGBllPmJfYcSQqG9tp5nKdzkLgITSg8JtK2tp5wfbt5tBlCLcvC7CAp9t3JZImOO5kRwCn4Jd2RUMcPCd7s1JHqRXfOtuItz7xcOlqHtyLExvotfMwIDAQAB"
             ;
 
-        public static sbyte[] Encrypt(sbyte[] helloConnectMessageKey, string accountName, string accountPassword,
+        public static List<sbyte> Encrypt(List<sbyte> helloConnectMessageKey, string accountName,
+            string accountPassword,
             string salt)
         {
             var byteList = new List<byte>();
@@ -32,7 +33,7 @@ namespace Cookie.API.Utils.Cryptography
             var numArray1 = cryptoServiceProvider2.Encrypt(byteList.ToArray(), false);
             var numArray2 = new sbyte[numArray1.Length];
             Buffer.BlockCopy(numArray1, 0, numArray2, 0, numArray1.Length);
-            return numArray2;
+            return numArray2.ToList();
         }
 
         private static RSACryptoServiceProvider DecodeX509PublicKey(byte[] X509Key)
@@ -148,10 +149,11 @@ namespace Cookie.API.Utils.Cryptography
             return true;
         }
 
-        private static byte[] DecryptHelloConnectMessageKey(sbyte[] helloConnectMessageKey, RSAParameters parameters)
+        private static byte[] DecryptHelloConnectMessageKey(List<sbyte> helloConnectMessageKey,
+            RSAParameters parameters)
         {
-            var numArray = new byte[helloConnectMessageKey.Length];
-            Buffer.BlockCopy(helloConnectMessageKey, 0, numArray, 0, helloConnectMessageKey.Length);
+            var numArray = new byte[helloConnectMessageKey.Count];
+            Buffer.BlockCopy(helloConnectMessageKey.ToArray(), 0, numArray, 0, helloConnectMessageKey.Count);
             var modulus = new BigInteger(parameters.Modulus.Reverse().Concat(new byte[1]).ToArray());
             var exponent = new BigInteger(parameters.Exponent.Reverse().Concat(new byte[1]).ToArray());
             return BigInteger

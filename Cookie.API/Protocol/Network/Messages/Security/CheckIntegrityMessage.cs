@@ -5,34 +5,33 @@ namespace Cookie.API.Protocol.Network.Messages.Security
 {
     public class CheckIntegrityMessage : NetworkMessage
     {
-        public const uint ProtocolId = 6372;
+        public const ushort ProtocolId = 6372;
+
+        public CheckIntegrityMessage(List<sbyte> data)
+        {
+            Data = data;
+        }
 
         public CheckIntegrityMessage()
         {
         }
 
-        public CheckIntegrityMessage(List<int> data)
-        {
-            Data = data;
-        }
-
-        public override uint MessageID => ProtocolId;
-
-        public List<int> Data { get; set; }
+        public override ushort MessageID => ProtocolId;
+        public List<sbyte> Data { get; set; }
 
         public override void Serialize(IDataWriter writer)
         {
             writer.WriteVarInt(Data.Count);
-            for (var i = 0; i < Data.Count; i++)
-                writer.WriteByte((byte) Data[i]);
+            for (var dataIndex = 0; dataIndex < Data.Count; dataIndex++)
+                writer.WriteSByte(Data[dataIndex]);
         }
 
         public override void Deserialize(IDataReader reader)
         {
-            var length = reader.ReadVarInt();
-            Data = new List<int>();
-            for (var i = 0; i < length; i++)
-                Data.Add(reader.ReadByte());
+            var dataCount = reader.ReadVarInt();
+            Data = new List<sbyte>();
+            for (var dataIndex = 0; dataIndex < dataCount; dataIndex++)
+                Data.Add(reader.ReadSByte());
         }
     }
 }

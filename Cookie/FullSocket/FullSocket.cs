@@ -59,7 +59,8 @@ namespace Cookie.FullSocket
             server.Account.Network.RegisterPacket<HelloConnectMessage>(HandleHelloConnectMessage,
                 MessagePriority.VeryHigh);
 
-            server.Account.Network.RegisterPacket<ServerListMessage>(HandleServerListMessage, MessagePriority.VeryHigh);
+            server.Account.Network.RegisterPacket<ServersListMessage>(HandleServersListMessage,
+                MessagePriority.VeryHigh);
             server.Account.Network.RegisterPacket<SelectedServerDataMessage>(HandleSelectedServerDataMessage,
                 MessagePriority.VeryHigh);
             server.Account.Network.RegisterPacket<RawDataMessage>(HandleRawDataMessage, MessagePriority.VeryHigh);
@@ -85,12 +86,12 @@ namespace Cookie.FullSocket
 
         private static void HandleRawDataMessage(IAccount account, RawDataMessage message)
         {
-            var tt = new List<int>();
+            var tt = new List<sbyte>();
             for (var i = 0; i <= 255; i++)
             {
                 var random = new Random();
                 var test = random.Next(-127, 127);
-                tt.Add(test);
+                tt.Add((sbyte) test);
             }
             var rawData = new CheckIntegrityMessage(tt);
             account.Network.SendToServer(rawData);
@@ -215,16 +216,25 @@ namespace Cookie.FullSocket
             account.Network.ConnectionType = ClientConnectionType.Authentification;
             Logger.Default.Log("Connecté au serveur d'authentification.");
             var credentials = Rsa.Encrypt(message.Key, account.Login, account.Password, message.Salt);
-            var version = new VersionExtended(GameConstant.Major, GameConstant.Minor, GameConstant.Release,
-                GameConstant.Revision, GameConstant.Patch, GameConstant.BuildType, GameConstant.Install,
-                GameConstant.Technology);
+            var version = new VersionExtended
+            {
+                BuildType = GameConstant.BuildType,
+                Install = GameConstant.Install,
+                Major = GameConstant.Major,
+                Minor = GameConstant.Minor,
+                Patch = GameConstant.Patch,
+                Release = GameConstant.Release,
+                Revision = GameConstant.Revision,
+                Technology = GameConstant.Technology
+            };
+
             var identificationMessage =
-                new IdentificationMessage(true, false, false, version, "fr", credentials, 0, 0, new ushort[0]);
+                new IdentificationMessage(true, false, false, version, "fr", credentials, 0, 0, new List<ushort>());
             Logger.Default.Log("Envois des informations d'identification...");
             account.Network.SendToServer(identificationMessage);
         }
 
-        private void HandleServerListMessage(IAccount account, ServerListMessage message)
+        private void HandleServersListMessage(IAccount account, ServersListMessage message)
         {
             if (message.AlreadyConnectedToServerId != 0)
             {
@@ -237,7 +247,7 @@ namespace Cookie.FullSocket
 
             account.Network.SendToServer(server == null
                 ? new ServerSelectionMessage(11)
-                : new ServerSelectionMessage(server.ObjectID));
+                : new ServerSelectionMessage(server.ObjectId));
         }
 
         private void HandleSelectedServerDataMessage(IAccount account, SelectedServerDataMessage message)

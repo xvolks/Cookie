@@ -1,53 +1,39 @@
-using Cookie.API.Utils.IO;
+﻿using Cookie.API.Utils.IO;
 
 namespace Cookie.API.Protocol.Network.Types.Game.Context.Roleplay
 {
     public class GameRolePlayHumanoidInformations : GameRolePlayNamedActorInformations
     {
-        public new const short ProtocolId = 159;
-
-        private int m_accountId;
-
-        private HumanInformations m_humanoidInfo;
+        public new const ushort ProtocolId = 159;
 
         public GameRolePlayHumanoidInformations(HumanInformations humanoidInfo, int accountId)
         {
-            m_humanoidInfo = humanoidInfo;
-            m_accountId = accountId;
+            HumanoidInfo = humanoidInfo;
+            AccountId = accountId;
         }
 
         public GameRolePlayHumanoidInformations()
         {
         }
 
-        public override short TypeID => ProtocolId;
-
-        public virtual HumanInformations HumanoidInfo
-        {
-            get => m_humanoidInfo;
-            set => m_humanoidInfo = value;
-        }
-
-        public virtual int AccountId
-        {
-            get => m_accountId;
-            set => m_accountId = value;
-        }
+        public override ushort TypeID => ProtocolId;
+        public HumanInformations HumanoidInfo { get; set; }
+        public int AccountId { get; set; }
 
         public override void Serialize(IDataWriter writer)
         {
             base.Serialize(writer);
-            writer.WriteUShort((ushort) m_humanoidInfo.TypeID);
-            m_humanoidInfo.Serialize(writer);
-            writer.WriteInt(m_accountId);
+            writer.WriteUShort(HumanoidInfo.TypeID);
+            HumanoidInfo.Serialize(writer);
+            writer.WriteInt(AccountId);
         }
 
         public override void Deserialize(IDataReader reader)
         {
             base.Deserialize(reader);
-            m_humanoidInfo = ProtocolTypeManager.GetInstance<HumanInformations>((short) reader.ReadUShort());
-            m_humanoidInfo.Deserialize(reader);
-            m_accountId = reader.ReadInt();
+            HumanoidInfo = ProtocolTypeManager.GetInstance<HumanInformations>(reader.ReadUShort());
+            HumanoidInfo.Deserialize(reader);
+            AccountId = reader.ReadInt();
         }
     }
 }

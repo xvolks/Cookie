@@ -4,19 +4,18 @@ namespace Cookie.API.Protocol.Network.Messages.Security
 {
     public class ClientKeyMessage : NetworkMessage
     {
-        public const uint ProtocolId = 5607;
-
-        public ClientKeyMessage()
-        {
-        }
+        public const ushort ProtocolId = 5607;
 
         public ClientKeyMessage(string key)
         {
             Key = key;
         }
 
-        public override uint MessageID => ProtocolId;
+        public ClientKeyMessage()
+        {
+        }
 
+        public override ushort MessageID => ProtocolId;
         public string Key { get; set; }
 
         public override void Serialize(IDataWriter writer)
@@ -26,12 +25,7 @@ namespace Cookie.API.Protocol.Network.Messages.Security
 
         public override void Deserialize(IDataReader reader)
         {
-            _keyFunc(reader);
-        }
-
-        private void _keyFunc(IDataReader Reader)
-        {
-            Key = Reader.ReadUTF();
+            Key = reader.ReadUTF();
         }
     }
 }

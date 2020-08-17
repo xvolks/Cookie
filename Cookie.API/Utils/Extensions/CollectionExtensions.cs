@@ -208,7 +208,7 @@ namespace Cookie.API.Utils.Extensions
 
         public static TValue GetOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key)
         {
-            return dict.TryGetValue(key, out TValue val) ? val : default(TValue);
+            return dict.TryGetValue(key, out var val) ? val : default(TValue);
         }
 
         public static void MoveToLast<T>(this IList<T> list)

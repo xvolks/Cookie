@@ -4,20 +4,19 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Character.Choice
 {
     public class CharactersListMessage : BasicCharactersListMessage
     {
-        public new const uint ProtocolId = 151;
-
-        public bool HasStartupActions;
-
-        public CharactersListMessage()
-        {
-        }
+        public new const ushort ProtocolId = 151;
 
         public CharactersListMessage(bool hasStartupActions)
         {
             HasStartupActions = hasStartupActions;
         }
 
-        public override uint MessageID => ProtocolId;
+        public CharactersListMessage()
+        {
+        }
+
+        public override ushort MessageID => ProtocolId;
+        public bool HasStartupActions { get; set; }
 
         public override void Serialize(IDataWriter writer)
         {

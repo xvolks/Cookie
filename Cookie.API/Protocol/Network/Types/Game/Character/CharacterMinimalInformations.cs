@@ -4,19 +4,18 @@ namespace Cookie.API.Protocol.Network.Types.Game.Character
 {
     public class CharacterMinimalInformations : CharacterBasicMinimalInformations
     {
-        public new const short ProtocolId = 110;
-
-        public CharacterMinimalInformations()
-        {
-        }
+        public new const ushort ProtocolId = 110;
 
         public CharacterMinimalInformations(byte level)
         {
             Level = level;
         }
 
-        public override short TypeID => ProtocolId;
+        public CharacterMinimalInformations()
+        {
+        }
 
+        public override ushort TypeID => ProtocolId;
         public byte Level { get; set; }
 
         public override void Serialize(IDataWriter writer)

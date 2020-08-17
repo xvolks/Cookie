@@ -5,6 +5,6 @@ namespace Cookie.API.Network
 {
     public interface IMessageBuilder
     {
-        NetworkMessage BuildMessage(uint messageid, IDataReader reader);
+        NetworkMessage BuildMessage(ushort messageid, IDataReader reader);
     }
 }

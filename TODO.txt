@@ -1,5 +1,4 @@
 ﻿TODO (Par ordre de priorité):
-- Revoir les D2O
-- Créer un Protocol Builder
+- Revoir les D2O (WIP By TheFalcon)
 - Améliorer la gestion du "Disconnect" dans le client.
 - Ajouter les méthodes Start et Stop dans le client dans le but de pouvoir déconnecté/connecté le client plus librement

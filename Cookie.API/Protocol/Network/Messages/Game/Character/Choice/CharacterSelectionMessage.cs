@@ -4,29 +4,28 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Character.Choice
 {
     public class CharacterSelectionMessage : NetworkMessage
     {
-        public const uint ProtocolId = 152;
+        public const ushort ProtocolId = 152;
+
+        public CharacterSelectionMessage(ulong objectId)
+        {
+            ObjectId = objectId;
+        }
 
         public CharacterSelectionMessage()
         {
         }
 
-        public CharacterSelectionMessage(ulong id)
-        {
-            ID = id;
-        }
-
-        public override uint MessageID => ProtocolId;
-
-        public ulong ID { get; set; }
+        public override ushort MessageID => ProtocolId;
+        public ulong ObjectId { get; set; }
 
         public override void Serialize(IDataWriter writer)
         {
-            writer.WriteVarUhLong(ID);
+            writer.WriteVarUhLong(ObjectId);
         }
 
         public override void Deserialize(IDataReader reader)
         {
-            ID = reader.ReadVarUhLong();
+            ObjectId = reader.ReadVarUhLong();
         }
     }
 }

@@ -5,14 +5,7 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Roleplay
 {
     public class BasicAllianceInformations : AbstractSocialGroupInfos
     {
-        public new const short ProtocolId = 419;
-
-        public uint AllianceId;
-        public string AllianceTag;
-
-        public BasicAllianceInformations()
-        {
-        }
+        public new const ushort ProtocolId = 419;
 
         public BasicAllianceInformations(uint allianceId, string allianceTag)
         {
@@ -20,7 +13,13 @@ namespace Cookie.API.Protocol.Network.Types.Game.Context.Roleplay
             AllianceTag = allianceTag;
         }
 
-        public override short TypeID => ProtocolId;
+        public BasicAllianceInformations()
+        {
+        }
+
+        public override ushort TypeID => ProtocolId;
+        public uint AllianceId { get; set; }
+        public string AllianceTag { get; set; }
 
         public override void Serialize(IDataWriter writer)
         {

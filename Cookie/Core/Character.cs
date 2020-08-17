@@ -346,8 +346,8 @@ namespace Cookie.Core
                 var c = message.Characters[0];
                 Logger.Default.Log($"Connection sur le personnage {c.Name}");
                 account.Network.SendToServer(account.Character.IsFirstConnection == false
-                    ? new CharacterSelectionMessage(c.ObjectID)
-                    : new CharacterFirstSelectionMessage(false, c.ObjectID));
+                    ? new CharacterSelectionMessage(c.ObjectId)
+                    : new CharacterFirstSelectionMessage(false) {ObjectId = c.ObjectId});
             }
         }
 
@@ -365,15 +365,15 @@ namespace Cookie.Core
                 Logger.Default.Log("Connexion sur le personnage " + c.Name);
 
                 account.Network.SendToServer(account.Character.IsFirstConnection == false
-                    ? new CharacterSelectionMessage(c.ObjectID)
-                    : new CharacterFirstSelectionMessage(false, c.ObjectID));
+                    ? new CharacterSelectionMessage(c.ObjectId)
+                    : new CharacterFirstSelectionMessage(false) {ObjectId = c.ObjectId});
             }
         }
 
         private void HandleCharacterSelectedSuccessMessage(IAccount account, CharacterSelectedSuccessMessage message)
         {
             account.Character.Level = message.Infos.Level;
-            account.Character.Id = message.Infos.ObjectID;
+            account.Character.Id = message.Infos.ObjectId;
             account.Character.Name = message.Infos.Name;
             account.Character.Sex = message.Infos.Sex;
             account.Character.Look = message.Infos.EntityLook;
@@ -390,7 +390,7 @@ namespace Cookie.Core
             // Si nous ne pouvons pas créer de personnages, nous arrêtons la fonction
             if (!message.YesYouCan) return;
             // Sinon, nous choisissons une classe au hasard
-            var breedId = (byte) Randomize.GetRandomNumber(1, 18);
+            var breedId = (sbyte) Randomize.GetRandomNumber(1, 18);
             // Nous récupérons les informations de la classe avec les D2O
             var breed = ObjectDataManager.Instance.Get<Breed>(breedId);
             // Nous récupérons la couleur de base de la classe, et nous faisons un léger random sur la couleur
@@ -402,9 +402,9 @@ namespace Cookie.Core
             // Nous selectionnons au hasard un cosmetics dans la liste
             var head = headsList[Randomize.GetRandomNumber(0, 7)];
             //// Nous envoyons la requête pour créer le personnage
-            var test = new CharacterCreationRequestMessage(account.Character.Name, breedId, false, breedColors,
+            var ccrm = new CharacterCreationRequestMessage(account.Character.Name, breedId, false, breedColors,
                 (ushort) head.Id);
-            account.Network.SendToServer(test);
+            account.Network.SendToServer(ccrm);
         }
 
         private void HandleCharacterCreationResultMessage(IAccount account, CharacterCreationResultMessage message)

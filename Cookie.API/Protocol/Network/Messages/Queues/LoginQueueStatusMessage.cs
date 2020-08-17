@@ -4,14 +4,7 @@ namespace Cookie.API.Protocol.Network.Messages.Queues
 {
     public class LoginQueueStatusMessage : NetworkMessage
     {
-        public const uint ProtocolId = 10;
-
-        public ushort Position;
-        public ushort Total;
-
-        public LoginQueueStatusMessage()
-        {
-        }
+        public const ushort ProtocolId = 10;
 
         public LoginQueueStatusMessage(ushort position, ushort total)
         {
@@ -19,12 +12,18 @@ namespace Cookie.API.Protocol.Network.Messages.Queues
             Total = total;
         }
 
-        public override uint MessageID => ProtocolId;
+        public LoginQueueStatusMessage()
+        {
+        }
+
+        public override ushort MessageID => ProtocolId;
+        public ushort Position { get; set; }
+        public ushort Total { get; set; }
 
         public override void Serialize(IDataWriter writer)
         {
-            writer.WriteShort((short) Position);
-            writer.WriteShort((short) Total);
+            writer.WriteUShort(Position);
+            writer.WriteUShort(Total);
         }
 
         public override void Deserialize(IDataReader reader)

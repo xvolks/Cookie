@@ -4,19 +4,18 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
 {
     public class MapInformationsRequestMessage : NetworkMessage
     {
-        public const uint ProtocolId = 225;
-
-        public MapInformationsRequestMessage()
-        {
-        }
+        public const ushort ProtocolId = 225;
 
         public MapInformationsRequestMessage(int mapId)
         {
             MapId = mapId;
         }
 
-        public override uint MessageID => ProtocolId;
+        public MapInformationsRequestMessage()
+        {
+        }
 
+        public override ushort MessageID => ProtocolId;
         public int MapId { get; set; }
 
         public override void Serialize(IDataWriter writer)
@@ -25,11 +24,6 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay
         }
 
         public override void Deserialize(IDataReader reader)
-        {
-            _mapIdFunc(reader);
-        }
-
-        private void _mapIdFunc(IDataReader reader)
         {
             MapId = reader.ReadInt();
         }

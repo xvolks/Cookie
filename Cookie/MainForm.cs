@@ -15,6 +15,7 @@ using Cookie.API.Utils;
 using Cookie.API.Utils.Enums;
 using Cookie.Commands.Managers;
 using Cookie.FullSocket;
+using Cookie.Game.Chat;
 using Cookie.Properties;
 using Cookie.Utils.Configurations;
 using MoonSharp.Interpreter;
@@ -24,6 +25,8 @@ namespace Cookie
     public partial class MainForm : Form
     {
         private IAccount _account;
+
+        private readonly History _chatHistory = new History();
 
         private FullSocket.FullSocket _fullSocket;
 
@@ -82,6 +85,7 @@ namespace Cookie
                     _fullSocket = new FullSocket.FullSocket(fullSocketConfiguration, messageReceiver);
                     var dispatcherTask = new DispatcherTask(new MessageDispatcher(), _fullSocket);
                     _account = _fullSocket.Connect(accountToConnect.Username, accountToConnect.Password, this);
+                    LogWelcomeMessage();
                 });
             }
             catch (Exception exception)
@@ -89,6 +93,17 @@ namespace Cookie
                 MessageBox.Show(exception.Message);
                 Environment.Exit(-1);
             }
+        }
+
+        private void LogWelcomeMessage()
+        {
+            Logger.Default.Log("===============================", LogMessageType.Help);
+            Logger.Default.Log("||                                                                              ||",
+                LogMessageType.Help);
+            Logger.Default.Log("||    Type '.help' to see all available commands !     ||", LogMessageType.Help);
+            Logger.Default.Log("||                                                                              ||",
+                LogMessageType.Help);
+            Logger.Default.Log("===============================", LogMessageType.Help);
         }
 
         private void Logger_OnLog(string log, LogMessageType logType)
@@ -99,6 +114,7 @@ namespace Cookie
             {
                 LogTextBox.SelectionStart = LogTextBox.Text.Length;
                 LogTextBox.SelectionLength = 0;
+                var text = $"[{DateTime.Now.ToLongTimeString()}] {log}";
 
                 switch (logType)
                 {
@@ -159,12 +175,18 @@ namespace Cookie
                     case LogMessageType.Error:
                         LogTextBox.SelectionColor = ColorTranslator.FromHtml("#FF0033");
                         break;
+                    case LogMessageType.Help:
+                        LogTextBox.SelectionColor = ColorTranslator.FromHtml("#2DB796");
+                        break;
+                    case LogMessageType.Command:
+                        LogTextBox.SelectionColor = ColorTranslator.FromHtml("#969696");
+                        text = $"$-> [{_chatHistory.Total()}] {log}";
+                        break;
                     default:
                         LogTextBox.SelectionColor = ColorTranslator.FromHtml("#E8890D");
                         break;
                 }
 
-                var text = $"[{DateTime.Now.ToLongTimeString()}] {log}";
                 LogTextBox.SelectedText = text + "\r\n";
                 LogTextBox.SelectionColor = LogTextBox.ForeColor;
                 LogTextBox.ScrollToCaret();
@@ -195,6 +217,18 @@ namespace Cookie
                 e.SuppressKeyPress = true;
                 HandleSendChatMessage();
             }
+            else if (e.KeyCode == Keys.Up)
+            {
+                e.SuppressKeyPress = true;
+                ChatTextBox.Text = _chatHistory.Prev();
+                ChatTextBox.SelectionStart = ChatTextBox.Text.Length;
+            }
+            else if (e.KeyCode == Keys.Down)
+            {
+                e.SuppressKeyPress = true;
+                ChatTextBox.Text = _chatHistory.Next();
+                ChatTextBox.SelectionStart = ChatTextBox.Text.Length;
+            }
         }
 
         private void HandleSendChatMessage()
@@ -206,6 +240,8 @@ namespace Cookie
             }
             else
             {
+                _chatHistory.Add(ChatTextBox.Text);
+                Logger.Default.Log(ChatTextBox.Text, LogMessageType.Command);
                 if (ChatTextBox.Text.Length > 2 && ChatTextBox.Text[0] == '.')
                 {
                     var txt = ChatTextBox.Text.Substring(1);
@@ -226,70 +262,64 @@ namespace Cookie
 
                 if (ChatTextBox.Text.Length < 2)
                 {
-                    _account.Network.SendToServer(new ChatClientMultiMessage(
-                        (byte) ChatChannelsMultiEnum.CHANNEL_GLOBAL,
-                        ChatTextBox.Text));
+                    var ccmm = new ChatClientMultiMessage
+                    {
+                        Channel = (byte) ChatChannelsMultiEnum.CHANNEL_GLOBAL,
+                        Content = ChatTextBox.Text
+                    };
+
+                    _account.Network.SendToServer(ccmm);
                 }
                 else
                 {
                     var txt = ChatTextBox.Text.Substring(0, 2);
                     var chattxt = ChatTextBox.Text.Replace(txt, "");
+
+                    var ccmm = new ChatClientMultiMessage
+                    {
+                        Channel = (byte) ChatChannelsMultiEnum.CHANNEL_GLOBAL,
+                        Content = chattxt
+                    };
+
                     switch (txt)
                     {
                         case "/g":
                             if (string.IsNullOrWhiteSpace(chattxt))
-                                _account.Network.SendToServer(new ChatClientMultiMessage(
-                                    (byte) ChatChannelsMultiEnum.CHANNEL_GUILD,
-                                    chattxt));
+                                ccmm.Channel = (byte) ChatChannelsMultiEnum.CHANNEL_GUILD;
                             break;
                         case "/s":
                             if (string.IsNullOrWhiteSpace(chattxt))
-                                _account.Network.SendToServer(new ChatClientMultiMessage(
-                                    (byte) ChatChannelsMultiEnum.CHANNEL_GLOBAL,
-                                    chattxt));
+                                ccmm.Channel = (byte) ChatChannelsMultiEnum.CHANNEL_GLOBAL;
                             break;
                         case "/t":
                             if (string.IsNullOrWhiteSpace(chattxt))
-                                _account.Network.SendToServer(new ChatClientMultiMessage(
-                                    (byte) ChatChannelsMultiEnum.CHANNEL_TEAM,
-                                    chattxt));
+                                ccmm.Channel = (byte) ChatChannelsMultiEnum.CHANNEL_TEAM;
                             break;
                         case "/a":
                             if (string.IsNullOrWhiteSpace(chattxt))
-                                _account.Network.SendToServer(new ChatClientMultiMessage(
-                                    (byte) ChatChannelsMultiEnum.CHANNEL_ALLIANCE,
-                                    chattxt));
+                                ccmm.Channel = (byte) ChatChannelsMultiEnum.CHANNEL_ALLIANCE;
                             break;
                         case "/p":
                             if (string.IsNullOrWhiteSpace(chattxt))
-                                _account.Network.SendToServer(new ChatClientMultiMessage(
-                                    (byte) ChatChannelsMultiEnum.CHANNEL_PARTY,
-                                    chattxt));
+                                ccmm.Channel = (byte) ChatChannelsMultiEnum.CHANNEL_PARTY;
                             break;
                         case "/k":
                             if (string.IsNullOrWhiteSpace(chattxt))
-                                _account.Network.SendToServer(new ChatClientMultiMessage(
-                                    (byte) ChatChannelsMultiEnum.CHANNEL_ARENA,
-                                    chattxt));
+                                ccmm.Channel = (byte) ChatChannelsMultiEnum.CHANNEL_ARENA;
                             break;
                         case "/b":
                             if (string.IsNullOrWhiteSpace(chattxt))
-                                _account.Network.SendToServer(new ChatClientMultiMessage(
-                                    (byte) ChatChannelsMultiEnum.CHANNEL_SALES,
-                                    chattxt));
+                                ccmm.Channel = (byte) ChatChannelsMultiEnum.CHANNEL_SALES;
                             break;
                         case "/r":
                             if (string.IsNullOrWhiteSpace(chattxt))
-                                _account.Network.SendToServer(new ChatClientMultiMessage(
-                                    (byte) ChatChannelsMultiEnum.CHANNEL_SEEK,
-                                    chattxt));
+                                ccmm.Channel = (byte) ChatChannelsMultiEnum.CHANNEL_SEEK;
                             break;
                         default:
-                            _account.Network.SendToServer(new ChatClientMultiMessage(
-                                (byte) ChatChannelsMultiEnum.CHANNEL_GLOBAL,
-                                ChatTextBox.Text));
+                            ccmm.Channel = (byte) ChatChannelsMultiEnum.CHANNEL_GLOBAL;
                             break;
                     }
+                    _account.Network.SendToServer(ccmm);
                     ChatTextBox.BeginInvoke(new Action(() => ChatTextBox.Text = ""));
                 }
             }

@@ -23,9 +23,9 @@ namespace Cookie.Game.BidHouse
     public class BidHouse : IBidHouse
     {
         private readonly IAccount _account;
+        private readonly AutoResetEvent _bidHouseActionEvent = new AutoResetEvent(false);
         private readonly List<uint> _itemListInBidHouse;
         private readonly List<uint> _itemTypesInBidHouse;
-        private readonly AutoResetEvent _bidHouseActionEvent = new AutoResetEvent(false);
 
         private bool _bidHouseBuyDialogIsLoaded;
         private bool _bidHouseSellDialogIsLoaded;

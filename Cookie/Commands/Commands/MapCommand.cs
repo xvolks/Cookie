@@ -10,6 +10,7 @@ namespace Cookie.Commands.Commands
     {
         private const string CommandSuffix = "[Map]";
         public string CommandName => "map";
+        public string ArgsName => "string [id|entities]";
 
         public void OnCommand(IAccount account, string[] args)
         {
@@ -24,7 +25,7 @@ namespace Cookie.Commands.Commands
                     PrintEntities(account);
                     break;
                 default:
-                    PrintError("Argument inconnue !");
+                    PrintError("Argument inconnu !");
                     break;
             }
         }

@@ -263,7 +263,7 @@ namespace Cookie.API.Gamedata.D2i
 
         public bool IsNumeric(string input)
         {
-            return int.TryParse(input, out int test);
+            return int.TryParse(input, out var test);
         }
 
 

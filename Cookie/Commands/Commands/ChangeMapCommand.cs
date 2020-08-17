@@ -10,6 +10,7 @@ namespace Cookie.Commands.Commands
     public class ChangeMapCommand : ICommand
     {
         public string CommandName => "changemap";
+        public string ArgsName => "string [top|up|left|right|bottom|bot]";
 
         public void OnCommand(IAccount account, string[] args)
         {

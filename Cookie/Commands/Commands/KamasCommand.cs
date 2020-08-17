@@ -7,6 +7,7 @@ namespace Cookie.Commands.Commands
     public class KamasCommand : ICommand
     {
         public string CommandName => "kamas";
+        public string ArgsName => "void";
 
         public void OnCommand(IAccount account, string[] args)
         {

@@ -6,39 +6,38 @@ namespace Cookie.API.Protocol.Network.Messages.Game.Approach
 {
     public class ServerSessionConstantsMessage : NetworkMessage
     {
-        public const uint ProtocolId = 6434;
-
-        public List<ServerSessionConstant> Variables;
-
-        public ServerSessionConstantsMessage()
-        {
-        }
+        public const ushort ProtocolId = 6434;
 
         public ServerSessionConstantsMessage(List<ServerSessionConstant> variables)
         {
             Variables = variables;
         }
 
-        public override uint MessageID => ProtocolId;
+        public ServerSessionConstantsMessage()
+        {
+        }
+
+        public override ushort MessageID => ProtocolId;
+        public List<ServerSessionConstant> Variables { get; set; }
 
         public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort((short) Variables.Count);
-            for (var i = 0; i < Variables.Count; i++)
+            for (var variablesIndex = 0; variablesIndex < Variables.Count; variablesIndex++)
             {
-                var objectToSend = Variables[i];
-                writer.WriteShort(objectToSend.TypeID);
+                var objectToSend = Variables[variablesIndex];
+                writer.WriteUShort(objectToSend.TypeID);
                 objectToSend.Serialize(writer);
             }
         }
 
         public override void Deserialize(IDataReader reader)
         {
-            int length = reader.ReadUShort();
+            var variablesCount = reader.ReadUShort();
             Variables = new List<ServerSessionConstant>();
-            for (var i = 0; i < length; i++)
+            for (var variablesIndex = 0; variablesIndex < variablesCount; variablesIndex++)
             {
-                var objectToAdd = new ServerSessionConstant(reader.ReadUShort());
+                var objectToAdd = ProtocolTypeManager.GetInstance<ServerSessionConstant>(reader.ReadUShort());
                 objectToAdd.Deserialize(reader);
                 Variables.Add(objectToAdd);
             }
