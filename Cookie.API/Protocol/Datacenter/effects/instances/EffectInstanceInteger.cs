@@ -8,5 +8,6 @@ namespace Cookie.API.Datacenter
     public class EffectInstanceInteger : EffectInstance
     {
         public int Value;
+        public int SpellId;
     }
 }

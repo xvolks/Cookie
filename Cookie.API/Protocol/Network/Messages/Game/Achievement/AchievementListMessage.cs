@@ -8,48 +8,44 @@
     {
         public const ushort ProtocolId = 6205;
         public override ushort MessageID => ProtocolId;
-        public List<ushort> FinishedAchievementsIds { get; set; }
-        public List<AchievementRewardable> RewardableAchievements { get; set; }
-
-        public AchievementListMessage(List<ushort> finishedAchievementsIds, List<AchievementRewardable> rewardableAchievements)
+        public List<AchievementAchieved> FinishedAchievementsIds { get; set; }
+        
+        
+        public AchievementListMessage(List<AchievementAchieved> finishedAchievementsIds)
         {
             FinishedAchievementsIds = finishedAchievementsIds;
-            RewardableAchievements = rewardableAchievements;
+            
         }
 
-        public AchievementListMessage() { }
+        public AchievementListMessage()  {
+            FinishedAchievementsIds = new List<AchievementAchieved>();
+            
+        }
 
         public override void Serialize(IDataWriter writer)
         {
             writer.WriteShort((short)FinishedAchievementsIds.Count);
             for (var finishedAchievementsIdsIndex = 0; finishedAchievementsIdsIndex < FinishedAchievementsIds.Count; finishedAchievementsIdsIndex++)
             {
-                writer.WriteVarUhShort(FinishedAchievementsIds[finishedAchievementsIdsIndex]);
-            }
-            writer.WriteShort((short)RewardableAchievements.Count);
-            for (var rewardableAchievementsIndex = 0; rewardableAchievementsIndex < RewardableAchievements.Count; rewardableAchievementsIndex++)
-            {
-                var objectToSend = RewardableAchievements[rewardableAchievementsIndex];
-                objectToSend.Serialize(writer);
+                // todo
+                writer.WriteShort((short)(FinishedAchievementsIds[finishedAchievementsIdsIndex]).TypeID);
+                FinishedAchievementsIds[finishedAchievementsIdsIndex].Serialize(writer);
             }
         }
-
         public override void Deserialize(IDataReader reader)
         {
+            ushort Id = 0;
+            AchievementAchieved achievement;
             var finishedAchievementsIdsCount = reader.ReadUShort();
-            FinishedAchievementsIds = new List<ushort>();
             for (var finishedAchievementsIdsIndex = 0; finishedAchievementsIdsIndex < finishedAchievementsIdsCount; finishedAchievementsIdsIndex++)
             {
-                FinishedAchievementsIds.Add(reader.ReadVarUhShort());
+                Id = reader.ReadUShort();
+                achievement = ProtocolTypeManager.GetInstance<AchievementAchieved>(Id);
+                achievement.Deserialize(reader);
+                FinishedAchievementsIds.Add(achievement);
             }
-            var rewardableAchievementsCount = reader.ReadUShort();
-            RewardableAchievements = new List<AchievementRewardable>();
-            for (var rewardableAchievementsIndex = 0; rewardableAchievementsIndex < rewardableAchievementsCount; rewardableAchievementsIndex++)
-            {
-                var objectToAdd = new AchievementRewardable();
-                objectToAdd.Deserialize(reader);
-                RewardableAchievements.Add(objectToAdd);
-            }
+            
+           
         }
 
     }

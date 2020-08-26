@@ -29,6 +29,7 @@ namespace Cookie.API.Protocol.Network.Types.Connection
         public byte Status { get; set; }
         public byte Completion { get; set; }
         public bool IsSelectable { get; set; }
+        public bool IsMonoAccount { get; set; }
         public byte CharactersCount { get; set; }
         public byte CharactersSlots { get; set; }
         public double Date { get; set; }
@@ -47,11 +48,14 @@ namespace Cookie.API.Protocol.Network.Types.Connection
 
         public override void Deserialize(IDataReader reader)
         {
+            var flag = reader.ReadByte();
+            IsMonoAccount = BooleanByteWrapper.GetFlag(flag,0);
+            IsSelectable = BooleanByteWrapper.GetFlag(flag, 1);
             ObjectId = reader.ReadVarUhShort();
             Type = reader.ReadSByte();
             Status = reader.ReadByte();
             Completion = reader.ReadByte();
-            IsSelectable = reader.ReadBoolean();
+            
             CharactersCount = reader.ReadByte();
             CharactersSlots = reader.ReadByte();
             Date = reader.ReadDouble();
