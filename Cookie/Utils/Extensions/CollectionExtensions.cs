@@ -1,4 +1,5 @@
-﻿using System;
+﻿using sun.tools.tree;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -220,6 +221,23 @@ namespace Cookie.Utils.Extensions
             T item = list.First();
             list.RemoveAt(0);
             list.Add(item);
+        }
+        public static void AddRange<T>(this ICollection<T> destination,
+                               IEnumerable<T> source)
+        {
+            List<T> list = destination as List<T>;
+
+            if (list != null)
+            {
+                list.AddRange(source);
+            }
+            else
+            {
+                foreach (T item in source)
+                {
+                    destination.Add(item);
+                }
+            }
         }
     }
 }

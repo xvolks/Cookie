@@ -27,5 +27,7 @@ namespace Cookie.Datacenter
         public int IconVisibilityMask;
         public Boolean InvulnerableMelee;
         public Boolean InvulnerableRange;
+        public Boolean CantTackle;
+        public Boolean CantBeTackled;
     }
 }

@@ -1,5 +1,5 @@
 ﻿using Cookie.Core;
-using Cookie.Protocol.Network.Messages.Game.Context.Roleplay.Fight.Arena;
+using Cookie.Protocol.Network.Messages;
 
 namespace Cookie.Handlers.Game.Context.Roleplay.Fight.Arena
 {

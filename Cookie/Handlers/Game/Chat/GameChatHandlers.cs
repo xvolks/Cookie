@@ -1,6 +1,6 @@
 ﻿using Cookie.Core;
 using Cookie.Protocol.Enums;
-using Cookie.Protocol.Network.Messages.Game.Chat;
+using Cookie.Protocol.Network.Messages;
 
 namespace Cookie.Handlers.Game.Chat
 {

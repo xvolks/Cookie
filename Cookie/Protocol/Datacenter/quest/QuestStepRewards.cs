@@ -19,5 +19,9 @@ namespace Cookie.Datacenter
         public List<uint> EmotesReward;
         public List<uint> JobsReward;
         public List<uint> SpellsReward;
+        public double KamasRatio;
+        public double ExperienceRatio;
+        public Boolean KamasScaleWithPlayerLevel;
+        public List<int> TitlesReward;
     }
 }

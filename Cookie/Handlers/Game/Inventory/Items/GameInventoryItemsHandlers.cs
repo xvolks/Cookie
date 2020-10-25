@@ -1,5 +1,5 @@
 ﻿using Cookie.Core;
-using Cookie.Protocol.Network.Messages.Game.Inventory.Items;
+using Cookie.Protocol.Network.Messages;
 using Cookie.Utils.Extensions;
 using System.Linq;
 
@@ -7,18 +7,18 @@ namespace Cookie.Handlers.Game.Inventory.Items
 {
     public class GameInventoryItemsHandlers
     {
-        [MessageHandler(InventoryContentAndPresetMessage.ProtocolId)]
-        private void InventoryContentAndPresetMessageHandler(DofusClient Client, InventoryContentAndPresetMessage Message)
-        {
-            Client.Account.Character.Stats.Kamas = Message.Kamas;
-            Client.Account.Character.Inventory = Message.Objects;
-        }
+        //[MessageHandler(InventoryContentAndPresetMessage.ProtocolId)]
+        //private void InventoryContentAndPresetMessageHandler(DofusClient Client, InventoryContentAndPresetMessage Message)
+        //{
+        //    Client.Account.Character.Stats.Kamas = Message.Kamas;
+        //    Client.Account.Character.Inventory = Message.Objects;
+        //}
 
         [MessageHandler(InventoryContentMessage.ProtocolId)]
         private void InventoryContentMessageHandler(DofusClient Client, InventoryContentMessage Message)
         {
             Client.Account.Character.Stats.Kamas = Message.Kamas;
-            Client.Account.Character.Inventory = Message.Objects;
+            Client.Account.Character.Inventory = Message.Objects.ToList();
         }
 
         [MessageHandler(InventoryWeightMessage.ProtocolId)]
@@ -39,9 +39,9 @@ namespace Cookie.Handlers.Game.Inventory.Items
         {
             Client.Account.Character.Inventory.ForEach(Object =>
             {
-                if (Object.ObjectUID == Message.Object.ObjectUID)
+                if (Object.ObjectUID == Message.Object_.ObjectUID)
                 {
-                    Object = Message.Object;
+                    Object = Message.Object_;
                     return;
                 }
             });
@@ -50,13 +50,13 @@ namespace Cookie.Handlers.Game.Inventory.Items
         [MessageHandler(ObjectAddedMessage.ProtocolId)]
         private void ObjectAddedMessageHandler(DofusClient Client, ObjectAddedMessage Message)
         {
-            Client.Account.Character.Inventory.Add(Message.Object);
+            Client.Account.Character.Inventory.Add(Message.Object_);
         }
 
         [MessageHandler(ObjectsAddedMessage.ProtocolId)]
         private void ObjectsAddedMessageHandler(DofusClient Client, ObjectsAddedMessage Message)
         {
-            Client.Account.Character.Inventory.AddRange(Message.Object);
+            Client.Account.Character.Inventory.AddRange(Message.Object_);
         }
 
         [MessageHandler(ObjectDeletedMessage.ProtocolId)]
@@ -76,6 +76,12 @@ namespace Cookie.Handlers.Game.Inventory.Items
 
         [MessageHandler(ObjectQuantityMessage.ProtocolId)]
         private void ObjectQuantityMessageHandler(DofusClient Client, ObjectQuantityMessage Message)
+        {
+            //
+        }
+
+        [MessageHandler(ObjectMovementMessage.ProtocolId)]
+        private void ObjectMovementMessageHandler(DofusClient Client, ObjectMovementMessage Message)
         {
             //
         }

@@ -13,5 +13,8 @@ namespace Cookie.Datacenter
         public const String MODULE = "ServerGameTypes";
         public int Id;
         public uint NameId;
+        public Boolean SelectableByPlayer;
+        public Cookie.Gamedata.I18n.I18nDataManager RulesId;
+        public Cookie.Gamedata.I18n.I18nDataManager DescriptionId;
     }
 }

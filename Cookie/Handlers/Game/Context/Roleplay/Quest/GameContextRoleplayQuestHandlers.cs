@@ -1,5 +1,5 @@
 ﻿using Cookie.Core;
-using Cookie.Protocol.Network.Messages.Game.Context.Roleplay.Quest;
+using Cookie.Protocol.Network.Messages;
 
 namespace Cookie.Handlers.Game.Context.Roleplay.Quest
 {

@@ -14,5 +14,6 @@ namespace Cookie.Datacenter
         public uint Id;
         public uint MapId;
         public uint SubAreaId;
+        public Boolean Activated;
     }
 }

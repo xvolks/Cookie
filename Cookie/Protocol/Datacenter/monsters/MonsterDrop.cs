@@ -20,5 +20,7 @@ namespace Cookie.Datacenter
         public float PercentDropForGrade5;
         public int Count;
         public Boolean HasCriteria;
+        public String Criteria;
+        public List<double> SpecificDropCoefficient;
     }
 }

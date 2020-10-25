@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26430.6
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30523.141
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cookie", "Cookie\Cookie.csproj", "{C10BA920-E521-4D99-9913-2885152A96DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proxy", "Proxy\Proxy.csproj", "{D075D6EC-45D9-4C50-B76E-4630FC3E2A29}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,8 +17,15 @@ Global
 		{C10BA920-E521-4D99-9913-2885152A96DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C10BA920-E521-4D99-9913-2885152A96DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C10BA920-E521-4D99-9913-2885152A96DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D075D6EC-45D9-4C50-B76E-4630FC3E2A29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D075D6EC-45D9-4C50-B76E-4630FC3E2A29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D075D6EC-45D9-4C50-B76E-4630FC3E2A29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D075D6EC-45D9-4C50-B76E-4630FC3E2A29}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F7C67B55-C5B0-47E2-991B-44DFE43DE766}
 	EndGlobalSection
 EndGlobal

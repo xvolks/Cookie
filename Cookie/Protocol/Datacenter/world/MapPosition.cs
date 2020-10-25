@@ -24,5 +24,9 @@ namespace Cookie.Datacenter
         public int WorldMap;
         public Boolean HasPriorityOnWorldmap;
         public Boolean IsUnderWater;
+        public Boolean AllowPrism;
+        public Boolean IsTransition;
+        public uint TacticalModeTemplateId;
+        public Boolean HasPublicPaddock;
     }
 }

@@ -9,8 +9,8 @@ namespace Cookie
     public static class ProtocolTypeManager
     {
 
-        private static readonly Dictionary<short, Type> types = new Dictionary<short, Type>(200);
-        private static readonly Dictionary<short, Func<object>> typesConstructors = new Dictionary<short, Func<object>>(200);
+        private static readonly Dictionary<short, Type> types = new Dictionary<short, Type>(1000);
+        private static readonly Dictionary<short, Func<object>> typesConstructors = new Dictionary<short, Func<object>>(1000);
         public static void Initialize()
         {
             Assembly asm = Assembly.GetAssembly(typeof(ProtocolTypeManager));

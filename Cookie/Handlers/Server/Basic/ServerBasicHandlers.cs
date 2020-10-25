@@ -1,5 +1,5 @@
 ﻿using Cookie.Core;
-using Cookie.Protocol.Network.Messages.Server.Basic;
+using Cookie.Protocol.Network.Messages;
 
 namespace Cookie.Handlers.Server.Basic
 {
@@ -11,7 +11,7 @@ namespace Cookie.Handlers.Server.Basic
             if (Message.MsgId == 13)
             {
                 Client.Logger.Log("Le serveur est actuellement en maintenance. Vous pouvez consulter la rubrique Etats des serveurs du forum officiel, ou sur le site du Support pour plus d'informations. Merci de votre compréhension.", LogMessageType.Public);
-                Client.Socket.Close();
+                //Client.Disconnect();
             }
         }
     }

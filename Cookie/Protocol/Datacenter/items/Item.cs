@@ -55,5 +55,12 @@ namespace Cookie.Datacenter
         public List<List<int>> ResourcesBySubarea;
         public ItemType Type;
         public uint Weight;
+        public List<int> DropTemporisMonsterIds;
+        public Boolean ObjectIsDisplayOnWeb;
+        public List<int> EvolutiveEffectIds;
+        public bool IsSaleable;
+        public string CraftVisible;
+        public string CraftFeasible;
+        public string Visibility;
     }
 }

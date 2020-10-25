@@ -39,5 +39,13 @@ namespace Cookie.Datacenter
         public Boolean AllIdolsDisabled;
         public Boolean DareAvailable;
         public List<uint> IncompatibleChallenges;
+        public List<int> TemporisDrops;
+        public Boolean CanBeCarried;
+        public Boolean CanUsePortal;
+        public Boolean UseRaceValues;
+        public int AggressiveZoneSize;
+        public int AggressiveLevelDiff;
+        public String AggressiveImmunityCriterion;
+        public int AggressiveAttackDelay;
     }
 }

@@ -1,4 +1,5 @@
-﻿using Cookie.Core;
+﻿using com.sun.xml.@internal.bind.marshaller;
+using Cookie.Core;
 using Cookie.Gamedata.D2o;
 using Cookie.Gamedata.D2p;
 using Cookie.Gamedata.I18n;
@@ -7,7 +8,6 @@ using System;
 using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
 
 namespace Cookie
 {
@@ -36,20 +36,16 @@ namespace Cookie
                 Properties.Settings.Default.DofusPath = DofusPath;
                 Properties.Settings.Default.Save();
 
-                MapsManager.Init(Properties.Settings.Default.DofusPath + @"\app\content\maps");
-                IconsManager.Instance.Initialize(Properties.Settings.Default.DofusPath + @"\app\content\gfx\items");
-                ObjectDataManager.Instance.AddReaders(Properties.Settings.Default.DofusPath + @"\app\data\common");
-                I18nDataManager.Instance.AddReaders(Properties.Settings.Default.DofusPath + @"\app\data\i18n");
+                MapsManager.Init(Properties.Settings.Default.DofusPath + @"\content\maps");
+                IconsManager.Instance.Initialize(Properties.Settings.Default.DofusPath + @"\content\gfx\items");
+                ObjectDataManager.Instance.AddReaders(Properties.Settings.Default.DofusPath + @"\data\common");
+                I18nDataManager.Instance.AddReaders(Properties.Settings.Default.DofusPath + @"\data\i18n");
                 I18nDataManager.Instance.DefaultLanguage = Languages.French;
                 ImageManager.Init(Properties.Settings.Default.DofusPath);
 
             }).ContinueWith(p =>
             {
-                Client = new DofusClient(AccountName, AccountPassword)
-                {
-                    Debug = false
-                };
-
+                Client = new DofusClient(AccountName, AccountPassword);
                 Client.Logger.OnLog += Logger_OnLog;
             });      
         }

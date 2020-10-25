@@ -1,4 +1,7 @@
-﻿namespace Cookie
+﻿using System.Collections;
+using System.Collections.Generic;
+
+namespace Cookie
 {
     public class Account
     {
@@ -14,7 +17,7 @@
         }
 
         public int Id { get; set; }
-        public string Ticket { get; set; }
+        public List<byte> Ticket { get; set; }
         public string Nickname { get; set; }
         public string SecretQuestion { get; set; }
         public double AccountCreation { get; set; }

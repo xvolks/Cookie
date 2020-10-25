@@ -1,5 +1,5 @@
 ﻿using Cookie.Core;
-using Cookie.Protocol.Network.Messages.Game.Character.Stats;
+using Cookie.Protocol.Network.Messages;
 
 namespace Cookie.Handlers.Game.Character.Stats
 {

@@ -1,8 +1,5 @@
 ﻿using Cookie.Gamedata.D2p;
-using Cookie.Protocol.Network.Types.Game.Character.Characteristic;
-using Cookie.Protocol.Network.Types.Game.Character.Restriction;
-using Cookie.Protocol.Network.Types.Game.Data.Items;
-using Cookie.Protocol.Network.Types.Game.Look;
+using Cookie.Protocol.Network.Types;
 using Cookie.Utils.Enums;
 using System.Collections.Generic;
 
@@ -22,13 +19,13 @@ namespace Cookie
 
         public CharacterStatus Status { get; set; }
 
-        public ulong Id { get; set; }
+        public long Id { get; set; }
         public string Name { get; set; }
         public int Level { get; set; }
         public bool Sex { get; set; }
         public CharacterCharacteristicsInformations Stats { get; set; }
         public EntityLook Look { get; set; }
-        public sbyte Breed { get; set; }
+        public byte Breed { get; set; }
 
         public int LifePercentage => (int)(((double)Stats.LifePoints / (double)Stats.MaxLifePoints) * 100);
         public int WeightPercentage => (int)(((double)Weight / (double)MaxWeight) * 100);
@@ -36,15 +33,15 @@ namespace Cookie
         public int XPPercentage => (int)(((double)Stats.Experience / (double)Stats.ExperienceNextLevelFloor) * 100);
 
         public int CellId { get; set; }
-        public int MapId { get; set; }
+        public double MapId { get; set; }
 
-        public uint Weight { get; set; }
-        public uint MaxWeight { get; set; }
+        public int Weight { get; set; }
+        public int MaxWeight { get; set; }
 
         public ActorRestrictionsInformations Restrictions { get; set; }
 
-        public List<ObjectItem> Inventory { get; set; }
-        public List<SpellItem> Spells { get; set; }
+        public ICollection<ObjectItem> Inventory { get; set; }
+        public ICollection<SpellItem> Spells { get; set; }
 
         public string GetSkinUrl(string mode, int orientation, int width, int height, int zoom)
         {

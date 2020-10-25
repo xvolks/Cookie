@@ -33,5 +33,10 @@ namespace Cookie.Datacenter
         public int EffectElement;
         public Boolean RawZoneInit;
         public String RawZone;
+        public int Order;
+        public Boolean VisibleOnTerrain;
+        public Boolean ForClientOnly;
+        public int Dispellable;
+        public int SpellId;
     }
 }

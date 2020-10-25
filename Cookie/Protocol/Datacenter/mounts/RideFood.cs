@@ -10,5 +10,6 @@ namespace Cookie.Datacenter
         public const String MODULE = "RideFood";
         public uint Gid;
         public uint TypeId;
+        public int FamilyId;
     }
 }

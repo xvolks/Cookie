@@ -40,5 +40,7 @@ namespace Cookie.Datacenter
         public List<int> StatesForbidden;
         public List<EffectInstanceDice> Effects;
         public List<EffectInstanceDice> CriticalEffect;
+        public List<int> StatesAuthorized;
+        public List<int> AdditionalEffectsZones;
     }
 }

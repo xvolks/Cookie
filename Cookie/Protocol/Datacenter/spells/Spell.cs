@@ -27,5 +27,8 @@ namespace Cookie.Datacenter
         public Boolean Verbosecast;
         public uint ObtentionLevel;
         public Boolean UseSpellLevelScaling;
+        public String Defaultzone;
+        public Boolean BypassSummoningLimit;
+        public Boolean CanAlwaysTriggerSpells;
     }
 }

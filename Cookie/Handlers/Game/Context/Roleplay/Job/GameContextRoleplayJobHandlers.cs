@@ -1,6 +1,6 @@
 ﻿using Cookie.Core;
 using Cookie.Gamedata;
-using Cookie.Protocol.Network.Messages.Game.Context.Roleplay.Job;
+using Cookie.Protocol.Network.Messages;
 
 namespace Cookie.Handlers.Game.Context.Roleplay.Job
 {

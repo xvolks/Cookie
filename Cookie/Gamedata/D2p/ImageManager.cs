@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace Cookie.Gamedata.D2p
         public static void Init(string DofusPath)
         {
             mDofusPath = DofusPath;
-            foreach (string File in Directory.GetFiles(mDofusPath + "\\app\\content\\gfx\\items\\"))
+            foreach (string File in Directory.GetFiles(mDofusPath + "\\content\\gfx\\items\\"))
             {
                 if (File.Contains("bitmap"))
                 {
@@ -38,10 +39,13 @@ namespace Cookie.Gamedata.D2p
                             string key = readString();
                             int num7 = (int)(readUInt() + num2);
                             int num8 = (int)(readUInt());
-                            DictionnaryItemGFX.Add(key, new int[] {
-								num7,
-								num8
-							});
+                            if (!DictionnaryItemGFX.ContainsKey(key))
+                                DictionnaryItemGFX.Add(key, new int[] {
+                                    num7,
+                                    num8
+                                });
+                            else
+                                Debug.WriteLine(string.Format("Duplicated key \"{0}\" on file \"{1}\"", key, File));
                         }
                         mystream.Close();
                     }

@@ -37,5 +37,8 @@ namespace Cookie.Datacenter
         public int ExploreAchievementId;
         public Boolean IsDiscovered;
         public List<int> Harvestables;
+        public Boolean MountAutoTripAllowed;
+        public Boolean PsiAllowed;
+        public int AssociatedZaapMapId;
     }
 }

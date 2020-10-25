@@ -11,9 +11,8 @@ namespace Cookie
     {
         #region Var
         private Dictionary<uint, MethodHandler> methods;
-        private Queue<NetworkMessage> msgQueue;
-        private Task executionTask;
-        private TimerCore timer;
+        //private Queue<NetworkMessage> msgQueue;
+        //private TimerCore timer;
         private DofusClient client;
         #endregion
 
@@ -22,34 +21,30 @@ namespace Cookie
         {
             this.client = client;
             methods = new Dictionary<uint, MethodHandler>();
-            msgQueue = new Queue<NetworkMessage>();
-            timer = new TimerCore(new Action(Execute), 50, 50);
+            //msgQueue = new Queue<NetworkMessage>();
+            //timer = new TimerCore(new Action(Execute), 50, 15);
         }
         #endregion
 
         #region Private Methods
-        private void Execute()
+        private void Execute(NetworkMessage message)
         {
-            if ((executionTask != null && !executionTask.IsCompleted) || msgQueue.Count <= 0)
-                return; 
-            var actualMessage = msgQueue.Dequeue();
-
             if (client.Debug)
-                client.Logger.Log($"Received: ({actualMessage.MessageID}) - " + actualMessage.ToString().Split('.').Last(), LogMessageType.Community);
+                client.Logger.Log($"Received: ({message.MessageID}) - " + message.ToString().Split('.').Last(), LogMessageType.Community);
 
-            if(methods.ContainsKey(actualMessage.MessageID))
+            if(methods.ContainsKey(message.MessageID))
             {
-                executionTask = Task.Run(() =>
+                Task executionTask = Task.Run(() =>
                 {
-                    methods[actualMessage.MessageID].Invoke(actualMessage, client);
+                    methods[message.MessageID].Invoke(message, client);
                 });
             }
             else
             {
-                executionTask = Task.Run(() =>
+                Task executionTask = Task.Run(() =>
                 {
                     if (client.Debug)
-                        client.Logger.Log("NO HANDLER : " + actualMessage.ToString().Split('.').Last(), LogMessageType.Admin);
+                        client.Logger.Log("NO HANDLER : " + message.MessageID/*.ToString().Split('.').Last()*/, LogMessageType.Admin);
                 });
             }
         }
@@ -96,7 +91,8 @@ namespace Cookie
 
         public void Dispatch(NetworkMessage msg)
         {
-            msgQueue.Enqueue(msg);
+            //msgQueue.Enqueue(msg);
+            Execute(msg);
         }
         #endregion
     }

@@ -19,5 +19,6 @@ namespace Cookie.Datacenter
         public List<uint> Quantities;
         public int JobId;
         public int SkillId;
+        public int Order;
     }
 }

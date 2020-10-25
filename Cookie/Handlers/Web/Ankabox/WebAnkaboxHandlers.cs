@@ -1,5 +1,5 @@
 ﻿using Cookie.Core;
-using Cookie.Protocol.Network.Messages.Web.Ankabox;
+using Cookie.Protocol.Network.Messages;
 
 namespace Cookie.Handlers.Web.Ankabox
 {

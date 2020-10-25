@@ -11,8 +11,8 @@ namespace Cookie
 
         #region Variables
 
-        private static readonly Dictionary<uint, Func<NetworkMessage>> m_constructors = new Dictionary<uint, Func<NetworkMessage>>(800);
-        private static readonly Dictionary<uint, Type> m_messages = new Dictionary<uint, Type>(800);
+        private static readonly Dictionary<uint, Func<NetworkMessage>> m_constructors = new Dictionary<uint, Func<NetworkMessage>>(1000);
+        private static readonly Dictionary<uint, Type> m_messages = new Dictionary<uint, Type>(1000);
 
         #endregion
 
@@ -21,7 +21,7 @@ namespace Cookie
         {
             if (!m_messages.ContainsKey(id))
             {
-                Console.WriteLine(string.Format("INetworkMessage <id:{0}> doesn't exist", id));
+                Console.WriteLine(string.Format("INetworkMessage <id:{0}> doesn't exist <data:{1}>", id, BitConverter.ToString(reader.Data).Replace("-","")));
                 return null;
             }
 
@@ -34,6 +34,7 @@ namespace Cookie
             }
 
             var methode = message.GetType().GetMethod("Deserialize");
+            //Console.WriteLine("Invoked Deserialize({0})",id);
             methode.Invoke(message, new object[1] { reader });
 
             return message;
@@ -41,7 +42,7 @@ namespace Cookie
 
         public static void Initialize()
         {
-            Assembly asm = typeof(Protocol.Network.Messages.Handshake.ProtocolRequired).GetTypeInfo().Assembly;
+            Assembly asm = typeof(Protocol.Network.Messages.ProtocolRequired).GetTypeInfo().Assembly;
 
             foreach (Type type in asm.GetTypes())
             {

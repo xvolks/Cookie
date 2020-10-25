@@ -22,5 +22,6 @@ namespace Cookie.Datacenter
         public uint LevelMax;
         public Boolean IsPartyQuest;
         public String StartCriterion;
+        public Boolean Followable;
     }
 }

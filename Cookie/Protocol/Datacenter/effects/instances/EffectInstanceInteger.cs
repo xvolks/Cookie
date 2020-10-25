@@ -11,5 +11,9 @@ namespace Cookie.Datacenter
     public class EffectInstanceInteger : EffectInstance
     {
         public int Value;
+        public new int Dispellable;
+        public new int SpellId;
+        public new Boolean VisibleOnTerrain;
+        public new Boolean ForClientOnly;
     }
 }

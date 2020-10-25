@@ -1,388 +1,474 @@
 ﻿using Cookie.IO.Types;
+using sun.tools.tree;
 using System;
 using System.IO;
 using System.Text;
+using Int64 = Cookie.Utils.IO.Types.Int64;
 
 namespace Cookie.IO
 {
     public class CustomDataReader : ICustomDataInput, IDisposable
     {
-        private static int INT_SIZE = 32;
+        public const int INT_SIZE = 32;
+        public const int SHORT_SIZE = 16;
+        public const int SHORT_MIN_VALUE = -0x8000;
+        public const int SHORT_MAX_VALUE = 0x7FFF;
+        public const int USHORT_MAX_VALUE = 0x10000;
+        public const int CHUNCK_BIT_SIZE = 7;
+        public static readonly int MAX_ENCODING_LENGHT = (int)Math.Ceiling((double)INT_SIZE / CHUNCK_BIT_SIZE);
+        public const int MASK_10000000 = 0x80;
+        public const int MASK_01111111 = 0x7F;
 
-        private static int SHORT_SIZE = 16;
+        #region Properties
 
-        private static int SHORT_MAX_VALUE = 32767;
+        private BinaryReader m_reader;
 
-        private static int UNSIGNED_SHORT_MAX_VALUE = 65536;
-
-        private static int CHUNCK_BIT_SIZE = 7;
-
-        private static int MAX_ENCODING_LENGTH = (int)Math.Ceiling((double)INT_SIZE / CHUNCK_BIT_SIZE);
-
-        private static int MASK_10000000 = 128;
-
-        private static int MASK_01111111 = 127;
-
-        private IDataReader _data;
-
-        public CustomDataReader()
+        /// <summary>
+        ///   Gets availiable bytes number in the buffer
+        /// </summary>
+        public long BytesAvailable
         {
-            _data = new BigEndianReader();
+            get { return m_reader.BaseStream.Length - m_reader.BaseStream.Position; }
         }
 
-        public CustomDataReader(IDataReader reader)
+        public long Position
         {
-            _data = reader;
+            get
+            {
+                return m_reader.BaseStream.Position;
+            }
         }
 
-        public CustomDataReader(byte[] data)
-        {
-            _data = new BigEndianReader(data);
-        }
 
-        public CustomDataReader(Stream stream)
+        public Stream BaseStream
         {
-            _data = new BigEndianReader(stream);
+            get
+            {
+                return m_reader.BaseStream;
+            }
         }
 
         public byte[] Data
         {
             get
             {
-                return _data.Data;
+                var pos = BaseStream.Position;
+
+                var data = new byte[BaseStream.Length];
+                BaseStream.Position = 0;
+                BaseStream.Read(data, 0, (int)BaseStream.Length);
+
+                BaseStream.Position = pos;
+
+                return data;
             }
+        }
+
+        #endregion
+
+        #region Initialisation
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref = "BigEndianReader" /> class.
+        /// </summary>
+        public CustomDataReader()
+        {
+            m_reader = new BinaryReader(new MemoryStream(), Encoding.UTF8);
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref = "BigEndianReader" /> class.
+        /// </summary>
+        /// <param name = "stream">The stream.</param>
+        public CustomDataReader(Stream stream)
+        {
+            m_reader = new BinaryReader(stream, Encoding.UTF8);
+        }
+
+        /// <summary>
+        ///   Initializes a new instance of the <see cref = "BigEndianReader" /> class.
+        /// </summary>
+        /// <param name = "tab">Memory buffer.</param>
+        public CustomDataReader(byte[] tab)
+        {
+            m_reader = new BinaryReader(new MemoryStream(tab), Encoding.UTF8);
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        /// <summary>
+        ///   Read bytes in big endian format
+        /// </summary>
+        /// <param name = "count"></param>
+        /// <returns></returns>
+        private byte[] ReadBigEndianBytes(int count)
+        {
+            var bytes = new byte[count];
+            int i;
+            for (i = count - 1; i >= 0; i--)
+                bytes[i] = (byte)BaseStream.ReadByte();
+            return bytes;
+        }
+
+        #endregion
+
+        #region Public Method
+
+        public void SetPosition(int position)
+        {
+            BaseStream.Position = position;
         }
 
         public int ReadVarInt()
         {
-            int b = 0;
             int value = 0;
-            int offset = 0;
-            bool hasNext = false;
-            while (offset < INT_SIZE)
+            int size = 0;
+            while (size < INT_SIZE)
             {
-                b = _data.ReadByte();
-                hasNext = (b & MASK_10000000) == MASK_10000000;
-                if (offset > 0)
-                {
-                    value = value + ((b & MASK_01111111) << offset);
-                }
+                var b = ReadByte();
+                bool bit = (b & MASK_10000000) == MASK_10000000;
+                if (size > 0)
+                    value |= ((b & MASK_01111111) << size);
                 else
-                {
-                    value = value + (b & MASK_01111111);
-                }
-                offset = offset + CHUNCK_BIT_SIZE;
-                if (!hasNext)
-                {
+                    value |= (b & MASK_01111111);
+                size += CHUNCK_BIT_SIZE;
+                if (!bit)
                     return value;
-                }
             }
-            throw new Exception("Too much data");
+
+            throw new Exception("Overflow varint : too much data");
         }
 
         public uint ReadVarUhInt()
         {
-            int b = 0;
-            uint value = 0;
-            int offset = 0;
-            bool hasNext = false;
-            while (offset < INT_SIZE)
-            {
-                b = _data.ReadByte();
-                hasNext = (b & MASK_10000000) == MASK_10000000;
-                if (offset > 0)
-                {
-                    value = (uint)(value + ((b & MASK_01111111) << offset));
-                }
-                else
-                {
-                    value = (uint)(value + (b & MASK_01111111));
-                }
-                offset = offset + CHUNCK_BIT_SIZE;
-                if (!hasNext)
-                {
-                    return value;
-                }
-            }
-            throw new Exception("Too much data");
+            return unchecked((uint)ReadVarInt());
         }
 
         public short ReadVarShort()
         {
-            int b = 0;
-            short value = 0;
-            int offset = 0;
-            bool hasNext = false;
-            while (offset < SHORT_SIZE)
+            int value = 0;
+            int size = 0;
+            while (size < SHORT_SIZE)
             {
-                b = _data.ReadByte();
-                hasNext = (b & MASK_10000000) == MASK_10000000;
-                if (offset > 0)
-                {
-                    value = (short)(value + ((b & MASK_01111111) << offset));
-                }
+                var b = ReadByte();
+                bool bit = (b & MASK_10000000) == MASK_10000000;
+                if (size > 0)
+                    value |= ((b & MASK_01111111) << size);
                 else
-                {
-                    value = (short)(value + (b & MASK_01111111));
-                }
-                offset = offset + CHUNCK_BIT_SIZE;
-                if (!hasNext)
+                    value |= (b & MASK_01111111);
+                size += CHUNCK_BIT_SIZE;
+                if (!bit)
                 {
                     if (value > SHORT_MAX_VALUE)
-                    {
-                        value = (short)(value - UNSIGNED_SHORT_MAX_VALUE);
-                    }
-                    return value;
+                        value = value - USHORT_MAX_VALUE;
+
+                    return (short)value;
                 }
             }
-            throw new Exception("Too much data");
+
+            throw new Exception("Overflow varshort : too much data");
         }
 
         public ushort ReadVarUhShort()
         {
-            int b = 0;
-            ushort value = 0;
-            int offset = 0;
-            bool hasNext = false;
-            while (offset < SHORT_SIZE)
-            {
-                b = _data.ReadByte();
-                hasNext = (b & MASK_10000000) == MASK_10000000;
-                if (offset > 0)
-                {
-                    value = (ushort)(value + ((b & MASK_01111111) << offset));
-                }
-                else
-                {
-                    value = (ushort)(value + (b & MASK_01111111));
-                }
-                offset = offset + CHUNCK_BIT_SIZE;
-                if (!hasNext)
-                {
-                    if (value > SHORT_MAX_VALUE)
-                    {
-                        value = (ushort)(value - UNSIGNED_SHORT_MAX_VALUE);
-                    }
-                    return value;
-                }
-            }
-            throw new Exception("Too much data");
+            return Convert.ToUInt16(ReadVarShort());
         }
 
         public long ReadVarLong()
         {
-            return readInt64(_data).toNumber();
+            int low = 0;
+            int high = 0;
+            int size = 0;
+            byte lastByte = 0;
+            while (size < 28)
+            {
+                lastByte = m_reader.ReadByte();
+                if ((lastByte & MASK_10000000) == MASK_10000000)
+                {
+                    low |= ((lastByte & MASK_01111111) << size);
+                    size += 7;
+                }
+                else
+                {
+                    low |= lastByte << size;
+                    return low;
+                }
+            }
+            lastByte = m_reader.ReadByte();
+            if ((lastByte & MASK_10000000) == MASK_10000000)
+            {
+                low |= (lastByte & MASK_01111111) << size;
+                high = (lastByte & MASK_01111111) >> 4;
+                size = 3;
+                while (size < 32)
+                {
+                    lastByte = m_reader.ReadByte();
+                    if ((lastByte & MASK_10000000) == MASK_10000000)
+                        high |= (lastByte & MASK_01111111) << size;
+                    else break;
+                    size += 7;
+                }
+                high |= lastByte << size;
+                return (low & 0xFFFFFFFF) | ((long)high << 32);
+            }
+            low |= lastByte << size;
+            high = lastByte >> 4;
+            return (low & 0xFFFFFFFF) | (long)high << 32;
         }
 
         public ulong ReadVarUhLong()
         {
-            return readUInt64(_data).toNumber();
+            return unchecked((ulong)ReadVarLong());
         }
 
-        public long Position
-        {
-            get { return _data.Position; }
-        }
-
-        public long BytesAvailable
-        {
-            get { return _data.BytesAvailable; }
-        }
-
+        /// <summary>
+        ///   Read a Short from the Buffer
+        /// </summary>
+        /// <returns></returns>
         public short ReadShort()
         {
-            return _data.ReadShort();
+            return BitConverter.ToInt16(ReadBigEndianBytes(2), 0);
         }
 
+        /// <summary>
+        ///   Read a int from the Buffer
+        /// </summary>
+        /// <returns></returns>
         public int ReadInt()
         {
-            return _data.ReadInt();
+            return BitConverter.ToInt32(ReadBigEndianBytes(4), 0);
         }
 
+        /// <summary>
+        ///   Read a long (as Int64) from the Buffer
+        /// </summary>
+        /// <returns></returns>
+        public Int64 ReadInt64()
+        {
+            return Int64.FromNumber(BitConverter.ToInt64(ReadBigEndianBytes(8), 0));
+        }
+
+        /// <summary>
+        ///   Read a long (as Int64) from the Buffer
+        /// </summary>
+        /// <returns></returns>
         public long ReadLong()
         {
-            return _data.ReadLong();
+            return BitConverter.ToInt64(ReadBigEndianBytes(8), 0);
         }
 
+        /// <summary>
+        ///   Read a Float from the Buffer
+        /// </summary>
+        /// <returns></returns>
+        public float ReadFloat()
+        {
+            return BitConverter.ToSingle(ReadBigEndianBytes(4), 0);
+        }
+
+        /// <summary>
+        ///   Read a UShort from the Buffer
+        /// </summary>
+        /// <returns></returns>
+        public ushort ReadUnsignedShort()
+        {
+            return BitConverter.ToUInt16(ReadBigEndianBytes(2), 0);
+        }
+
+        /// <summary>
+        ///   Read a int from the Buffer
+        /// </summary>
+        /// <returns></returns>
+        public UInt32 ReadUnsignedInt()
+        {
+            return BitConverter.ToUInt32(ReadBigEndianBytes(4), 0);
+        }
+
+        /// <summary>
+        ///   Read a long from the Buffer
+        /// </summary>
+        /// <returns></returns>
+        public UInt64 ReadUnsignedLong()
+        {
+            return BitConverter.ToUInt64(ReadBigEndianBytes(8), 0);
+        }
+
+        /// <summary>
+        ///   Read a byte from the Buffer
+        /// </summary>
+        /// <returns></returns>
+        public byte ReadByte()
+        {
+            return m_reader.ReadByte();
+        }
+
+        public sbyte ReadUnsignedByte()
+        {
+            return m_reader.ReadSByte();
+        }
+
+        /// <summary>
+        ///   Returns N bytes from the buffer
+        /// </summary>
+        /// <param name = "n">Number of read bytes.</param>
+        /// <returns></returns>
+        public byte[] ReadBytes(int n)
+        {
+            return m_reader.ReadBytes(n);
+        }
+
+        /// <summary>
+        /// Returns N bytes from the buffer
+        /// </summary>
+        /// <param name = "n">Number of read bytes.</param>
+        /// <returns></returns>
+        public BigEndianReader ReadBytesInNewBigEndianReader(int n)
+        {
+            return new BigEndianReader(m_reader.ReadBytes(n));
+        }
+
+        /// <summary>
+        ///   Read a Boolean from the Buffer
+        /// </summary>
+        /// <returns></returns>
+        public Boolean ReadBoolean()
+        {
+            return m_reader.ReadByte() == 1;
+        }
+
+        /// <summary>
+        ///   Read a Char from the Buffer
+        /// </summary>
+        /// <returns></returns>
+        public Char ReadChar()
+        {
+            return (char)ReadUnsignedShort();
+        }
+
+        /// <summary>
+        ///   Read a Double from the Buffer
+        /// </summary>
+        /// <returns></returns>
+        public Double ReadDouble()
+        {
+            return BitConverter.ToDouble(ReadBigEndianBytes(8), 0);
+        }
+
+        /// <summary>
+        ///   Read a Single from the Buffer
+        /// </summary>
+        /// <returns></returns>
+        public Single ReadSingle()
+        {
+            return BitConverter.ToSingle(ReadBigEndianBytes(4), 0);
+        }
+
+        /// <summary>
+        ///   Read a string from the Buffer
+        /// </summary>
+        /// <returns></returns>
+        public string ReadUTF()
+        {
+            ushort length = ReadUnsignedShort();
+
+            byte[] bytes = ReadBytes(length);
+            return Encoding.UTF8.GetString(bytes);
+        }
+
+        /// <summary>
+        ///   Read a string from the Buffer
+        /// </summary>
+        /// <returns></returns>
+        public string ReadUTF7BitLength()
+        {
+            int length = ReadInt();
+
+            byte[] bytes = ReadBytes(length);
+            return Encoding.UTF8.GetString(bytes);
+        }
+
+        /// <summary>
+        ///   Read a string from the Buffer
+        /// </summary>
+        /// <returns></returns>
+        public string ReadUTFBytes(ushort len)
+        {
+            byte[] bytes = ReadBytes(len);
+
+            return Encoding.UTF8.GetString(bytes);
+        }
+
+        /// <summary>
+        ///   Skip bytes
+        /// </summary>
+        /// <param name = "n"></param>
+        public void SkipBytes(int n)
+        {
+            int i;
+            for (i = 0; i < n; i++)
+            {
+                m_reader.ReadByte();
+            }
+        }
+
+
+        public void Seek(int offset, SeekOrigin seekOrigin)
+        {
+            m_reader.BaseStream.Seek(offset, seekOrigin);
+        }
+
+        /// <summary>
+        ///   Add a bytes array to the end of the buffer
+        /// </summary>
+        public void Add(byte[] data, int offset, int count)
+        {
+            long pos = m_reader.BaseStream.Position;
+
+            m_reader.BaseStream.Position = m_reader.BaseStream.Length;
+            m_reader.BaseStream.Write(data, offset, count);
+            m_reader.BaseStream.Position = pos;
+        }
+
+        #endregion
+
+        #region Dispose
+
+        /// <summary>
+        ///   Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            if (m_reader == null)
+                return;
+
+            m_reader.Dispose();
+            m_reader = null;
+        }
+
+        #endregion
+
+        #region NotImplemented
         public ushort ReadUShort()
         {
-            return _data.ReadUShort();
+            return ReadUnsignedShort();
         }
 
         public uint ReadUInt()
         {
-            return _data.ReadUInt();
+            return ReadUnsignedInt();
         }
 
         public ulong ReadULong()
         {
-            return _data.ReadULong();
-        }
-
-        public byte ReadByte()
-        {
-            return _data.ReadByte();
+            return ReadUnsignedLong();
         }
 
         public sbyte ReadSByte()
         {
-            return _data.ReadSByte();
+            throw new NotImplementedException();
         }
-
-        public byte[] ReadBytes(int n)
-        {
-            return _data.ReadBytes(n);
-        }
-
-        public bool ReadBoolean()
-        {
-            return _data.ReadBoolean();
-        }
-
-        public char ReadChar()
-        {
-            return _data.ReadChar();
-        }
-
-        public double ReadDouble()
-        {
-            return _data.ReadDouble();
-        }
-
-        public float ReadFloat()
-        {
-            return _data.ReadFloat();
-        }
-
-        public string ReadUTF()
-        {
-            return _data.ReadUTF();
-        }
-
-        public string ReadUTFBytes(ushort len)
-        {
-            return _data.ReadUTFBytes(len);
-        }
-
-        public void Seek(int offset, System.IO.SeekOrigin seekOrigin)
-        {
-            _data.Seek(offset, seekOrigin);
-        }
-
-        public void SkipBytes(int n)
-        {
-            _data.SkipBytes(n);
-        }
-
-        public void Dispose()
-        {
-            _data.Dispose();
-        }
-
-        private static CustomInt64 readInt64(IDataReader input)
-        {
-            uint b = 0;
-            CustomInt64 result = new CustomInt64();
-            int i = 0;
-            while (true)
-            {
-                b = input.ReadByte();
-                if (i == 28)
-                {
-                    break;
-                }
-                if (b >= 128)
-                {
-                    result.low = result.low | (b & 127) << i;
-                    i = i + 7;
-                    continue;
-                }
-                result.low = result.low | b << i;
-                return result;
-            }
-
-            if (b >= 128)
-            {
-                b = b & 127;
-                result.low = result.low | b << i;
-                result.high = b >> 4;
-                i = 3;
-                while (true)
-                {
-                    b = input.ReadByte();
-                    if (i < 32)
-                    {
-                        if (b >= 128)
-                        {
-                            result.high = (uint)(result.high | (b & 127) << i);
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
-                    i = i + 7;
-                }
-
-                result.high = (uint)(result.high | (b << i));
-                return result;
-            }
-            result.low = result.low | b << i;
-            result.high = b >> 4;
-            return result;
-        }
-
-        private CustomUInt64 readUInt64(IDataReader input)
-        {
-            uint b = 0;
-            var result = new CustomUInt64();
-            int i = 0;
-            while (true)
-            {
-                b = input.ReadByte();
-                if (i == 28)
-                {
-                    break;
-                }
-                if (b >= 128)
-                {
-                    result.low = result.low | (b & 127) << i;
-                    i = i + 7;
-                    continue;
-                }
-                result.low = result.low | b << i;
-                return result;
-            }
-
-            if (b >= 128)
-            {
-                b = b & 127;
-                result.low = result.low | b << i;
-                result.high = b >> 4;
-                i = 3;
-                while (true)
-                {
-                    b = input.ReadByte();
-                    if (i < 32)
-                    {
-                        if (b >= 128)
-                        {
-                            result.high = result.high | (b & 127) << i;
-                        }
-                        else
-                        {
-                            break;
-                        }
-                    }
-                    i = i + 7;
-                }
-
-                result.high = result.high | b << i;
-                return result;
-            }
-            result.low = result.low | b << i;
-            result.high = b >> 4;
-            return result;
-        }
+        #endregion
     }
 }

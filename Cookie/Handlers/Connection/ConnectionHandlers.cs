@@ -1,9 +1,13 @@
 ﻿using Cookie.Core;
 using Cookie.Protocol.Enums;
-using Cookie.Protocol.Network.Messages.Connection;
-using Cookie.Protocol.Network.Types.Version;
+using Cookie.Protocol.Network.Messages;
+using Cookie.Protocol.Network.Types;
 using Cookie.Utils.Extensions;
 using DofusBot.Utils.Cryptography;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography;
 
 namespace Cookie.Handlers.Connection
 {
@@ -19,11 +23,21 @@ namespace Cookie.Handlers.Connection
         private void HelloConnectMessageHandler(DofusClient Client, HelloConnectMessage Message)
         {
             Client.Logger.Log("Connecté au serveur d'authentification.");
-            sbyte[] Credentials = RSA.Encrypt(Message.Key, Client.Account.Login, Client.Account.Password, Message.Salt);
-            VersionExtended Version = new VersionExtended(2, 41, 1, 120980, 0, (sbyte)BuildTypeEnum.RELEASE, 1, 1);
-            IdentificationMessage IdentificationMessage = new IdentificationMessage(true, false, false, Version, "fr", Credentials, 0, 0, new ushort[0]);
+            string password = "";
+            using (SHA512 shaM = new SHA512Managed())
+            {
+                byte[] hash = shaM.ComputeHash(System.Text.Encoding.UTF8.GetBytes(Client.Account.Password));
+                string hashedPw = BitConverter.ToString(hash).Replace("-", "").ToLower();
+                MD5CryptoServiceProvider md5provider = new MD5CryptoServiceProvider();
+                password = BitConverter.ToString(md5provider.ComputeHash(System.Text.Encoding.UTF8.GetBytes(hashedPw + Message.Salt)) ).Replace("-","").ToLower();
+                //Client.Logger.Log(password);
+            }
+            VersionExtended Version = new VersionExtended(2, 51, 5, 74014085, 0, (byte)BuildTypeEnum.RELEASE, 1, 1);
+            ICollection<short> ic = new List<short>();
+            IdentificationMessage IdentificationMessage = new IdentificationMessage(true, false, false, Version, "fr", Client.Account.Login, password, 0, 0, ic);
             Client.Logger.Log("Envois des informations d'identification...");
             Client.Send(IdentificationMessage);
+            Client.Send(new ClientKeyMessage("y3JJiZ0geixj3GDmm2#01"));
         }
 
         [MessageHandler(IdentificationAccountForceMessage.ProtocolId)]
@@ -72,18 +86,19 @@ namespace Cookie.Handlers.Connection
         private void SelectedServerDataExtendedMessageHandler(DofusClient Client, SelectedServerDataExtendedMessage Message)
         {
             Client.Logger.Log("Sélection du serveur " + (ServerNameEnum)Message.ServerId);
-            Client.Account.Ticket = AES.DecodeWithAES(Message.Ticket);
-            Client.Logger.Log("Connexion en cours <" + Message.Address + ":" + Message.Port + ">");
-            Client.ChangeRemote(Message.Address, Message.Port);
+            Client.Account.Ticket = Message.Ticket;
+            Client.Logger.Log("Connexion en cours <" + Message.Address + ":" + Message.Ports.Take(1) + ">");
+            Client.ChangeServer(Message.Address, (short)Message.Ports.Take(1).ToArray()[0]);
         }
 
         [MessageHandler(SelectedServerDataMessage.ProtocolId)]
         private void SelectedServerDataMessageMessageHandler(DofusClient Client, SelectedServerDataMessage Message)
         {
             Client.Logger.Log("Sélection du serveur " + (ServerNameEnum)Message.ServerId);
-            Client.Account.Ticket = AES.DecodeWithAES(Message.Ticket);
-            Client.Logger.Log("Connexion en cours <" + Message.Address + ":" + Message.Port + ">");
-            Client.ChangeRemote(Message.Address, Message.Port);
+            Client.Account.Ticket = Message.Ticket;
+
+            Client.Logger.Log("Connexion en cours <" + Message.Address + ":" + Message.Ports.FirstOrDefault() + ">");
+            Client.ChangeServer(Message.Address, (short)Message.Ports.FirstOrDefault());
         }
 
         [MessageHandler(SelectedServerRefusedMessage.ProtocolId)]
@@ -92,17 +107,17 @@ namespace Cookie.Handlers.Connection
             //
         }
 
-        [MessageHandler(ServerListMessage.ProtocolId)]
-        private void ServerListMessageHandler(DofusClient Client, ServerListMessage Message)
+        [MessageHandler(ServersListMessage.ProtocolId)]
+        private void ServerListMessageHandler(DofusClient Client, ServersListMessage Message)
         {
             foreach (var Server in Message.Servers)
             {
                 if (Server.CharactersCount > 0 && Server.IsSelectable)
                 {
                     if ((ServerStatusEnum)Server.Status == ServerStatusEnum.ONLINE)
-                        Client.Send(new ServerSelectionMessage(Server.ObjectID));
+                        Client.Send(new ServerSelectionMessage(Server.Id_));
                     else
-                        Client.Logger.Log((ServerNameEnum)Server.ObjectID + ": " + (ServerStatusEnum)Server.Status);
+                        Client.Logger.Log((ServerNameEnum)Server.Id_ + ": " + (ServerStatusEnum)Server.Status);
                     break;
                 }
             }
@@ -111,7 +126,7 @@ namespace Cookie.Handlers.Connection
         [MessageHandler(ServerStatusUpdateMessage.ProtocolId)]
         private void ServerStatusUpdateMessageHandler(DofusClient Client, ServerStatusUpdateMessage Message)
         {
-            Client.Logger.Log(((ServerNameEnum)Message.Server.ObjectID).ToString() + ": " + (ServerStatusEnum)Message.Server.Status, LogMessageType.Default);
+            Client.Logger.Log(((ServerNameEnum)Message.Server.Id_).ToString() + ": " + (ServerStatusEnum)Message.Server.Status, LogMessageType.Default);
         }
     }
 }

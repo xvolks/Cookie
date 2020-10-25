@@ -1,5 +1,5 @@
 ﻿using Cookie.Core;
-using Cookie.Protocol.Network.Messages.Game.Context;
+using Cookie.Protocol.Network.Messages;
 using System.Linq;
 
 namespace Cookie.Handlers.Game.Context
@@ -21,7 +21,7 @@ namespace Cookie.Handlers.Game.Context
         [MessageHandler(GameContextRefreshEntityLookMessage.ProtocolId)]
         private void GameContextRefreshEntityLookMessageHandler(DofusClient Client, GameContextRefreshEntityLookMessage Message)
         {
-            if (Message.ObjectId == Client.Account.Character.Id)
+            if (Message.Id_ == Client.Account.Character.Id)
                 Client.Account.Character.Look = Message.Look;
         }
 

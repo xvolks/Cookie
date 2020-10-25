@@ -19,6 +19,7 @@ namespace Cookie.Datacenter
         public uint Points;
         public uint Level;
         public uint Order;
+        public Boolean AccountLinked;
         public float KamasRatio;
         public float ExperienceRatio;
         public Boolean KamasScaleWithPlayerLevel;

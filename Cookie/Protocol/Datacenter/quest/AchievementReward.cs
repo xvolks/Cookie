@@ -12,6 +12,10 @@ namespace Cookie.Datacenter
     {
         public const String MODULE = "AchievementRewards";
         public uint Id;
+        public string Criteria;
+        public double KamasRatio;
+        public double ExperienceRatio;
+        public Boolean kamasScaleWithPlayerLevel;
         public uint AchievementId;
         public int LevelMin;
         public int LevelMax;

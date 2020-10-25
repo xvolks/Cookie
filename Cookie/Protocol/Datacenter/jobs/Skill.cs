@@ -25,5 +25,7 @@ namespace Cookie.Datacenter
         public Boolean AvailableInHouse;
         public uint LevelMin;
         public Boolean ClientDisplay;
+        public int Range;
+        public Boolean UseRangeInClient;
     }
 }

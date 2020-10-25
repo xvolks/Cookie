@@ -1,5 +1,5 @@
 ﻿using Cookie.Core;
-using Cookie.Protocol.Network.Messages.Security;
+using Cookie.Protocol.Network.Messages;
 using System;
 using System.Collections.Generic;
 
@@ -11,14 +11,14 @@ namespace Cookie.Handlers.Security
         [MessageHandler(RawDataMessage.ProtocolId)]
         private void RawDataMessageHandler(DofusClient Client, RawDataMessage Message)
         {
-            List<int> tt = new List<int>();
-            for (int i = 0; i <= 255; i++)
-            {
-                Random random = new Random();
-                int test = random.Next(-127, 127);
-            }
-            CheckIntegrityMessage rawData = new CheckIntegrityMessage(tt);
-            Client.Send(rawData);
+            //List<int> tt = new List<int>();
+            //for (int i = 0; i <= 255; i++)
+            //{
+            //    Random random = new Random();
+            //    int test = random.Next(-127, 127);
+            //}
+            //CheckIntegrityMessage rawData = new CheckIntegrityMessage(tt);
+            //Client.Send(rawData);
         }
     }
 }

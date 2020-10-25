@@ -19,5 +19,8 @@ namespace Cookie.Datacenter
         public String RawZone;
         public Boolean Mimickable;
         public int CraftXpRatio;
+        public int CategoryId;
+        public Boolean IsInEncyclopedia;
+        public int EvolutiveTypeId;
     }
 }

@@ -28,7 +28,7 @@ namespace Cookie
 
             var header = (short)SubComputeStaticHeader((uint)id, typeLen);
             writer.WriteShort(header);
-
+            writer.WriteUInt(MyGlobals.GLOBAL_INSTANCE_ID);
             switch (typeLen)
             {
                 case 0:

@@ -17,5 +17,7 @@ namespace Cookie.Datacenter
         public List<int> MapIds;
         public int EntranceMapId;
         public int ExitMapId;
+        public List<int> CroupiersItemIds;
+        public List<int> CroupiersPrice;
     }
 }

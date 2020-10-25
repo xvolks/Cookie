@@ -28,5 +28,9 @@ namespace Cookie.Datacenter
         public int MovementPoints;
         public int DamageReflect;
         public uint HiddenLevel;
+        public int Strength;
+        public int Intelligence;
+        public int Chance;
+        public int Agility;
     }
 }

@@ -12,7 +12,7 @@ namespace Cookie.Datacenter
 {
     using Cookie.Gamedata.D2o;
     using System;
-
+    using System.Collections.Generic;
 
     [D2oClass("Mount")]
     public class Mount : IDataObject
@@ -22,5 +22,7 @@ namespace Cookie.Datacenter
         public uint FamilyId;
         public uint NameId;
         public string Look;
+        public int CertificateId;
+        public List<Effect> Effects;
     }
 }

@@ -20,5 +20,6 @@ namespace Cookie.Datacenter
         public uint GameTypeId;
         public int CommunityId;
         public List<String> RestrictedToLanguages;
+        public Boolean MonoAccount;
     }
 }

@@ -18,5 +18,6 @@ namespace Cookie.Datacenter
         public uint Order;
         public String Color;
         public List<uint> AchievementIds;
+        public string visibilityCriterion;
     }
 }
