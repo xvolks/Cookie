@@ -49,6 +49,8 @@ namespace Cookie.Commands.Commands
                 Logger.Default.Log($"Marchand ({me.Name}) sur la cellId {me.CellId}");
             foreach (var e in account.Character.Map.Entities)
                 Logger.Default.Log($"Entitée sur la cellId {e.CellId}");
+            foreach (var r in account.Character.Map.Resources)
+                Logger.Default.Log($"Resourcers {r.TypeId} sur la cellId {r.CellId}");
         }
 
         private void PrintError(string message)

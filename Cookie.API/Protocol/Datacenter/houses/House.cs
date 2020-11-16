@@ -1,17 +1,17 @@
-// Generated on 12/06/2016 11:35:50
-
 using Cookie.API.Gamedata.D2o;
+using System.Collections.Generic;
+using Cookie.API.Gamedata.D2o.other;
 
 namespace Cookie.API.Datacenter
 {
-    [D2oClass("Houses")]
+    [D2oClass("House")]
     public class House : IDataObject
     {
-        public const string MODULE = "Houses";
-        public uint DefaultPrice;
-        public int DescriptionId;
-        public int GfxId;
-        public int NameId;
-        public int TypeId;
+		private const string MODULE = "House";
+		public int TypeId;
+		public int DefaultPrice;
+		public int NameId;
+		public int DescriptionId;
+		public int GfxId;
     }
 }

@@ -37,7 +37,7 @@ namespace Cookie.API.Utils.IO
         void WriteUTF(string str);
 
         void WriteUTFBytes(string str);
-
+        void WriteUnsignedInt(uint qty);
         void WriteBytes(byte[] data);
 
         void Clear();
@@ -51,9 +51,10 @@ namespace Cookie.API.Utils.IO
         void WriteVarShort(short value);
 
         void WriteVarUhShort(ushort value);
-
+        void WriteUnsignedByte(sbyte level);
         void WriteVarLong(long value);
 
         void WriteVarUhLong(ulong value);
+        void WriteUnsignedShort(ushort maxCountWinners);
     }
 }

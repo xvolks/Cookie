@@ -1,18 +1,18 @@
-// Generated on 12/06/2016 11:35:52
-
 using Cookie.API.Gamedata.D2o;
+using System.Collections.Generic;
+using Cookie.API.Gamedata.D2o.other;
 
 namespace Cookie.API.Datacenter
 {
-    [D2oClass("FinishMoves")]
+    [D2oClass("FinishMove")]
     public class FinishMove : IDataObject
     {
-        public const string MODULE = "FinishMoves";
-        public int Category;
-        public int Duration;
-        public bool Free;
-        public int Id;
-        public uint NameId;
-        public int SpellLevel;
+		private const string MODULE = "FinishMove";
+		public int Id;
+		public int Duration;
+		public bool Free;
+		public int NameId;
+		public int Category;
+		public int SpellLevel;
     }
 }

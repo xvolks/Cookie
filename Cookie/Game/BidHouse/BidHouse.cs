@@ -12,9 +12,7 @@ using Cookie.API.Gamedata.D2o;
 using Cookie.API.Messages;
 using Cookie.API.Protocol;
 using Cookie.API.Protocol.Enums;
-using Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Npc;
-using Cookie.API.Protocol.Network.Messages.Game.Dialog;
-using Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges;
+using Cookie.API.Protocol.Network.Messages;
 using Cookie.API.Utils;
 using Cookie.API.Utils.Enums;
 
@@ -24,8 +22,8 @@ namespace Cookie.Game.BidHouse
     {
         private readonly IAccount _account;
         private readonly AutoResetEvent _bidHouseActionEvent = new AutoResetEvent(false);
-        private readonly List<uint> _itemListInBidHouse;
-        private readonly List<uint> _itemTypesInBidHouse;
+        private readonly List<int> _itemListInBidHouse;
+        private readonly List<int> _itemTypesInBidHouse;
 
         private bool _bidHouseBuyDialogIsLoaded;
         private bool _bidHouseSellDialogIsLoaded;
@@ -35,13 +33,13 @@ namespace Cookie.Game.BidHouse
         public BidHouse(IAccount account)
         {
             _account = account;
-            _itemTypesInBidHouse = new List<uint>();
-            _itemListInBidHouse = new List<uint>();
+            _itemTypesInBidHouse = new List<int>();
+            _itemListInBidHouse = new List<int>();
 
             _bidHouseBuyDialogIsLoaded = false;
             _bidHouseSellDialogIsLoaded = false;
 
-            ItemPricesList = new Dictionary<uint, List<ulong>>();
+            ItemPricesList = new Dictionary<uint, List<long>>();
             MeanPrice = 0;
 
             account.Network.RegisterPacket<ExchangeStartedBidBuyerMessage>(HandleExchangeStartedBidBuyerMessage,
@@ -75,7 +73,7 @@ namespace Cookie.Game.BidHouse
          * Prices[uid][1] = Price of 10 items uid
          * Prices[uid][2] = Price of 100 items uid
          */
-        public Dictionary<uint, List<ulong>> ItemPricesList { get; }
+        public Dictionary<uint, List<long>> ItemPricesList { get; }
 
         public long MeanPrice { get; private set; }
 
@@ -111,7 +109,7 @@ namespace Cookie.Game.BidHouse
             var npcUId = Convert.ToInt32(Npc.NpcId);
             var npcMapId = Convert.ToInt32(Npc.Id);
             var npcName = Npc.Name;
-            var npcActionId = (byte) ActionId;
+            var npcActionId = (sbyte) ActionId;
 
             var message = new NpcGenericActionRequestMessage
             {
@@ -152,7 +150,7 @@ namespace Cookie.Game.BidHouse
             return true;
         }
 
-        public async Task<bool> SellItem(uint itemUId, int quantity, ulong price)
+        public async Task<bool> SellItem(uint itemUId, int quantity, long price)
         {
             /* Check if BidHouse Dialog is open */
             if (!_bidHouseSellDialogIsLoaded) throw new Exception("La fenêtre HDV n'est pas ouverte.");
@@ -173,7 +171,7 @@ namespace Cookie.Game.BidHouse
             /* Sell item */
             var SellItemMessage = new ExchangeObjectMovePricedMessage
             {
-                Price = price,
+                Price = (ulong)price,
                 ObjectUID = itemUId,
                 Quantity = quantity
             };
@@ -195,7 +193,7 @@ namespace Cookie.Game.BidHouse
                 throw new Exception("La quantité doit être l'une des suivantes : 1, 10, 100.");
 
             /* Check if item exists in bid house */
-            var Prices = new List<ulong>();
+            var Prices = new List<long>();
             if (!ItemPricesList.TryGetValue(itemUId, out Prices))
                 throw new Exception(
                     $"Cet identifiant ({itemUId}) n'existe pas dans la liste des prix ou cette dernière n'a pas été chargée.");
@@ -212,7 +210,7 @@ namespace Cookie.Game.BidHouse
             {
                 Uid = itemUId,
                 Qty = quantity,
-                Price = Price
+                Price = (ulong)Price
             };
 
             /* Check if item was successfully bought */
@@ -239,13 +237,13 @@ namespace Cookie.Game.BidHouse
         {
             /* Check if item exists in Bid House */
             var itemType = ObjectDataManager.Instance.Get<Item>(itemId).TypeId;
-            if (!_itemTypesInBidHouse.Contains(itemType))
+            if (!_itemTypesInBidHouse.Contains((int)itemType))
                 throw new Exception(
                     $"L'item {D2OParsing.GetItemName(itemId)} ({itemId}) n'existe pas dans cet hôtel de vente.");
 
             var itemsTypeMessage = new ExchangeBidHouseTypeMessage
             {
-                Type = itemType
+                Type = (uint)itemType
             };
 
             Logger.Default.Log(
@@ -257,7 +255,7 @@ namespace Cookie.Game.BidHouse
                     $"Erreur lors de la sélection de la catégorie {FastD2IReader.Instance.GetText(ObjectDataManager.Instance.Get<ItemType>(itemType).NameId)} ({itemType}).");
 
             /* Check if item exists in items list */
-            if (!_itemListInBidHouse.Contains(itemId))
+            if (!_itemListInBidHouse.Contains((int)itemId))
                 throw new Exception(
                     $"L'item {D2OParsing.GetItemName(itemId)} ({itemId}) n'est pas actuellement en vente dans cet HDV.");
 
@@ -268,7 +266,7 @@ namespace Cookie.Game.BidHouse
         {
             var itemsListMessage = new ExchangeBidHouseListMessage
             {
-                ObjectId = Convert.ToUInt16(itemId)
+                Id = Convert.ToUInt16(itemId)
             };
 
             if (!await SendAndWait(itemsListMessage, 3000))

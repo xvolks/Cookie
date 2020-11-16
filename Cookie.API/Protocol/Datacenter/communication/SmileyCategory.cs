@@ -1,16 +1,16 @@
-// Generated on 12/06/2016 11:35:50
-
 using Cookie.API.Gamedata.D2o;
+using System.Collections.Generic;
+using Cookie.API.Gamedata.D2o.other;
 
 namespace Cookie.API.Datacenter
 {
-    [D2oClass("SmileyCategories")]
+    [D2oClass("SmileyCategory")]
     public class SmileyCategory : IDataObject
     {
-        public const string MODULE = "SmileyCategories";
-        public string GfxId;
-        public int Id;
-        public bool IsFake;
-        public uint Order;
+		private const string MODULE = "SmileyCategory";
+		public int Id;
+		public int Order;
+		public string GfxId;
+		public bool IsFake;
     }
 }

@@ -2,7 +2,7 @@
 using Cookie.API.Game.Friend;
 using Cookie.API.Messages;
 using Cookie.API.Protocol.Enums;
-using Cookie.API.Protocol.Network.Messages.Game.Friend;
+using Cookie.API.Protocol.Network.Messages;
 using Cookie.API.Utils;
 using Cookie.API.Utils.Enums;
 
@@ -22,9 +22,9 @@ namespace Cookie.Game.Friend
             foreach (var friend in message.FriendsList)
                 switch (friend.PlayerState)
                 {
-                    case (byte) PlayerStateEnum.NOT_CONNECTED:
+                    case (sbyte) PlayerStateEnum.NOT_CONNECTED:
                         continue;
-                    case (byte) PlayerStateEnum.UNKNOWN_STATE:
+                    case (sbyte) PlayerStateEnum.UNKNOWN_STATE:
                         continue;
                     default:
                         Logger.Default.Log($"{friend.AccountName} connecté");

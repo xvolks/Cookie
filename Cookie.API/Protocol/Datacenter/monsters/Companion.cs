@@ -1,23 +1,22 @@
-// Generated on 12/06/2016 11:35:51
-
-using System.Collections.Generic;
 using Cookie.API.Gamedata.D2o;
+using System.Collections.Generic;
+using Cookie.API.Gamedata.D2o.other;
 
 namespace Cookie.API.Datacenter
 {
-    [D2oClass("Companions")]
+    [D2oClass("Companion")]
     public class Companion : IDataObject
     {
-        public const string MODULE = "Companions";
-        public uint AssetId;
-        public List<uint> Characteristics;
-        public int CreatureBoneId;
-        public uint DescriptionId;
-        public int Id;
-        public string Look;
-        public uint NameId;
-        public List<uint> Spells;
-        public uint StartingSpellLevelId;
-        public bool WebDisplay;
+		private const string MODULE = "Companion";
+		public int Id;
+		public int NameId;
+		public string Look;
+		public bool WebDisplay;
+		public int DescriptionId;
+		public int StartingSpellLevelId;
+		public int AssetId;
+		public List<uint> Characteristics;
+		public List<uint> Spells;
+		public int CreatureBoneId;
     }
 }

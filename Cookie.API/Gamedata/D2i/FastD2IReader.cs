@@ -23,7 +23,6 @@ namespace Cookie.API.Gamedata.D2i
 
         private static string _pather;
         private static BinaryReader _br;
-        private readonly Stream _stream;
 
         private FastD2IReader()
         {
@@ -285,15 +284,6 @@ namespace Cookie.API.Gamedata.D2i
                 try
                 {
                     _br.Dispose();
-                }
-                catch (Exception)
-                {
-                    // ignored
-                }
-                //Dispose stream on class dispose
-                try
-                {
-                    _stream.Dispose();
                 }
                 catch (Exception)
                 {

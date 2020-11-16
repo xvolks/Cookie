@@ -1,19 +1,19 @@
-// Generated on 12/06/2016 11:35:52
-
 using Cookie.API.Gamedata.D2o;
+using System.Collections.Generic;
+using Cookie.API.Gamedata.D2o.other;
 
 namespace Cookie.API.Datacenter
 {
-    [D2oClass("LegendaryTreasureHunts")]
+    [D2oClass("LegendaryTreasureHunt")]
     public class LegendaryTreasureHunt : IDataObject
     {
-        public const string MODULE = "LegendaryTreasureHunts";
-        public uint ChestId;
-        public uint Id;
-        public uint Level;
-        public uint MapItemId;
-        public uint MonsterId;
-        public uint NameId;
-        public float XpRatio;
+		private const string MODULE = "LegendaryTreasureHunt";
+		public int Id;
+		public int NameId;
+		public int Level;
+		public uint ChestId;
+		public uint MonsterId;
+		public uint MapItemId;
+		public double XpRatio;
     }
 }

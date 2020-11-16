@@ -5,11 +5,10 @@ using Cookie.API.Gamedata.D2i;
 using Cookie.API.Gamedata.D2o;
 using Cookie.API.Messages;
 using Cookie.API.Protocol.Enums;
-using Cookie.API.Protocol.Network.Messages.Game.Basic;
-using Cookie.API.Protocol.Network.Messages.Server.Basic;
-using Cookie.API.Protocol.Network.Messages.Web.Ankabox;
+using Cookie.API.Protocol.Network.Messages;
 using Cookie.API.Utils;
 using Cookie.API.Utils.Enums;
+using System;
 
 namespace Cookie.Core.Frames
 {
@@ -50,7 +49,7 @@ namespace Cookie.Core.Frames
         {
             Logger.Default.Log("Server Status: " + (ServerStatusEnum) message.Status);
         }
-
+        public EventHandler SpellError;
         private void HandleTextInformationMessage(IAccount account, TextInformationMessage message)
         {
             var data = ObjectDataManager.Instance.Get<InfoMessage>(message.MsgType * 10000 + message.MsgId);
@@ -65,6 +64,8 @@ namespace Cookie.Core.Frames
             switch ((TextInformationTypeEnum) message.MsgType)
             {
                 case TextInformationTypeEnum.TEXT_INFORMATION_ERROR:
+                    if (text.Contains("Impossible de lancer ce sort"))
+                        SpellError?.Invoke(this,new EventArgs());
                     Logger.Default.Log(text, LogMessageType.Default);
                     break;
                 case TextInformationTypeEnum.TEXT_INFORMATION_MESSAGE:

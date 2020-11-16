@@ -12,6 +12,9 @@
         South = 1,
 
         /// <summary>Ouest</summary>
-        West = 3
+        West = 3,
+
+        /// <summary>Invalid</summary>
+        Invalid = -1
     }
 }

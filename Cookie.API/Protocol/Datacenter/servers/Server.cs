@@ -1,23 +1,22 @@
-// Generated on 12/06/2016 11:35:52
-
-using System.Collections.Generic;
 using Cookie.API.Gamedata.D2o;
+using System.Collections.Generic;
+using Cookie.API.Gamedata.D2o.other;
 
-namespace Cookie.API.Protocol.Datacenter
+namespace Cookie.API.Datacenter
 {
-    [D2oClass("Servers")]
+    [D2oClass("Server")]
     public class Server : IDataObject
     {
-        public const string MODULE = "Servers";
-        public uint CommentId;
-        public int CommunityId;
-        public uint GameTypeId;
-        public int Id;
-        public string Language;
-        public uint NameId;
-        public float OpeningDate;
-        public int PopulationId;
-        public List<string> RestrictedToLanguages;
-        public bool MonoAccount;
+		private const string MODULE = "Server";
+		public int Id;
+		public int NameId;
+		public int CommentId;
+		public double OpeningDate;
+		public string Language;
+		public int PopulationId;
+		public int GameTypeId;
+		public int CommunityId;
+		public List<string> RestrictedToLanguages;
+		public bool MonoAccount;
     }
 }

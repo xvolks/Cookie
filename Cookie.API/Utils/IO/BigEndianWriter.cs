@@ -314,5 +314,20 @@ namespace Cookie.API.Utils.IO
             }
             WriteByte((byte) value);
         }
+
+        public void WriteUnsignedByte(sbyte level)
+        {
+            WriteSByte(level);
+        }
+
+        public void WriteUnsignedShort(ushort maxCountWinners)
+        {
+            WriteUShort(maxCountWinners);
+        }
+
+        public void WriteUnsignedInt(uint qty)
+        {
+            WriteUInt(qty);
+        }
     }
 }

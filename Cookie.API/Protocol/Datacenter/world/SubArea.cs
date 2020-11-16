@@ -1,39 +1,38 @@
-// Generated on 12/06/2016 11:35:52
-
-using System.Collections.Generic;
 using Cookie.API.Gamedata.D2o;
+using System.Collections.Generic;
 using Cookie.API.Gamedata.D2o.other;
 
 namespace Cookie.API.Datacenter
 {
-    [D2oClass("SubAreas")]
+    [D2oClass("SubArea")]
     public class SubArea : IDataObject
     {
-        public const string MODULE = "SubAreas";
-        public List<uint> Achievements;
-        public List<AmbientSound> AmbientSounds;
-        public int AreaId;
-        public bool BasicAccountAllowed;
-        public Rectangle Bounds;
-        public bool Capturable;
-        public List<uint> CustomWorldMap;
-        public bool DisplayOnWorldMap;
-        public List<uint> EntranceMapIds;
-        public List<uint> ExitMapIds;
-        public int ExploreAchievementId;
-        public List<int> Harvestables;
-        public int Id;
-        public bool IsConquestVillage;
-        public bool IsDiscovered;
-        public uint Level;
-        public List<uint> MapIds;
-        public List<uint> Monsters;
-        public uint NameId;
-        public List<List<int>> Npcs;
-        public int PackId;
-        public List<List<int>> Playlists;
-        public List<List<int>> Quests;
-        public List<int> Shape;
-        public bool MountAutoTripAllowed;
+		private const string MODULE = "SubArea";
+		public int Id;
+		public int NameId;
+		public int AreaId;
+		public List<AmbientSound> AmbientSounds;
+		public List<List<int>> Playlists;
+		public List<double> MapIds;
+		public Rectangle Bounds;
+		public List<int> Shape;
+		public List<uint> CustomWorldMap;
+		public uint PackId;
+		public uint Level;
+		public bool IsConquestVillage;
+		public bool BasicAccountAllowed;
+		public bool DisplayOnWorldMap;
+		public bool MountAutoTripAllowed;
+		public bool PsiAllowed;
+		public List<uint> Monsters;
+		public List<double> EntranceMapIds;
+		public List<double> ExitMapIds;
+		public bool Capturable;
+		public List<uint> Achievements;
+		public List<List<double>> Quests;
+		public List<List<double>> Npcs;
+		public int ExploreAchievementId;
+		public List<int> Harvestables;
+		public int AssociatedZaapMapId;
     }
 }

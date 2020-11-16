@@ -1,15 +1,15 @@
-// Generated on 12/06/2016 11:35:52
-
 using Cookie.API.Gamedata.D2o;
+using System.Collections.Generic;
+using Cookie.API.Gamedata.D2o.other;
 
 namespace Cookie.API.Datacenter
 {
-    [D2oClass("SpellTypes")]
+    [D2oClass("SpellType")]
     public class SpellType : IDataObject
     {
-        public const string MODULE = "SpellTypes";
-        public int Id;
-        public uint LongNameId;
-        public uint ShortNameId;
+		private const string MODULE = "SpellType";
+		public int Id;
+		public int LongNameId;
+		public int ShortNameId;
     }
 }

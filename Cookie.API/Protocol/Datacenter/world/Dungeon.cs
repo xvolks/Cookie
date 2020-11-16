@@ -1,19 +1,20 @@
-// Generated on 12/06/2016 11:35:52
-
-using System.Collections.Generic;
 using Cookie.API.Gamedata.D2o;
+using System.Collections.Generic;
+using Cookie.API.Gamedata.D2o.other;
 
 namespace Cookie.API.Datacenter
 {
-    [D2oClass("Dungeons")]
+    [D2oClass("Dungeon")]
     public class Dungeon : IDataObject
     {
-        public const string MODULE = "Dungeons";
-        public int EntranceMapId;
-        public int ExitMapId;
-        public int Id;
-        public List<int> MapIds;
-        public uint NameId;
-        public int OptimalPlayerLevel;
+		private const string MODULE = "Dungeon";
+		public int Id;
+		public int NameId;
+		public int OptimalPlayerLevel;
+		public List<double> MapIds;
+		public double EntranceMapId;
+		public double ExitMapId;
+		public List<uint> CroupiersItemIds;
+		public List<uint> CroupiersPrice;
     }
 }

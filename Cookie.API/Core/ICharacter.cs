@@ -12,17 +12,19 @@ using Cookie.API.Game.Jobs;
 using Cookie.API.Game.Map;
 using Cookie.API.Game.Party;
 using Cookie.API.Protocol.Enums;
-using Cookie.API.Protocol.Network.Types.Game.Character.Characteristic;
-using Cookie.API.Protocol.Network.Types.Game.Character.Restriction;
-using Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Job;
-using Cookie.API.Protocol.Network.Types.Game.Data.Items;
-using Cookie.API.Protocol.Network.Types.Game.Look;
+using Cookie.API.Protocol.Network.Messages;
+using Cookie.API.Protocol.Network.Types;
 using Cookie.API.Utils.Enums;
 
 namespace Cookie.API.Core
 {
     public interface ICharacter
     {
+        /// <summary>
+        ///     Artificial Inteligence of the character.
+        /// </summary>
+        //IArtificialIntelligence Ia { get; set; }
+
         /// <summary>
         ///     The actual status of the character
         /// </summary>
@@ -66,7 +68,7 @@ namespace Cookie.API.Core
         /// <summary>
         ///     The character Breed
         /// </summary>
-        BreedEnum Breed { get; set; }
+        PlayableBreedEnum Breed { get; set; }
 
         /// <summary>
         ///     The character life percentage
@@ -97,6 +99,16 @@ namespace Cookie.API.Core
         ///     The character actual map id
         /// </summary>
         double MapId { get; set; }
+
+        /// <summary>
+        ///     The character actual PosX
+        /// </summary>
+        int PosX { get; set; }
+
+        /// <summary>
+        ///     The character actual PosY
+        /// </summary>
+        int PosY { get; set; }
 
         /// <summary>
         ///     The current weight of the character

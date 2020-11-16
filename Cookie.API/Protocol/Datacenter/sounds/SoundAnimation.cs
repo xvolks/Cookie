@@ -1,24 +1,24 @@
-// Generated on 12/06/2016 11:35:52
-
 using Cookie.API.Gamedata.D2o;
+using System.Collections.Generic;
+using Cookie.API.Gamedata.D2o.other;
 
 namespace Cookie.API.Datacenter
 {
-    [D2oClass("SoundAnimations")]
+    [D2oClass("SoundAnimation")]
     public class SoundAnimation : IDataObject
     {
-        public int AutomationDuration;
-        public int AutomationFadeIn;
-        public int AutomationFadeOut;
-        public int AutomationVolume;
-        public string Filename;
-        public uint Id;
-        public string Label;
-        public string MODULE = "SoundAnimations";
-        public string Name;
-        public bool NoCutSilence;
-        public int Rolloff;
-        public uint StartFrame;
-        public int Volume;
+		private const string MODULE = "SoundAnimation";
+		public int Id;
+		public string Label;
+		public string Name;
+		public string Filename;
+		public int Volume;
+		public int Rolloff;
+		public int AutomationDuration;
+		public int AutomationVolume;
+		public int AutomationFadeIn;
+		public int AutomationFadeOut;
+		public bool NoCutSilence;
+		public int StartFrame;
     }
 }

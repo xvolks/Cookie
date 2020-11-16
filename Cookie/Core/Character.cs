@@ -17,22 +17,8 @@ using Cookie.API.Game.Party;
 using Cookie.API.Gamedata.D2o;
 using Cookie.API.Messages;
 using Cookie.API.Protocol.Enums;
-using Cookie.API.Protocol.Network.Messages.Game.Character.Choice;
-using Cookie.API.Protocol.Network.Messages.Game.Character.Creation;
-using Cookie.API.Protocol.Network.Messages.Game.Character.Deletion;
-using Cookie.API.Protocol.Network.Messages.Game.Character.Stats;
-using Cookie.API.Protocol.Network.Messages.Game.Chat.Channel;
-using Cookie.API.Protocol.Network.Messages.Game.Context;
-using Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay;
-using Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay.Quest;
-using Cookie.API.Protocol.Network.Messages.Game.Friend;
-using Cookie.API.Protocol.Network.Messages.Game.Initialization;
-using Cookie.API.Protocol.Network.Messages.Security;
-using Cookie.API.Protocol.Network.Types.Game.Character.Characteristic;
-using Cookie.API.Protocol.Network.Types.Game.Character.Restriction;
-using Cookie.API.Protocol.Network.Types.Game.Context.Roleplay.Job;
-using Cookie.API.Protocol.Network.Types.Game.Data.Items;
-using Cookie.API.Protocol.Network.Types.Game.Look;
+using Cookie.API.Protocol.Network.Messages;
+using Cookie.API.Protocol.Network.Types;
 using Cookie.API.Utils;
 using Cookie.API.Utils.Enums;
 using Cookie.Core.Pathmanager;
@@ -156,7 +142,7 @@ namespace Cookie.Core
         public CharacterCharacteristicsInformations Stats { get; set; }
         public EntityLook Look { get; set; }
 
-        public BreedEnum Breed { get; set; }
+        public PlayableBreedEnum Breed { get; set; }
 
         public int LifePercentage => (int) (Stats.LifePoints / (double) Stats.MaxLifePoints * 100);
         public int WeightPercentage => (int) (Weight / (double) MaxWeight * 100);
@@ -165,7 +151,8 @@ namespace Cookie.Core
 
         public int CellId { get; set; }
         public double MapId { get; set; }
-
+        public int PosX { get; set; }
+        public int PosY { get; set; }
         public uint Weight { get; set; }
         public uint MaxWeight { get; set; }
 
@@ -329,7 +316,7 @@ namespace Cookie.Core
         private void HandleGameContextRefreshEntityLookMessage(IAccount account,
             GameContextRefreshEntityLookMessage message)
         {
-            if (message.ObjectId == Id)
+            if (message.Id == Id)
                 Look = message.Look;
         }
 
@@ -346,8 +333,8 @@ namespace Cookie.Core
                 var c = message.Characters[0];
                 Logger.Default.Log($"Connection sur le personnage {c.Name}");
                 account.Network.SendToServer(account.Character.IsFirstConnection == false
-                    ? new CharacterSelectionMessage(c.ObjectId)
-                    : new CharacterFirstSelectionMessage(false) {ObjectId = c.ObjectId});
+                    ? new CharacterSelectionMessage(c.Id)
+                    : new CharacterFirstSelectionMessage(false) {Id = c.Id });
             }
         }
 
@@ -365,19 +352,20 @@ namespace Cookie.Core
                 Logger.Default.Log("Connexion sur le personnage " + c.Name);
 
                 account.Network.SendToServer(account.Character.IsFirstConnection == false
-                    ? new CharacterSelectionMessage(c.ObjectId)
-                    : new CharacterFirstSelectionMessage(false) {ObjectId = c.ObjectId});
+                    ? new CharacterSelectionMessage(c.Id)
+                    : new CharacterFirstSelectionMessage(false) { Id = c.Id });
             }
         }
 
         private void HandleCharacterSelectedSuccessMessage(IAccount account, CharacterSelectedSuccessMessage message)
         {
             account.Character.Level = message.Infos.Level;
-            account.Character.Id = message.Infos.ObjectId;
+            account.Character.Id = message.Infos.Id;
+            Logger.Default.Log($"[{account.Character.Name}] has the [{account.Character.Id}] id");
             account.Character.Name = message.Infos.Name;
             account.Character.Sex = message.Infos.Sex;
             account.Character.Look = message.Infos.EntityLook;
-            account.Character.Breed = (BreedEnum) message.Infos.Breed;
+            account.Character.Breed = (PlayableBreedEnum) message.Infos.Breed;
         }
 
         #endregion Choice
@@ -402,8 +390,7 @@ namespace Cookie.Core
             // Nous selectionnons au hasard un cosmetics dans la liste
             var head = headsList[Randomize.GetRandomNumber(0, 7)];
             //// Nous envoyons la requête pour créer le personnage
-            var ccrm = new CharacterCreationRequestMessage(account.Character.Name, breedId, false, breedColors,
-                (ushort) head.Id);
+            var ccrm = new CharacterCreationRequestMessage(account.Character.Name, breedId, false, breedColors,(ushort) head.Id);
             account.Network.SendToServer(ccrm);
         }
 
@@ -540,5 +527,6 @@ namespace Cookie.Core
         }
 
         #endregion Initialization
+
     }
 }

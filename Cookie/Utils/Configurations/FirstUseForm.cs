@@ -32,7 +32,7 @@ namespace Cookie.Utils.Configurations
 
             if (string.IsNullOrEmpty(path) ||
                 !File.Exists(Path.Combine(path, "Dofus.exe")) ||
-                !Directory.Exists(Path.Combine(path, "app")))
+                !Directory.Exists(path))
             {
                 MessageBox.Show(@"Mauvais chemin vers Dofus.");
                 return;

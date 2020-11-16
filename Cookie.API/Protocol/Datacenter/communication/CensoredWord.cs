@@ -1,17 +1,17 @@
-// Generated on 12/06/2016 11:35:50
-
 using Cookie.API.Gamedata.D2o;
+using System.Collections.Generic;
+using Cookie.API.Gamedata.D2o.other;
 
 namespace Cookie.API.Datacenter
 {
-    [D2oClass("CensoredWords")]
+    [D2oClass("CensoredWord")]
     public class CensoredWord : IDataObject
     {
-        public const string MODULE = "CensoredWords";
-        public bool DeepLooking;
-        public uint Id;
-        public string Language;
-        public uint ListId;
-        public string Word;
+		private const string MODULE = "CensoredWord";
+		public int Id;
+		public int ListId;
+		public string Language;
+		public string Word;
+		public bool DeepLooking;
     }
 }

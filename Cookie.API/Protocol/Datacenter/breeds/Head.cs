@@ -1,19 +1,19 @@
-// Generated on 12/06/2016 11:35:50
-
 using Cookie.API.Gamedata.D2o;
+using System.Collections.Generic;
+using Cookie.API.Gamedata.D2o.other;
 
 namespace Cookie.API.Datacenter
 {
-    [D2oClass("Heads")]
+    [D2oClass("Head")]
     public class Head : IDataObject
     {
-        public const string MODULE = "Heads";
-        public string AssetId;
-        public uint Breed;
-        public uint Gender;
-        public int Id;
-        public string Label;
-        public uint Order;
-        public string Skins;
+		private const string MODULE = "Head";
+		public int Id;
+		public string Skins;
+		public string AssetId;
+		public int Breed;
+		public int Gender;
+		public string Label;
+		public int Order;
     }
 }

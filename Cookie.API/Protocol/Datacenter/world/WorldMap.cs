@@ -1,30 +1,25 @@
-// Generated on 12/06/2016 11:35:52
-
-using System.Collections.Generic;
 using Cookie.API.Gamedata.D2o;
+using System.Collections.Generic;
+using Cookie.API.Gamedata.D2o.other;
 
 namespace Cookie.API.Datacenter
 {
-    [D2oClass("WorldMaps")]
+    [D2oClass("WorldMap")]
     public class WorldMap : IDataObject
     {
-        public const string MODULE = "WorldMaps";
-        public int CenterX;
-        public int CenterY;
-        public uint HorizontalChunck;
-        public int Id;
-        public float MapHeight;
-        public float MapWidth;
-        public float MaxScale;
-        public float MinScale;
-        public uint NameId;
-        public int OrigineX;
-        public int OrigineY;
-        public float StartScale;
-        public int TotalHeight;
-        public int TotalWidth;
-        public uint VerticalChunck;
-        public bool ViewableEverywhere;
-        public List<string> Zoom;
+		private const string MODULE = "WorldMap";
+		public int Id;
+		public int NameId;
+		public int OrigineX;
+		public int OrigineY;
+		public double MapWidth;
+		public double MapHeight;
+		public bool ViewableEverywhere;
+		public double MinScale;
+		public double MaxScale;
+		public double StartScale;
+		public int TotalWidth;
+		public int TotalHeight;
+		public List<string> Zoom;
     }
 }

@@ -2,7 +2,7 @@
 using Cookie.API.Game.Guild;
 using Cookie.API.Messages;
 using Cookie.API.Protocol.Enums;
-using Cookie.API.Protocol.Network.Messages.Game.Guild;
+using Cookie.API.Protocol.Network.Messages;
 using Cookie.API.Utils;
 using Cookie.API.Utils.Enums;
 

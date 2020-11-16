@@ -1,17 +1,16 @@
-// Generated on 12/06/2016 11:35:50
-
-using System.Collections.Generic;
 using Cookie.API.Gamedata.D2o;
+using System.Collections.Generic;
+using Cookie.API.Gamedata.D2o.other;
 
 namespace Cookie.API.Datacenter
 {
-    [D2oClass("SmileyPacks")]
+    [D2oClass("SmileyPack")]
     public class SmileyPack : IDataObject
     {
-        public const string MODULE = "SmileyPacks";
-        public uint Id;
-        public uint NameId;
-        public uint Order;
-        public List<uint> Smileys;
+		private const string MODULE = "SmileyPack";
+		public int Id;
+		public int NameId;
+		public int Order;
+		public List<uint> Smileys;
     }
 }

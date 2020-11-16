@@ -1,17 +1,17 @@
-// Generated on 12/06/2016 11:35:52
-
 using Cookie.API.Gamedata.D2o;
+using System.Collections.Generic;
+using Cookie.API.Gamedata.D2o.other;
 
 namespace Cookie.API.Datacenter
 {
-    [D2oClass("ServerGameTypes")]
+    [D2oClass("ServerGameType")]
     public class ServerGameType : IDataObject
     {
-        public const string MODULE = "ServerGameTypes";
-        public string DescriptionId;
-        public int Id;
-        public uint NameId;
-        public string RulesId;
-        public bool SelectableByPlayer;
+		private const string MODULE = "ServerGameType";
+		public int Id;
+		public bool SelectableByPlayer;
+		public int NameId;
+		public int RulesId;
+		public int DescriptionId;
     }
 }

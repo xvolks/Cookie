@@ -1,18 +1,18 @@
-// Generated on 12/06/2016 11:35:51
-
 using Cookie.API.Gamedata.D2o;
+using System.Collections.Generic;
+using Cookie.API.Gamedata.D2o.other;
 
 namespace Cookie.API.Datacenter
 {
-    [D2oClass("SpeakingItemsText")]
+    [D2oClass("SpeakingItemText")]
     public class SpeakingItemText : IDataObject
     {
-        public const string MODULE = "SpeakingItemsText";
-        public int TextId;
-        public int TextLevel;
-        public float TextProba;
-        public string TextRestriction;
-        public int TextSound;
-        public uint TextStringId;
+		private const string MODULE = "SpeakingItemText";
+		public int TextId;
+		public double TextProba;
+		public int TextStringId;
+		public int TextLevel;
+		public int TextSound;
+		public string TextRestriction;
     }
 }

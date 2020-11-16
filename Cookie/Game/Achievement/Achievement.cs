@@ -3,7 +3,7 @@ using Cookie.API.Game.Achievement;
 using Cookie.API.Gamedata.D2i;
 using Cookie.API.Gamedata.D2o;
 using Cookie.API.Messages;
-using Cookie.API.Protocol.Network.Messages.Game.Achievement;
+using Cookie.API.Protocol.Network.Messages;
 using Cookie.API.Utils;
 
 namespace Cookie.Game.Achievement
@@ -21,9 +21,9 @@ namespace Cookie.Game.Achievement
         private void HandleAchievementFinishedMessage(IAccount account, AchievementFinishedMessage message)
         {
             var text = FastD2IReader.Instance.GetText(ObjectDataManager.Instance
-                .Get<API.Datacenter.Achievement>(message.ObjectId).NameId);
+                .Get<API.Datacenter.Achievement>(message.Achievement.Id).NameId);
             Logger.Default.Log($"Succés: {text} Dévérouillé");
-            account.Network.SendToServer(new AchievementRewardRequestMessage((short) message.ObjectId));
+            account.Network.SendToServer(new AchievementRewardRequestMessage((short) message.Achievement.Id));
         }
 
         private void HandleAchievementRewardSuccessMessage(IAccount account, AchievementRewardSuccessMessage message)

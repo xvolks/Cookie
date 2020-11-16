@@ -1,17 +1,17 @@
-// Generated on 12/06/2016 11:35:51
-
 using Cookie.API.Gamedata.D2o;
+using System.Collections.Generic;
+using Cookie.API.Gamedata.D2o.other;
 
 namespace Cookie.API.Datacenter
 {
-    [D2oClass("AchievementObjectives")]
+    [D2oClass("AchievementObjective")]
     public class AchievementObjective : IDataObject
     {
-        public const string MODULE = "AchievementObjectives";
-        public uint AchievementId;
-        public string Criterion;
-        public uint Id;
-        public uint NameId;
-        public uint Order;
+		private const string MODULE = "AchievementObjective";
+		public int Id;
+		public int AchievementId;
+		public int Order;
+		public int NameId;
+		public string Criterion;
     }
 }

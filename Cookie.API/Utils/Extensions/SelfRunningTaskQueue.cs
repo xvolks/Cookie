@@ -155,8 +155,7 @@ namespace Cookie.API.Utils.Extensions
                         }
                     }
 
-                    Action msg;
-                    while (m_messageQueue.TryDequeue(out msg))
+                    while (m_messageQueue.TryDequeue(out Action msg))
                     {
                         try
                         {

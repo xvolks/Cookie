@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Timers;
 using Cookie.API.Core;
+using Cookie.API.Game.Fight.Fighters;
 using Cookie.API.Game.Fight.Spells;
-using Cookie.API.Protocol.Network.Messages.Game.Actions.Fight;
+using Cookie.API.Protocol.Network.Messages;
 using Cookie.API.Utils.Enums;
 
 namespace Cookie.Game.Fight.Spell
@@ -11,32 +13,47 @@ namespace Cookie.Game.Fight.Spell
     {
         private readonly IAccount _account;
         private Timer _timeoutTimer;
-
-        public SpellCast(IAccount account, int spellId, int cellId)
+        public SpellCast(IAccount account, int spellId, IFighter fighter)
         {
             _account = account;
             SpellId = spellId;
-            CellId = cellId;
-            _timeoutTimer = new Timer(20000);
+            CellId = fighter.CellId;
+            _timeoutTimer = new Timer(7000);
             _timeoutTimer.Elapsed += _timeoutTimer_Elapsed;
+            Fighter = fighter;
         }
 
         public int SpellId { get; }
 
         public int CellId { get; }
-
+        public IFighter Fighter { get; }
         public void PerformCast()
         {
             _account.Character.Fight.SpellCasted += Spell_Casted;
-
-            foreach (var fighter in _account.Character.Fight.GetMonsters())
+            _account.Character.Fight.CloseCombatCasted += Fight_CloseCombatCasted;
+            if (Fighter == null)
             {
-                if (fighter.CellId != CellId) continue;
-                _account.Network.SendToServer(
-                    new GameActionFightCastOnTargetRequestMessage((ushort) SpellId, fighter.Id));
-                break;
+                OnSpellCasted(false);
+                return;
             }
+            if (SpellId == 0)
+                _account.Network.SendToServer(new GameActionFightCastRequestMessage((ushort)SpellId, (short)Fighter.CellId));
+            else
+                _account.Network.SendToServer(new GameActionFightCastOnTargetRequestMessage((ushort)SpellId, Fighter.Id));
             _timeoutTimer.Start();
+        }
+
+        private void Fight_CloseCombatCasted(GameActionFightCloseCombatMessage message)
+        {
+            Console.WriteLine($"SourceId of CloseCombatCasted[{message.SourceId}] player[{_account.Character.Id}]");
+            if (message.SourceId == _account.Character.Id)
+                OnSpellCasted(true);
+        }
+
+        private void Spell_Casted(GameActionFightSpellCastMessage message)
+        {
+            if (message.SourceId == _account.Character.Id)
+                OnSpellCasted(true);
         }
 
         public event EventHandler<SpellCastEvent> SpellCasted;
@@ -57,12 +74,7 @@ namespace Cookie.Game.Fight.Spell
             _account.Character.Status = CharacterStatus.None;
             RemoveEvents();
             Timeout?.Invoke();
-        }
-
-        private void Spell_Casted(GameActionFightSpellCastMessage message)
-        {
-            if (message.SourceId == _account.Character.Id)
-                OnSpellCasted(true);
+            OnSpellCasted(false);
         }
 
         private void OnSpellCasted(bool s)
@@ -80,6 +92,7 @@ namespace Cookie.Game.Fight.Spell
                 _timeoutTimer = null;
             }
             _account.Character.Fight.SpellCasted -= Spell_Casted;
+            _account.Character.Fight.CloseCombatCasted -= Fight_CloseCombatCasted;
         }
     }
 }

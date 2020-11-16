@@ -7,6 +7,7 @@
         LIMIT_ON_JOB_USE = 2,
         LIMIT_ON_MAP = 3,
         LIMIT_ON_ITEM = 4,
-        LIMIT_ON_VENDOR = 5
+        LIMIT_ON_VENDOR = 5,
+        LIMIT_ON_HAVENBAG = 6
     }
 }

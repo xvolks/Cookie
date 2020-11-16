@@ -143,6 +143,7 @@
             this.ChatTextBox.MultiLine = false;
             this.ChatTextBox.Name = "ChatTextBox";
             this.ChatTextBox.ReadOnly = false;
+            this.ChatTextBox.SelectionStart = 0;
             this.ChatTextBox.Size = new System.Drawing.Size(895, 25);
             this.ChatTextBox.TabIndex = 5;
             this.ChatTextBox.UseSystemPasswordChar = false;
@@ -170,6 +171,7 @@
             this.columnHeaderId,
             this.columnHeaderName});
             this.PacketsListView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PacketsListView.HideSelection = false;
             this.PacketsListView.Location = new System.Drawing.Point(3, 3);
             this.PacketsListView.Name = "PacketsListView";
             this.PacketsListView.Size = new System.Drawing.Size(901, 568);

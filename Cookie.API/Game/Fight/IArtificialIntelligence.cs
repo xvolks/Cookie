@@ -1,4 +1,6 @@
 ﻿using Cookie.API.Core;
+using Cookie.API.Datacenter;
+using System.Collections.Generic;
 
 namespace Cookie.API.Game.Fight
 {

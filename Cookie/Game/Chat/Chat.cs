@@ -2,9 +2,10 @@
 using Cookie.API.Game.Chat;
 using Cookie.API.Messages;
 using Cookie.API.Protocol.Enums;
-using Cookie.API.Protocol.Network.Messages.Game.Chat;
+using Cookie.API.Protocol.Network.Messages;
 using Cookie.API.Utils;
 using Cookie.API.Utils.Enums;
+using System;
 
 namespace Cookie.Game.Chat
 {
@@ -14,6 +15,20 @@ namespace Cookie.Game.Chat
         {
             account.Network.RegisterPacket<ChatServerMessage>(HandleChatServerMessage, MessagePriority.VeryHigh);
             account.Network.RegisterPacket<ChatErrorMessage>(HandleChatErrorMessage, MessagePriority.VeryHigh);
+            account.Network.RegisterPacket<ChatServerCopyMessage>(HandleChatServerCopyMessage, MessagePriority.VeryHigh);
+        }
+
+        private void HandleChatServerCopyMessage(IAccount account, ChatServerCopyMessage message)
+        {
+            switch ((ChatChannelsMultiEnum)message.Channel)
+            {
+                case ChatChannelsMultiEnum.CHANNEL_PRIVATE:
+                    Logger.Default.Log($"(Private) à {message.ReceiverName} : {message.Content}", LogMessageType.Private);
+                    break;
+                default:
+                    Logger.Default.Log("Not implemented");
+                    break;
+            }
         }
 
         private void HandleChatServerMessage(IAccount account, ChatServerMessage message)

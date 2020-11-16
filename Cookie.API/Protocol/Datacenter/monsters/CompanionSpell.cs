@@ -1,16 +1,16 @@
-// Generated on 12/06/2016 11:35:51
-
 using Cookie.API.Gamedata.D2o;
+using System.Collections.Generic;
+using Cookie.API.Gamedata.D2o.other;
 
 namespace Cookie.API.Datacenter
 {
-    [D2oClass("CompanionSpells")]
+    [D2oClass("CompanionSpell")]
     public class CompanionSpell : IDataObject
     {
-        public const string MODULE = "CompanionSpells";
-        public int CompanionId;
-        public string GradeByLevel;
-        public int Id;
-        public int SpellId;
+		private const string MODULE = "CompanionSpell";
+		public int Id;
+		public int SpellId;
+		public int CompanionId;
+		public string GradeByLevel;
     }
 }

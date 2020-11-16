@@ -34,14 +34,6 @@ namespace Cookie.API.Gamedata.D2o
     {
         private const int NullIdentifier = unchecked((int) 0xAAAAAAAA);
 
-        /// <summary>
-        ///     Contains all assembly where the reader search D2o class
-        /// </summary>
-        public static List<Assembly> ClassesContainers = new List<Assembly>
-        {
-            typeof(Breed).Assembly
-        };
-
         private static readonly Dictionary<Type, Func<object[], object>> objectCreators =
             new Dictionary<Type, Func<object[], object>>();
 
@@ -168,66 +160,33 @@ namespace Cookie.API.Gamedata.D2o
 
         private static Type FindType(string className)
         {
-            var correspondantTypes = from asm in ClassesContainers
-                let types = asm.GetTypes()
-                from type in types
-                where type.Name.Equals(className, StringComparison.InvariantCulture) &&
-                      type.HasInterface(typeof(IDataObject))
-                select type;
-
-            try
+            var asm = typeof(Datacenter.Breed).Assembly;
+            var types = asm.GetTypes();
+            foreach(var type in types)
             {
-                return correspondantTypes.Single();
+                if (type.Name.Equals(className) && type.HasInterface(typeof(IDataObject)))
+                    return type; 
             }
-            catch
-            {
-                return null;
-            }
+            throw new Exception("Could not find ClassName[" + className + "] in asm");
+            //var correspondantTypes = from asm in ClassesContainers
+            //                         let types = asm.GetTypes()
+            //                         from type in types
+            //                         where type.Name.Equals(className, StringComparison.InvariantCulture)/* &&
+            //          type.HasInterface(typeof(IDataObject))*/
+            //                         select type;
+            //try
+            //{
+            //    return correspondantTypes.Single();
+            //}
+            //catch
+            //{
+            //    return null;
+            //}
         }
 
         private bool IsTypeDefined(Type type)
         {
             return Classes.Count(entry => entry.Value.ClassType == type) > 0;
-        }
-
-        /// <summary>
-        ///     Get all objects that corresponding to T associated to his index
-        /// </summary>
-        /// <typeparam name="T">Corresponding class</typeparam>
-        /// <param name="allownulled">True to adding null instead of throwing an exception</param>
-        /// <returns></returns>
-        public Dictionary<int, T> ReadObjects<T>(bool allownulled = false)
-            where T : class
-        {
-            if (!IsTypeDefined(typeof(T)))
-                throw new Exception("The file doesn't contain this class");
-
-            var result = new Dictionary<int, T>(Indexes.Count);
-
-            using (var reader = CloneReader())
-            {
-                foreach (var index in Indexes)
-                {
-                    reader.Seek(index.Value, SeekOrigin.Begin);
-
-                    var classid = reader.ReadInt();
-
-                    if (Classes[classid].ClassType == typeof(T) ||
-                        Classes[classid].ClassType.IsSubclassOf(typeof(T)))
-                        try
-                        {
-                            result.Add(index.Key, BuildObject(Classes[classid], reader) as T);
-                        }
-                        catch
-                        {
-                            if (allownulled)
-                                result.Add(index.Key, default(T));
-                            else
-                                throw;
-                        }
-                }
-            }
-            return result;
         }
 
         /// <summary>
@@ -445,8 +404,9 @@ namespace Cookie.API.Gamedata.D2o
                 vectorDimension++;
                 try
                 {
-                    var obj = ReadField(reader, field, field.VectorTypes[vectorDimension - 1].Item1, vectorDimension);
-                    result.Add(obj);
+                    var obj = ReadField(reader, field, field.VectorTypes[vectorDimension - 1].Item1, vectorDimension); // This object is type T
+                    obj.GetType();
+                    result.Add(obj); // This Vector is List<Y> I want to convert explicity T to Y at runtime
                 }
                 catch
                 {

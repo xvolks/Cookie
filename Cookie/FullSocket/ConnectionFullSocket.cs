@@ -57,7 +57,6 @@ namespace Cookie.FullSocket
 
         private static void OnServerConnected(ServerConnection server)
         {
-            Console.WriteLine($@"Connected to Server {server.Ip}");
             Logger.Default.Log("Connexion en cours <" + server.Ip + ">");
         }
 

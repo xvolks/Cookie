@@ -1,4 +1,6 @@
-﻿namespace Cookie.Core.Scripts
+﻿using Cookie.API.Gamedata;
+
+namespace Cookie.Core.Scripts
 {
     public enum SpellTarget
     {
@@ -9,17 +11,21 @@
 
     public class IASpell
     {
-        public bool Condition;
-        public int Relaunchs;
-        public int SpellId;
-        public SpellTarget Target;
+        public bool HandToHand { get; }
+        public bool MoveFirst { get; set; }
+        public int Relaunchs { get; }
+        public int SpellId { get; }
+        public SpellTarget Target { get; }
+        public string Name { get; }
 
-        public IASpell(int spellId, int relaunchs, SpellTarget target = SpellTarget.Enemy, bool condition = true)
+        public IASpell(int spellId, int relaunchs, SpellTarget target, bool handToHand, bool moveFirst)
         {
             SpellId = spellId;
             Relaunchs = relaunchs;
             Target = target;
-            Condition = condition;
+            HandToHand = handToHand;
+            MoveFirst = moveFirst;
+            Name = D2OParsing.GetSpellName(SpellId);
         }
     }
 }

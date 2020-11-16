@@ -2,6 +2,7 @@
 {
     public enum ExchangeTypeEnum
     {
+        UNKNOWN_TRADE_TYPE = -1,
         NPC_SHOP = 0,
         PLAYER_TRADE = 1,
         NPC_TRADE = 2,
@@ -19,7 +20,7 @@
         MOUNT = 15,
         MOUNT_STABLE = 16,
         NPC_RESURECT_PET = 17,
-        NPC_TRADE_RIDE = 18,
+        NPC_TRADE_DRAGOTURKEY = 18,
         REALESTATE_HOUSE = 19,
         REALESTATE_FARM = 20,
         RUNES_TRADE = 21,
@@ -28,6 +29,9 @@
         TRASHBIN = 24,
         ALLIANCE_PRISM = 25,
         HAVENBAG = 26,
-        NPC_TRADE_MULDO = 27
+        NPC_TRADE_SEEMYOOL = 27,
+        NPC_TRADE_RHINEETLE = 28,
+        EVOLUTIVE_OBJECT_ELEMENTARY_RECYCLE = 29,
+        NPC_RIDE_CAPABILITY_TRADE = 30
     }
 }

@@ -1,13 +1,15 @@
 using Cookie.API.Gamedata.D2o;
+using System.Collections.Generic;
+using Cookie.API.Gamedata.D2o.other;
 
 namespace Cookie.API.Datacenter
 {
-    [D2oClass("RankNames")]
+    [D2oClass("RankName")]
     public class RankName : IDataObject
     {
-        public const string MODULE = "RankNames";
-        public int Id;
-        public uint NameId;
-        public int Order;
+		private const string MODULE = "RankName";
+		public int Id;
+		public int NameId;
+		public int Order;
     }
 }

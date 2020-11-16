@@ -1,29 +1,29 @@
-﻿// Generated on 12/06/2016 11:35:52
-
 using Cookie.API.Gamedata.D2o;
+using System.Collections.Generic;
+using Cookie.API.Gamedata.D2o.other;
 
 namespace Cookie.API.Datacenter
 {
-    [D2oClass("Subhints")]
+    [D2oClass("Subhint")]
     public class Subhint : IDataObject
     {
-        public int Hintid;
-        public string Hintparentuid;
-        public string Hintanchoredelement;
-        public int Hintanchor;
-        public int Hintpositionx;
-        public int Hintpositiony;
-        public int Hintwidth;
-        public int Hintheight;
-        public string Hinthighlightedelement;
-        public string Hinttexture;
-        public int Hintorder;
-        public string Hinttooltiptext;
-        public int Hinttooltippositionenum;
-        public string Hinttooltipurl;
-        public int Hinttooltipoffsetx;
-        public int Hinttooltipoffsety;
-        public int Hinttooltipwidth;
-        public double Hintcreationdate;
+		private const string MODULE = "Subhint";
+		public int Hintid;
+		public string Hintparentuid;
+		public string Hintanchoredelement;
+		public int Hintanchor;
+		public int Hintpositionx;
+		public int Hintpositiony;
+		public int Hintwidth;
+		public int Hintheight;
+		public string Hinthighlightedelement;
+		public int Hintorder;
+		public int Hinttooltiptext;
+		public int Hinttooltippositionenum;
+		public string Hinttooltipurl;
+		public int Hinttooltipoffsetx;
+		public int Hinttooltipoffsety;
+		public int Hinttooltipwidth;
+		public double Hintcreationdate;
     }
 }

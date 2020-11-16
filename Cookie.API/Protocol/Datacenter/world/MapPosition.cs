@@ -1,29 +1,28 @@
-// Generated on 12/06/2016 11:35:52
-
-using System.Collections.Generic;
 using Cookie.API.Gamedata.D2o;
+using System.Collections.Generic;
+using Cookie.API.Gamedata.D2o.other;
 
 namespace Cookie.API.Datacenter
 {
-    [D2oClass("MapPositions")]
+    [D2oClass("MapPosition")]
     public class MapPosition : IDataObject
     {
-        public const string MODULE = "MapPositions";
-        public int Capabilities;
-        public bool HasPriorityOnWorldmap;
-        public int Id;
-        public bool IsUnderWater;
-        public int NameId;
-        public bool Outdoor;
-        public List<List<int>> Playlists;
-        public int PosX;
-        public int PosY;
-        public bool ShowNameOnFingerpost;
-        public List<AmbientSound> Sounds;
-        public int SubAreaId;
-        public int WorldMap;
-        public bool IsTransition;
-        public int TacticalModeTemplateId;
-        public bool AllowPrism;
+		private const string MODULE = "MapPosition";
+		public int Id;
+		public int PosX;
+		public int PosY;
+		public bool Outdoor;
+		public int Capabilities;
+		public int NameId;
+		public List<AmbientSound> Sounds;
+		public int SubAreaId;
+		public int WorldMap;
+		public bool HasPriorityOnWorldmap;
+		public bool ShowNameOnFingerpost;
+		public List<List<int>> Playlists;
+		public bool AllowPrism;
+		public bool IsTransition;
+		public uint TacticalModeTemplateId;
+		public bool HasPublicPaddock;
     }
 }

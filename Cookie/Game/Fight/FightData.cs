@@ -10,15 +10,8 @@ using Cookie.API.Game.World.Pathfinding.Positions;
 using Cookie.API.Gamedata.D2o;
 using Cookie.API.Messages;
 using Cookie.API.Protocol.Enums;
-using Cookie.API.Protocol.Network.Messages.Game.Actions;
-using Cookie.API.Protocol.Network.Messages.Game.Actions.Fight;
-using Cookie.API.Protocol.Network.Messages.Game.Actions.Sequence;
-using Cookie.API.Protocol.Network.Messages.Game.Character.Stats;
-using Cookie.API.Protocol.Network.Messages.Game.Context;
-using Cookie.API.Protocol.Network.Messages.Game.Context.Fight;
-using Cookie.API.Protocol.Network.Messages.Game.Context.Fight.Character;
-using Cookie.API.Protocol.Network.Types.Game.Actions.Fight;
-using Cookie.API.Protocol.Network.Types.Game.Context.Fight;
+using Cookie.API.Protocol.Network.Messages;
+using Cookie.API.Protocol.Network.Types;
 using Cookie.API.Utils;
 using Cookie.API.Utils.Enums;
 using Cookie.Game.Fight.Fighters;
@@ -92,7 +85,6 @@ namespace Cookie.Game.Fight
 
             CheckLock = new object();
         }
-
         public bool IsFightStarted { get; protected set; }
         public bool IsFighterTurn { get; protected set; }
         public bool WaitForReady { get; protected set; }
@@ -105,12 +97,9 @@ namespace Cookie.Game.Fight
         public Dictionary<int, int> LastTurnLaunchBySpell { get; set; }
         public List<FightOptionsEnum> Options { get; }
         public Dictionary<int, int> DurationByEffect { get; set; }
-
         public IFighter Fighter => GetFighter(Account.Character.Id);
-
         public List<IFighter> Fighters { get; protected set; }
         public int TurnId { get; protected set; }
-
         public List<IMonster> GetMonsters()
         {
             return Monsters;
@@ -128,8 +117,7 @@ namespace Cookie.Game.Fight
 
         #region Handle
 
-        private void HandleGameActionFightPointsVariationMessage(IAccount account,
-            GameActionFightPointsVariationMessage message)
+        private void HandleGameActionFightPointsVariationMessage(IAccount account, GameActionFightPointsVariationMessage message)
         {
             var fighter = (Fighter) GetFighter(message.TargetId);
             if (fighter == null) return;
@@ -148,26 +136,21 @@ namespace Cookie.Game.Fight
                     break;
             }
         }
-
         private void HandleGameActionFightSlideMessage(IAccount account, GameActionFightSlideMessage message)
         {
             var fighter = (Fighter) GetFighter(message.TargetId);
             if (fighter != null)
                 fighter.CellId = message.EndCellId;
         }
-
         private void HandleGameFightTurnReadyRequestMessage(IAccount account, GameFightTurnReadyRequestMessage message)
         {
             account.Network.SendToServer(new GameFightTurnReadyMessage(true));
         }
-
         private void HandleGameFightTurnStartPlayingMessage(IAccount account, GameFightTurnStartPlayingMessage message)
         {
             TurnStarted?.Invoke();
         }
-
-        private void HandleGameActionFightDispellableEffectMessage(IAccount account,
-            GameActionFightDispellableEffectMessage message)
+        private void HandleGameActionFightDispellableEffectMessage(IAccount account, GameActionFightDispellableEffectMessage message)
         {
             if (message.Effect is FightTemporaryBoostStateEffect ftbse)
             {
@@ -190,7 +173,6 @@ namespace Cookie.Game.Fight
                 }
             }
         }
-
         private void HandleGameMapMovementMessage(IAccount account, GameMapMovementMessage message)
         {
             if (Account.Character.Status != CharacterStatus.Fighting) return;
@@ -200,7 +182,6 @@ namespace Cookie.Game.Fight
             if (fighter != null)
                 fighter.CellId = clientMovement.CellEnd.CellId;
         }
-
         private void HandleGameActionFightSpellCastMessage(IAccount account, GameActionFightSpellCastMessage message)
         {
             var fighter = (Fighter) GetFighter(message.SourceId);
@@ -238,7 +219,6 @@ namespace Cookie.Game.Fight
                 TotalLaunchByCellBySpell.Add(message.SpellId, tempdico);
             }
         }
-
         private void HandleGameActionFightSummonMessage(IAccount account, GameActionFightSummonMessage message)
         {
             lock (CheckLock)
@@ -247,7 +227,6 @@ namespace Cookie.Game.Fight
                     AddFighter(summon);
             }
         }
-
         private void HandleGameFightShowFighterMessage(IAccount account, GameFightShowFighterMessage message)
         {
             lock (CheckLock)
@@ -255,26 +234,22 @@ namespace Cookie.Game.Fight
                 AddFighter(message.Informations);
             }
         }
-
-        private void HandleGameActionFightTeleportOnSameMapMessage(IAccount account,
-            GameActionFightTeleportOnSameMapMessage message)
+        private void HandleGameActionFightTeleportOnSameMapMessage(IAccount account, GameActionFightTeleportOnSameMapMessage message)
         {
             var fighter = (Fighter) GetFighter(message.TargetId);
             if (fighter != null)
                 fighter.CellId = message.CellId;
         }
-
         private void HandleGameEntitiesDispositionMessage(IAccount account, GameEntitiesDispositionMessage message)
         {
             message.Dispositions.ToList().ForEach(d =>
             {
-                var fighter = (Fighter) GetFighter(d.ObjectId);
+                var fighter = (Fighter) GetFighter(d.Id);
                 if (fighter != null)
                     fighter.CellId = d.CellId;
             });
             Account.Character.Status = CharacterStatus.Fighting;
         }
-
         private void HandleGameFightJoinMessage(IAccount account, GameFightJoinMessage message)
         {
             lock (CheckLock)
@@ -289,22 +264,19 @@ namespace Cookie.Game.Fight
                 WaitForReady = !message.IsFightStarted && message.CanSayReady;
             }
         }
-
-        private void HandleGameFightOptionStateUpdateMessage(IAccount account,
-            GameFightOptionStateUpdateMessage message)
+        private void HandleGameFightOptionStateUpdateMessage(IAccount account, GameFightOptionStateUpdateMessage message)
         {
             if (!message.State && Options.Contains((FightOptionsEnum) message.Option))
                 Options.Remove((FightOptionsEnum) message.Option);
             if (message.State && !Options.Contains((FightOptionsEnum) message.Option))
                 Options.Add((FightOptionsEnum) message.Option);
         }
-
         private void HandleGameFightTurnStartMessage(IAccount account, GameFightTurnStartMessage message)
         {
             if (!IsFightStarted)
                 IsFightStarted = true;
 
-            if (message.ObjectId == Account.Character.Id)
+            if (message.Id == Account.Character.Id)
             {
                 IsFighterTurn = true;
                 Account.Character.Status = CharacterStatus.Fighting;
@@ -313,23 +285,20 @@ namespace Cookie.Game.Fight
             {
                 IsFighterTurn = false;
             }
-            TurnId = (int) message.ObjectId;
+            TurnId = (int) message.Id;
         }
-
-        private void HandleGameFightShowFighterRandomStaticPoseMessage(IAccount account,
-            GameFightShowFighterRandomStaticPoseMessage message)
+        private void HandleGameFightShowFighterRandomStaticPoseMessage(IAccount account, GameFightShowFighterRandomStaticPoseMessage message)
         {
             HandleGameFightShowFighterMessage(account, message);
         }
-
         private void HandleGameFightHumanReadyStateMessage(IAccount account, GameFightHumanReadyStateMessage message)
         {
             if (message.CharacterId == Account.Character.Id)
                 WaitForReady = !message.IsReady;
         }
-
         private void HandleGameFightSynchronizeMessage(IAccount account, GameFightSynchronizeMessage message)
         {
+
             lock (CheckLock)
             {
                 Fighters.Clear();
@@ -340,7 +309,6 @@ namespace Cookie.Game.Fight
             }
             Account.Character.Status = CharacterStatus.Fighting;
         }
-
         private void HandleGameFightLeaveMessage(IAccount account, GameFightLeaveMessage message)
         {
             if (message.CharId == Account.Character.Id)
@@ -356,13 +324,12 @@ namespace Cookie.Game.Fight
                 }
             }
         }
-
         private void HandleGameFightTurnEndMessage(IAccount account, GameFightTurnEndMessage message)
         {
             Account.Character.Status = CharacterStatus.Fighting;
             lock (CheckLock)
             {
-                if (message.ObjectId == Account.Character.Id)
+                if (message.Id == Account.Character.Id)
                 {
                     var num4 = 0;
                     var list = new List<int>();
@@ -399,25 +366,22 @@ namespace Cookie.Game.Fight
                     }
                 }
             }
-            var fighter = (Fighter) GetFighter(message.ObjectId);
+            var fighter = (Fighter) GetFighter(message.Id);
             if (fighter == null) return;
             fighter.ActionPoints = fighter.Stats.MaxActionPoints;
             fighter.MovementPoints = fighter.Stats.MaxMovementPoints;
         }
-
         private void HandleGameFightStartMessage(IAccount account, GameFightStartMessage message)
         {
             WaitForReady = false;
             IsFightStarted = true;
         }
-
         private void HandleGameFightStartingMessage(IAccount account, GameFightStartingMessage message)
         {
             FightStarted?.Invoke();
             Account.Character.Status = CharacterStatus.Fighting;
             Logger.Default.Log("Début du combat");
         }
-
         private void HandleGameFightEndMessage(IAccount account, GameFightEndMessage message)
         {
             Fighters.Clear();
@@ -434,20 +398,23 @@ namespace Cookie.Game.Fight
 
             Account.Character.Status = CharacterStatus.None;
         }
-
         private void HandleFighterStatsListMessage(IAccount account, FighterStatsListMessage message)
         {
             Account.Character.Stats = message.Stats;
         }
-
         private void HandleGameActionFightDeathMessage(IAccount account, GameActionFightDeathMessage message)
         {
-            var fighter = GetFighter(message.TargetId);
             if (Fighter.Id == message.TargetId)
+            {
                 Logger.Default.Log("Bot mort");
+                Fighters.Remove(Fighters.Find(f => f.Id == message.TargetId));
+            }
             if (Monsters.Exists(m => m.Id == message.TargetId))
-                Logger.Default.Log($"Monstre est mort");
-            RemoveFighter(message.TargetId);
+            {
+                Logger.Default.Log($"Monstre[{message.TargetId}] est mort");
+                Monsters.Remove(Monsters.Find(m => m.Id == message.TargetId));
+            }
+            //RemoveFighter(message.TargetId);
         }
 
         private void HandleSequenceEndMessage(IAccount account, SequenceEndMessage message)
@@ -462,9 +429,7 @@ namespace Cookie.Game.Fight
 
         public int CanUseSpell(int spellId, IFighter target)
         {
-            if (CanLaunchSpell(spellId) != SpellInabilityReason.None)
-                return -1;
-
+            if (target == null) return -1;
             if (CanLaunchSpellOn(spellId, Fighter.CellId, target.CellId) == SpellInabilityReason.None)
                 return 0;
 
@@ -480,6 +445,8 @@ namespace Cookie.Game.Fight
                 distance = tempDistance;
                 moveCell = cell;
             }
+            if (moveCell == -1)
+                moveCell = -60;
             return moveCell;
         }
 
@@ -489,13 +456,14 @@ namespace Cookie.Game.Fight
             var distance = -1;
             IMonster rMonster = null;
 
-            foreach (var monster in Monsters)
+            foreach (var monster in Monsters.ToList())
             {
                 var monsterMp = new MapPoint(monster.CellId);
-
+                if (monster.LifePoints == 0) continue;
                 if (distance != -1 && charMp.DistanceToCell(monsterMp) >= distance) continue;
                 rMonster = monster;
                 distance = charMp.DistanceToCell(monsterMp);
+                //Logger.Default.Log($"Closest Monster[{rMonster.Id}] has LifePoints[{rMonster.LifePoints}]");
             }
 
             return rMonster;
@@ -509,15 +477,13 @@ namespace Cookie.Game.Fight
                     temp = new Tuple<uint, IMonster>(m.LifePoints, m);
             return temp.Item2;
         }
-
-        public bool IsHandToHand()
+        public bool IsHandToHand(int characterCellId = -1)
         {
-            var characterPoint = new MapPoint(Fighter.CellId);
+            var characterPoint = new MapPoint((characterCellId == -1 ? Fighter.CellId : characterCellId));
             var targetPoint = new MapPoint(NearestMonster().CellId);
 
             return characterPoint.DistanceToCell(targetPoint) <= 1;
         }
-
         public List<int> GetReachableCells()
         {
             var listWalkableCells = new List<int>();
@@ -537,7 +503,6 @@ namespace Cookie.Game.Fight
 
             return listWalkableCells;
         }
-
         #endregion Public Fonction
 
         #region Protected Fonction
@@ -546,8 +511,7 @@ namespace Cookie.Game.Fight
         {
             return Monsters.Count(informations => informations.Stats.Summoner == Fighter.Id);
         }
-
-        protected SpellInabilityReason CanLaunchSpell(int spellId)
+        public SpellInabilityReason CanLaunchSpell(int spellId)
         {
             short spellLevel;
             try
@@ -595,9 +559,7 @@ namespace Cookie.Game.Fight
             }
             return SpellInabilityReason.None;
         }
-
-        protected SpellInabilityReason CanLaunchSpellOn(int spellId, int characterCellId, int cellId,
-            bool withMove = false)
+        public SpellInabilityReason CanLaunchSpellOn(int spellId, int characterCellId, int cellId, bool withMove = false)
         {
             if (!withMove)
             {
@@ -699,26 +661,26 @@ namespace Cookie.Game.Fight
             }
             return SpellInabilityReason.None;
         }
-
         protected void RemoveFighter(double Id)
         {
             Fighters.Remove(Fighters.Find(f => f.Id == Id));
             Monsters.Remove(Monsters.Find(m => m.Id == Id));
-            Companions.Remove(Companions.Find(c => c.Id == Id));
         }
 
         protected void AddFighter(GameFightFighterInformations infos)
         {
             if (infos is GameFightMonsterInformations monsterInfo)
                 Monsters.Add(new Monster(monsterInfo.ContextualId, monsterInfo.Disposition.CellId, monsterInfo.Stats,
-                    monsterInfo.TeamId, monsterInfo.Alive, monsterInfo.CreatureGenericId, monsterInfo.CreatureGrade));
-            else if (infos is GameFightCompanionInformations companionInfo)
-                Companions.Add(new Companion(companionInfo.ContextualId, companionInfo.Disposition.CellId,
-                    companionInfo.Stats, companionInfo.TeamId, companionInfo.Alive, companionInfo.CompanionGenericId,
-                    companionInfo.Level, companionInfo.MasterId));
-            else
-                Fighters.Add(new Fighter(infos.ContextualId, infos.Disposition.CellId, infos.Stats, infos.TeamId,
+                    (uint)monsterInfo.TeamId, monsterInfo.Alive, monsterInfo.CreatureGenericId, (byte)monsterInfo.CreatureGrade));
+            //else if (infos is GameFightCompanion companionInfo)
+            //    Companions.Add(new Companion(companionInfo.ContextualId, companionInfo.Disposition.CellId,
+            //        companionInfo.Stats, companionInfo.TeamId, companionInfo.Alive, companionInfo.CompanionGenericId,
+            //        companionInfo.Level, companionInfo.MasterId));
+            else if( infos is GameFightCharacterInformations)
+                Fighters.Add(new Fighter(infos.ContextualId, infos.Disposition.CellId, infos.Stats, (uint)infos.TeamId,
                     infos.Alive));
+            else
+                throw new Exception($"Typeof({infos.TypeID}) [{infos.GetType()}] type is missing on AddFighter()");
         }
 
         protected int DistanceFrom(IFighter fighter)
@@ -733,11 +695,21 @@ namespace Cookie.Game.Fight
 
         protected IFighter GetFighter(double fighterId)
         {
-            return Monsters.Find(x => x.Id == fighterId) != null
-                ? Monsters.FirstOrDefault(m => m.Id == fighterId)
-                : (Companions.Find(x => x.Id == fighterId) != null
-                    ? Companions.FirstOrDefault(c => c.Id == fighterId)
-                    : Fighters.FirstOrDefault(f => f.Id == fighterId));
+            //Logger.Default.Log($"Looking for id [{fighterId}]");
+             
+            //foreach (var monster in Account.Character.Map.Monsters)
+            //    Logger.Default.Log($"[Monster]{monster.GroupName} has id {monster.Id} and level [{monster.GroupLevel}]");
+            //foreach (var fighter in Fighters)
+            //    Logger.Default.Log($"[Fighter]Fighter on {fighter.CellId} has id {fighter.Id}");
+            //foreach (var companion in Companions)
+            //    Logger.Default.Log($"[Companion]{companion.Name} has id {companion.Id}");
+
+            if (Monsters.Find(x => x.Id == fighterId) != null)
+                return Monsters.FirstOrDefault(m => m.Id == fighterId);
+            //else if (Companions.Find(x => x.Id == fighterId) != null)
+            //    return Companions.FirstOrDefault(c => c.Id == fighterId);
+            else
+                return Fighters.FirstOrDefault(f => f.Id == fighterId);
         }
 
         protected bool IsFreeCell(int cellId)

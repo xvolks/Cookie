@@ -10,9 +10,10 @@ using Cookie.API.Gamedata.Icons;
 using Cookie.API.Messages;
 using Cookie.API.Protocol;
 using Cookie.API.Protocol.Enums;
-using Cookie.API.Protocol.Network.Messages.Game.Chat;
+using Cookie.API.Protocol.Network.Messages;
 using Cookie.API.Utils;
 using Cookie.API.Utils.Enums;
+using Cookie.API.Utils.Extensions;
 using Cookie.Commands.Managers;
 using Cookie.FullSocket;
 using Cookie.Game.Chat;
@@ -63,11 +64,11 @@ namespace Cookie
                     Settings.Default.DofusPath = GlobalConfiguration.Instance.DofusPath;
                     Settings.Default.Save();
 
-                    MapsManager.Init(Settings.Default.DofusPath + @"\app\content\maps");
-                    IconsManager.Instance.Initialize(Settings.Default.DofusPath + @"\app\content\gfx\items");
-                    ObjectDataManager.Instance.AddReaders(Settings.Default.DofusPath + @"\app\data\common");
+                    MapsManager.Init(Settings.Default.DofusPath + @"\content\maps");
+                    IconsManager.Instance.Initialize(Settings.Default.DofusPath + @"\content\gfx\items");
+                    ObjectDataManager.Instance.AddReaders(Settings.Default.DofusPath + @"\data\common");
 
-                    FastD2IReader.Instance.Init(Settings.Default.DofusPath + @"\app\data\i18n" +
+                    FastD2IReader.Instance.Init(Settings.Default.DofusPath + @"\data\i18n" +
                                                 "\\i18n_fr.d2i");
 
                     ImageManager.Init(Settings.Default.DofusPath);
@@ -75,8 +76,8 @@ namespace Cookie
                 {
                     var fullSocketConfiguration = new FullSocketConfiguration
                     {
-                        RealAuthHost = "213.248.126.40",
-                        RealAuthPort = 443
+                        RealAuthHost = "78.46.57.166",
+                        RealAuthPort = 12000
                     };
 
                     var messageReceiver = new MessageReceiver();
@@ -177,6 +178,9 @@ namespace Cookie
                     case LogMessageType.Help:
                         LogTextBox.SelectionColor = ColorTranslator.FromHtml("#2DB796");
                         break;
+                    case LogMessageType.Trajet:
+                        LogTextBox.SelectionColor = ColorTranslator.FromHtml("#ff00f7");
+                        break;
                     case LogMessageType.Command:
                         LogTextBox.SelectionColor = ColorTranslator.FromHtml("#969696");
                         text = $"$-> [{_chatHistory.Total()}] {log}";
@@ -263,7 +267,7 @@ namespace Cookie
                 {
                     var ccmm = new ChatClientMultiMessage
                     {
-                        Channel = (byte) ChatChannelsMultiEnum.CHANNEL_GLOBAL,
+                        Channel = (sbyte) ChatChannelsMultiEnum.CHANNEL_GLOBAL,
                         Content = ChatTextBox.Text
                     };
 
@@ -273,53 +277,62 @@ namespace Cookie
                 {
                     var txt = ChatTextBox.Text.Substring(0, 2);
                     var chattxt = ChatTextBox.Text.Replace(txt, "");
-
-                    var ccmm = new ChatClientMultiMessage
+                    if(txt == "/w")
                     {
-                        Channel = (byte) ChatChannelsMultiEnum.CHANNEL_GLOBAL,
-                        Content = chattxt
-                    };
-
-                    switch (txt)
-                    {
-                        case "/g":
-                            if (string.IsNullOrWhiteSpace(chattxt))
-                                ccmm.Channel = (byte) ChatChannelsMultiEnum.CHANNEL_GUILD;
-                            break;
-                        case "/s":
-                            if (string.IsNullOrWhiteSpace(chattxt))
-                                ccmm.Channel = (byte) ChatChannelsMultiEnum.CHANNEL_GLOBAL;
-                            break;
-                        case "/t":
-                            if (string.IsNullOrWhiteSpace(chattxt))
-                                ccmm.Channel = (byte) ChatChannelsMultiEnum.CHANNEL_TEAM;
-                            break;
-                        case "/a":
-                            if (string.IsNullOrWhiteSpace(chattxt))
-                                ccmm.Channel = (byte) ChatChannelsMultiEnum.CHANNEL_ALLIANCE;
-                            break;
-                        case "/p":
-                            if (string.IsNullOrWhiteSpace(chattxt))
-                                ccmm.Channel = (byte) ChatChannelsMultiEnum.CHANNEL_PARTY;
-                            break;
-                        case "/k":
-                            if (string.IsNullOrWhiteSpace(chattxt))
-                                ccmm.Channel = (byte) ChatChannelsMultiEnum.CHANNEL_ARENA;
-                            break;
-                        case "/b":
-                            if (string.IsNullOrWhiteSpace(chattxt))
-                                ccmm.Channel = (byte) ChatChannelsMultiEnum.CHANNEL_SALES;
-                            break;
-                        case "/r":
-                            if (string.IsNullOrWhiteSpace(chattxt))
-                                ccmm.Channel = (byte) ChatChannelsMultiEnum.CHANNEL_SEEK;
-                            break;
-                        default:
-                            ccmm.Channel = (byte) ChatChannelsMultiEnum.CHANNEL_GLOBAL;
-                            break;
+                        string[] receiver = chattxt.Split(new char[] { ' ' }, 2, StringSplitOptions.RemoveEmptyEntries);
+                        var messagePacket = new ChatClientPrivateMessage(receiver[0]) { Content = receiver[1] };
+                        _account.Network.SendToServer(messagePacket);
                     }
-                    _account.Network.SendToServer(ccmm);
-                    ChatTextBox.BeginInvoke(new Action(() => ChatTextBox.Text = ""));
+                    else
+                    {
+                        var ccmm = new ChatClientMultiMessage
+                        {
+                            Channel = (sbyte)ChatChannelsMultiEnum.CHANNEL_GLOBAL,
+                            Content = chattxt
+                        };
+
+                        switch (txt)
+                        {
+                            case "/g":
+                                if (string.IsNullOrWhiteSpace(chattxt))
+                                    ccmm.Channel = (sbyte)ChatChannelsMultiEnum.CHANNEL_GUILD;
+                                break;
+                            case "/s":
+                                if (string.IsNullOrWhiteSpace(chattxt))
+                                    ccmm.Channel = (sbyte)ChatChannelsMultiEnum.CHANNEL_GLOBAL;
+                                break;
+                            case "/t":
+                                if (string.IsNullOrWhiteSpace(chattxt))
+                                    ccmm.Channel = (sbyte)ChatChannelsMultiEnum.CHANNEL_TEAM;
+                                break;
+                            case "/a":
+                                if (string.IsNullOrWhiteSpace(chattxt))
+                                    ccmm.Channel = (sbyte)ChatChannelsMultiEnum.CHANNEL_ALLIANCE;
+                                break;
+                            case "/p":
+                                if (string.IsNullOrWhiteSpace(chattxt))
+                                    ccmm.Channel = (sbyte)ChatChannelsMultiEnum.CHANNEL_PARTY;
+                                break;
+                            case "/k":
+                                if (string.IsNullOrWhiteSpace(chattxt))
+                                    ccmm.Channel = (sbyte)ChatChannelsMultiEnum.CHANNEL_ARENA;
+                                break;
+                            case "/b":
+                                if (string.IsNullOrWhiteSpace(chattxt))
+                                    ccmm.Channel = (sbyte)ChatChannelsMultiEnum.CHANNEL_SALES;
+                                break;
+                            case "/r":
+                                if (string.IsNullOrWhiteSpace(chattxt))
+                                    ccmm.Channel = (sbyte)ChatChannelsMultiEnum.CHANNEL_SEEK;
+                                break;
+                            default:
+                                ccmm.Channel = (sbyte)ChatChannelsMultiEnum.CHANNEL_GLOBAL;
+                                ccmm.Content = txt + chattxt;
+                                break;
+                        }
+                        _account.Network.SendToServer(ccmm);
+                        ChatTextBox.BeginInvoke(new Action(() => ChatTextBox.Text = ""));
+                    }
                 }
             }
         }

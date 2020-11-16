@@ -1,5 +1,5 @@
 ﻿using Cookie.API.Game.Entity;
-using Cookie.API.Protocol.Network.Types.Game.Context.Fight;
+using Cookie.API.Protocol.Network.Types;
 
 namespace Cookie.API.Game.Fight.Fighters
 {

@@ -25,6 +25,17 @@ namespace Cookie.Commands.Managers
             var args = Expression.Parameter(typeof(string[]), "args");
             var client = Expression.Parameter(typeof(IAccount), "account");
 
+            foreach (var com in commands)
+            {
+                var cmdName = (Activator.CreateInstance(com) as ICommand).CommandName;
+                Console.WriteLine(cmdName);
+                var onCommandMethod = com.GetMethod("OnCommand");
+                var callOnCommandMethod = Expression.Call(Expression.New(com.GetConstructor(Type.EmptyTypes)), onCommandMethod, client, args);
+                var block = Expression.Block(callOnCommandMethod);
+                SwitchCase sCase = Expression.SwitchCase(block, Expression.Constant(cmdName));
+                cases.Add(sCase);
+            }
+            /*
             cases.AddRange(from com in commands
                 let cmdName = (Activator.CreateInstance(com) as ICommand).CommandName
                 let onCommandMethod = com.GetMethod("OnCommand")
@@ -32,7 +43,7 @@ namespace Cookie.Commands.Managers
                     onCommandMethod, client, args)
                 let block = Expression.Block(callOnCommandMethod)
                 select Expression.SwitchCase(block, Expression.Constant(cmdName)));
-
+            */
             var throwEx = Expression.Throw(Expression.New(typeof(CommandNotFoundException)));
 
             var defaultBody = Expression.Block(throwEx);
@@ -50,7 +61,7 @@ namespace Cookie.Commands.Managers
 
             var toParse = str.Split(' ');
 
-            var command = toParse.First().ToLower();
+            var command = toParse.First();
             var args = toParse.Where(x => x != command).ToArray();
 
             Parser(client, command, args);

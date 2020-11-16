@@ -1,16 +1,16 @@
-// Generated on 12/06/2016 11:35:50
-
 using Cookie.API.Gamedata.D2o;
+using System.Collections.Generic;
+using Cookie.API.Gamedata.D2o.other;
 
 namespace Cookie.API.Datacenter
 {
-    [D2oClass("IncarnationLevels")]
+    [D2oClass("IncarnationLevel")]
     public class IncarnationLevel : IDataObject
     {
-        public const string MODULE = "IncarnationLevels";
-        public int Id;
-        public int IncarnationId;
-        public int Level;
-        public uint RequiredXp;
+		private const string MODULE = "IncarnationLevel";
+		public int Id;
+		public int IncarnationId;
+		public int Level;
+		public int RequiredXp;
     }
 }

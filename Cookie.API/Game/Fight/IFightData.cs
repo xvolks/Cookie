@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Cookie.API.Game.Fight.Fighters;
-using Cookie.API.Protocol.Network.Messages.Game.Context.Fight;
+using Cookie.API.Protocol.Network.Messages;
 
 namespace Cookie.API.Game.Fight
 {
@@ -45,7 +45,7 @@ namespace Cookie.API.Game.Fight
         /// <summary>
         ///     Vérifie si le bot est main à main avec quelqu'un
         /// </summary>
-        bool IsHandToHand();
+        bool IsHandToHand(int characterCellId = -1);
 
         /// <summary>
         ///     Retourne le monstre le plus proche
@@ -61,7 +61,7 @@ namespace Cookie.API.Game.Fight
         ///     Test si le sort peut être utiliser
         /// </summary>
         int CanUseSpell(int spellId, IFighter target);
-
+        SpellInabilityReason CanLaunchSpellOn(int spellId, int characterCellId, int cellId, bool withMove = false);
         List<IMonster> GetMonsters();
     }
 }

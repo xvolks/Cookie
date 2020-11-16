@@ -1,14 +1,16 @@
 using Cookie.API.Gamedata.D2o;
+using System.Collections.Generic;
+using Cookie.API.Gamedata.D2o.other;
 
 namespace Cookie.API.Datacenter
 {
     [D2oClass("NamingRule")]
     public class NamingRule : IDataObject
     {
-        public const string MODULE = "Smileys";
-        public uint Id;
-        public uint MaxLength;
-        public uint MinLength;
-        public string Regexp;
+		private const string MODULE = "NamingRule";
+		public int Id;
+		public int MinLength;
+		public int MaxLength;
+		public string Regexp;
     }
 }

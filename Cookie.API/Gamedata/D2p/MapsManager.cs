@@ -31,19 +31,18 @@ namespace Cookie.API.Gamedata.D2p
                 var mapBytes = D2pFileManager.GetMapBytes(str);
                 if (mapBytes != null)
                 {
-                    var stream = new MemoryStream(D2pFileManager.GetMapBytes(str)) {Position = 2};
-                    var stream2 = new DeflateStream(stream, CompressionMode.Decompress);
-                    var buffer = new byte[8192];
-                    var destination = new MemoryStream();
-                    int read;
-                    while ((read = stream2.Read(buffer, 0, buffer.Length)) > 0)
-                        destination.Write(buffer, 0, read);
-                    destination.Position = 0;
-                    var reader = new BigEndianReader(destination);
-                    var map = new Map();
-                    map.Init(reader);
-                    MapId_Map.Add(id, map);
-                    Array.Clear(mapBytes, 0, mapBytes.Length);
+
+                    MemoryStream stream = new MemoryStream();
+                    using (MemoryStream decompressMapStream = new MemoryStream(mapBytes) { Position = 2 })
+                    using (DeflateStream mapDeflateStream = new DeflateStream(decompressMapStream, CompressionMode.Decompress))
+                    { 
+                        mapDeflateStream.CopyTo(stream);
+                    }
+                    stream.Position = 0;
+                    //Console.WriteLine(BitConverter.ToString(stream.ToArray()).Replace("-",""));
+                    BigEndianReader Raw = new BigEndianReader(stream);
+                    Map map = new Map();
+                    map.Init(Raw);
                     return map;
                 }
                 MapId_Map.Add(id, null);

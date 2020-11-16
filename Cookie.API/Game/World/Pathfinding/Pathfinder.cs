@@ -59,8 +59,6 @@ namespace Cookie.API.Game.World.Pathfinding
             if (Map.Id == 2561)
                 ListCellIdFighters.Add(53);
         }
-
-
         public MovementPath FindPath(int FromCell, int ToCell, bool ate)
         {
             return FindPath(FromCell, ToCell, ate, true);
@@ -84,7 +82,6 @@ namespace Cookie.API.Game.World.Pathfinding
 
             StartPathfinding(new MapPoint(FromCell), new MapPoint(ToCell));
             ProcessPathfinding();
-
             return MovPath;
         }
 
@@ -169,7 +166,6 @@ namespace Cookie.API.Game.World.Pathfinding
                                             isTopRightEnd = actualX - actualY == EndX - EndY;
                                             isTopRightStart = actualX - actualY == StartX - StartY;
                                             actualPoint = new MapPoint(actualX, actualY);
-
                                             if (!isDownRightEnd && !isTopRightEnd ||
                                                 !isDownRightStart && !isTopRightStart)
                                             {

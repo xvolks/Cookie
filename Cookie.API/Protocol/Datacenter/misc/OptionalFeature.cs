@@ -1,14 +1,14 @@
-// Generated on 12/06/2016 11:35:51
-
 using Cookie.API.Gamedata.D2o;
+using System.Collections.Generic;
+using Cookie.API.Gamedata.D2o.other;
 
 namespace Cookie.API.Datacenter
 {
-    [D2oClass("OptionalFeatures")]
+    [D2oClass("OptionalFeature")]
     public class OptionalFeature : IDataObject
     {
-        public const string MODULE = "OptionalFeatures";
-        public int Id;
-        public string Keyword;
+		private const string MODULE = "OptionalFeature";
+		public int Id;
+		public string Keyword;
     }
 }

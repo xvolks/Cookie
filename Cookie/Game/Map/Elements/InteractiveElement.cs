@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Cookie.API.Game.Map.Elements;
-using Cookie.API.Protocol.Network.Types.Game.Interactive;
+using Cookie.API.Protocol.Network.Types;
 
 namespace Cookie.Game.Map.Elements
 {

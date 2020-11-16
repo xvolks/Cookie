@@ -202,6 +202,26 @@ namespace Cookie.API.Utils.IO
             throw new NotImplementedException();
         }
 
+        public sbyte[] ReadSBytes(int n)
+        {
+            return ReadSBytes(n);
+        }
+
+        public byte ReadUnsignedByte()
+        {
+            return ReadByte();
+        }
+
+        public ushort ReadUnsignedShort()
+        {
+            return ReadUShort();
+        }
+
+        public uint ReadUnsignedInt()
+        {
+            return ReadUInt();
+        }
+
         #endregion
     }
 }

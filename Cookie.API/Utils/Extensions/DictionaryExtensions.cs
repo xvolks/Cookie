@@ -9,4 +9,13 @@ namespace Cookie.API.Utils.Extensions
             return dict.TryGetValue(key, out var value) ? value : defaultValue;
         }
     }
+    public static class ListExtension
+    {
+        public static T PopAt<T>(this List<T> list, int index)
+        {
+            T r = list[index];
+            list.RemoveAt(index);
+            return r;
+        }
+    }
 }

@@ -1,13 +1,15 @@
 using Cookie.API.Gamedata.D2o;
+using System.Collections.Generic;
+using Cookie.API.Gamedata.D2o.other;
 
 namespace Cookie.API.Datacenter
 {
-    [D2oClass("MapReferences")]
+    [D2oClass("MapReference")]
     public class MapReference : IDataObject
     {
-        public const string MODULE = "MapReferences";
-        public int CellId;
-        public int Id;
-        public uint MapId;
+		private const string MODULE = "MapReference";
+		public int Id;
+		public int MapId;
+		public int CellId;
     }
 }

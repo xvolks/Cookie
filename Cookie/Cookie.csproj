@@ -61,6 +61,9 @@
     <Compile Include="Commands\Commands\GatherCommand.cs" />
     <Compile Include="Commands\Commands\GoCellCommand.cs" />
     <Compile Include="Commands\Commands\HelpCommand.cs" />
+    <Compile Include="Commands\Commands\ItemCountCommand.cs" />
+    <Compile Include="Commands\Commands\ItemListCommand.cs" />
+    <Compile Include="Commands\Commands\ItemUseCommand.cs" />
     <Compile Include="Commands\Commands\JobsCommand.cs" />
     <Compile Include="Commands\Commands\KamasCommand.cs" />
     <Compile Include="Commands\Commands\LevelCommand.cs" />
@@ -75,6 +78,7 @@
     <Compile Include="Core\Frames\BasicFrame.cs" />
     <Compile Include="Core\Frames\LatencyFrame.cs" />
     <Compile Include="Core\Network\Network.cs" />
+    <Compile Include="Core\Pathmanager\PathManagerException.cs" />
     <Compile Include="Core\Scripts\IASpell.cs" />
     <Compile Include="Core\Scripts\ScriptsData.cs" />
     <Compile Include="Core\Scripts\ScriptsManager.cs" />
@@ -89,6 +93,7 @@
     <Compile Include="Game\Chat\History.cs" />
     <Compile Include="Game\Entity\Entity.cs" />
     <Compile Include="Game\Entity\Merchant.cs" />
+    <Compile Include="Game\Entity\Resource.cs" />
     <Compile Include="Game\Fight\ArtificialIntelligence.cs" />
     <Compile Include="Game\Fight\Fight.cs" />
     <Compile Include="Game\Fight\FightData.cs" />

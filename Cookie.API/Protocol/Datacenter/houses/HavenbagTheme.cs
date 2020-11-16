@@ -1,15 +1,15 @@
-// Generated on 12/06/2016 11:35:50
-
 using Cookie.API.Gamedata.D2o;
+using System.Collections.Generic;
+using Cookie.API.Gamedata.D2o.other;
 
 namespace Cookie.API.Datacenter
 {
-    [D2oClass("HavenbagThemes")]
+    [D2oClass("HavenbagTheme")]
     public class HavenbagTheme : IDataObject
     {
-        public const string MODULE = "HavenbagThemes";
-        public int Id;
-        public int MapId;
-        public int NameId;
+		private const string MODULE = "HavenbagTheme";
+		public int Id;
+		public int NameId;
+		public int MapId;
     }
 }

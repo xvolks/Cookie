@@ -61,6 +61,7 @@ namespace Cookie.Core
         public void LogPacket(string origin, string name, string id)
         {
             MainForm.AddPacketsListView(origin, name, id);
+            //System.Diagnostics.Debug.WriteLine($"[{id}]{name}");
         }
 
         public void PerformAction(Action action, int delay)

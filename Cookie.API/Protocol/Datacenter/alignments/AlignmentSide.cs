@@ -1,15 +1,15 @@
-// Generated on 12/06/2016 11:35:49
-
 using Cookie.API.Gamedata.D2o;
+using System.Collections.Generic;
+using Cookie.API.Gamedata.D2o.other;
 
 namespace Cookie.API.Datacenter
 {
-    [D2oClass("AlignmentSides")]
+    [D2oClass("AlignmentSide")]
     public class AlignmentSide : IDataObject
     {
-        public const string MODULE = "AlignmentSides";
-        public bool CanConquest;
-        public int Id;
-        public uint NameId;
+		private const string MODULE = "AlignmentSide";
+		public int Id;
+		public int NameId;
+		public bool CanConquest;
     }
 }

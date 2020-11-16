@@ -1,15 +1,15 @@
-// Generated on 12/06/2016 11:35:52
-
 using Cookie.API.Gamedata.D2o;
+using System.Collections.Generic;
+using Cookie.API.Gamedata.D2o.other;
 
 namespace Cookie.API.Datacenter
 {
-    [D2oClass("ServerPopulations")]
+    [D2oClass("ServerPopulation")]
     public class ServerPopulation : IDataObject
     {
-        public const string MODULE = "ServerPopulations";
-        public int Id;
-        public uint NameId;
-        public int Weight;
+		private const string MODULE = "ServerPopulation";
+		public int Id;
+		public int NameId;
+		public int Weight;
     }
 }

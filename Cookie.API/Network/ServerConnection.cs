@@ -1,7 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Net.Sockets;
 using Cookie.API.Protocol;
+using Cookie.API.Utils;
 using Cookie.API.Utils.IO;
 
 namespace Cookie.API.Network
@@ -58,7 +60,7 @@ namespace Cookie.API.Network
             lock (this)
             {
                 if (!IsConnected)
-                    return;
+                    throw new Exception("Cannot send Data. Disconnected");
 
                 var args = new SocketAsyncEventArgs();
                 args.Completed += OnSendCompleted;
@@ -70,7 +72,7 @@ namespace Cookie.API.Network
                     message.Pack(writer);
                     data = writer.Data;
                 }
-
+                //System.Diagnostics.Debug.WriteLine("MessageSent[{0}] => {1}", message.MessageID, BitConverter.ToString(data).Replace("-",""));
                 args.SetBuffer(data, 0, data.Length);
 
                 if (!Socket.SendAsync(args))
@@ -99,6 +101,7 @@ namespace Cookie.API.Network
                     var messageDataReader = new BigEndianReader(_currentMessage.Data);
                     if (_currentMessage.MessageId != null)
                     {
+                        //Logger.Default.Log(string.Format("Parsing Message[{0}] => {1}",_currentMessage.MessageId, BitConverter.ToString(buffer.Data).Replace("-","")));
                         var message =
                             MessageBuilder.BuildMessage((ushort) _currentMessage.MessageId.Value, messageDataReader);
 

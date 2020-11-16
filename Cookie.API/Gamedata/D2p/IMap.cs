@@ -32,7 +32,7 @@ namespace Cookie.API.Gamedata.D2p
         int MapType { get; set; }
         int MapVersion { get; set; }
         int PresetId { get; set; }
-        int RelativeId { get; set; }
+        uint RelativeId { get; set; }
         int RightNeighbourId { get; set; }
         int ShadowBonusOnEntities { get; set; }
         int SubAreaId { get; set; }
@@ -52,5 +52,8 @@ namespace Cookie.API.Gamedata.D2p
         ///     Gets the cells count in the current map
         /// </summary>
         int CellsCount { get; }
+        int BackgroundColor { get; set; }
+        uint GridColor { get; set; }
+        int TacticalModeTempladeId { get; set; }
     }
 }

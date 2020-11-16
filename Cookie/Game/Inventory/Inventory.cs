@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Cookie.API.Core;
 using Cookie.API.Game.Inventory;
@@ -6,21 +7,22 @@ using Cookie.API.Gamedata;
 using Cookie.API.Gamedata.D2i;
 using Cookie.API.Gamedata.D2o;
 using Cookie.API.Messages;
-using Cookie.API.Protocol.Network.Messages.Game.Inventory;
-using Cookie.API.Protocol.Network.Messages.Game.Inventory.Exchanges;
-using Cookie.API.Protocol.Network.Messages.Game.Inventory.Items;
-using Cookie.API.Protocol.Network.Messages.Game.Inventory.Spells;
-using Cookie.API.Protocol.Network.Types.Game.Data.Items;
+using Cookie.API.Protocol.Network.Messages;
+using Cookie.API.Protocol.Network.Types;
 using Cookie.API.Utils;
 using Cookie.API.Utils.Enums;
+using MoonSharp.Interpreter;
 using Item = Cookie.API.Datacenter.Item;
 
 namespace Cookie.Game.Inventory
 {
+    [MoonSharpUserData]
     public class Inventory : IInventory
     {
+        IAccount Account;
         public Inventory(IAccount account)
         {
+            Account = account;
             Objects = new List<ObjectItem>();
 
             #region Exchange
@@ -49,8 +51,8 @@ namespace Cookie.Game.Inventory
             #region Inventory
 
             account.Network.RegisterPacket<KamasUpdateMessage>(HandleKamasUpdateMessage, MessagePriority.VeryHigh);
-            account.Network.RegisterPacket<InventoryContentAndPresetMessage>(HandleInventoryContentAndPresetMessage,
-                MessagePriority.VeryHigh);
+            //account.Network.RegisterPacket<InventoryContentAndPresetMessage>(HandleInventoryContentAndPresetMessage,
+            //    MessagePriority.VeryHigh);
             account.Network.RegisterPacket<InventoryContentMessage>(HandleInventoryContentMessage,
                 MessagePriority.VeryHigh);
             account.Network.RegisterPacket<InventoryWeightMessage>(HandleInventoryWeightMessage,
@@ -63,6 +65,7 @@ namespace Cookie.Game.Inventory
             account.Network.RegisterPacket<ObjectsDeletedMessage>(HandleObjectsDeletedMessage,
                 MessagePriority.VeryHigh);
             account.Network.RegisterPacket<ObtainedItemMessage>(HandleObtainedItemMessage, MessagePriority.VeryHigh);
+            account.Network.RegisterPacket<ObtainedItemWithBonusMessage>(HandleObtainedItemWithBonusMessage, MessagePriority.VeryHigh);
             account.Network.RegisterPacket<GoldAddedMessage>(HandleGoldAddedMessage, MessagePriority.VeryHigh);
 
             #endregion
@@ -72,6 +75,24 @@ namespace Cookie.Game.Inventory
             account.Network.RegisterPacket<SpellListMessage>(HandleSpellListMessage, MessagePriority.VeryHigh);
 
             #endregion
+        }
+        public Inventory(IAccount account, bool Handlers = false)
+        {
+            Account = account;
+            Objects = new List<ObjectItem>();
+        }
+        private void HandleObtainedItemWithBonusMessage(IAccount account, ObtainedItemWithBonusMessage message)
+        {
+            Logger.Default.Log($"Tu as reçu : {FastD2IReader.Instance.GetText(ObjectDataManager.Instance.Get<Item>(message.GenericId).NameId)} x {message.BaseQuantity} Bonus[{message.BonusQuantity}]");
+            foreach(var item in account.Character.Inventory.Objects)
+            {
+                if (item.ObjectGID == message.GenericId)
+                {
+                    item.Quantity += message.BaseQuantity + message.BonusQuantity;
+                    Logger.Default.Log($"There are {item.Quantity} of {FastD2IReader.Instance.GetText(ObjectDataManager.Instance.Get<Item>(message.GenericId).NameId)}");
+
+                }
+            }
         }
 
         public List<ObjectItem> Objects { get; set; }
@@ -84,7 +105,6 @@ namespace Cookie.Game.Inventory
         }
 
         #endregion
-
 
         #region Exchange
 
@@ -189,10 +209,10 @@ namespace Cookie.Game.Inventory
             account.Character.Stats.Kamas = message.KamasTotal;
         }
 
-        private void HandleInventoryContentAndPresetMessage(IAccount account, InventoryContentAndPresetMessage message)
-        {
-            HandleInventoryContentMessage(account, message);
-        }
+        //private void HandleInventoryContentAndPresetMessage(IAccount account, InventoryContentAndPresetMessage message)
+        //{
+        //    HandleInventoryContentMessage(account, message);
+        //}
 
         private void HandleInventoryContentMessage(IAccount account, InventoryContentMessage message)
         {
@@ -249,7 +269,33 @@ namespace Cookie.Game.Inventory
             Logger.Default.Log(
                 $"Tu as reçu : {message.Gold}");
         }
+        #endregion
 
+        #region Public Methods
+        public bool HasItem(int itemId)
+        {
+            if (Account.Character.Inventory.Objects.FindIndex(x => x.ObjectGID == itemId && x.Quantity > 0) == -1)
+                return false;
+            return true;
+        }
+        public bool UseItem(int itemId)
+        {
+            var item = GetItem(itemId);
+            if (item == null)
+                return false;
+            Account.Network.SendToServer(new ObjectUseMessage(item.ObjectUID));
+            Account.Character.Inventory.Objects.Find(x => x.ObjectGID == itemId).Quantity -= 1;
+            return true;
+        }
+        public uint ItemCount(int itemId)
+        {
+            var item = GetItem(itemId);
+            return item == null ? 0 : item.Quantity;
+        }
+        private ObjectItem GetItem(int itemId) 
+        {
+            return Account.Character.Inventory.Objects.Find(x => x.ObjectGID == itemId && x.Quantity > 0);
+        }
         #endregion
     }
 }

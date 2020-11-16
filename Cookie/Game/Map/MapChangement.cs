@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Timers;
 using Cookie.API.Core;
 using Cookie.API.Game.Map;
-using Cookie.API.Protocol.Network.Messages.Game.Context.Roleplay;
+using Cookie.API.Protocol.Network.Messages;
 using Cookie.API.Utils;
 
 namespace Cookie.Game.Map
@@ -20,7 +21,7 @@ namespace Cookie.Game.Map
             _oId = account.Character.MapId;
             NewMap = nid;
             _cellMovement = cm;
-            _timeoutTimer = new Timer(20000);
+            _timeoutTimer = new Timer(10000);
             _timeoutTimer.Elapsed += _timeoutTimer_Elapsed;
         }
 
@@ -28,15 +29,35 @@ namespace Cookie.Game.Map
 
         public void PerformChangement()
         {
+            if (_timeoutTimer.Enabled)
+                return;
             if (_cellMovement == null || NewMap == 0)
             {
                 OnChangementFinished(false);
                 return;
             }
-
-            _cellMovement.MovementFinished += _cellMovement_MovementFinished;
+            _account.Character.Map.MovementConfirmed += Map_MovementConfirmed;
             _cellMovement.PerformMovement();
-            _timeoutTimer.Start();
+            if (_timeoutTimer != null) //if null it means it timedout
+                _timeoutTimer.Start();
+        }
+
+        private void Map_MovementConfirmed(object sender, MovementConfirmed e)
+        {
+            _account.Character.Map.MovementConfirmed -= Map_MovementConfirmed;
+            _cellMovement = null;
+
+            if (!e.Status)
+            {
+                OnChangementFinished(false);
+                return;
+            }
+
+            _account.Character.Map.MapChanged += Map_MapChanged;
+            Console.WriteLine($"Sending ChangeMapMessage");
+            Task.Delay(150).ContinueWith(t =>
+            _account.Network.SendToServer(new ChangeMapMessage(NewMap, false))
+            );
         }
 
         public event EventHandler<MapChangementFinishedEventArgs> ChangementFinished;
@@ -55,28 +76,6 @@ namespace Cookie.Game.Map
             OnChangementFinished(e.NewMapId == NewMap);
         }
 
-        private void _cellMovement_MovementFinished(object sender, CellMovementEventArgs e)
-        {
-            _cellMovement.MovementFinished -= _cellMovement_MovementFinished;
-            _cellMovement = null;
-
-            if (!e.Sucess)
-            {
-                OnChangementFinished(false);
-                return;
-            }
-
-            _account.Character.Map.MapChanged += Map_MapChanged;
-            _account.Network.SendToServer(new ChangeMapMessage(NewMap));
-        }
-
-        private void OnTimeout()
-        {
-            RemoveEvents();
-
-            Timeout?.Invoke();
-        }
-
         private void OnChangementFinished(bool s)
         {
             RemoveEvents();
@@ -89,12 +88,14 @@ namespace Cookie.Game.Map
             _account.Character.Map.MapChanged -= Map_MapChanged;
             if (_cellMovement != null)
             {
-                _cellMovement.MovementFinished -= _cellMovement_MovementFinished;
                 _cellMovement = null;
             }
-            _timeoutTimer.Stop();
-            _timeoutTimer.Dispose();
-            _timeoutTimer = null;
+            if(_timeoutTimer != null)
+            {
+                _timeoutTimer.Stop();
+                _timeoutTimer.Dispose();
+                _timeoutTimer = null;
+            }
         }
     }
 }

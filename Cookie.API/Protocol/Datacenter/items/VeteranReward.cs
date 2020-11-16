@@ -1,16 +1,16 @@
-// Generated on 12/06/2016 11:35:50
-
 using Cookie.API.Gamedata.D2o;
+using System.Collections.Generic;
+using Cookie.API.Gamedata.D2o.other;
 
 namespace Cookie.API.Datacenter
 {
-    [D2oClass("VeteranRewards")]
+    [D2oClass("VeteranReward")]
     public class VeteranReward : IDataObject
     {
-        public const string MODULE = "VeteranRewards";
-        public int Id;
-        public uint ItemGID;
-        public uint ItemQuantity;
-        public uint RequiredSubDays;
+		private const string MODULE = "VeteranReward";
+		public int Id;
+		public uint RequiredSubDays;
+		public uint ItemGID;
+		public uint ItemQuantity;
     }
 }

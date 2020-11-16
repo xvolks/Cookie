@@ -1,22 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography;
 using Cookie.API.Core;
+using Cookie.API.Game.Map;
 using Cookie.API.Gamedata;
+using Cookie.API.Gamedata.D2p;
 using Cookie.API.Messages;
 using Cookie.API.Network;
 using Cookie.API.Protocol;
 using Cookie.API.Protocol.Enums;
-using Cookie.API.Protocol.Network.Messages.Connection;
-using Cookie.API.Protocol.Network.Messages.Game.Approach;
-using Cookie.API.Protocol.Network.Messages.Game.Character.Choice;
-using Cookie.API.Protocol.Network.Messages.Queues;
-using Cookie.API.Protocol.Network.Messages.Security;
-using Cookie.API.Protocol.Network.Types.Version;
+using Cookie.API.Protocol.Network.Messages;
+using Cookie.API.Protocol.Network.Types;
 using Cookie.API.Utils;
 using Cookie.API.Utils.Cryptography;
 using Cookie.API.Utils.Enums;
 using Cookie.API.Utils.Extensions;
+using Cookie.API.Utils.IO;
 using Cookie.Core;
+using Cookie.Game.Map;
 
 namespace Cookie.FullSocket
 {
@@ -34,7 +36,6 @@ namespace Cookie.FullSocket
         public FullSocket(FullSocketConfiguration configuration, MessageReceiver messageReceiver)
         {
             _mConfiguration = configuration;
-
             MessageBuilder = messageReceiver;
         }
 
@@ -56,8 +57,7 @@ namespace Cookie.FullSocket
                 Network = {ConnectionType = ClientConnectionType.Authentification}
             };
 
-            server.Account.Network.RegisterPacket<HelloConnectMessage>(HandleHelloConnectMessage,
-                MessagePriority.VeryHigh);
+            server.Account.Network.RegisterPacket<HelloConnectMessage>(HandleHelloConnectMessage, MessagePriority.VeryHigh);
 
             server.Account.Network.RegisterPacket<ServersListMessage>(HandleServersListMessage,
                 MessagePriority.VeryHigh);
@@ -127,7 +127,7 @@ namespace Cookie.FullSocket
                     fs.MessageReceived += OnWorldClientMessageReceived;
                     try
                     {
-                        fs.Server.Reconnect(tuple.Item2.Address, tuple.Item2.Port);
+                        fs.Server.Reconnect(tuple.Item2.Address, tuple.Item2.Ports.FirstOrDefault());
                     }
                     catch (Exception ex)
                     {
@@ -153,7 +153,7 @@ namespace Cookie.FullSocket
         {
             if (!(client is ConnectionFullSocket))
                 throw new ArgumentException("client is not of type ConnectionFullSocket");
-
+            Logger.Default.Log(string.Format("MessageID[{0}] received", message.MessageID));
             var fs = (ConnectionFullSocket) client;
             if (message is IdentificationSuccessMessage ism)
                 HandleIdentificationSuccessMessage(fs, ism);
@@ -162,12 +162,12 @@ namespace Cookie.FullSocket
                 var msg = ssdm;
                 //Logger.Default.Log(msg.ServerId.ToString());
                 Logger.Default.Log("Sélection du serveur " + D2OParsing.GetServerName(msg.ServerId));
-                var ticket = AES.DecodeWithAES(msg.Ticket);
+                var ticket = string.Join(",", msg.Ticket);
+                fs.Account.Ticket = ticket;
                 _mTickets.Add(ticket,
                     Tuple.Create(fs.Account,
-                        new SelectedServerDataMessage(msg.ServerId, msg.Address, msg.Port, msg.CanCreateNewCharacter,
+                        new SelectedServerDataMessage(msg.ServerId, msg.Address, msg.Ports, msg.CanCreateNewCharacter,
                             msg.Ticket)));
-                fs.Account.Ticket = ticket;
             }
             if (message is SelectedServerRefusedMessage ssrm)
             {
@@ -193,8 +193,8 @@ namespace Cookie.FullSocket
 
             if (message is HelloGameMessage)
             {
-                var timer = ((ConnectionFullSocket) fs.Account.Network.Connection).TimeOutTimer;
-                timer?.Dispose();
+                //var timer = ((ConnectionFullSocket) fs.Account.Network.Connection).TimeOutTimer;
+                //timer?.Dispose();
 
                 fs.SendToServer(new AuthenticationTicketMessage("fr", fs.Account.Ticket));
             }
@@ -222,13 +222,13 @@ namespace Cookie.FullSocket
         {
             client.Account.Nickname = message.Login;
             Logger.Default.Log("Connecté");
+            client.Account.Network.ExpectedDisconnection = true;
         }
 
         private void HandleHelloConnectMessage(IAccount account, HelloConnectMessage message)
         {
             account.Network.ConnectionType = ClientConnectionType.Authentification;
             Logger.Default.Log("Connecté au serveur d'authentification.");
-            var credentials = Rsa.Encrypt(message.Key, account.Login, account.Password, message.Salt);
             var version = new VersionExtended
             {
                 BuildType = GameConstant.BuildType,
@@ -240,11 +240,21 @@ namespace Cookie.FullSocket
                 Revision = GameConstant.Revision,
                 Technology = GameConstant.Technology
             };
-
+            string password = "";
+            using (SHA512 shaM = new SHA512Managed())
+            {
+                byte[] hash = shaM.ComputeHash(System.Text.Encoding.UTF8.GetBytes(account.Password));
+                string hashedPw = BitConverter.ToString(hash).Replace("-", "").ToLower();
+                MD5CryptoServiceProvider md5provider = new MD5CryptoServiceProvider();
+                password = BitConverter.ToString(md5provider.ComputeHash(System.Text.Encoding.UTF8.GetBytes(hashedPw + message.Salt))).Replace("-", "").ToLower();
+                //Client.Logger.Log(password);
+                
+            }
             var identificationMessage =
-                new IdentificationMessage(true, false, false, version, "fr", credentials, 0, 0, new List<ushort>());
+                 new IdentificationMessage(true, false, false, version, "fr", account.Login, password, "y3JJiZ0geixj3GDmm2#01", 0, 0, new List<short>());
             Logger.Default.Log("Envois des informations d'identification...");
             account.Network.SendToServer(identificationMessage);
+            account.Network.SendToServer(new ClientKeyMessage("y3JJiZ0geixj3GDmm2#01"));
         }
 
         private void HandleServersListMessage(IAccount account, ServersListMessage message)
@@ -256,20 +266,17 @@ namespace Cookie.FullSocket
             }
 
             var server = message.Servers.Find(s => (ServerStatusEnum) s.Status == ServerStatusEnum.ONLINE
-                                                   && s.IsSelectable && s.CharactersCount > 0);
+                                                   /*&& s.IsSelectable*/ && s.CharactersCount > 0);
 
             account.Network.SendToServer(server == null
                 ? new ServerSelectionMessage(11)
-                : new ServerSelectionMessage(server.ObjectId));
+                : new ServerSelectionMessage(server.Id));
             Logger.Default.Log("Connecté au serveur de jeu !");
         }
 
         private void HandleSelectedServerDataMessage(IAccount account, SelectedServerDataMessage message)
         {
-            var ticket = AES.DecodeWithAES(message.Ticket);
-            var tuple = _mTickets[ticket];
-            tuple.Item1.Network.ExpectedDisconnection = true;
-            tuple.Item1.Ticket = ticket;
+            //
         }
 
         private void HandleSelectedServerDataExtendedMessage(IAccount account,

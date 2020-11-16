@@ -1,4 +1,4 @@
-﻿using Cookie.API.Protocol.Network.Types.Game.Context.Roleplay;
+﻿using Cookie.API.Protocol.Network.Types;
 
 namespace Cookie.API.Game.Entity
 {

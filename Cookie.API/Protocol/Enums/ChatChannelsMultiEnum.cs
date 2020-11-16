@@ -11,6 +11,7 @@
         CHANNEL_SEEK = 6,
         CHANNEL_NOOB = 7,
         CHANNEL_ADMIN = 8,
+        CHANNEL_PRIVATE = 9,
         CHANNEL_ADS = 12,
         CHANNEL_ARENA = 13,
         CHANNEL_COMMUNITY = 14

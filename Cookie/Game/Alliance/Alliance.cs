@@ -1,7 +1,7 @@
 ﻿using Cookie.API.Core;
 using Cookie.API.Game.Alliance;
 using Cookie.API.Messages;
-using Cookie.API.Protocol.Network.Messages.Game.Alliance;
+using Cookie.API.Protocol.Network.Messages;
 using Cookie.API.Utils;
 using Cookie.API.Utils.Enums;
 

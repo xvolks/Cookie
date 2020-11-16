@@ -1,17 +1,19 @@
 using Cookie.API.Gamedata.D2o;
+using System.Collections.Generic;
+using Cookie.API.Gamedata.D2o.other;
 
 namespace Cookie.API.Datacenter
 {
-    [D2oClass("ChatChannels")]
+    [D2oClass("ChatChannel")]
     public class ChatChannel : IDataObject
     {
-        public const string MODULE = "ChatChannels";
-        public bool AllowObjects;
-        public uint DescriptionId;
-        public uint Id;
-        public bool IsPrivate;
-        public uint NameId;
-        public string Shortcut;
-        public string ShortcutKey;
+		private const string MODULE = "ChatChannel";
+		public int Id;
+		public int NameId;
+		public int DescriptionId;
+		public string Shortcut;
+		public string ShortcutKey;
+		public bool IsPrivate;
+		public bool AllowObjects;
     }
 }

@@ -1,17 +1,16 @@
-// Generated on 12/06/2016 11:35:50
-
-using System.Collections.Generic;
 using Cookie.API.Gamedata.D2o;
+using System.Collections.Generic;
+using Cookie.API.Gamedata.D2o.other;
 
 namespace Cookie.API.Datacenter
 {
-    [D2oClass("CharacteristicCategories")]
+    [D2oClass("CharacteristicCategory")]
     public class CharacteristicCategory : IDataObject
     {
-        public const string MODULE = "CharacteristicCategories";
-        public List<uint> CharacteristicIds;
-        public int Id;
-        public uint NameId;
-        public int Order;
+		private const string MODULE = "CharacteristicCategory";
+		public int Id;
+		public int NameId;
+		public int Order;
+		public List<uint> CharacteristicIds;
     }
 }

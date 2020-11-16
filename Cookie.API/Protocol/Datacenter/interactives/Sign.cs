@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Cookie.API.Gamedata.D2o;
+using System.Collections.Generic;
+using Cookie.API.Gamedata.D2o.other;
 
-namespace Cookie.API.Protocol.Datacenter.interactives
+namespace Cookie.API.Datacenter
 {
-    [D2oClass("Signs")]
+    [D2oClass("Sign")]
     public class Sign : IDataObject
     {
-        public const string MODULE = "Signs";
-        public int Id;
-        public string Params;
-        public int SkillId;
-        public uint TextKey;
+		private const string MODULE = "Sign";
+		public int Id;
+		public string Params;
+		public int SkillId;
+		public int TextKey;
     }
 }

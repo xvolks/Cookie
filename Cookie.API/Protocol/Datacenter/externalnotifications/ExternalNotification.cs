@@ -1,23 +1,23 @@
-// Generated on 12/06/2016 11:35:50
-
 using Cookie.API.Gamedata.D2o;
+using System.Collections.Generic;
+using Cookie.API.Gamedata.D2o.other;
 
 namespace Cookie.API.Datacenter
 {
-    [D2oClass("ExternalNotifications")]
+    [D2oClass("ExternalNotification")]
     public class ExternalNotification : IDataObject
     {
-        public const string MODULE = "ExternalNotifications";
-        public int CategoryId;
-        public int ColorId;
-        public bool DefaultEnable;
-        public bool DefaultMultiAccount;
-        public bool DefaultNotify;
-        public bool DefaultSound;
-        public uint DescriptionId;
-        public int IconId;
-        public int Id;
-        public uint MessageId;
-        public string Name;
+		private const string MODULE = "ExternalNotification";
+		public int Id;
+		public int CategoryId;
+		public int IconId;
+		public int ColorId;
+		public int DescriptionId;
+		public bool DefaultEnable;
+		public bool DefaultSound;
+		public bool DefaultMultiAccount;
+		public bool DefaultNotify;
+		public string Name;
+		public int MessageId;
     }
 }

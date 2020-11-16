@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using Cookie.API.Game.Map;
 using Cookie.API.Utils.IO;
 
@@ -19,6 +21,7 @@ namespace Cookie.API.Gamedata.D2p
         public List<Fixture> BackgroundFixtures { get; set; }
         public int BackgroundGreen { get; set; }
         public int BackgroundRed { get; set; }
+        public int BackgroundColor { get; set; }
         public int BackgroundsCount { get; set; }
         public int BottomNeighbourId { get; set; }
         public bool Encrypted { get; set; }
@@ -29,6 +32,7 @@ namespace Cookie.API.Gamedata.D2p
         public uint GridBlue { get; set; }
         public uint GridGreen { get; set; }
         public uint GridRed { get; set; }
+        public uint GridColor { get; set; }
         public string GroundCRC { get; set; }
         public double Id { get; set; }
         public bool IsUsingNewMovementSystem { get; set; }
@@ -38,7 +42,7 @@ namespace Cookie.API.Gamedata.D2p
         public int MapType { get; set; }
         public int MapVersion { get; set; }
         public int PresetId { get; set; }
-        public int RelativeId { get; set; }
+        public uint RelativeId { get; set; }
         public int RightNeighbourId { get; set; }
         public int ShadowBonusOnEntities { get; set; }
         public int SubAreaId { get; set; }
@@ -49,9 +53,10 @@ namespace Cookie.API.Gamedata.D2p
         public int ZoomOffsetY { get; set; }
         public double ZoomScale { get; set; }
         public List<CellData> Cells { get; } = new List<CellData>();
-
         public int CellsCount { get; private set; }
+        public int TacticalModeTempladeId { get; set; }
 
+        public List<int> TopArrowCell, BottomArrowCell, RightArrowCell, LeftArrowCell = new List<int>();
         public bool IsLineOfSight(int cellId)
         {
             return cellId >= 0 && cellId < CellsCount && Cells[cellId].Los;
@@ -64,98 +69,110 @@ namespace Cookie.API.Gamedata.D2p
 
         internal void Init(BigEndianReader reader)
         {
-            reader.ReadSByte();
+            byte header = reader.ReadByte();
+            if (header != 77)
+                throw new Exception("Header cannot be different than 77");
             MapVersion = reader.ReadSByte();
-            Id = (int) reader.ReadUInt();
-
+            Id = reader.ReadUInt();
             if (MapVersion >= 7)
             {
                 Encrypted = reader.ReadBoolean();
                 EncryptedVersion = reader.ReadSByte();
-                var count = reader.ReadInt();
+                int dataLen = reader.ReadInt();
                 if (Encrypted)
                 {
-                    var buffer = CustomHex.ToArray(CustomHex.FromString("649ae451ca33ec53bbcbcc33becf15f4"));
-                    var buffer2 = reader.ReadBytes(count);
-                    for (var n = 0; n < buffer2.Length; n++)
-                        buffer2[n] = Convert.ToByte(buffer2[n] ^ buffer[n % buffer.Length]);
-                    reader = new BigEndianReader(buffer2);
+                    byte[] key = Encoding.UTF8.GetBytes("649ae451ca33ec53bbcbcc33becf15f4");
+                    var encryptedData = reader.ReadBytes(dataLen);
+                    System.IO.MemoryStream decryptedData = new System.IO.MemoryStream();
+                    for (int i = 0; i < dataLen; i++)
+                        decryptedData.WriteByte((byte)(encryptedData[i] ^ (key[i % key.Length])));
+
+                    reader = new BigEndianReader(decryptedData.ToArray());
                 }
             }
 
-            RelativeId = (int) reader.ReadUInt();
+            RelativeId = reader.ReadUInt();
             MapType = reader.ReadSByte();
             SubAreaId = reader.ReadInt();
             TopNeighbourId = reader.ReadInt();
             BottomNeighbourId = reader.ReadInt();
             LeftNeighbourId = reader.ReadInt();
             RightNeighbourId = reader.ReadInt();
-            ShadowBonusOnEntities = (int) reader.ReadUInt();
+            ShadowBonusOnEntities = reader.ReadInt();
 
             if (MapVersion >= 9)
             {
-                var readColor = reader.ReadInt();
-                BackgroundAlpha = (readColor & 4278190080) >> 32;
-                BackgroundRed = (readColor & 16711680) >> 16;
-                BackgroundGreen = (readColor & 65280) >> 8;
-                BackgroundBlue = readColor & 255;
-                var readColor2 = reader.ReadUInt();
-                GridAlpha = (readColor2 & 4278190080) >> 32;
-                GridRed = (readColor2 & 16711680) >> 16;
-                GridGreen = (readColor2 & 65280) >> 8;
-                GridBlue = readColor2 & 255;
+                int color = reader.ReadInt();
+                BackgroundAlpha = (color & 4278190080) >> 32;
+                BackgroundRed = (color & 16711680) >> 16;
+                BackgroundGreen = (color & 65280) >> 8;
+                BackgroundBlue = (color & 255);
+                uint gridColor = reader.ReadUInt();
+                GridAlpha = (gridColor & 4278190080) >> 32;
+                GridRed = (gridColor & 16711680) >> 16;
+                GridGreen = (gridColor & 65280) >> 8;
+                GridBlue = (gridColor & 255);
+                GridColor = (GridAlpha & 255) << 32 | (GridRed & 255) << 16 | (GridGreen & 255) << 8 | (GridBlue & 255);
             }
-            else if (MapVersion >= 3)
+            else if (MapVersion >= 3) 
             {
                 BackgroundRed = reader.ReadSByte();
                 BackgroundGreen = reader.ReadSByte();
                 BackgroundBlue = reader.ReadSByte();
             }
-            if (MapVersion >= 4)
+            BackgroundColor = (BackgroundRed & 255) << 16 | (BackgroundGreen & 255) << 8 | (BackgroundBlue & 255);
+            if(MapVersion >= 4)
             {
-                ZoomScale = Convert.ToDouble(reader.ReadUShort()) / 100;
-                ZoomOffsetX = reader.ReadShort();
-                ZoomOffsetY = reader.ReadShort();
+                ZoomScale = Convert.ToDouble(reader.ReadUShort() / 100);
+                ZoomOffsetX = Convert.ToInt32(reader.ReadShort());
+                ZoomOffsetY = Convert.ToInt32(reader.ReadShort());
+                if(ZoomScale < 1)
+                {
+                    ZoomScale = 1;
+                    ZoomOffsetX = 0;
+                    ZoomOffsetY = 0;
+                }
             }
-
+            if (MapVersion > 10)
+            {
+                TacticalModeTempladeId = reader.ReadInt();
+            }
             UseLowPassFilter = reader.ReadBoolean();
             UseReverb = reader.ReadBoolean();
             if (UseReverb)
                 PresetId = reader.ReadInt();
+            else
+                PresetId = -1;
+
             BackgroundsCount = reader.ReadSByte();
             for (var i = 0; i < BackgroundsCount; i++)
             {
-                var item = new Fixture();
-                item.Init(reader);
-                BackgroundFixtures.Add(item);
+                var fixture = new Fixture();
+                fixture.Init(reader);
+                BackgroundFixtures.Add(fixture);
             }
             ForegroundsCount = reader.ReadSByte();
             for (var i = 0; i < ForegroundsCount; i++)
             {
-                var fixture2 = new Fixture();
-                fixture2.Init(reader);
-                ForegroundFixtures.Add(fixture2);
+                var fixture = new Fixture();
+                fixture.Init(reader);
+                ForegroundFixtures.Add(fixture);
             }
-            CellsCount = 560;
             reader.ReadInt();
             GroundCRC = reader.ReadInt().ToString();
             LayersCount = reader.ReadSByte();
-            for (var i = 0; i < LayersCount; i++)
+            for (int i = 0; i < LayersCount; i++) 
             {
                 var layer = new Layer();
                 layer.Init(reader, MapVersion);
                 Layers.Add(layer);
             }
-            uint oldMvtSys = 0;
-            for (var i = 0; i < CellsCount; i++)
+            CellsCount = 560;
+            for (int i = 0; i < CellsCount; i++) 
             {
-                var data = new CellData();
-                data.Init(reader, MapVersion);
-                if (oldMvtSys == 0)
-                    oldMvtSys = data.MoveZone;
-                if (data.MoveZone != oldMvtSys)
-                    IsUsingNewMovementSystem = true;
-                Cells.Add(data);
+                CellData cd = new CellData();
+                cd.Init(reader, MapVersion, i, this);
+                Cells.Add(cd);
             }
         }
     }

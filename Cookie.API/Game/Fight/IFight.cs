@@ -1,16 +1,11 @@
 ﻿using System;
 using Cookie.API.Game.Map;
-using Cookie.API.Protocol.Network.Messages.Game.Actions.Fight;
+using Cookie.API.Protocol.Network.Messages;
 
 namespace Cookie.API.Game.Fight
 {
     public interface IFight : IFightData
     {
-        /// <summary>
-        ///     Lance un sort
-        /// </summary>
-        void LaunchSpell(int spellId, int cellId);
-
         /// <summary>
         ///     Fin du tour
         /// </summary>
@@ -25,6 +20,10 @@ namespace Cookie.API.Game.Fight
         ///     Fermeture du combat
         /// </summary>
         void LockFight();
+        /// <summary>
+        ///     Hide combat
+        /// </summary>
+        void LockObserver();
 
         /// <summary>
         ///     Kick un joueur
@@ -35,7 +34,8 @@ namespace Cookie.API.Game.Fight
         ///     Aller à une cellule
         /// </summary>
         ICellMovement MoveToCell(int cellId);
-
         event Action<GameActionFightSpellCastMessage> SpellCasted;
+        event Action<GameActionFightCloseCombatMessage> CloseCombatCasted;
+        SpellInabilityReason CanLaunchSpell(int spellId);
     }
 }

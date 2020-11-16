@@ -6,7 +6,7 @@ namespace Cookie.API.Game.BidHouse
 {
     public interface IBidHouse
     {
-        Dictionary<uint, List<ulong>> ItemPricesList { get; }
+        Dictionary<uint, List<long>> ItemPricesList { get; }
         long MeanPrice { get; }
 
         /// <summary>
@@ -20,7 +20,7 @@ namespace Cookie.API.Game.BidHouse
 
         Task<bool> LoadItemData(uint itemId);
 
-        Task<bool> SellItem(uint itemUId, int quantity, ulong price);
+        Task<bool> SellItem(uint itemUId, int quantity, long price);
 
         Task<bool> BuyItem(uint itemUId, uint quantity);
     }

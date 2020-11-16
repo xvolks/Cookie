@@ -7,12 +7,16 @@ namespace Cookie.Core.Scripts
 {
     public class ScriptsManager
     {
+        static void LogMethod(string str)
+        {
+            Cookie.API.Utils.Logger.Default.Log(str,API.Utils.Enums.LogMessageType.FightLog);
+        }
         public static List<IASpell> LoadSpellsFromIA(string path)
         {
             var spells = new List<IASpell>();
 
             var script = new Script();
-
+            script.Globals["log"] = (Action<string>)LogMethod;
             script.Globals["Character"] = new ScriptCharacter {LifePointsPercentage = 55};
             script.Globals["Enemy"] = new ScriptEnemy {LifePointsPercentage = 30};
 
@@ -22,8 +26,8 @@ namespace Cookie.Core.Scripts
 
             script.DoFile(path);
 
-            var test = script.Globals.Get("Spells");
-            foreach (var elem in test.Table.Pairs)
+            DynValue Spells = script.Globals.Get("Spells");
+            foreach (var elem in Spells.Table.Pairs)
             {
                 int spellId = -1, relaunch = -1;
                 var condition = true;
@@ -61,13 +65,13 @@ namespace Cookie.Core.Scripts
                             condition = pair.Value.CastToBool();
                             break;
                         default:
-                            Console.WriteLine(@"Erreur: " + key);
+                            //Console.WriteLine(@"Erreur: " + key);
                             break;
                     }
                 }
 
                 if (spellId != -1 && relaunch != -1)
-                    spells.Add(new IASpell(spellId, relaunch, target, condition));
+                    spells.Add(new IASpell(spellId, relaunch, target, condition, false));
             }
 
             return spells;

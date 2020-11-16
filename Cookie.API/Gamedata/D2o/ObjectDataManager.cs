@@ -27,14 +27,22 @@ namespace Cookie.API.Gamedata.D2o
 
             foreach (var @class in classes)
             {
-                if (ignoredTypes.Contains(@class.Value.ClassType))
-                    continue;
+                //if (ignoredTypes.Contains(@class.Value.ClassType))
+                    //continue;
 
+                // this classes are not bound to a single file, so we ignore them
                 if (readers.ContainsKey(@class.Value.ClassType))
                 {
-                    // this classes are not bound to a single file, so we ignore them
-                    ignoredTypes.Add(@class.Value.ClassType);
-                    readers.Remove(@class.Value.ClassType);
+                    /*
+                    if(readers.TryGetValue(@class.Value.ClassType, out D2oReader existing))
+                    {
+                        Console.WriteLine($"{@class.Value.ClassType.Name}");
+                        foreach (var item in D2oFile.Indexes)
+                            existing.Indexes.Add(item.Key, item.Value);
+                        throw new Exception("");
+                    }*/
+                    //ignoredTypes.Add(@class.Value.ClassType);
+                    //readers.Remove(@class.Value.ClassType);
                 }
                 else
                 {
@@ -82,17 +90,6 @@ namespace Cookie.API.Gamedata.D2o
         public IEnumerable<Type> GetAllTypes()
         {
             return readers.Keys;
-        }
-
-        private IEnumerable<object> EnumerateObjects(Type type)
-        {
-            if (!readers.ContainsKey(type))
-                throw new ArgumentException("Cannot find data corresponding to type : " + type);
-
-            var reader = readers[type];
-
-            return reader.Indexes.Select(index => reader.ReadObject(index.Key, true))
-                .Where(obj => obj.GetType().Name == type.Name);
         }
 
         public IEnumerable<T> EnumerateObjects<T>() where T : class

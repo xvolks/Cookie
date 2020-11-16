@@ -1,23 +1,23 @@
-// Generated on 12/06/2016 11:35:50
-
 using Cookie.API.Gamedata.D2o;
+using System.Collections.Generic;
+using Cookie.API.Gamedata.D2o.other;
 
 namespace Cookie.API.Datacenter
 {
-    [D2oClass("HavenbagFurnitures")]
+    [D2oClass("HavenbagFurniture")]
     public class HavenbagFurniture : IDataObject
     {
-        public const string MODULE = "HavenbagFurnitures";
-        public bool BlocksMovement;
-        public uint CellsHeight;
-        public uint CellsWidth;
-        public int Color;
-        public int ElementId;
-        public bool IsStackable;
-        public int LayerId;
-        public uint Order;
-        public int SkillId;
-        public int ThemeId;
-        public int TypeId;
+		private const string MODULE = "HavenbagFurniture";
+		public int TypeId;
+		public int ThemeId;
+		public int ElementId;
+		public int Color;
+		public int SkillId;
+		public int LayerId;
+		public bool BlocksMovement;
+		public bool IsStackable;
+		public uint CellsWidth;
+		public uint CellsHeight;
+		public uint Order;
     }
 }

@@ -4,6 +4,8 @@ using Cookie.API.Commands;
 using Cookie.API.Core;
 using Cookie.API.Utils;
 using Cookie.API.Utils.Enums;
+using Cookie.Core;
+using Cookie.Game.Fight;
 
 namespace Cookie.Commands.Commands
 {
@@ -42,7 +44,9 @@ namespace Cookie.Commands.Commands
                     var autogather = args[0] == "start";
                     var list = new List<int>();
                     for (var i = 1; i < args.Length; i++)
+                    {
                         list.Add(Convert.ToInt32(args[i]));
+                    }
                     account.Character.GatherManager.Gather(list, autogather);
                 }
             }

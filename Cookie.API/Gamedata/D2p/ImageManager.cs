@@ -15,7 +15,7 @@ namespace Cookie.API.Gamedata.D2p
         public static void Init(string dofusPath)
         {
             MDofusPath = dofusPath;
-            foreach (var file in Directory.GetFiles(MDofusPath + "\\app\\content\\gfx\\items\\"))
+            foreach (var file in Directory.GetFiles(MDofusPath + "\\content\\gfx\\items\\"))
             {
                 if (!file.Contains("bitmap")) continue;
                 Mystream = new FileStream(file, FileMode.Open, FileAccess.Read);
@@ -36,11 +36,12 @@ namespace Cookie.API.Gamedata.D2p
                         var key = ReadString();
                         var num7 = (int) (ReadUInt() + num2);
                         var num8 = (int) ReadUInt();
-                        DictionnaryItemGfx.Add(key, new[]
-                        {
-                            num7,
-                            num8
-                        });
+                        if(!DictionnaryItemGfx.ContainsKey(key))
+                            DictionnaryItemGfx.Add(key, new[]
+                            {
+                                num7,
+                                num8
+                            });
                     }
                     Mystream.Close();
                 }

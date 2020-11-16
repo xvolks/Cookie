@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Cookie.API.Game.Entity;
 using Cookie.API.Game.Map.Elements;
-using Cookie.API.Protocol.Network.Messages.Game.Context;
+using Cookie.API.Protocol.Network.Messages;
 
 namespace Cookie.API.Game.Map
 {
@@ -13,6 +13,7 @@ namespace Cookie.API.Game.Map
         List<INpc> Npcs { get; }
         List<IPlayer> Players { get; }
         List<IMerchant> Merchants { get; }
+        List<IResource> Resources { get; }
 
         /// <summary>Récupère le dictionnaire des portes de la carte</summary>
         /// <returns>Dictionnaire (cellId, element) contenant les portes</returns>
@@ -105,7 +106,7 @@ namespace Cookie.API.Game.Map
         /// <param name="skillId">Identifiant unique de la compétence à utiliser</param>
         void UseElement(int id, int skillId);
 
-        void LaunchAttack();
+        void LaunchAttack(double removeMob = 0);
 
         void LaunchAttackByCellId(ushort cellId);
 
@@ -113,16 +114,32 @@ namespace Cookie.API.Game.Map
 
         ICellMovement MoveToCellWithDistance(int cellId, int maxDistance, bool bool1);
 
-        event EventHandler MovementConfirmed;
-
+        // <summary>Movement Failed</summary>
         event EventHandler MovementFailed;
-
+        // <summary>Movement Started</summary>
         event Action<GameMapMovementMessage> MapMovement;
+        // <summary>Movement was a success</summary>
+        event EventHandler<MovementConfirmed> MovementConfirmed;
 
         event EventHandler<MapChangedEventArgs> MapChanged;
 
         ICellMovement MoveToCell(int cellId);
 
         void PlayerFightRequest(string playerName);
+    }
+    public class MovementConfirmed : EventArgs
+    {
+        public MovementConfirmed(bool status)
+        {
+            Status = status;
+        }
+        public MovementConfirmed(bool status, int mobGroupId)
+        {
+            Status = status;
+            MobGroupId = mobGroupId;
+        }
+
+        public bool Status { get; set; }
+        public int MobGroupId { get; set; }
     }
 }

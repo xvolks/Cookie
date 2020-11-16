@@ -1,12 +1,14 @@
 using Cookie.API.Gamedata.D2o;
+using System.Collections.Generic;
+using Cookie.API.Gamedata.D2o.other;
 
 namespace Cookie.API.Datacenter
 {
-    [D2oClass("IdolsPresetIcons")]
-    public class IdolsPresetIcon
+    [D2oClass("IdolsPresetIcon")]
+    public class IdolsPresetIcon : IDataObject
     {
-        public const string MODULE = "IdolsPresetIcons";
-        public int Id;
-        public int Order;
+		private const string MODULE = "IdolsPresetIcon";
+		public int Id;
+		public int Order;
     }
 }

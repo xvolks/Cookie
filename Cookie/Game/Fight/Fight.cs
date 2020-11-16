@@ -6,9 +6,7 @@ using Cookie.API.Game.World.Pathfinding;
 using Cookie.API.Game.World.Pathfinding.Positions;
 using Cookie.API.Messages;
 using Cookie.API.Protocol.Enums;
-using Cookie.API.Protocol.Network.Messages.Game.Actions.Fight;
-using Cookie.API.Protocol.Network.Messages.Game.Context;
-using Cookie.API.Protocol.Network.Messages.Game.Context.Fight;
+using Cookie.API.Protocol.Network.Messages;
 using Cookie.API.Utils;
 using Cookie.Game.Fight.Spell;
 using Cookie.Game.Map;
@@ -35,7 +33,7 @@ namespace Cookie.Game.Fight
                 {
                     var reachableCellPoint = new MapPoint(cell);
                     var distance = 0;
-                    distance = distance + reachableCellPoint.DistanceToCell(new MapPoint(monster.CellId));
+                    distance += reachableCellPoint.DistanceToCell(new MapPoint(monster.CellId));
                     if (savDistance != -1 && distance >= savDistance) continue;
                     cellId = cell;
                     savDistance = distance;
@@ -58,8 +56,11 @@ namespace Cookie.Game.Fight
 
         public void LockFight()
         {
-            Account.Network.SendToServer(
-                new GameFightOptionToggleMessage((byte) FightOptionsEnum.FIGHT_OPTION_SET_CLOSED));
+            Account.Network.SendToServer( new GameFightOptionToggleMessage((sbyte) FightOptionsEnum.FIGHT_OPTION_SET_CLOSED));
+        }
+        public void LockObserver()
+        {
+            Account.Network.SendToServer( new GameFightOptionToggleMessage((sbyte) FightOptionsEnum.FIGHT_OPTION_SET_SECRET));
         }
 
         public void SetReady()
@@ -94,7 +95,7 @@ namespace Cookie.Game.Fight
                             num = nearestCellInDirection.CellId;
                         }
                     }
-                    direction = direction + 2;
+                    direction += 2;
                     if (direction <= 7) continue;
                     if (num == -1)
                         return null;
@@ -107,42 +108,24 @@ namespace Cookie.Game.Fight
             var path = pathfinder.FindPath(Fighter.CellId, cellId);
             return path == null ? null : new CellMovement(Account, path);
         }
-
-        public void LaunchSpell(int spellId, int cellId)
-        {
-            lock (CheckLock)
-            {
-                /*foreach (var fighter in Fighters)
-                    if (fighter.CellId == cellId)
-                    {
-                        Account.Network.SendToServer(
-                            new GameActionFightCastOnTargetRequestMessage((ushort)spellId, fighter.Id));
-                        return;
-                    }*/
-                var spell = new SpellCast(Account, spellId, cellId);
-                spell.SpellCasted += (sender, e) =>
-                {
-                    Logger.Default.Log($"Lancement du sort {e.SpellId} {e.Sucess}");
-                    //LaunchSpell(spellId, cellId);
-                };
-                spell.PerformCast();
-            }
-            //Account.Network.SendToServer(new GameActionFightCastRequestMessage((ushort)spellId, (short)cellId));
-        }
-
         public event Action<GameActionFightSpellCastMessage> SpellCasted;
+        public event Action<GameActionFightCloseCombatMessage> CloseCombatCasted;
 
         private void Attach()
         {
-            Logger.Default.Log("Register Fight Packet");
-            Account.Network.RegisterPacket<GameActionFightSpellCastMessage>(HandleGameActionFightSpellCastMessage,
-                MessagePriority.VeryHigh);
+            //Logger.Default.Log("Register Fight Packet");
+            Account.Network.RegisterPacket<GameActionFightSpellCastMessage>(HandleGameActionFightSpellCastMessage, MessagePriority.VeryHigh);
             Account.Network.RegisterPacket<GameFightJoinMessage>(HandleGameFightJoinMessage, MessagePriority.High);
+            Account.Network.RegisterPacket<GameActionFightCloseCombatMessage>(HandleGameActionFightCloseCombatMessage, MessagePriority.Normal);
         }
 
         private void HandleGameActionFightSpellCastMessage(IAccount account, GameActionFightSpellCastMessage message)
         {
             SpellCasted?.Invoke(message);
+        }
+        private void HandleGameActionFightCloseCombatMessage(IAccount account, GameActionFightCloseCombatMessage message)
+        {
+            CloseCombatCasted?.Invoke(message);
         }
 
         private void HandleGameFightJoinMessage(IAccount account, GameFightJoinMessage message)

@@ -203,3 +203,6 @@ $RECYCLE.BIN/
 #####
 
 config/
+Cookie.API/Protocol/Messages/*
+Cookie.API/Protocol/Types/*
+Cookie.API/Protocol/Enums\*

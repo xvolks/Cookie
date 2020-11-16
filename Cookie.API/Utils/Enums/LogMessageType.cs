@@ -22,6 +22,7 @@
         Error,
         Default,
         Help,
-        Command
+        Command,
+        Trajet
     }
 }

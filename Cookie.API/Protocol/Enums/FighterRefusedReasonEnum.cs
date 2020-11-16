@@ -24,7 +24,7 @@
         RESTRICTED_ACCOUNT = 19,
         WRONG_ALLIANCE = 20,
         AVA_ZONE = 21,
-        COMPANION_REFUSED = 22,
+        ENTITY_REFUSED = 22,
         NOT_ENOUGH_ROOM = 23,
         GUEST_ACCOUNT = 24
     }
