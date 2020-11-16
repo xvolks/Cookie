@@ -268,7 +268,7 @@ namespace Cookie.Core.Pathmanager
             #region AI
             /* AI */
             DynValue playPassive = script.Globals.Get("PLAY_PASSIVE");
-            ((Character)Account.Character).Ia = new ArtificialIntelligence(playPassive.CastToBool());
+            ((Character)Account.Character).Ia = new ArtificialIntelligence();
             DynValue Spells = script.Call(script.Globals.Get("spells"));
             if (Spells.IsNil())
                 throw new Exception("spells cannot be null");

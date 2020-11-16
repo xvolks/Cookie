@@ -1,5 +1,4 @@
-﻿using sun.tools.tree;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -64,7 +63,7 @@ namespace Cookie.API.Utils.Extensions
 
         public static T MaxOf<T, T1>(this IList<T> collection, Func<T, T1> selector) where T1 : IComparable<T1>
         {
-            if (collection.Count == 0) return default(T);
+            if (collection.Count == 0) return default;
 
             var maxT = collection[0];
             var maxT1 = selector(maxT);
@@ -83,7 +82,7 @@ namespace Cookie.API.Utils.Extensions
 
         public static T MinOf<T, T1>(this IList<T> collection, Func<T, T1> selector) where T1 : IComparable<T1>
         {
-            if (collection.Count == 0) return default(T);
+            if (collection.Count == 0) return default;
 
             var maxT = collection[0];
             var maxT1 = selector(maxT);
@@ -165,7 +164,7 @@ namespace Cookie.API.Utils.Extensions
             var count = enumerable.Count();
 
             if (count <= 0)
-                return default(T);
+                return default;
 
             return enumerable.ElementAt(rand.Next(count));
         }
@@ -204,12 +203,12 @@ namespace Cookie.API.Utils.Extensions
 
         public static T GetOrDefault<T>(this IList<T> list, int index)
         {
-            return index >= list.Count ? default(T) : list[index];
+            return index >= list.Count ? default : list[index];
         }
 
         public static TValue GetOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dict, TKey key)
         {
-            return dict.TryGetValue(key, out var val) ? val : default(TValue);
+            return dict.TryGetValue(key, out var val) ? val : default;
         }
 
         public static void MoveToLast<T>(this IList<T> list)
@@ -221,9 +220,7 @@ namespace Cookie.API.Utils.Extensions
         public static void AddRange<T>(this ICollection<T> destination,
                                IEnumerable<T> source)
         {
-            List<T> list = destination as List<T>;
-
-            if (list != null)
+            if (destination is List<T> list)
             {
                 list.AddRange(source);
             }

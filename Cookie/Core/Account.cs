@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -43,7 +44,7 @@ namespace Cookie.Core
         public string Password { get; set; }
 
         public int Id { get; set; }
-        public List<byte> Ticket { get; set; }
+        public string Ticket { get; set; }
         public string Nickname { get; set; }
         public string SecretQuestion { get; set; }
         public double AccountCreation { get; set; }
