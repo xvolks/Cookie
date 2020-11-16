@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -15,6 +15,7 @@ using Cookie.API.Utils;
 using Cookie.Core.Frames;
 
 namespace Cookie.Core
+
 {
     public class Account : IAccount
     {
@@ -42,7 +43,7 @@ namespace Cookie.Core
         public string Password { get; set; }
 
         public int Id { get; set; }
-        public string Ticket { get; set; }
+        public List<byte> Ticket { get; set; }
         public string Nickname { get; set; }
         public string SecretQuestion { get; set; }
         public double AccountCreation { get; set; }

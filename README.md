@@ -1,12 +1,10 @@
 
-<a href="url"><img src="https://img4.hostingpics.net/pics/628470cookieicon.png" align="left" height="80" width="80" ></a>
+<a href="url"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/2ChocolateChipCookies.jpg/1280px-2ChocolateChipCookies.jpg" align="left" height="80" width="80" ></a>
 <center>
 	<h1>Cookie</h1>
 </center>
 
 ###### Bot Dofus OpenSource en C#.
-
-Rejoignez tout d'abord le [Discord](https://discord.gg/swU74Fm) : (https://discord.gg/swU74Fm).
 
 ___
 

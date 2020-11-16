@@ -22,5 +22,11 @@ namespace Cookie.API.Utils.Extensions
         {
             return listToClone.Select(item => (T) item.Clone()).ToList();
         }
+        public static T[] Shift<T>(this T[] source)
+        {
+            T[] aux = new T[source.Length - 1];
+            Array.Copy(source, 1, aux, 0, source.Length);
+            return aux;
+        }
     }
 }
