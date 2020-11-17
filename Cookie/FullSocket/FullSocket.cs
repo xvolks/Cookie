@@ -153,7 +153,7 @@ namespace Cookie.FullSocket
         {
             if (!(client is ConnectionFullSocket))
                 throw new ArgumentException("client is not of type ConnectionFullSocket");
-            Logger.Default.Log(string.Format("MessageID[{0}] received", message.MessageID));
+            //Logger.Default.Log(string.Format("MessageID[{0}] received", message.MessageID));
             var fs = (ConnectionFullSocket) client;
             if (message is IdentificationSuccessMessage ism)
                 HandleIdentificationSuccessMessage(fs, ism);

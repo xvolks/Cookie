@@ -330,12 +330,12 @@ namespace Cookie.Game.Fight
             {
                 if (message.Id == Account.Character.Id)
                 {
-                    var num4 = 0;
                     var list = new List<int>();
                     IsFighterTurn = false;
                     TotalLaunchBySpell.Clear();
                     TotalLaunchByCellBySpell.Clear();
 
+                    int num4;
                     for (var i = 0; i < DurationByEffect.Keys.Count; i++)
                     {
                         var durationPerEffect = DurationByEffect;
@@ -590,7 +590,7 @@ namespace Cookie.Game.Fight
             var distanceToTarget = characterPoint.DistanceToCell(targetPoint);
             var minRange = spellLevelsData.MinRange;
             if (spellId != 0 && spellLevelsData.CastInDiagonal)
-                minRange = minRange * 2;
+                minRange *= 2;
             if (minRange < 0)
                 minRange = 0;
             var maxRange = spellId != 0
@@ -599,7 +599,7 @@ namespace Cookie.Game.Fight
                       : 0)
                 : spellLevelsData.Range;
             if (spellId != 0 && spellLevelsData.CastInDiagonal)
-                maxRange = maxRange * 2;
+                maxRange *= 2;
             if (maxRange < 0)
                 maxRange = 0;
             if (distanceToTarget < minRange)

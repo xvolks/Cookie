@@ -124,7 +124,7 @@ namespace Cookie.API.Game.Map
         event EventHandler<MapChangedEventArgs> MapChanged;
 
         ICellMovement MoveToCell(int cellId);
-
+        void ChangeMapButton(MapDirectionEnum direction);
         void PlayerFightRequest(string playerName);
     }
     public class MovementConfirmed : EventArgs

@@ -129,7 +129,6 @@ namespace Cookie.Core.Pathmanager
         public bool Launched { get; set; }
         public IAccount Account { get; set; }
         private bool Locked { get; set; }
-        private int BackUpCellId { get; set; }
         public async void Start(string trajet)
         {
             RessourcesToGather = new List<int>();
@@ -204,7 +203,6 @@ namespace Cookie.Core.Pathmanager
         }
         private void Fight_FightStarted()
         {
-            BackUpCellId = Account.Character.CellId;
             Account.Character.Fight.FightStarted -= Fight_FightStarted;
             Timer.Enabled = false;
             Locked = true;
@@ -228,8 +226,10 @@ namespace Cookie.Core.Pathmanager
         {
             if (Timer.Enabled)
                 Timer.Enabled = false;
-            Timer = new Timer(10000);
-            Timer.AutoReset = false;
+            Timer = new Timer(10000)
+            {
+                AutoReset = false
+            };
             Timer.Elapsed += Timer_Elapsed;
             Timer.Start();
         }

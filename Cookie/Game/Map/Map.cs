@@ -142,10 +142,9 @@ namespace Cookie.Game.Map
                 return;
             }
             var movement = MoveToCell(monsterGroup.CellId);
-            EventHandler<CellMovementEventArgs> lambda = null;
-            lambda = (s, e) => 
+            void MovementFinished(object s, CellMovementEventArgs e)
             {
-                movement.MovementFinished -= lambda;
+                movement.MovementFinished -= MovementFinished;
                 if (e.Sucess)
                 {
                     if (e.EndCell == monsterGroup.CellId)
@@ -165,8 +164,9 @@ namespace Cookie.Game.Map
                     _account.PerformAction(_account.Character.PathManager.DoAction, 1000);
                 }
                 */
-            };
-            movement.MovementFinished += lambda;
+            }
+
+            movement.MovementFinished += MovementFinished;
             movement.PerformMovement();
         }
 
@@ -402,7 +402,7 @@ namespace Cookie.Game.Map
                     }
                     break;
                 }
-                direction = direction + 2;
+                direction += + 2;
                 if (direction > 7)
                     return list;
             }
@@ -770,6 +770,28 @@ namespace Cookie.Game.Map
         private void OnMapChanged()
         {
             MapChanged?.Invoke(_account, new MapChangedEventArgs(Id));
+            ((Account)_account).MainForm.UpdateMapLabel($"{X},{Y}");
         }
+        #region ChangeMap Button Events
+        private bool WaitingForMapChange { get; set; }
+        public void ChangeMapButton(MapDirectionEnum direction)
+        {
+            if (Data is null) Logger.Default.Log($"Bot currently not running",LogMessageType.Error);
+            if (WaitingForMapChange) return;
+            WaitingForMapChange = true;
+            IMapChangement mapChangement = ChangeMap(direction);
+            mapChangement.ChangementFinished += MapChangement_ChangementFinished;
+            mapChangement.PerformChangement();
+        }
+
+        private void MapChangement_ChangementFinished(object sender, MapChangementFinishedEventArgs e)
+        {
+            if (e.Success)
+                Logger.Default.Log($"Map Change was succefull. New Map [{X},{Y}]");
+            else
+                Logger.Default.Log($"Error trying to changemap.");
+            WaitingForMapChange = false;
+        }
+        #endregion
     }
 }

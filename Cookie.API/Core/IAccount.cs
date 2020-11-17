@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using Cookie.API.Core.Frames;
 using Cookie.API.Core.Network;
+using Cookie.API.Game.Fight;
 
 namespace Cookie.API.Core
 {
@@ -66,7 +67,6 @@ namespace Cookie.API.Core
         ///     The latency frame for this account
         /// </summary>
         ILatencyFrame LatencyFrame { get; set; }
-
         IBasicFrame BasicFrame { get; set; }
 
         INetwork Network { get; set; }

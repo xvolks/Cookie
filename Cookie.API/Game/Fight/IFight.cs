@@ -20,10 +20,16 @@ namespace Cookie.API.Game.Fight
         ///     Fermeture du combat
         /// </summary>
         void LockFight();
+
         /// <summary>
         ///     Hide combat
-        /// </summary>
+        /// </summary> 
         void LockObserver();
+
+        /// <summary>
+        ///     Only allow Party Members to join the fight
+        /// </summary>
+        void LockPartyOnly();
 
         /// <summary>
         ///     Kick un joueur

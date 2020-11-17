@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Cookie.API.Core;
+using Cookie.API.Game.Map;
 using Cookie.API.Gamedata.D2i;
 using Cookie.API.Gamedata.D2o;
 using Cookie.API.Gamedata.D2p;
@@ -391,5 +392,49 @@ namespace Cookie
         private delegate void InsertIntoListDelegate(string origin, string name, string id);
 
         private delegate void InsertIntoListBox(string name, UserControl uc);
+
+
+        private void BEast_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.Left) return;
+            _account.Character.Map.ChangeMapButton(MapDirectionEnum.East);
+        }
+
+        private void BNorth_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.Left) return;
+            _account.Character.Map.ChangeMapButton(MapDirectionEnum.North);
+        }
+
+        private void BWest_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.Left) return;
+            _account.Character.Map.ChangeMapButton(MapDirectionEnum.West);
+        }
+
+        private void BSouth_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.Left) return;
+            _account.Character.Map.ChangeMapButton(MapDirectionEnum.South);
+        }
+        public void UpdateMapLabel(string text)
+        {
+            this.lPos.Text = text;
+        }
+
+        private void HideFight_CheckedChanged(object sender, EventArgs e)
+        {
+            ((Core.Character)_account.Character).Ia.HideFight();
+        }
+
+        private void LockFight_CheckedChanged(object sender, EventArgs e)
+        {
+            ((Core.Character)_account.Character).Ia.LockFight();
+        }
+
+        private void PartyOnly_CheckedChanged(object sender, EventArgs e)
+        {
+            ((Core.Character)_account.Character).Ia.LockParty();
+        }
     }
 }

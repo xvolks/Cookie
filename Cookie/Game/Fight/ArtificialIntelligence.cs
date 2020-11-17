@@ -96,14 +96,17 @@ namespace Cookie.Game.Fight
             Logger.Default.Log($"Durée du combat: {TimeSpan.FromMilliseconds(msg.Duration).TotalSeconds} secondes");
             ((Cookie.Core.Frames.BasicFrame)_account.BasicFrame).SpellError -= Frame_SpellError;
         }
-
         private void StartFight()
         {
             Logger.Default.Log("AI::StartFight()");
-            _account.Character.Fight.LockFight();
-            Thread.Sleep(random.Next(500, 3000));
+            Thread.Sleep(random.Next(1000, 3000));
             _account.Character.Fight.SetReady();
-            //.Character.Fight.LockObserver();
+            if (IsHidden)
+                HideFight(false);
+            if (IsLocked)
+                LockFight(false);
+            if (PartyOnly)
+                LockParty(false);
             ((Cookie.Core.Frames.BasicFrame)_account.BasicFrame).SpellError += Frame_SpellError;
             
         }
@@ -119,7 +122,6 @@ namespace Cookie.Game.Fight
             _currentSpell = _iASpells.PopAt(0);
             ExecuteSpell();
         }
-
         private void ExecuteSpell()
         {
             if (_currentSpell.SpellId == 0)
@@ -308,5 +310,28 @@ namespace Cookie.Game.Fight
             NotEnoughMovement = 2
 
         }
+        #region FightSettings
+        private bool IsHidden { get; set; }
+        internal void HideFight(bool UpdateStatus = true)
+        {
+            if (UpdateStatus)
+                IsHidden = !IsHidden;
+            _account.Character.Fight.LockObserver();
+        }
+        private bool IsLocked { get; set; }
+        internal void LockFight(bool UpdateStatus = true)
+        {
+            if (UpdateStatus)
+                IsLocked = !IsLocked;
+            _account.Character.Fight.LockFight();
+        }
+        private bool PartyOnly { get; set; }
+        internal void LockParty(bool UpdateStatus = true)
+        {
+            if(UpdateStatus)
+                PartyOnly = !PartyOnly;
+            _account.Character.Fight.LockPartyOnly();
+        }
+        #endregion
     }
 }

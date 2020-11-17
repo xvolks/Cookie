@@ -35,16 +35,28 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.LogTextBox = new Cookie.Design.BRichTextBox();
             this.ChatTextBox = new Cookie.Design.BTextBox();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.lPos = new System.Windows.Forms.Label();
+            this.bWest = new Cookie.Design.BButton();
+            this.bEast = new Cookie.Design.BButton();
+            this.bSouth = new Cookie.Design.BButton();
+            this.bNorth = new Cookie.Design.BButton();
+            this.mapControl = new DofusMapControl.MapControl();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.PacketsListView = new System.Windows.Forms.ListView();
             this.columnHeaderTime = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderOrigin = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.mapControl = new DofusMapControl.MapControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.TabPlugin = new Cookie.Design.BTabControl();
+            this.tabPage7 = new System.Windows.Forms.TabPage();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.PartyOnly = new System.Windows.Forms.CheckBox();
+            this.HideFight = new System.Windows.Forms.CheckBox();
+            this.LockFight = new System.Windows.Forms.CheckBox();
+            this.TabIAControl = new Cookie.Design.BTabControl();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
             this.MinimizeButton = new Cookie.Design.BButton();
             this.MaximizeButton = new Cookie.Design.BButton();
             this.CloseButton = new Cookie.Design.BButton();
@@ -52,9 +64,12 @@
             this.bTabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
-            this.tabPage4.SuspendLayout();
             this.tabPage3.SuspendLayout();
+            this.tabPage4.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.TabPlugin.SuspendLayout();
+            this.tabPage5.SuspendLayout();
+            this.TabIAControl.SuspendLayout();
             this.SuspendLayout();
             // 
             // bForm1
@@ -80,9 +95,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.bTabControl1.Controls.Add(this.tabPage1);
-            this.bTabControl1.Controls.Add(this.tabPage4);
             this.bTabControl1.Controls.Add(this.tabPage3);
+            this.bTabControl1.Controls.Add(this.tabPage4);
             this.bTabControl1.Controls.Add(this.tabPage2);
+            this.bTabControl1.Controls.Add(this.tabPage5);
             this.bTabControl1.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.bTabControl1.ItemSize = new System.Drawing.Size(32, 170);
             this.bTabControl1.Location = new System.Drawing.Point(0, 32);
@@ -149,6 +165,113 @@
             this.ChatTextBox.UseSystemPasswordChar = false;
             this.ChatTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ChatTextBox_KeyDown);
             // 
+            // tabPage3
+            // 
+            this.tabPage3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.tabPage3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.tabPage3.Controls.Add(this.lPos);
+            this.tabPage3.Controls.Add(this.bWest);
+            this.tabPage3.Controls.Add(this.bEast);
+            this.tabPage3.Controls.Add(this.bSouth);
+            this.tabPage3.Controls.Add(this.bNorth);
+            this.tabPage3.Controls.Add(this.mapControl);
+            this.tabPage3.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.tabPage3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.tabPage3.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.tabPage3.Location = new System.Drawing.Point(174, 4);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(907, 574);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Map";
+            // 
+            // lPos
+            // 
+            this.lPos.AutoSize = true;
+            this.lPos.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lPos.ForeColor = System.Drawing.Color.RosyBrown;
+            this.lPos.Location = new System.Drawing.Point(66, 29);
+            this.lPos.Name = "lPos";
+            this.lPos.Size = new System.Drawing.Size(0, 20);
+            this.lPos.TabIndex = 5;
+            // 
+            // bWest
+            // 
+            this.bWest.DisplayImage = null;
+            this.bWest.Dock = System.Windows.Forms.DockStyle.Left;
+            this.bWest.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.bWest.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.bWest.Location = new System.Drawing.Point(3, 26);
+            this.bWest.Name = "bWest";
+            this.bWest.Size = new System.Drawing.Size(57, 522);
+            this.bWest.TabIndex = 4;
+            this.bWest.Text = "West";
+            this.bWest.UseVisualStyleBackColor = true;
+            this.bWest.MouseClick += new System.Windows.Forms.MouseEventHandler(this.BWest_MouseClick);
+            // 
+            // bEast
+            // 
+            this.bEast.DisplayImage = null;
+            this.bEast.Dock = System.Windows.Forms.DockStyle.Right;
+            this.bEast.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.bEast.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.bEast.Location = new System.Drawing.Point(846, 26);
+            this.bEast.Name = "bEast";
+            this.bEast.Size = new System.Drawing.Size(58, 522);
+            this.bEast.TabIndex = 3;
+            this.bEast.Text = "East";
+            this.bEast.UseVisualStyleBackColor = true;
+            this.bEast.MouseClick += new System.Windows.Forms.MouseEventHandler(this.BEast_MouseClick);
+            // 
+            // bSouth
+            // 
+            this.bSouth.DisplayImage = null;
+            this.bSouth.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.bSouth.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.bSouth.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.bSouth.Location = new System.Drawing.Point(3, 548);
+            this.bSouth.Name = "bSouth";
+            this.bSouth.Size = new System.Drawing.Size(901, 23);
+            this.bSouth.TabIndex = 2;
+            this.bSouth.Text = "South";
+            this.bSouth.UseVisualStyleBackColor = true;
+            this.bSouth.MouseClick += new System.Windows.Forms.MouseEventHandler(this.BSouth_MouseClick);
+            // 
+            // bNorth
+            // 
+            this.bNorth.DisplayImage = null;
+            this.bNorth.Dock = System.Windows.Forms.DockStyle.Top;
+            this.bNorth.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.bNorth.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.bNorth.Location = new System.Drawing.Point(3, 3);
+            this.bNorth.Name = "bNorth";
+            this.bNorth.Size = new System.Drawing.Size(901, 23);
+            this.bNorth.TabIndex = 1;
+            this.bNorth.Text = "North";
+            this.bNorth.UseVisualStyleBackColor = true;
+            this.bNorth.MouseClick += new System.Windows.Forms.MouseEventHandler(this.BNorth_MouseClick);
+            // 
+            // mapControl
+            // 
+            this.mapControl.ActiveCellColor = System.Drawing.Color.Transparent;
+            this.mapControl.BorderColorOnOver = System.Drawing.Color.Empty;
+            this.mapControl.CommonCellHeight = 43D;
+            this.mapControl.CommonCellWidth = 86D;
+            this.mapControl.DrawMode = ((DofusMapControl.DrawMode)((((DofusMapControl.DrawMode.Movements | DofusMapControl.DrawMode.Fights) 
+            | DofusMapControl.DrawMode.Triggers) 
+            | DofusMapControl.DrawMode.Others)));
+            this.mapControl.InactiveCellColor = System.Drawing.Color.DarkGray;
+            this.mapControl.LesserQuality = false;
+            this.mapControl.Location = new System.Drawing.Point(66, 33);
+            this.mapControl.MapHeight = 20;
+            this.mapControl.MapWidth = 14;
+            this.mapControl.Margin = new System.Windows.Forms.Padding(3, 30, 3, 30);
+            this.mapControl.Name = "mapControl";
+            this.mapControl.Size = new System.Drawing.Size(770, 504);
+            this.mapControl.TabIndex = 0;
+            this.mapControl.TraceOnOver = false;
+            this.mapControl.ViewGrid = true;
+            // 
             // tabPage4
             // 
             this.tabPage4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
@@ -199,40 +322,6 @@
             this.columnHeaderName.Text = "Nom";
             this.columnHeaderName.Width = 356;
             // 
-            // tabPage3
-            // 
-            this.tabPage3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
-            this.tabPage3.Controls.Add(this.mapControl);
-            this.tabPage3.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.tabPage3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
-            this.tabPage3.Location = new System.Drawing.Point(174, 4);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(907, 574);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Map";
-            // 
-            // mapControl
-            // 
-            this.mapControl.ActiveCellColor = System.Drawing.Color.Transparent;
-            this.mapControl.BorderColorOnOver = System.Drawing.Color.Empty;
-            this.mapControl.CommonCellHeight = 43D;
-            this.mapControl.CommonCellWidth = 86D;
-            this.mapControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mapControl.DrawMode = ((DofusMapControl.DrawMode)((((DofusMapControl.DrawMode.Movements | DofusMapControl.DrawMode.Fights) 
-            | DofusMapControl.DrawMode.Triggers) 
-            | DofusMapControl.DrawMode.Others)));
-            this.mapControl.InactiveCellColor = System.Drawing.Color.DarkGray;
-            this.mapControl.LesserQuality = false;
-            this.mapControl.Location = new System.Drawing.Point(3, 3);
-            this.mapControl.MapHeight = 20;
-            this.mapControl.MapWidth = 14;
-            this.mapControl.Name = "mapControl";
-            this.mapControl.Size = new System.Drawing.Size(901, 568);
-            this.mapControl.TabIndex = 0;
-            this.mapControl.TraceOnOver = false;
-            this.mapControl.ViewGrid = true;
-            // 
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
@@ -249,6 +338,7 @@
             // TabPlugin
             // 
             this.TabPlugin.Alignment = System.Windows.Forms.TabAlignment.Left;
+            this.TabPlugin.Controls.Add(this.tabPage7);
             this.TabPlugin.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TabPlugin.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.TabPlugin.ItemSize = new System.Drawing.Size(32, 170);
@@ -259,6 +349,93 @@
             this.TabPlugin.Size = new System.Drawing.Size(901, 568);
             this.TabPlugin.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.TabPlugin.TabIndex = 0;
+            // 
+            // tabPage7
+            // 
+            this.tabPage7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.tabPage7.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.tabPage7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.tabPage7.Location = new System.Drawing.Point(174, 4);
+            this.tabPage7.Name = "tabPage7";
+            this.tabPage7.Size = new System.Drawing.Size(723, 560);
+            this.tabPage7.TabIndex = 0;
+            this.tabPage7.Text = "tabPage7";
+            // 
+            // tabPage5
+            // 
+            this.tabPage5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.tabPage5.Controls.Add(this.PartyOnly);
+            this.tabPage5.Controls.Add(this.HideFight);
+            this.tabPage5.Controls.Add(this.LockFight);
+            this.tabPage5.Controls.Add(this.TabIAControl);
+            this.tabPage5.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.tabPage5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.tabPage5.Location = new System.Drawing.Point(174, 4);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Padding = new System.Windows.Forms.Padding(3, 30, 3, 30);
+            this.tabPage5.Size = new System.Drawing.Size(907, 574);
+            this.tabPage5.TabIndex = 4;
+            this.tabPage5.Text = "IA Settings";
+            // 
+            // PartyOnly
+            // 
+            this.PartyOnly.AutoSize = true;
+            this.PartyOnly.Location = new System.Drawing.Point(649, 547);
+            this.PartyOnly.Name = "PartyOnly";
+            this.PartyOnly.Size = new System.Drawing.Size(81, 19);
+            this.PartyOnly.TabIndex = 4;
+            this.PartyOnly.Text = "Party Only";
+            this.PartyOnly.UseVisualStyleBackColor = true;
+            this.PartyOnly.CheckedChanged += new System.EventHandler(this.PartyOnly_CheckedChanged);
+            // 
+            // HideFight
+            // 
+            this.HideFight.AutoCheck = false;
+            this.HideFight.AutoSize = true;
+            this.HideFight.Location = new System.Drawing.Point(820, 547);
+            this.HideFight.Name = "HideFight";
+            this.HideFight.Size = new System.Drawing.Size(81, 19);
+            this.HideFight.TabIndex = 2;
+            this.HideFight.Text = "Hide Fight";
+            this.HideFight.UseVisualStyleBackColor = true;
+            this.HideFight.CheckedChanged += new System.EventHandler(this.HideFight_CheckedChanged);
+            // 
+            // LockFight
+            // 
+            this.LockFight.AutoCheck = false;
+            this.LockFight.AutoSize = true;
+            this.LockFight.Location = new System.Drawing.Point(736, 547);
+            this.LockFight.Name = "LockFight";
+            this.LockFight.Size = new System.Drawing.Size(81, 19);
+            this.LockFight.TabIndex = 1;
+            this.LockFight.Text = "Lock Fight";
+            this.LockFight.UseVisualStyleBackColor = true;
+            this.LockFight.CheckedChanged += new System.EventHandler(this.LockFight_CheckedChanged);
+            // 
+            // TabIAControl
+            // 
+            this.TabIAControl.Alignment = System.Windows.Forms.TabAlignment.Left;
+            this.TabIAControl.Controls.Add(this.tabPage6);
+            this.TabIAControl.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.TabIAControl.ItemSize = new System.Drawing.Size(32, 170);
+            this.TabIAControl.Location = new System.Drawing.Point(3, 3);
+            this.TabIAControl.Multiline = true;
+            this.TabIAControl.Name = "TabIAControl";
+            this.TabIAControl.SelectedIndex = 0;
+            this.TabIAControl.Size = new System.Drawing.Size(902, 541);
+            this.TabIAControl.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
+            this.TabIAControl.TabIndex = 3;
+            // 
+            // tabPage6
+            // 
+            this.tabPage6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
+            this.tabPage6.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.tabPage6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(200)))), ((int)(((byte)(200)))));
+            this.tabPage6.Location = new System.Drawing.Point(174, 4);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Size = new System.Drawing.Size(724, 533);
+            this.tabPage6.TabIndex = 0;
+            this.tabPage6.Text = "Skill Picker";
             // 
             // MinimizeButton
             // 
@@ -316,9 +493,14 @@
             this.bTabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
-            this.tabPage4.ResumeLayout(false);
             this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
+            this.tabPage4.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
+            this.TabPlugin.ResumeLayout(false);
+            this.tabPage5.ResumeLayout(false);
+            this.tabPage5.PerformLayout();
+            this.TabIAControl.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -344,6 +526,18 @@
         private System.Windows.Forms.ColumnHeader columnHeaderOrigin;
         private System.Windows.Forms.ColumnHeader columnHeaderId;
         private System.Windows.Forms.ColumnHeader columnHeaderName;
+        private Design.BButton bWest;
+        private Design.BButton bEast;
+        private Design.BButton bSouth;
+        private Design.BButton bNorth;
+        private System.Windows.Forms.TabPage tabPage5;
+        private System.Windows.Forms.Label lPos;
+        private System.Windows.Forms.CheckBox HideFight;
+        private System.Windows.Forms.CheckBox LockFight;
+        private System.Windows.Forms.TabPage tabPage7;
+        private Design.BTabControl TabIAControl;
+        private System.Windows.Forms.TabPage tabPage6;
+        private System.Windows.Forms.CheckBox PartyOnly;
     }
 }
 

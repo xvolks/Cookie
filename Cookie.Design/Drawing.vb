@@ -382,7 +382,6 @@ Public Class BCheckBox
     Inherits CheckBox
 
     Private G As Graphics
-    Private State As MouseState
 
     Private AnimatingT As Thread
     Private AnimatingT2 As Thread
@@ -662,8 +661,6 @@ End Class
 
 Public Class Renderer
     Inherits ToolStripRenderer
-
-    Private G As Graphics
 
     Public Event PaintMenuBackground(sender As Object, e As ToolStripRenderEventArgs)
     Public Event PaintMenuBorder(sender As Object, e As ToolStripRenderEventArgs)
@@ -1527,12 +1524,14 @@ Public Class BListView
         ElseIf Multiselect AndAlso Not My.Computer.Keyboard.CtrlKeyDown AndAlso Not My.Computer.Keyboard.ShiftKeyDown _
             Then
 
-            SelectedIndexes = New List(Of Integer)
-            SelectedIndexes.Add(Selection)
+            SelectedIndexes = New List(Of Integer) From {
+                Selection
+            }
 
         Else
-            SelectedIndexes = New List(Of Integer)
-            SelectedIndexes.Add(Selection)
+            SelectedIndexes = New List(Of Integer) From {
+                Selection
+            }
             SelectedIndex = Selection
         End If
 

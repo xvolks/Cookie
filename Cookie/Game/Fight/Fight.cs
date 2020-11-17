@@ -62,6 +62,10 @@ namespace Cookie.Game.Fight
         {
             Account.Network.SendToServer( new GameFightOptionToggleMessage((sbyte) FightOptionsEnum.FIGHT_OPTION_SET_SECRET));
         }
+        public void LockPartyOnly()
+        {
+            Account.Network.SendToServer( new GameFightOptionToggleMessage((sbyte) FightOptionsEnum.FIGHT_OPTION_SET_TO_PARTY_ONLY));
+        }
 
         public void SetReady()
         {

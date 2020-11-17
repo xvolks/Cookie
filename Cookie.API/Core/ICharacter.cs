@@ -157,7 +157,6 @@ namespace Cookie.API.Core
         IFriend Friend { get; set; }
 
         IGuild Guild { get; set; }
-
         IInventory Inventory { get; set; }
 
         IParty Party { get; set; }

@@ -28,8 +28,16 @@ namespace Cookie.Core.Frames
                 MessagePriority.VeryHigh);
             account.Network.RegisterPacket<MailStatusMessage>(HandleMailStatusMessage, MessagePriority.VeryHigh);
             account.Network.RegisterPacket<NewMailMessage>(HandleNewMailMessage, MessagePriority.VeryHigh);
+            account.Network.RegisterPacket<BasicPongMessage>(HandleBasicPongMessage, MessagePriority.Normal);
         }
-
+        #region Ping related
+        public delegate void BasicPongHandler(IAccount account, BasicPongMessage message);
+        public BasicPongHandler PongMessageEvent;
+        private void HandleBasicPongMessage(IAccount account, BasicPongMessage message)
+        {
+            PongMessageEvent?.Invoke(account, message);
+        }
+        #endregion
         private void HandleBasicLatencyStatsRequestMessage(IAccount account, BasicLatencyStatsRequestMessage message)
         {
             var basicLatencyStatsMessage = new BasicLatencyStatsMessage(

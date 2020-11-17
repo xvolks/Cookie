@@ -70,6 +70,7 @@
     <Compile Include="Commands\Commands\LoadIACommand.cs" />
     <Compile Include="Commands\Commands\MapCommand.cs" />
     <Compile Include="Commands\Commands\PathCommand.cs" />
+    <Compile Include="Commands\Commands\PingCommand.cs" />
     <Compile Include="Commands\Exceptions\CommandNotFoundException.cs" />
     <Compile Include="Commands\Exceptions\NoCommandException.cs" />
     <Compile Include="Commands\Managers\CommandManager.cs" />
@@ -94,6 +95,9 @@
     <Compile Include="Game\Entity\Entity.cs" />
     <Compile Include="Game\Entity\Merchant.cs" />
     <Compile Include="Game\Entity\Resource.cs" />
+    <Compile Include="Game\Fight\ArtificialInteligenceDesign.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Game\Fight\ArtificialIntelligence.cs" />
     <Compile Include="Game\Fight\Fight.cs" />
     <Compile Include="Game\Fight\FightData.cs" />

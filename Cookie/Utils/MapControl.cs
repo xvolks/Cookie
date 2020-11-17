@@ -33,7 +33,13 @@ namespace DofusMapControl
         Others = 8,
         All = 0xF
     }
+    public class IaControl : UserControl
+    {
+        public IaControl()
+        {
 
+        }
+    }
     [Serializable]
     public sealed class MapControl : UserControl
     {

@@ -38,7 +38,6 @@ namespace Cookie.API.Game.World.Pathfinding
         private MapPoint EndPoint;
         private int EndX;
         private int EndY;
-        private int MovePoint = -1;
         private MovementPath MovPath;
         private int NowX;
         private int NowY;
