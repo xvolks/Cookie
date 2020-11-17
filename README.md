@@ -1,4 +1,4 @@
 ### Dofus 2.0 Open Source Bot ###
 
-ProtocolGenerator using LaBots output.
-It's not plug and play. There is a lot of work to be done :)
+ProtocolGenerator is currently using LaBots output for the WebDecoder -> https://github.com/louisabraham/LaBot/.
+This source is NOT compile and run. You might need to tweak for your own needs.
