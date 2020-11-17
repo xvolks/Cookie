@@ -75,6 +75,12 @@ namespace Cookie.Game.Fight
             _account.Character.Fight.TurnStarted += ExecuteTurn;
             _account.Character.Fight.FightEnded += FightEnd;
         }
+        public void RemoveEvents()
+        {
+            _account.Character.Fight.FightStarted -= StartFight;
+            _account.Character.Fight.TurnStarted -= ExecuteTurn;
+            _account.Character.Fight.FightEnded -= FightEnd;
+        }
         public ArtificialIntelligence()
         {
         }

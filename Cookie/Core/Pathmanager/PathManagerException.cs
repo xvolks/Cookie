@@ -17,9 +17,5 @@ namespace Cookie.Core.Pathmanager
         public PathManagerException(string message, Exception innerException) : base(message, innerException)
         {
         }
-
-        protected PathManagerException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
     }
 }

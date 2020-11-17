@@ -61,10 +61,10 @@ namespace Cookie.Game.Map
         }
 
         public event EventHandler<MapChangementFinishedEventArgs> ChangementFinished;
-        public event Action Timeout;
 
         private void _timeoutTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
+            _timeoutTimer.Elapsed -= _timeoutTimer_Elapsed;
             _timeoutTimer.Stop();
             Logger.Default.Log("[MapChangement] Timeout.");
             OnChangementFinished(false);

@@ -176,8 +176,7 @@ namespace Cookie.Game.Fight
         private void HandleGameMapMovementMessage(IAccount account, GameMapMovementMessage message)
         {
             if (Account.Character.Status != CharacterStatus.Fighting) return;
-            var clientMovement =
-                MapMovementAdapter.GetClientMovement(message.KeyMovements.Select(k => (uint) k).ToList());
+            var clientMovement = MapMovementAdapter.GetClientMovement(message.KeyMovements.Select(k => (uint) k).ToList());
             var fighter = (Fighter) GetFighter(message.ActorId);
             if (fighter != null)
                 fighter.CellId = clientMovement.CellEnd.CellId;

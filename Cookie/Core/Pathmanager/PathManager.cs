@@ -26,7 +26,7 @@ using Cookie.Game.Inventory;
 
 namespace Cookie.Core.Pathmanager
 {
-    public class MapMovement
+    public class MapMovement : IDisposable
     {
         public int PosX { get; set; }
         public int PosY { get; set; }
@@ -40,13 +40,15 @@ namespace Cookie.Core.Pathmanager
         List<MapDirectionEnum> DirectionEnum { get; set; }
         public MapMovement(double mapId)
         {
+            PosX = 0;
+            PosY = 0;
             MapId = mapId;
             DirectionEnum = new List<MapDirectionEnum>();
             Fight = false;
             Gather = false;
             Door = -1;
             Path = -1;
-            CustomFunction = default(DynValue);
+            CustomFunction = default;
         }
         public MapMovement(int posX, int posY)
         {
@@ -58,16 +60,19 @@ namespace Cookie.Core.Pathmanager
             Gather = false;
             Door = -1;
             Path = -1;
-            CustomFunction = default(DynValue);
+            CustomFunction = default;
         }
         public MapMovement()
         {
+            PosX = 0;
+            PosY = 0;
             MapId = -1;
             DirectionEnum = new List<MapDirectionEnum>();
             Fight = false;
             Gather = false;
             Door = -1;
             Path = -1;
+            CustomFunction = default;
         }
 
         public void AddDirection(MapDirectionEnum direction)
@@ -87,14 +92,19 @@ namespace Cookie.Core.Pathmanager
                 return DirectionEnum[0];
             return DirectionEnum[rand.Next(DirectionEnum.Count)];
         }
+
+        public void Dispose()
+        {
+            DirectionEnum.Clear();
+        }
     }
 
     public class PathManager : IPathManager
     {
         public const string TrajetsDirectory = @"./trajets/";
-        Random Randomizer = new Random();
-        public int FightCount { get; set; }
-        private System.Timers.Timer Timer { get; set; }
+
+        private readonly Random Randomizer = new Random();
+        private Timer Timer { get; set; }
 
         private IMapChangement mapChangement = null;
         public PathManager(IAccount account)
@@ -104,8 +114,6 @@ namespace Cookie.Core.Pathmanager
 
             Launched = false;
             Account = account;
-            ScriptData = new List<MapMovement>();
-            FightCount = 0;
             /*
             Account.Network.RegisterPacket<MapComplementaryInformationsDataMessage>(
                 HandleMapComplementaryInformationsDataMessage, MessagePriority.Normal);
@@ -115,11 +123,10 @@ namespace Cookie.Core.Pathmanager
                 HandleGameMapNoMovementMessage, MessagePriority.Normal);
             */
         }
-        private List<MapMovement> ScriptData { get; set; }
         private List<int> RessourcesToGather { get; set; }
+
         private Script script;
         public bool Launched { get; set; }
-
         public IAccount Account { get; set; }
         private bool Locked { get; set; }
         private int BackUpCellId { get; set; }
@@ -139,53 +146,50 @@ namespace Cookie.Core.Pathmanager
         public void Stop()
         {
             Launched = false;
+            ((Character)Account.Character).Ia.RemoveEvents();
+            Locked = false;
         }
         public void DoAction()
         {
             if (Locked) return;
             if (Timer.Enabled) return;
-            Logger.Default.Log($"DoAction");
             if (!Launched) return;
+            Logger.Default.Log($"DoAction");
             mapChangement = null;
-            foreach (var movMap in ScriptData)
+            using (MapMovement movMap = ParseMove()) 
             {
-                if (movMap.MapId == Account.Character.MapId || (movMap.MapId == -1 && 
-                    (movMap.PosX == Account.Character.PosX && movMap.PosY == Account.Character.PosY)))
+                StartTimer();
+                // If Gather on this map and there are resources to be gathered
+                if (movMap.Gather && Account.Character.GatherManager.CanGatherOnMap(RessourcesToGather))
                 {
-                    StartTimer();
-                    if (movMap.Gather && Account.Character.GatherManager.CanGatherOnMap(RessourcesToGather))
-                    {
-                        Account.Character.GatherManager.Gather(RessourcesToGather, false);
-                        return;
-                    }else if (movMap.Fight)
-                    {
-                        if(Account.Character.Map.Monsters.Count > 0 && FightCount < 2)
-                        {
-                            Account.Character.Fight.FightEnded += Fight_FightEnded;
-                            Account.Character.Fight.FightStarted += Fight_FightStarted;
-                            Account.Character.Map.LaunchAttack();
-                            return;
-                        }
-                        FightCount = 0;
-                        //return; I dont wanna return from here for now because I have the limit fight thing temporally.
-                    }else if (movMap.CustomFunction != null && movMap.CustomFunction.IsNotNil() && movMap.CustomFunction.Type == DataType.Function)
-                    {
-                        script.Call(movMap.CustomFunction); // I can be a lot of things. So after using this user custom function I'll let it timeOut to continue with the script.
-                        return;
-                    }
-                    var mapDir = movMap.GetDirectionEnum(Randomizer);
-                    if (mapDir == MapDirectionEnum.Invalid) // there is no present movement on the script.
-                        return;
-                    else
-                        mapChangement = Account.Character.Map.ChangeMap(mapDir);
-                    break;
+                    Account.Character.GatherManager.Gather(RessourcesToGather, false);
+                    return;
                 }
-            }
-            if (mapChangement == null) return;
-            mapChangement.ChangementFinished += MapChangement_ChangementFinished;
-            mapChangement.PerformChangement();
+                // If Fight on this map and there are mobs to be fighted
+                else if (movMap.Fight && Account.Character.Map.Monsters.Count > 0)
+                {
+                    Account.Character.Fight.FightEnded += Fight_FightEnded;
+                    Account.Character.Fight.FightStarted += Fight_FightStarted;
+                    Account.Character.Map.LaunchAttack();
+                    return;
+                }
+                else if (movMap.CustomFunction != null && movMap.CustomFunction.Type == DataType.Function )
+                {
+                    script.Call(movMap.CustomFunction); //I think it's better to let the DoAction time out just in case.
+                    return;
+                }
+                var mapDir = movMap.GetDirectionEnum(Randomizer);
+                if (mapDir == MapDirectionEnum.Invalid) // there is no present movement on the script.
+                    return;
+                else
+                {
+                    mapChangement = Account.Character.Map.ChangeMap(mapDir);
+                    mapChangement.ChangementFinished += MapChangement_ChangementFinished;
+                    mapChangement.PerformChangement();
+                    Locked = true;
+                }
+            }            
         }
-
         private void MapChangement_ChangementFinished(object sender, MapChangementFinishedEventArgs e)
         {
             if(mapChangement != null)
@@ -198,7 +202,6 @@ namespace Cookie.Core.Pathmanager
             if (Launched)
                 Account.PerformAction(DoAction, 250);
         }
-
         private void Fight_FightStarted()
         {
             BackUpCellId = Account.Character.CellId;
@@ -206,17 +209,13 @@ namespace Cookie.Core.Pathmanager
             Timer.Enabled = false;
             Locked = true;
         }
-
         private void Fight_FightEnded(GameFightEndMessage message)
         {
             Account.Character.Fight.FightEnded -= Fight_FightEnded;
             //Account.Network.SendToServer(new MapInformationsRequestMessage(Account.Character.MapId));
             Account.PerformAction(DoAction, 2000);
-            FightCount++;
             Locked = false;
         }
-
-
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
             Timer.Elapsed -= Timer_Elapsed;
@@ -243,7 +242,6 @@ namespace Cookie.Core.Pathmanager
                 return;
 
             RessourcesToGather.Clear();
-            ScriptData.Clear();
 
             script.Globals["log"] = (Action<string>)LogMethod;
             script.Globals["Breed"] = (Func<int>)CharacterBreed;
@@ -326,17 +324,19 @@ namespace Cookie.Core.Pathmanager
             }
             ((Character)Account.Character).Ia.Load(Account, spells);
             #endregion
-            #region Moving
-            /* Moving */
+        }
+        /// <summary>
+        /// Every Map this function has to run in order to do some fancy contitioning with the Trajet.
+        /// </summary>
+        private MapMovement ParseMove()
+        {
+            /* Move function */
             DynValue Move = script.Call(script.Globals["move"]);
             if (Move.IsNotNil())
                 foreach (var item in Move.Table.Values)
                 {
                     MapMovement newMapMov = new MapMovement();
                     DynValue mapD = item.Table.Get("map");
-                    DynValue pathD = item.Table.Get("path");
-                    DynValue doorD = item.Table.Get("door");
-                    DynValue customFunction = item.Table.Get("custom");
                     if (mapD.IsNil())
                         throw new Exception("map can not be nil.");
 
@@ -357,64 +357,75 @@ namespace Cookie.Core.Pathmanager
                             throw new Exception("Cannot obtain posY");
                         newMapMov = new MapMovement(posX, posY);
                     }
-
-                    if (customFunction.IsNotNil() && customFunction.Type == DataType.Function)
-                        newMapMov.CustomFunction = customFunction;
-                    if (pathD.IsNil() && doorD.IsNil())
-                        Logger.Default.Log($"No path/door on map {(newMapMov.MapId == -1 ? string.Format("{0},{1}", newMapMov.PosX, newMapMov.PosY) : newMapMov.MapId.ToString())}");
-
-                    if (int.TryParse(pathD.CastToString(), out int pathId))
-                        newMapMov.Path = pathId; // Just the sun thing in the ground.
-                    else if (doorD.IsNotNil())
-                        newMapMov.Door = (int)doorD.Number; // We have to interact. 
-                    else if(pathD.IsNotNil())
-                        try
-                        {
-                            string[] directions = pathD.CastToString().ToLower().Split(',');
-                            foreach(var direction in directions)
-                                switch (direction)
-                                {
-                                    case "top":
-                                    case "north":
-                                    case "up":
-                                        newMapMov.AddDirection(MapDirectionEnum.North);
-                                        break;
-                                    case "bottom":
-                                    case "south":
-                                    case "down":
-                                        newMapMov.AddDirection(MapDirectionEnum.South);
-                                        break;
-                                    case "left":
-                                    case "west":
-                                        newMapMov.AddDirection(MapDirectionEnum.West);
-                                        break;
-                                    case "right":
-                                    case "east":
-                                        newMapMov.AddDirection(MapDirectionEnum.East);
-                                        break;
-                                    default:
-                                        break;
-                                }
-                        }
-                        catch (Exception e) { throw new Exception($"Exception thrown parsing Trajet[{e.Message}]"); }
-                    
-
-                    if (newMapMov.MapId > 0) //MapId being used
+                    if(newMapMov.MapId == Account.Character.MapId || (newMapMov.PosX == Account.Character.PosX && newMapMov.PosY == Account.Character.PosY))
                     {
-                        MapPosition tmp = ObjectDataManager.Instance.Get<MapPosition>((uint)newMapMov.MapId);
-                        if(ScriptData.Exists(x => x.PosX == tmp.PosX && x.PosY == tmp.PosY) || ScriptData.Exists(x => x.MapId == newMapMov.MapId))
-                            throw new PathManagerException($"MapId[{newMapMov.MapId}] or Coordinates[{newMapMov.PosX},{newMapMov.PosY}] duplicated.");
-                    }else if (ScriptData.Exists( x => x.PosX == newMapMov.PosX && x.PosY == newMapMov.PosY))
-                        throw new PathManagerException($"Coordenates[{newMapMov.PosX},{newMapMov.PosY}] duplicated.");
+                        DynValue pathD = item.Table.Get("path");
+                        DynValue doorD = item.Table.Get("door");
+                        DynValue customFunction = item.Table.Get("custom");
 
-                    newMapMov.Gather = item.Table.Get("gather").CastToBool();
-                    newMapMov.Fight = item.Table.Get("fight").CastToBool();
+                        if (customFunction.IsNotNil() && customFunction.Type == DataType.Function)
+                            newMapMov.CustomFunction = customFunction;
+                        if (pathD.IsNil() && doorD.IsNil())
+                            Logger.Default.Log($"No path/door on map {(newMapMov.MapId == -1 ? string.Format("{0},{1}", newMapMov.PosX, newMapMov.PosY) : newMapMov.MapId.ToString())}");
 
-                    ScriptData.Add(newMapMov);
+                        if (int.TryParse(pathD.CastToString(), out int pathId))
+                            newMapMov.Path = pathId; // Just the sun thing in the ground.
+                        else if (doorD.IsNotNil())
+                            newMapMov.Door = (int)doorD.Number; // We have to interact. 
+                        else if (pathD.IsNotNil())
+                            try
+                            {
+                                string[] directions = pathD.CastToString().ToLower().Split(',');
+                                foreach (var direction in directions)
+                                    switch (direction)
+                                    {
+                                        case "top":
+                                        case "north":
+                                        case "up":
+                                            newMapMov.AddDirection(MapDirectionEnum.North);
+                                            break;
+                                        case "bottom":
+                                        case "south":
+                                        case "down":
+                                            newMapMov.AddDirection(MapDirectionEnum.South);
+                                            break;
+                                        case "left":
+                                        case "west":
+                                            newMapMov.AddDirection(MapDirectionEnum.West);
+                                            break;
+                                        case "right":
+                                        case "east":
+                                            newMapMov.AddDirection(MapDirectionEnum.East);
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                            }
+                            catch (Exception e) { throw new Exception($"Exception thrown parsing Trajet[{e.Message}]"); }
+                        //We can't really verify this since we are calling a function everytime. Let the user debug it's Script
+                        /*
+                        if (newMapMov.MapId > 0) //MapId being used
+                        {
+                            MapPosition tmp = ObjectDataManager.Instance.Get<MapPosition>((uint)newMapMov.MapId);
+                            if (ScriptData.Exists(x => x.PosX == tmp.PosX && x.PosY == tmp.PosY) || ScriptData.Exists(x => x.MapId == newMapMov.MapId))
+                                throw new PathManagerException($"MapId[{newMapMov.MapId}] or Coordinates[{newMapMov.PosX},{newMapMov.PosY}] duplicated.");
+                        }
+                        else if (ScriptData.Exists(x => x.PosX == newMapMov.PosX && x.PosY == newMapMov.PosY))
+                            throw new PathManagerException($"Coordenates[{newMapMov.PosX},{newMapMov.PosY}] duplicated.");
+                        */
+
+                        newMapMov.Gather = item.Table.Get("gather").CastToBool();
+                        newMapMov.Fight = item.Table.Get("fight").CastToBool();
+                        return newMapMov;
+                    }
                 }
-            #endregion
-        }
+            else
+                throw new PathManagerException("move() function not present.");
 
+            Logger.Default.Log($"Could not find Bot's current mapId[{Account.Character.MapId}] or [{Account.Character.PosX},{Account.Character.PosY}].",LogMessageType.Trajet);
+            Stop();
+            return default;
+        }
         private int CharacterBreed()
         {
             return (int)Account.Character.Breed;

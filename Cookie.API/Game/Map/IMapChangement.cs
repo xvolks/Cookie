@@ -15,11 +15,6 @@ namespace Cookie.API.Game.Map
         void PerformChangement();
 
         /// <summary>
-        ///     Tries when the map changement times out
-        /// </summary>
-        event Action Timeout;
-
-        /// <summary>
         ///     Triggers when the changement has ended (either failed or succeeded)
         /// </summary>
         event EventHandler<MapChangementFinishedEventArgs> ChangementFinished;

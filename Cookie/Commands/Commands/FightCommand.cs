@@ -8,7 +8,6 @@ namespace Cookie.Commands.Commands
 {
     public class FightCommand : ICommand
     {
-        private readonly string _commandSufix = "[Fight]";
         public string CommandName => "fight";
         public string ArgsName => "string <spellPath>";
 
