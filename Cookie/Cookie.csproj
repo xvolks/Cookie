@@ -69,6 +69,7 @@
     <Compile Include="Commands\Commands\LevelCommand.cs" />
     <Compile Include="Commands\Commands\LoadIACommand.cs" />
     <Compile Include="Commands\Commands\MapCommand.cs" />
+    <Compile Include="Commands\Commands\PartyCommands.cs" />
     <Compile Include="Commands\Commands\PathCommand.cs" />
     <Compile Include="Commands\Commands\PingCommand.cs" />
     <Compile Include="Commands\Exceptions\CommandNotFoundException.cs" />
