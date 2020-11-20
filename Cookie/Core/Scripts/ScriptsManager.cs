@@ -70,8 +70,8 @@ namespace Cookie.Core.Scripts
                     }
                 }
 
-                if (spellId != -1 && relaunch != -1)
-                    spells.Add(new IASpell(spellId, relaunch, target, condition, false));
+                //if (spellId != -1 && relaunch != -1)
+                    //spells.Add(new IASpell(spellId, relaunch, target, condition, false,));
             }
 
             return spells;

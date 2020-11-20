@@ -160,7 +160,7 @@ namespace Cookie.API.Core
         IInventory Inventory { get; set; }
 
         IParty Party { get; set; }
-
+        IIdols Idols { get; set; }
         /// <summary>
         ///     This method return the url string of the image of this character
         /// </summary>

@@ -60,6 +60,7 @@ namespace Cookie.Core
             Guild = new Guild(Account);
             Inventory = new Inventory(Account);
             Party = new Party(Account);
+            Idols = new Idols(Account);
 
             #region Choice Handler
 
@@ -167,6 +168,7 @@ namespace Cookie.Core
         public IGuild Guild { get; set; }
         public IInventory Inventory { get; set; }
         public IParty Party { get; set; }
+        public IIdols Idols { get; set; }
         public List<SpellItem> Spells { get; set; }
         public List<JobExperience> Jobs { get; set; }
         public IGatherManager GatherManager { get; set; }

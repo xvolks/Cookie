@@ -1,4 +1,6 @@
-﻿using Cookie.API.Gamedata;
+﻿using Cookie.API.Datacenter;
+using Cookie.API.Gamedata;
+using Cookie.API.Gamedata.D2o;
 
 namespace Cookie.Core.Scripts
 {
@@ -17,8 +19,9 @@ namespace Cookie.Core.Scripts
         public int SpellId { get; }
         public SpellTarget Target { get; }
         public string Name { get; }
+        public SpellLevel Spell {get;}
 
-        public IASpell(int spellId, int relaunchs, SpellTarget target, bool handToHand, bool moveFirst)
+        public IASpell(int spellId, int relaunchs, SpellTarget target, bool handToHand, bool moveFirst, SpellLevel spellLevel)
         {
             SpellId = spellId;
             Relaunchs = relaunchs;
@@ -26,6 +29,7 @@ namespace Cookie.Core.Scripts
             HandToHand = handToHand;
             MoveFirst = moveFirst;
             Name = D2OParsing.GetSpellName(SpellId);
+            Spell = spellLevel;
         }
     }
 }

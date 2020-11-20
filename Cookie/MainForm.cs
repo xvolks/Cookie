@@ -69,8 +69,7 @@ namespace Cookie
                     IconsManager.Instance.Initialize(Settings.Default.DofusPath + @"\content\gfx\items");
                     ObjectDataManager.Instance.AddReaders(Settings.Default.DofusPath + @"\data\common");
 
-                    FastD2IReader.Instance.Init(Settings.Default.DofusPath + @"\data\i18n" +
-                                                "\\i18n_fr.d2i");
+                    FastD2IReader.Instance.Init(Settings.Default.DofusPath + @"\data\i18n" + "\\i18n_fr.d2i");
 
                     ImageManager.Init(Settings.Default.DofusPath);
                 }).ContinueWith(p =>
@@ -419,22 +418,28 @@ namespace Cookie
         }
         public void UpdateMapLabel(string text)
         {
-            this.lPos.Text = text;
+            if (lPos.InvokeRequired)
+            {
+                lPos.Invoke(new MethodInvoker(delegate { lPos.Text = text; }));
+            }
         }
 
         private void HideFight_CheckedChanged(object sender, EventArgs e)
         {
-            ((Core.Character)_account.Character).Ia.HideFight();
+            if (((Core.Character)_account.Character).Ia != null)
+                ((Core.Character)_account.Character).Ia.HideFight();
         }
 
         private void LockFight_CheckedChanged(object sender, EventArgs e)
         {
-            ((Core.Character)_account.Character).Ia.LockFight();
+            if (((Core.Character)_account.Character).Ia != null)
+                ((Core.Character)_account.Character).Ia.LockFight();
         }
 
         private void PartyOnly_CheckedChanged(object sender, EventArgs e)
         {
-            ((Core.Character)_account.Character).Ia.LockParty();
+            if(((Core.Character)_account.Character).Ia!= null)
+                ((Core.Character)_account.Character).Ia.LockParty();
         }
     }
 }

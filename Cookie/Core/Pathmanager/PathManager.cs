@@ -320,7 +320,20 @@ namespace Cookie.Core.Pathmanager
                 Console.WriteLine($@"Spell ({SpellId}), Target: {Target}, Relaunchs: {Relaunchs}, Condition: "); //{/*script.Call(Condition,110) */}
                 if (spells.Exists(x => x.SpellId == SpellId))
                     throw new Exception($"Spell[{SpellId}] has already been added.");
-                spells.Add(new IASpell(SpellId, Relaunchs, Target, HandToHand, MoveFirst));
+
+                var spellLevel = -1;
+                var spell = Account.Character.Spells.FirstOrDefault(s => s.SpellId == SpellId);
+                if (spell != null)
+                    spellLevel = spell.SpellLevel;
+
+                if (spellLevel == -1) return;
+                var spellData = ObjectDataManager.Instance.Get<API.Datacenter.Spell>(SpellId);
+                if (spellData == null) return;
+                var spellLevelId = spellData.SpellLevels[spellLevel - 1];
+                var spellLevelData = ObjectDataManager.Instance.Get<SpellLevel>(spellLevelId);
+                if (spellLevelData == null) return;
+               
+                spells.Add(new IASpell(SpellId, Relaunchs, Target, HandToHand, MoveFirst, spellLevelData));
             }
             ((Character)Account.Character).Ia.Load(Account, spells);
             #endregion

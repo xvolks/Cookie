@@ -83,7 +83,8 @@ namespace Cookie.Game.Party
         }
         private void HandlePartyNewMemberMessage(IAccount account, PartyNewMemberMessage message)
         {
-            if (PartyMembers.ContainsKey(message.MemberInformations.Id) && message.MemberInformations.Id != account.Character.Id)
+            if (message.MemberInformations.Id == account.Character.Id) return;
+            if (PartyMembers.ContainsKey(message.MemberInformations.Id))
                 Logger.Default.Log($"Player <{message.MemberInformations.Name}> is already listed in your party.", LogMessageType.Error);
             else
             {

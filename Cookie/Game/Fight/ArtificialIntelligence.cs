@@ -11,6 +11,7 @@ using Cookie.API.Game.Map;
 using Cookie.API.Game.World.Pathfinding;
 using Cookie.API.Game.World.Pathfinding.Positions;
 using Cookie.API.Gamedata;
+using Cookie.API.Gamedata.D2o;
 using Cookie.API.Protocol.Network.Messages;
 using Cookie.API.Utils;
 using Cookie.API.Utils.Enums;
@@ -108,7 +109,6 @@ namespace Cookie.Game.Fight
             if (PartyOnly)
                 LockParty(false);
             ((Cookie.Core.Frames.BasicFrame)_account.BasicFrame).SpellError += Frame_SpellError;
-            
         }
         private void Frame_SpellError(object sender, EventArgs e)
         {
@@ -116,7 +116,7 @@ namespace Cookie.Game.Fight
         }
         private void ExecuteTurn()
         {   
-            Logger.Default.Log($"Vie du bot: {_account.Character.LifePercentage}");
+            Logger.Default.Log($"Vie du bot: {_account.Character.LifePercentage}, AP[{Fighter.ActionPoints}]");
             if (_spells == null) return;
             _iASpells = _spells.ToList();
             _currentSpell = _iASpells.PopAt(0);
@@ -124,8 +124,6 @@ namespace Cookie.Game.Fight
         }
         private void ExecuteSpell()
         {
-            if (_currentSpell.SpellId == 0)
-                Console.WriteLine("");
             Logger.Default.Log("ExecuteSpell");
             if(Fighter.ActionPoints <= 0)
             {
@@ -141,30 +139,36 @@ namespace Cookie.Game.Fight
                     ExecuteSpell();
                 return;
             }
-            if(_currentSpell.MoveFirst && !_account.Character.Fight.IsHandToHand()) //if spell requires move first and we are not beside a mob.
+            if (_currentSpell.MoveFirst) //if spell requires move first and we are not beside a mob.
             {
-                Logger.Default.Log($"MoveFirst && !HandToHand");
-                //_currentSpell.MoveFirst = false; // just so it doesn't perform this again.
-                MovementEnum movResults = MoveToHit(fighter, true);
+                Logger.Default.Log($"MoveFirst");
+                MovementEnum movResults = MoveToHit(_currentSpell.Target == SpellTarget.Self ? (IFighter)monster : fighter, true);
                 //No need to Call Execute because we are waiting for the movement.
-                if (movResults != MovementEnum.Success)
+                if (movResults == MovementEnum.Success)
                 {
-                    if (GetNextSkill())
-                        ExecuteSpell();
-                }
-                if (_currentSpell.HandToHand)
-                { // if spell requires handtohand and it could not Move [!= Success] then we look for the next one else continue with the script.
-                    if (GetNextSkill())
-                        ExecuteSpell();
+                    _currentSpell.MoveFirst = false; // already moved.
+                    return; // returning so we can wait for the event handler.
                 }
                 else
-                {
-                    CastSpell(fighter);
+                { 
+                    if(GetNextSkill())
+                        ExecuteSpell();
                     return;
                 }
             }
-            else if (_currentSpell.HandToHand && _account.Character.Fight.IsHandToHand())
-                CastSpell(fighter);
+            else if (_currentSpell.HandToHand)
+            {
+                if (_account.Character.Fight.IsHandToHand())
+                    CastSpell(fighter);
+                else
+                {
+                    MovementEnum movResults = MoveToHit(fighter, true);
+                    if (movResults != MovementEnum.Success) // If it was a success then we have to wait for the event. Otherwise, next skill.
+                        if (GetNextSkill())
+                            ExecuteSpell();
+                    return;
+                }
+            }
             else
             {
                 SpellInabilityReason reason = _account.Character.Fight.CanLaunchSpellOn(_currentSpell.SpellId, Fighter.CellId, fighter.CellId);
@@ -265,7 +269,8 @@ namespace Cookie.Game.Fight
         }
         private void OnSpellCasted(object sender, SpellCastEvent e)
         {
-            System.Threading.Thread.Sleep(random.Next(2000, 4000));
+            //Fighter.ActionPoints -= (short)_currentSpell.Spell.ApCost;
+            System.Threading.Thread.Sleep(random.Next(1000, 2000));
             _spellEvent.SpellCasted -= OnSpellCasted;
             if (e.SpellId == 0)
                 Console.WriteLine($"Suceffuly casted {e.SpellId}");

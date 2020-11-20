@@ -85,6 +85,10 @@
         /// <summary>
         ///     Le sort n'est pas lancé en diagonale alors qu'il le devrait
         /// </summary>
-        NotInDiagonal = 14
+        NotInDiagonal = 14,
+        /// <summary>
+        ///     Not able to find Weapon from Object List
+        /// </summary>
+        CouldNotFindweapon = 16
     }
 }

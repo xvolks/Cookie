@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using Cookie.API.Game.Fight.Fighters;
 using Cookie.API.Protocol.Network.Messages;
 
@@ -7,6 +8,10 @@ namespace Cookie.API.Game.Fight
 {
     public interface IFightData
     {
+        /// <summary>
+        ///     AutoResetEvent activates when spell was casted.
+        /// </summary>
+        AutoResetEvent SpellResetEvent { get; }
         /// <summary>
         ///     Liste des combattants
         /// </summary>

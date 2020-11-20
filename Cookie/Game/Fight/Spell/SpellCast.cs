@@ -45,7 +45,6 @@ namespace Cookie.Game.Fight.Spell
 
         private void Fight_CloseCombatCasted(GameActionFightCloseCombatMessage message)
         {
-            Console.WriteLine($"SourceId of CloseCombatCasted[{message.SourceId}] player[{_account.Character.Id}]");
             if (message.SourceId == _account.Character.Id)
                 OnSpellCasted(true);
         }

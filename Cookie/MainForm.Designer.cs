@@ -52,7 +52,6 @@
             this.TabPlugin = new Cookie.Design.BTabControl();
             this.tabPage7 = new System.Windows.Forms.TabPage();
             this.tabPage5 = new System.Windows.Forms.TabPage();
-            this.PartyOnly = new System.Windows.Forms.CheckBox();
             this.HideFight = new System.Windows.Forms.CheckBox();
             this.LockFight = new System.Windows.Forms.CheckBox();
             this.TabIAControl = new Cookie.Design.BTabControl();
@@ -60,6 +59,7 @@
             this.MinimizeButton = new Cookie.Design.BButton();
             this.MaximizeButton = new Cookie.Design.BButton();
             this.CloseButton = new Cookie.Design.BButton();
+            this.PartyOnly = new System.Windows.Forms.CheckBox();
             this.bForm1.SuspendLayout();
             this.bTabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -377,17 +377,6 @@
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "IA Settings";
             // 
-            // PartyOnly
-            // 
-            this.PartyOnly.AutoSize = true;
-            this.PartyOnly.Location = new System.Drawing.Point(649, 547);
-            this.PartyOnly.Name = "PartyOnly";
-            this.PartyOnly.Size = new System.Drawing.Size(81, 19);
-            this.PartyOnly.TabIndex = 4;
-            this.PartyOnly.Text = "Party Only";
-            this.PartyOnly.UseVisualStyleBackColor = true;
-            this.PartyOnly.CheckedChanged += new System.EventHandler(this.PartyOnly_CheckedChanged);
-            // 
             // HideFight
             // 
             this.HideFight.AutoCheck = false;
@@ -475,6 +464,17 @@
             this.CloseButton.TabIndex = 7;
             this.CloseButton.UseVisualStyleBackColor = true;
             this.CloseButton.Click += new System.EventHandler(this.CloseButton_Click);
+            // 
+            // PartyOnly
+            // 
+            this.PartyOnly.AutoSize = true;
+            this.PartyOnly.Location = new System.Drawing.Point(647, 546);
+            this.PartyOnly.Name = "PartyOnly";
+            this.PartyOnly.Size = new System.Drawing.Size(81, 19);
+            this.PartyOnly.TabIndex = 4;
+            this.PartyOnly.Text = "Party Only";
+            this.PartyOnly.UseVisualStyleBackColor = true;
+            this.PartyOnly.CheckedChanged += new System.EventHandler(this.PartyOnly_CheckedChanged);
             // 
             // MainForm
             // 

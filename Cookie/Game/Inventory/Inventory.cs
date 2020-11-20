@@ -7,6 +7,7 @@ using Cookie.API.Gamedata;
 using Cookie.API.Gamedata.D2i;
 using Cookie.API.Gamedata.D2o;
 using Cookie.API.Messages;
+using Cookie.API.Protocol.Enums;
 using Cookie.API.Protocol.Network.Messages;
 using Cookie.API.Protocol.Network.Types;
 using Cookie.API.Utils;
@@ -20,11 +21,12 @@ namespace Cookie.Game.Inventory
     public class Inventory : IInventory
     {
         IAccount Account;
+        public Dictionary<CharacterInventoryPositionEnum,ObjectItem> Equipment { get; set; }
         public Inventory(IAccount account)
         {
             Account = account;
             Objects = new List<ObjectItem>();
-
+            Equipment = new Dictionary<CharacterInventoryPositionEnum, ObjectItem>();
             #region Exchange
 
             account.Network.RegisterPacket<ExchangeRequestedTradeMessage>(HandleExchangeRequestedTradeMessage,
@@ -67,7 +69,7 @@ namespace Cookie.Game.Inventory
             account.Network.RegisterPacket<ObtainedItemMessage>(HandleObtainedItemMessage, MessagePriority.VeryHigh);
             account.Network.RegisterPacket<ObtainedItemWithBonusMessage>(HandleObtainedItemWithBonusMessage, MessagePriority.VeryHigh);
             account.Network.RegisterPacket<GoldAddedMessage>(HandleGoldAddedMessage, MessagePriority.VeryHigh);
-
+            account.Network.RegisterPacket<ObjectMovementMessage>(HandleObjectMovementMessage, MessagePriority.VeryHigh);
             #endregion
 
             #region Spells
@@ -76,25 +78,13 @@ namespace Cookie.Game.Inventory
 
             #endregion
         }
+
         public Inventory(IAccount account, bool Handlers = false)
         {
             Account = account;
             Objects = new List<ObjectItem>();
+            Equipment = new Dictionary<CharacterInventoryPositionEnum, ObjectItem>();
         }
-        private void HandleObtainedItemWithBonusMessage(IAccount account, ObtainedItemWithBonusMessage message)
-        {
-            Logger.Default.Log($"Tu as reçu : {FastD2IReader.Instance.GetText(ObjectDataManager.Instance.Get<Item>(message.GenericId).NameId)} x {message.BaseQuantity} Bonus[{message.BonusQuantity}]");
-            foreach(var item in account.Character.Inventory.Objects)
-            {
-                if (item.ObjectGID == message.GenericId)
-                {
-                    item.Quantity += message.BaseQuantity + message.BonusQuantity;
-                    Logger.Default.Log($"There are {item.Quantity} of {FastD2IReader.Instance.GetText(ObjectDataManager.Instance.Get<Item>(message.GenericId).NameId)}");
-
-                }
-            }
-        }
-
         public List<ObjectItem> Objects { get; set; }
 
         #region Spells
@@ -203,7 +193,28 @@ namespace Cookie.Game.Inventory
         #endregion
 
         #region Inventory
-
+        private void HandleObtainedItemWithBonusMessage(IAccount account, ObtainedItemWithBonusMessage message)
+        {
+            Logger.Default.Log($"Tu as reçu : {FastD2IReader.Instance.GetText(ObjectDataManager.Instance.Get<Item>(message.GenericId).NameId)} x {message.BaseQuantity} Bonus[{message.BonusQuantity}]");
+            foreach (var item in account.Character.Inventory.Objects)
+            {
+                if (item.ObjectGID == message.GenericId)
+                {
+                    item.Quantity += message.BaseQuantity + message.BonusQuantity;
+                    Logger.Default.Log($"There are {item.Quantity} of {FastD2IReader.Instance.GetText(ObjectDataManager.Instance.Get<Item>(message.GenericId).NameId)}");
+                }
+            }
+        }
+        private void HandleObjectMovementMessage(IAccount account, ObjectMovementMessage message)
+        {
+            for(int i = 0; i < Objects.Count; i++)
+                if(message.ObjectUID == Objects[i].ObjectUID)
+                {
+                    Objects[i].Position = message.Position;
+                    if (Enum.IsDefined(typeof(CharacterInventoryPositionEnum), (int)message.Position))
+                        UpdateEquipment();
+                }
+        }
         private void HandleKamasUpdateMessage(IAccount account, KamasUpdateMessage message)
         {
             account.Character.Stats.Kamas = message.KamasTotal;
@@ -218,6 +229,7 @@ namespace Cookie.Game.Inventory
         {
             account.Character.Stats.Kamas = message.Kamas;
             account.Character.Inventory.Objects = message.Objects;
+            UpdateEquipment();
         }
 
         private void HandleInventoryWeightMessage(IAccount account, InventoryWeightMessage message)
@@ -228,34 +240,51 @@ namespace Cookie.Game.Inventory
 
         private void HandleObjectModifiedMessage(IAccount account, ObjectModifiedMessage message)
         {
-            account.Character.Inventory.Objects.ForEach(Object =>
-            {
-                if (Object.ObjectUID != message.Object.ObjectUID) return;
-                Object = message.Object;
-            });
+            for(int i = 0; i < Objects.Count; i++)
+                if (Objects[i].ObjectUID == message.Object.ObjectUID)
+                {
+                    Objects[i] = message.Object;
+                    if (Enum.IsDefined(typeof(CharacterInventoryPositionEnum), (int)message.Object.Position))
+                        UpdateEquipment();
+                }
         }
 
         private void HandleObjectAddedMessage(IAccount account, ObjectAddedMessage message)
         {
             account.Character.Inventory.Objects.Add(message.Object);
+            if (Enum.IsDefined(typeof(CharacterInventoryPositionEnum), (int)message.Object.Position))
+                UpdateEquipment();
         }
 
         private void HandleObjectsAddedMessage(IAccount account, ObjectsAddedMessage message)
         {
             account.Character.Inventory.Objects.AddRange(message.Object);
+            foreach(var Object in message.Object){
+                if (Enum.IsDefined(typeof(CharacterInventoryPositionEnum), (int)Object.Position))
+                {
+                    UpdateEquipment();
+                    break;
+                }
+            }
         }
 
         private void HandleObjectDeletedMessage(IAccount account, ObjectDeletedMessage message)
         {
-            account.Character.Inventory.Objects.Remove(
-                account.Character.Inventory.Objects.First(o => o.ObjectUID == message.ObjectUID));
+            var objToRemove = account.Character.Inventory.Objects.First(o => o.ObjectUID == message.ObjectUID);
+            account.Character.Inventory.Objects.Remove(objToRemove);
+            if (Enum.IsDefined(typeof(CharacterInventoryPositionEnum), (int)objToRemove.Position))
+                UpdateEquipment();
         }
 
         private void HandleObjectsDeletedMessage(IAccount account, ObjectsDeletedMessage message)
         {
-            message.ObjectUID.ForEach(
-                o => account.Character.Inventory.Objects.Remove(
-                    account.Character.Inventory.Objects.FirstOrDefault(item => item.ObjectUID == o)));
+            foreach(var ObjectUID in message.ObjectUID)
+            {
+                var objToRemove = account.Character.Inventory.Objects.FirstOrDefault(item => item.ObjectUID == ObjectUID);
+                account.Character.Inventory.Objects.Remove(objToRemove);
+                if (Enum.IsDefined(typeof(CharacterInventoryPositionEnum), (int)objToRemove.Position))
+                    UpdateEquipment();
+            }
         }
 
         private void HandleObtainedItemMessage(IAccount account, ObtainedItemMessage message)
@@ -270,7 +299,20 @@ namespace Cookie.Game.Inventory
                 $"Tu as reçu : {message.Gold}");
         }
         #endregion
-
+        
+        #region Private Methods
+        private void UpdateEquipment()
+        {
+            Equipment.Clear();
+            for(int i = 0; i < Objects.Count; i++)
+            {
+                if (Enum.IsDefined(typeof(CharacterInventoryPositionEnum), (int)Objects[i].Position))
+                    if (!Equipment.ContainsKey((CharacterInventoryPositionEnum)Objects[i].Position))
+                        Equipment.Add((CharacterInventoryPositionEnum)Objects[i].Position, Objects[i]);
+            }
+        }
+        #endregion
+        
         #region Public Methods
         public bool HasItem(int itemId)
         {

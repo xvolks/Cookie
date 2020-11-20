@@ -109,6 +109,7 @@
     <Compile Include="Game\Fight\Spells\SpellEvent.cs" />
     <Compile Include="Game\Friend\IFriend.cs" />
     <Compile Include="Game\Guild\IGuild.cs" />
+    <Compile Include="Game\Inventory\IIdols.cs" />
     <Compile Include="Game\Inventory\IInventory.cs" />
     <Compile Include="Game\Jobs\IGatherManager.cs" />
     <Compile Include="Game\Map\Elements\IInteractiveElement.cs" />
