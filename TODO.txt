@@ -1,10 +1,4 @@
-- MapComplementaryInformationsDataMessage : Ajouter la variable "Map" et supprimer MapId, et CellId dans la classe Character
-- Revoir les DataReaders...
+﻿TODO (Par ordre de priorité):
+- Revoir les D2O (WIP By TheFalcon)
 - Améliorer la gestion du "Disconnect" dans le client.
-- Ajouter les méthodes Start et Stop dans le client dans le but de pouvoir déconnecté/connecté le client plus librement. Du coup ajouter le message de connexion au serveur d'authentification.
-- Créer le projet "Cookie.ProtocolBuilder" dans la solution (Net Core (Au pire remettre au gout du jour celui de BiM)).
-
-- Trouver ce qu'est ces messages :
-  [9:28:26 PM] TEXT_INFORMATION_MESSAGE | ID = 91
-  [9:28:26 PM] TEXT_INFORMATION_MESSAGE | ID = 92
-  [9:28:26 PM] Parameter[0] 2600
+- Ajouter les méthodes Start et Stop dans le client dans le but de pouvoir déconnecté/connecté le client plus librement

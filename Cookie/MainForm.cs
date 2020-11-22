@@ -1,19 +1,35 @@
-﻿using Cookie.Core;
-using Cookie.Gamedata.D2o;
-using Cookie.Gamedata.D2p;
-using Cookie.Gamedata.I18n;
-using Cookie.Gamedata.Icons;
-using System;
+﻿using System;
 using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using Cookie.API.Core;
+using Cookie.API.Game.Map;
+using Cookie.API.Gamedata.D2i;
+using Cookie.API.Gamedata.D2o;
+using Cookie.API.Gamedata.D2p;
+using Cookie.API.Gamedata.Icons;
+using Cookie.API.Messages;
+using Cookie.API.Protocol;
+using Cookie.API.Protocol.Enums;
+using Cookie.API.Protocol.Network.Messages;
+using Cookie.API.Utils;
+using Cookie.API.Utils.Enums;
+using Cookie.API.Utils.Extensions;
+using Cookie.Commands.Managers;
+using Cookie.FullSocket;
+using Cookie.Game.Chat;
+using Cookie.Properties;
+using Cookie.Utils.Configurations;
+using MoonSharp.Interpreter;
 
 namespace Cookie
 {
     public partial class MainForm : Form
     {
-        private DofusClient Client;
+        private readonly History _chatHistory = new History();
+        private IAccount _account;
+
+        private FullSocket.FullSocket _fullSocket;
 
         public MainForm()
         {
@@ -24,43 +40,81 @@ namespace Cookie
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            var DofusPath = @"C:\Users\NOM D'UTILISATEUR\AppData\Local\Ankama\Dofus";
-            var AccountName = "NomDeCompte";
-            var AccountPassword = "MotDePasse";
-
-            Task.Factory.StartNew(() =>
+            try
             {
-                MessageReceiver.Initialize();
-                ProtocolTypeManager.Initialize();
+                GlobalConfiguration.Instance.Initialize();
 
-                Properties.Settings.Default.DofusPath = DofusPath;
-                Properties.Settings.Default.Save();
+                AccountConfiguration accountToConnect;
 
-                MapsManager.Init(Properties.Settings.Default.DofusPath + @"\app\content\maps");
-                IconsManager.Instance.Initialize(Properties.Settings.Default.DofusPath + @"\app\content\gfx\items");
-                ObjectDataManager.Instance.AddReaders(Properties.Settings.Default.DofusPath + @"\app\data\common");
-                I18nDataManager.Instance.AddReaders(Properties.Settings.Default.DofusPath + @"\app\data\i18n");
-                I18nDataManager.Instance.DefaultLanguage = Languages.French;
-                ImageManager.Init(Properties.Settings.Default.DofusPath);
-
-            }).ContinueWith(p =>
-            {
-                Client = new DofusClient(AccountName, AccountPassword)
+                using (var af = new AccountsForm())
                 {
-                    Debug = false
-                };
+                    if (af.ShowDialog() != DialogResult.OK)
+                        Environment.Exit(-1);
 
-                Client.Logger.OnLog += Logger_OnLog;
-            });      
+                    accountToConnect = af.AccountToConnect;
+                }
+
+                Task.Factory.StartNew(() =>
+                {
+                    UserData.RegisterAssembly();
+                    CommandManager.Build();
+                    ProtocolTypeManager.Initialize();
+
+                    Logger.Default.OnLog += Logger_OnLog;
+
+                    Settings.Default.DofusPath = GlobalConfiguration.Instance.DofusPath;
+                    Settings.Default.Save();
+
+                    MapsManager.Init(Settings.Default.DofusPath + @"\content\maps");
+                    IconsManager.Instance.Initialize(Settings.Default.DofusPath + @"\content\gfx\items");
+                    ObjectDataManager.Instance.AddReaders(Settings.Default.DofusPath + @"\data\common");
+
+                    FastD2IReader.Instance.Init(Settings.Default.DofusPath + @"\data\i18n" + "\\i18n_fr.d2i");
+
+                    ImageManager.Init(Settings.Default.DofusPath);
+                }).ContinueWith(p =>
+                {
+                    var fullSocketConfiguration = new FullSocketConfiguration
+                    {
+                        RealAuthHost = "78.46.57.166",
+                        RealAuthPort = 12000
+                    };
+
+                    var messageReceiver = new MessageReceiver();
+                    messageReceiver.Initialize();
+                    _fullSocket = new FullSocket.FullSocket(fullSocketConfiguration, messageReceiver);
+                    var dispatcherTask = new DispatcherTask(new MessageDispatcher(), _fullSocket);
+                    _account = _fullSocket.Connect(accountToConnect.Username, accountToConnect.Password, this);
+                    LogWelcomeMessage();
+                });
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message);
+                Environment.Exit(-1);
+            }
+        }
+
+        private void LogWelcomeMessage()
+        {
+            Logger.Default.Log("===============================", LogMessageType.Help);
+            Logger.Default.Log("||                                                                              ||",
+                LogMessageType.Help);
+            Logger.Default.Log("||    Type '.help' to see all available commands !     ||", LogMessageType.Help);
+            Logger.Default.Log("||                                                                              ||",
+                LogMessageType.Help);
+            Logger.Default.Log("===============================", LogMessageType.Help);
         }
 
         private void Logger_OnLog(string log, LogMessageType logType)
         {
             Console.WriteLine(log);
-            Action log_callback = delegate
+
+            void LogCallback()
             {
                 LogTextBox.SelectionStart = LogTextBox.Text.Length;
                 LogTextBox.SelectionLength = 0;
+                var text = $"[{DateTime.Now.ToLongTimeString()}] {log}";
 
                 switch (logType)
                 {
@@ -118,17 +172,274 @@ namespace Cookie
                     case LogMessageType.Divers:
                         LogTextBox.SelectionColor = ColorTranslator.FromHtml("#3498db");
                         break;
+                    case LogMessageType.Error:
+                        LogTextBox.SelectionColor = ColorTranslator.FromHtml("#FF0033");
+                        break;
+                    case LogMessageType.Help:
+                        LogTextBox.SelectionColor = ColorTranslator.FromHtml("#2DB796");
+                        break;
+                    case LogMessageType.Trajet:
+                        LogTextBox.SelectionColor = ColorTranslator.FromHtml("#ff00f7");
+                        break;
+                    case LogMessageType.Command:
+                        LogTextBox.SelectionColor = ColorTranslator.FromHtml("#969696");
+                        text = $"$-> [{_chatHistory.Total()}] {log}";
+                        break;
                     default:
                         LogTextBox.SelectionColor = ColorTranslator.FromHtml("#E8890D");
                         break;
                 }
-                string text = $"[{DateTime.Now.ToLongTimeString()}] {log}";
+
                 LogTextBox.SelectedText = text + "\r\n";
                 LogTextBox.SelectionColor = LogTextBox.ForeColor;
                 LogTextBox.ScrollToCaret();
-            };
-            LogTextBox.Invoke(log_callback);
+            }
 
-    }
+            LogTextBox.Invoke((Action) LogCallback);
+        }
+
+        public void AddPluginListBox(string name, UserControl uc)
+        {
+            if (TabPlugin.InvokeRequired)
+            {
+                Invoke(new InsertIntoListBox(AddPluginListBox), name, uc);
+            }
+            else
+            {
+                var tabPage = new TabPage(name);
+                tabPage.Controls.Add(uc);
+                TabPlugin.Controls.Add(tabPage);
+                tabPage.Select();
+            }
+        }
+
+        private void ChatTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true;
+                HandleSendChatMessage();
+            }
+            else if (e.KeyCode == Keys.Up)
+            {
+                e.SuppressKeyPress = true;
+                ChatTextBox.Text = _chatHistory.Prev();
+                ChatTextBox.SelectionStart = ChatTextBox.Text.Length;
+            }
+            else if (e.KeyCode == Keys.Down)
+            {
+                e.SuppressKeyPress = true;
+                ChatTextBox.Text = _chatHistory.Next();
+                ChatTextBox.SelectionStart = ChatTextBox.Text.Length;
+            }
+        }
+
+        private void HandleSendChatMessage()
+        {
+            if (_account.Character.Status == CharacterStatus.Disconnected) return;
+            if (string.IsNullOrWhiteSpace(ChatTextBox.Text))
+            {
+                Logger.Default.Log("Vous ne pouvez pas envoyer un texte vide.", LogMessageType.Public);
+            }
+            else
+            {
+                _chatHistory.Add(ChatTextBox.Text);
+                Logger.Default.Log(ChatTextBox.Text, LogMessageType.Command);
+                if (ChatTextBox.Text.Length > 2 && ChatTextBox.Text[0] == '.')
+                {
+                    var txt = ChatTextBox.Text.Substring(1);
+                    try
+                    {
+                        CommandManager.ParseAndCall(_account, txt);
+                    }
+                    catch (Exception e)
+                    {
+                        Logger.Default.Log(e.Message);
+                        Logger.Default.Log("Commande Incorrecte ou qui a échouée.", LogMessageType.Public);
+                    }
+
+                    ChatTextBox.BeginInvoke(new Action(() => ChatTextBox.Text = ""));
+                    return;
+                }
+
+
+                if (ChatTextBox.Text.Length < 2)
+                {
+                    var ccmm = new ChatClientMultiMessage
+                    {
+                        Channel = (sbyte) ChatChannelsMultiEnum.CHANNEL_GLOBAL,
+                        Content = ChatTextBox.Text
+                    };
+
+                    _account.Network.SendToServer(ccmm);
+                }
+                else
+                {
+                    var txt = ChatTextBox.Text.Substring(0, 2);
+                    var chattxt = ChatTextBox.Text.Replace(txt, "");
+                    if(txt == "/w")
+                    {
+                        string[] receiver = chattxt.Split(new char[] { ' ' }, 2, StringSplitOptions.RemoveEmptyEntries);
+                        var messagePacket = new ChatClientPrivateMessage(receiver[0]) { Content = receiver[1] };
+                        _account.Network.SendToServer(messagePacket);
+                    }
+                    else
+                    {
+                        var ccmm = new ChatClientMultiMessage
+                        {
+                            Channel = (sbyte)ChatChannelsMultiEnum.CHANNEL_GLOBAL,
+                            Content = chattxt
+                        };
+
+                        switch (txt)
+                        {
+                            case "/g":
+                                if (string.IsNullOrWhiteSpace(chattxt))
+                                    ccmm.Channel = (sbyte)ChatChannelsMultiEnum.CHANNEL_GUILD;
+                                break;
+                            case "/s":
+                                if (string.IsNullOrWhiteSpace(chattxt))
+                                    ccmm.Channel = (sbyte)ChatChannelsMultiEnum.CHANNEL_GLOBAL;
+                                break;
+                            case "/t":
+                                if (string.IsNullOrWhiteSpace(chattxt))
+                                    ccmm.Channel = (sbyte)ChatChannelsMultiEnum.CHANNEL_TEAM;
+                                break;
+                            case "/a":
+                                if (string.IsNullOrWhiteSpace(chattxt))
+                                    ccmm.Channel = (sbyte)ChatChannelsMultiEnum.CHANNEL_ALLIANCE;
+                                break;
+                            case "/p":
+                                if (string.IsNullOrWhiteSpace(chattxt))
+                                    ccmm.Channel = (sbyte)ChatChannelsMultiEnum.CHANNEL_PARTY;
+                                break;
+                            case "/k":
+                                if (string.IsNullOrWhiteSpace(chattxt))
+                                    ccmm.Channel = (sbyte)ChatChannelsMultiEnum.CHANNEL_ARENA;
+                                break;
+                            case "/b":
+                                if (string.IsNullOrWhiteSpace(chattxt))
+                                    ccmm.Channel = (sbyte)ChatChannelsMultiEnum.CHANNEL_SALES;
+                                break;
+                            case "/r":
+                                if (string.IsNullOrWhiteSpace(chattxt))
+                                    ccmm.Channel = (sbyte)ChatChannelsMultiEnum.CHANNEL_SEEK;
+                                break;
+                            default:
+                                ccmm.Channel = (sbyte)ChatChannelsMultiEnum.CHANNEL_GLOBAL;
+                                ccmm.Content = txt + chattxt;
+                                break;
+                        }
+                        _account.Network.SendToServer(ccmm);
+                        ChatTextBox.BeginInvoke(new Action(() => ChatTextBox.Text = ""));
+                    }
+                }
+            }
+        }
+
+        private void CloseButton_Click(object sender, EventArgs e)
+        {
+            Environment.Exit(0);
+        }
+
+        private void MaximizeButton_Click(object sender, EventArgs e)
+        {
+            switch (WindowState)
+            {
+                case FormWindowState.Maximized:
+                    WindowState = FormWindowState.Normal;
+                    break;
+                case FormWindowState.Normal:
+                    WindowState = FormWindowState.Maximized;
+                    break;
+            }
+        }
+
+        private void MinimizeButton_Click(object sender, EventArgs e)
+        {
+            WindowState = FormWindowState.Minimized;
+        }
+
+        public void AddPacketsListView(string origin, string name, string id)
+        {
+            if (PacketsListView.InvokeRequired)
+            {
+                Invoke(new InsertIntoListDelegate(AddPacketsListView), origin, name, id);
+            }
+            else
+            {
+                var time = DateTime.Now.ToLongTimeString();
+                var rows = new[] {time, origin, id, name};
+                var listViewItem = new ListViewItem(rows);
+                PacketsListView.Items.Add(listViewItem);
+                switch (origin)
+                {
+                    case "Client":
+                        PacketsListView.Items[PacketsListView.Items.Count - 1].ForeColor =
+                            ColorTranslator.FromHtml("#F16392");
+                        break;
+                    case "Server":
+                        PacketsListView.Items[PacketsListView.Items.Count - 1].ForeColor =
+                            ColorTranslator.FromHtml("#9EC79D");
+                        break;
+                }
+
+                PacketsListView.EnsureVisible(PacketsListView.Items.Count - 1);
+            }
+        }
+
+        private delegate void InsertIntoListDelegate(string origin, string name, string id);
+
+        private delegate void InsertIntoListBox(string name, UserControl uc);
+
+
+        private void BEast_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.Left) return;
+            _account.Character.Map.ChangeMapButton(MapDirectionEnum.East);
+        }
+
+        private void BNorth_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.Left) return;
+            _account.Character.Map.ChangeMapButton(MapDirectionEnum.North);
+        }
+
+        private void BWest_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.Left) return;
+            _account.Character.Map.ChangeMapButton(MapDirectionEnum.West);
+        }
+
+        private void BSouth_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button != MouseButtons.Left) return;
+            _account.Character.Map.ChangeMapButton(MapDirectionEnum.South);
+        }
+        public void UpdateMapLabel(string text)
+        {
+            if (lPos.InvokeRequired)
+            {
+                lPos.Invoke(new MethodInvoker(delegate { lPos.Text = text; }));
+            }
+        }
+
+        private void HideFight_CheckedChanged(object sender, EventArgs e)
+        {
+            if (((Core.Character)_account.Character).Ia != null)
+                ((Core.Character)_account.Character).Ia.HideFight();
+        }
+
+        private void LockFight_CheckedChanged(object sender, EventArgs e)
+        {
+            if (((Core.Character)_account.Character).Ia != null)
+                ((Core.Character)_account.Character).Ia.LockFight();
+        }
+
+        private void PartyOnly_CheckedChanged(object sender, EventArgs e)
+        {
+            if(((Core.Character)_account.Character).Ia!= null)
+                ((Core.Character)_account.Character).Ia.LockParty();
+        }
     }
 }
