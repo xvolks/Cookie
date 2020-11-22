@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 using Cookie.API.Core;
 using Cookie.API.Game.Fight;
 using Cookie.API.Game.Map;
 using Cookie.API.Game.World.Pathfinding;
 using Cookie.API.Game.World.Pathfinding.Positions;
 using Cookie.API.Messages;
+using Cookie.API.Protocol;
 using Cookie.API.Protocol.Enums;
 using Cookie.API.Protocol.Network.Messages;
 using Cookie.API.Utils;
@@ -18,11 +20,8 @@ namespace Cookie.Game.Fight
     {
         public Fight(IAccount account) : base(account)
         {
-                
         }
 
-        public event Action<GameActionFightSpellCastMessage> SpellCasted;
-        public event Action<GameActionFightCloseCombatMessage> CloseCombatCasted;
         public void EndTurn()
         {
             if (Account.Character.Fight.Fighter.MovementPoints > 0 &&
@@ -114,17 +113,6 @@ namespace Cookie.Game.Fight
             pathfinder.SetFight(Fighters, Fighter.MovementPoints);
             var path = pathfinder.FindPath(Fighter.CellId, cellId);
             return path == null ? null : new CellMovement(Account, path);
-        }
-
-        private void HandleGameActionFightSpellCastMessage(IAccount account, GameActionFightSpellCastMessage message)
-        {
-            if (message.SourceId == account.Character.Id)
-                SpellResetEvent.Set();
-        }
-        private void HandleGameActionFightCloseCombatMessage(IAccount account, GameActionFightCloseCombatMessage message)
-        {
-            if (message.SourceId == account.Character.Id)
-                SpellResetEvent.Set();
         }
     }
 }

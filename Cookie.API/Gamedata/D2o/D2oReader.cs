@@ -33,16 +33,11 @@ namespace Cookie.API.Gamedata.D2o
     public class D2oReader
     {
         private const int NullIdentifier = unchecked((int) 0xAAAAAAAA);
-
-        private static readonly Dictionary<Type, Func<object[], object>> objectCreators =
-            new Dictionary<Type, Func<object[], object>>();
-
+        public Dictionary<Type, Func<object[], object>> objectCreators = new Dictionary<Type, Func<object[], object>>();
         private readonly IDataReader reader;
-
-
-        private int classcount;
-        private int headeroffset;
-        private int indextablelen;
+        public int classcount { get; set; }
+        public int headeroffset { get; set; }
+        public int indextablelen { get; set; }
 
         /// <summary>
         ///     Create and initialise a new D2o file
@@ -53,29 +48,44 @@ namespace Cookie.API.Gamedata.D2o
         {
             FilePath = filePath;
         }
-
         public D2oReader(Stream stream)
         {
             reader = new BigEndianReader(stream);
             Initialize();
         }
-
         public D2oReader(IDataReader reader)
         {
             this.reader = reader;
             Initialize();
         }
-
         public string FilePath { get; }
-
         public string FileName => Path.GetFileNameWithoutExtension(FilePath);
-
-        public int IndexCount => Indexes.Count;
-
         public Dictionary<int, D2oClassDefinition> Classes { get; private set; }
-
-        public Dictionary<int, int> Indexes { get; private set; } = new Dictionary<int, int>();
-
+        /// <summary>
+        ///     ID and offset where we can find that id on the FileName;
+        /// </summary>
+        public Dictionary<int,int> Indexes { get; private set; } = new Dictionary<int, int >();
+        public void AddSecondaryReader(D2oReader dReader)
+        {
+            foreach(var @class in Classes)
+            {
+                Console.WriteLine(@class.Value.Name);
+            }
+            this.classcount += dReader.classcount;
+            this.headeroffset += dReader.headeroffset;
+            this.indextablelen += dReader.indextablelen;
+            this.objectCreators.AddRange(dReader.objectCreators);
+            foreach (var @class in dReader.Classes)
+                if (!this.Classes.ContainsKey(@class.Key)) // We don't have to worry about the class definitions that already exists.
+                    this.Classes.Add(@class.Key, @class.Value);
+            foreach(var pair in dReader.Indexes)
+            {
+                if (pair.Key == 17683)
+                    Console.WriteLine("");
+                if (!this.Indexes.ContainsKey(pair.Key))
+                    this.Indexes.Add(pair.Key, pair.Value);
+            }
+        }
         private void Initialize()
         {
             lock (reader)
@@ -99,13 +109,16 @@ namespace Cookie.API.Gamedata.D2o
             // init table index
             Indexes = new Dictionary<int, int>(indextablelen / 8);
             for (var i = 0; i < indextablelen; i += 8)
+            {
                 Indexes.Add(reader.ReadInt(), reader.ReadInt());
+            }
         }
 
         private void ReadClassesTable()
         {
             classcount = reader.ReadInt();
-            Classes = new Dictionary<int, D2oClassDefinition>(classcount);
+            if(Classes == default)
+                Classes = new Dictionary<int, D2oClassDefinition>(classcount);
             for (var i = 0; i < classcount; i++)
             {
                 var classId = reader.ReadInt();
@@ -203,7 +216,6 @@ namespace Cookie.API.Gamedata.D2o
             foreach (var index in Indexes)
             {
                 reader.Seek(index.Value, SeekOrigin.Begin);
-
                 try
                 {
                     result.Add(index.Key, ReadObject(index.Key, reader));
@@ -215,6 +227,42 @@ namespace Cookie.API.Gamedata.D2o
                     else
                         throw;
                 }
+                /*
+                if (index.Value.Count == 1) // in case there is no extra class files added
+                {
+                    reader.Seek(index.Value[0], SeekOrigin.Begin);
+                    try
+                    {
+                        result.Add(index.Key, ReadObject(index.Key, reader));
+                    }
+                    catch
+                    {
+                        if (allownulled)
+                            result.Add(index.Key, null);
+                        else
+                            throw;
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < index.Value.Count; i++)
+                    {
+                        reader.Seek(index.Value[i], SeekOrigin.Begin);
+                        try
+                        {
+                            result.Add(index.Key, ReadObject(index.Key, reader));
+                        }
+                        catch
+                        {
+                            if (allownulled)
+                                result.Add(index.Key, null);
+                            else
+                                throw;
+                        }
+                    }
+                }
+                */
+                
             }
 
             if (cloneReader)
@@ -244,14 +292,30 @@ namespace Cookie.API.Gamedata.D2o
 
         private object ReadObject(int index, IDataReader reader)
         {
-            var offset = Indexes[index];
+            int offset = Indexes[index];
+
             reader.Seek(offset, SeekOrigin.Begin);
 
-            var classid = reader.ReadInt();
-
-            var result = BuildObject(Classes[classid], reader);
+            int classid = reader.ReadInt();
+            object result = BuildObject(Classes[classid], reader);
 
             return result;
+            /*
+            List<int> offsetList = Indexes[index];
+            object result;
+            for (int i = 0; i < offsetList.Count; i++)
+            {
+                int offset = offsetList[i];
+
+                reader.Seek(offset, SeekOrigin.Begin);
+
+                int classid = reader.ReadInt();
+                result = BuildObject(Classes[classid], reader);
+
+                return result;
+            }
+            return null;
+            */
         }
 
         private object BuildObject(D2oClassDefinition classDefinition, IDataReader reader)
@@ -296,19 +360,19 @@ namespace Cookie.API.Gamedata.D2o
             return objectCreators[classDefinition.ClassType](values.ToArray());
         }
 
-        public T ReadObject<T>(int index, bool cloneReader = false, bool noExceptionThrown = false)
+        public T ReadObject<T>(int index, out bool isValid, bool cloneReader = false, bool noExceptionThrown = false)
             where T : class
         {
             if (cloneReader)
                 using (var reader = CloneReader())
                 {
-                    return ReadObject<T>(index, reader, noExceptionThrown);
+                    return ReadObject<T>(index, out isValid, reader, noExceptionThrown);
                 }
 
-            return ReadObject<T>(index, this.reader, noExceptionThrown);
+            return ReadObject<T>(index, out isValid, this.reader, noExceptionThrown);
         }
 
-        private T ReadObject<T>(int index, IDataReader reader, bool noExceptionThrown = false)
+        private T ReadObject<T>(int index, out bool isValid, IDataReader reader, bool noExceptionThrown = false)
             where T : class
         {
             if (!IsTypeDefined(typeof(T)))
@@ -316,7 +380,11 @@ namespace Cookie.API.Gamedata.D2o
 
             if (!Indexes.TryGetValue(index, out var offset))
             {
-                if (noExceptionThrown) return null;
+                if (noExceptionThrown)
+                {
+                    isValid = false;
+                    return null;
+                }
                 throw new Exception(string.Format("Can't find Index {0} in {1}", index, FileName));
             }
 
@@ -327,7 +395,7 @@ namespace Cookie.API.Gamedata.D2o
             if (Classes[classid].ClassType != typeof(T) && !Classes[classid].ClassType.IsSubclassOf(typeof(T)))
                 throw new Exception(string.Format("Wrong type, try to read object with {1} instead of {0}",
                     typeof(T).Name, Classes[classid].ClassType.Name));
-
+            isValid = true;
             return BuildObject(Classes[classid], reader) as T;
         }
 
@@ -402,15 +470,11 @@ namespace Cookie.API.Gamedata.D2o
             for (var i = 0; i < count; i++)
             {
                 vectorDimension++;
-                try
-                {
-                    var obj = ReadField(reader, field, field.VectorTypes[vectorDimension - 1].Item1, vectorDimension); // This object is type T
-                    obj.GetType();
-                    result.Add(obj); // This Vector is List<Y> I want to convert explicity T to Y at runtime
-                }
-                catch
-                {
-                }
+                var obj = ReadField(reader, field, field.VectorTypes[vectorDimension - 1].Item1, vectorDimension); // This object is type T
+                if (result.GetType().GetGenericArguments().Single() == obj.GetType())
+                    result.Add(obj);
+                else
+                    result.Add(default);
                 vectorDimension--;
             }
 

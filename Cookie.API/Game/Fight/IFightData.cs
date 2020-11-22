@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using Cookie.API.Datacenter;
 using Cookie.API.Game.Fight.Fighters;
 using Cookie.API.Protocol.Network.Messages;
 
@@ -12,6 +13,19 @@ namespace Cookie.API.Game.Fight
         ///     AutoResetEvent activates when spell was casted.
         /// </summary>
         AutoResetEvent SpellResetEvent { get; }
+        /// <summary>
+        ///     AutoResetEvent that sends a signal on MapMovement.
+        /// </summary>
+        AutoResetEvent MovementAutoReset { get; }
+        /// <summary>
+        ///     Resets in case a mob dies.
+        /// </summary>
+        AutoResetEvent FighterDiedAutoReset { get; }
+        event EventHandler FightUpdate;
+        /// <summary>
+        ///     Current closeCombat weapon being held.
+        /// </summary>
+        Weapon Weapon { get; set; }
         /// <summary>
         ///     Liste des combattants
         /// </summary>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Cookie.API.Game.Map;
 using Cookie.API.Protocol.Network.Messages;
 
@@ -40,8 +41,6 @@ namespace Cookie.API.Game.Fight
         ///     Aller à une cellule
         /// </summary>
         ICellMovement MoveToCell(int cellId);
-        event Action<GameActionFightSpellCastMessage> SpellCasted;
-        event Action<GameActionFightCloseCombatMessage> CloseCombatCasted;
         SpellInabilityReason CanLaunchSpell(int spellId);
     }
 }

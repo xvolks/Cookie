@@ -23,7 +23,7 @@ namespace Cookie.API.Game.Fight.Fighters
         /// <summary>
         ///     MP de l'entité
         /// </summary>
-        short MovementPoints { get; }
+        short MovementPoints { get; set; }
 
         /// <summary>
         ///     Indique si l'entité est vivante

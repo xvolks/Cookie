@@ -19,6 +19,8 @@ namespace Cookie.Game.Party
         public uint PartyId { get; set; }
         private bool IsLeader { get; set; }
         public event EventHandler<PartyLeaderUpdateMessage> PartyLeaderUpdate;
+        public delegate void PartyNewMemberEventHandler(IAccount account, bool message);
+        public PartyNewMemberEventHandler PartyNewMemberEvent;
         public Party(IAccount account)
         {
             Account = account;
@@ -85,11 +87,15 @@ namespace Cookie.Game.Party
         {
             if (message.MemberInformations.Id == account.Character.Id) return;
             if (PartyMembers.ContainsKey(message.MemberInformations.Id))
+            {
                 Logger.Default.Log($"Player <{message.MemberInformations.Name}> is already listed in your party.", LogMessageType.Error);
+                PartyNewMemberEvent?.Invoke(account, false);
+            }
             else
             {
                 PartyMembers.Add(message.MemberInformations.Id, message.MemberInformations);
                 Logger.Default.Log($"Player <{message.MemberInformations.Name}> is a new member of your party.", LogMessageType.Party);
+                PartyNewMemberEvent?.Invoke(account, true);
             }
         }
         private void HandlePartyNewGuestMessage(IAccount account, PartyNewGuestMessage message)

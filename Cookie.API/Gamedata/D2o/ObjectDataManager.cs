@@ -9,7 +9,7 @@ namespace Cookie.API.Gamedata.D2o
     public class ObjectDataManager : Singleton<ObjectDataManager>
     {
         private readonly List<Type> ignoredTypes = new List<Type>();
-        private readonly Dictionary<Type, D2oReader> readers = new Dictionary<Type, D2oReader>();
+        private readonly Dictionary<Type, List<D2oReader>> readers = new Dictionary<Type, List<D2oReader>>();
 
         public void AddReaders(string directory)
         {
@@ -30,23 +30,14 @@ namespace Cookie.API.Gamedata.D2o
                 //if (ignoredTypes.Contains(@class.Value.ClassType))
                     //continue;
 
-                // this classes are not bound to a single file, so we ignore them
+                // readers exists then we justa add then to the list of readers. If not then new List
                 if (readers.ContainsKey(@class.Value.ClassType))
-                {
-                    /*
-                    if(readers.TryGetValue(@class.Value.ClassType, out D2oReader existing))
-                    {
-                        Console.WriteLine($"{@class.Value.ClassType.Name}");
-                        foreach (var item in D2oFile.Indexes)
-                            existing.Indexes.Add(item.Key, item.Value);
-                        throw new Exception("");
-                    }*/
-                    //ignoredTypes.Add(@class.Value.ClassType);
-                    //readers.Remove(@class.Value.ClassType);
-                }
+                    readers[@class.Value.ClassType].Add(D2oFile);
                 else
                 {
-                    readers.Add(@class.Value.ClassType, D2oFile);
+                    var tmp = new List<D2oReader>();
+                    tmp.Add(D2oFile);
+                    readers.Add(@class.Value.ClassType, tmp);
                 }
             }
         }
@@ -63,9 +54,19 @@ namespace Cookie.API.Gamedata.D2o
             if (!readers.ContainsKey(typeof(T))) // This exception should be called in all cases (serious)
                 throw new ArgumentException("Cannot find data corresponding to type : " + typeof(T));
 
-            var reader = readers[typeof(T)];
-
-            return reader.ReadObject<T>(key, true, noExceptionThrown);
+            var lReader = readers[typeof(T)];
+            if(lReader.Count == 1)
+                return lReader[0].ReadObject<T>(key, out bool isValid, true, noExceptionThrown);
+            else
+            {
+                foreach(var reader in lReader)
+                {
+                    dynamic retReader = reader.ReadObject<T>(key, out bool isValid, true, true);
+                        if (isValid)
+                            return retReader;
+                }
+            }
+            throw new ArgumentException($"Cannot find key corresponding to type : {key}");
         }
 
         public T GetOrDefault<T>(uint key)
@@ -98,8 +99,12 @@ namespace Cookie.API.Gamedata.D2o
                 throw new ArgumentException("Cannot find data corresponding to type : " + typeof(T));
 
             var reader = readers[typeof(T)];
-
-            return reader.Indexes.Select(index => reader.ReadObject(index.Key, true)).OfType<T>().Select(obj => obj);
+            if(reader.Count == 1)
+                return reader[0].Indexes.Select(index => reader[0].ReadObject(index.Key, true)).OfType<T>().Select(obj => obj);
+            else
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

@@ -467,6 +467,7 @@
             // 
             // PartyOnly
             // 
+            this.PartyOnly.AutoCheck = false;
             this.PartyOnly.AutoSize = true;
             this.PartyOnly.Location = new System.Drawing.Point(647, 546);
             this.PartyOnly.Name = "PartyOnly";

@@ -303,10 +303,6 @@ namespace Cookie.Core.Pathmanager
                         case "\"relaunch\"":
                             Relaunchs = int.Parse(pair.Value.ToString());
                             break;
-                        case "\"condition\"":
-                            if (pair.Value.CastToString().ToLower() == "close")
-                                HandToHand = true;
-                            break;
                         case "\"handtohand\"":
                             HandToHand = pair.Value.CastToBool();
                             break;
@@ -317,7 +313,7 @@ namespace Cookie.Core.Pathmanager
                             //Console.WriteLine(@"Erreur: " + key);
                             break;
                     }
-                Console.WriteLine($@"Spell ({SpellId}), Target: {Target}, Relaunchs: {Relaunchs}, Condition: "); //{/*script.Call(Condition,110) */}
+                Console.WriteLine($@"Spell ({SpellId}), Target: {Target}, Relaunchs: {Relaunchs}, HandToHand: {HandToHand}, MoveFirst: {MoveFirst}"); //{/*script.Call(Condition,110) */}
                 if (spells.Exists(x => x.SpellId == SpellId))
                     throw new Exception($"Spell[{SpellId}] has already been added.");
 

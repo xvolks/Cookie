@@ -6,11 +6,6 @@ namespace Cookie.API.Game.Fight.Spells
     {
         int SpellId { get; }
         int CellId { get; }
-
         void PerformCast();
-
-        event EventHandler<SpellCastEvent> SpellCasted;
-
-        event Action Timeout;
     }
 }

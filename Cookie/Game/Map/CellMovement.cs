@@ -39,7 +39,6 @@ namespace Cookie.Game.Map
             }
             else if (StartCell == EndCell)
                 OnMovementFinished(true);
-            _account.Character.Status = CharacterStatus.Moving;
 
             var keys = MapMovementAdapter.GetServerMovement(_path).Select(f => (short) f).ToList();
 
@@ -66,18 +65,21 @@ namespace Cookie.Game.Map
 
         private void Map_MapMovement(GameMapMovementMessage message)
         {
-            if (message.ActorId != _account.Character.Id || message.KeyMovements[0] != _path.CellStart.CellId) return;
+            if (message.ActorId != _account.Character.Id) return; // packet doesn't match the move requested.
+            Console.WriteLine($"Receiving[GameMapMovementMessage] Destination {message.KeyMovements[message.KeyMovements.Count-1]}");
             _account.Character.Map.MapMovement -= Map_MapMovement;
-            _account.Character.Status = CharacterStatus.Moving;
-            _account.PerformAction(() =>
-                {
-                    _account.Network.SendToServer(new GameMapMovementConfirmMessage());
-                    OnMovementFinished(true);
-                },
-                (int) MovementVelocity.GetPathVelocity(_path,
-                    _path.Cells.Count >= 4
-                        ? MovementVelocity.MovementTypeEnum.WALKING
-                        : MovementVelocity.MovementTypeEnum.RUNNING));
+            if (_account.Character.Status != CharacterStatus.Fighting)
+                _account.PerformAction(() =>
+                    {
+                        _account.Network.SendToServer(new GameMapMovementConfirmMessage());
+                        OnMovementFinished(true);
+                    },
+                    (int)MovementVelocity.GetPathVelocity(_path,
+                        _path.Cells.Count >= 4
+                            ? MovementVelocity.MovementTypeEnum.WALKING
+                            : MovementVelocity.MovementTypeEnum.RUNNING));
+            else
+                OnMovementFinished(true);
         }
 
         private void Map_MovementFailed(object sender, EventArgs e)
@@ -87,18 +89,16 @@ namespace Cookie.Game.Map
 
         private void OnTimeOut()
         {
-            _account.Character.Status = CharacterStatus.None;
             RemoveEvents();
             Timeout?.Invoke();
         }
 
         private void OnMovementFinished(bool s)
         {
-            _account.Character.Status = CharacterStatus.None;
             RemoveEvents();
             if (StartCell == EndCell)
                 s = true;
-            MovementFinished?.Invoke(this, new CellMovementEventArgs(StartCell, EndCell, s, _path.Cells.Count + EndCell));
+            MovementFinished?.Invoke(this, new CellMovementEventArgs(StartCell, EndCell, s, _path.Cells.Count + 1));
         }
 
         private void RemoveEvents()

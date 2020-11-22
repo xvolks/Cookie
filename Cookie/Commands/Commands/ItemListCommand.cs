@@ -26,7 +26,7 @@ namespace Cookie.Commands.Commands
                     itemName = FastD2IReader.Instance.GetText(ObjectDataManager.Instance.Get<Cookie.API.Datacenter.Item>(item.ObjectGID).NameId);
 
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
 
                 }

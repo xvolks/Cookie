@@ -56,7 +56,7 @@ namespace D2oReader
             }
         }
 
-        private void writeJsonFile(string shouldWrite)
+        private void WriteJsonFile(string shouldWrite)
         {
             unpacker.WriteIndentedJson(shouldWrite);
             //unpacker.WriteJson();
@@ -73,7 +73,7 @@ namespace D2oReader
             }
         }
 
-        private void unpackObjectsAsJson()
+        private void UnpackObjectsAsJson()
         {
             unpacker = new JsonUnpacker(reader,
                 objectPointerTable,
@@ -90,7 +90,7 @@ namespace D2oReader
             return reader.ReadInt();
         }
 
-        private void searchObjectById()
+        private void SearchObjectById()
         {
             int objectId;
             do
